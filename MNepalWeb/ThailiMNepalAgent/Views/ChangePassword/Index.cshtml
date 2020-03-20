@@ -1,0 +1,367 @@
+﻿@model ThailiMNepalAgent.Models.KYC
+@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = "Setting Change Password";
+    var srcPP = "";
+
+    string _ImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["ImageAddress"];
+    string _ApiImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["WCFImageAddress"];
+
+    if (ViewBag.FrontImage == null && ViewBag.BackImage == null && ViewBag.PassportImage == null)
+    {
+        srcPP = _ImageSaveUrl + "Images/default_image.png";
+    }
+    else
+    {
+        srcPP = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.PassportImage;
+    }
+}
+
+<style type="text/css">
+    /* Adjust icon position */
+
+    #ChangePwdForm .form-control-feedback {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        position: relative;
+        z-index: 2;
+        margin-right: 15px;
+    }
+</style>
+
+<!-- Content Header (Page header) -->
+@*<section class="content-header">
+        <h1>
+            Settings
+            <small>Change Password</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-user"></i>Settings</a></li>
+            <li class="active">Change Password</li>
+        </ol>
+    </section>*@
+
+<!-- Main content -->
+
+<div class="main-content">
+    <div class="pad-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <aside class="sidebar user-sidebar">
+                        <div class="content-inner">
+                            <div class="top-section">
+                                <div class="user-info">
+                                    <div class="img-holder">
+                                        @*<img src="@srcPP" style=" max-width:109.75px; object-fit: cover; height:109.75px; width:109.75px;" alt="">*@
+                                        <img src="@srcPP" style=" max-width:109.75px; height:109.75px; width:109.75px;" alt="Profile Photo">
+                                    </div>
+
+                                    <div class="user-detail">
+                                        <span class="name">@ViewBag.Name</span><br />
+                                        <span class="phone">@ViewBag.ContactNumber1</span>&nbsp;&nbsp;
+                                        <span class="phone">@ViewBag.ContactNumber2</span>
+                                    </div>
+                                </div>
+
+                                <div class="btn-wrapper">
+                                    <a href="#" class="btn btn-grey">
+                                        <i class="thaili-icon-load-wallet"></i>
+                                        Nrs.@ViewBag.AvailBalnAmount
+                                    </a>
+
+                                    <a href="#" class="btn btn-grey">
+                                        <i class="thaili-icon-bank"></i>
+                                        NRs.
+                                        <div class="bankbal"></div>
+                                    </a>
+
+                                </div>
+                            </div>
+
+                            <ul class="user-menu">
+                                <li><a href="@Url.Action("Index", "Profile")">User Detail</a></li>
+                                @*<li><a href="#">Notification Settings</a></li>
+                                    <li><a href="#">Devices</a></li>*@
+
+                                <li class="active"><a href="@Url.Action("Index", "ChangePassword")">Change Password</a></li>
+                                <li><a href="@Url.Action("Index", "PinReset")">Change Thaili Pin</a></li>
+                                <li class="logout"><a href="Logout">Log out</a></li>
+                            </ul>
+                        </div>
+                    </aside>
+
+                    <!-- /sidebar -->
+                </div>
+                <div class="col-lg-8">
+                    <div class="personal-wrapper">
+                        <h2 class="title bordered-title-below">Change your password</h2>
+
+                        <div class="content-wrapper user-form-wrapper clearfix ">
+                            @*<div class="notification-wrapper">
+                                    <div class="alert success-alert" role="alert">
+                                        <i class="far fa-info-circle"></i> <span>Your Password has successfully been changed</span>
+                                    </div>
+
+                                    <div class="alert danger-alert" role="alert">
+                                        <i class="far fa-info-circle"></i> <span>Your Password doesn't match the old password</span>
+                                    </div>
+                                </div>*@
+                            <div class="notification-wrapper">
+                                @if (this.ViewData["password_messsage"] != null)
+                                {
+                                    if (this.ViewData["message_class"].ToString() == "success_info")
+                                    {
+                                        <div class="alert success-alert" role="alert">
+                                            @*<button type="button" class="close" data-dismiss="alert">&times;</button>*@
+                                            <i class="far fa-info-circle"></i>  <span>@this.ViewData["password_messsage"]</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert danger-alert" role="alert">
+                                            @*<button type="button" class="close" data-dismiss="alert">&times;</button>*@
+                                            <i class="far fa-info-circle"></i> <span>@this.ViewData["password_messsage"]</span>
+                                        </div>
+                                    }
+                                }
+                            </div>
+
+
+                            <div class="form-wrapper" style="float:none !important">
+
+                                @using (Html.BeginForm("Index", "ChangePassword", FormMethod.Post, new { @id = "ChangePwdForm", @class = "form-horizontal" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true)
+
+
+
+                                    <div class="box-body">
+
+                                        <div class="form-group">
+                                            <div for="inputPassword2" class="label-wrapper">
+                                                <label for="inputEmail2">Enter your old password<b style="color:red">*</b></label>
+                                                <span class="show-password">show</span>
+                                            </div>
+                                            <input type="password" class="form-control" id="oldPwd" name="txtOldPwd" placeholder="Old Password" maxlength="12" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div for="inputPassword3" class="label-wrapper">
+                                                <label for="inputEmail3">Enter your new password<b style="color:red">*</b></label>
+                                                <span class="show-password">show</span>
+
+                                            </div>
+
+                                            <input type="password" class="form-control, form-control pwd2" id="newPwd" name="txtNewPwd" placeholder="New Password" maxlength="12" required>
+
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div for="inputPassword4" class="label-wrapper">
+                                                <label>Re-type your new password<b style="color:red">*</b></label>
+                                                <span class="show-password">show</span>
+                                            </div>
+                                            <input type="password" class="form-control, form-control pwd3" id="retypePassword" name="retypePassword" placeholder="Retype password" maxlength="12" required>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- /.box-body -->
+
+                                    <div class="btn-wrapper">
+                                        <button type="submit" class="btn btn-blue" id="btnSubmit">Confirm</button>
+                                    </div>
+
+                                    <div class="note">*Note: Must be more than 5 characters.</div>
+
+
+                                    <!-- /.box-footer -->
+                                }
+
+                                <!-- /password-change form -->
+                            </div>
+                            <!-- /form-wrapper -->
+                        </div>
+                    </div>
+                    <!-- /personal-detail -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+
+    <!-- Load jQuery and the validate plugin -->
+    @*<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>*@
+    @*<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>*@
+
+    <!-- jQuery Form Validation code -->
+
+    <script>
+
+
+
+         $(document).ready(function () {
+
+             //$(".btnShow1").mousedown(function () {
+             //    $(".pwd1").attr("type", "text");
+             //});
+             //$(".btnShow1").on("mouseleave", function () {
+             //    $(".pwd1").attr("type", "password");
+             //});
+
+             //$(".btnShow2").mousedown(function () {
+             //    $(".pwd2").attr("type", "text");
+             //});
+             //$(".btnShow2").on("mouseleave", function () {
+             //    $(".pwd2").attr("type", "password");
+             //});
+
+             //$(".btnShow3").mousedown(function () {
+             //    $(".pwd3").attr("type", "text");
+             //});
+             //$(".btnShow3").on("mouseleave", function () {
+             //    $(".pwd3").attr("type", "password");
+             //});
+
+
+             $('#ChangePwdForm')
+                 .on('init.field.bv', function (e, data) {
+                     // data.bv      --> The BootstrapValidator instance
+                     // data.field   --> The field name
+                     // data.element --> The field element
+
+                     var $parent = data.element.parents('.form-group'),
+                         $icon = $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]'),
+                         options = data.bv.getOptions(),                      // Entire options
+                         validators = data.bv.getOptions(data.field).validators; // The field validators
+
+                     if (validators.notEmpty && options.feedbackIcons && options.feedbackIcons.required) {
+
+                         $icon.addClass(options.feedbackIcons.required).show();
+                     }
+
+                 })
+
+
+                 .bootstrapValidator({
+                 feedbackIcons: {
+                     required: 'fa fa-asterisk',
+                     valid: 'fa fa-check-circle fa-lg text-success',
+                     invalid: 'fa fa-times-circle fa-lg text-danger',
+                     validating: 'fa fa-refresh-circle fa-lg'
+                 },
+                 fields: {
+                     txtOldPwd: {
+                         validators: {
+                             notEmpty: {
+                                 message: 'Old Password cannot be empty'
+                             },
+                             stringLength: {
+                                 min: 5,
+                                 max: 12,
+                                 message: 'The password must be of 5-12 characters'
+                             }
+                         }
+                     },
+                     txtNewPwd: {
+                         validators: {
+                             notEmpty: {
+                                 message: 'The new password is required and cannot be empty'
+                             },
+                             stringLength: {
+                                 min: 5,
+                                 max: 12,
+                                 message: 'The password must be of 5-12 characters'
+                             },
+
+                             different: {
+                                 field: 'txtOldPwd',
+                                 message: 'The new password and old password should not be same. Please retry!'
+
+                             },
+                             identical: {
+                                 field: 'retypePassword',
+                                 message: "The new password and retype new password don't match. Please retry!"
+                             }
+                             //regexp: {
+                             //    regexp: /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!$%@@#£€*?&]{8,12}$/,
+                             //    message: 'New Password must be of 8-12 characters long which should include 1 uppercase & 1 number'
+                             //}
+                         }
+                     },
+                     retypePassword: {
+                         validators: {
+                             notEmpty: {
+                                 message: 'This field is required and cannot be empty'
+                             },
+                             stringLength: {
+                                 min: 5,
+                                 max: 12,
+                                 message: 'The password must be of 5-12 characters'
+                             },
+                             identical: {
+                                 field: 'txtNewPwd',
+                                 message: "The new password and retype new password  don't match. Please retry!"
+                             }
+                             //regexp: {
+                             //    regexp: /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!$%@@#£€*?&]{8,12}$/,
+                             //    message: 'Password must be of 8-12 characters long which should include 1 uppercase & 1 number'
+                             //}
+                         }
+                     }
+                 }
+                })
+
+              .on('status.field.bv', function (e, data) {
+                 // Remove the required icon when the field updates its status
+                 var $parent = data.element.parents('.form-group'),
+                     $icon = $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]'),
+                     options = data.bv.getOptions(),                      // Entire options
+                     validators = data.bv.getOptions(data.field).validators; // The field validators
+
+                 if (validators.notEmpty && options.feedbackIcons && options.feedbackIcons.required) {
+                     $icon.removeClass(options.feedbackIcons.required).addClass('fa');
+                 }
+             });
+         });
+
+        $.ajax({
+                cache: false,
+                async: true,
+                type: "GET",
+                url: '@Url.Action("BankQuery", "AgentDashboard")',
+                data: { "Username": "" },
+                success: function (data, textStatus, jqXHR) {
+
+                    if (data.responseCode == "200") {
+                        var resp = data.responseText;
+                        //$("#bankbal").html(resp.text());
+                        $(".bankbal").text(resp);
+                    }
+
+                },
+                error: function () {
+                    alert("Data Not Found");
+
+                }
+        });
+
+
+
+
+
+    </script>
+}

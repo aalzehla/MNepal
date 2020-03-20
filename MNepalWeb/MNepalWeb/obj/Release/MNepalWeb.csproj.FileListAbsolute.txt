@@ -1,0 +1,142 @@
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\ApplicationInsights.config
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\csc.exe
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\csc.exe.config
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\csc.rsp
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\csi.exe
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\csi.rsp
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\System.AppContext.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\System.Collections.Immutable.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\System.IO.FileSystem.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\System.Reflection.Metadata.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\vbc.exe
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\vbc.exe.config
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\vbc.rsp
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\VBCSCompiler.exe
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\VBCSCompiler.exe.config
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\MNepalWeb.dll.config
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\MNepalWeb.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\MNepalWeb.pdb
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Antlr3.Runtime.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.Agent.Intercept.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.DependencyCollector.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.Web.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.WindowsServer.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.ApplicationInsights.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.Practices.ObjectBuilder.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.Web.Infrastructure.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Newtonsoft.Json.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Helpers.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Mvc.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Optimization.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Razor.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.WebPages.Deployment.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.WebPages.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.WebPages.Razor.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\WebGrease.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Helpers.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Mvc.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Optimization.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Razor.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.WebPages.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.WebPages.Deployment.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.WebPages.Razor.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Antlr3.Runtime.pdb
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Newtonsoft.Json.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.ApplicationInsights.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.DependencyCollector.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.WindowsServer.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.Web.xml
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\obj\Release\MNepalWeb.csproj.CoreCompileInputs.cache
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\obj\Release\MNepalWeb.dll
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\obj\Release\MNepalWeb.pdb
+D:\MNepal Mobile Banking\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\obj\Release\MNepalWeb.csprojResolveAssemblyReference.cache
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\ApplicationInsights.config
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\csc.exe
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\csc.exe.config
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\csc.rsp
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\csi.exe
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\csi.rsp
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\System.AppContext.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\System.Collections.Immutable.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\System.IO.FileSystem.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\System.Reflection.Metadata.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\vbc.exe
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\vbc.exe.config
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\vbc.rsp
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\VBCSCompiler.exe
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\roslyn\VBCSCompiler.exe.config
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\MNepalWeb.dll.config
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\MNepalWeb.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\MNepalWeb.pdb
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Antlr3.Runtime.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.Agent.Intercept.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.DependencyCollector.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.Web.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.WindowsServer.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.ApplicationInsights.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.Practices.ObjectBuilder.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.Web.Infrastructure.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Newtonsoft.Json.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Helpers.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Mvc.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Optimization.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Razor.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.WebPages.Deployment.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.WebPages.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.WebPages.Razor.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\WebGrease.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Helpers.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Mvc.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Optimization.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.Razor.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.WebPages.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.WebPages.Deployment.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\System.Web.WebPages.Razor.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Antlr3.Runtime.pdb
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Newtonsoft.Json.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.ApplicationInsights.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.DependencyCollector.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.WindowsServer.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\bin\Microsoft.AI.Web.xml
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\obj\Release\MNepalWeb.csprojResolveAssemblyReference.cache
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\obj\Release\MNepalWeb.csproj.CoreCompileInputs.cache
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\obj\Release\MNepalWeb.dll
+D:\Oct26_2nd Phase_Start\MNepalWeb\MNepalWeb\obj\Release\MNepalWeb.pdb

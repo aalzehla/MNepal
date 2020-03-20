@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "AdminDetail";
+    Layout = null;
+}
+
+<!-- Start Data Show in Table -->
+<div id="AdminStatus" class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Admin Detail</h3>
+    </div>
+    <!-- /.box-header -->
+
+    <div class="box-body">
+
+@if (ViewData["dtableAdminDetail"] == null)
+{
+    <div class="panel-body"> <b>No Result Found !! </b> </div>
+}
+else if (ViewData["dtableAdminDetail"] != null)
+{
+
+        <table class="table table-condensed table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>ContactNumber1</th>
+                    <th>Status</th>
+                    <th>Usertype</th>
+                    @*<th>WalletNumber</th>
+                    <th>BankAccountNumber</th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @item.Name </td>
+
+                        <td> @item.Address </td>
+
+                        <td> @item.ContactNumber1 </td>
+
+                        <td> @item.Status </td>
+
+                        <td> @item.UserType </td>
+
+                        @*<td> @item.WalletNumber </td>
+
+                        <td> @item.BankAccountNumber </td>*@
+                        <td>
+                            <a href="@Url.Action("CreateAdminProfile", "ProfileSetup", new { id = @item.ClientCode })">Create</a>
+                        </td>
+                    </tr>
+
+                }<!-- for each end-->
+            </tbody>
+        </table>
+}
+
+    </div>
+</div>
+<!-- End Data Show in Table -->
+

@@ -1,0 +1,35 @@
+/** FontAwesome **/
+@import '../vendor/fontawesome/fontawesome-all';
+
+/** Bootstrap **/
+@import '../vendor/bootstrap/css/bootstrap';
+
+/** Bootstrap Select **/
+@import '../vendor/bootstrap-select/css/bootstrap-select';
+
+/** Bootstrap Datepicker **/
+@import '../vendor/bootstrap-datepicker/css/bootstrap-datepicker';
+@import '../vendor/bootstrap-datepicker/css/_bootstrap-datepicker3';
+
+/** BX Slider **/
+@import '../vendor/bxslider/css/jquery.bxslider';
+
+/** Setup **/
+@import 'setup/fonts';
+@import 'setup/variables';
+@import 'setup/html';
+
+/** Elements **/
+@import 'elements/btn';
+@import 'elements/common';
+@import 'elements/form';
+
+/** Components **/
+@import 'components/header';
+@import 'components/footer';
+@import 'components/user-dashboard';
+@import 'components/homepage';
+@import 'components/internet-payment';
+@import 'components/user-page';
+@import 'components/kyc-form';
+@import 'components/statement';

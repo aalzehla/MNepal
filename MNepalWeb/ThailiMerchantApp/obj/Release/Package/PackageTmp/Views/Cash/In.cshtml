@@ -1,0 +1,775 @@
+﻿
+@{
+    ViewBag.Title = "Cash In";
+}
+
+@model ThailiMerchantApp.Models.MNFundTransfer
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+@*<section class="content-header">
+        <h1>
+            Cash In
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">Cash In</li>
+        </ol>
+    </section>*@
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />
+<style>
+    .image_icon {
+        width: 50px;
+    }
+
+    .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        margin-right: 13px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /*.Rs-icon {
+        float: left;
+        margin-left: 12px;
+        margin-top: -33px;
+        color: #666666;
+        font-weight: lighter;
+    }*/
+</style>
+
+<!-- Main content -->
+<div class="main-content">
+    <div class="two-colbg">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <section class="internet-payment pad-50">
+                        <div class="top-section">
+                            <h2 class="title">Cash In</h2>
+                            <p>Please enter your mobile number and insert amount to transfer your fund.</p>
+                            @*<p>For validity information, please <a href="#">click here</a></p>*@
+                        </div>
+                        <!-- /top-section -->
+
+                        <div class="instant-transactions">
+                            @*<h3 class="title">Instant Transactions</h3>*@
+
+                            <div class="transactions-grid clearfix">
+                                <div class="item load-wallet">
+                                    <div class="item-inner">
+                                        @*<a href="~/FundTransfer/LoadWalletBW">*@
+                                        <a href="~/LoadWallet/EBanking">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-load-wallet"></i>
+                                                <span>Load Wallet</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item transfer-fund">
+                                    <div class="item-inner"  style="padding:12px;">
+
+
+                                        <a href="@Url.Action("Index", "FundTransfer")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-transfer-funds"></i>
+                                                <span>Transfer funds</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="~/UtilityPay/TopUp">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-top-up"></i>
+                                                <span>Top Up</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item recharge">
+                                    <div class="item-inner">
+                                        <a href="~/UtilityPay/NewRecharge">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-recharge"></i>
+                                                <span>Recharge</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+                                @*<div class="item withdraw">
+                                        <div class="item-inner">
+                                            <a href="~/FundTransfer/Withdraw">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-wallet"></i>
+                                                    <span>Withdraw </span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>*@
+                                <!-- /item -->
+                                <div class="item internet">
+                                    <div class="item-inner" style="padding:1px;">
+                                        <a href="~/FundTransfer/Withdraw">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-wallet" id="icon-withdraw"></i>
+                                                <span id="withdraw-text">Bank Transfer </span>
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/MerchantPayment/MerchantRestaurant">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-merchant"></span>
+                                                <span class="merchant-text">Merchants</span>
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/Cash/OutAgent3">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-cashout"></span>
+                                                <span class="cashout-text">Cash Out</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/Cash/In">
+                                            <div class="content-inner">
+                                                <img src="~/Content/assets/img/icons/icon-cashin.svg" style="max-width: 79%;" />
+                                                <span style="color:#00aeef;">Cash In</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+                            </div>
+                        </div>
+                        <!-- /instant transactions -->
+                    </section>
+                    <!-- /internet-payment -->
+                </div>
+
+                <div class="col-lg-6 right-form">
+                    <section class="content-inner pad-50">
+                        @using (Html.BeginForm(new { @id = "frmCashIn", @class = "transaction-form common-form", @autocomplete = "off" }))//"Index", "CashIn", FormMethod.Post,
+                        {
+                            <div id="ajaxResponse">
+                            </div>
+
+                            if (this.ViewData["CashIn_messsage"] != null)
+                            {
+                                if (this.ViewData["message_class"].ToString() == "success_info")
+                                {
+                                    <div class="alert alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Success &nbsp;</h4> <div class="content-inner"> @this.ViewData["fundTransfer_messsage"] </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Error</h4> @this.ViewData["CashIn_messsage"]
+                                    </div>
+                                }
+                            }
+
+                            <div class="box-body">
+                                <!-- /.form-group -->
+                                <div class="form-group" style="display:none;">
+                                    <label>Trace ID</label>
+                                    <input type="text" id="traceID" name="txtTraceID" class="form-control" placeholder="Trace ID" value="@ViewBag.TraceID" pattern=".{12,12}" required title="Please use Trace number" readonly />
+
+                                </div>
+
+                                <div class="form-group" @*style="display:none;"*@>
+                                    <label>Sender Mobile No.</label>
+                                    <input type="text" id="sender" name="txtSenderMobileNo" class="form-control" value="@ViewBag.SenderMobileNo" readonly />
+                                </div>
+
+
+
+                                <div class="form-group" style="display:none;">
+                                    <label>Service Code </label>
+                                    <input type="text" class="form-control" id="ServiceCode" name="txtServiceCode" @*value="@ViewBag.ServiceCode"*@ value="50" readonly />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Recipient Mobile No. <span style="color:red">*</span></label>
+                                    <input type="text" id="recipient" name="txtRecipientNo" class="form-control" placeholder="Recipient Mobile No." pattern=".{10,10}" required title="Please use phone Number" maxlength="10" onkeypress="return isNumber(event)" oninput="checkValidation()" onpaste="return false" />
+                                    <div id="check">                </div>
+                                    <div id="MobNo" style="color:red;"></div>
+                                </div>
+
+
+                                <label>Amount <span style="color:red">*</span></label>
+                                <div class="form-group input-group">
+                                    <input class="form-control col-2" id="NRs" type="text" value="NPR." readonly />
+                                    <input type="text" id="amount" name="txtAmount" class="form-control" placeholder="Amount"
+                                           pattern=".{0,2}" required title="Please use 2 digit amount" maxlength="5" @*onkeypress="return isNumber(event)"*@ oninput="checkValidation()" onkeypress="return NumberDot(event)" autocomplete = "off" />
+                                </div>
+                                <div id="Amt" style="color:red;"></div>
+
+
+                                <div class="form-group">
+                                    <label>T-PIN <span style="color:red">*</span></label>
+                                    <input type="password" id="pin" name="txtPin" class="form-control pwd1" placeholder="T-PIN" pattern=".{4,4}" required title="Please use the Pin number" maxlength="4" oninput="checkValidation()" onkeypress="return isNumber(event)" autocomplete = "new-password" onpaste="return false" />
+                                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                                    <div id="TPin" style="color:red;"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Remarks <span style="color:red">*</span></label>
+                                    <textarea class="form-control" rows="3" id="note" name="txtNote" placeholder="Remarks" pattern=".{0}|.{,40}" required title="Please use the Pin number" onchange="checkValidation()" maxlength="30"></textarea>
+                                    <div id="Remark" style="color:red;"></div>
+                                </div>
+
+                                <div class="form-group" style="display:none;">
+                                    <label>SRC</label>
+                                    <input type="text" id="src" name="txtSrc" class="form-control" value="WEB" />
+                                </div>
+                                <!-- /.form-group -->
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <input type="submit" class="btn btn-blue btn-big col-md-5" id="btnSubmit" name="txtSubmit" value="Confirm" />
+                                <a href="@Url.Action("In","Cash")" class="btn btn-blue btn-big " id="btnNew" title="Begin New Transaction">New Transaction</a>
+                                <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
+                            </div>
+                        }
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success modal -->
+<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/success-tick.svg" alt="">
+                </div>
+                <p class="msg">@*Success!*@</p>
+                <span class="msg">Your payment has been confirmed.</span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Failure modal -->
+<div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/denied-cross.svg" alt="">
+                </div>
+                <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
+                <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<section class="content">
+        <div class="row">
+
+            <div class="col-md-8">
+
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">Cash In</h3>
+                    </div>
+                    @using (Html.BeginForm("In", "Cash", FormMethod.Post, new { @id = "frmCashIn" }))
+                    {
+                        <div id="ajaxResponse">
+                        </div>
+
+                        <div class="box-body">
+                            <div class="form-group" style="display:none;">
+                                <label>Trace ID</label>
+                                <input type="text" id="traceID" name="txtTraceID" class="form-control" placeholder="Trace ID" value="@ViewBag.TraceID" pattern=".{12,12}" required title="Please use Trace number" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Sender Mobile No</label>
+                                <input type="text" id="sender" name="txtSenderMobileNo" class="form-control" value="@ViewBag.SenderMobileNo" readonly />
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                <label>Service Code </label>
+                                <input type="text" class="form-control" id="ServiceCode" name="txtServiceCode" value="50" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Recipient Mobile Number</label>
+                                <input type="text" id="recipient" name="txtRecipientNo" class="form-control" placeholder="Recipient No" required title="Please use Recipient Mobile number" maxlength="10" onkeypress="return isNumber(event)"/>
+                                 <label id="check"> </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Amount</label>
+                                <input type="text" id="amount" name="txtAmount" class="form-control" placeholder="Amount"
+                                      required  maxlength="6" onkeypress="return isNumber(event)" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>T-PIN</label>
+                                <input type="password" id="pin" name="txtPin" class="form-control" placeholder="T-PIN" pattern=".{4,4}" required title="Please use the Pin number" maxlength="4" onkeypress="return isNumber(event)"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Purpose</label>
+                                <textarea class="form-control" rows="3" id="note" name="txtNote" placeholder="Note Enter ..." pattern=".{0}|.{,40}" required title="Please use the Pin number"></textarea>
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                <label>SRC</label>
+                                <input type="text" id="src" name="txtSrc" class="form-control" value="WEB" />
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <input type="submit" class="btn btn-primary pull-right" id="btnSubmit" name="txtSubmit" value="Submit" />
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-2"> &nbsp; </div>
+
+        </div>
+    </section>*@
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts{
+
+    <!-- Load jQuery and the validate plugin -->
+    @*<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>*@
+
+    <!--jQuery Form Validation code -->
+   
+
+    <script type="text/javascript">
+
+        $(".btnShow1").mousedown(function () {
+            $(".pwd1").attr("type", "text");
+        });
+        $(".btnShow1").on("mouseleave", function () {
+            $(".pwd1").attr("type", "password");
+        })
+        var check = 0;
+
+          // for decimal amount (Restricts input for the given textbox to the given inputFilter.)
+        function setInputFilter(textbox, inputFilter) {
+            ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+                textbox.addEventListener(event, function () {
+                    if (inputFilter(this.value)) {
+                        this.oldValue = this.value;
+                        this.oldSelectionStart = this.selectionStart;
+                        this.oldSelectionEnd = this.selectionEnd;
+                    } else if (this.hasOwnProperty("oldValue")) {
+                        this.value = this.oldValue;
+                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                    }
+                });
+            });
+        }
+
+        //setInputFilter(document.getElementById("amount"), function (value) {
+        //    if (value >= 10000) {
+        //        return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 10000);
+        //    }
+        //    else {
+        //        return /^\d*[.,]?\d{0,2}$/.test(value) && (value === "" || parseInt(value) <= 10000);
+
+        //    }
+
+
+        //});
+
+
+        $(document).ready(function () {
+            //$('input#amount').blur(function () {
+            //    var num = parseFloat($(this).val());
+            //    var cleanNum = num.toFixed(2);
+            //    $(this).val(cleanNum);
+            //});
+
+
+            $('input#amount').blur(function (e) {
+                var value = parseFloat(e.target.value);
+                var newValue = (isNaN(value) ? 0 : value);
+
+                var cleanNum = newValue.toFixed(2);
+                $(this).val(cleanNum);
+            });
+        });
+
+        document.getElementById("successModal").onclick = function () {
+            var url = '@Url.Action("Index", "AgentDashboard")';
+            window.location.href = url;
+        };
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+        ///for amount input number and dot only
+        function NumberDot(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+        function checkValidation() {
+            var recipientNo = $("[name='txtRecipientNo']").val();
+            var amount = $("[name='txtAmount']").val();
+            var pin = $("[name='txtPin']").val();
+            var note = $("[name='txtNote']").val();
+
+            if (recipientNo.trim() == "") {
+                check = 1;
+                $("#MobNo").html("");
+                $("#MobNo").append("<small>" + "Please Enter the Mobile Number" + "</small>");
+                $("#MobNo").show();
+                $("#check").hide();
+            }
+            else if ((recipientNo.substring(0, 2) != "98")) {
+                check = 1;
+                $("#MobNo").html("");
+                $("#MobNo").append("<small>" + "Mobile number must start with 98" + "</small>");
+                $("#MobNo").show();
+                $("#check").hide();
+            }
+            else if (recipientNo.length != 10) {
+                check = 1;
+                $("#MobNo").html("");
+                $("#MobNo").append("<small>" + "Mobile number must be of 10 digits" + "</small>");
+                $("#MobNo").show();
+                $("#check").hide();
+            }
+            else {
+                check = 0;
+                $("#MobNo").hide();
+            }
+
+            if ((amount.trim() == "") || (amount.trim() == "0.00")|| (amount.trim() == "0")) {
+                $("#Amt").html("");
+                $("#Amt").append("<small>" + "Please Enter valid Amount" + "</small>");
+                $("#Amt").show();
+            }
+            else {
+                $("#Amt").hide();
+            }
+
+            if (pin.trim() == "") {
+                $("#TPin").html("");
+                $("#TPin").append("<small>" + "Please Enter the T-Pin" + "</small>");
+                $("#TPin").show();
+            }
+            else if (pin.length != 4) {
+                $("#TPin").html("");
+                $("#TPin").append("<small>" + "T-Pin must be 4 character long." + "</small>");
+                $("#TPin").show();
+            }
+            else {
+                $("#TPin").hide();
+            }
+
+            if (note.trim() == "") {
+                $("#Remark").html("");
+                $("#Remark").append("<small>" + "Please Enter the Remarks" + "</small>");
+                $("#Remark").show();
+            }
+            else {
+                $("#Remark").hide();
+            }
+        }
+
+        $("#clearButton").click(function () {
+            $("#recipient").val("");
+            $("#amount").val("");
+            $("#pin").val("");
+            $("#note").val("");
+            $("#check").hide();
+            $("#MobNo").hide();
+            $("#Amt").hide();
+            $("#TPin").hide();
+            $("#Remark").hide();
+        });
+
+        $("#recipient").change(function (event) {
+            event.preventDefault();
+
+            var id = $("#recipient").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetCheckingUserName", "Cash")',
+                data: { "Username": id },
+                success: function (data, textStatus) {
+                    var markup = data;
+                    if (check == 0) {
+                        if (data == "Success") {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Number Not Registered").show();
+                            //$('#btnSubmit').attr("disabled", true);
+                        }
+                        else if (data == "AgentRestricted") {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Transaction restricted to Agent").show();
+                          //  $('#btnSubmit').attr("disabled", true);
+                        }
+                        else if (data == "MerchantRestricted") {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Transaction restricted to Merchant").show();
+                           // $('#btnSubmit').attr("disabled", true);
+                        }
+                        else {
+                            $("#check").html("");
+                            $("#check").css("color", "green");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Valid Number").show(); 
+                        }
+                    }
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+        });
+
+
+    $(document).ready(function () {
+        $('#btnNew').hide();
+
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+        $('#frmCashIn').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                txtTraceID: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The TraceID is required and cannot be empty'
+                        }
+                    }
+                },
+
+                txtAmount: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Amount is required and cannot be empty'
+                        },
+                        stringLength: {
+                            max: 4,
+                            min: 2,
+                            message: 'The Amount must be more than 2 and less than 4 characters long'
+                        }
+                    }
+                },
+                txtPin: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The pin is required and cannot be empty'
+                        },
+                        stringLength: {
+                            max: 4,
+                            min: 4,
+                            message: 'The pin must be more than 4 and less than 4 characters long'
+                        }
+                    }
+                },
+                txtRecipientNo: {
+                    validators: {
+                            regexp: {
+                                regexp: /^[9][8][0-9]{8}$/,
+                                message: 'Input value is not a valid mobile format'
+                            },
+                            notEmpty: {
+                                message: 'The mobile number is required and cannot be empty'
+                            }
+
+
+
+                    }
+                }
+            }
+        });
+
+
+        $("#ajaxResponse").hide();
+        $("#MobNo").hide();
+        $("#Amt").hide();
+        $("#TPin").hide();
+        $("#Remark").hide();
+        $("#check").hide();
+
+
+
+
+     $('#btnSubmit').click(function (e) {
+         e.preventDefault();
+            var tid = $("[name='txtTraceID']").val();
+            var servicecode = $("[name='txtServiceCode']").val();
+            var amobile = $("[name='txtSenderMobileNo']").val();
+            var recipientNo = $("[name='txtRecipientNo']").val();
+            var amount = $("[name='txtAmount']").val();
+            var pin = $("[name='txtPin']").val();
+            var note = $("[name='txtNote']").val();
+            var src = $("[name='txtSrc']").val();
+
+            //if ((recipientNo != "") && (amount != "") && (pin != "") && (note != "")) {
+           if ((recipientNo != "") && (recipientNo.length == 10) && (amount != "") && (pin != "") && (pin.length == 4) && (note != "")) {
+
+                var dataToPost = {
+                    tid: tid,
+                    sc: servicecode,
+                    mobile: amobile,
+                    da: recipientNo,
+                    amount: amount,
+                    pin: pin,
+                    note: note,
+                    sourcechannel: src
+
+                };
+
+                e.preventDefault();
+
+                $.ajax({
+                    url: '@Url.Action("In", "Cash")',
+                    type: 'POST',
+                    data: dataToPost,
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+                        //alert('success');
+                        //alert(data.responseCode);
+                        //alert(data.responseText);
+
+                        if (data.responseCode == "200") { //
+                            debugger;
+                            $("#ajaxResponse").html("");
+                            var resp = JSON.parse(data.responseText);
+                            $('#successModal').modal("show");
+                            //swal(
+                            //    'Success', resp.message + 'Available Balance:' + resp.availableBalance, 'success'
+                            //)
+
+                            //var AppendText = "<div class='alert alert-success'><h4>Success &nbsp;</h4>";
+                            //AppendText = AppendText + resp.message;
+                            //AppendText = AppendText + "<br/> Available Balance:" + resp.availableBalance;
+                            //AppendText = AppendText + "<br/></div>";
+                            // $("#ajaxResponse").append(AppendText);
+                            $("#recipient").val("");
+                            $("#amount").val("");
+                            $("#pin").val("");
+                            $("#note").val("");
+                            $("#check").hide();
+                            $("#ajaxResponse").show();
+
+                        }
+                        //display error message
+                        else {
+                            $("#ajaxResponse").html("");
+                            $("#message").html("");
+                            $("#message").append(data.responseText);
+                            $('#failureModal').modal("show");
+                            //$("#ajaxResponse").append("<div class='alert alert-danger'><h4>Error </h4> "
+                            //    + data.responseText + "<br/></div>");
+                            //$("#ajaxResponse").show();
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Failed to retrieve.');
+                        $("#message").html("");
+                        $("#message").append(jqXHR.responseText);
+                        $('#failureModal').modal("show");
+                        //$("#ajaxResponse").html("");
+                        //$("#ajaxResponse").append(jqXHR.responseText);
+                        //$("#ajaxResponse").show();
+                    },
+                    //capture the request before it was sent to server
+                    beforeSend: function (jqXHR, settings) {
+                        //adding some Dummy data to the request
+                        settings.data += "&dummyData=whatever";
+                        //disable the button until we get the response
+                        $('#btnSubmit').attr("disabled", true);
+                    },
+                    complete: function (jqXHR, textStatus) {
+                        //enable the button
+                        $('#btnSubmit').attr("disabled", false);
+                    }
+                });
+
+            }
+           else {
+               checkValidation();
+               $("#message").html("");
+               $("#message").append("Please Enter the required fields.");
+               $('#failureModal').modal("show");
+                //$("#ajaxResponse").html("");
+                //$("#ajaxResponse").append("<div class='alert alert-danger'><h4>Error</h4>"
+                //    + "Please Enter the required Field" + "<br/></div>");
+                //$("#ajaxResponse").show();
+            }
+        });
+    });
+    </script>
+}

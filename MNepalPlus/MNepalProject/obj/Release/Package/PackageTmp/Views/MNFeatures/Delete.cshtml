@@ -1,0 +1,72 @@
+﻿@model MNepalProject.Models.Feature
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Feature</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FeeMaster.ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FeeMaster.ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LimitMaster.ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LimitMaster.ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductMaster.ProductName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductMaster.ProductName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FeatureCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FeatureCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SourceBIN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SourceBIN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DestinationBIN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DestinationBIN)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

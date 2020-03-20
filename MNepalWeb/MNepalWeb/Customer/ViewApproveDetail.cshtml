@@ -1,0 +1,1750 @@
+﻿@model MNepalWeb.Models.UserInfo
+
+@{
+    ViewBag.Title = "ViewApproveDetail";
+    var Sno = 0;
+    var srcPP = "";
+    var srcfront = "";
+    var srcback = "";
+
+    string _ImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["ImageAddress"];
+    string _ApiImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["WCFImageAddress"];
+
+    if (ViewBag.FrontImage == null && ViewBag.BackImage == null && ViewBag.PassportImage == null)
+    {
+        srcfront = _ImageSaveUrl + "Content/assets/img/citizenship1.jpg";
+        srcback = _ImageSaveUrl + "Content/assets/img/citizenship2.jpg";
+        srcPP = _ImageSaveUrl + "Images/default_image.png";
+    }
+    else
+    {
+        srcfront = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.FrontImage;
+        srcback = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.BackImage;
+        srcPP = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.PassportImage;
+    }
+}
+
+<!-- Content Header (Page header) -->
+<style>
+    .disabledTab {
+        pointer-events: none;
+    }
+    /*--NISCHAL-- */
+    /*.form {
+        display: none;
+    }*/
+    /*--NISCHAL-- */
+    .form.active {
+        display: block
+    }
+    /*--NISCHAL-- */
+    label {
+        display: block;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        Customer
+        @*<small>Detail</small>*@
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Customer</a></li>
+        <li class="active"> Registration Approval</li>
+        <li class="active"> Customer Approve Detail</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            <!-- Start Data Show in Table -->
+            <div class="box box-primary" id="CustomerModify">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Customer Approve Detail</h3>
+                </div>
+                <!-- /.box-header -->
+
+                @using (Html.BeginForm("Approve", "Customer", FormMethod.Post, new { @id = "CustomerModification", @class = "CustomerModification" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    if (this.TempData["custmodify_messsage"] != null)
+                    {
+                        if (this.TempData["message_class"].ToString() == "success_info")
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Success</h4> @this.TempData["custmodify_messsage"]
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Error</h4> @this.TempData["custmodify_messsage"]
+                            </div>
+                        }
+                    }
+
+                    //tab - pane////
+
+                    <div>
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="disabled disabledTab active"><a href="#Login" aria-controls="Login" role="tab" data-toggle="tab">Login Setup</a></li>
+                            <li role="presentation" class="disabled disabledTab"><a href="#CustomerInfo" aria-controls="CustomerInfo" role="tab" data-toggle="tab">Customer Info</a></li>
+                            @if (Model.SelfRegistered == "F")
+                            {
+                                <li role="presentation" class="disabled disabledTab"><a href="#BankAccount" aria-controls="BankAccount" role="tab" data-toggle="tab">Bank Account</a></li>
+                                <li role="presentation" class="disabled disabledTab"><a href="#IndividualTransactionLimit" aria-controls="IndividualTransactionLimit" role="tab" data-toggle="tab">Individual Transaction Limit</a></li>
+                                <li role="presentation" class="disabled disabledTab"><a href="#CustomerProfile" aria-controls="CustomerProfile" role="tab" data-toggle="tab">Customer Role</a></li>
+                            }
+                            @*<li role="presentation"><a href="#ServiceSetup" aria-controls="ServiceSetup" role="tab" data-toggle="tab">Service Setup</a></li>*@
+                            @*<li role="presentation" class="active"><a href="#Confirmation" aria-controls="Confirmation" role="tab" data-toggle="tab">Confirmation</a></li>*@
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+
+                            <!--Login-->
+                            <div role="tabpanel" class="tab-pane active" id="Login">
+
+                                <div class="box box-info">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Login Information</h3>
+                                    </div>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Mobile Number</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="ContactNumber1" name="UserName"  value="@Model.UserName" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <br />
+                                    </div>
+
+                                    @*<div class="row">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Service Provider <b style="color:red;">*</b></label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="ServiceProvider" name="ServiceProvider" value="Nepal Telecom" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>*@
+
+                                    <!--ClientCode-->
+                                    <div class="form-group" style="display:none;">
+                                        @Html.LabelFor(model => model.ClientCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-5">
+                                            @Html.EditorFor(model => model.ClientCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            @Html.ValidationMessageFor(model => model.ClientCode, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div>
+                                    <a href="#CustomerInfo" aria-controls="CustomerInfo" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Customer Info>></a>
+                                </div>
+
+                            </div>
+
+
+                            <!--Customer Info-->
+                            <div role="tabpanel" class="tab-pane" id="CustomerInfo">
+
+                                <div class="box box-info">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Customer Information</h3>
+                                    </div>
+                                </div>
+
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Mobile Number: @*<b style="color:red;">*</b>*@</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="ContactNumber1" @*name="ContactNumber1"*@ value="@Model.ContactNumber1" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <br />
+                                    </div>
+
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Basic Details</h3>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Name:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="Name" name="txtName" value="@Model.Name" maxlength="30" style="text-transform: capitalize" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Gender:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="GenderSelected" name="txtGenderSelected" value="@Model.Gender" maxlength="10" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                           
+                                            <div class="col-md-6" id="ADDiv">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Date Of Birth:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-8">
+
+                                                        <div class="col-sm-10">
+
+                                                            @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control date-picker", @placeholder = "DD/MM/YYYY",
+                                                           @readonly = "readonly",
+                                                           oncopy = "return false",
+                                                           onpaste = "return false",
+                                                           onkeypress = "return false"
+                                                       } })
+
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label class="control-label ">AD</label>
+                                                        </div>
+                                                        <div class="col-sm-10 mt-2">
+
+
+                                                            @Html.Editor("BSDateOfBirth", new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "YYYY-MM-DD", @style = "margin-bottom:3px;",
+                                                           @readonly = "readonly",
+                                                           oncopy = "return false",
+                                                           onpaste = "return false",
+                                                           onkeypress = "return false"
+                                                       } })
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label class="control-label">BS</label>
+                                                        </div>
+                                                        <div style="color:red; padding-top:3px;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Nationality:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-8">
+
+                                                        <input type="text" class="form-control" id="Nationality" value="@Model.Nationality" name="txtNationality" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Country:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="Country" name="txtCountry" value="@Model.Country" readonly />
+                                                        @*<div id="country" style="color:red; padding-top:3px;"></div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                    </div>
+
+
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Personal Information</h3>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label class="control-label col-sm-4">Father's Name:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="FatherName" name="txtFatherName" value="@Model.FatherName" maxlength="40" readonly />
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label class="control-label col-sm-4">Mother's Name:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="MotherName" name="txtMotherName" value="@Model.MotherName" maxlength="40" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Grandfather's Name:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+
+                                                    <input type="text" class="form-control" id="GrandFatherName" name="txtGrandFatherName" value="@Model.GrandFatherName" maxlength="30" readonly />
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Occupation:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="Occupation" name="txtOccupation" value="@Model.Occupation" maxlength="10" readonly />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Marital Status:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="MaritalStatus" name="txtMaritalStatus" value="@Model.MaritalStatus" maxlength="10" readonly />
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        @if(!Model.MaritalStatus.Equals("UnMarried"))
+                                        {
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Spouse Name:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="SpouseName" name="txtSpouseName" value="@Model.SpouseName" maxlength="30" readonly />
+                                                    </div>
+                                                </div>
+
+                                                <br /><br />
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Father In Law's Name:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="FatherInLawsName" name="txtFatherInLawsName" value="@Model.FatherInlawName" maxlength="30" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        }
+
+                                    </div>
+                                    <br />
+
+                                    <div>
+                                        <br />
+                                    </div>
+
+
+                                    @*//start milayako 02**@
+                                    <div>
+                                        <br>
+                                    </div>
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h2 class="box-title">Address Information</h2>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4 header">
+                                                        Permanent Address
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4 header">
+                                                        Current Address
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Street:<b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="PStreet" name="PStreet" value="@Model.PStreet" readonly />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Street:<b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="CStreet" name="CStreet" value="@Model.CStreet" readonly />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Province:<b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="PProvince" name="PProvince" value="@Model.PProvince" readonly />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Province:<b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="CProvince" name="CProvince" value="@Model.CProvince" readonly />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        District:<b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="PDistrictID" name="PDistrictID" value="@Model.PDistrictID" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        District:<b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="CDistrictID" name="CDistrictID" value="@Model.CDistrictID" readonly />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        VDC/Municipality:<b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="PMunicipalityVDC" name="PMunicipalityVDC" value="@Model.PMunicipalityVDC" readonly />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        VDC/Municipality:<b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="CMunicipalityVDC" name="CMunicipalityVDC" value="@Model.CMunicipalityVDC" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        House No.:
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="PHouseNo" name="PHouseNo" value="@Model.PHouseNo" readonly />
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        House No.:
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="CHouseNo" name="CHouseNo" value="@Model.CHouseNo" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Ward No.:<b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="PWardNo" name="PWardNo" value="@Model.PWardNo" readonly />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Ward No.:<b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="CWardNo" name="CWardNo" value="@Model.CWardNo" readonly />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    @*///end milayako 02*@
+
+
+                                    <div>
+
+                                    </div>
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Contact Information</h3>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Contact Number</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="ContactNumber1" @*name="ContactNumber1"*@ value="@Model.UserName" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <br />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Contact Number 2</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="ContactNumber2" name="ContactNumber2" value="@Model.ContactNumber2" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <br />
+                                    </div>
+
+                                    @*<div class="row">
+                                           <div class="col-md-10">
+                                        <div class="form-group">
+                                         <label class="control-label col-sm-4">Customer Type</label>
+                                         <div class="col-sm-6">
+                                             <input type="text" class="form-control" id="UserType" name="UserType" value="@Model.UserType" readonly />
+                                        </div>
+                                           </div>
+                                         </div>
+                                        </div>*@
+
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Email Address</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="EmailAddress" name="EmailAddress" value="@Model.EmailAddress" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @*<div>
+                                            <br />
+                                        </div>*@
+                                    <div class="row" style="display:none;">
+
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Bank Code</label>
+                                                <div class="col-sm-6">
+
+                                                    @Html.DropDownListFor(x => x.BankNo, new SelectList(ViewBag.Bank, "Value", "Text"), "Select Bank Code", new { @class = "form-control", @id = "ddlBank", @readonly = "readonly", @disabled = "Disabled" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    @*@if (Model.SelfRegistered == "F")
+                                        {
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">Branch Code</label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" id="BranchCode" name="BranchCode" value="@Model.BranchCode" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <br />
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">Bank Account Number</label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" id="BankAccountNumber" name="BankAccountNumber" value="@Model.BankAccountNumber" maxlength="14" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }*@
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Document Information</h3>
+                                        </div>
+                                        <br />
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Document Type:
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="Document" name="txtDocument" style="width: 100%" value="@Model.Document" readonly />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*<div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">Passport Size Photo:</label>
+                                                        <div class="col-md-6">
+                                                            <img src="Libraries\Pictures" style="width:80%;" />
+                                                        </div>
+                                                    </div>
+                                                </div>*@
+                                        </div><br />
+
+                                        @if (Model.Document.Equals("Citizenship"))
+                                        {
+
+                                            <div id="citizenship">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">Citizenship</h3>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="row">
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">
+                                                                    Citizenship No:
+                                                                    <!--<b style="color:red;">*</b>-->
+                                                                </label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="text" class="form-control" id="Citizenship" name="txtCitizenship" value="@Model.Citizenship" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @*<div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-4">
+                                                                        Issue Date for Citizenship:
+                                                                    </label>
+                                                                    <div class="col-sm-6">
+                                                                        @Html.EditorFor(model => model.CitizenshipIssueDate, new { htmlAttributes = new { @class = "form-control date-picker", @readonly = "readonly" } })
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">
+                                                                    Issue Date for Citizenship:
+                                                                    <!--<b style="color:red;">*</b>-->
+                                                                </label>
+                                                                <div class="col-sm-6">
+                                                                    <div class="col-sm-10">
+
+                                                                        @Html.EditorFor(model => model.CitizenshipIssueDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "DD MM YYYY",
+                                                                       @readonly = "readonly",
+                                                                       oncopy = "return false",
+                                                                       onpaste = "return false",
+                                                                       onkeypress = "return false"
+                                                                   } })
+
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <label class="control-label ">AD</label>
+                                                                    </div>
+                                                                    <div class="col-sm-10 mt-2">
+
+
+                                                                        @Html.Editor("BSCitizenshipIssueDate", new { htmlAttributes = new { @class = "form-control", @placeholder = "YYYY-MM-DD", @style = "margin-bottom:3px;",
+                                                                       @readonly = "readonly",
+                                                                       oncopy = "return false",
+                                                                       onpaste = "return false",
+                                                                       onkeypress = "return false"
+                                                                   } })
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <label class="control-label">BS</label>
+                                                                    </div>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    </div>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">
+                                                                    Place of Issue for Citizenship:
+                                                                    <!--<b style="color:red;">*</b>-->
+                                                                </label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="text" class="form-control" id="CitizenshipPlaceOfIssue" name="txtCitizenshipPlaceOfIssue" value="@Model.CitizenshipPlaceOfIssue" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--photo-->
+                                                    <br />
+
+                                                </div>
+                                            </div>
+                                        }
+                                        <br />
+
+                                        @if (Model.Document.Equals("License"))
+                                        {
+
+                                            <div id="license">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">License</h3>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="row">
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">
+                                                                    License No:
+                                                                    <!--<b style="color:red;">*</b>-->
+                                                                </label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="text" class="form-control" id="License" name="txtLicense" value="@Model.License" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @*<div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-4">
+                                                                        Issue Date for License:
+                                                                    </label>
+                                                                    <div class="col-sm-6">
+                                                                        @Html.EditorFor(model => model.LicenseIssueDate, new { htmlAttributes = new { @class = "form-control date-picker", @readonly = "readonly" } })
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">
+                                                                    Issue Date for License:
+                                                                    <!--<b style="color:red;">*</b>-->
+                                                                </label>
+                                                                <div class="col-sm-6">
+                                                                    <div class="col-sm-10">
+
+                                                                        @Html.EditorFor(model => model.LicenseIssueDate, new { htmlAttributes = new { @class = "form-control", @maxlength = "13", @placeholder = "DD MM YYYY",
+                                                                       @readonly = "readonly",
+                                                                       oncopy = "return false",
+                                                                       onpaste = "return false",
+                                                                       onkeypress = "return false"
+                                                                   } })
+
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <label class="control-label ">AD</label>
+                                                                    </div>
+                                                                    <div class="col-sm-10 mt-2">
+
+
+                                                                        @Html.Editor("BSLicenseIssueDate", new { htmlAttributes = new { @class = "form-control", @maxlength = "13", @placeholder = "YYYY-MM-DD", @style = "margin-bottom:3px;",
+                                                                       @readonly = "readonly",
+                                                                       oncopy = "return false",
+                                                                       onpaste = "return false",
+                                                                       onkeypress = "return false"
+                                                                   } })
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <label class="control-label">BS</label>
+                                                                    </div>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <br />
+                                                    <div class="row">
+                                                        @*<div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-4">
+                                                                        Expire Date for License:
+                                                                    </label>
+                                                                    <div class="col-sm-6">
+                                                                        @Html.EditorFor(model => model.LicenseExpireDate, new { htmlAttributes = new { @class = "form-control date-picker", @readonly = "readonly" } })
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">
+                                                                    Expire Date for License:
+                                                                </label>
+                                                                <div class="col-sm-6">
+                                                                    <div class="col-sm-10">
+
+                                                                        @Html.EditorFor(model => model.LicenseExpireDate, new { htmlAttributes = new { @class = "form-control", @maxlength = "13", @placeholder = "DD MM YYYY", @readonly = "readonly" } })
+
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <label class="control-label ">AD</label>
+                                                                    </div>
+                                                                    <div class="col-sm-10 mt-2">
+
+
+                                                                        @Html.Editor("BSLicenseExpireDate", new { htmlAttributes = new { @class = "form-control", @maxlength = "13", @placeholder = "YYYY-MM-DD", @style = "margin-bottom:3px;", @readonly = "readonly" } })
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <label class="control-label">BS</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">
+                                                                    Place of Issue for License:
+                                                                    <!--<b style="color:red;">*</b>-->
+                                                                </label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="text" class="form-control" id="LicensePlaceOfIssue" name="txtLicensePlaceOfIssue" value="@Model.LicensePlaceOfIssue" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--photo-->
+                                                    <br />
+
+                                                </div>
+                                            </div>
+                                        }
+
+                                        @if (Model.Document.Equals("Passport"))
+                                        {
+                                            <div id="passport">
+                                                <!--passport start-->
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">Passport</h3>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="row">
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">
+                                                                    Passport No:
+                                                                </label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="text" class="form-control" id="Passport" name="txtPassport" value="@Model.Passport" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">Issue Date for Passport:</label>
+                                                                <div class="col-sm-6">
+                                                                    @Html.EditorFor(model => model.PassportIssueDate, new { htmlAttributes = new { @class = "form-control date-picker", @readonly = "readonly" } })
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <div class="row">
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">
+                                                                    Expire Date for Passport:
+                                                                    @*<b style="color:red;">*</b>*@
+                                                                </label>
+                                                                <div class="col-sm-6">
+                                                                    @Html.EditorFor(model => model.PassportExpireDate, new { htmlAttributes = new { @class = "form-control  date-picker", @readonly = "readonly" } })
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">
+                                                                    Place of Issue for Passport:
+                                                                    @*<b s tyle="color:red;">*</b>*@
+                                                                </label>
+                                                                <div class="col-sm-6">
+
+
+                                                                    <input type="text" class="form-control" id="PassportPlaceOfIssue" name="txtPassportPlaceOfIssue" value="@Model.PassportPlaceOfIssue" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        }
+
+
+                                        <div class="row">
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                        @if (Model.PassportImage != "")
+                                                        {
+                                                            <label class="control-label col-sm-12">Profile Image:</label>
+                                                            <img src="@srcPP" style="width:250px;height:250px;" />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-4" style="display:block;">
+                                                <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                        @if (Model.FrontImage != "")
+                                                        {
+                                                            <label class="control-label col-sm-12">Document Front Image:</label>
+                                                            <img src="@srcfront" style="width:375px; height:250px;" />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                        @if (!Model.BackImage.Equals(""))
+                                                        {
+                                                            <label class="control-label col-sm-12">Document Back Image:</label>
+                                                            <img src="@srcback" style="width:375px; height:250px;" />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <br />
+                                        @*<div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-8">
+                                                            <label class="control-label col-sm-12">Front Size Image:</label>
+                                                            <img src="~/Content/upload/@Model.FrontImage" style="width:400px; height:250px;" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-8">
+                                                            <label class="control-label col-sm-12">Back Size Photo:</label>
+                                                            <img src="~/Content/upload/@Model.BackImage" style="width:400px; height:250px;" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>*@
+
+                                    </div>
+
+                                    @if (Model.SelfRegistered == "T")
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <div class="col-sm-6">
+                                                        <input type="submit" class="btn btn-primary" id="btnApprove" name="btnApprove" value="Approve">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <a href="#Login" aria-controls="Login" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Login</a>
+                                    }
+                                    else
+                                    {
+
+                                        <a href="#Login" aria-controls="Login" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Login</a>
+                                        <a href="#BankAccount" aria-controls="BankAccount" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Bank Account>></a>
+                                    }
+                                </div>
+
+                                @*<a href="#Login" aria-controls="Login" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Login</a>
+                                    <a href="#BankAccount" aria-controls="BankAccount" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Bank Account>></a>*@
+
+                            </div>
+
+
+                            @if (Model.SelfRegistered == "F")
+                            {
+
+                                <!--Bank Account-->
+                                <div role="tabpanel" class="tab-pane" id="BankAccount">
+
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Account Setup</h3>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Mobile Number</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="ContactNumber1" value="@Model.ContactNumber1" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <br />
+                                        </div>
+                                        <!---Account Information-->
+                                        @*@if (Model.SelfRegistered == "F")
+                                            {*@
+                                        <div class="box box-info">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">Account Information</h3>
+                                            </div>
+                                        </div>
+
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-4">
+                                                            <label class="control-label ">
+                                                                Bank Account Number:<span style="color:red;">*</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control" id="BankAccountNumber" name="BankAccountNumber" value="@Model.BankAccountNumber" maxlength="14" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-3"> Branch Code:</label>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" class="form-control" id="BranchCode" name="BranchCode" value="@Model.BranchCode" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div>
+                                            <br />
+                                        </div>
+                                        }
+                                        <div class="box box-info">
+                                            <div class="box-header with-border">
+                                                <h4 class="box-title">Accounts ACCOUNT</h4>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <table class="table  table-bordered  table-responsive" id="tblacc" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+
+                                                                <th>Account Number</th>
+                                                                <th>Alias</th>
+                                                                <th>Branch Code</th>
+                                                                <th>Account Owner</th>
+                                                                <th>Primary</th>
+                                                                @*<th>Account Type</th>*@
+                                                                <th>Txn Enabled</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var Acc in Model.Trans)
+                                                            {
+                                                                Sno++;
+
+                                                                <tr id="@Sno">
+
+                                                                    <td>
+                                                                        <input type="text" class="form-control" name="@string.Format("txtAcNumber{0}", Sno)" value="@Acc.AcNumber" readonly />
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <input type="text" class="form-control" name="@string.Format("txtAllias{0}", Sno)" value="@Acc.Alias" readonly />
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <input type="text" class="form-control" name="@string.Format("txtBranchCode{0}", Sno)" value="@Acc.TBranchCode" readonly />
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <input type="text" class="form-control" name="@string.Format("txtAcOwner{0}", Sno)" value="@Acc.AcOwner" readonly />
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <input type="checkbox" name="@string.Format("chkPrimary{0}", Sno)"
+                                                                               value="T"
+                                                                               @(Acc.IsPrimary == "T" ? "Checked" : string.Empty) disabled />
+                                                                    </td>
+
+                                                                    @*<td>
+                                                                            <input type="text" class="form-control" name="@string.Format("txtAcType{0}", Sno)" value="@Acc.AcType" readonly />
+                                                                        </td>*@
+
+                                                                    <td>
+                                                                        <input type="checkbox" name="@string.Format("chkTxnEnabled{0}", Sno)"
+                                                                               value="T"
+                                                                               @(Acc.TxnEnabled == "T" ? "Checked" : string.Empty) disabled />
+                                                                    </td>
+
+
+
+                                                                </tr>
+
+                                                            }
+
+
+                                                        </tbody>
+
+                                                    </table>
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-1">
+
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <br />
+                                            </div>
+
+
+                                        </div>
+
+                                        <a href="#CustomerInfo" aria-controls="CustomerInfo" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Customer Info</a>
+                                        <a href="#IndividualTransactionLimit" aria-controls="IndividualTransactionLimit" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Individual Transaction Limit>></a>
+
+                                    </div>
+                                </div>
+
+
+
+                                <div role="tabpanel" class="tab-pane" id="IndividualTransactionLimit">
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Individual Transaction Limit</h3>
+                                        </div>
+                                        <!-- /.box-header -->
+
+
+
+
+
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(x => x.Transaction, new { @class = "control-label col-sm-4", @disabled = "disabled" })
+
+                                                        <div class="col-sm-6">
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(x => x.Transaction, "En", new { @disabled = "disabled" }) Enable
+                                                            </label>
+                                                            <label class="radio-inline">
+                                                                @Html.RadioButtonFor(x => x.Transaction, "Dis", new
+                                                       { @*@checked = "checked",*@ @disabled = "disabled"
+                                                }) Disable
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div id="Transaction1" style="display:none;">
+                                                <hr />
+
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                        <div class="form-group form-inline">
+                                                            @Html.LabelFor(x => x.DateRange, new { @class = "control-label col-sm-4", @disabled = "disabled" })
+
+                                                            <div class="col-sm-6">
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(x => x.DateRange, "We", new { @disabled = "disabled" }) Week
+                                                                </label>
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(x => x.DateRange, "Mo", new { @checked = "checked", @disabled = "disabled" }) Month
+                                                                </label>
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(x => x.DateRange, "Cu", new { @disabled = "disabled" }) Custom
+                                                                </label>
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(x => x.DateRange, "Yr", new { @disabled = "disabled"}) Year
+                                                                </label>
+                                                                <br />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="familywe1" style="display:none;">
+                                                <hr />
+
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-sm-4">Start Date:<b style="color:red;">*</b></label>
+                                                            <div class="col-sm-8">
+                                                                @Html.TextBoxFor(x => x.StartDate, new { @id = "StartDate", @class = "form-control", @maxlength = "10", @placeholder = "DD/MM/YYYY", @readonly = "readonly" })
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-sm-4">End Date:<b style="color:red;">*</b></label>
+                                                            <div class="col-sm-8">
+                                                                @Html.TextBoxFor(x => x.EndDate, new { @id = "EndDate", @class = "form-control", @maxlength = "10", @placeholder = "DD/MM/YYYY", @readonly = "readonly" })
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group form-inline">
+                                                            @Html.LabelFor(x => x.LimitType, new { @class = "control-label col-sm-4" })
+
+                                                            <div class="col-sm-6">
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(x => x.LimitType, "U", new { @disabled = "disabled" }) Unlimited
+                                                                </label>
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(x => x.LimitType, "L", new { @disabled = "disabled" }) Limited
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div id="manualtransaction">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-6">Transaction Count :<b style="color:red;">*</b></label>
+                                                                <div class="col-sm-6">
+                                                                    @Html.TextBoxFor(x => x.TransactionCount, new { @class = "form-control", @maxlength = 6, @onkeypress = "return isNumber(event)", @disabled = "disabled" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-6">Per Txn Limit:<b style="color:red;">*</b></label>
+                                                                <div class="col-sm-6">
+                                                                    @Html.TextBoxFor(x => x.TransactionLimit, new { @class = "form-control", @maxlength = 6, @onkeypress = "return isNumber(event)", @disabled = "disabled" })
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-6">Daily Transaction Limit :<b style="color:red;">*</b></label>
+                                                                <div class="col-sm-6">
+                                                                    @Html.TextBoxFor(x => x.TransactionLimitDaily, new { @class = "form-control", @maxlength = 6, @onkeypress = "return isNumber(event)", @disabled = "disabled" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-6">Monthly Transaction Limit :<b style="color:red;">*</b></label>
+                                                                <div class="col-sm-6">
+                                                                    @Html.TextBoxFor(x => x.TransactionLimitMonthly, new { @class = "form-control", @maxlength = 6, @onkeypress = "return isNumber(event)", @disabled = "disabled" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <br />
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <a href="#BankAccount" aria-controls="BankAccount" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Bank Account</a>
+                                    <a href="#CustomerProfile" aria-controls="CustomerProfile" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Customer Role>></a>
+
+
+
+                                    <div id="DataServiceSetup">
+                                        @*@Html.Action("GetFeatureDetail");*@
+                                    </div>
+
+                                </div>
+
+
+
+
+                                <!--Customer Role-->
+                                <div role="tabpanel" class="tab-pane" id="CustomerProfile">
+
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Customer Role</h3>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">Mobile Number</label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" id="ContactNumber1" @*name="ContactNumber1"*@ value="@Model.ContactNumber1" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <br />
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">Role Name</label>
+                                                        <div class="col-sm-6">
+
+                                                            @Html.DropDownListFor(x => x.ProfileCode, new SelectList(ViewBag.ProfileList, "Value", "Text"), "Select Role", new { @required = "Required", @class = "form-control", @id = "ddlCustProfile", @readonly = "readonly", @disabled = "disabled" })
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-offset-4 col-sm-6">
+                                                            <input type="submit" class="btn btn-primary" id="btnApprove" name="btnApprove" value="Approve">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row" id="RejectRemarks">
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">Reject Remarks <b style="color:red;">*</b></label>
+                                                        <div class="col-sm-6">
+                                                            <textarea name="Remarks" id="txtRemarks" maxlength="200" rows="4" cols="50" style="min-height:50px;min-width:200px;max-height:100px;max-width:380px;" class="form-control"></textarea>
+                                                            <b style="color:red">*</b><b>Note Please fill out remarks before rejecting </b>
+                                                        </div>
+                                                        @*<div class="col-sm-2">
+                                                                <span class="glyphicon glyphicon-remove" id="txtremove" style="font-size:20px;color:red;" title="Hide Reject Remarks"></span>
+                                                            </div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-offset-4 col-sm-6">
+                                                            <input type="submit" class="btn btn-danger" id="btnReject" name="btnApprove" value="Reject">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div id="DataDetail">
+                                        @*@Html.Action("GetFeatureDetail");*@
+                                    </div>
+
+
+                                    <a href="#IndividualTransactionLimit" aria-controls="IndividualTransactionLimit" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Individual Transaction Limit</a>
+
+                                </div>
+                            }
+                        </div>
+
+                        <!--End of TAB panel-->
+                    </div>
+                    <!--End of TAB nav-->
+
+                    <!--Fixed Footer-->
+                    <div class="footer fixed">
+
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        @*<input type="submit" class="btn btn-primary pull-right" id="btnCancel" name="btnCancel" value="Cancel">*@
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+
+                    <!-- /.col-xs--->
+                    <!-- End-->
+                }
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+@section scripts {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var val = $('input[type=radio][name=MaritalStatus]:checked').val();
+            if (val != "Dis") {
+
+                $('#family').show();
+            }
+            else {
+
+                $('#family').hide();
+            }
+
+
+        });
+
+
+        //HIDE/SHOW MARITAL STATUS CHECKBOX ATTRIBUTES ---NISCHAL
+        $(document).ready(function () {
+            $('.form-switch').on('change', function () {
+                $('.form').removeClass('active');
+                var formToShow = '.form-' + $(this).data('id');
+                $(formToShow).addClass('active');
+            });
+        });
+
+
+        $(document).ready(function () {
+
+         //start milayakoo
+
+        $(document).ready(function () {
+
+        $("#Province").change(function () {
+            $("#District").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getDistrictModify")',
+
+                dataType: 'json',
+
+                data: { id: $("#Province").val() },
+
+
+                success: function (districts) {
+
+
+                    $.each(districts, function (i, district) {
+                        $("#District").append('<option value="' + district.Value + '">' +
+                             district.Text + '</option>');
+
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve Province districts.' + ex);
+                }
+            });
+            return false;
+        })
+    });
+
+        //end milayakoo
+
+            var SelfRegistered = "@Model.SelfRegistered";
+
+
+            $('#btnApprove').click(function (e) {
+                //e.preventDefault();
+                document.getElementById("txtRemarks").setCustomValidity("");
+            });
+
+
+            $('#btnReject').click(function (e) {
+                //e.preventDefault();
+
+                if ($.trim($('#RejectRemarks textarea').val()) == "") {
+                    document.getElementById("txtRemarks").setCustomValidity("Reject Remarks is required");
+                    $('#RejectRemarks textarea').focus();
+                    return;
+                }
+                else {
+                    document.getElementById("txtRemarks").setCustomValidity("");
+                    $('#CustomerModification').submit();
+                }
+
+
+            });
+
+            $('#txtRemarks').on('keyup', function () {
+                document.getElementById("txtRemarks").setCustomValidity("");
+            });
+
+
+            //$('#Reject').click(function (e) {
+            //    e.preventDefault();
+            //    $('#RejectRemarks').show();
+            //    $('#Reject').hide();
+            //    $('#btnReject').show();
+            //    $('#RejectRemarks textarea').attr('required', true);
+            //    $('#RejectRemarks textarea').focus();
+
+            //});
+
+
+            //$('#txtremove').click(function () {
+            //    $('#RejectRemarks').hide();
+            //    $('#Reject').show();
+            //    $('#btnReject').hide();
+            //    $('#RejectRemarks textarea').removeAttr('required');
+            //});
+
+            if (SelfRegistered == "F") {
+                var ddlValue = $('#ddlCustProfile option:selected').val();
+
+                $.ajax({
+                    url: '@Url.Action("GetFeatureDetail", "Customer")',
+                    type: 'Get',
+                    data: { Profile: ddlValue },
+                    success: function (results) {
+                        $('#DataDetail').html(results)
+                    },
+                    error: function () {
+                        $('#DataDetail').html('Role Details could not be fetched at the moment')
+                    }
+                });
+            }
+
+
+        });
+
+        function SetActive(event) {
+            if ($('ul  li').hasClass('active')) {
+                $('ul li').removeClass('active');
+            }
+
+            if ($('ul li a').hasClass('active')) {
+                $('ul  li a').removeClass('active');
+            }
+            var att = $(event).attr('href');
+
+            $('ul li a[href="' + att + '"]').addClass('active');
+            $('ul li a[href="' + att + '"]').closest('li').addClass('active');
+
+
+        }
+
+        $(document).ready(function () {
+            var val = $('input[type=radio][name=Transaction][checked]').val();
+            if (val != "Dis") {
+                $('#Transaction1').show();
+                $('#familywe1').show();
+            }
+            else {
+                $('#Transaction1').hide();
+                $('#familywe1').hide();
+            }
+
+            var LimitType = $('input[type=radio][name=LimitType]:checked').val();
+            if (LimitType == "L") {
+                $('#manualtransaction').show();
+            }
+            else {
+                $('#manualtransaction').hide();
+            }
+
+            // var val = $('input[type=radio][name=DateRange][checked]').val();
+            // if (val != "Mo")
+            //{
+
+            //    var date = new Date();
+            //     date.setDate(date.getDate() + 7);
+            //     var futDate=date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
+
+            //     $('#EndDate').val(futDate);
+
+            //     $('#familywe1').show(500);
+
+            // }
+            // else {
+
+            //     var date = new Date();
+            //     date.setDate(date.getDate() + 30);
+            //      var futDate=date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
+
+            //      $('#EndDate').val(futDate);
+
+            //      $('#familywe1').show(500);
+
+            // }
+
+        });
+
+        var jQuery_1_10_2 = $.noConflict(true);
+    </script>
+}
+<!-- =============================================== -->

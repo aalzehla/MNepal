@@ -1,0 +1,353 @@
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\MNepalProject.dll.config
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\MNepalProject.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\MNepalProject.pdb
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Antlr3.Runtime.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Dapper.Data.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Dapper.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\EntityFramework.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\EntityFramework.SqlServer.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\FluentValidation.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Core.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Owin.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Host.SystemWeb.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Cookies.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Facebook.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Google.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.OAuth.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Twitter.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Web.Infrastructure.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Newtonsoft.Json.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Owin.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Net.Http.Formatting.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Helpers.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Http.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Http.WebHost.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Mvc.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Optimization.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Razor.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Deployment.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.WebPages.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Razor.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\WCF.MNepal.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\WebGrease.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\WCF.MNepal.pdb
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\WCF.MNepal.dll.config
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Antlr3.Runtime.pdb
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Dapper.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\EntityFramework.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\EntityFramework.SqlServer.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\FluentValidation.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Core.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Newtonsoft.Json.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Net.Http.Formatting.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Helpers.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Http.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Http.WebHost.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Mvc.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Razor.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.WebPages.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Deployment.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Razor.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Optimization.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Owin.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Host.SystemWeb.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Facebook.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Cookies.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.OAuth.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Google.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Twitter.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.csprojAssemblyReference.cache
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.csproj.CoreCompileInputs.cache
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.csproj.CopyComplete
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.dll
+E:\MNepalPlus_jan_1\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.pdb
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\MNepalProject.dll.config
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\MNepalProject.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\MNepalProject.pdb
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Antlr3.Runtime.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Dapper.Data.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Dapper.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\EntityFramework.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\EntityFramework.SqlServer.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\FluentValidation.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Newtonsoft.Json.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Owin.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Net.Http.Formatting.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Helpers.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Http.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Http.WebHost.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Mvc.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Optimization.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Razor.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.WebPages.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Razor.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\WCF.MNepal.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\WebGrease.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\WCF.MNepal.pdb
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\WCF.MNepal.dll.config
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Antlr3.Runtime.pdb
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Dapper.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\EntityFramework.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\EntityFramework.SqlServer.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\FluentValidation.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Newtonsoft.Json.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Net.Http.Formatting.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Helpers.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Http.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Http.WebHost.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Mvc.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Razor.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.WebPages.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Razor.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\System.Web.Optimization.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.csprojAssemblyReference.cache
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.csproj.CoreCompileInputs.cache
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.csproj.CopyComplete
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.dll
+C:\Users\Reshma Amatya\Desktop\API Update\MNepalPlus_jan_1\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.pdb
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\MNepalProject.dll.config
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\MNepalProject.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\MNepalProject.pdb
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Antlr3.Runtime.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Dapper.Data.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Dapper.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\EntityFramework.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\EntityFramework.SqlServer.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\FluentValidation.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Core.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Cookies.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Facebook.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Google.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.OAuth.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Twitter.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Web.Infrastructure.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Newtonsoft.Json.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Owin.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Net.Http.Formatting.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.Helpers.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.Http.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.Http.WebHost.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.Mvc.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.Optimization.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.Razor.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Deployment.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.WebPages.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Razor.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\WCF.MNepal.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\WebGrease.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\WCF.MNepal.pdb
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Antlr3.Runtime.pdb
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Dapper.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\EntityFramework.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\EntityFramework.SqlServer.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\FluentValidation.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Core.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Newtonsoft.Json.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Net.Http.Formatting.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.Helpers.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.Http.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.Http.WebHost.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.Mvc.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.Razor.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.WebPages.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Deployment.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Razor.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\System.Web.Optimization.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Facebook.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Cookies.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.OAuth.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Google.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Twitter.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.csprojAssemblyReference.cache
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.csproj.CopyComplete
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.pdb
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\bin\WCF.MNepal.dll.config
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.csproj.CoreCompileInputs.cache
+D:\MNepalPlus\MNepalProject\bin\MNepalProject.dll.config
+D:\MNepalPlus\MNepalProject\bin\MNepalProject.dll
+D:\MNepalPlus\MNepalProject\bin\MNepalProject.pdb
+D:\MNepalPlus\MNepalProject\bin\Antlr3.Runtime.dll
+D:\MNepalPlus\MNepalProject\bin\Dapper.Data.dll
+D:\MNepalPlus\MNepalProject\bin\Dapper.dll
+D:\MNepalPlus\MNepalProject\bin\EntityFramework.dll
+D:\MNepalPlus\MNepalProject\bin\EntityFramework.SqlServer.dll
+D:\MNepalPlus\MNepalProject\bin\FluentValidation.dll
+D:\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Core.dll
+D:\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.dll
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Cookies.dll
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.dll
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Facebook.dll
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Google.dll
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.OAuth.dll
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Twitter.dll
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Web.Infrastructure.dll
+D:\MNepalPlus\MNepalProject\bin\Newtonsoft.Json.dll
+D:\MNepalPlus\MNepalProject\bin\Owin.dll
+D:\MNepalPlus\MNepalProject\bin\System.Net.Http.Formatting.dll
+D:\MNepalPlus\MNepalProject\bin\System.Web.Helpers.dll
+D:\MNepalPlus\MNepalProject\bin\System.Web.Http.dll
+D:\MNepalPlus\MNepalProject\bin\System.Web.Http.WebHost.dll
+D:\MNepalPlus\MNepalProject\bin\System.Web.Mvc.dll
+D:\MNepalPlus\MNepalProject\bin\System.Web.Optimization.dll
+D:\MNepalPlus\MNepalProject\bin\System.Web.Razor.dll
+D:\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Deployment.dll
+D:\MNepalPlus\MNepalProject\bin\System.Web.WebPages.dll
+D:\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Razor.dll
+D:\MNepalPlus\MNepalProject\bin\WCF.MNepal.dll
+D:\MNepalPlus\MNepalProject\bin\WebGrease.dll
+D:\MNepalPlus\MNepalProject\bin\WCF.MNepal.pdb
+D:\MNepalPlus\MNepalProject\bin\WCF.MNepal.dll.config
+D:\MNepalPlus\MNepalProject\bin\Antlr3.Runtime.pdb
+D:\MNepalPlus\MNepalProject\bin\Dapper.xml
+D:\MNepalPlus\MNepalProject\bin\EntityFramework.xml
+D:\MNepalPlus\MNepalProject\bin\EntityFramework.SqlServer.xml
+D:\MNepalPlus\MNepalProject\bin\FluentValidation.xml
+D:\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Core.xml
+D:\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\MNepalPlus\MNepalProject\bin\Newtonsoft.Json.xml
+D:\MNepalPlus\MNepalProject\bin\System.Net.Http.Formatting.xml
+D:\MNepalPlus\MNepalProject\bin\System.Web.Helpers.xml
+D:\MNepalPlus\MNepalProject\bin\System.Web.Http.xml
+D:\MNepalPlus\MNepalProject\bin\System.Web.Http.WebHost.xml
+D:\MNepalPlus\MNepalProject\bin\System.Web.Mvc.xml
+D:\MNepalPlus\MNepalProject\bin\System.Web.Razor.xml
+D:\MNepalPlus\MNepalProject\bin\System.Web.WebPages.xml
+D:\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Deployment.xml
+D:\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Razor.xml
+D:\MNepalPlus\MNepalProject\bin\System.Web.Optimization.xml
+D:\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.xml
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.xml
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Facebook.xml
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Cookies.xml
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.OAuth.xml
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Google.xml
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Twitter.xml
+D:\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.csprojAssemblyReference.cache
+D:\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.csproj.CopyComplete
+D:\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.dll
+D:\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.pdb
+D:\MNepal\MNepalPlus\MNepalProject\bin\MNepalProject.dll.config
+D:\MNepal\MNepalPlus\MNepalProject\bin\MNepalProject.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\MNepalProject.pdb
+D:\MNepal\MNepalPlus\MNepalProject\bin\Antlr3.Runtime.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Dapper.Data.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Dapper.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\EntityFramework.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\EntityFramework.SqlServer.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\FluentValidation.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Core.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Cookies.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Facebook.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Google.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.OAuth.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Twitter.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Web.Infrastructure.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Newtonsoft.Json.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\Owin.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Net.Http.Formatting.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.Helpers.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.Http.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.Http.WebHost.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.Mvc.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.Optimization.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.Razor.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Deployment.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.WebPages.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Razor.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\WCF.MNepal.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\WebGrease.dll
+D:\MNepal\MNepalPlus\MNepalProject\bin\WCF.MNepal.pdb
+D:\MNepal\MNepalPlus\MNepalProject\bin\WCF.MNepal.dll.config
+D:\MNepal\MNepalPlus\MNepalProject\bin\Antlr3.Runtime.pdb
+D:\MNepal\MNepalPlus\MNepalProject\bin\Dapper.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\EntityFramework.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\EntityFramework.SqlServer.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\FluentValidation.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Core.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\Newtonsoft.Json.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Net.Http.Formatting.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.Helpers.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.Http.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.Http.WebHost.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.Mvc.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.Razor.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.WebPages.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Deployment.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.WebPages.Razor.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\System.Web.Optimization.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Facebook.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Cookies.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.OAuth.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Google.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.Twitter.xml
+D:\MNepal\MNepalPlus\MNepalProject\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\MNepal\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.csprojAssemblyReference.cache
+D:\MNepal\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.csproj.CopyComplete
+D:\MNepal\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.dll
+D:\MNepal\MNepalPlus\MNepalProject\obj\Debug\MNepalProject.pdb

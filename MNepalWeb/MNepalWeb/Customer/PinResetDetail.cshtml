@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "PinResetDetail";
+    Layout = null;
+}
+
+<!-- Start Data Show in Table -->
+<div id="PinResetDetail" class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Customer Pin Reset Detail</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+
+        @if (ViewData["dtableCustomerList"] == null)
+        {
+            <div class="panel-body"> <b>No Result Found !! </b> </div>
+        }
+        else if (ViewData["dtableCustomerList"] != null)
+        {
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Name</th>
+                        <th>Account Number</th>
+                        <th>Created Branch</th>
+                        <th>Created By</th>
+                        <th>Approved By</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (System.Data.DataRow dr in (ViewData["dtableCustomerList"] as System.Data.DataTable).Rows)
+                {
+                        <tr>
+                            <td> @dr["UserName"] </td>
+                            <td> @dr["Name"] </td>
+                            <td> @dr["BankAccountNumber"] </td>
+                            <td> @dr["UserBranchName"] </td>
+                            <td> @dr["CreatedBy"] </td>
+                            <td> @dr["ApprovedBy"] </td>
+                            <td>
+                                <a href="@Url.Action("PinReset","Customer", new { id = @dr["ClientCode"] } )">Reset</a>
+                            </td>
+                        </tr>
+                    } <!-- for each end-->
+                </tbody>
+            </table>
+        }
+
+    </div>
+</div>
+<!-- End Data Show in Table -->

@@ -1,0 +1,249 @@
+﻿@model MNepalWeb.Models.KYC
+@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = "Setting Change Password";
+}
+
+<style>
+
+    .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -25px;
+        position: relative;
+        z-index: 2;
+    }
+
+</style>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Settings
+        <small>Change Password</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i>Settings</a></li>
+        <li class="active">Change Password</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Center column -->
+        <div class="col-md-10">
+
+            <!-- Horizontal Form -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Change Password</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+
+                @using (Html.BeginForm("Index", "ChangePassword", FormMethod.Post, new { @id = "ChangePwdForm", @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    if (this.ViewData["password_messsage"] != null)
+                    {
+                        if (this.ViewData["message_class"].ToString() == "success_info")
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Success</h4> @this.ViewData["password_messsage"]
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Error</h4> @this.ViewData["password_messsage"]
+                            </div>
+                        }
+                    }
+                    <div class="box-body">
+                        <div class="container">
+                            <div class="row">
+
+                              
+                                <div class="col-md-8 form-group has-feedback">
+                              <label for="inputEmail3" class="col-sm-3 control-label">
+                            Old Password
+                             <b style="color:red">*</b>
+                             </label>
+            <div class="col-sm-8">
+               
+                <input type="password" class="form-control, form-control pwd1" id="oldPwd" name="txtOldPwd" placeholder="Old Password" maxlength="12" required>
+                <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+              
+                @*<input type="password" class="form-control" id="oldPwd" name="txtOldPwd" placeholder="Password" maxlength="12" required>*@
+
+            </div>
+            </div>     
+                               
+                                <div class="col-md-8 form-group has-feedback">
+                                    <label for="inputPassword3" class="col-sm-3 control-label">
+                                        New Password
+                                        <b style="color:red">*</b>
+                                    </label>
+
+                                    
+                                    <div class="col-sm-8">
+                                      
+                                        <input type="password" class="form-control, form-control pwd2" id="newPwd" name="txtNewPwd" placeholder="New Password" maxlength="12" required>
+                                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow2"></span>
+                                       
+
+                                        @*<input type="password" class="form-control" id="newPwd" name="txtNewPwd" placeholder="Password" maxlength="12" required>*@
+
+                                    </div>
+
+                                  
+                                  
+                                </div>
+
+                                <div class="col-md-8 form-group has-feedback">
+                                    <label for="inputPassword4" class="col-sm-3 control-label">
+                                        ReType Password
+                                        <b style="color:red">*</b>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input type="password" class="form-control, form-control pwd3" id="retypePassword" name="retypePassword" placeholder="Retype password" maxlength="12" required>
+                                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow3"></span>
+                                         @*<input type="password" class="form-control" id="retypePassword" name="retypePassword" placeholder="Retype password" maxlength="12" required>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        @*<button type="submit" class="btn btn-default">Cancel</button>*@
+                        <button type="submit" class="btn btn-info pull-right">Change Password</button>
+                    </div>
+                    <!-- /.box-footer -->
+                }
+            </div>
+            <!-- /.box -->
+
+        </div>
+
+
+        <div class="col-md-2"></div>
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+@section scripts{
+
+    <!-- Load jQuery and the validate plugin -->
+    @*<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>*@
+
+    @*<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>*@
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
+
+
+
+    <!-- jQuery Form Validation code -->
+    <script>
+
+        $(document).ready(function () {
+            //          
+                $(".btnShow1").mousedown(function () {
+                $(".pwd1").attr("type", "text");
+            });
+            $(".btnShow1").on("mouseleave", function () {
+                $(".pwd1").attr("type", "password");
+            });
+            //
+
+            //          
+            $(".btnShow2").mousedown(function () {
+                $(".pwd2").attr("type", "text");
+            });
+            $(".btnShow2").on("mouseleave", function () {
+                $(".pwd2").attr("type", "password");
+            });
+            //
+
+            //          
+            $(".btnShow3").mousedown(function () {
+                $(".pwd3").attr("type", "text");
+            });
+            $(".btnShow3").on("mouseleave", function () {
+                $(".pwd3").attr("type", "password");
+            });
+            //
+            $('#ChangePwdForm').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    txtOldPwd: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The old password is required and cannot be empty'
+                            },
+                            stringLength: {
+                                min: 8,
+                                max: 12,
+                                message: 'The password must be of 8-12 characters'
+                            }
+                        }
+                    },
+                    txtNewPwd: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The new password is required and cannot be empty'
+                            },
+                            //stringLength: {
+                            //    max: 12,
+                            //    message: 'Password should be 12 character long'
+                            //},
+                            regexp: {
+                                regexp: /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!$%@@#£€*?&]{8,12}$/,
+                                message: 'New Password must be of 8-12 characters long which should include 1 uppercase & 1 number'
+                            },
+
+                            different: {
+                                field: 'txtOldPwd',
+                                message: 'The new password and old password should not be same. Please retry!' 
+
+                            }
+                        }
+                    },
+                    retypePassword: {
+                        validators: {
+                            notEmpty: {
+                                message: 'This field is required and cannot be empty'
+                            },
+                            //stringLength: {
+                            //    max: 12,
+                            //    message: 'Password should be 12 character long'
+                            //},
+                            identical: {
+                                field: 'txtNewPwd',
+                                message: 'The Password dont match. Please retry!'
+                            },
+                            regexp: {
+                                regexp: /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!$%@@#£€*?&]{8,12}$/,
+                                message: 'Password must be of 8-12 characters long which should include 1 uppercase & 1 number'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}

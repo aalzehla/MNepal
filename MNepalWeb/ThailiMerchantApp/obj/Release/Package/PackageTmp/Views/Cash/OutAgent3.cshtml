@@ -1,0 +1,793 @@
+﻿
+@{
+    ViewBag.Title = "OutAgent3";
+}
+
+
+@model ThailiMerchantApp.Models.MNFundTransfer
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<!-- Main content -->
+
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />
+<style>
+    .image_icon {
+        width: 50px;
+    }
+
+    .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        margin-right: 13px;
+        position: relative;
+        z-index: 2;
+    }
+</style>
+
+<!-- Main content -->
+<div class="main-content">
+    <div class="two-colbg">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6">
+
+                    <section class="internet-payment pad-50">
+                        <div class="top-section">
+                            <h2 class="title">Cash Out</h2>
+                            <p>Please enter your customer mobile number and insert amount with the transaction code to cash out.</p>
+                        </div>
+
+                        <section class="instant-transactions">
+                            <div class="top-section clearfix">
+                                @*<h2 class="title">Instant Transactions</h2>*@
+                                @*<a href="#" class="customize">customize</a>*@
+                            </div>
+
+                            <div class="transactions-grid clearfix">
+                                <div class="item load-wallet">
+                                    <div class="item-inner">
+                                        @*<a href="~/FundTransfer/LoadWalletBW">*@
+                                        <a href="~/LoadWallet/EBanking">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-load-wallet"></i>
+                                                <span>Load Wallet</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item transfer-fund">
+                                    <div class="item-inner"  style="padding:12px;">
+                                        <a href="~/FundTransfer/Index">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-transfer-funds"></i>
+                                                <span>Transfer funds</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        @*<a href="~/UtilityPay/NTTopUp">*@
+                                        <a href="~/UtilityPay/TopUp">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-top-up"></i>
+                                                <span>Top Up</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item recharge">
+                                    <div class="item-inner">
+                                        <a href="~/UtilityPay/NewRecharge">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-recharge"></i>
+                                                <span>Recharge</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+                                @*<div class="item withdraw">
+                                        <div class="item-inner">
+                                            <a href="~/FundTransfer/Withdraw">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-wallet"></i>
+                                                    <span>Withdraw </span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>*@
+                                <!-- /item -->
+                                <div class="item internet">
+                                    <div class="item-inner" style="padding:1px;">
+                                        <a href="~/FundTransfer/Withdraw">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-wallet" id="icon-withdraw"></i>
+                                                <span id="withdraw-text">Bank Transfer </span>
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/MerchantPayment/MerchantRestaurant">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-merchant"></span>
+                                                <span class="merchant-text">Merchants</span>
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/Cash/OutAgent3">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-cashout"></span>
+                                                <span class="cashout-text">Cash Out</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/Cash/In">
+                                            <div class="content-inner">
+                                                <img src="~/Content/assets/img/icons/icon-cashin.svg" style="max-width: 79%;" />
+
+                                                <span style="color:#00aeef;">Cash In</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+                            </div>
+                        </section>
+
+                        <!-- /internet-payment -->
+                    </section>
+                </div>
+
+                <div class="col-lg-6 right-form">
+                    <section class="content-inner pad-50">
+
+                        @*@using (Html.BeginForm(new { @id = "frmCashOutAgent3", @name = "frmCashOutAgent3", @class = "form-horizontal" }))*@
+                        @using (Html.BeginForm("OutAgent3", "Cash", FormMethod.Post, new { @id = "frmCashOutAgent3", @name = "frmCashOutAgent3", @class = "form-horizontal", @autocomplete = "off" }))
+                        {
+                            <div id="ajaxResponse">
+                            </div>
+
+                            <div class="col-xs-12">
+                                <div class="box box-info">
+
+                                    @if (this.ViewData["recharge_message"] != null)
+                                    {
+                                        if (this.ViewData["message_class"].ToString() == "success_info")
+                                        {
+                                            <div class="alert alert-success">
+                                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                <h4>Success</h4> @this.ViewData["recharge_message"]
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-danger">
+                                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                <h4>Error</h4> @this.ViewData["recharge_message"]
+                                            </div>
+                                        }
+                                    }
+
+                                            <div class="box-body">
+                                                <!-- /.form-group -->
+
+                                                <div class="form-group">
+                                                    <label>Agent Mobile Number<span style="color:red">*</span></label>
+                                                    <input type="text" id="recipient" name="txtRecipientNo" class="form-control" required title="Please use Recipient Mobile number" maxlength="10" onkeypress="return isNumber(event)" value="@ViewBag.AgentMobileNo" readonly />
+                                                    @*<div id="check">  </div>*@
+                                                </div>
+                                                <div id="AgentMobileNo" style="color:red;"></div>
+
+                                                <div class="form-group">
+                                                    <label>Recipient Mobile Number<span style="color:red">*</span></label>
+                                                    <input type="text" name="txtSenderMobileNo" class="form-control" id="tdSenderMobileNo" placeholder="Customer Mobile Number" data-target="SenderMobileNo" maxlength="10" onpaste="return false" onkeypress="return isNumber(event)" oninput="checkValidation()"/>
+                                                    <div id="check">  </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div id="check" style="margin-top:-9px;"></div>
+                                                    <div id="MobNo" style="color:red; margin-top:-11px;"></div>
+                                                </div>
+                                                <div id="CustMobileNo" style="color:red;"></div>
+
+                                                <div class="form-group">
+                                                    <label>Transaction Code<span style="color:red">*</span></label>
+                                                    <input type="text" name="txtTransactionCode" class="form-control" maxlength="6" id="txtTransactionCode" placeholder="Transaction Code" data-target="txtTransactionCode" onpaste="return false" onkeypress="return isNumber(event)" oninput = "checkValidation()" />
+
+                                                </div>
+                                                <div id="TransactionCode" style="color:red;"></div>
+
+                                                @*<div class="form-group">
+            <label>Amount<span style="color:red">*</span></label>
+            <input type="text" id="amount" name="txtAmount" class="form-control" placeholder="Amount" onkeypress="return NumberDot(event)"
+                   required maxlength="6" />
+        </div>*@
+                                                @*<div id="Amt" style="color:red;"></div>*@
+                                                <div class="form-group">
+                                                    <label>Amount<span style="color:red">*</span></label>
+                                                    <div class="form-group input-group">
+
+                                                        <div class="form-control col-2">NPR.</div>
+                                                        <input type="text" id="amount" name="txtAmount" class="form-control" placeholder="Amount" onkeypress="return NumberDot(event)"
+                                                               maxlength="5" autocomplete="off" oninput="checkValidation()" />
+                                                    </div>
+                                                </div>
+                                                <div id="Amt" style="color:red;"></div>
+
+                                                <div class="form-group">
+                                                    <label for="@Html.NameFor(x=>x.pin)"> @Html.DisplayNameFor(x => x.pin)<span style="color:red">*</span></label>
+
+                                                    @Html.PasswordFor(model => model.pin, new { @class = "form-control pwd1", @required = "required", @maxlength = "4", @placeholder = "PIN", @onkeypress = "return isNumber(event)", @autocomplete = "new-password", @onpaste = "return false", @oninput = "checkValidation()" })
+                                                    @Html.ValidationMessageFor(model => model.pin, "", new { @class = "text-danger" })
+                                                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+
+                                                </div>
+
+                                                <div class="form-group" id="TPin" style="color:red; margin-top:-11px;"></div>
+                                            </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer" style="display:none;">
+                                        <input class="btn btn-blue btn-big col-md-5" id='btnAccept' type="button" value="Accept" />
+                                        @*<input class="btn btn-default btn-big col-md-5" id='btnDeny' type="button" value="Deny" />*@
+                                    </div>
+
+                                    <div class="box-footer">
+                                        <input type="submit" class="btn btn-blue btn-big col-md-5" id='btnSubmitCashOut' type="button" value="Accept" />
+                                        <input class="btn btn-red btn-big col-md-5" id='btnDeny' type="button" value="Deny" />
+                                    </div>
+
+                                    <div id="AddQuestion" />
+                                </div>
+                            </div>
+                        }
+
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Success modal -->
+<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/success-tick.svg" alt="">
+                </div>
+                <p class="msg">@*Success!*@</p>
+                <span class="msg">
+                    Transaction Confirmed
+                </span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Failure modal -->
+<div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/denied-cross.svg" alt="">
+                </div>
+                <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
+                <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Success modal for deny -->
+<div class="modal fade common-modal" id="successDenyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/success-tick.svg" alt="">
+                </div>
+                <p class="msg">@*Success!*@</p>
+                <span class="msg">
+                    Deny Confirmed
+                </span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts{
+    <!-- Load jQuery and the validate plugin -->
+    @*<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>*@
+
+    <!--jQuery Form Validation code -->
+
+
+
+    <script type="text/javascript">
+        $(".btnShow1").mousedown(function () {
+            $(".pwd1").attr("type", "text");
+        });
+        $(".btnShow1").on("mouseleave", function () {
+            $(".pwd1").attr("type", "password");
+        });
+
+        document.getElementById("successModal").onclick = function () {
+            var url = '@Url.Action("Index", "AgentDashboard")';
+            window.location.href = url;
+        };
+        document.getElementById("successDenyModal").onclick = function () {
+            var url = '@Url.Action("Index", "AgentDashboard")';
+            window.location.href = url;
+        };
+
+
+        function checkValidation() {
+            var CustNo = $("[name='txtSenderMobileNo']").val();
+            var amount = $("[name='txtAmount']").val();
+            var pin = $("[name='pin']").val();
+            var transactionPin = $("[name='txtTransactionCode']").val();
+
+            if (CustNo.trim() == "") {
+                check = 1;
+                $("#MobNo").html("");
+                $("#MobNo").append("<small>" + "Please Enter the Mobile Number" + "</small>");
+                $("#MobNo").show();
+                $("#check").hide();
+            }
+            else if ((CustNo.substring(0, 2) != "98")) {
+                check = 1;
+                $("#MobNo").html("");
+                $("#MobNo").append("<small>" + "Mobile number must start with 98" + "</small>");
+                $("#MobNo").show();
+                $("#check").hide();
+            }
+            else if (CustNo.length != 10) {
+                check = 1;
+                $("#MobNo").html("");
+                $("#MobNo").append("<small>" + "Mobile number must be of 10 digits" + "</small>");
+                $("#MobNo").show();
+                $("#check").hide();
+            }
+            else {
+                check = 0;
+                $("#MobNo").hide();
+            }
+            debugger;
+            if ((amount.trim() == "") || (amount.trim() == "0.00") || (amount.trim() == "0")) {
+                $("#Amt").html("");
+                $("#Amt").append("<small>" + "Please Enter valid Amount" + "</small>");
+                $("#Amt").show();
+            }
+            else if (amount.length < 2) {
+                $("#Amt").html("");
+                $("#Amt").append("<small>" + "The Amount must be more than 2 and less than 4 characters long" + "</small>");
+                $("#Amt").show();
+            }
+            else {
+                $("#Amt").hide();
+            }
+
+            if (pin.trim() == "") {
+                $("#TPin").html("");
+                $("#TPin").append("<small>" + "Please Enter the T-Pin" + "</small>");
+                $("#TPin").show();
+            }
+            else if (pin.length != 4) {
+                $("#TPin").html("");
+                $("#TPin").append("<small>" + "T-Pin must be 4 character long" + "</small>");
+                $("#TPin").show();
+            }
+            else {
+                $("#TPin").hide();
+            }
+
+            if (transactionPin.trim() == "") {
+                $("#TransactionCode").html("");
+                $("#TransactionCode").append("<small>" + "Please Enter the Transaction Pin" + "</small>");
+                $("#TransactionCode").show();
+            }
+            else if (transactionPin.length != 6) {
+                $("#TransactionCode").html("");
+                $("#TransactionCode").append("<small>" + "Transaction Pin must be 6 character long" + "</small>");
+                $("#TransactionCode").show();
+            }
+            else {
+                $("#TransactionCode").hide();
+            }
+        }
+
+        // for decimal amount (Restricts input for the given textbox to the given inputFilter.)
+        function setInputFilter(textbox, inputFilter) {
+            ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+                textbox.addEventListener(event, function () {
+                    if (inputFilter(this.value)) {
+                        this.oldValue = this.value;
+                        this.oldSelectionStart = this.selectionStart;
+                        this.oldSelectionEnd = this.selectionEnd;
+                    } else if (this.hasOwnProperty("oldValue")) {
+                        this.value = this.oldValue;
+                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                    }
+                });
+            });
+        }
+
+        //setInputFilter(document.getElementById("amount"), function (value) {
+        //    if (value >= 10000) {
+        //        return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 10000);
+        //    }
+        //    else {
+        //        return /^\d*[.,]?\d{0,2}$/.test(value) && (value === "" || parseInt(value) <= 10000);
+
+        //    }
+
+
+        //});
+
+           $(document).ready(function () {
+            $('input#amount').blur(function () {
+                var num = parseFloat($(this).val());
+                var cleanNum = num.toFixed(2);
+                $(this).val(cleanNum);
+            });
+
+               $('input#amount').blur(function (e) {
+                   var value = parseFloat(e.target.value);
+                   var newValue = (isNaN(value) ? 0 : value);
+
+                   var cleanNum = newValue.toFixed(2);
+                   $(this).val(cleanNum);
+               });
+        });
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+
+        ///for amount input number and dot only
+        function NumberDot(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+        $(document).ready(function () {
+            $('input#amount').blur(function () {
+                var num = parseFloat($(this).val());
+                var cleanNum = num.toFixed(2);
+                $(this).val(cleanNum);
+            });
+        });
+        $("#tdSenderMobileNo").change(function (event) {
+            event.preventDefault();
+
+            var id = $("#tdSenderMobileNo").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetCheckingUserName", "Cash")',
+                data: { "Username": id },
+                success: function (data, textStatus) {
+                    var markup = data;
+                    if (check == 0) {
+                        if (data == "Success") {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").css("font-size", "80%");
+                             $("#check").html("Not valid Customer Number").show();
+                        }
+                        else if (data == "AgentRestricted") {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Transaction restricted to Agent").show();
+                            //   $('#btnSubmit').attr("disabled", true);
+                        }
+                        else if (data == "MerchantRestricted") {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Transaction restricted to Merchant").show();
+                            //  $('#btnSubmit').attr("disabled", true);
+                        }
+                        else {
+                            $("#check").html("");
+                            $("#check").css("color", "green");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Valid Number").show();
+                        }
+                        if (id == "")
+                        {
+                            $("#check").hide();
+                        }
+                    }
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+        });
+
+        $(document).ready(function () {
+
+            //$('#frmCashOutAgent3').bootstrapValidator({
+            //    feedbackIcons: {
+            //        valid: 'glyphicon glyphicon-ok',
+            //        invalid: 'glyphicon glyphicon-remove',
+            //        validating: 'glyphicon glyphicon-refresh'
+            //    },
+            //    fields: {
+            //        pin: {
+            //            validators: {
+            //                notEmpty: {
+            //                    message: 'The pin is required and cannot be empty'
+            //                },
+            //                stringLength: {
+            //                    max: 4,
+            //                    min: 4,
+            //                    message: 'The pin must be more than 4 and less than 4 characters long'
+            //                }
+            //            }
+            //        },
+            //        txtSenderMobileNo: {
+            //            validators: {
+
+            //                regexp: {
+            //                    regexp: /^[9][8][0-9]{8}$/,
+            //                    message: 'Input value is not a valid mobile format'
+            //                },
+            //                notEmpty: {
+            //                    message: 'The mobile number is required and cannot be empty'
+            //                }
+            //            }
+
+            //        },
+
+            //        txtAmount: {
+            //            validators: {
+            //                //integer: {
+            //                   // message: 'Please Enter valid Amount'
+            //                //},
+            //                notEmpty: {
+            //                    message: 'The Amount is required and cannot be empty'
+            //                },
+            //                stringLength: {
+
+            //                    min: 2,
+
+            //                     message: 'The Amount must be more than 2 digit'
+            //                }
+            //            }
+            //        },
+
+            //        txtTransactionCode: {
+            //            validators: {
+            //                notEmpty: {
+            //                    message: 'The Transaction Code is required and cannot be empty'
+            //                },
+            //                stringLength: {
+            //                    max: 6,
+            //                    min: 6,
+            //                    message: 'The Transaction Code must be 6 charactor long'
+            //                }
+            //            }
+            //        }
+            //    }
+            //});
+
+            $("#ajaxResponse").hide();
+
+            $('#btnSubmitCashOut').click(function (e) {
+                debugger;
+                status = "1";
+                var recipientNo = $("[name='txtRecipientNo']").val();
+                var umobile = $("[name='txtSenderMobileNo']").val();
+                var transactionCode = $("[name='txtTransactionCode']").val();
+                var amount = $("[name='txtAmount']").val();
+                var pin = $("[name='pin']").val();
+
+                if ((recipientNo != "") && (transactionCode != "") && (amount != "") && (pin != "") && (umobile != "") && (status != "")) {
+
+                    var dataToPost = {
+                        mobile: recipientNo,
+                        da: umobile,
+                        transactionCode: transactionCode,
+                        amount: amount,
+                        pin: pin,
+                        status: status
+                    };
+
+                    var y = $('#recipient').val();
+
+                    e.preventDefault(); //prevent the default action
+
+                    $.ajax({
+                        url: '@Url.Action("OutAgent3", "Cash")',
+                          type: 'POST',
+                          data: dataToPost,
+                          cache: false,
+                          async: false,
+                          success: function (data) {
+                              //alert('success');
+                              //alert(data.responseCode);
+                              //alert(data.responseText);
+
+                              if (data.responseCode == "200") {
+                                  debugger;
+                                  $("#ajaxResponse").html("");
+                                  var resp = JSON.parse(data.responseText);
+                                  $('#successModal').modal("show");
+
+                                  $("#pin").val("");
+                                  $("#tdSenderMobileNo").val("");
+                                  $("#txtTransactionCode").val("");
+                                  $("#amount").val("");
+                                  $("#check").hide();
+                                  $("#ajaxResponse").show();
+                                  //$('#btnNew').show();
+                                  //$('#btnSubmit').hide();
+                                  //$('#clearButton').hide();
+                              }
+                              //display error message
+                              else {
+                                  $("#message").html("");
+                                  $("#message").append(data.responseText);
+                                  $('#failureModal').modal("show");
+                              }
+                          },
+                          error: function (jqXHR, textStatus, errorThrown) {
+                              $("#message").html("");
+                              $("#message").append("Failed to retrieve.");
+                              $('#failureModal').modal("show")
+                          },
+                          //capture the request before it was sent to server
+                          beforeSend: function (jqXHR, settings) {
+                              //adding some Dummy data to the request
+                              settings.data += "&dummyData=whatever";
+                              //disable the button until we get the response
+                              $('#btnSubmit').attr("disabled", true);
+                          },
+                          complete: function (jqXHR, textStatus) {
+                              //enable the button
+                              $('#btnSubmit').attr("disabled", false);
+                          }
+                      });
+
+                  }
+                else {
+                    checkValidation();
+                      $("#message").html("");
+                      $("#message").append("Please Enter the required fields.");
+                      $('#failureModal').modal("show");
+                  }
+
+             });
+
+            $('#btnDeny').click(function (e) {
+                debugger;
+                status = "0";
+                var recipientNo = $("[name='txtRecipientNo']").val();
+                var umobile = $("[name='txtSenderMobileNo']").val();
+                var transactionCode = $("[name='txtTransactionCode']").val();
+                var amount = $("[name='txtAmount']").val();
+                var pin = $("[name='pin']").val();
+
+                if ((recipientNo != "") && (transactionCode != "") && (amount != "") && (pin != "") && (umobile != "") && (status != "")) {
+
+                    var dataToPost = {
+                        mobile: recipientNo,
+                        da: umobile,
+                        transactionCode: transactionCode,
+                        amount: amount,
+                        pin: pin,
+                        status: status
+                    };
+
+                    var y = $('#recipient').val();
+
+                    e.preventDefault(); //prevent the default action
+
+                    $.ajax({
+                        url: '@Url.Action("OutAgentDeny", "Cash")',
+                        type: 'POST',
+                        data: dataToPost,
+                        cache: false,
+                        async: false,
+                        success: function (data) {
+                            //alert('success');
+                            //alert(data.responseCode);
+                            //alert(data.responseText);
+
+                            if (data.responseCode == "200") {
+                                debugger;
+                                $("#ajaxResponse").html("");
+                                $('#successDenyModal').modal("show");
+
+                                $("#pin").val("");
+                                $("#tdSenderMobileNo").val("");
+                                $("#txtTransactionCode").val("");
+                                $("#amount").val("");
+                            }
+                            //display error message
+                            else {
+                                $("#message").html("");
+                                $("#message").append(data.responseText);
+                                $('#failureModal').modal("show");
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $("#message").html("");
+                            $("#message").append("Failed to retrieve.");
+                            $('#failureModal').modal("show")
+                        },
+                        //capture the request before it was sent to server
+                        beforeSend: function (jqXHR, settings) {
+                            //adding some Dummy data to the request
+                            settings.data += "&dummyData=whatever";
+                            //disable the button until we get the response
+                            $('#btnSubmit').attr("disabled", true);
+                        },
+                        complete: function (jqXHR, textStatus) {
+                            //enable the button
+                            $('#btnSubmit').attr("disabled", false);
+                        }
+                    });
+
+                }
+                else {
+                    checkValidation();
+                    $("#message").html("");
+                    $("#message").append("Please Enter the required fields.");
+                    $('#failureModal').modal("show");
+                }
+
+            });
+
+         });
+
+    </script>
+}

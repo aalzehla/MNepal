@@ -1,0 +1,1527 @@
+﻿
+
+
+@model ThailiMerchantApp.Models.UserInfo
+
+@{
+    ViewBag.Title = "CreateRegistration";
+
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+
+<link href="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+@*<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>*@
+
+<section class="content-header">
+    <h1>
+        Customer
+        <small>Registration</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Customer</a></li>
+        <li class="active"> Registration</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+
+
+        <!-- Start -->
+        <div class="col-xs-10">
+
+            @using (Html.BeginForm("CreateRegistration", "CustomerRegApp", FormMethod.Post, new { @id = "CustomerRegAppForm", @name = "CustomerRegAppForm", @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                if (this.ViewData["registration_message"] != null)
+                {
+                    if (this.ViewData["message_class"].ToString() == "success_info")
+                    {
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4> @this.ViewData["registration_message"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error</h4> @this.ViewData["registration_message"]
+                        </div>
+                    }
+                }
+
+                <div id="validError">
+
+                </div>
+                <div>
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#BasicDetails" aria-controls="BasicDetails" role="tab" data-toggle="tab">Basic Details</a></li>
+                        <li role="presentation"><a href="#PersonalDetails" aria-controls="PersonalDetails" role="tab" data-toggle="tab">Personal Details</a></li>
+                        <li role="presentation"><a href="#LocationDetails" aria-controls="LocationDetails" role="tab" data-toggle="tab">Location Details</a></li>
+                        <li role="presentation"><a href="#DocIdentification" aria-controls="DocIdentification" role="tab" data-toggle="tab">Document Identification</a></li>
+
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <!--Login info-->
+                        <div role="tabpanel" class="tab-pane active" id="BasicDetails">
+
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Basic Details</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">UserName:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="tel" class="form-control" id="UserName" name="txtUserName" maxlength="10" required title="Please use mobile Number" placeholder="Please use the Mobile Number" onkeypress="return isNumberKey(event)" />
+                                                    <label id="check"> Please use the Mobile Number</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">FirstName:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="FName" name="txtFirstName" placeholder="First Name" maxlength="30" style="text-transform: capitalize" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">MiddleName:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="MName" name="txtMiddleName" placeholder="Middle Name" maxlength="30" style="text-transform: capitalize" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">LastName:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="LastName" name="txtLastName" placeholder="Last Name" maxlength="30" style="text-transform: capitalize" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Gender:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+
+
+                                                    <select class="form-control select2" id="Gender" name="txtGender" style="width: 100%;">
+                                                        <option value="SelectGender" selected="selected" disabled>----Select Gender----</option>
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                    </select>
+                                                    @*<input type="text" class="form-control" id="GenderSelected" name="txtGenderSelected" maxlength="10" />*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Date Of Birth:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control date-picker", @maxlength = "10", @placeholder = "DD/MM/YYYY" } })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Nationality:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="Nationality" name="txtNationality" placeholder="Nationality" maxlength="10" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                </div> <!--box body end-->
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+
+                            <a href="#PersonalDetails" aria-controls="PersonalDetails" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Personal Details>></a>
+                        </div>
+
+                        <!-- /.box -->
+                        <!--Costumer Detail-->
+                        <div role="tabpanel" class="tab-pane" id="PersonalDetails">
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Personal Details</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label class="control-label col-sm-4">Father's Name<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="FatherName" name="txtFatherName" maxlength="40" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label class="control-label col-sm-4">Mother's Name<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="MotherName" name="txtMotherName" maxlength="40" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Grandfather's Name:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+
+                                                    <input type="text" class="form-control" id="GrandFatherName" name="txtGrandFatherName" maxlength="30" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Occupation:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control select2" id="Occupation" name="txtOccupation" style="width: 100%;">
+                                                        <option value="SelectOccupation" selected="selected" disabled>----Select Occupation----</option>
+                                                        <option value="Professional">Professional</option>
+                                                        <option value="Govt.Sector">Government Sector</option>
+                                                        <option value="Business">Business</option>
+                                                        <option value="PrivateSector">Private Sector</option>
+                                                        <option value="PublicSector">Public Sector</option>
+                                                        <option value="Others">Others</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.MaritalStatus, new { @class = "control-label col-sm-4" })
+                                                <div class="col-sm-8">
+                                                    <label class="radio-inline">
+                                                        @Html.RadioButtonFor(x => x.MaritalStatus, "U", new { @checked = "checked" }) Unmarried
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        @Html.RadioButtonFor(x => x.MaritalStatus, "M") Married
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        @Html.RadioButtonFor(x => x.MaritalStatus, "D") Divorced
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="family" style="display:none;">
+                                            @*<div class="row">*@
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Spouse Name:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(x => x.SpouseName, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Pan Number:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="PanNo" name="txtPanNo" placeholder="Pan Number" maxlength="10" onkeypress="return isNumberKey(event)" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+
+                            <!-- /.box -->
+                            <a href="#BasicDetails" aria-controls="BasicDetails" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Basic Details</a>
+                            <a href="#LocationDetails" aria-controls="LocationDetails" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Location Details >></a>
+                        </div>
+                        <!--Personal Detail end-->
+                        <!-- /.box -->
+                        <!--Location detail add-->
+                        <div role="tabpanel" class="tab-pane" id="LocationDetails">
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Location Details</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h2 class="box-title">Address Information</h2>
+                                        </div>
+                                        <!-- /.box-header -->
+
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4 header">
+                                                        Permanent Address
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4 header">
+                                                        Current Address
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Tole /Street /Road:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+
+                                                        <input type="text" class="form-control" id="PStreet" name="PStreet" placeholder="Tole/Street/Road" maxlength="45" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Tole /Street /Road:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+
+                                                        <input type="text" class="form-control" id="CStreet" name="CStreet" placeholder="Tole/Street/Road" maxlength="45" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Province:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        @Html.DropDownList("PProvince", ViewBag.PProvince as List<SelectListItem>, "--Select Province--", new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Province:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        @Html.DropDownList("CProvince", ViewBag.CProvince as List<SelectListItem>, "--Select Province--", new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">District:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-6">
+                                                        @Html.DropDownList("PDistrictID", new SelectList(string.Empty, "Value", "Text"), "--Select District--", new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">District:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-6">
+                                                        @Html.DropDownList("CDistrictID", new SelectList(string.Empty, "Value", "Text"), "--Select District--", new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        VDC / Municipality:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+
+                                                        <input type="text" class="form-control" id="PVDC" name="txtPVDC" placeholder="VDC/Municipality" maxlength="45" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        VDC / Municipality:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+
+                                                        <input type="text" class="form-control" id="CVDC" name="txtCVDC" placeholder="VDC/Municipality" maxlength="45" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">House No.:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="PHouseNo" name="txtPHouseNo" placeholder="House No." maxlength="45" onkeypress="return isNumberKey(event)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">House No:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="CHouseNo" name="txtCHouseNo" placeholder="House No." maxlength="45" onkeypress="return isNumberKey(event)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Ward No.:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+
+                                                        <input type="text" class="form-control" id="PWardNo" name="txtPWardNo" placeholder="Ward No" maxlength="3" onkeypress="return isNumberKey(event)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Ward No.:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+
+                                                        <input type="text" class="form-control" id="CWardNo" name="txtCWardNo" placeholder="Ward No" maxlength="3" onkeypress="return isNumberKey(event)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <a href="#PersonalDetails" aria-controls="PersonalDetails" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Personal Details</a>
+                            <a href="#DocIdentification" aria-controls="DocIdentification" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Document Identification >></a>
+
+                        </div>
+                        <!--end profile-->
+                        <!--Bank Account-->
+                        <div role="tabpanel" class="tab-pane" id="DocIdentification">
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Document Identification</h3>
+                                </div>
+                                <div class="box box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label class="control-label col-sm-4">Upload Passport Size Photo:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="file" id="PassportPhoto" name="PassportPhoto" />
+                                                    <label id="image2"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Document Type:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control select2" id="Document" name="txtDocument" style="width: 100%;">
+                                                        <option value="SelectDocument" selected="selected" disabled>----Select Document----</option>
+                                                        <option value="DocCitizenship">Citizenship</option>
+                                                        @*<option value="DocLicense">License</option>*@
+                                                        <option value="DocPassport">Passport</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <div id="citizenship" style="display:none;">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Citizenship</h3>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">
+                                                            Citizenship No:
+                                                            <b style="color:red;">*</b>
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" id="Citizenship" name="txtCitizenship" placeholder="Citizenship" maxlength="16" onkeypress="return isNumberKey(event)" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">Issue Date for Citizenship:<b style="color:red;">*</b></label>
+                                                        <div class="col-sm-6">
+                                                            @Html.EditorFor(model => model.CitizenshipIssueDate, new { htmlAttributes = new { @class = "form-control date-picker", @maxlength = "10", @placeholder = "DD/MM/YYYY" } })
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">
+                                                            Place of Issue for Citizenship:
+                                                            <b style="color:red;">*</b>
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" id="CitizenshipPlaceOfIssue" name="txtCitizenshipPlaceOfIssue" placeholder=" Place of Issue for Citizenship" maxlength="35" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--photo-->
+                                            <br />
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-8">
+                                                            @Html.Label("Front:", new { @class = "control-label col-md-2" })
+                                                            <div class="col-md-10">
+                                                                <input type="file" id="Front" name="Front" />
+                                                                <label id="image"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-8">
+                                                            @Html.Label("Back:", new { @class = "control-label col-md-2" })
+                                                            <div class="col-md-10">
+                                                                <input type="file" id="Back" name="Back" />
+                                                                <label id="image1"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="passport" style="display:none;">
+                                        <!--passport start-->
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Passport</h3>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">
+                                                            Passport No:
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" id="Passport" name="txtPassport" placeholder="Passport" maxlength="15" onkeypress="return isNumberKey(event)" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">Issue Date for Passport:</label>
+                                                        <div class="col-sm-6">
+                                                            @Html.EditorFor(model => model.PassportIssueDate, new { htmlAttributes = new { @class = "form-control date-picker", @maxlength = "10", @placeholder = "DD/MM/YYYY" } })
+
+                                                            @*<input type="text" class="form-control" id="PassportIssueDate" name="txtPassportIssueDate" placeholder="Issue Date for Passport" maxlength="45" />*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">
+                                                            Expire Date for Passport:
+                                                            @*<b style="color:red;">*</b>*@
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            @Html.EditorFor(model => model.PassportExpireDate, new { htmlAttributes = new { @class = "form-control date-picker", @maxlength = "10", @placeholder = "DD/MM/YYYY" } })
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">
+                                                            Place of Issue for Passport:
+                                                            @*<b s tyle="color:red;">*</b>*@
+                                                        </label>
+                                                        <div class="col-sm-6">
+
+
+                                                            <input type="text" class="form-control" id="PassportPlaceOfIssue" name="txtPassportPlaceOfIssue" placeholder=" Place of Issue for Passport" maxlength="35" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8">
+                                                                @Html.Label("Front:", new { @class = "control-label col-md-2" })
+                                                                <div class="col-md-10">
+                                                                    <input type="file" id="Front" name="Front" />
+                                                                    <label id="image"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8">
+                                                                @Html.Label("Back:", new { @class = "control-label col-md-2" })
+                                                                <div class="col-md-10">
+                                                                    <input type="file" id="Back" name="Back" />
+                                                                    <label id="image1"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                            <!---document Information-->
+
+                            <a href="#LocationDetails" aria-controls="LocationDetails" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Location Details</a>
+                            <div @*class="box-footer"*@>
+                                <input type="submit" class="btn btn-primary pull-right" name="btnCommand" value="Save & Continue" />
+                            </div>
+
+                        </div>
+
+                        <!--end setup profile-->
+                        <!-- /.box -->
+                        <!-- /.box-body -->
+                    </div>
+
+
+
+                </div>
+            }
+            <!-- /.row -->
+            <!-- End-->
+
+
+        </div>
+    </div>
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts {
+
+
+    <!-- Load jQuery and the validate plugin -->
+    @*
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>*@
+
+    @*
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>*@
+    @*
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>*@
+
+    <!-- jQuery Form Validation code -->
+
+
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".date-picker").datepicker({
+                dateFormat: 'dd/mm/yy',
+                yearRange: "-100:+0",
+                changeMonth: true,
+                changeYear: true,
+
+
+                maxDate: new Date
+            });
+
+        });
+        var Count = [];
+        Count[0] = 1;
+
+
+        $(document).ready(function () {
+
+          
+             $("#PProvince").change(function () {
+                 $("#PDistrictID").empty();
+                 $.ajax({
+                     type: 'POST',
+                     url: '@Url.Action("getdistrict")',
+
+                     dataType: 'json',
+
+                     data: { id: $("#PProvince").val() },
+
+
+                     success: function (districts) {
+
+
+                         $.each(districts, function (i, district) {
+                             $("#PDistrictID").append('<option value="' + district.Value + '">' +
+                                 district.Text + '</option>');
+
+                         });
+                     },
+                     error: function (ex) {
+                         alert('Failed to retrieve Province districts.' + ex);
+                     }
+                 });
+                 return false;
+             });
+
+             $("#CProvince").change(function () {
+                 $("#CDistrictID").empty();
+                 $.ajax({
+                     type: 'POST',
+                     url: '@Url.Action("getdistrict")',
+
+                     dataType: 'json',
+
+                     data: { id: $("#CProvince").val() },
+
+
+                     success: function (districts) {
+
+
+                         $.each(districts, function (i, district) {
+                             $("#CDistrictID").append('<option value="' + district.Value + '">' +
+                                 district.Text + '</option>');
+
+                         });
+                     },
+                     error: function (ex) {
+                         alert('Failed to retrieve Province districts.' + ex);
+                     }
+                 });
+                 return false;
+             });
+
+
+        });
+
+        function isNumberKey(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        function SetActive(event) {
+            if ($('ul  li').hasClass('active')) {
+                $('ul li').removeClass('active');
+            }
+
+            if ($('ul li a').hasClass('active')) {
+                $('ul  li a').removeClass('active');
+            }
+            var att = $(event).attr('href');
+
+            $('ul li a[href="' + att + '"]').addClass('active');
+            $('ul li a[href="' + att + '"]').closest('li').addClass('active');
+
+
+        }
+
+        function CheckMobile(value) {
+            var reg = new RegExp('^[9][8]\\d{8}$');
+            return reg.test(value);
+
+        }
+
+
+        //$("#LicenseIssueDate").datepicker(
+        //    {
+        //        dateFormat: 'dd/mm/yy',
+        //        maxDate: new Date,
+
+        //        //
+        //        yearRange: "-100:+0",
+        //        changeMonth: true,
+        //        changeYear: true,
+
+        //        //
+        //        onSelect: function (dateText) {
+
+        //            var from = $('#LicenseExpireDate').val().split("/");
+        //            if (from != "") {
+        //                var ELDate = new Date(from[2], from[1] - 1, from[0]);
+        //                var to = dateText.split("/");
+        //                var ILDate = new Date(to[2], to[1] - 1, to[0]);;
+        //                if (ILDate > ELDate) {
+        //                    $('#LicenseExpireDate').val("");
+        //                    alertify.error('License Issue Date cannot be greater than License Expiry Date');
+        //                }
+
+        //            }
+        //        },
+        //        showAnim: "slideDown"
+        //    });
+
+
+        //$("#LicenseExpireDate").datepicker(
+        //    {
+        //        dateFormat: 'dd/mm/yy',
+        //        maxDate: new Date,
+        //        //
+        //        yearRange: "-100:+0",
+        //        changeMonth: true,
+        //        changeYear: true,
+
+        //        //
+        //        onSelect: function (dateText) {
+
+        //            var from = $('#LicenseIssueDate').val().split("/");
+        //            if (from != "") {
+        //                var ILDate = new Date(from[2], from[1] - 1, from[0]);
+        //                var to = dateText.split("/");
+        //                var ELDate = new Date(to[2], to[1] - 1, to[0]);;
+        //                if (ELDate < ILDate) {
+
+        //                    $('#LicenseExpireDate').val("");
+        //                    alertify.error('License Expiry Date cannot be less than License Issue Date');
+        //                }
+
+        //            }
+        //        },
+        //        showAnim: "slideDown"
+
+
+
+        //    });
+
+        $("#PassportIssueDate").datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date,
+                //
+                yearRange: "-100:+0",
+                changeMonth: true,
+                changeYear: true,
+
+                //
+                onSelect: function (dateText) {
+
+                    var from = $('#PassportExpireDate').val().split("/");
+                    if (from != "") {
+                        var EPDate = new Date(from[2], from[1] - 1, from[0]);
+                        var to = dateText.split("/");
+                        var IPDate = new Date(to[2], to[1] - 1, to[0]);;
+                        if (IPDate > EPDate) {
+                            $('#PassportExpireDate').val("");
+                            alertify.error('Passport Issue Date cannot be More than Passport Expiry Date');
+                        }
+
+                    }
+                },
+                showAnim: "slideDown"
+            });
+
+
+        $("#PassportExpireDate").datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date,
+                //
+                yearRange: "-100:+0",
+                changeMonth: true,
+                changeYear: true,
+
+                //
+                onSelect: function (dateText) {
+
+                    var from = $('#PassportIssueDate').val().split("/");
+                    if (from != "") {
+                        var IPDate = new Date(from[2], from[1] - 1, from[0]);
+                        var to = dateText.split("/");
+                        var EPDate = new Date(to[2], to[1] - 1, to[0]);;
+                        if (EPDate < IPDate) {
+
+                            $('#PassportExpireDate').val("");
+                            alertify.error('Passport Expiry Date cannot be less than Passport Issue Date');
+                        }
+
+                    }
+                },
+                showAnim: "slideDown"
+
+
+
+            });
+
+
+        $('#UserName').change(function () {
+            $('#ContactNumber1').val($(this).val());
+        });
+
+        $("#UserName").change(function (event) {
+            event.preventDefault();
+
+            var id = $("#UserName").val();
+
+            if (id.length == 10) {
+
+                if (id.substr(0, 2) != '98') {
+
+                    return;
+                }
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetCheckingUserName", "CustomerRegApp")',
+                    data: { "Username": id },
+                    success: function (data, textStatus) {
+                        var markup = data;
+                        if (data == "Success") {
+                            $("#check").html("");
+                            $("#check").css("color", "green");
+                            $("#check").html("Valid").show();
+                        }
+                        else {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").html(markup).show();
+                        }
+                    },
+                    error: function () {
+                        alert("Data Not Found");
+                    }
+                });
+            }
+        });
+
+        $(document).ready(function () {
+
+            $('input[type=radio][name=MaritalStatus]').change(function () {
+                var val = $(this).val();
+                if (val != "U") {
+                    $('#family').show(500);
+                }
+                else {
+                    $('#family').hide(500);
+                }
+            });
+
+
+            $('select[name=txtDocument]').change(function () {
+                if ($('select[name=txtDocument] option:selected').val() == 'DocCitizenship') {
+                    $('#citizenship').show();
+                    $('#license').hide();
+                    $('#passport').hide();
+                } else if ($('select[name=txtDocument] option:selected').val() == 'DocLicense') {
+                    $('#license').show();
+                    $('#citizenship').hide();
+                    $('#passport').hide();
+                } else if ($('select[name=txtDocument] option:selected').val() == 'DocPassport') {
+                    $('#passport').show();
+                    $('#citizenship').hide();
+                    $('#license').hide();
+                }
+            });
+
+
+
+        });
+
+        //photo validation
+        //this code will be executed when a new file is selected
+        $('#Front').bind('change', function () {
+
+            //converts the file size from bytes to MB
+            var fileSize = this.files[0].size / 1024 / 1024;
+
+            //gets the full file name including the extension
+            var fileName = this.files[0].name;
+
+            //finds where the extension starts
+            var dotPosition = fileName.lastIndexOf(".");
+
+            //gets only the extension
+            var fileExt = fileName.substring(dotPosition);
+            debugger;
+            //checks whether the file is .png and less than 1 MB
+            if ((fileSize <= 1 && fileExt == ".png") || (fileSize <= 1 && fileExt == ".PNG") || (fileSize <= 1 && fileExt == ".jpg") || (fileSize <= 1 && fileExt == ".JPG")) {
+
+                $("#image").html("Valid Image");
+                $("#image").css("color", "green");
+
+
+                //successfully validated
+
+            }
+            else {
+                $("#image").html("Invalid Image");
+                $("#image").css("color", "red");
+            }
+        });
+
+        $('#Back').bind('change', function () {
+
+            //converts the file size from bytes to MB
+            var fileSize = this.files[0].size / 1024 / 1024;
+
+            //gets the full file name including the extension
+            var fileName = this.files[0].name;
+
+            //finds where the extension starts
+            var dotPosition = fileName.lastIndexOf(".");
+
+            //gets only the extension
+            var fileExt = fileName.substring(dotPosition);
+            debugger;
+            //checks whether the file is .png and less than 1 MB
+            if ((fileSize <= 1 && fileExt == ".png") || (fileSize <= 1 && fileExt == ".jpg")) {
+
+                $("#image1").html("Valid Image");
+                $("#image1").css("color", "green");
+                //successfully validated
+
+            }
+            else {
+                $("#image1").html("Invalid Image");
+                $("#image1").css("color", "red");
+            }
+        });
+
+        $('#PassportPhoto').bind('change', function () {
+
+            //converts the file size from bytes to MB
+            var fileSize = this.files[0].size / 1024 / 1024;
+
+            //gets the full file name including the extension
+            var fileName = this.files[0].name;
+
+            //finds where the extension starts
+            var dotPosition = fileName.lastIndexOf(".");
+
+            //gets only the extension
+            var fileExt = fileName.substring(dotPosition);
+            debugger;
+            //checks whether the file is .png and less than 1 MB
+            if ((fileSize <= 1 && fileExt == ".png") || (fileSize <= 1 && fileExt == ".jpg")) {
+
+                $("#image2").html("Valid Image");
+                $("#image2").css("color", "green");
+                //successfully validated
+
+            }
+            else {
+                $("#image2").html("Invalid Image");
+                $("#image2").css("color", "red");
+            }
+        });
+
+
+
+        $.validator.addMethod("lettersonly", function (value, element) {
+            debugger;
+            return this.optional(element) || /^[a-z ]+$/i.test(value);
+        }, "Only letters and Space allowed");
+        jQuery.validator.addMethod("alphanumeric", function (value, element) {
+            return this.optional(element) || /^[\w\s]+$/i.test(value);
+        }, "only Letters and Numbers allowed");
+        $.validator.addMethod("regx", function (value, element, regexpr) {
+            return regexpr.test(value);
+        }, "please enter valid data");
+
+        $.validator.addMethod('lessThanEqual', function (value, element, param) {
+            debugger;
+            if ($(param).val().trim().length <= 0)
+                return true
+            else
+                return this.optional(element) || parseInt(value) < parseInt($(param).val());
+        }, "Validation failed");
+
+
+        $.validator.addMethod("pattern", function (value, element, param) {
+            if (this.optional(element)) {
+                return true;
+            }
+            if (typeof param === "string") {
+                param = new RegExp("^(?:" + param + ")$");
+            }
+            return param.test(value);
+        }, "Invalid format.");
+
+        var Errors = [];
+        i = 0;
+
+
+        var validator = $('#CustomerRegAppForm').validate({
+
+            highlight: function (label) {
+                $(label).closest('.form-group').addClass('has-error');
+                //tab - pane
+                var tab_content = $(label).closest('.tab-pane');//parent().parent().parent().parent().parent().parent().parent();
+                if ($(tab_content).find(".active:has(div.has-error)").length == 0) {  //fieldset.tab-pane.active:has
+                    var id = $(tab_content).attr('id');
+                    $('a[href="#' + id + '"]').tab('show');
+
+                }
+
+            },
+            unhighlight: function (label) {
+                $(label).closest('.form-group').removeClass('has-error');
+            },
+            ignore: [],
+            rules: {
+                UserName: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 10,
+                    pattern: '[9][8][0-9]{8}'
+                },
+                //txtPassword:{
+                //    minlength:8,
+                //    maxlength:12
+                //},
+                Name: {
+                    required: true,
+                    lettersonly: true
+                },
+              
+                PStreet: {
+                    required: true
+                },
+                PProvince: {
+                    required: true
+                },
+                PDistrictID: {
+                    required: true
+                },
+                PMunicipalityVDC: {
+                    required: true
+                },
+                PHouseNo: {
+                    required: true
+                },
+                PWardNo: {
+                    required: true
+                },
+                CStreet: {
+                    required: true
+                },
+                CProvince: {
+                    required: true
+                },
+                CDistrictID: {
+                    required: true
+                },
+                CMunicipalityVDC: {
+                    required: true
+
+                },
+                CHouseNo: {
+                    required: true
+
+                },
+                CWardNo: {
+                    required: true
+
+                },
+              
+                //start delete garnu parne 02
+                //Address: {
+                //required: true,
+                //alphanumeric: true
+
+                //},
+                //end delete garnu parne 02
+
+                //txtPin: {
+                //    required: true,
+                //    minlength: 4
+                //},
+                CustProfile: {
+                    required: true
+                },
+                Email: {
+                    //email:true
+                    pattern: /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/
+                },
+                BankNoBin: {
+                    required: true
+                },
+                txtBranchCode: {
+                    required: true
+                },
+                txtBankAccountNumber: {
+                    required: true,
+                    maxlength: 14,
+                    minlength: 14
+                },
+
+
+                ////
+                TransactionLimit: {
+                    required: function (element) {
+                        return checkradiobtnlimit();
+                    }
+                },
+                TransactionCount: {
+                    required: function (element) {
+                        return checkradiobtnlimit();
+                    }
+                },
+                StartDate: {
+                    required: function (element) {
+                        debugger;
+                        var dateselected = $('input[type=radio][name=DateRange]:checked').val();
+                        if (checkradiobtn() && dateselected == "Cu") {
+                            return true;
+                        }
+                        return false;
+                    }
+                },
+                EndDate: {
+                    required: function (element) {
+                        debugger;
+                        var dateselected = $('input[type=radio][name=DateRange]:checked').val();
+                        if (checkradiobtn() && dateselected == "Cu") {
+                            return true;
+                        }
+                        return false;
+                    }
+                },
+                TransactionLimitMonthly: {
+                    required: function (element) {
+                        return checkradiobtnlimit();
+                    },
+                    min: 1
+                },
+                TransactionLimitDaily: {
+                    required: function (element) {
+                        return checkradiobtnlimit();
+                    },
+                    lessThanEqual: '#TransactionLimitMonthly',
+                    min: 1
+
+                },
+                LimitType: {
+                    required: function (element) {
+                        return checkradiobtn();
+                    }
+                },
+                DateRange: {
+                    required: function (element) {
+                        return checkradiobtn();
+                    }
+                }
+                ////
+            },
+            errorPlacement: function (error, element) {
+                if (element.is(":radio")) {
+                    //alert('oj');
+                    error.insertAfter(element.parent().parent());
+                }
+                else { // This is the default behavior of the script for all fields
+                    error.insertAfter(element);
+                }
+            },
+            messages: {
+                UserName: {
+                    required: "Please Enter a UserName,Should be Mobile Number",
+                    minlength: "UserName should be of 10 characters",
+                    maxlength: "UserName should be of 10 characters",
+                    pattern: "invalid format"
+
+                },
+
+                Name: {
+                    required: "Please Enter Full Name",
+                    lettersonly: "Only letters and Space allowed"
+                },
+
+                //txtPassword: {
+                //    minlength: "Password must be minimum 8 character",
+                //    maxlength: "Password must be maximum 12 character"
+                //},
+
+              
+                PStreet: {
+                    required: "Please select the Street"
+
+                },
+                PProvince: {
+                    required: "Please select the Province"
+
+                },
+                PDistrict: {
+                    required: "Please select the District"
+
+                },
+                PMunicipalityVDC: {
+                    required: "Please enter the VDC"
+
+                },
+                txtPHouseNo: {
+                    required: "Please enter the HouseNo"
+
+                },
+                txtPWardNo: {
+                    required: "Please enter the WardNo"
+
+                },
+                CStreet: {
+                    required: "Please enter the Street"
+                },
+                CProvince: {
+                    required: "Please select the Province"
+                },
+                CDistrictID: {
+                    required: "Please select the District"
+                },
+                CMunicipalityVDC: {
+                    required: "Please enter the VDC"
+                },
+                txtCHouseNo: {
+                    required: "Please enter the HouseNo"
+                },
+                txtCWardNo: {
+                    required: "Please enter the WardNo"
+                },
+               
+
+                //start delete garnu parne 02
+                //Address: {
+                //    required: "Please enter the address",
+                //    alphanumeric: "only Letters and Numbers allowed"
+                //},
+
+                //end delete garnu parne 02
+                //txtPin: {
+                //    required: "Please Enter a Pin Number",
+                //    minlength: "Pin number should be of 4 digits"
+                //},
+                CustProfile: {
+                    required: "Please Select a Role"
+                },
+                Email: {
+                    pattern: "Please enter a valid email address"
+
+                },
+                BankNoBin: {
+                    required: "Please Select the bank"
+                },
+                txtBranchCode: {
+                    required: "Please enter the branch code"
+                },
+                txtBankAccountNumber: {
+                    required: "Please fill in Bank Account number",
+                    maxlength: "Bank Account Number must be 14 digits",
+                    minlength: "Bank Account Number must be 14 digits"
+
+                },
+                ///
+                TransactionLimit: {
+
+                    required: "Please fill the Transaction Limit"
+
+                },
+                TransactionCount: {
+                    required: "This field is required"
+                },
+                TransactionLimitMonthly: {
+                    required: "This field is required",
+                    min: "Monthly limit cannot be zero"
+                },
+                TransactionLimitDaily: {
+                    required: "This field is required",
+                    lessThanEqual: "Daily limit should be less than monthly limit",
+                    min: "Daily limit cannot be zero"
+
+                },
+                LimitType: {
+                    required: "This field is required"
+                },
+                StartDate: {
+                    required: "This field is required"
+                },
+                EndDate: {
+                    required: "This field is required"
+                },
+                DateRange: {
+                    required: "Please select the DateRange"
+                },
+                submitHandler: function (CustomerRegForm) {
+                    CustomerRegForm.submit();
+                }
+                ///
+
+
+            }
+
+
+
+        });
+
+
+
+
+        var jQuery_1_10_2 = $.noConflict(true);
+
+
+    </script>
+}
+
+//end
+

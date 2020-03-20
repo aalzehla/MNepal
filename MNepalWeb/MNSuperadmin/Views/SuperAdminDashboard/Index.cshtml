@@ -1,0 +1,307 @@
+﻿@using MNSuperadmin.Models;
+@{
+    //var viewDataProduct = ViewData["FeaturedUserInfo"] as UserInfo;
+    var tempDataProduct = TempData["FeaturedUserInfo"] as UserInfo;
+
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = "Dashboard";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Dashboard
+        <small>Version 1.0.0</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+    </ol>
+</section>
+<h4 align="center">Super Admin with COC enabled</h4>
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <!-- Start Form -->
+    <!-- Info boxes -->
+   
+    @*//start 05*@
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Super Admins </span>
+                    @*<span class="info-box-number">90<small>%</small></span>*@
+                    <span class="info-box-number">@((ViewBag.TotalSuperAdmins as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.TotalAdmins as System.Data.DataTable).Rows[0]["TotalAdmins"].ToString() : "0")</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="fa fa-user-plus"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Agents</span>
+                    <span class="info-box-number">@((ViewBag.TotalAgents as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.TotalAgents as System.Data.DataTable).Rows[0]["TotalAgents"].ToString() : "0")</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        <div class="clearfix visible-sm-block"></div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Customers</span>
+                    <span class="info-box-number">@((ViewBag.TotalCustomers as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.TotalCustomers as System.Data.DataTable).Rows[0]["TotalCustomers"].ToString() : "0")</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Inactive Customers</span>
+                    <span class="info-box-number">@((ViewBag.InActiveCustomers as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.InActiveCustomers as System.Data.DataTable).Rows[0]["InActiveCustomers"].ToString() : "0")</span>
+
+                    @*<span class="info-box-number">@((ViewBag.TotalNewMembers as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.TotalNewMembers as System.Data.DataTable).Rows[0]["TotalNewMembers"].ToString() : "0")</span>*@
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+    </div>
+    <!-- /.row-->
+    @*//end 05*@
+
+    <!-- /.row-->
+    <div class="row">
+        <!-- Left col -->
+        <div class="col-md-8">
+            <!-- MAP & BOX PANE -->
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Pending Requests</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-8">
+                            <div class="pad">
+                                <div class="col-md-6 col-sm-6">
+                                    <h4 class="box-title">Super Admin Registration Approval</h4>
+                                    <table class="table-bordered col-lg-10">
+
+                                        <tbody>
+
+                                            @if ((ViewBag.SuperAdminRegistrationApproval as System.Data.DataTable).Rows.Count > 0)
+                                            {
+                                                foreach (System.Data.DataRow dr in (ViewBag.SuperAdminRegistrationApproval as System.Data.DataTable).Rows)
+                                                {
+
+                                                    <tr>
+                                                        <td align="left" style="font-weight:bold" width="25%">  Count</td>
+                                                        <td align="center"> @dr["SuperAdminRegistrationApproval"] </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            <tr>
+                                                <td align="left" colspan="2"><a href="@Url.Action("ApproveSuperAdminList", "SuperAdmin")"> See More Detail Super Admin Registration Approval</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <h4 class="box-title">Super Admin Modification Approval</h4>
+                                    <table class="table-bordered  col-lg-10">
+
+                                        <tbody>
+
+                                            @if ((ViewBag.SuperAdminModificationApproval as System.Data.DataTable).Rows.Count > 0)
+                                            {
+                                                foreach (System.Data.DataRow dr in (ViewBag.SuperAdminModificationApproval as System.Data.DataTable).Rows)
+                                                {
+                                                    <tr>
+                                                        <td align="left" style="font-weight:bold" width="25%">  Count</td>
+                                                        <td align="center"> @dr["SuperAdminModificationApproval"] </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            <tr>
+                                                <td align="left" colspan="2"><a href="@Url.Action("ModifiedApprove", "SuperAdmin")"> See More Detail Super Admin Modification Approval</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div>
+                                    <br />
+
+                                </div>
+                               
+                                <div class="col-md-6 col-sm-6">
+                                    <h4 class="box-title">Agent Registration Approval</h4>
+                                    <table class="table-bordered col-lg-10">
+
+                                        <tbody>
+
+                                            @if ((ViewBag.AgentRegistrationApproval as System.Data.DataTable).Rows.Count > 0)
+                                            {
+                                                foreach (System.Data.DataRow dr in (ViewBag.AgentRegistrationApproval as System.Data.DataTable).Rows)
+                                                {
+                                                    <tr>
+                                                        <td align="left" style="font-weight:bold" width="25%">  Count</td>
+                                                        <td align="center"> @dr["AgentRegistrationApproval"] </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            <tr>
+                                                <td align="left" colspan="2"><a href="@Url.Action("ApproveAgentList", "Agent")"> See More Detail Agent Registration Approval</a></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <h4 class="box-title">Agent Modification Approval </h4>
+                                    <table class="table-bordered col-lg-10">
+
+                                        <tbody>
+
+                                            @if ((ViewBag.AgentModificationApproval as System.Data.DataTable).Rows.Count > 0)
+                                            {
+                                                foreach (System.Data.DataRow dr in (ViewBag.AgentModificationApproval as System.Data.DataTable).Rows)
+                                                {
+                                                    <tr>
+                                                        <td align="left" style="font-weight:bold" width="25%">  Count</td>
+                                                        <td align="center"> @dr["AgentModificationApproval"] </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            <tr>
+                                                <td align="left" colspan="2"><a href="@Url.Action("ApproveAgentModList", "Agent")"> See More Detail Agent Modification Approval</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <br />
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <h4 class="box-title">Customer Wallet KYC Verification </h4>
+                                    <table class="table-bordered col-lg-10">
+
+                                        <tbody>
+
+                                            @if ((ViewBag.CustomerWalletKYCVerification as System.Data.DataTable).Rows.Count > 0)
+                                            {
+                                                foreach (System.Data.DataRow dr in (ViewBag.CustomerWalletKYCVerification as System.Data.DataTable).Rows)
+                                                {
+                                                    <tr>
+                                                        <td align="left" style="font-weight:bold" width="25%">  Count</td>
+                                                        <td align="center"> @dr["CustomerWalletKYCVerification"] </td>
+                                                    </tr>
+                                                }
+                                            }
+
+                                            <tr>
+                                                <td align="left" colspan="2"><a href="@Url.Action("WalletKYCVerification", "Customer")"> See More Detail Customer Wallet KYC Verification</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- for each end-->
+                            </div>
+                            </div>
+                        <!-- /.col -->
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+        <!-- Left col -->
+        <!-- Right col-->
+
+        <div class="col-md-4">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Staff Roles</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-condensed">
+                        <thead style="text-align:center">
+                            <tr>
+                                <th>Roles </th>
+                                <th>No. of Staffs</th>
+
+                            </tr>
+                        </thead>
+                        @if ((ViewBag.TotalUserswithProfile as System.Data.DataTable).Rows.Count > 0)
+                        {
+                            foreach (System.Data.DataRow dr in (ViewBag.TotalUserswithProfile as System.Data.DataTable).Rows)
+                            {
+
+                                <tbody>
+                                    <tr>
+                                        <td><a href="@Url.Action("ViewAdminProfileSetup","SuperAdminRoleSetup",new {profileCode=@dr["ProfileCode"] })">@dr["AProfileName"] </a></td>
+                                        <td align="right"><span class="badge">@dr["NumberOfCustomer"] </span></td>
+                                    </tr>
+                                </tbody>
+                            }
+                        }
+                    </table>
+
+                </div>
+
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- Right Col-->
+    </div>
+  
+    <!-- /.row-->
+    <!-- End Form -->
+  
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+@section scripts{
+    <script type="text/javascript">
+            localStorage.removeItem('activeTab');
+
+            var registeredusers = $('#users').DataTable({
+                "ordering": false,
+                "filter": false,
+                "sorting": false,
+                "info": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "No records found matching the search parameter"
+                }
+            });
+
+
+    </script>
+}

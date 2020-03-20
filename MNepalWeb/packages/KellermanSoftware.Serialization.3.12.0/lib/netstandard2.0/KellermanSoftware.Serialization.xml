@@ -1,0 +1,723 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KellermanSoftware.Serialization</name>
+    </assembly>
+    <members>
+        <member name="T:KellermanSoftware.Serialization.BytesCorruptedException">
+            <summary>
+            Occurs when an item has been partially serialized
+            </summary>
+        </member>
+        <member name="T:KellermanSoftware.Serialization.Compression">
+            <summary>
+            Compress/Decompress with GZip, Deflate, or MiniLZO
+            </summary>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.CompressBytes(KellermanSoftware.Serialization.CompressionType,System.Byte[])">
+            <summary>
+            Compress the passed bytes using the specified compression type
+            </summary>
+            <param name="compressionType"></param>
+            <param name="input"></param>
+            <returns></returns>
+            <example>
+            	<code title="Example" description="" lang="CS">
+            Compression compression = new Compression();
+            
+             
+            byte[] input = new byte[1024];
+             
+            for (int i = 0; i &lt; 1024; i++)
+                input[i] = 5;
+             
+            byte[] results = compression.CompressBytes(CompressionType.GZip, input);
+            Console.WriteLine("{0} bytes compressed to {1} bytes with GZIP", input.Length, results.Length);
+             
+            results = compression.CompressBytes(CompressionType.Deflate, input);
+            Console.WriteLine("{0} bytes compressed to {1} bytes with Deflate", input.Length, results.Length);
+             
+            results = compression.CompressBytes(CompressionType.MiniLZO, input);
+            Console.WriteLine("{0} bytes compressed to {1} bytes with MiniLZO", input.Length, results.Length);</code>
+            	<code title="Example2" description="" lang="VB.NET">
+            Dim compression As New Compression()
+            
+             
+            Dim input(1023) As Byte
+             
+            For i As Integer = 0 To 1023
+                input(i) = 5
+            Next i
+             
+            Dim results() As Byte = compression.CompressBytes(CompressionType.GZip, input)
+            Console.WriteLine("{0} bytes compressed to {1} bytes with GZIP", input.Length, results.Length)
+             
+            results = compression.CompressBytes(CompressionType.Deflate, input)
+            Console.WriteLine("{0} bytes compressed to {1} bytes with Deflate", input.Length, results.Length)
+             
+            results = compression.CompressBytes(CompressionType.MiniLZO, input)
+            Console.WriteLine("{0} bytes compressed to {1} bytes with MiniLZO", input.Length, results.Length)</code>
+            </example>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.DecompressBytes(KellermanSoftware.Serialization.CompressionType,System.Byte[])">
+            <summary>
+            Decompress the passed bytes using the specified compression type
+            </summary>
+            <param name="compressionType"></param>
+            <param name="input"></param>
+            <returns></returns>
+            <example>
+            	<code title="Example" description="" lang="CS">
+            Compression compression = new Compression();
+            
+             
+            byte[] input = new byte[1024];
+             
+            for (int i = 0; i &lt; 1024; i++)
+                input[i] = 5;
+             
+            byte[] compressedBytes = compression.CompressBytes(CompressionType.GZip, input);
+            Console.WriteLine("{0} bytes compressed to {1} bytes with GZIP", input.Length, compressedBytes.Length);
+            byte[] decompressedBytes = compression.DecompressBytes(CompressionType.GZip, compressedBytes);
+             
+            compressedBytes = compression.CompressBytes(CompressionType.Deflate, input);
+            Console.WriteLine("{0} bytes compressed to {1} bytes with Deflate", input.Length, compressedBytes.Length);
+            decompressedBytes = compression.DecompressBytes(CompressionType.Deflate, compressedBytes);
+             
+            compressedBytes = compression.CompressBytes(CompressionType.MiniLZO, input);
+            Console.WriteLine("{0} bytes compressed to {1} bytes with MiniLZO", input.Length, compressedBytes.Length);
+            decompressedBytes = compression.DecompressBytes(CompressionType.MiniLZO, compressedBytes);</code>
+            	<code title="Example2" description="" lang="VB.NET">
+            Dim compression As New Compression()
+            
+             
+            Dim input(1023) As Byte
+             
+            For i As Integer = 0 To 1023
+                input(i) = 5
+            Next i
+             
+            Dim compressedBytes() As Byte = compression.CompressBytes(CompressionType.GZip, input)
+            Console.WriteLine("{0} bytes compressed to {1} bytes with GZIP", input.Length, compressedBytes.Length)
+            Dim decompressedBytes() As Byte = compression.DecompressBytes(CompressionType.GZip, compressedBytes)
+             
+            compressedBytes = compression.CompressBytes(CompressionType.Deflate, input)
+            Console.WriteLine("{0} bytes compressed to {1} bytes with Deflate", input.Length, compressedBytes.Length)
+            decompressedBytes = compression.DecompressBytes(CompressionType.Deflate, compressedBytes)
+             
+            compressedBytes = compression.CompressBytes(CompressionType.MiniLZO, input)
+            Console.WriteLine("{0} bytes compressed to {1} bytes with MiniLZO", input.Length, compressedBytes.Length)
+            decompressedBytes = compression.DecompressBytes(CompressionType.MiniLZO, compressedBytes)</code>
+            </example>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.CompressStream(KellermanSoftware.Serialization.CompressionType,System.IO.Stream)">
+            <summary>
+            Compress a stream using the specified compression type
+            </summary>
+            <param name="compressionType"></param>
+            <param name="input"></param>
+            <returns></returns>
+            <example>
+            	<code title="Example" description="" lang="CS">
+            Compression compression = new Compression();
+            
+             
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i &lt; 1024; i++)
+                sb.AppendLine("This is a test");
+             
+            File.WriteAllText("input.txt", sb.ToString());
+             
+            using (FileStream inputStream = new FileStream("input.txt", FileMode.Open, FileAccess.Read))
+            {
+                Stream compressedStream = compression.CompressStream(CompressionType.MiniLZO, inputStream);
+                Console.WriteLine("{0} bytes compressed to {1} bytes with MiniLZO", inputStream.Length, compressedStream.Length);
+            }</code>
+            	<code title="Example2" description="" lang="VB.NET">
+            Dim compression As New Compression()
+            
+             
+            Dim sb As New StringBuilder()
+            For i As Integer = 0 To 1023
+                sb.AppendLine("This is a test")
+            Next i
+             
+            File.WriteAllText("input.txt", sb.ToString())
+             
+            Using inputStream As New FileStream("input.txt", FileMode.Open, FileAccess.Read)
+                Dim compressedStream As Stream = compression.CompressStream(CompressionType.MiniLZO, inputStream)
+                Console.WriteLine("{0} bytes compressed to {1} bytes with MiniLZO", inputStream.Length, compressedStream.Length)
+            End Using</code>
+            </example>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.DecompressStream(KellermanSoftware.Serialization.CompressionType,System.IO.Stream)">
+            <summary>
+            Decompress a stream using the specified compression type
+            </summary>
+            <param name="compressionType"></param>
+            <param name="input"></param>
+            <returns></returns>
+            <example>
+            	<code title="Example" description="" lang="CS">
+            Compression compression = new Compression();
+            
+             
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i &lt; 1024; i++)
+                sb.AppendLine("This is a test");
+             
+            File.WriteAllText("input.txt", sb.ToString());
+             
+            using (FileStream inputStream = new FileStream("input.txt", FileMode.Open, FileAccess.Read))
+            {
+                Stream compressedStream = compression.CompressStream(CompressionType.MiniLZO, inputStream);
+                Console.WriteLine("{0} bytes compressed to {1} bytes with MiniLZO", inputStream.Length, compressedStream.Length);
+             
+                Stream decompressedStream = compression.DecompressStream(CompressionType.MiniLZO, compressedStream);
+            }</code>
+            	<code title="Example2" description="" lang="VB.NET">
+            Dim compression As New Compression()
+            
+             
+            Dim sb As New StringBuilder()
+            For i As Integer = 0 To 1023
+                sb.AppendLine("This is a test")
+            Next i
+             
+            File.WriteAllText("input.txt", sb.ToString())
+             
+            Using inputStream As New FileStream("input.txt", FileMode.Open, FileAccess.Read)
+                Dim compressedStream As Stream = compression.CompressStream(CompressionType.MiniLZO, inputStream)
+                Console.WriteLine("{0} bytes compressed to {1} bytes with MiniLZO", inputStream.Length, compressedStream.Length)
+             
+                Dim decompressedStream As Stream = compression.DecompressStream(CompressionType.MiniLZO, compressedStream)
+            End Using</code>
+            </example>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.CompressFile(KellermanSoftware.Serialization.CompressionType,System.String,System.String)">
+            <summary>
+            Compress a file using the specified compression type
+            </summary>
+            <param name="compressionType"></param>
+            <param name="inputFilePath"></param>
+            <param name="outputFilePath"></param>
+            <example>
+            	<code title="Example" description="" lang="CS">
+            Compression compression = new Compression();
+            
+             
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i &lt; 1024; i++)
+                sb.AppendLine("This is a test");
+             
+            File.WriteAllText("input.txt", sb.ToString());
+             
+            compression.CompressFile(CompressionType.MiniLZO, "input.txt", "compressed.txt");
+            compression.DecompressFile(CompressionType.MiniLZO, "compressed.txt", "decompressed.txt");</code>
+            	<code title="Example2" description="" lang="VB.NET">
+            Dim compression As New Compression()
+            
+             
+            Dim sb As New StringBuilder()
+            For i As Integer = 0 To 1023
+                sb.AppendLine("This is a test")
+            Next i
+             
+            File.WriteAllText("input.txt", sb.ToString())
+             
+            compression.CompressFile(CompressionType.MiniLZO, "input.txt", "compressed.txt")
+            compression.DecompressFile(CompressionType.MiniLZO, "compressed.txt", "decompressed.txt")</code>
+            </example>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.DecompressFile(KellermanSoftware.Serialization.CompressionType,System.String,System.String)">
+            <summary>
+            Decompress a file using the specified compression type
+            </summary>
+            <param name="compressionType"></param>
+            <param name="inputFilePath"></param>
+            <param name="outputFilePath"></param>
+            <example>
+            	<code title="Example" description="" lang="CS">
+            Compression compression = new Compression();
+            
+             
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i &lt; 1024; i++)
+                sb.AppendLine("This is a test");
+             
+            File.WriteAllText("input.txt", sb.ToString());
+             
+            compression.CompressFile(CompressionType.MiniLZO, "input.txt", "compressed.txt");
+            compression.DecompressFile(CompressionType.MiniLZO, "compressed.txt", "decompressed.txt");</code>
+            	<code title="Example2" description="" lang="VB.NET">
+            Dim compression As New Compression()
+            
+             
+            Dim sb As New StringBuilder()
+            For i As Integer = 0 To 1023
+                sb.AppendLine("This is a test")
+            Next i
+             
+            File.WriteAllText("input.txt", sb.ToString())
+             
+            compression.CompressFile(CompressionType.MiniLZO, "input.txt", "compressed.txt")
+            compression.DecompressFile(CompressionType.MiniLZO, "compressed.txt", "decompressed.txt")</code>
+            </example>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.GZipCompressMemoryStream(System.IO.Compression.CompressionMode,System.IO.MemoryStream)">
+            <summary>
+            Compress a memory stream with Gzip
+            </summary>
+            <param name="mode"></param>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.DeflateCompressMemoryStream(System.IO.Compression.CompressionMode,System.IO.MemoryStream)">
+            <summary>
+            Compress a memory stream with deflate
+            </summary>
+            <param name="mode"></param>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.DeflateDecompressMemoryStream(System.IO.MemoryStream)">
+            <summary>
+            Decompress a Memory stream compress with Deflate
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.GZipDecompressMemoryStream(System.IO.MemoryStream)">
+            <summary>
+            Decompress a Memory stream compress with GZip
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.GZipCompressStream(System.IO.Stream)">
+            <summary>
+            Compress a stream using Gzip
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.DeflateCompressStream(System.IO.Stream)">
+            <summary>
+            Compress a stream using Deflate
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.DeflateDecompressStream(System.IO.Stream)">
+            <summary>
+            Decompress a stream compress with Deflate
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.GZipDecompressStream(System.IO.Stream)">
+            <summary>
+            Decompress a stream compress with GZip
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.DeflateCompressFile(System.String,System.String)">
+            <summary>
+            Compress a file with the deflate algorithim
+            </summary>        
+            <param name="inputFileName"></param>
+            <param name="outputFileName"></param>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.GZipCompressFile(System.String,System.String)">
+            <summary>
+            Compress a file with the GZip algorithim
+            </summary>
+            <param name="inputFileName"></param>
+            <param name="outputFileName"></param>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.GZipDecompressFile(System.String,System.String)">
+            <summary>
+            Decompress a file using Gzip Algorithm
+            </summary>
+            <param name="inputFileName"></param>
+            <param name="outputFileName"></param>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Compression.DeflateDecompressFile(System.String,System.String)">
+            <summary>
+            Decompress a file using Deflate Algorithm
+            </summary>
+            <param name="inputFileName"></param>
+            <param name="outputFileName"></param>
+        </member>
+        <member name="F:KellermanSoftware.Serialization.CompressionType.GZip">
+            <summary>
+            http://en.wikipedia.org/wiki/Gzip
+            </summary>
+        </member>
+        <member name="F:KellermanSoftware.Serialization.CompressionType.Deflate">
+            <summary>
+            http://en.wikipedia.org/wiki/Deflate
+            </summary>
+        </member>
+        <member name="F:KellermanSoftware.Serialization.CompressionType.MiniLZO">
+            <summary>
+            http://en.wikipedia.org/wiki/Lzo
+            </summary>
+        </member>
+        <member name="T:KellermanSoftware.Serialization.Encryption">
+            <summary>
+            Industry standard AES Encryption suitable for credit cards and other private information
+            </summary>
+        </member>
+        <member name="P:KellermanSoftware.Serialization.Encryption.BlockSize">
+            <summary>
+            Specify the block size for the encryption algorithm.  Default is 128, can only be set for non-silverlight projects. AesManaged can only be 128
+            </summary>
+        </member>
+        <member name="P:KellermanSoftware.Serialization.Encryption.KeySize">
+            <summary>
+            Specify the key size for the encryption algorithm.  Default is 128
+            </summary>
+        </member>
+        <member name="P:KellermanSoftware.Serialization.Encryption.Salt">
+            <summary>
+            See http://en.wikipedia.org/wiki/Salt_%28cryptography%29
+            </summary>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Encryption.#ctor">
+            <summary>
+            Constructor that will automatically get the current isolated storage
+            </summary>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Encryption.EncryptString(System.String,System.String)">
+            <summary>Encrypt the passed string and base64 encode it</summary>
+            <param name="inputString"></param>
+            <param name="password"></param>
+            <returns></returns>
+            <example>
+            	<code title="Example" description="" lang="C#">Encryption encryption = new Encryption();
+             
+            string creditCardNumber = "4444333322221111";
+            string password = "&amp;%)(&amp;JUI";
+             
+            string encrypted = encryption.EncryptString(creditCardNumber, password);
+             
+            string decrypted = encryption.DecryptString(encrypted, password);</code>
+            	<code title="Example2" description="" lang="VB.NET">Dim encryption As New Encryption()
+             
+            Dim creditCardNumber As String = "4444333322221111"
+            Dim password As String = "&amp;%)(&amp;JUI"
+             
+            Dim encrypted As String = encryption.EncryptString(creditCardNumber, password)
+             
+            Dim decrypted As String = encryption.DecryptString(encrypted, password)</code>
+            </example>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Encryption.DecryptString(System.String,System.String)">
+            <summary>Decrypt a Base64 encoded and encrypted string</summary>
+            <param name="encryptedString"></param>
+            <param name="password"></param>
+            <returns></returns>
+            <example>
+            	<code title="Example" description="" lang="C#">Encryption encryption = new Encryption();
+             
+            string creditCardNumber = "4444333322221111";
+            string password = "&amp;%)(&amp;JUI";
+             
+            string encrypted = encryption.EncryptString(creditCardNumber, password);
+             
+            string decrypted = encryption.DecryptString(encrypted, password);</code>
+            	<code title="Example2" description="" lang="VB.NET">Dim encryption As New Encryption()
+             
+            Dim creditCardNumber As String = "4444333322221111"
+            Dim password As String = "&amp;%)(&amp;JUI"
+             
+            Dim encrypted As String = encryption.EncryptString(creditCardNumber, password)
+             
+            Dim decrypted As String = encryption.DecryptString(encrypted, password)</code>
+            </example>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Encryption.EncryptBytes(System.Byte[],System.String)">
+            <summary>Encrypt the passed bytes</summary>
+            <param name="inputBytes"></param>
+            <param name="password"></param>
+            <returns></returns>
+            <example>
+            	<code title="Example" description="" lang="C#">Encryption encryption = new Encryption();
+             
+            string creditCardNumber = "4444333322221111";
+            byte[] inputBytes = Encoding.UTF8.GetBytes(creditCardNumber);
+            string password = "&amp;%)(&amp;JUI";
+             
+            byte[] encrypted = encryption.EncryptBytes(inputBytes, password);
+            byte[] decrypted = encryption.DecryptBytes(encrypted, password);</code>
+            	<code title="Example2" description="" lang="VB.NET">Dim encryption As New Encryption()
+             
+            Dim creditCardNumber As String = "4444333322221111"
+            Dim inputBytes() As Byte = Encoding.UTF8.GetBytes(creditCardNumber)
+            Dim password As String = "&amp;%)(&amp;JUI"
+             
+            Dim encrypted() As Byte = encryption.EncryptBytes(inputBytes, password)
+            Dim decrypted() As Byte = encryption.DecryptBytes(encrypted, password)</code>
+            </example>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Encryption.DecryptBytes(System.Byte[],System.String)">
+            <summary>Decrypt the passed bytes</summary>
+            <param name="inputBytes"></param>
+            <param name="password"></param>
+            <returns></returns>
+            <example>
+            	<code title="Example" description="" lang="C#">Encryption encryption = new Encryption();
+             
+            string creditCardNumber = "4444333322221111";
+            byte[] inputBytes = Encoding.UTF8.GetBytes(creditCardNumber);
+            string password = "&amp;%)(&amp;JUI";
+             
+            byte[] encrypted = encryption.EncryptBytes(inputBytes, password);
+            byte[] decrypted = encryption.DecryptBytes(encrypted, password);</code>
+            	<code title="Example2" description="" lang="VB.NET">Dim encryption As New Encryption()
+             
+            Dim creditCardNumber As String = "4444333322221111"
+            Dim inputBytes() As Byte = Encoding.UTF8.GetBytes(creditCardNumber)
+            Dim password As String = "&amp;%)(&amp;JUI"
+             
+            Dim encrypted() As Byte = encryption.EncryptBytes(inputBytes, password)
+            Dim decrypted() As Byte = encryption.DecryptBytes(encrypted, password)</code>
+            </example>
+        </member>
+        <member name="T:KellermanSoftware.Serialization.IEncryption">
+            <summary>
+            Interface for plugging in custom encryption
+            </summary>
+        </member>
+        <member name="P:KellermanSoftware.Serialization.IEncryption.BlockSize">
+            <summary>
+            The block size for the encryption algorithm
+            </summary>
+        </member>
+        <member name="P:KellermanSoftware.Serialization.IEncryption.KeySize">
+            <summary>
+            The key size for the encryption algorithm
+            </summary>
+        </member>
+        <member name="P:KellermanSoftware.Serialization.IEncryption.Salt">
+            <summary>
+            The salt for the encryption algorithm
+            </summary>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.IEncryption.EncryptBytes(System.Byte[],System.String)">
+            <summary>
+            Encrypt a series of bytes using the supplied password
+            </summary>
+            <param name="inputBytes"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.IEncryption.DecryptBytes(System.Byte[],System.String)">
+            <summary>
+            Decrypt a series of bytes using the supplied password
+            </summary>
+            <param name="inputBytes"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KellermanSoftware.Serialization.IgnoreColumnAttribute">
+            <summary>
+            This field will not be saved or loaded from the database
+            </summary>
+        </member>
+        <member name="T:KellermanSoftware.Serialization.Serializer">
+            <summary>
+            Binary serializer that will convert all public fields and properties to a byte array
+            </summary>
+        </member>
+        <member name="F:KellermanSoftware.Serialization.Serializer.IgnoreProperties">
+            <summary>
+            You can pass in a list of properties to ignore for a type and they will not be serialized or deserialized
+            </summary>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Serializer.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Serializer.Serialize``1(``0)">
+            <summary>Serialize given object into an array of bytes</summary>
+            <param name="objectToSerialize">The object to serialize</param>
+            <returns>A byte array representation of the object</returns>
+            <example>
+            	<code title="Example" description="" lang="C#">Serializer serializer = new Serializer();
+             
+            //Serialize and Deserialize a simple type
+            DateTime date = new DateTime(2010,8,21,10,53,31,555);
+            byte[] serializedDate = serializer.Serialize(date);
+            DateTime dateCopy = serializer.Deserialize&lt;DateTime&gt;(serializedDate);
+             
+            //Serialize and Deserialize a single object
+            Person person = new Person();
+            person.Name = "John";
+            byte[] serialized = serializer.Serialize(person);
+             
+            Person personCopy = serializer.Deserialize&lt;Person&gt;(serialized);
+             
+            //Serialize and Deserialize a List
+            List&lt;Person&gt; personList = new List&lt;Person&gt;();
+             
+            Person person1 = new Person();
+            person1.Name = "Sally";
+            personList.Add(person1);
+             
+            Person person2 = new Person();
+            person2.Name = "Susan";
+            personList.Add(person2);
+             
+            byte[] serializedList = serializer.Serialize(personList);
+             
+            List&lt;Person&gt; personListCopy = serializer.Deserialize&lt;List&lt;Person&gt;&gt;(serializedList);</code>
+            	<code title="Example2" description="" lang="VB.NET">Dim serializer As New Serializer()
+             
+            'Serialize and Deserialize a simple type
+            Dim [date] As New Date(2010,8,21,10,53,31,555)
+            Dim serializedDate() As Byte = serializer.Serialize([date])
+            Dim dateCopy As Date = serializer.Deserialize(Of Date)(serializedDate)
+             
+            'Serialize and Deserialize a single object
+            Dim person As New Person()
+            person.Name = "John"
+            Dim serialized() As Byte = serializer.Serialize(person)
+             
+            Dim personCopy As Person = serializer.Deserialize(Of Person)(serialized)
+             
+            'Serialize and Deserialize a List
+            Dim personList As New List(Of Person)()
+             
+            Dim person1 As New Person()
+            person1.Name = "Sally"
+            personList.Add(person1)
+             
+            Dim person2 As New Person()
+            person2.Name = "Susan"
+            personList.Add(person2)
+             
+            Dim serializedList() As Byte = serializer.Serialize(personList)
+             
+            Dim personListCopy As List(Of Person) = serializer.Deserialize(Of List(Of Person))(serializedList)</code>
+            </example>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Serializer.Serialize(System.Object,System.Type)">
+            <summary>
+            Serialize given object into an array of bytes
+            </summary>
+            <param name="objectToSerialize">The object to serialize</param>
+            <param name="typeOfTheObject">Type of the object</param>
+            <returns>A byte array representation of the object</returns>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Serializer.Deserialize``1(System.Byte[])">
+            <summary>Deserialize the object contained by the given array of bytes</summary>
+            <param name="serializedBytes">A byte array representation of the object</param>
+            <returns>The object represented by the array of bytes</returns>
+            <example>
+            	<code title="Example" description="" lang="C#">Serializer serializer = new Serializer();
+             
+            //Serialize and Deserialize a simple type
+            DateTime date = new DateTime(2010,8,21,10,53,31,555);
+            byte[] serializedDate = serializer.Serialize(date);
+            DateTime dateCopy = serializer.Deserialize&lt;DateTime&gt;(serializedDate);
+             
+            //Serialize and Deserialize a single object
+            Person person = new Person();
+            person.Name = "John";
+            byte[] serialized = serializer.Serialize(person);
+             
+            Person personCopy = serializer.Deserialize&lt;Person&gt;(serialized);
+             
+            //Serialize and Deserialize a List
+            List&lt;Person&gt; personList = new List&lt;Person&gt;();
+             
+            Person person1 = new Person();
+            person1.Name = "Sally";
+            personList.Add(person1);
+             
+            Person person2 = new Person();
+            person2.Name = "Susan";
+            personList.Add(person2);
+             
+            byte[] serializedList = serializer.Serialize(personList);
+             
+            List&lt;Person&gt; personListCopy = serializer.Deserialize&lt;List&lt;Person&gt;&gt;(serializedList);</code>
+            </example>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Serializer.Deserialize(System.Byte[],System.Type)">
+            <summary>
+            Deserialize the object contained by the given array of bytes
+            </summary>
+            <param name = "serializedBytes">A byte array representation of the object</param>
+            <param name="typeOfTheObject"></param>
+            <returns>The object represented by the array of bytes</returns>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Serializer.GetDefaultValue(System.Type)">
+            <summary>
+            Return default value for given type
+            </summary>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Serializer.IsDefaultValue(System.Object,System.Type)">
+            <summary>
+            Check if value of the given item is equal to default value for given type
+            </summary>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Serializer.IsSimpleType(System.Type)">
+            <summary>
+            Check if the given type is a simple type that can be serialized fast
+            </summary>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Serializer.GetCustomType(System.String,System.String)">
+            <summary>
+             Try to get the type by the specific version, then without the version
+            </summary>
+            <param name="typeName"></param>
+            <param name="errorMessage"></param>
+            <returns></returns>
+            <exception cref="T:KellermanSoftware.Serialization.SerializerException"></exception>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Serializer.ReplaceVersion(System.String)">
+            <summary>
+            Replace the version in an AssemblyQualifiedName with an empty string
+            </summary>
+            <param name="typeString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.Serializer.ChangeType(System.Object,System.Type,System.Type)">
+            <summary>
+            Change type function that handles nullables and enums
+            </summary>
+            <param name="value"></param>
+            <param name="valueType"></param>
+            <param name="conversionType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KellermanSoftware.Serialization.SerializerException">
+            <summary>
+            Thrown when an object cannot be serialized or deserialized
+            </summary>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.SerializerException.#ctor(System.String)">
+            <summary>
+            Serializer Exception With A Message
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:KellermanSoftware.Serialization.SerializerException.#ctor(System.String,System.Exception)">
+            <summary>
+            Serializer Exception with an Inner Exception
+            </summary>
+            <param name="message"></param>
+            <param name="innerException"></param>
+        </member>
+    </members>
+</doc>

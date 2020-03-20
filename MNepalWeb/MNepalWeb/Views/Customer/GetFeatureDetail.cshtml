@@ -1,0 +1,205 @@
+﻿@model MNepalWeb.Models.CusProfileViewModel
+@{
+    
+    Layout = null;
+
+   
+}
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Role Information</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="col-md-5">Role Name</div>
+                <div class="col-md-5">@Model.ProfileCode</div>
+            </div>
+            <br/>
+            <div class="col-md-10">
+                <div class="col-md-5">Role Description</div>
+                <div class="col-md-5">@Model.ProfileDesc</div>
+            </div>
+            <br/>
+             <div class="col-md-10">
+                <div class="col-md-5">Renew Period</div>
+                <div class="col-md-5">@(Model.RenewPeriod) Months</div>
+            </div>
+        </div>
+      
+    </div>
+</div>
+
+
+
+<div class="box box-info">
+       <div class="box-header with-border">
+           <h3 class="box-title">Role Charge</h3>
+       </div>
+       <div class="box-body">
+           <table class="table table-responsive">
+               <thead>
+                   <tr>
+                       <td></td>
+                       <td>Has Charge</td>
+                       <td>Amount</td>
+                   </tr>
+               </thead>
+               <tbody>
+
+
+                   <tr>
+                       <td>Registration Charge</td>
+                       @if (Model.HasCharge.ToUpper() == "T")
+                       {
+                           <td>Yes</td>
+                       }
+                       else {
+                           <td>No</td>
+                       }
+
+                       <td>@Model.Registration</td>
+
+
+                   </tr>
+                  
+                   <tr>
+                       <td>Pin Reset Charge</td>
+                       @if (Model.HasCharge.ToUpper() == "T")
+                       {
+                           <td>Yes</td>
+                       }
+                       else {
+                           <td>No</td>
+                       }
+                       <td>@Model.PinReset</td>
+
+
+                   </tr>
+               </tbody>
+
+           </table>
+       </div>
+   </div>
+
+
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title"> Information</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="col-md-5">Renewal Charge</div>
+                <div class="col-md-5">@Model.ReNew</div>
+            </div>
+
+        <br/>
+            <div class="col-md-10">
+                <div class="col-md-5">Account Number</div>
+                <div class="col-md-5">@Model.ChargeAccount</div>
+            </div>
+           
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Assigned Role Features</h3>
+    </div>
+    <div class="box-body">
+       
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Transaction Count</th>
+                        <th>Per Transaction Limit</th>
+                        <th>Per Day Transaction Limit</th>
+
+                        <th>Per Month Transaction Limit</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.MNFeatures)
+                    {
+                    <tr>
+                        <td>@item.FeatureName</td>
+                        <td>@item.TxnCount</td>
+                        <td>@item.PerTxnAmt</td>
+                        <td>@item.PerDayTxnAmt</td>
+
+                        <td>@item.TxnAmtM</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+
+
+<div class="box box-info hide">
+    <div class="box-header with-border">
+        <h3 class="box-title">Transaction Alert Limit</h3>
+    </div>
+    <div class="box-body">
+
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>Debit Alert</th>
+                    <th>Min Debit Amount</th>
+                    <th>Credit Alert</th>
+                    <th>Min Credit Amount</th>
+
+                </tr>
+            </thead>
+            <tbody>
+               
+                    <tr>
+                        @if(Model.IsDrAlert.ToUpper()=="T"){
+                        <td>Yes</td>
+                        }
+                        else
+                        {
+                            <td>No</td>
+                        }
+                        <td>@Model.MinDrAlertAmt</td>
+                        @if (Model.IsCrAlert.ToUpper() == "T")
+                        {
+                            <td>Yes</td>
+                        }
+                        else
+                        {
+                            <td>No</td>
+                        }
+                        <td>@Model.MinCrAlertAmt</td>
+                    </tr>
+                
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<MNepalWeb.Models.MNCustProfile>
+@{
+    ViewBag.Title = "UserRole Setup Modify Customer Role";
+}
+
+<section class="content-header">
+    <h1>
+       User Role Setup
+        @*<small>Modify Customer Role</small>*@
+    
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i>User Role Setup</a></li>
+        <li class="active">Modify Customer Role </li>
+    </ol>
+</section>
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+        <div class="col-md-12">
+
+
+            @if (this.TempData["cusprofile_message"] != null)
+            {
+                if (this.TempData["message_class"].ToString() == "success_info")
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Success</h4> @this.TempData["cusprofile_message"]
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Error</h4> @this.TempData["cusprofile_message"]
+                    </div>
+                }
+            }
+
+            <!-- Horizontal Form -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Modify Customer Role</h3>
+
+                </div>
+
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-10">
+                            <table class="table  table-bordered  table-responsive" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th colspan="2">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.ProfileCode</td>
+                                            <td>@item.ProfileDesc</td>
+                                                @if (item.ProfileStatus == 'A')
+                                                {
+                                                    <td><span class="label label-success">Active</span></td>
+                                                }
+                                                else if (item.ProfileStatus == 'B')
+                                                {
+                                                    <td><span class="label label-danger">Blocked</span></td>
+                                                }
+                                                else if (item.ProfileStatus == 'R')
+                                                {
+                                                    <td><span class="label label-warning">Rejected</span></td>
+                                                }
+                                            <td style="width: 20px;">
+                                                <a href="@Url.Action("EditCostumerProfile", "CustomerSetup", new {id = item.ProfileCode.Trim()})"><span class="glyphicon glyphicon-pencil" title="Edit Profile"></span></a>
+                                            </td>
+                                            <td style="width: 20px;">
+                                                <a href="@Url.Action("ViewCostumerProfileDetail", "CustomerSetup", new {id = item.ProfileCode.Trim()})"><span class="glyphicon glyphicon-eye-open" title="View Detail"></span></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

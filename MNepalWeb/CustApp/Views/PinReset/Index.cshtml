@@ -1,0 +1,375 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = "Index";
+    var srcPP = "";
+
+    string _ImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["ImageAddress"];
+    string _ApiImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["WCFImageAddress"];
+
+    if (ViewBag.hasKYC != "T")
+    {
+        srcPP = _ImageSaveUrl + "Images/default_image.png";
+    }
+    else
+    {
+        if (ViewBag.PassportImage == "")
+        {
+            srcPP = _ImageSaveUrl + "Images/default_image.png";
+        }
+        else
+        {
+            srcPP = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.PassportImage;
+        }
+    }
+}
+
+<style type="text/css">
+    /* Adjust icon position */
+
+    #PinResetForm .form-control-feedback {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        position: relative;
+        z-index: 2;
+        margin-right: 15px;
+    }
+</style>
+
+
+
+
+<!-- Content Header (Page header) -->
+@*<section class="content-header">
+    <h1>
+        Settings
+        <small> T-Pin Reset</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Payment</a></li>
+        <li class="active"> T-Pin Reset</li>
+    </ol>
+</section>*@
+
+ 
+
+<!-- Main content --> 
+<div class="main-content">
+    <div class="pad-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <aside class="sidebar user-sidebar">
+                        <div class="content-inner">
+                            <div class="top-section">
+                                <div class="user-info">
+                                    <div class="img-holder">
+                                        <img src="@srcPP"  style="height:109.75px; width:109.75px;" alt="Profile Image">
+                                    </div>
+
+                                    <div class="user-detail">
+                                        <span class="name">@ViewBag.Name</span><br />
+                                        <span class="phone">@ViewBag.ContactNumber1</span>&nbsp;&nbsp;
+                                        <span class="phone">@ViewBag.ContactNumber2</span>
+                                    </div>
+                                </div>
+
+                                <div class="btn-wrapper">
+                                    <a href="#" class="btn btn-grey">
+                                        <i class="thaili-icon-load-wallet"></i>
+                                        Nrs.@ViewBag.AvailBalnAmount
+                                    </a>
+
+                                    <a href="#" class="btn btn-grey">
+                                        <i class="thaili-icon-bank"></i>
+                                        Nrs.
+                                        <div class="bankbal1"></div>
+                                    </a>
+
+                                </div>
+                            </div>
+
+                            <ul class="user-menu">
+                                <li><a href="Profile/Index">User Detail</a></li>
+                                @*<li><a href="#">Notification Settings</a></li>
+        <li><a href="#">Devices</a></li>*@
+                                <li><a href="@Url.Action("Index", "ChangePassword")">Change Password</a></li>
+                                <li class="active"><a href="@Url.Action("Index", "PinReset")">Change Thaili Pin</a></li>
+                                <li><a href="@Url.Action("ResetThailiPin", "PinReset")">Reset Thaili Pin</a></li>
+
+                                <li class="logout"><a href="Logout">Log out</a></li>
+                            </ul>
+                        </div>
+                    </aside>
+
+                    <!-- /sidebar -->
+                </div>
+                <div class="col-lg-8">
+                    <div class="personal-wrapper">
+                        <h2 class="title bordered-title-below">Change your T-PIN</h2>
+
+                        <div class="content-wrapper user-form-wrapper clearfix ">
+                           
+                            <div class="notification-wrapper">
+                                @if (this.ViewData["pin_messsage"] != null)
+                                {
+                                    if (this.ViewData["message_class"].ToString() == "success_info")
+                                    {
+                                        <div class="alert success-alert" role="alert">
+
+                                            <i class="far fa-info-circle"></i> <span>@this.ViewData["pin_messsage"]</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert danger-alert" role="alert">
+                                           
+                                            <i class="far fa-info-circle"></i> <span>@this.ViewData["pin_messsage"]</span>
+                                        </div>
+                                    }
+                                }
+                            </div>
+
+                                <div class="form-wrapper">
+
+                                    @using (Html.BeginForm("Index", "PinReset", FormMethod.Post, new { @id = "PinResetForm", @class = "form-horizontal" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+
+
+                                        <div class="box-body">
+
+                                            <div class="form-group">
+                                                <div for="inputT-PIN2" class="label-wrapper">
+                                                    <label for="inputEmail2">Enter your old T-PIN<b style="color:red">*</b></label>
+                                                    <span class="show-password">show</span>
+                                                </div>
+                                                <input type="password" class="form-control" id="oldPin" name="txtOldPin" placeholder="Old T-Pin" maxlength="4" onkeypress="return isNumberKey(event)"  required>
+
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div for="inputT-PIN3" class="label-wrapper">
+                                                    <label for="inputEmail3">Enter your new T-PIN<b style="color:red">*</b></label>
+                                                    <span class="show-password">show</span>
+
+                                                </div>
+                                                <input type="password" class="form-control" id="newPwd" name="txtNewPin" placeholder="New T-Pin" maxlength="4" onkeypress="return isNumberKey(event)"  required>
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div for="inputT-PIN4" class="label-wrapper">
+                                                    <label>Re-type your new T-PIN<b style="color:red">*</b></label>
+                                                    <span class="show-password">show</span>
+                                                </div>
+                                                <input type="password" class="form-control" id="retypePin" name="txtRetypePin" placeholder="Retype T-Pin" maxlength="4"  onkeypress="return isNumberKey(event)"  required>
+
+                                            </div>
+
+
+                                        </div>
+                    <!-- /.box-body -->
+                                        <div class="btn-wrapper">
+                                            <button type="submit" class="btn btn-blue">Confirm</button>
+                                        </div>
+
+                                        <div class="note">*Note: Must be 4 characters, contains only numbers.</div>
+
+
+                    <!-- /.box-footer -->
+                                    }
+
+                                    <!-- /T-PIN-change form -->
+                                </div>
+                                <!-- /form-wrapper -->
+                            </div>
+
+                    </div>
+                    <!-- /personal-detail -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+
+@section scripts{
+
+<!-- Load jQuery and the validate plugin -->
+@*<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>*@
+
+<!-- jQuery Form Validation code -->
+<script type="text/javascript">
+
+
+    function isNumberKey(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+
+    $(document).ready(function () {
+
+        ////          
+        //$(".btnShow1").mousedown(function () {
+        //    $(".pwd1").attr("type", "text");
+        //});
+        //$(".btnShow1").on("mouseleave", function () {
+        //    $(".pwd1").attr("type", "password");
+        //});
+              
+        //$(".btnShow2").mousedown(function () {
+        //    $(".pwd2").attr("type", "text");
+        //});
+        //$(".btnShow2").on("mouseleave", function () {
+        //    $(".pwd2").attr("type", "password");
+        //});
+              
+        //$(".btnShow3").mousedown(function () {
+        //    $(".pwd3").attr("type", "text");
+        //});
+        //$(".btnShow3").on("mouseleave", function () {
+        //    $(".pwd3").attr("type", "password");
+        //});
+        
+      
+
+        $('#PinResetForm')
+            .on('init.field.bv', function (e, data) {
+                // data.bv      --> The BootstrapValidator instance
+                // data.field   --> The field name
+                // data.element --> The field element
+
+                var $parent = data.element.parents('.form-group'),
+                    $icon = $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]'),
+                    options = data.bv.getOptions(),                      // Entire options
+                    validators = data.bv.getOptions(data.field).validators; // The field validators
+
+                if (validators.notEmpty && options.feedbackIcons && options.feedbackIcons.required) {
+
+                    $icon.addClass(options.feedbackIcons.required).show();
+                }
+
+            })
+
+            .bootstrapValidator({
+            feedbackIcons: {
+                required: 'fa fa-asterisk',
+                valid: 'fa fa-check-circle fa-lg text-success',
+                invalid: 'fa fa-times-circle fa-lg text-danger',
+                validating: 'fa fa-refresh-circle fa-lg'
+            },
+            fields: {
+                txtOldPin: {
+                    validators: {
+                        //integer: {
+                        //    message: 'The value is not an integer'
+                        //},
+                        notEmpty: {
+                            message: 'The old pin is required and cannot be empty'
+                        },
+                        stringLength: {
+                            max: 4,
+                            min: 4,
+                            message: 'The pin must be 4 digit numeric password'
+                        }
+                    }
+                },
+                txtNewPin: {
+                    validators: {
+                        //integer: {
+                        //    message: 'The value is not an integer'
+                        //},
+                        notEmpty: {
+                            message: 'The new pin is required and cannot be empty'
+                        },
+                        stringLength: {
+                            max: 4,
+                            min: 4,
+                            message: 'The new pin must be 4 digit numeric password'
+                        },
+
+                        different: {
+                            field: 'txtOldPin',
+                            message: 'The new pin and old pin should not be same. Please retry!'
+
+                        },
+                         identical: {
+                             field: 'txtRetypePin',
+                             message: "The new pin and retype new pin don't match. Please retry!"
+                        }
+                    }
+                },
+                txtRetypePin: {
+                    validators: {
+                        //integer: {
+                        //    message: 'The value is not an integer'
+                        //},
+                        notEmpty: {
+                            message: 'The retype pin is required and cannot be empty'
+                        },
+                        stringLength: {
+                            max: 4,
+                            min: 4,
+                            message: 'The retype pin must be 4 digit numeric password'
+                        },
+                        identical: {
+                            field: 'txtNewPin',
+                            message: "The new pin and retype new pin don't match. Please retry!"
+                        }
+                    }
+                }
+            }
+           })
+
+            .on('status.field.bv', function (e, data) {
+                // Remove the required icon when the field updates its status
+                var $parent = data.element.parents('.form-group'),
+                    $icon = $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]'),
+                    options = data.bv.getOptions(),                      // Entire options
+                    validators = data.bv.getOptions(data.field).validators; // The field validators
+
+                if (validators.notEmpty && options.feedbackIcons && options.feedbackIcons.required) {
+                    $icon.removeClass(options.feedbackIcons.required).addClass('fa');
+                }
+            });
+    });
+
+            $.ajax({
+                cache: false,
+                async: true,
+                type: "GET",
+                url: '@Url.Action("BankQuery", "UserDashboard")',
+                data: { "Username": "" },
+                success: function (data, textStatus, jqXHR) {
+
+                    if (data.responseCode == "200") {
+                        debugger;
+                        var resp = data.responseText;
+                        //$("#bankbal").html(resp.text());
+
+                        $(".bankbal1").text(resp);
+                    }
+
+                },
+                error: function () {
+                    alert("Data Not Found");
+
+                }
+            });
+
+</script>
+}

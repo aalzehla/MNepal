@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="MNepalWCF.IVR" CodeBehind="IVR.svc.cs" %>

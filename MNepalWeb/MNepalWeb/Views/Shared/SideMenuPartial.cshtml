@@ -1,0 +1,450 @@
+﻿
+@model IEnumerable<MNepalWeb.Models.MenuItem>
+
+<!-- sidebar menu: : style can be found in sidebar.less -->
+<ul class="sidebar-menu" data-widget="tree">
+    <li class="header">MAIN NAVIGATION</li>
+    <li class="menu-open removeactive">
+        <a href="~/AdminDashboard">
+            @*<i class="fa fa-dashboard"></i>*@ <span>Dashboard</span>
+            @*<span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>*@
+        </a>
+        @*<ul class="treeview-menu">
+            <li><a href="~/AdminDashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        </ul>*@
+    </li>
+    
+    @*<li class="treeview">
+        <a href="#">
+            <i class="fa fa-bar-chart"></i> <span>Quick Reports</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="@Url.Action("CusReport","Report")"><i class="fa fa-circle-o"></i>Customer Ac Activity</a></li>
+            <li><a href="@Url.Action("CustomerAccountLog","Report")"><i class="fa fa-circle-o"></i>Customer Log</a></li>
+            <li><a href="@Url.Action("Merchants","Report")"><i class="fa fa-circle-o"></i>Merchants </a></li>
+        </ul>
+    </li>*@
+
+    @*<li class="treeview">
+        <a href="#">
+            <i class="fa fa-bar-chart"></i> <span>Summary Reports</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="@Url.Action("Summary","Report")"><i class="fa fa-circle-o"></i>Transaction Summary</a></li>
+            
+        </ul>
+    </li>*@
+    
+@Html.Raw(ViewBag.Menu)
+  
+
+@*<li class="treeview">
+    switch (heir)
+            {
+                case "A":
+                    ViewData["Admin"] = "A";
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-user-o"></i>
+                            <span>@dr["Description"]</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        </li>
+                        break;
+                        case "AA":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/Admin/Registration">
+                                    <i class="fa fa-user-plus"></i> @dr["Description"]
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "AB":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/Admin/Index">
+                                    <i class="fa fa-user-circle-o"></i> View Details List
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "AC":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/Admin/PasswordResetList">
+                                    <i class="fa fa-key"></i> Password Reset
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "B":
+                        <a href="#">
+                            <i class="fa fa-user-o"></i>
+                            <span>@dr["Description"]</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        break;
+                        case "BA":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/Customer/Registration">
+                                    <i class="fa fa-user-plus"></i> Registration
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "BB":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/Customer/Index">
+                                    <i class="fa fa-edit"></i> @dr["Description"]
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "BC":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/Customer/ListView">
+                                    <i class="fa fa-edit"></i> View Modification
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "BD":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/Customer/Index">
+                                    <i class="fa fa-edit"></i> Approve Modified
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "BE":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/Customer/CustomerStatus">
+                                    <i class="fa fa-circle-o"></i> Customer Status
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "BF":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/Customer/RejectedList">
+                                    <i class="fa fa-circle-o"></i> Rejected List
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "BG":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/Customer/PinResetList">
+                                    <i class="fa fa-map-pin"></i> T-Pin Reset
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "BH":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-map-pin"></i> Approve T-Pin Reset
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "BI":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/Customer/DeleteUserList">
+                                    <i class="fa fa-times"></i> Delete/InActive
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "BJ":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/Customer/ApproveDelete">
+                                    <i class="fa fa-edit"></i> @dr["Description"]
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "BK":
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/Customer/UnBlockService">
+                                    <i class="fa fa-edit"></i> UnBlock Service
+                                </a>
+                            </li>
+                        </ul>
+                        break;
+                        case "BL": //ApproveUnBlock
+
+    <li>
+                        <a href="~/Customer/ApproveUnBlock">
+                            <i class="fa fa-edit"></i> @dr["Description"]
+                        </a>
+                    </li>
+
+                break;
+            case "BM": //Customer Charge
+
+                    <li>
+                        <a href="~/Customer/CustomerCharge">
+                            <i class="fa fa-edit"></i> @dr["Description"]
+                        </a>
+                    </li>
+
+                break;
+            case "BN": //Approve Renew Charge
+
+                    <li>
+                        <a href="~/Customer/Index">
+                            <i class="fa fa-edit"></i> @dr["Description"]
+                        </a>
+                    </li>
+
+                break;
+            case "C": //Branch Setup
+                <a href="#">
+                    <i class="fa fa-bank"></i>
+                    <span>Branch Setup</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                break;
+            case "CA": //Branch Registration
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/BranchSetup/CreateBranch">
+                            <i class="fa fa-user-plus"></i> Branch Registration
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "CB": //Branch Modification
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/BranchSetup/BranchModification">
+                            <i class="fa fa-edit"></i> Branch Modification
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "CC": //Branch Status
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/BranchSetup/BranchStatus">
+                            <i class="fa fa-circle-o"></i> Branch Status
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "D": //Account Type Setup
+                <a href="#">
+                    <i class="fa fa-users"></i>
+                    <span>AccountType Setup</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                break;
+            case "DA": //Account Type Setup
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/AccountTypeSetup/Index">
+                            <i class="fa fa-cog"></i> Account Type Setup
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "E": //MNepal Pay
+                <a href="#">
+                    <i class="fa fa-laptop"></i>
+                    <span>MNepalPay</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                break;
+            case "EA": //Manage Services
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/MNepalPay/ManageService">
+                            <i class="fa fa-circle-o"></i> Manage Services
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "EB": //Check Status
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/MNepalPay/CheckStatus">
+                            <i class="fa fa-circle-o"></i> Check Status
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "EC": //Cancellation
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/MNepalPay/Cancellation">
+                            <i class="fa fa-circle-o"></i> @dr["Description"]
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "F": //User Setup
+                <a href="#">
+                    <i class="fa fa-user"></i> <span>User Setup</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                break;
+            case "FA": //Create Admin Profile
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/UserSetup/CreateAdminProfile">
+                            <i class="fa fa-user-plus"></i> @dr["Description"]
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "FB": //Modify Admin Profile
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/UserSetup/Index">
+                            <i class="fa fa-pencil-square-o"></i> @dr["Description"]
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "FC": //Create Customer Profile
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/CustomerSetup/CreateCustomerProfile">
+                            <i class="fa fa-user-plus"></i> Create Customer Profile
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "FD": //Modify Customer Profile
+
+                    <li>
+                        <a href="~/ProfileSetup/ModifyCustomer">
+                            <i class="fa fa-pencil-square-o"></i> Modify Customer Profile
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "G": //Request
+                <a href="#">
+                    <i class="fa fa-user"></i> <span>User Setup</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                break;
+            case "H": //Messaging
+                <a href="#">
+                    <i class="fa fa-user"></i> <span>User Setup</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                break;
+            case "I": //Report
+                <a href="#">
+                    <i class="fa fa-user"></i> <span>User Setup</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                break;
+            case "J": //Payee
+                <a href="#">
+                    <i class="fa fa-user"></i> <span>User Setup</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                break;
+            case "K": //Setting
+                <a href="#">
+                    <i class="fa fa-user"></i> <span>User Setup</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                break;
+            case "KA": //Keyword Settings
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/ProfileSetup/ModifyCustomer">
+                            <i class="fa fa-pencil-square-o"></i> @dr["Description"]
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "KB": //Create Static Keyword
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/#">
+                            <i class="fa fa-pencil-square-o"></i> @dr["Description"]
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "KC": //Modify Static Keyword
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/#">
+                            <i class="fa fa-pencil-square-o"></i> @dr["Description"]
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "KD": //Modify Messages
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="~/#">
+                            <i class="fa fa-key text-red"></i> @dr["Description"]
+                        </a>
+                    </li>
+                </ul>
+                break;
+            case "KE": //Change Password
+
+                    <li>
+                        <a href="~/ChangePassword">
+                            <i class="fa fa-key text-red"></i> Change Password
+                        </a>
+                    </li>
+
+                break;
+                    }
+
+            }
+}
+</li>*@
+</ul>

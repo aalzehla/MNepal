@@ -1,0 +1,540 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = "Dashboard";
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+@*<section class="content-header">
+        <h1>
+            Dashboard
+            <small>Version 1.0.0</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+    </section>*@
+
+<!-- Main content -->
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />
+<style>
+    .image_icon{
+    width:50px;
+    }
+</style>
+<div class="main-content">
+    <div class="bg-grey pad-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 match-height">
+
+                    <section class="instant-transactions">
+                        <div class="top-section clearfix">
+                            <h2 class="title">Instant Transactions</h2>
+                            <a href="#" class="customize">customize</a>
+                        </div>
+
+                        <div class="transactions-grid clearfix">
+                            <div class="item load-wallet">
+                                <div class="item-inner">
+                                    @*<a href="~/FundTransfer/LoadWalletBW">*@
+                                    <a href="~/LoadWallet/EBanking">
+                                        <div class="content-inner">
+                                            <i class="thaili-icon-load-wallet"></i>
+                                            <span>Load Wallet</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /item -->
+
+                            <div class="item transfer-fund">
+                                <div class="item-inner">
+                                    <a href="~/FundTransfer/Index">
+                                        <div class="content-inner">
+                                            <i class="thaili-icon-transfer-funds"></i>
+                                            <span>Transfer funds</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /item -->
+
+                            <div class="item top-up">
+                                <div class="item-inner">
+                                    <a href="~/UtilityPay/TopUp">
+                                        @*<a href="~/UtilityPay/NTTopUp">*@
+                                        <div class="content-inner">
+                                            <i class="thaili-icon-top-up"></i>
+                                            <span>Top Up</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /item -->
+
+                            <div class="item recharge">
+                                <div class="item-inner">
+                                    <a href="~/UtilityPay/NewRecharge">
+                                        <div class="content-inner">
+                                            <i class="thaili-icon-recharge"></i>
+                                            <span>Recharge</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /item -->
+
+                            <div class="item withdraw">
+                                <div class="item-inner">
+                                    <a href="~/FundTransfer/Withdraw">
+                                        <div class="content-inner">
+                                            <i class="thaili-icon-wallet"></i>
+                                            <span>Withdraw </span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /item -->
+
+                            <div class="item internet">
+                                <div class="item-inner">
+                                    <a href="~/MerchantPayment/MerchantRestaurant">
+                                        <div class="content-inner">
+                                            <span class="icon-icon-merchant"></span>
+                                            <span style="color:#00aeef;">Merchants</span>
+
+                                            @*<i class="thaili-icon-internet"></i>
+                                        <img src="~/Content/assets/img/icons/icon-merchant.svg" class="image_icon"/>
+                                        <span style="color:#00ace6">Merchant</span>*@
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /item -->
+
+                            <div class="item internet">
+                                <div class="item-inner">
+                                    <a href="~/Cash/CashOutNew">
+                                        <div class="content-inner">
+                                            <span class="icon-icon-cashout"></span>
+                                            <span style="color:#00aeef;">Cash Out</span>
+                                            @*<i class="thaili-icon-internet"></i>
+                                        <img src="~/Content/assets/img/icons/icon-cashout.svg" class="image_icon" />
+                                        <span style="color:#00ace6">Cash Out</span> *@
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /item -->
+                        </div>
+                    </section>
+                    <!-- /instant transactions -->
+                </div>
+                @*<div class="col-md-6 match-height">*@
+                <div class="thaili-slider-wrapper, col-md-6 match-height">
+                    <div class="thaili-slider">
+                        <div class="item">
+                            <img src="~/Content/assets/img/slider/554_335Pixel-NIBL_Education-Loan_Slide.jpg" alt="slider-image1" style="border-radius: 10px;">
+                        </div>
+
+                        <div class="item">
+                            <img src="~/Content/assets/img/slider/554_335Pixel-NIBL_KETA-KETI_Slide.jpg" alt="slider-image2" style="border-radius: 10px;">
+                        </div>
+
+                        <div class="item">
+                            <img src="~/Content/assets/img/slider/554_335Pixel-NIBL_Re1-Account_Slide.jpg" alt="slider-image3" style="border-radius: 10px;">
+                        </div>
+
+                        <div class="item">
+                            <img src="~/Content/assets/img/slider/554_335Pixel-NIBL_Recurring_Slide.jpg" alt="slider-image4" style="border-radius: 10px;">
+                        </div>
+
+                    </div>
+                    <!-- /thaili-slider -->
+                </div>
+                <!-- /thaili-slider-wrapper -->
+            @*</div>*@
+
+                </div>
+        </div>
+    </div>
+
+    <section class="section-services featured-merchant pad-50">
+        <div class="container">
+            <div class="title-wrapper clearfix">
+                <h2 class="title">Featured Merchants</h2>
+                <a href="#" class="btn btn-default show-all">Show All</a>
+            </div>
+            <!-- /title-wrapper -->
+
+            <div class="transactions-grid clearfix">
+                 <div class="item load-wallet">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-electricity"></i>
+                                <span>Electricity</span>
+                            </div>
+                        </div>
+                    </div>
+                <!-- /item -->
+                <div class="item transfer-fund">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-khanepani"></i>
+                                <span>Khanepani</span>
+                            </div>
+                        </div>
+                    </div>
+                <!-- /item -->
+
+                <div class="item top-up">
+                    <div class="item-inner">
+                        <a href="~/MerchantPayment/MerchantRestaurant">
+                            <div class="content-inner">
+                                <i class="thaili-icon-restaurant"></i>
+                                <span>Restaurant</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!-- /item -->
+
+                <div class="item recharge">
+                    <div class="item-inner">
+                        <a href="~/MerchantPayment/MerchantCollege">
+                            <div class="content-inner">
+                                <i class="thaili-icon-college"></i>
+                                <span>College</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!-- /item -->
+
+                <div class="item withdraw">
+                    <div class="item-inner">
+                        <a href="~/MerchantPayment/MerchantSchool">
+                            <div class="content-inner">
+                                <i class="thaili-icon-school"></i>
+                                <span>School</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!-- /item -->
+            </div>
+
+        </div>
+    </section>
+    <!-- /section-services Featured Merchant -->
+    @*<section class="section-services internet-payment bg-grey pad-50">
+            <div class="container">
+                <div class="title-wrapper clearfix">
+                    <h2 class="title">Internet Bill Payment</h2>
+                    <a href="#" class="btn btn-default show-all">Show All</a>
+                </div>
+                <!-- /title-wrapper -->
+
+                <div class="transactions-grid clearfix">
+                    <div class="item load-wallet">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-electricity"></i>
+                                <span>Electricity</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item transfer-fund">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-khanepani"></i>
+                                <span>Khanepani</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item top-up">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-restaurant"></i>
+                                <span>Restaurant</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item recharge">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-college"></i>
+                                <span>College</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item withdraw">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-school"></i>
+                                <span>School</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+                </div>
+
+            </div>
+        </section>*@
+    <!-- /section-services Internet Payment -->
+    @*<section class="section-services food-hospitality pad-50">
+            <div class="container">
+                <div class="title-wrapper clearfix">
+                    <h2 class="title">Food & Hospitality</h2>
+                    <a href="#" class="btn btn-default show-all">Show All</a>
+                </div>
+                <!-- /title-wrapper -->
+
+                <div class="transactions-grid clearfix">
+                    <div class="item load-wallet">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-electricity"></i>
+                                <span>Electricity</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item transfer-fund">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-khanepani"></i>
+                                <span>Khanepani</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item top-up">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-restaurant"></i>
+                                <span>Restaurant</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item recharge">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-college"></i>
+                                <span>College</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item withdraw">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-school"></i>
+                                <span>School</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+                </div>
+
+            </div>
+        </section>*@
+    <!-- /section-services Internet Payment -->
+
+    <section class="download-app bg-grey">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="app-demo-img">
+                        <img src="~/Content/assets/img/app-demo.png" alt="app-demo">
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <div class="content-inner">
+                        <img src="~/Content/assets/img/playstore-icon.png" alt="playstore-icon">
+                        <h2 class="title">Easy payments with a touch.</h2>
+                        <p>Paying hasn't been so easier online.</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.thailiapp.mnepalmos" target="_blank" class="btn btn-default download-link">Download Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /download-app -->
+
+    @*<section class="section-partners text-center pad-50">
+        <div class="container">
+            <h2 class="title bordered-title"><span>Partnered Banks</span></h2>
+
+            <div class="partner-list clearfix">
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/purnima-bank.png" alt="purnima-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/sidhartha-bank.png" alt="sidhartha-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/bok.png" alt="bok">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/janata-bank.png" alt="janata-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/kumari-bank.png" alt="kumari-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/sanima-bank.png" alt="sanima-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/century-bank.png" alt="century-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/gandaki-bank.png" alt="gandaki-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/mega-bank.png" alt="mega-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/nb-bank.png" alt="nb-bank">
+                </div>
+            </div>
+            <a href="#" class="btn btn-default">Show All</a>
+        </div>
+    </section>*@
+    <!-- /section-partner -->
+</div>
+
+
+@*<section class="content">
+
+        <!-- Main row -->
+        <div class="row">
+            <!-- Left col -->
+            <div class="col-md-8">
+                <!-- MAP & BOX PANE -->
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">About MNepalPay</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        <div class="row">
+                            <div class="col-md-9 col-sm-8">
+                                <div class="pad">
+
+                                    <p>Internet/SMS based application available </p>
+
+                                    <p> Features: </p>
+                                    <ul>
+                                        <li>Fast transaction and instant reply.</li>
+                                        <li>No dependency in the network (SMS).</li>
+                                        <li>
+                                            Seamless integration of SMS and GPRS. </p>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-3 col-sm-4">
+                                <div class="pad box-pane-right bg-green" style="min-height: 280px">
+                                    <div class="description-block margin-bottom">
+                                        <div class="sparkbar pad" data-color="#fff"></div>
+                                        <h5 class="description-header"></h5>
+                                        <span class="description-text"></span>
+                                    </div>
+                                    <!-- /.description-block -->
+
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+
+            </div>
+            <!-- Left col -->
+            <!-- Right col-->
+
+            <div class="col-md-4">
+                <!-- Info Boxes Style 2 -->
+                <div class="info-box bg-blue-active">
+                    <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Wallet Available Balance</span>
+                        <span class="info-box-number">Rs. &nbsp; @ViewBag.AvailBalnAmount</span>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 50%"></div>
+                        </div>
+                        <span class="progress-description">
+
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+                <!-- PRODUCT LIST -->
+
+                <!-- /.box -->
+
+            </div>
+
+            <!-- Right Col-->
+        </div>
+
+
+        <!-- Main row -->
+        <div class="row">
+
+            <!-- Left col -->
+            <div class="col-md-4">
+
+            </div>
+
+            <!-- Right Col-->
+            <div class="col-md-4">
+
+                </div>
+
+        </div>
+        <!-- /.row -->
+
+
+    </section>*@
+<!-- /.content -->
+<!-- =============================================== -->

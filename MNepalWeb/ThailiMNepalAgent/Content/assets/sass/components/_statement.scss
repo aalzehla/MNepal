@@ -1,0 +1,136 @@
+/** Statement filter **/
+
+.statement-filter {
+    margin-bottom: 20px;
+
+    .top-section {
+        margin-bottom: 20px;
+
+        .search-label {
+            margin-right: 15px;
+        }
+    }
+
+    .search-form-wrapper {
+        margin-right: 32px;
+        max-width: 430px;
+        width: 100%;
+
+        .search-form {
+            margin-top: 10px;
+            width: 100%;
+        }
+    }
+
+    .status-select {
+        margin-right: 35px;
+    }
+
+    .daterange-wrapper {
+        label {
+            margin-right: 25px;
+        }
+    }
+
+    .reset-button {
+        margin-top: 10px;
+    }
+}
+
+
+/** Statement table **/
+.statement-table {
+    font-size: 0.833rem;
+    margin-bottom: 25px;
+
+    thead {
+        th {
+            background-color: $color-yellow;
+            color: $color-white;
+            font-weight: $font-normal;
+            white-space: nowrap;
+        }
+
+        th:first-child {
+            border-top-left-radius: 6px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 6px;
+        }
+
+        th.detail {
+            min-width: 200px;
+        }
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: $color-tablebg;
+    }
+
+    .status {
+        text-align: center;
+    }
+
+    .status-icon {
+        display: inline-block;
+        max-width: 24px;
+        width: 100%;
+    }
+}
+
+
+/** Responsive  CSS **/
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 767.98px) {
+    .statement-filter {
+        max-width: 350px;
+        margin: 0 auto 30px;
+
+        .search-form-wrapper {
+            margin-right: 0;
+        }
+
+        .top-section {
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+            width: 100%;
+        }
+    }
+
+    .statement-table {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 575.98px) {
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) and (max-width: 767.98px) {  }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .statement-filter {
+        .search-form-wrapper {
+            max-width: 330px;
+        }
+
+        .bottom-section {
+            .form-control.datepicker-range {
+                max-width: 150px;
+            }
+        }
+    }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {  }

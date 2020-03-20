@@ -1,0 +1,312 @@
+/** Logo **/
+.logo {
+    display: block;
+    max-width: 192px;
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/** Header **/
+.header {
+    box-shadow: 0 3px 6px transparentize($color-header-shadow, 0.94);
+    position: relative;
+    z-index: 10;
+
+    .row {
+        min-height: 120px;
+    }
+
+    .dropdown-menu {
+        background-color: $color-white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px transparentize($color-black, 0.8);
+        // left: auto !important;
+        // right: 0 !important;
+        margin-top: 22px;
+
+        // .content-inner {
+        //     padding: 25px;
+        // }
+    }
+
+    .dropdown-toggle {
+        position: relative;
+
+        &::after {
+            display: none;
+        }
+
+        // &::after {
+        //     display: none;
+        //     bottom: -23px;
+        // 	left: 50%;
+        // 	border: solid transparent;
+        // 	content: " ";
+        // 	height: 0;
+        // 	width: 0;
+        // 	position: absolute;
+        // 	pointer-events: none;
+        //     border-color: rgba(136, 183, 213, 0);
+        // 	border-bottom-color: $color-white;
+        // 	border-width: 13px;
+        // 	margin-left: -26px;
+        //     z-index: 10000;
+        // }
+    }
+
+    .dropdown.show {
+        .dropdown-toggle {
+
+            // &::after {
+            //     display: block;
+            // }
+        }
+    }
+
+    .user-menu-wrapper {
+        margin-left: 30px;
+
+        .user-bal {
+            background-color: $color-green;
+            color: $color-white;
+            font-size: 16px;
+            line-height: 47px;
+            margin-right: 25px;
+            padding: 0 13px;
+        }
+
+        .user-dropdown-wrapper {
+            float: right;
+        }
+
+        .notification-dropdown {
+            float: left;
+            padding-right: 25px;
+
+            .dropdown-toggle {
+                line-height: 47px;
+            }
+
+            .dropdown-menu {
+                min-width: 250px;
+            }
+        }
+
+        .user-dropdown {
+            float: left;
+            padding-right: 12px;
+        }
+    }
+
+    .dropdown-toggle {
+        display: block;
+    }
+}
+
+.search-form-wrapper {
+    width: 100%;
+
+    .search-form {
+        border-radius: 6px;
+        box-shadow: 0 3px 6px transparentize($color-black, 0.9);
+        overflow: hidden;
+
+        input[type=search] {
+            border: none;
+            color: $color-search-text;
+            float: left;
+            font-size: 15px;
+            font-weight: $font-lite;
+            height: 47px;
+            margin-top: 0;
+            width: calc(100% - 45px);
+        }
+
+        button {
+            background: transparent;
+            border: none;
+            color: $color-search-icon;
+            cursor: pointer;
+            float: right;
+            font-size: 1.2rem;
+            line-height: 47px;
+            padding: 0;
+            text-align: center;
+            width: 45px;
+        }
+    }
+}
+
+/** Notification dropdown -- Header **/
+.notification-dropdown {
+
+    .has-notification {
+        position: relative;
+
+        &::before {
+            position: absolute;
+            content: '';
+            background-color: $color-lite-green;
+            border-radius: 50%;
+            width: 8.5px;
+            height: 8.5px;
+            right: -2px;
+            top: 3px;
+            z-index: 1;
+        }
+    }
+
+    .dropdown-toggle {
+        color: $color-notification;
+        font-size: 1.6rem;
+    }
+
+    .dropdown-menu {
+        padding: 14px 17px;
+    }
+
+    .content-inner {
+        color: $color-menu-text;
+        font-size: 14px;
+        position: relative;
+
+        ul {
+            font-weight: $font-lite;
+            margin-bottom: 60px;
+            padding-left: 15px;
+
+            li {
+                list-style-image: url('assets/img/list-ellipse.png');
+                margin-bottom: 5px;
+            }
+        }
+    }
+
+    .title {
+        font-size: 1em;
+    }
+
+    .settings-link {
+        color: $color-setting-icon;
+        font-size: 18px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 1;
+    }
+
+    .view-all {
+        display: block;
+        font-size: inherit;
+        width: 100%;
+    }
+}
+
+/** User dropdown -- HEader **/
+.user-dropdown {
+    .dropdown-menu {
+        font-size: 0.944rem;
+        padding: 0;
+    }
+
+    .dropdown-item {
+        padding: 0 24px 18px;
+
+        &:hover, &:focus {
+            background-color: transparent;
+        }
+    }
+
+    .top-section {
+        background-color: $color-grey-bg;
+        padding-top: 20px;
+
+        .dropdown-item {
+            font-size: 16px;
+            font-weight: $font-bold;
+        }
+
+        i {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .wallet {
+            color: $color-lite-green;
+        }
+
+        .bank {
+            color: $color-green;
+        }
+    }
+
+    .content-inner {
+        padding-top: 20px;
+
+        .dropdown-item {
+            &:hover, &:focus {
+                color: $color-lite-blue;
+            }
+        }
+    }
+}
+
+
+/** Responsive  CSS **/
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 767.98px) {
+    .header {
+        padding: 15px 0;
+
+        .logo {
+            display: block;
+            margin: 0 auto 10px;
+            max-width: 150px;
+            width: 100%;
+        }
+
+        .user-menu-wrapper {
+            margin: 0 0 10px;
+            width: 100%;
+
+            .user-bal {
+                margin-right: 15px;
+            }
+
+            .user-dropdown {
+                padding-right: 0;
+            }
+
+            .notification-dropdown {
+                .dropdown-menu {
+                    min-width: 200px;
+                }
+            }
+        }
+
+        .search-form-wrapper {
+            clear: both;
+        }
+    }
+}
+
+@media (max-width: 575.98px) {
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) and (max-width: 767.98px) {  }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {  }

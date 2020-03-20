@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "Invalid_Request";
+}
+
+<div class="col-sm-12">
+    <div class="alert alert-danger">
+        <p>@if (TempData["antiforegerymsg"] != null)
+        {@TempData["antiforegerymsg"] }</p>
+    </div>
+</div>
+

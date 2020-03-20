@@ -1,0 +1,296 @@
+.sidebar {
+    background-color: $color-white;
+    border-radius: 11px;
+    box-shadow: 0 4px 9px transparentize($color-black, 0.91);
+}
+
+/** User sidebasr styling **/
+.user-sidebar {
+    margin: 0 auto;
+    max-width: 364px;
+    width: 100%;
+
+    .top-section {
+        padding: 15px 24px;
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+
+            .img-holder {
+                max-width: 125px;
+                margin-right: 18px;
+            }
+
+            img {
+                border-radius: 50%;
+            }
+        }
+
+        .user-detail {
+            .name {
+                color: $color-dark-blue;
+                font-size: 0.944rem;
+                font-weight: $font-bold;
+            }
+
+            .phone {
+                font-size: 0.889rem;
+            }
+        }
+
+        .btn-wrapper {
+            overflow: hidden;
+
+            .btn {
+                color: $color-lite-green;
+                display: flex;
+                align-items: center;
+                float: left;
+                font-size: 12px;
+                justify-content: center;
+                padding-left: 5px;
+                padding-right: 5px;
+                max-width: calc(50% - 8px);
+                width: 100%;
+
+                i {
+                    font-size: 1.4rem;
+                    margin-right: 10px;
+                }
+
+                &:nth-child(even) {
+                    color: $color-green;
+                    float: right;
+                }
+            }
+        }
+    }
+
+    .user-menu {
+        margin: 0;
+        padding: 0;
+
+        li {
+            list-style: none;
+
+            a {
+                color: $color-menu-text;
+                font-size: 0.889rem;
+                display: block;
+                padding: 15px 24px;
+            }
+
+            &.active a,
+            a:hover, a:focus {
+                background-color: $color-bg-grey;
+                font-weight: $font-bold;
+            }
+
+            &.logout a {
+                color: $color-lite-blue;
+                font-weight: $font-bold;
+            }
+        }
+    }
+}
+
+/** Personal info section **/
+.personal-wrapper {
+    padding-top: 25px;
+
+    .bordered-title-below,
+    .content-wrapper {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .user-detail {
+        font-size: 0.944rem;
+        font-weight: $font-lite;
+
+        .item {
+            margin-bottom: 22px;
+        }
+
+        label {
+            color: $color-lite-green;
+            display: block;
+            font-weight: $font-bold;
+            margin-bottom: 4px;
+        }
+    }
+
+    .identity-detail {
+        font-size: 0.889rem;
+
+        label {
+            display: block;
+        }
+
+        .img-wrapper {
+            display: flex;
+            justify-content: space-between;
+
+            .img-holder {
+                max-width: calc(50% - 8px);
+            }
+
+            img {
+                border-radius: 11px;
+            }
+        }
+
+        .profile-img {
+            max-width: 120px;
+
+            img {
+                font-size: 8px;
+            }
+        }
+    }
+}
+
+.user-form-wrapper {
+    max-width: 660px;
+
+    .form-wrapper,
+    .notification-wrapper {
+        margin-right: 40px;
+        max-width: 300px;
+    }
+
+    .form-wrapper {
+        float: left;
+
+        .label-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5px 0 9px;
+
+            label {
+                color: $color-black;
+                font-size: 0.944rem;
+                font-weight: $font-bold;
+                margin-top: 0;
+            }
+
+            .show-password {
+                color: $color-dark-blue;
+                cursor: pointer;
+                font-size: 11px;
+                text-decoration: underline;
+            }
+        }
+
+        .form-control {
+            background-size: 23px auto;
+            background-position: calc(100% - 12px) center;
+            background-repeat: no-repeat;
+        }
+
+        .form-control.error {
+            background-image: url('assets/img/red-cross-small.svg');
+        }
+
+        .form-control.valid {
+            background-image: url('assets/img/green-tick-small.svg');
+        }
+
+        .btn-wrapper {
+            .btn {
+                width: 100%;
+            }
+        }
+    }
+
+    .notification-wrapper {
+        float: right;
+        margin-right: 0;
+    }
+}
+
+
+/** Responsive  CSS **/
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 767.98px) {
+    .user-sidebar {
+        margin-bottom: 30px;
+
+        .top-section {
+            .btn-wrapper {
+                .btn {
+                    max-width: none;
+                    margin-bottom: 20px;
+                }
+
+                .btn:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .personal-wrapper {
+        .identity-detail {
+            .item {
+                margin-bottom: 30px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .user-form-wrapper {
+        .notification-wrapper {
+            float: left;
+            margin-bottom: 20px;
+        }
+    }
+}
+
+@media (max-width: 575.98px) {
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) and (max-width: 767.98px) {  }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .user-sidebar {
+        margin-bottom: 50px;
+    }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .user-sidebar {
+        .top-section {
+            .btn-wrapper {
+                .btn {
+                    max-width: none;
+                    margin-bottom: 20px;
+                }
+
+                .btn:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .user-form-wrapper {
+        .notification-wrapper {
+            float: left;
+            margin-bottom: 20px;
+        }
+    }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {  }

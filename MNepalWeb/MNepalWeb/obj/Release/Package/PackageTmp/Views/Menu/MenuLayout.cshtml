@@ -1,0 +1,46 @@
+﻿
+
+<fieldset>
+    <ul>
+        <li class="header">MAIN NAVIGATION</li>
+        <li class="active treeview menu-open">
+            <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="~/AdminDashboard"><i class="fa fa-circle-o"></i> Dashboard</a></li>
+            </ul>
+        </li>
+        @{
+            foreach (System.Data.DataRow dr in ViewBag.Menu.Rows)
+            {
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-users"></i>
+                        <span> @dr["Description"] </span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    @{
+                        ((MNepalWeb.Controllers.MenuController)this.ViewContext.Controller).Get_Submenu(Convert.ToInt32(dr["parentMenuId"]));
+                    }
+                    <ul class="treeview-menu">
+                        @{
+                            foreach (MNepalWeb.Models.MenuItem subitem in Session["submenu"] as List<MNepalWeb.Models.MenuItem>)
+                            {
+                                <li>
+                                    <a href=@subitem.Url> <i class="fa fa-user-plus"></i> @subitem.Name</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+            }
+        }
+    </ul>
+</fieldset>

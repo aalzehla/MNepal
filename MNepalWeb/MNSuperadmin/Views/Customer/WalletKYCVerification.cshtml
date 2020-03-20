@@ -1,0 +1,258 @@
+﻿
+@{
+    ViewBag.Title = "WalletKYCVerification";
+}
+
+<section class="content-header">
+    <h1>
+        Customer
+        @*<small>Registration Approval</small>*@
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> @ViewContext.RouteData.Values["Controller"].ToString()</a></li>
+        <li class="active">@*@ViewContext.RouteData.Values["Action"].ToString()*@Wallet KYC Verification </li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Start Form -->
+            <!-- Start Data Show in Table -->
+            <div id="CustomerApprove" class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Wallet KYC Verification</h3>
+                </div>
+                <!-- /.box-header -->
+
+
+
+
+                @if (this.ViewData["custapprove_messsage"] != null)
+                {
+                    if (this.ViewData["message_class"].ToString() == "success_info")
+                    {
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4> @this.ViewData["custapprove_messsage"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error</h4> @this.ViewData["custmodify_messsage"]
+                        </div>
+                    }
+                }
+
+                <div class="box-body">
+                    <div class="box box-primary">
+
+                        @using (Html.BeginForm("WalletKYCVerification", "Customer", FormMethod.Get, new { @id = "WalletKYCVerification" }))
+                        {
+                            <div class="box-body">
+                                <div class="row">
+                                    <!-- radio -->
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <input type="radio" name="Key" id="optionsRadios1" value="Mobile" checked />
+                                            <label>Mobile Number</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="glyphicon glyphicon-phone" style="color:royalblue"></i>
+                                                </div>
+                                                <input type="text" class="form-control" id="txtMobileNoID" name="Value" placeholder="Mobile Number" maxlength="10" onkeypress="return isNumber(event);" value="@ViewBag.Value" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="box-footer">
+                                <input type="submit" class="btn btn-primary" id="btnSearch" name="txtSearch" value="Search" />
+                            </div>
+                        }
+
+
+                    </div>
+
+                    <div>
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#Self" aria-controls="Self" role="tab" data-toggle="tab">Self Registered  <span class="badge">@((ViewData["dtableCustForApprovalSelf"] as System.Data.DataTable).Rows.Count)</span> </a> </li>
+                        
+                            @*<li role="presentation"><a href="#Agent" aria-controls="Agent" role="tab" data-toggle="tab">Agent Registered  <span class="badge">@((ViewData["dtableCustForApprovalAgent"] as System.Data.DataTable).Rows.Count)</span> </a> </li>*@ 
+                          
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            
+                            <div role="tabpanel" class="tab-pane active" id="Self">
+                                <table class="table table-condensed" id="usersself">
+                                    <thead style="text-align:left">
+                                        <tr>
+                                            <th>Mobile Number</th>
+                                            <th>Customer Name</th>
+                                            <th>Address</th>                                           
+                                            <th style="text-align:center">Created By</th>
+                                            <th style="text-align:center">Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="text-align:left">
+
+                                        @if ((ViewData["dtableCustForApprovalSelf"] as System.Data.DataTable).Rows.Count > 0)
+                                        {
+                                            foreach (System.Data.DataRow dr in (ViewData["dtableCustForApprovalSelf"] as System.Data.DataTable).Rows)
+                                            {
+                                                <tr>
+                                                    <td> @dr["MobileNumber"] </td>
+                                                    <td> @dr["Name"] </td>
+                                                    <td> @dr["Address"] </td>                                                    
+                                                    <td style="text-align:center"> Self</td>
+                                                    <td style="text-align:center">
+                                                        <a href="@Url.Action("ViewSelfRegDetail", "Customer", new { id = dr["ClientCode"].ToString().Trim() })"><i class="fa fa-eye" title="View"></i></a>
+                                                    </td>
+                                                </tr>
+                                            } <!-- for each end-->
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                             
+                            <div role="tabpanel" class="tab-pane" id="Agent">
+                                <table class="table table-condensed" id="usersagent">
+                                    <thead style="text-align:left">
+                                        <tr>
+                                            @*<th>@Html.CheckBox("chkSelectAllCus1", false)</th>*@
+                                            <th>Mobile Number</th>
+                                            <th>Customer Name</th>
+                                            <th>Address</th>                                         
+                                            <th style="text-align:center">CreatedBy</th>
+                                            <th style="text-align:center">Details</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody style="text-align:left">
+
+
+                                        @if ((ViewData["dtableCustForApprovalAgent"] as System.Data.DataTable).Rows.Count > 0)
+                                        {
+                                            foreach (System.Data.DataRow dr in (ViewData["dtableCustForApprovalAgent"] as System.Data.DataTable).Rows)
+                                            {
+                                                <tr>
+                                                    @*<td><input  type="checkbox" id="string.Format("chkSelectCus{0}", i)" name="chkbxGroup" value="@dr["ClientCode"]" /></td>*@
+                                                    <td> @dr["MobileNumber"] </td>
+                                                    <td> @dr["Name"] </td>
+                                                    <td> @dr["Address"] </td>                                                    
+                                                    <td style="text-align:center"> Agent</td>
+                                                    <td style="text-align:center">
+                                                        <a href="@Url.Action("ViewAgentRegDetail", "Customer", new { id = dr["ClientCode"].ToString().Trim() })"><i class="fa fa-eye" title="View"></i></a>
+                                                    </td>
+                                                </tr>
+                                            } <!-- for each end-->
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                             
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+                <div>
+                    @*<input id="btnSelApprove" name="btnSelApprove" type="button" class="btn btn-primary pull-right" value="Select and Approve" />
+                        &nbsp;&nbsp;
+                        <input id="btnSelReject" name="btnSelReject" type="button" class="btn btn-primary pull-right" value="Reject" />*@
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+@section scripts {
+
+    <script>
+
+       var selfregisteredusers= $('#usersself').DataTable({
+            "ordering": false,
+            "filter": false,
+            "sorting": false,
+            "info": false,
+            "lengthChange": false,
+            "language": {
+                "emptyTable": "No records found matching the search parameter"
+            }
+
+       });
+         
+        var agentregisteredusers = $('#usersagent').DataTable({
+            "ordering": false,
+            "filter": false,
+            "sorting": false,
+            "info": false,
+            "lengthChange": false,
+            "language": {
+                "emptyTable": "No records found matching the search parameter"
+            }
+
+        });
+         
+        $(document).ready(function () {
+        });
+        
+        /**Validation Check */
+        $('#ApproveList').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                Value: {
+                    validators: {
+                        stringlength: {
+                           min: 10,
+                            max: 10,
+                            message: 'Please enter valid Mobile No'
+
+                        },
+                        regexp: {
+                            regexp: '^$|[9][8][0-9]{8}$',
+                            message: 'Mobile no must start with 98 and should be 10 digits'
+
+                        }
+                    }
+                }
+
+
+            }
+
+        });
+        if (selfregisteredusers.data().any()) {
+            //$('#Self').tab('show');
+            $('a[href="#Self"]').tab('show');
+            console.log($('#Self').tab('show'));
+        }
+
+         
+        if (agentregisteredusers.data().any()) {
+            $('a[href="#Agent"]').tab('show');
+
+            console.log($('#Agent').tab('show'));
+        }
+       
+    </script>
+}
+<!-- =============================================== -->

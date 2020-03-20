@@ -1,0 +1,639 @@
+﻿
+@model ThailiMerchantApp.Models.BankLink
+@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = "Index";
+
+    List<SelectListItem> BankName = new List<SelectListItem>();
+    BankName.Add(new SelectListItem { Text = "NIBL", Value = "NIBL" });
+}
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />
+<link href="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+<style>
+    .image_icon {
+        width: 50px;
+    }
+
+    .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        margin-right: 13px;
+        position: relative;
+        z-index: 2;
+    }
+    /*.Rs-icon {
+        float: left;
+        margin-left: 12px;
+        margin-top: -33px;
+        color: #666666;
+        font-weight: 1;
+    }*/
+
+</style>
+
+<!-- Main content -->
+<div class="main-content">
+    <div class="two-colbg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <section class="internet-payment pad-50">
+                        <div class="top-section">
+                            <h2 class="title">Link Bank Account</h2>
+                            <p>Please enter your bank account number to get rid of restrictions.</p>
+                            @*<p>For validity information, please <a href="#">click here</a></p>*@
+                        </div>
+                        <!-- /top-section -->
+
+                        <div class="instant-transactions">
+                            <h3 class="title">Instant Transactions</h3>
+
+                            <div class="transactions-grid clearfix">
+                                <div class="item load-wallet">
+                                    <div class="item-inner">
+                                        <a href="~/LoadWallet/EBanking">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-load-wallet"></i>
+                                                <span>Load Wallet</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                @*<div class="item transfer-fund">
+                                    <div class="item-inner">
+
+
+                                        <a href="@Url.Action("Index", "FundTransfer")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-transfer-funds"></i>
+                                                <span>Transfer funds</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>*@
+                                <!-- /item -->
+
+                                @*<div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="~/UtilityPay/TopUp">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-top-up"></i>
+                                                <span>Top Up</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>*@
+                                <!-- /item -->
+                                @*<div class="item recharge">
+                                    <div class="item-inner">
+                                        <a href="~/UtilityPay/NewRecharge">
+                                            
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-recharge"></i>
+                                                <span>Recharge</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>*@
+                                <!-- /item -->
+                                @*<div class="item withdraw">
+                                        <div class="item-inner">
+                                            <a href="~/FundTransfer/Withdraw">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-wallet"></i>
+                                                    <span>Withdraw </span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>*@
+                                <!-- /item -->
+                                @*<div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/FundTransfer/Withdraw">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-wallet"></span>
+                                                <span style="color:#bf8040;">Withdraw</span>
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>*@
+                                @*<div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/MerchantPayment/MerchantRestaurant">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-merchant"></span>
+                                                <span style="color:#002d6a;">Merchants</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>*@
+                                <!-- /item -->
+
+                                @*<div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/Cash/Out">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-cashout"></span>
+                                                <span style="color:#ff9966;">Cash Out</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>*@
+
+                                @*<div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/Cash/In">
+                                            <div class="content-inner">
+                                                <img src="~/Content/assets/img/icons/icon-cashin.svg" style="max-width: 79%;" />
+
+                                                <span style="color:#00aeef;">Cash In</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>*@
+                                <!-- /item -->
+                            </div>
+                        </div>
+                        <!-- /instant transactions -->
+                    </section>
+                    <!-- /internet-payment -->
+                </div>
+
+                <div class="col-lg-6 right-form">
+                    <section class="content-inner pad-50">
+                        @using (Html.BeginForm("Index", "BankAcc", FormMethod.Post, new { @id = "linkBankAcc" }))
+                        //@using (Html.BeginForm(new { @id = "linkBankAcc", @name = "linkBankAcc", @class = "transaction-form common-form" }))//"Index", "FundTransfer", FormMethod.Post,
+                        {
+                            <div id="ajaxResponse">
+                            </div>
+
+                            if (this.ViewData["fundTransfer_messsage"] != null)
+                            {
+                                if (this.ViewData["message_class"].ToString() == "success_info")
+                                {
+
+                                    <div class="alert alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Success &nbsp;</h4> <div class="content-inner"> @this.ViewData["fundTransfer_messsage"] </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Error</h4> @this.ViewData["fundTransfer_messsage"]
+                                    </div>
+                                }
+                            }
+
+                            <div class="box-body">
+                                <!-- /.form-group -->
+
+                                <div class="form-group">
+
+                                    <input type="text" id="mobileNo" name="mobileNo" value="@ViewBag.userName" class="form-control" placeholder="Mobile Number" pattern=".{10,10}" required title="Please use Mobile Number" maxlength="10" onkeypress="return isNumber(event)" readonly hidden="hidden" />
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Account Holder's Name  (<span style="color:red">*</span>)</label>
+                                    <input type="text" id="name" name="name" class="form-control" placeholder="Name" required title="Please use Name" maxlength="10" value="@ViewBag.name" readonly />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Select a Bank (<span style="color:red">*</span>)</label>
+                                    @Html.DropDownListFor(model => model.bankName, new SelectList(BankName, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "BankName" })
+                                </div>
+
+                                @*<div class="form-group">
+                                        <label> Date of Birth (<span style="color:red">*</span>)</label>
+                                        <input type="text" id="dob" name="dob" class="form-control date-picker" placeholder=" Date of Birth" required title="Please use DOB" onchange="checkValidation()" />
+                                    </div>
+                                    <div id="DOB" style="color:red; margin-top:-11px;"></div>*@
+
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-8" id="ADDivision">
+                                        <label class="control-label">Date of Birth (<b style="color:red;">*</b>)</label>
+                                        @Html.EditorFor(model => model.DOB1, new { htmlAttributes = new { @class = "form-control date-picker", @maxlength = "10", @placeholder = " DD/MM/YYYY", @id = "DOB1", @onchange = "checkValidation()" } })
+
+                                        @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "DD/MM/YYYY", @hidden = true, @id = "DOB" } })
+
+                                        <div id="validateADDate" style="color:red; padding-top:3px;"></div>
+                                    </div>
+
+                                    <div class="form-group col-md-8" id="BSDiv">
+                                        <label class="control-label">Date of Birth (<b style="color:red;">*</b>)</label>
+                                        @*<input type="text" id="nepaliDate" name="DOBBS" class="nepali-calendar form-control" value="" />*@
+                                        @Html.EditorFor(model => model.BSDateOfBirth, new { htmlAttributes = new { @class = "form-control lnepali-calendar ", @maxlength = "10", @placeholder = "YYYY-MM-DD", @onchange = "checkValidation()", @id = "BSDateOfBirth" } })
+                                        <div id="validateBSDate" style="color:red; padding-top:3px;"></div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">&nbsp;</label>
+                                        <div class="switch-field">
+                                            <input type="radio" id="switch_left" name="dateFormat" value="AD" checked />
+                                            <label class="form-control" for="switch_left">AD</label>
+                                            <input type="radio" id="switch_right" name="dateFormat" value="BS" />
+                                            <label class="form-control" for="switch_right">BS</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Account Number (<span style="color:red">*</span>)</label>
+                                    <input type="text" id="accNo" name="accNo" class="form-control" placeholder="Account Number" pattern=".{14,14}" required title="Please use Bank Account Number" maxlength="14" onkeypress="return isNumber(event)" onchange="checkValidation()" />
+                                </div>
+                                <div id="AccNo" style="color:red; margin-top:-11px;"></div>
+
+                                <div class="form-group">
+                                    <label>Verify Account Number (<span style="color:red">*</span>)</label>
+                                    <input type="text" id="verifyAccNo" name="verifyAccNo" class="form-control" placeholder="Verify Account Number" pattern=".{14,14}" required title="Please use Bank Account Number" maxlength="14" onkeypress="return isNumber(event)" onchange="checkValidation()" />
+                                </div>
+                                <div id="VerifyAccNo" style="color:red; margin-top:-11px;"></div>
+
+                                <!-- /.form-group -->
+                            </div>
+
+                            <div class="box-footer" style="margin-top:19px;">
+                                <input type="submit" class="btn btn-blue btn-big col-md-5" id="btnSubmit" name="txtSubmit" value="Confirm" />
+                                <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
+                            </div>
+
+                        }
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success modal -->
+<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/success-tick.svg" alt="">
+                </div>
+                <p class="msg">Congratulations!</p>
+                <span>Your request has been queued for the approval. You’ll be notified shortly.</span>
+                 <br /> <br />
+                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Failure modal -->
+<div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/denied-cross.svg" alt="">
+                </div>
+                <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
+                <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <link href="~/Content/date_comp/nepali.datepicker.v2.2.min.css" rel="stylesheet" />
+    <script src="~/Content/date_comp/nepali.datepicker.v2.2.min.js"></script>
+
+    <!--jQuery Form Validation code -->
+    <script type="text/javascript">
+
+
+        function checkValidation() {
+
+            var accNo = $("[name='accNo']").val();
+            var verifyAccNo = $("[name='verifyAccNo']").val();
+            var dob = $("[name='DOB']").val();
+
+            if (accNo.trim() == "") {
+                $("#AccNo").html("");
+                $("#AccNo").append("<small>" + "Please Enter Bank Account Number" + "</small>");
+                $("#AccNo").show();
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+            else if (accNo.length != 14) {
+                $("#AccNo").html("");
+                $("#AccNo").append("<small>" + "Bank Account Number must be of 14 digits" + "</small>");
+                $("#AccNo").show();
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+            else {
+                $("#AccNo").hide();
+                $('#btnSubmit').removeAttr('disabled');
+            }
+
+            if (verifyAccNo.trim() == "") {
+                $("#VerifyAccNo").html("");
+                $("#VerifyAccNo").append("<small>" + "Please Enter Bank Account Number" + "</small>");
+                $("#VerifyAccNo").show();
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+            else if (verifyAccNo.length != 14) {
+                $("#VerifyAccNo").html("");
+                $("#VerifyAccNo").append("<small>" + "Bank Account Number must be of 14 digits" + "</small>");
+                $("#VerifyAccNo").show();
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+            else if (verifyAccNo != accNo) {
+                $("#VerifyAccNo").html("");
+                $("#VerifyAccNo").append("<small>" + "Your Bank Account does not match." + "</small>");
+                $("#VerifyAccNo").show();
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+            else {
+                $("#VerifyAccNo").hide();
+                $('#btnSubmit').removeAttr('disabled');
+            }
+            if (dob.trim() == "") {
+                $("#validateADDate").html("");
+                $("#validateADDate").append("<small>" + "The DOB is required and cannot be empty" + "</small>");
+                $('#validateADDate').show();
+                $("#validateBSDate").html("");
+                $("#validateBSDate").append("<small>" + "The DOB is required and cannot be empty" + "</small>");
+                $('#validateBSDate').show();
+            }
+            else {
+                $('#validateADDate').hide();
+                $('#validateBSDate').hide();
+            }
+        }
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                checkValidation();
+                return false;
+            }
+            checkValidation();
+            return true;
+        }
+
+
+        $(document).ready(function () {
+
+            $('#BSDiv').hide();
+            $('input[type=radio][name=dateFormat]').change(function () {
+                var val = $(this).val();
+                if (val != "BS") {
+                    $('#BSDiv').hide();
+                    $('#ADDivision').show();
+                }
+                else {
+                    $('#BSDiv').show();
+                    $('#ADDivision').hide();
+                }
+            });
+
+
+            $("#DOB1").datepicker({
+                dateFormat: 'yy-mm-dd',
+                yearRange: "-100:+0",
+                changeMonth: true,
+                changeYear: true,
+                maxDate: new Date
+            });
+
+            $('#BSDateOfBirth').nepaliDatePicker({
+                npdMonth: true,
+                npdYear: true,
+                npdYearCount: 100, // Options | Number of years to show
+                ndpEnglishInput: 'DOB1',
+                disableDaysAfter: '1',
+                onChange: function () {
+
+                    $('#DOB1').val(BS2AD($('#BSDateOfBirth').val()));
+
+                    var ADdate = $('#DOB1').val();
+                    $('#DOB').val(ADdate);
+                    var date = new Date(ADdate);
+                    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    var monthName = monthNames[date.getMonth()];
+                    var day = date.getDate();
+                    var year = date.getFullYear();
+                    var month = date.getMonth() + 1;
+                    //var final = monthName + ' ' + day + ' ' + year;
+                    //var final = day + '/' + month + '/' + year;
+                    if (month < 10) {
+                        var final = day + '/0' + month + '/' + year;
+                    }
+                    else {
+                        var final = day + '/' + month + '/' + year;
+                    }
+                    $('#DOB1').val(final);
+                }
+            }
+            );
+
+            //$("#dob").datepicker({
+            //    dateFormat: 'yy-mm-dd',
+            //    yearRange: "-100:+0",
+            //    changeMonth: true,
+            //    changeYear: true,
+            //    maxDate: new Date
+            //});
+
+            $("#clearButton").click(function () {
+                $("#accNo").val("");
+                $("#dob1").val("");
+                $("#verifyAccNo").val("");
+                $("#AccNo").hide();
+                $("#VerifyAccNo").hide();
+                $('#validateADDate').hide();
+                $('#validateBSDate').hide();
+            });
+
+            $('#DOB1').change(function () {
+                $('#BSDateOfBirth').val(AD2BS($('#DOB1').val()));
+                var date = $('#DOB1').val();
+                $('#DOB').val(date);
+                var test = $('#DOB').val();
+                var date1 = new Date(date);
+                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                var monthName = monthNames[date1.getMonth()];
+                var day = date1.getDate();
+                var year = date1.getFullYear();
+                var month = date1.getMonth() + 1;
+                //var final = monthName + ' ' + day + ' ' + year;
+                //var final = day + '/' + month + '/' + year;
+                if (month < 10) {
+                    var final = day + '/0' + month + '/' + year;
+                }
+                else {
+                    var final = day + '/' + month + '/' + year;
+                }
+                $('#DOB1').val(final);
+            });
+
+            $('#btnSubmit').click(function (e) {
+                debugger;
+                e.preventDefault();
+
+                var mobileNo = $("[name='mobileNo']").val();
+                var name = $("[name='name']").val();
+                var accNo = $("[name='accNo']").val();
+                var verifyAccNo = $("[name='verifyAccNo']").val();
+                var dob = $("[name='DOB']").val();
+
+                if ((mobileNo != "") && (mobileNo.length == 10) && (name != "") && (accNo != "") && (accNo.length == 14)&&(verifyAccNo != "") && (verifyAccNo.length == 14) && (dob != ""))
+                {
+                    var dataToPost = {
+                        MobileNumber: mobileNo,
+                        Name: name,
+                        accNo: accNo,
+                        dob: dob
+
+                    };
+
+                    e.preventDefault(); //prevent the default action
+                    $.ajax({
+                        url: '@Url.Action("Index", "BankAcc")',
+                        type: "POST",
+                        data: dataToPost,
+                        async: false,
+                        success: function (data) {
+                            if (data.responseCode == "200") {
+
+                                //$("#ajaxResponse").html("");
+                                //var resp = JSON.parse(data.responseText);
+                                //$('#successModal').modal("show");
+
+                                //$("#mobileNo").val("");
+                                //$("#accNo").val("");
+                                //$("#verifyaccNo").val("");
+
+                                $("#ajaxResponse").html("");
+                                //var resp = JSON.parse(data.responseText);
+                                $('#successModal').modal("show");
+
+                                $("#DOB1").val("");
+                                $("#BSDateOfBirth").val("");
+                                $("#accNo").val("");
+                                $("#verifyAccNo").val("");
+                            }
+                            //display error message
+                            else {
+                                $("#ajaxResponse").html("");
+                                $("#message").html("");
+                                $("#message").append(data.responseText);
+                                $('#failureModal').modal("show");
+
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert('Failed to retrieve.');
+                            $("#message").html("");
+                            $("#message").append(jqXHR.responseText);
+                            $('#failureModal').modal("show");
+                        },
+                        //capture the request before it was sent to server
+                        beforeSend: function (jqXHR, settings) {
+                            //adding some Dummy data to the request
+                            settings.data += "&dummyData=whatever";
+                            //disable the button until we get the response
+                            $('#btnSubmit').attr("disabled", true);
+                        },
+                        complete: function (jqXHR, textStatus) {
+                            //enable the button
+                            $('#btnSubmit').attr("disabled", false);
+                        }
+                    });
+
+                }
+                else
+                {
+                    checkValidation();
+                    $("#message").html("");
+                    $("#message").append("Please Enter the required fields.");
+                    $('#failureModal').modal("show");
+                }
+            });
+
+            //function checkValidation() {
+            //    debugger;
+            //    var accNo = $("[name='accNo']").val();
+            //    var dob = $("[name='dob']").val();
+
+            //    if (accNo.trim() == "") {
+            //        $("#AccNo").html("");
+            //        $("#AccNo").append("<small>" + "Please Enter Bank Account Number" + "</small>");
+            //        $("#AccNo").show();
+            //    }
+            //    else if (accNo.length != 14) {
+            //        $("#AccNo").html("");
+            //        $("#AccNo").append("<small>" + "Bank Account Number must be of 14 digits" + "</small>");
+            //        $("#AccNo").show();
+            //    }
+            //    else {
+            //        $("#AccNo").hide();
+            //    }
+
+            //    if (dob.trim() == "") {
+            //        $("#DOB").html("");
+            //        $("#DOB").append("<small>" + "Please Enter the DOB" + "</small>");
+            //        $("#DOB").show();
+            //    }
+            //    else {
+            //        $("#DOB").hide();
+            //    }
+            //}
+
+             //$('#linkBankAcc').bootstrapValidator({
+            //    feedbackIcons: {
+            //        valid: 'glyphicon glyphicon-ok',
+            //        invalid: 'glyphicon glyphicon-remove',
+            //        validating: 'glyphicon glyphicon-refresh'
+            //    },
+            //    fields: {
+            //        accNo: {
+            //            validators: {
+            //                integer: {
+            //                    message: 'The value is not an integer'
+            //                },
+            //                notEmpty: {
+            //                    message: 'The Account Number is required and cannot be empty'
+            //                },
+            //                stringLength: {
+            //                    max: 14,
+            //                    min: 14,
+            //                    message: 'The Account Number must be 14 characters long'
+            //                }
+            //            }
+            //        },
+            //        verifyaccNo: {
+            //            validators: {
+            //                integer: {
+            //                    message: 'The value is not an integer'
+            //                },
+            //                notEmpty: {
+            //                    message: 'The Account Number is required and cannot be empty'
+            //                },
+            //                stringLength: {
+            //                    max: 14,
+            //                    min: 14,
+            //                    message: 'The Account Number must be 14 characters long'
+            //                }
+            //            }
+            //        }
+            //    }
+            //});
+
+        });
+
+
+    </script>
+}
+

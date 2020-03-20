@@ -1,0 +1,357 @@
+﻿
+@{
+    ViewBag.Title = "Verify";
+    Layout = "";
+
+    string _WebUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["WebAddress"];
+    var loginLink = Path.Combine(_WebUrl + "Login/Index");
+    var backgroundLink = Path.Combine(_WebUrl + "Content/assets/img/home-bg.png");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MNepal | Mobile Banking</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    @*///start milayako*@
+    <!-- /Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Chivo:300,400,700" rel="stylesheet">
+    <!-- Custom style -->
+    <link href="~/Content/ThaliStyle.css" rel="stylesheet" />
+    <link rel="icon" type="image/ico" href="~/favicon.ico">
+    @*//end milayako*@
+
+    <script src="~/Content/assets/js/jquery.js"></script>
+    <script type="text/javascript" src="~/Content/assets/vendor/bootstrap/js/popper.min.js"></script>
+    <script type="text/javascript" src="~/Content/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap select -->
+    <script type="text/javascript" src="~/Content/assets/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <!-- Bootstrap Datepicker -->
+    <script type="text/javascript" src="~/Content/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <!-- BX Slider -->
+    <script type="text/javascript" src="~/Content/assets/vendor/bxslider/js/jquery.bxslider.js"></script>
+    <!-- Match Height -->
+    <script type="text/javascript" src="~/Content/assets/vendor/matchHeight/jquery.matchHeight.js"></script>
+    <!-- jQuery Validation -->
+    <script type="text/javascript" src="~/Content/assets/vendor/jquery-validation/jquery.validate.min.js"></script>
+    <!-- custom js -->
+    <script type="text/javascript" src="~/Content/assets/js/main.js"></script>
+
+</head>
+<body>
+
+    @*//start milayako*@
+    <!-- Failure modal -->
+    <div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="success-icon">
+                        <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
+                    </div>
+                    <p style="color: #e31837; font-size: 20px; font-weight: 700;">@this.TempData["message_topic"]</p>
+                    <span style="color: #002d6a; font-size: 18px; font-weight: 400;" id="message">@this.TempData["recover_msg"]</span>
+                    <br /> <br />
+                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="hero-bg text-center" style="background-image: url(@backgroundLink); ">
+            <div class="container">
+                <a href="@loginLink" class="logo">
+                    <img src="~/Content/assets/img/thaili-logo.svg" alt="thaili-logo" />
+
+                </a>
+                <!-- /logo -->
+
+                <div class="form-wrapper">
+
+                    @using (Html.BeginForm("Verify", "SignupByAgent", FormMethod.Post, new
+                    {
+                        @id = "VerifyForm",
+                        @class = "form  center-block"
+                    }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+
+                        if (this.TempData["recover_msg"] != null)
+                        {
+                            if (this.TempData["message_class"].ToString() == "success_info")
+                            {
+                                <div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <h4>Success</h4> @this.ViewData["recover_msg"]
+                                </div>
+                            }
+                            else
+                            {
+                                <script>$('#failureModal').modal();</script>
+
+                                @*<div class="alert alert-danger">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Error</h4> @this.ViewData["recover_message"]
+                                    </div>*@
+                            }
+                        }
+
+                        <input type="text" id="verificationCode" name="txtVerificationCode" class="form-control" placeholder="SMS PIN Verification" pattern="[0-9]\d*" min="0" step="1" onkeypress="return isNumber(event)" onchange="checkValidation()" maxlength="6" onpaste="return false" />
+                        <div id="verifyCode" style="color:red;"></div>
+
+                        <div class="button-wrapper">
+                            <button type="submit" class="btn btn-blue" onclick="checkValidation()" id="btnSubmit">Verify</button>
+
+                        </div>
+                        <span class="info">Enter the code received via SMS</span>
+                        <div style="margin-top:5px;">
+                            <span class="account-info">Did not get your code? <a href="~/SignupByAgent/ResendCode">Resend Code</a></span>
+                        </div>
+
+                    }
+                    <!-- /Login form -->
+                </div>
+                <!-- /form-wrapper -->
+
+                <div class="two-col text-left">
+                    <div class="row align-items-end">
+                        <div class="col-md-6 google-play">
+                            <p>Available for download on</p>
+                            <a href="#">
+                                <img src="~/Content/assets/img/playstore-icon.png" alt="playstore-icon" />
+                            </a>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p>Are you receiving money from a thaili account?</p>
+                            <a href="#" class="btn btn-orange">Click here</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /two-col -->
+
+                <div class="powered-by">
+                    <h5 class="title">Powered by</h5>
+                    <img src="~/Content/assets/img/nibl-logo.png" alt="nibl-logo" />
+
+                </div>
+                <!-- /powerred-by -->
+            </div>
+        </div>
+        <!-- /hero-bg -->
+    </div>
+    <!-- /main-content -->
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <a href="@loginLink" class="logo">
+                            <img src="~/Content/assets/img/thaili-logo.svg" alt="thaili-logo">
+                        </a>
+                    </div>
+
+                    <div class="col-lg-8">
+                        <ul class="footer-menu">
+                            <li>
+                                <a href="#">Policy</a>
+                                <ul>
+                                    <li>@Html.ActionLink("Privacy Policy", "PrivacyPolicy", "PrivacyPolicy")</li>
+                                    <li>@Html.ActionLink("Terms and Conditions", "Index", "TermsAndCondition")</li>
+                                    <li><a href="#">Report Fraud or Misuse of Account</a></li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="#">Company</a>
+                                <ul>
+                                    <li><a href="#">About us</a></li>
+                                    <li><a href="#">Career</a></li>
+                                    <li><a href="#">Blog/News</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Partners</a>
+                                <ul>
+                                    <li><a href="#">Banks</a></li>
+                                    <li><a href="#">Western Union</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Help</a>
+                                <ul>
+                                    <li><a href="#">FAQ's</a></li>
+                                    <li><a href="#">Contact us</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /footer-top -->
+
+            <div class="footer-bottom">
+                <div class="row align-items-end">
+                    <div class="col-md-6">
+                        <h5 class="title">Powered by</h5>
+                        <a href="#" class="nibl-logo">
+                            <img src="~/Content/assets/img/nibl-logo.svg" alt="nibl-logo">
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 cnt-right text-right">
+                        <span class="copyright">Thaili Digital Paisa @DateTime.Now.Year. All Right Reserved</span><br />
+                        @*<span class="crafted-by">Crafted by <a href="http://act360.com.np/" target="_blank">ACT360</a></span>*@
+                    </div>
+                </div>
+            </div>
+            <!-- /footer-bottom -->
+        </div>
+    </footer>
+    @*//end milayako*@
+
+    @*<div class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+
+            @using (Html.BeginForm("Verify", "SignupByAgent", FormMethod.Post, new
+            {
+                @id = "VerifyForm",
+                @class = "form col-md-12 center-block"
+            }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                if (this.ViewData["recover_message"] != null)
+                {
+                    if (this.ViewData["message_class"].ToString() == "success_info")
+                    {
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4> @this.ViewData["recover_message"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error</h4> @this.ViewData["recover_message"]
+                        </div>
+                    }
+                }
+
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+
+                            <img src="~/Content/image/nibl.png" alt="NIBL LOGO" style="margin-left:50px">
+
+                            <h2 class="text-center"><b>Verify</b></h2>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="form-group has-feedback">
+                                <input type="text" id="verificationCode" name="txtVerificationCode" class="form-control" placeholder="Verification Code" pattern="[0-9]\d*" min="0" step="1" required />
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    VERIFY
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <div class="col-md-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>*@
+
+    <!-- /.login-box -->
+    <!-- jQuery 3 -->
+    @*<script src="~/Content/bower_components/jquery/dist/jquery.min.js"></script>
+        <!-- Bootstrap 3.3.7 -->
+        <script src="~/Content/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+        <!-- Load jQuery and the validate plugin -->
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>*@
+
+    <!-- jQuery Form Validation code -->
+    <script type="text/javascript">
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        $("#verifyCode").hide();
+
+        function checkValidation() {
+            var veriCode = $("[name='txtVerificationCode']").val();
+
+            if (veriCode.trim() == "") {
+                $("#verifyCode").html("");
+                $("#verifyCode").append("<small>" + "Please Enter the Verification Code" + "</small>");
+                $("#verifyCode").show();
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+            else if (veriCode.length < 6) {
+                $("#verifyCode").html("");
+                $("#verifyCode").append("<small>" + "Verification Code must be of 6 digits" + "</small>");
+                $("#verifyCode").show();
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+            else {
+                $("#verifyCode").hide();
+                $('#btnSubmit').removeAttr('disabled');
+            }
+        }
+
+            //$(document).ready(function () {
+
+            //    $('#VerifyForm').bootstrapValidator({
+            //        feedbackIcons: {
+            //            valid: 'glyphicon glyphicon-ok',
+            //            invalid: 'glyphicon glyphicon-remove',
+            //            validating: 'glyphicon glyphicon-refresh'
+            //        },
+            //        fields: {
+            //            txtVerificationCode: {
+            //                validators: {
+            //                    notEmpty: {
+            //                        message: 'The verification code is required and cannot be empty'
+            //                    },
+            //                    stringLength: {
+            //                        max: 6,
+            //                        min: 6,
+            //                        message: 'Please Enter a verification code'
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    });
+            //});
+    </script>
+
+</body>
+</html>
+
+

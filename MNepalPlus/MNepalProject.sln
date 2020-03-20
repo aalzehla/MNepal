@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MNepalProject", "MNepalProject\MNepalProject.csproj", "{8CCFD27F-DD09-4D52-967B-FEF2CD989CC8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A34B77C2-47DF-41F2-805E-629E3C86FFD7} = {A34B77C2-47DF-41F2-805E-629E3C86FFD7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCF.MNepal", "WCF.MNepal\WCF.MNepal.csproj", "{A34B77C2-47DF-41F2-805E-629E3C86FFD7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CCFD27F-DD09-4D52-967B-FEF2CD989CC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CCFD27F-DD09-4D52-967B-FEF2CD989CC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CCFD27F-DD09-4D52-967B-FEF2CD989CC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CCFD27F-DD09-4D52-967B-FEF2CD989CC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A34B77C2-47DF-41F2-805E-629E3C86FFD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A34B77C2-47DF-41F2-805E-629E3C86FFD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A34B77C2-47DF-41F2-805E-629E3C86FFD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A34B77C2-47DF-41F2-805E-629E3C86FFD7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6591D25D-05F3-4A0C-B48A-53D059501928}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,113 @@
+﻿<!-- AGENT MENU-->
+<!-- sidebar menu: : style can be found in sidebar.less -->
+<ul class="sidebar-menu" data-widget="tree">
+    <li class="header">MAIN NAVIGATION</li>
+    <li class="active treeview menu-open">
+        <a href="~/AgentDashboard">
+            @*<i class="fa fa-dashboard"></i>*@ <span>Dashboard</span>
+            @*<span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>*@
+        </a>
+        @*<ul class="treeview-menu">
+            <li><a href="~/AgentDashboard"><i class="fa fa-circle-o"></i> Dashboard</a></li>
+        </ul>*@
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-user-o"></i>
+            <span>Agent</span>
+            <span class="pull-right-container">
+                <span class="label label-primary pull-right">@*3*@</span>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/Profile"><i class="fa fa-user-circle-o"></i> View Detail/Agent Info</a></li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-exchange"></i>
+            <span>Payment</span>
+            <span class="pull-right-container">
+                <span class="label label-primary pull-right">@*3*@</span>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/FundTransfer"><i class="fa fa-exchange"></i> Fund Transfer</a></li>
+            <li><a href="~/Cash/In"><i class="fa fa-circle-o"></i> Cash In</a></li>
+            <li><a href="~/Cash/Out"><i class="fa fa-circle-o"></i> Cash Out</a></li>
+            <li><a href="~/Remit/RequestToken"><i class="fa fa-circle-o"></i> Request Token</a></li>
+            <li><a href="~/Remit/TokenRedeem"><i class="fa fa-circle-o"></i> Token Redeem</a></li>
+            <li><a href="~/UtilityPay/TopUp"><i class="fa fa-circle-o"></i> TopUp</a></li>
+            <li><a href="~/UtilityPay/Recharge"><i class="fa fa-circle-o"></i> Recharge Card</a></li>
+            <li><a href="~/MerchantPayment/MerchantIndex"><i class="fa fa-circle-o"></i> Merchant Payment</a></li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-bar-chart"></i> <span>Report</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/Statement"><i class="fa fa-bar-chart-o"></i> Statement</a></li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-users"></i>
+            <span>Customer</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/Customer/Registration"><i class="fa fa-user-plus"></i> Registration</a></li>
+            <li><a href="~/Customer/ListView"><i class="fa fa-edit"></i> View Modification</a></li>
+            <li><a href="~/Customer/CustomerStatus"><i class="fa fa-user-circle"></i> Customer Status</a></li>
+            <li><a href="~/Customer/RejectedList"><i class="fa fa-user-times"></i> Rejected List</a></li>
+            @*<li><a href="~/Customer/PinResetList"><i class="fa fa-map-pin"></i> T-Pin Reset</a></li>*@
+            <li><a href="~/Customer/DeleteUserList"><i class="fa fa-times"></i> Delete/InActive</a></li>
+        </ul>
+    </li>
+    @*<li class="treeview">
+        <a href="#">
+            <i class="fa fa-user"></i> <span>Profile Setup</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/ProfileSetup/ModifyAgent"><i class="fa fa-pencil-square-o"></i> Modify Agent Profile</a></li>
+            <li><a href="~/ProfileSetup/CreateCustomer"><i class="fa fa-user-plus"></i> Create Customer Profile</a></li>
+            <li><a href="~/ProfileSetup/ModifyCustomer"><i class="fa fa-pencil-square-o"></i> Modify Customer Profile</a></li>
+        </ul>
+    </li>*@
+    <li class="treeview" style="display:none;">
+        <a href="#">
+            <i class="fa fa-money"></i> <span>Payee</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/Payee/MerchantDetails"><i class="fa fa-user-circle-o text-aqua"></i> Merchant Details</a></li>
+        </ul>
+    </li>
+    <li class="header">SETTINGS</li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-gears"></i> <span>Settings</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/ChangePassword"><i class="fa fa-key text-red"></i> Change Password</a></li>
+            <li><a href="~/PinReset"><i class="fa fa-map-pin text-green"></i> T-Pin Reset</a></li>
+        </ul>
+    </li>
+</ul>
+

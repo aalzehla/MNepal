@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A34B77C2-47DF-41F2-805E-629E3C86FFD7}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WCF.MNepal</RootNamespace>
+    <AssemblyName>WCF.MNepal</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.7.4.0\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation.Mvc, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.Mvc5.7.4.0\lib\net45\FluentValidation.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="MNepalProject, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MNepalProject\bin\MNepalProject.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.ServiceModel.Routing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="asterisknow.svc" />
+    <Content Include="authenticate.svc" />
+    <Content Include="authlogin.svc" />
+    <Content Include="bankinfo.svc" />
+    <Content Include="cash.svc" />
+    <None Include="Connected Services\MerchantReference\commoninterface1.disco" />
+    <Content Include="Connected Services\MerchantReference\WCF.MNepal.MerchantReference.ResponseData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\MerchantReference\WCF.MNepal.MerchantReference.SubmitRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Connected Services\MerchantReference\commoninterface1.wsdl" />
+    <None Include="Connected Services\WebReference\VerifyThis.disco" />
+    <None Include="Connected Services\WebReference\configuration91.svcinfo">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\WebReference\configuration.svcinfo" />
+    <None Include="Connected Services\WebReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\MerchantReference\configuration91.svcinfo" />
+    <None Include="Connected Services\MerchantReference\configuration.svcinfo" />
+    <None Include="Connected Services\MerchantReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="coupon.svc" />
+    <Content Include="forgot.svc" />
+    <Content Include="ft.svc" />
+    <Content Include="Global.asax" />
+    <Content Include="IVR.svc" />
+    <Content Include="merchant.svc" />
+    <Content Include="paypoint.svc" />
+    <Content Include="paypointkhanepani.svc" />
+    <Content Include="paypointnepalwater.svc" />
+    <Content Include="pt.svc" />
+    <Content Include="query.svc" />
+    <Content Include="querystmt.svc" />
+    <Content Include="remit.svc" />
+    <Content Include="requestCode.svc" />
+    <Content Include="reset.svc" />
+    <Content Include="selfReg.svc" />
+    <Content Include="share.svc" />
+    <Content Include="topup.svc" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="asterisknow.svc.cs">
+      <DependentUpon>asterisknow.svc</DependentUpon>
+    </Compile>
+    <Compile Include="authenticate.svc.cs">
+      <DependentUpon>authenticate.svc</DependentUpon>
+    </Compile>
+    <Compile Include="authlogin.svc.cs">
+      <DependentUpon>authlogin.svc</DependentUpon>
+    </Compile>
+    <Compile Include="bankinfo.svc.cs">
+      <DependentUpon>bankinfo.svc</DependentUpon>
+    </Compile>
+    <Compile Include="cash.svc.cs">
+      <DependentUpon>cash.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\MerchantReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\WebReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="coupon.svc.cs">
+      <DependentUpon>coupon.svc</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorMsg\ErrorMessage.cs" />
+    <Compile Include="forgot.svc.cs">
+      <DependentUpon>forgot.svc</DependentUpon>
+    </Compile>
+    <Compile Include="ft.svc.cs">
+      <DependentUpon>ft.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\CashInLimitCheck.cs" />
+    <Compile Include="Helper\CashOutTransLimitCheck.cs" />
+    <Compile Include="Helper\Constants.cs" />
+    <Compile Include="Helper\FundTransferLimitCheck.cs" />
+    <Compile Include="Helper\HashAlgo.cs" />
+    <Compile Include="Helper\SQLHelperQuery.cs" />
+    <Compile Include="Helper\TokenGenerator.cs" />
+    <Compile Include="Helper\TraceIdCheck.cs" />
+    <Compile Include="Helper\TransLimitCheck.cs" />
+    <Compile Include="Helper\UserNameCheck.cs" />
+    <Compile Include="IVR.svc.cs">
+      <DependentUpon>IVR.svc</DependentUpon>
+    </Compile>
+    <Compile Include="merchant.svc.cs">
+      <DependentUpon>merchant.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AddNewUser.cs" />
+    <Compile Include="Models\CashOut.cs" />
+    <Compile Include="Models\CashOutList.cs" />
+    <Compile Include="Models\ClientKYC.cs" />
+    <Compile Include="Models\ClientKYCDoc.cs" />
+    <Compile Include="Models\CouponPayment.cs" />
+    <Compile Include="Models\CustActivityModel.cs" />
+    <Compile Include="Models\CustomerSupport.cs" />
+    <Compile Include="Models\DematModel.cs" />
+    <Compile Include="Models\FundTransfer.cs" />
+    <Compile Include="Models\FundTransferRemit.cs" />
+    <Compile Include="Models\Khanepani.cs" />
+    <Compile Include="Models\LinkBankAccount.cs" />
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\LoginAuth.cs" />
+    <Compile Include="Models\MerchantTransaction.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\MNBankInfo.cs" />
+    <Compile Include="Models\MNRemit.cs" />
+    <Compile Include="Models\NEAFundTransfer.cs" />
+    <Compile Include="Models\NepalWater.cs" />
+    <Compile Include="Models\PassAndPin.cs" />
+    <Compile Include="Models\PaypointModel.cs" />
+    <Compile Include="Models\PinChange.cs" />
+    <Compile Include="Models\PumoriTransfer.cs" />
+    <Compile Include="Models\PwdChange.cs" />
+    <Compile Include="Models\ResponseParams.cs" />
+    <Compile Include="Models\SMSLog.cs" />
+    <Compile Include="Models\SoapTransaction.cs" />
+    <Compile Include="Models\SyncDetail.cs" />
+    <Compile Include="Models\TopupTransfer.cs" />
+    <Compile Include="Models\UserInfo.cs" />
+    <Compile Include="Models\UserValidate.cs" />
+    <Compile Include="paypoint.svc.cs">
+      <DependentUpon>paypoint.svc</DependentUpon>
+    </Compile>
+    <Compile Include="paypointkhanepani.svc.cs">
+      <DependentUpon>paypointkhanepani.svc</DependentUpon>
+    </Compile>
+    <Compile Include="paypointnepalwater.svc.cs">
+      <DependentUpon>paypointnepalwater.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="pt.svc.cs">
+      <DependentUpon>pt.svc</DependentUpon>
+    </Compile>
+    <Compile Include="query.svc.cs">
+      <DependentUpon>query.svc</DependentUpon>
+    </Compile>
+    <Compile Include="querystmt.svc.cs">
+      <DependentUpon>querystmt.svc</DependentUpon>
+    </Compile>
+    <Compile Include="remit.svc.cs">
+      <DependentUpon>remit.svc</DependentUpon>
+    </Compile>
+    <Compile Include="requestCode.svc.cs">
+      <DependentUpon>requestCode.svc</DependentUpon>
+    </Compile>
+    <Compile Include="reset.svc.cs">
+      <DependentUpon>reset.svc</DependentUpon>
+    </Compile>
+    <Compile Include="selfReg.svc.cs">
+      <DependentUpon>selfReg.svc</DependentUpon>
+    </Compile>
+    <Compile Include="share.svc.cs">
+      <DependentUpon>share.svc</DependentUpon>
+    </Compile>
+    <Compile Include="topup.svc.cs">
+      <DependentUpon>topup.svc</DependentUpon>
+    </Compile>
+    <Compile Include="UserModels\AgentCheckerUserModel.cs" />
+    <Compile Include="UserModels\BankCheckerUserModel.cs" />
+    <Compile Include="UserModels\CashOutUserModel.cs" />
+    <Compile Include="UserModels\CreateMobileDetailUserModels.cs" />
+    <Compile Include="UserModels\CustActivityUserModel.cs" />
+    <Compile Include="UserModels\DematUserModel.cs" />
+    <Compile Include="UserModels\LoginUserModels.cs" />
+    <Compile Include="UserModels\MobileBalnSync.cs" />
+    <Compile Include="UserModels\CustCheckerUserModel.cs" />
+    <Compile Include="UserModels\PaypointUserModel.cs" />
+    <Compile Include="UserModels\PinUserModel.cs" />
+    <Compile Include="UserModels\PwdUserModel.cs" />
+    <Compile Include="UserModels\RemitUserModel.cs" />
+    <Compile Include="UserModels\ResetPin.cs" />
+    <Compile Include="UserModels\SelfRegisterUserModel.cs" />
+    <Compile Include="UserModels\TraceIdCheckerUserModel.cs" />
+    <Compile Include="UserModels\TransactionLimitUserModel.cs" />
+    <Compile Include="UserModels\UpdateFTUserModel.cs" />
+    <Compile Include="Utilities\AgentCheckUtils.cs" />
+    <Compile Include="UserModels\CheckerUserModels.cs" />
+    <Compile Include="Utilities\BankCheckUtils.cs" />
+    <Compile Include="Utilities\CashOutUtils.cs" />
+    <Compile Include="Utilities\CheckerUtils.cs" />
+    <Compile Include="Utilities\CustActivityUtils.cs" />
+    <Compile Include="Utilities\CustCheckUtils.cs" />
+    <Compile Include="Utilities\CustomerUtils.cs" />
+    <Compile Include="Utilities\DematUtils.cs" />
+    <Compile Include="Utilities\LoginUtils.cs" />
+    <Compile Include="Utilities\PaypointUtils.cs" />
+    <Compile Include="Utilities\PinUtils.cs" />
+    <Compile Include="Utilities\PwdUtils.cs" />
+    <Compile Include="Utilities\RemitUtils.cs" />
+    <Compile Include="Utilities\ResetPinUtils.cs" />
+    <Compile Include="Utilities\SelfRegisterUtils.cs" />
+    <Compile Include="Utilities\TraceIdCheckUtils.cs" />
+    <Compile Include="Utilities\WalletLimitUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\MerchantReference\" />
+    <WCFMetadataStorage Include="Connected Services\WebReference\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Connected Services\WebReference\VerifyThis.wsdl" />
+    <Content Include="Connected Services\WebReference\WCF.MNepal.WebReference.InquireTxnResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\WebReference\WCF.MNepal.WebReference.VerifyTxnResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>51397</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:51397</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

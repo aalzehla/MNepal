@@ -1,0 +1,667 @@
+﻿@model ThailiMerchantApp.Models.TopUpPay
+@{
+    ViewBag.Title = "NT Landline";
+    string hasBankKYC = ViewBag.HasBankKYC;
+
+    //List<SelectListItem> TransactionMedium = new List<SelectListItem>
+
+    //TransactionMedium.Add(new SelectListItem { Text = "Wallet", Value = "31" });
+    //TransactionMedium.Add(new SelectListItem { Text = "Bank", Value = "34" });
+
+    List<SelectListItem>
+    Amount = new List<SelectListItem>();
+    Amount.Add(new SelectListItem { Text = "100", Value = "100" });
+    Amount.Add(new SelectListItem { Text = "150", Value = "150" });
+    Amount.Add(new SelectListItem { Text = "200", Value = "200" });
+    Amount.Add(new SelectListItem { Text = "300", Value = "300" });
+    Amount.Add(new SelectListItem { Text = "500", Value = "500" });
+    Amount.Add(new SelectListItem { Text = "1000", Value = "1000" });
+    Amount.Add(new SelectListItem { Text = "1500", Value = "1500" });
+    Amount.Add(new SelectListItem { Text = "2000", Value = "2000" });
+    Amount.Add(new SelectListItem { Text = "2500", Value = "2500" });
+    Amount.Add(new SelectListItem { Text = "3000", Value = "3000" });
+    Amount.Add(new SelectListItem { Text = "4000", Value = "4000" });
+    Amount.Add(new SelectListItem { Text = "5000", Value = "5000" });
+
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/alertify.min.css" />
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/default.min.css" />
+
+@*<section class="content-header">
+        <h1>
+            TopUp
+            <small>Landline</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-user"></i> TopUp</a></li>
+            <li class="active">Landline</li>
+        </ol>
+    </section>*@
+
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />
+<style>
+    .container1 {
+        position: relative;
+        text-align: center;
+        color: white;
+    }
+
+    .centered1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .img-holder {
+        height: 85px;
+        margin-top: -19px;
+    }
+
+    .icon1 {
+        max-height: 100%;
+        width: 100px;
+        height: 100px;
+    }
+
+    .icon2 {
+        max-height: 100%;
+        margin-left: 70px;
+        margin-top: -26px;
+        width: 58px;
+        height: 100px;
+    }
+
+    .ncell_icon {
+        max-height: 100%;
+        margin-top: -4px;
+        margin-left: 10px;
+        width: 100px;
+        height: 100px;
+    }
+
+    .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        margin-right: 13px;
+        position: relative;
+        z-index: 2;
+    }
+</style>
+
+<!-- Main content -->
+
+
+<div class="main-content">
+    <div class="two-colbg">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <section class="internet-payment pad-50">
+
+
+                        <div class="top-section">
+                            <h2 class="title">Landline Top ups</h2>
+                            <p> Please fill out the details to top up your phone.</p>
+                        </div>
+
+                        <div class="instant-transactions">
+                            <h3 class="title">Other Top up</h3>
+                            <div class="transactions-grid clearfix">
+                                <div class="item load-wallet">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("NTTopUp","UtilityPay")">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-gsm1"></span>
+                                                <div class="container1">
+                                                    <span class="icon-icon-gsm2" alt="green" style="width:100%; margin-top: -10px;"></span>
+                                                    <span class="centered1" style="margin-left:40px; font-size:10px;">GSM</span>
+                                                </div>
+                                                @*<i class="thaili-icon-load-wallet"></i><span>NTC Top up</span>
+                                                    <div class="img-holder">
+                                                    <img src="~/Content/assets/img/icons/icon-gsm1.svg" class="icon1" alt="" />
+                                                    <img src="~/Content/assets/img/icons/icon-gsm2.svg" class="icon2" alt="" />
+                                                     </div>*@
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item transfer-fund">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("NCELLTopUp", "UtilityPay" )">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-ncell" style="margin-bottom:30px;"></span>
+
+                                                @*<i class="thaili-icon-transfer-funds"></i><span>NCell Top up</span>
+                                                    <div class="img-holder">
+                                                        <img src="~/Content/assets/img/icons/icon-ncell.svg" class="ncell_icon" alt="" />
+                                                    </div>*@
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("ADSLTopUp", "UtilityPay" )">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-adsl1"></span>
+                                                <div class="container1">
+                                                    <span class="icon-icon-adsl2" alt="green" style="width:100%;margin-top: -10px;"></span>
+                                                    <span class="centered1" style="margin-left:40px; font-size:10px;">ADSL</span>
+                                                </div>
+
+                                                @*<i class="thaili-icon-top-up"></i><span>ADSL Top Up</span>
+                                                    <div class="img-holder">
+                                                        <img src="~/Content/assets/img/icons/icon-adsl1.svg" class="icon1" alt="" />
+                                                        <img src="~/Content/assets/img/icons/icon-adsl2.svg" class="icon2" alt="" />
+                                                    </div>*@
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                @*<div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("NTLandline", "UtilityPay" )">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-landline1"></span>
+                                                <div class="container1">
+                                                    <span class="icon-icon-landline2" alt="green" style="width:100%;margin-top: -10px;"></span>
+                                                    <span class="centered1" style="margin-left:40px; font-size:10px;">LANDLINE</span>
+                                                </div>
+
+                                                @*<i class="thaili-icon-recharge"></i><span>NTC Landline</span>
+                                                    <div class="img-holder">
+                                                        <img src="~/Content/assets/img/icons/icon-landline1.svg" class="icon1" alt="" />
+                                                        <img src="~/Content/assets/img/icons/icon-landline2.svg" class="icon2" alt="" />
+                                                    </div>*@
+
+                                            @*</div>
+            </a>
+        </div>
+    </div>*@
+                                <!-- /item -->
+
+                            </div>
+                        </div>
+                        <!-- /instant transactions -->
+                    </section>
+                    <!-- /internet-payment -->
+                </div>
+
+                <div class="col-lg-6 right-form">
+                    <section class="content-inner pad-50">
+
+
+
+                        @using (Html.BeginForm(new { @id = "NTLandlineRegForm", @name = "NTLandlineRegForm", @class = "form-horizontal", @autocomplete = "off" }))
+                        {
+                            @*@Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true)*@
+
+                            <div id="ajaxResponse">
+                            </div>
+                                    <div class="col-xs-12">
+
+
+                                        <div class="box box-info">
+                                            <div class="box-header with-border">
+                                                @*<h3 class="box-title">Landline</h3>*@
+                                            </div>
+
+                                            @if (this.ViewData["topup_messsage"] != null)
+                                            {
+                                                if (this.ViewData["message_class"].ToString() == "success_info")
+                                                {
+                                                    <div class="alert alert-success">
+                                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                        <h4>Success</h4> @this.ViewData["topup_messsage"]
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="alert alert-danger">
+                                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                        <h4>Error</h4> @this.ViewData["topup_messsage"]
+                                                    </div>
+                                                }
+                                            }
+
+
+                                            <div class="transfer-order clearfix">
+                                                <h3 class="title">Pay from</h3>
+
+                                                <select class="form-control selectpicker transaction-select from col-md-9" id="TransactionMedium" name="TransactionMedium" onmousedown="this.value='';">
+                                                    <option data-icon="thaili-icon-load-wallet" value="31">Wallet</option>
+                                                    @if (hasBankKYC.Equals("T"))
+                                                    {
+                                                        <option data-icon="thaili-icon-bank" value="34">Bank</option>
+                                                    }
+                                                </select>
+                                            </div>
+
+                                            <div class="box-body">
+                                                <!-- /.form-group -->
+
+                                                <div class="form-group">
+                                                    <label>Landline Number: (<b style="color:red;">*</b>)</label>
+
+                                                    @Html.EditorFor(model => model.MobileNumber, new { htmlAttributes = new { @class = "form-control", @required = "required", @maxlength = "9", @id = "MobileNumber", @placeholder = "9 digit Landline Number", @oninput = "checkValidation()", @onkeypress = "return isNumber(event)", @title = "Please use Landline number", @autocomplete = "false", @onpaste = "return false" } })
+                                                    @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
+
+                                                </div>
+                                                <div class="form-group" id="LandLineNo" style="color:red; margin-top:-11px;"></div>
+
+                                                <div class="form-group">
+                                                    <label for="@Html.NameFor(x=>x.Amount)">Amount (<span style="color:red">*</span>)</label>
+                                                    @*@Html.DropDownListFor(model => model.Amount, new SelectList(Amount, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "Amount" })*@
+                                                    <select class="form-control" id="Amount" name="Amount" onmousedown="this.value='';">
+                                                        <option value="500">NPR. 500</option>
+                                                        <option value="1000">NPR. 1000</option>
+                                                        <option value="1500">NPR. 1500</option>
+                                                        <option value="2000">NPR. 2000</option>
+                                                        <option value="2500">NPR. 2500</option>
+                                                        <option value="3000">NPR. 3000</option>
+                                                        <option value="4000">NPR. 4000</option>
+                                                        <option value="5000">NPR. 5000</option>
+
+                                                    </select>
+                                                    @*<input type="text" id="Amount" name="Amount" class="form-control" placeholder="Amount"
+                                                                 required title="Please use 2 digit amount" maxlength="5" onkeypress="return isNumber(event)" onchange="checkValidation()" />
+                                                        <div id="Amt" style="color:red;"></div>*@
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="@Html.NameFor(x=>x.Pin)"> @Html.DisplayNameFor(x => x.Pin) (<span style="color:red">*</span>)</label>
+
+                                                    @Html.PasswordFor(model => model.Pin, new { @class = "form-control pwd1", @required = "required", @maxlength = "4", @placeholder = "PIN", @onkeypress = "return isNumber(event)", @oninput = "checkValidation()", @title = "Please use T-Pin number", @autocomplete = "new-password", @onpaste = "return false" })
+                                                    @Html.ValidationMessageFor(model => model.Pin, "", new { @class = "text-danger" })
+                                                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+
+                                                </div>
+                                                <div class="form-group" id="TPin" style="color:red; margin-top:-11px;"></div>
+
+                                            </div>
+                                            <!-- /.box-body -->
+                                            <div class="box-footer">
+
+                                                <input type="submit" class="btn btn-blue btn-big col-md-5" name="btnCommand" value="Confirm" id="btnSubmit" />
+                                                <a href="@Url.Action("NTLandline","UtilityPay")" class="btn btn-blue btn-big " id="btnNew" title="Begin New Transaction" style="display:none">New Transaction</a>
+                                                <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                        }
+
+                        <!-- /.content -->
+
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success modal -->
+<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/success-tick.svg" alt="">
+                </div>
+                <p class="msg">@*Success!*@</p>
+                <span class="msg">Your payment has been confirmed.</span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Failure modal -->
+<div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/denied-cross.svg" alt="">
+                </div>
+                <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
+                <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <!-- Load jQuery and the validate plugin -->
+    @*
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>*@
+
+    @*<!-- added for dialog box -->
+        <script type="text/javascript" src="assets/js/jquery.js"></script>
+        <script type="text/javascript" src="assets/vendor/bootstrap/js/popper.min.js"></script>
+        <script type="text/javascript" src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Bootstrap select -->
+        <script type="text/javascript" src="assets/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
+        <!-- Bootstrap Datepicker -->
+        <script type="text/javascript" src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <!-- BX Slider -->
+        <script type="text/javascript" src="assets/vendor/bxslider/js/jquery.bxslider.js"></script>
+        <!-- Match Height -->
+        <script type="text/javascript" src="assets/vendor/matchHeight/jquery.matchHeight.js"></script>
+        <!-- jQuery Validation -->
+        <script type="text/javascript" src="assets/vendor/jquery-validation/jquery.validate.min.js"></script>
+        <!-- custom js -->
+        <script type="text/javascript" src="assets/js/main.js"></script>*@
+
+    <script type="text/javascript">
+
+        $(".btnShow1").mousedown(function () {
+            $(".pwd1").attr("type", "text");
+        });
+        $(".btnShow1").on("mouseleave", function () {
+            $(".pwd1").attr("type", "password");
+        });
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+
+    document.getElementById("successModal").onclick = function () {
+            var url = '@Url.Action("Index", "AgentDashboard")';
+            window.location.href = url;
+    };
+
+
+    function checkValidation() {
+        var amount = $("[name='Amount']").val();
+        var destmobile = $("[name='MobileNumber']").val();
+        var pin = $("[name='Pin']").val();
+
+        if ((amount.trim() == "") || (amount.trim() == "0")) {
+            $("#Amt").html("");
+            $("#Amt").append("<small>" + "Please Enter valid Amount" + "</small>");
+            $("#Amt").show();
+        }
+        else if (amount.length < 2) {
+            $("#Amt").html("");
+            $("#Amt").append("<small>" + "Please Enter two digit value" + "</small>");
+            $("#Amt").show();
+        }
+        else {
+            $("#Amt").hide();
+        }
+        if (pin.trim() == "") {
+            $("#TPin").html("");
+            $("#TPin").append("<small>" + "Please Enter the T-Pin" + "</small>");
+            $("#TPin").show();
+        }
+        else if (pin.length != 4) {
+            $("#TPin").html("");
+            $("#TPin").append("<small>" + "T-Pin must be 4 character long." + "</small>");
+            $("#TPin").show();
+        }
+        else {
+            $("#TPin").hide();
+        }
+
+        if (destmobile.trim() == "") {
+            $("#LandLineNo").html("");
+            $("#LandLineNo").append("<small>" + "Please Enter the Landline Number" + "</small>");
+            $("#LandLineNo").show();
+        }
+        else if ((destmobile.substring(0, 2) != "01") && (destmobile.substring(0, 2) != "02") && (destmobile.substring(0, 2) != "03") && (destmobile.substring(0, 2) != "04") && (destmobile.substring(0, 2) != "05") && (destmobile.substring(0, 2) != "06") && (destmobile.substring(0, 2) != "07") && (destmobile.substring(0, 2) != "08") && (destmobile.substring(0, 2) != "09")) {
+            $("#LandLineNo").html("");
+            $("#LandLineNo").append("<small>" + "The Landline must start with 01, 02, 03, 04, 05, 06, 07, 08 or 09" + "</small>");
+            $("#LandLineNo").show();
+            $('#btnSubmit').attr('disabled', 'disabled');
+        }
+        else if (destmobile.length != 9) {
+            $("#LandLineNo").html("");
+            $("#LandLineNo").append("<small>" + "Landline number must be of 9 digits" + "</small>");
+            $("#LandLineNo").show();
+        }
+        else {
+            $("#LandLineNo").hide();
+            $('#btnSubmit').removeAttr('disabled');
+        }
+    }
+
+    $(document).ready(function () {
+        $("#clearButton").click(function () {
+
+            $("#MobileNumber").val("");
+          //  $("#Amount").val("");
+            $("#Pin").val("");
+            $("#LandLineNo").hide();
+            $("#Amt").hide();
+            $("#TPin").hide();
+        });
+
+
+        $("#ajaxResponse").hide();
+        $("#LandLineNo").hide();
+        $("#Amt").hide();
+        $("#TPin").hide();
+
+        $('#btnSubmit').click(function (e) {
+            e.preventDefault();
+
+
+            var servicecode = $("[name='TransactionMedium']").val();
+            var amount = $("[name='Amount']").val();
+            var destmobile = $("[name='MobileNumber']").val();
+            var pin = $("[name='Pin']").val();
+
+            //if (destmobile.length != 9) {
+            //    $("[name='MobileNumber']").focus();
+            //    alertify.error('Mobile number must be of 9 digits');
+            //    return;
+            //}
+
+            //if ((destmobile.substring(0, 2) != "01") && (destmobile.substring(0, 2) != "02") && (destmobile.substring(0, 2) != "03") && (destmobile.substring(0, 2) != "04") && (destmobile.substring(0, 2) != "05") && (destmobile.substring(0, 2) != "06") && (destmobile.substring(0, 2) != "07") && (destmobile.substring(0, 2) != "08") && (destmobile.substring(0, 2) != "09")) {
+            //  $("[name='MobileNumber']").focus();
+            //  alertify.error('The number must start with 01, 02, 03, 04, 05, 06, 07, 08 or 09');
+            //  return;
+            //}
+
+            //if (amount.trim() == "") {
+            //    $("[name='Amount']").focus();
+            //    alertify.error('Amount cannot be empty');
+            //    return;
+            //}
+            //if (amount.trim() == "0") {
+            //    $("[name='Amount']").focus();
+            //    alertify.error('Amount cannot be 0');
+            //    return;
+            //}
+            //if (pin.trim() == "") {
+            //    $("[name='Pin']").val()
+            //    alertify.error('Pin cannot be empty');
+            //    return;
+            //}
+
+            if ((servicecode != "") && (destmobile != "") && (amount != "") && (amount.length != 1 ) && (pin != "") && (destmobile.length == 9) && (pin.length == 4) /*&& (note != "")*/) {
+
+                var dataToPost = {
+                    TransactionMedium: servicecode,
+                    MobileNumber: destmobile,
+                    amount: amount,
+                    pin: pin
+                };
+                e.preventDefault(); //prevent the default action
+                $.ajax({
+                    url: '@Url.Action("NTLandline", "UtilityPay")',
+                        type: "POST",
+                        data: dataToPost,
+                        async: false,
+                        success: function (data) {
+
+                            debugger;
+                            if (data.responseCode == "200") { //
+                                debugger;
+                                $("#ajaxResponse").html("");
+                                var resp = JSON.parse(data.responseText);
+                                $('#successModal').modal("show");
+
+                                //swal(
+                                //    'Success', resp.message + 'Available Balance:' + resp.availableBalance, 'success'
+                                //)
+
+                                //var AppendText = "<div class='alert alert-success'><h4>Success &nbsp;</h4>";
+                                //AppendText = AppendText + resp.message;
+                                //AppendText = AppendText + "<br/> Available Balance:" + resp.availableBalance;
+                                //AppendText = AppendText + "<br/></div>";
+                                // $("#ajaxResponse").append(AppendText);
+                                $("#MobileNumber").val("");
+                                $("#Pin").val("");
+                                $("#ajaxResponse").show();
+                                //$('#btnNew').show();
+                                //$('#btnSubmit').hide();
+                                //$('#clearButton').hide();
+
+                            }
+                            else {
+                                $("#message").html("");
+                                $("#message").append(data.responseText);
+                                $('#failureModal').modal("show");
+                                //$("#ajaxResponse").html("");
+                                //$("#ajaxResponse").append("<div class='alert alert-danger'><h4>Error </h4> "
+                                //    + data.responseText + "<br/></div>");
+                                //$("#ajaxResponse").show();
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert('Failed to retrieve.');
+                            $("#message").html("");
+                            $("#message").append(jqXHR.responseText);
+                            $('#failureModal').modal("show");
+                            //$("#ajaxResponse").html("");
+                            //$("#ajaxResponse").append(jqXHR.responseText);
+                            //$("#ajaxResponse").show();
+                        },
+                        //capture the request before it was sent to server
+                        beforeSend: function (jqXHR, settings) {
+                            //adding some Dummy data to the request
+                            settings.data += "&dummyData=whatever";
+                            //disable the button until we get the response
+                            $('#btnSubmit').attr("disabled", true);
+                        },
+                        complete: function (jqXHR, textStatus) {
+                            //enable the button
+                            $('#btnSubmit').attr("disabled", false);
+                        }
+                    });
+
+                }
+                else {
+                    checkValidation();
+                    $("#message").html("");
+                    $("#message").append("Please Enter the required fields.");
+                    $('#failureModal').modal("show");
+                    //$("#ajaxResponse").html("");
+                    //$("#ajaxResponse").append("<div class='alert alert-danger'><h4>Error</h4>"
+                    //    + "Please Enter the required Field" + "<br/></div>");
+                    //$("#ajaxResponse").show();
+                }
+            });
+
+
+        });
+
+     //$('#NTLandlineRegForm').bootstrapValidator({
+        //    feedbackIcons: {
+        //        valid: 'glyphicon glyphicon-ok',
+        //        invalid: 'glyphicon glyphicon-remove',
+        //        validating: 'glyphicon glyphicon-refresh'
+        //    },
+        //    fields: {
+        //        MobileNumber: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Landline Number is required'
+        //                },
+        //                stringLength: {
+        //                    max: 9,
+        //                    min: 9,
+        //                    message: 'The Landline Number must be 9 digit numeric value'
+        //                },
+        //                callback: {
+        //                    message: 'NT landline number must start with "01", "02", "03", "04", "05", "06", "07", "08", "09"',
+        //                    callback: function (value, validator, $field) {
+
+        //                        if ($('#MobileNumber').val().length == 9) {
+        //                            var Mobile = $('#MobileNumber').val().substring(0, 2);
+        //                            var adslStarters = ['01', '02', '03', '04', '05', '06', '07', '08', '09'];
+        //                            if ($.inArray(Mobile, adslStarters) > -1) {
+        //                                return true;
+        //                            }
+        //                            else {
+        //                                return false;
+        //                            }
+        //                        }
+        //                        return true;
+        //                    }
+        //                }
+        //            }
+        //        },
+        //        Amount: {
+        //            validators: {
+        //                integer: {
+        //                    message: 'The value is not an integer'
+        //                },
+        //                notEmpty: {
+        //                    message: 'The Amount is required and cannot be empty'
+        //                },
+        //                stringLength: {
+        //                    max: 4,
+        //                    min: 2,
+        //                    message: 'The Amount must be more than 2 and less than 4 characters long'
+        //                }
+        //            }
+        //        },
+        //        Pin: {
+        //            validators: {
+        //                integer: {
+        //                    message: 'The value is not an integer'
+        //                },
+        //                notEmpty: {
+        //                    message: 'The pin is required and cannot be empty'
+        //                },
+        //                stringLength: {
+        //                    max: 4,
+        //                    min: 4,
+        //                    message: 'The pin must be 4 digit numeric value'
+        //                }
+        //            }
+        //        }
+        //    }
+        //});
+    </script>
+
+}

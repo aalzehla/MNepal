@@ -1,0 +1,323 @@
+﻿@model CustApp.ViewModel.CustomerAccountActivityVM
+@{
+    ViewBag.Title = "Cash Out List";
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+
+<style>
+    .btn {
+        border: none;
+        outline: none;
+        padding: 10px 16px;
+        background-color: #f1f1f1;
+        cursor: pointer;
+        font-size: 18px;
+    }
+        /* Style the active class, and buttons on mouse-over */
+        .active, .btn:hover {
+            background-color: #00A651;
+            color: white;
+        }
+
+    a.disabled {
+        pointer-events: none;
+        cursor: default;
+    }
+    .image_icon {
+        width: 50px;
+    }
+
+    .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        margin-right: 13px;
+        position: relative;
+        z-index: 2;
+    }
+</style>
+<!-- Main content -->
+<!-- Main row -->
+
+<div class="main-content">
+    <div class="container">
+        <div class="pad-50">
+            <h2 class="title">Cash Out List</h2>
+
+            @*<div class="statement-filter">
+
+                <div class="top-section form-inline">
+
+                    <div id="myDIV" class="mt-2">
+                        <input type="submit" id="btnSearchRejected" name="btnSearchRejected" value="Search" class="btn active" />
+                    </div>
+
+                </div>
+
+            </div>*@
+
+            <div class="statement-table table-responsive">
+
+                <div id="data" class="box box-primary">
+                    <div class="box-body" id="grid">
+                        <a href="#" role="button" class="fa fa-2x fa-file-excel-o pull-right" style="color:green;display:none;" title="To Excel" id="ToExcel"></a>
+
+                        <table id="SearchResultTable" class="table table-borderless table-striped" style="display:none;">
+                            <thead>
+                                <tr>
+                                    @*<th>Recipient Mobile No</th>*@
+                                    <th>Token Code</th>
+                                    <th>Amount</th>
+                                    <th>Token Created Date</th>
+                                    <th>Token Expiry Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="overlay" id="loading" style="display:none;">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success modal -->
+<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/success-tick.svg" alt="success-tick">
+                </div>
+                <p class="msg">@*Success!*@</p>
+                <span class="msg">Cancel Confirmed</span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%" id="btnSuccess">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pin modal -->
+<div class="modal fade common-modal" id="pinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+
+                <div class="form-group">
+                    <label>Enter T-PIN (<span style="color:red">*</span>)</label>
+                    <input type="password" id="pin" name="txtPin" class="form-control pwd1" placeholder="T-PIN" pattern=".{4,4}" maxlength="4" onkeypress="return isNumber(event)" autocomplete="new-password" onpaste="return false" />
+                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                </div>
+                <div class="form-group" id="TPin" style="color:red; margin-top:-11px;"></div>
+                <button type="button" class="btn btn-blue" @*data-dismiss="modal"*@ style="width:80%" id="btnOK">Verify Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Failure modal -->
+<div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
+                </div>
+                <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
+                <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /.content -->
+<!-- =============================================== -->
+@section scripts{
+
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript">
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+        function checkValidation() {
+            var pin = $("[name='txtPin']").val();
+            
+            if (pin.trim() == "") {
+                $("#TPin").html("");
+                $("#TPin").append("<small>" + "Please Enter the T-Pin" + "</small>");
+                $("#TPin").show();
+            }
+            else if (pin.length != 4) {
+                $("#TPin").html("");
+                $("#TPin").append("<small>" + "T-Pin must be 4 character long." + "</small>");
+                $("#TPin").show();
+            }
+            else {
+                $("#TPin").hide();
+                 }
+        }
+        
+        $(document).ready(function () {
+
+            $(".btnShow1").mousedown(function () {
+                $(".pwd1").attr("type", "text");
+            });
+            $(".btnShow1").on("mouseleave", function () {
+                $(".pwd1").attr("type", "password");
+            });
+            
+            var changed = "F";
+            var table,tr,token, ActionClick;
+            $("#TPin").hide();
+
+            cashOutList();
+            function cashOutList() {
+
+                changed = "T";
+                    var Parachanged = changed;
+                    if ($.fn.DataTable.isDataTable('#SearchResultTable')) {
+                        table.destroy();
+                    }
+                    $('#loading').show();
+                    $('#btnSearchRejected').prop("disabled", true);
+                    table = $('#SearchResultTable').DataTable({
+                        "language": {
+                            "emptyTable": "Oops! No Record Found."
+                        },
+                        searching: false,
+                        "proccessing": true,
+                        "serverSide": true,
+                        "aaSorting": [],
+                        "ajax": {
+                            type: "GET",
+                            url: '@Url.Action("CashOutListRejectTable", "Cash")',
+                            data: function (d) {
+                                d.change = Parachanged;
+                            },
+                        },
+                        "drawCallback": function (settings) {
+                            changed = "F";
+                            Parachanged = changed;
+                            $('#SearchResultTable').show();
+
+                            $('#loading').hide();
+                            $('#btnSearchRejected').prop("disabled", false);
+                        },
+                        "columns": [
+                            /*{ "data": "RecipientMobileNo" },*/
+                            { "data": "TokenID" },
+                            { "data": "Amount" },
+                            { "data": "TokenCreatedDate" },
+                            { "data": "TokenExpiryDate" },
+                            { "data": "Status" },
+                            {
+                                "data": null,
+                                "render": function (data, type, full) {
+                                    return '<button class="btn btn-red deleteButton" id="reject" style="width:80%; height:50%;">' + 'Cancel' + '</button>';
+                                }
+                            }
+                        ],
+                        "columnDefs": [{
+                            "targets": [0, 1, 2, 3, 4, 5], /* column index */
+                            "orderable": false, /* true or false */
+                        }]
+
+                    });
+                    //table.columns.adjust();
+            }
+            
+            $('#btnSuccess').click(function () {
+                cashOutList();
+            });
+
+            $('#SearchResultTable').on('click', 'button.deleteButton', function ()
+            {
+                tr = $(this).parents('tr');
+                token = tr.find('td').eq(0).html();
+                ActionClick = $(this).attr('id');
+
+                $("#ajaxResponse").html("");
+                $('#pinModal').modal("show");
+                $("#ajaxResponse").show();
+            });
+
+            $('#btnOK').click(function ()
+            {
+                var pin = $("[name='txtPin']").val();
+                if ((pin != "") && (pin.length == 4))
+                {
+                    $.ajax({
+
+                        url: '@Url.Action("CashOutReject", "Cash")',
+                        data: { token: token, ActionClick: ActionClick, pin: pin },
+                        type: 'POST',
+                        success: function (data) {
+                            if (data.responseCode == 200) //success
+                            {
+                                $('#pinModal').modal('toggle');
+                                $("#pin").val("");
+                                $("#TPin").hide();
+
+                                $("#ajaxResponse").html("");
+                                $("#message").html("");
+                                $("#message").append(data.responseText);
+                                $('#successModal').modal("show");
+                                $("#ajaxResponse").show();
+                            }
+                            else {
+                                $('#pinModal').modal('toggle');
+                                $("#pin").val("");
+                                $("#TPin").hide();
+
+                                $("#ajaxResponse").html("");
+                                $("#message").html("");
+                                $("#message").append(data.responseText);
+                                $('#failureModal').modal("show");
+                                $("#ajaxResponse").show();
+                            }
+                        },
+                        error: function (data) {
+                            $('#pinModal').modal('toggle');
+                            $("#pin").val("");
+                            $("#TPin").hide();
+
+                            $("#ajaxResponse").html("");
+                            $("#message").html("");
+                            $("#message").append(data.responseText);
+                            $('#failureModal').modal("show");
+                            $("#ajaxResponse").show();
+                        }
+                    });
+                }
+                else {
+                    checkValidation();
+                }
+            });
+
+            $('#grid').on("DOMSubtreeModified", function () {
+                changed = "F";
+            });
+
+
+        });
+    </script>
+}
+

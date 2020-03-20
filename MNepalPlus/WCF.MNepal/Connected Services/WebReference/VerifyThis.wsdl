@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.nibl.com.np/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.nibl.com.np/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.nibl.com.np/">
+      <s:element name="VerifyTxn">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="obj1" />
+            <s:element minOccurs="0" maxOccurs="1" name="obj2" />
+            <s:element minOccurs="0" maxOccurs="1" name="obj3" />
+            <s:element minOccurs="0" maxOccurs="1" name="obj4" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyTxnResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyTxnResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyHeader" type="tns:VerifyHeader" />
+      <s:complexType name="VerifyHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="H1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="H2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="H3" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="InquireTxn">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="obj1" />
+            <s:element minOccurs="0" maxOccurs="1" name="obj2" />
+            <s:element minOccurs="0" maxOccurs="1" name="obj3" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InquireTxnResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InquireTxnResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="VerifyTxnSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyTxn" />
+  </wsdl:message>
+  <wsdl:message name="VerifyTxnSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyTxnResponse" />
+  </wsdl:message>
+  <wsdl:message name="VerifyTxnVerifyHeader">
+    <wsdl:part name="VerifyHeader" element="tns:VerifyHeader" />
+  </wsdl:message>
+  <wsdl:message name="InquireTxnSoapIn">
+    <wsdl:part name="parameters" element="tns:InquireTxn" />
+  </wsdl:message>
+  <wsdl:message name="InquireTxnSoapOut">
+    <wsdl:part name="parameters" element="tns:InquireTxnResponse" />
+  </wsdl:message>
+  <wsdl:message name="InquireTxnVerifyHeader">
+    <wsdl:part name="VerifyHeader" element="tns:VerifyHeader" />
+  </wsdl:message>
+  <wsdl:portType name="VerifyThisSoap">
+    <wsdl:operation name="VerifyTxn">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Trust My Result</wsdl:documentation>
+      <wsdl:input message="tns:VerifyTxnSoapIn" />
+      <wsdl:output message="tns:VerifyTxnSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InquireTxn">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Transaction Inquiry</wsdl:documentation>
+      <wsdl:input message="tns:InquireTxnSoapIn" />
+      <wsdl:output message="tns:InquireTxnSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="VerifyThisSoap" type="tns:VerifyThisSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="VerifyTxn">
+      <soap:operation soapAction="http://www.nibl.com.np/VerifyTxn" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:VerifyTxnVerifyHeader" part="VerifyHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InquireTxn">
+      <soap:operation soapAction="http://www.nibl.com.np/InquireTxn" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:InquireTxnVerifyHeader" part="VerifyHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="VerifyThisSoap12" type="tns:VerifyThisSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="VerifyTxn">
+      <soap12:operation soapAction="http://www.nibl.com.np/VerifyTxn" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:VerifyTxnVerifyHeader" part="VerifyHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InquireTxn">
+      <soap12:operation soapAction="http://www.nibl.com.np/InquireTxn" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:InquireTxnVerifyHeader" part="VerifyHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="VerifyThis">
+    <wsdl:port name="VerifyThisSoap" binding="tns:VerifyThisSoap">
+      <soap:address location="https://www.nibl.com.np/VerifyThis/VerifyThis.asmx" />
+    </wsdl:port>
+    <wsdl:port name="VerifyThisSoap12" binding="tns:VerifyThisSoap12">
+      <soap12:address location="https://www.nibl.com.np/VerifyThis/VerifyThis.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

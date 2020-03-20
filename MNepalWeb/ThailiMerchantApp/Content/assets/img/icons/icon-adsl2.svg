@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #00a651;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        font-size: 17px;
+        font-family: Chivo-Regular, Chivo;
+      }
+    </style>
+  </defs>
+  <g id="Group_1236" data-name="Group 1236" transform="translate(-972 -727)">
+    <path id="Rectangle_328" data-name="Rectangle 328" class="cls-1" d="M11,0H70a0,0,0,0,1,0,0V13A11,11,0,0,1,59,24H0a0,0,0,0,1,0,0V11A11,11,0,0,1,11,0Z" transform="translate(972 727)"/>
+    <g id="Group_1235" data-name="Group 1235">
+      <text id="ADSL" class="cls-2" transform="translate(1011 745)"><tspan x="-21.165" y="0">ADSL</tspan></text>
+    </g>
+  </g>
+</svg>

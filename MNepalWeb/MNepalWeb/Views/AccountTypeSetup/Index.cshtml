@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@model List<MNepalWeb.Models.AcTypeInfo>
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Account Type Setup
+        <small> Setup</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">Account Type Setup</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!--Message-->
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @if (this.TempData["actype_message"] != null)
+        {
+          if (this.TempData["message_class"].ToString() == "success_info")
+          {
+          <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Success</h4> @this.TempData["actype_message"]
+          </div>
+          }
+          else
+          {
+           <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Error</h4> @this.TempData["registration_message"]
+           </div>
+          }
+        }
+
+                
+        <div class="col-md-12">
+            <div class="nav-tabs-custom">
+                 <div class="tab-content">
+                    <div class="active tab-pane" id="activity">
+
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Account Type List</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+
+                                <a href="@Url.Action("CreateAccountType","AccountTypeSetup"@*new {AcTypeID = @item.AcType }*@ )">Create AccountType</a>
+
+                                <table id="t01" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>AcType</th>
+                                            <th>Name</th>
+                                            <th>Allow Enquiry</th>
+                                            <th>Allow Transaction</th>
+                                            <th>Allow Alert</th>
+                                            <th>Active</th>
+                                            <th colspan="3">Action</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.AcType
+
+                                        </td>
+                                            <td>@item.AcTypeName
+                                               
+                                            </td>
+                                            
+                                            <td>
+                                                @item.AllowEnquiry
+                                            </td>
+                                            <td>
+                                                @item.AllowTransaction
+                                            </td>
+                                            <td>
+                                                @item.AllowAlert
+                                            </td>
+                                            <td>
+                                                @item.Active
+                                                @*@if (item.UserProfileStatus == "Active")
+                                                    {
+                                                        <span class="badge bg-green-active"> @item.UserProfileStatus </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-red-active"> @item.UserProfileStatus </span>
+                                                    }*@
+                                            </td>
+                                          
+                                            <td>
+                                                <a href="@Url.Action("EditAccountType","AccountTypeSetup", new {AcTypeID = @item.AcType } )"><i class="fa fa-pencil fa-fw" tile="Edit"></i></a>
+                                            </td>
+                                        </tr>
+
+                                    }
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+
+

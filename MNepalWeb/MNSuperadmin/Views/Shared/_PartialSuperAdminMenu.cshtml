@@ -1,0 +1,192 @@
+﻿<!-- Left side column. contains the logo and sidebar -->
+@*<aside class="main-sidebar">*@
+<!-- sidebar: style can be found in sidebar.less -->
+@*<section class="sidebar">*@
+<!-- Sidebar user panel -->
+@*<div class="user-panel">
+        <div class="pull-left image">
+            <img src="~/Content/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>Alexander</p>
+            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+    </div>
+    <p>&nbsp;</p>*@
+
+
+<!-- SUPER ADMIN MENU -->
+<fieldset>
+
+    @{ Html.RenderAction("SideMenuPartial", "Navigation");}
+
+</fieldset>
+
+<!-- sidebar menu: : style can be found in sidebar.less -->
+@*<ul class="sidebar-menu" data-widget="tree">
+    <li class="header">MAIN NAVIGATION</li>
+    <li class="active treeview menu-open">
+        <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/SuperAdminDashboard"><i class="fa fa-circle-o"></i> Dashboard</a></li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-user-o"></i>
+            <span>Super Admin</span>
+            <span class="pull-right-container">
+                <span class="label label-primary pull-right">3</span>
+            </span>
+        </a>
+<ul class="treeview-menu">
+    <li><a href="~/SuperAdmin/Registration"><i class="fa fa-user-plus"></i> Registration</a></li>
+    <li><a href="~/SuperAdmin/Index"><i class="fa fa-user-circle-o"></i> View Details List</a></li>
+    <li><a href="~/SuperAdmin/PasswordResetList"><i class="fa fa-key"></i> Password Reset</a></li>
+</ul>
+    </li>
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-user-o"></i>
+        <span>Admin (FIs)</span>
+        <span class="pull-right-container">
+            <span class="label label-primary pull-right">3</span>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="~/Admin/Registration"><i class="fa fa-user-plus"></i> Registration</a></li>
+        <li><a href="~/Admin/ApproveList"><i class="fa fa-edit"></i> Approve</a></li>
+        <li><a href="~/Admin/Index"><i class="fa fa-user-circle-o"></i> View Details List</a></li>
+        <li><a href="~/Admin/ApproveModifyList"><i class="fa fa-edit"></i> Approve Modify</a></li>
+        <li><a href="~/Admin/PasswordResetList"><i class="fa fa-key"></i> Password Reset</a></li>
+    </ul>
+</li>
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-user-o"></i>
+        <span>Branch</span>
+        <span class="pull-right-container">
+            <span class="label label-primary pull-right">3</span>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="~/BranchSetup/CreateBranch"><i class="fa fa-user-plus"></i> Add Branch</a></li>
+    </ul>
+</li>
+
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-users"></i>
+        <span>Agent</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="~/Agent/CreateRegistration"><i class="fa fa-user-plus"></i> Registration</a></li>
+        <li><a href=""><i class="fa fa-edit"></i> Approve</a></li>
+        <li><a href="~/Agent/Index"><i class="fa fa-user-circle-o"></i> View Details List</a></li>
+        <li><a href=""><i class="fa fa-key"></i> Approve Modify</a></li>
+    </ul>
+</li>
+<li class="treeview">
+        <a href="#">
+            <i class="fa fa-users"></i>
+            <span>Customer</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/Customer/Registration"><i class="fa fa-user-plus"></i> Registration</a></li>
+            <li><a href="~/Customer/ListView"><i class="fa fa-edit"></i> View Modification</a></li>
+            <li><a href="~/Customer/Index"><i class="fa fa-edit"></i> Approve</a></li>
+            <li><a href="~/Customer/Index"><i class="fa fa-edit"></i> Approve Modified</a></li>
+            <li><a href="~/Customer/CustomerStatus"><i class="fa fa-circle-o"></i> Customer Status</a></li>
+            <li><a href="~/Customer/RejectedList"><i class="fa fa-circle-o"></i> Rejected List</a></li>
+            <li><a href="~/Customer/PinResetList"><i class="fa fa-map-pin"></i> T-Pin Reset</a></li>
+            <li><a href="~/Customer/DeleteUserList"><i class="fa fa-times"></i> Delete/InActive</a></li>
+        </ul>
+    </li>
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-laptop"></i>
+        <span>MNepalPay</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="~/MNepalPay/ManageService"><i class="fa fa-circle-o"></i> Manage Services</a></li>
+        <li><a href="~/MNepalPay/CheckStatus"><i class="fa fa-circle-o"></i> Check Status</a></li>
+    </ul>
+</li>
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-user"></i> <span>Profile Setup</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="~/UserRoleSetup/CreateAdminProfile"><i class="fa fa-user-plus"></i> Create Admin(FIs) Profile</a></li>
+        <li>
+            <a href="~/UserRoleSetup/Index">
+                <i class="fa fa-pencil-square-o"></i> Modify Admin(FIs) Profile
+            </a>
+        </li>
+        <li><a href="~/ProfileSetup/CreateCustomer"><i class="fa fa-user-plus"></i> Create Agent Profile</a></li>
+            <li><a href="~/ProfileSetup/ModifyCustomer"><i class="fa fa-pencil-square-o"></i> Modify Agent Profile</a></li>
+    </ul>
+    </li>
+    <li class="treeview">
+            <a href="#">
+                <i class="fa fa-history"></i> <span>Application Setup</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="~/Agent/CreateRegistration"><i class="fa fa-circle-o"></i> Agent Registration</a></li>
+                <li><a href="~/Agent/Index"><i class="fa fa-circle-o"></i> Agent Modification</a></li>
+                <li><a href="~/Agent/AgentStatus"><i class="fa fa-circle-o"></i> Agent Status</a></li>
+            </ul>
+        </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-money"></i> <span>Payee</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/Payee/MerchantRegistration"><i class="fa fa-user-circle-o"></i> Merchant Registration</a></li>
+            <li><a href="~/Payee/Index"><i class="fa fa-user-circle-o"></i> Merchant Modification</a></li>
+            <li><a href="~/Payee/MerchantDetails"><i class="fa fa-circle-o text-aqua"></i> Merchant Details</a></li>
+        </ul>
+    </li>
+<li class="header">SETTINGS</li>
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-gears"></i> <span>Setting</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="~/ChangePassword"><i class="fa fa-key text-red"></i> Change Password</a></li>
+    </ul>
+</li>
+</ul>*@
+
+
+@*</section>*@
+<!-- /.sidebar -->
+@*</aside>*@
+
+

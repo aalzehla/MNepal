@@ -1,0 +1,275 @@
+﻿@using MNepalWeb.Models;
+@{
+    var tempDataProduct = TempData["FeaturedUserInfo"] as UserInfo;
+
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = "Dashboard";
+    
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <section class="content-header">
+        <h1>
+            Dashboard
+            <small>Version 1.0.0</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+    </section>
+    <h4 align="center">Admin without COC </h4> 
+    <!-- Main content -->
+    <section class="content">
+        <!-- Main row -->
+        <!-- Start Form -->
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="ion ion-ios-people-outline"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total Customer </span>
+                        <span class="info-box-number">@((ViewBag.TotalUsers as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.TotalUsers as System.Data.DataTable).Rows[0]["TotalUsers"].ToString() : "0")</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="ion ion-ios-people-outline"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Active Customers </span>
+                        <span class="info-box-number">@((ViewBag.ActiveCustomers as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.ActiveCustomers as System.Data.DataTable).Rows[0]["ActiveCustomers"].ToString() : "0")</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="ion ion-ios-people-outline"></i></span>
+                    <div class="info-box-content">
+                        @*<span class="info-box-text">Inactive Customers </span>
+                            <span class="info-box-number">@((ViewBag.InActiveCustomers as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.InActiveCustomers as System.Data.DataTable).Rows[0]["InActiveCustomers"].ToString() : "0")</span>*@
+
+                        <span class="info-box-text">Inactive Customer @*<b>@((ViewBag.InActiveCustomers as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.InActiveCustomers as System.Data.DataTable).Rows[0]["InActiveCustomers"].ToString() : "0")</b>*@</span>
+                        @*<br />*@
+                        Approve List Customers <b> @((ViewBag.ApproveListCustomers as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.ApproveListCustomers as System.Data.DataTable).Rows[0]["ApproveListCustomers"].ToString() : "0")</b>
+                        <br />
+                        Rejected List Customers <b>@((ViewBag.RejectedListCustomers as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.RejectedListCustomers as System.Data.DataTable).Rows[0]["RejectedListCustomers"].ToString() : "0")</b>
+                        <br />
+                        Expired Customer <b>@((ViewBag.ExpiredCustomer as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.ExpiredCustomer as System.Data.DataTable).Rows.Count : 0)</b>
+                        <br />
+                        Blocked Customer <b>@((ViewBag.BlockUnblockApproval as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.BlockUnblockApproval as System.Data.DataTable).Rows[0]["BlockUnblockApproval"].ToString() : "0")</b>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+
+            <div class="col-md-3 col-sm-6 col-xs-12" style="display:none;">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="fa fa-user-plus"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Agents</span>
+                        <span class="info-box-number" style="display:none;">41,410</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <!-- fix for small devices only -->
+            <div class="clearfix visible-sm-block" style="display:none;"></div>
+
+            <div class="col-md-3 col-sm-6 col-xs-12" style="display:none;">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Customers</span>
+                        <span class="info-box-number" style="display:none;">760</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+
+            <div class="col-md-3 col-sm-6 col-xs-12" style="display:none;">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">New Members</span>
+                        <span class="info-box-number" style="display:none;">2,000</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+
+        </div>
+        <!-- /.row-->
+
+        <div class="row">
+            <!-- Left col -->
+            <div class="col-md-8">
+                <!-- MAP & BOX PANE -->
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">List of Expiring Customers</h3>
+                        <div class="box-tools pull-right">
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-8">
+                                <div class="pad">
+
+                                    <table class="table table-condensed" id="users">
+                                        <thead style="text-align:center">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Contact Number</th>
+                                                <th>Expiry Date</th>
+                                                <th>Expiry period in days</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="text-align:center">
+                                            @if ((ViewBag.ExpiredCustomer as System.Data.DataTable).Rows.Count > 0)
+                                            {
+
+                                                foreach (System.Data.DataRow dr in (ViewBag.ExpiredCustomer as System.Data.DataTable).Rows)
+                                                {
+                                                    <tr>
+                                                        <td align="left"> @dr["Name"] </td>
+                                                        <td align="left"> @dr["ContactNumber"] </td>
+                                                        <td align="left"> @dr["ExpiryDate"] </td>
+                                                        <td> @dr["ExpiryPeriodInDays"] </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <a href="@Url.Action("CustomerExpiryList","Report")" class="elements"><span>More Customer Expiry List</span></a>
+                                    <!-- for each end-->
+                                </div>
+
+
+
+                            </div>
+                            <!-- /.col -->
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+
+            </div>
+            <!-- Left col -->
+            <!-- Right col-->
+
+            <div class="col-md-4">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Pending Requests </h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td>Registration Approval</td>
+                                    <td align="right">@((ViewBag.RegistrationApprovalCount as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.RegistrationApprovalCount as System.Data.DataTable).Rows[0]["RegistrationApprovalCount"].ToString() : "0")</td>
+                                </tr>
+                                <tr>
+                                    <td>Modification Approval</td>
+                                    <td align="right">@((ViewBag.ModificationApprovalCount as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.ModificationApprovalCount as System.Data.DataTable).Rows[0]["ModificationApprovalCount"].ToString() : "0")</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Password/T-Pinreset Approval </td>
+                                    <td align="right">@((ViewBag.PasswordTPinresetApprovalCount as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.PasswordTPinresetApprovalCount as System.Data.DataTable).Rows[0]["PasswordTPinresetApprovalCount"].ToString() : "0")</td>
+                                </tr>
+                                <tr>
+                                    <td>Block/Unblock Approval </td>
+                                    <td align="right">@((ViewBag.BlockUnblockApprovalCount as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.BlockUnblockApprovalCount as System.Data.DataTable).Rows[0]["BlockUnblockApprovalCount"].ToString() : "0")</td>
+                                </tr>
+                                <tr>
+                                    <td>Registration Rejected </td>
+                                    <td align="right">@((ViewBag.RegistrationRejectedCount as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.RegistrationRejectedCount as System.Data.DataTable).Rows[0]["RegistrationRejectedCount"].ToString() : "0")</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Modification Rejected </td>
+                                    <td align="right">@((ViewBag.ModificationRejectedCount as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.ModificationRejectedCount as System.Data.DataTable).Rows[0]["ModificationRejectedCount"].ToString() : "0")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+                        <!-- /.item -->
+
+                    </div>
+                    <!-- /.box-body -->
+                    <!-- /.box-footer -->
+                </div>
+                <!-- /.box -->
+
+            </div>
+
+            <!-- Right Col-->
+        </div>
+
+        <!-- /.row-->
+        <!-- End Form -->
+        @*<div class="row">
+
+                @if (ViewBag.UserType == "admin")
+                {
+                    <h1>admin</h1>
+                }
+                else if (ViewBag.UserType == "agent")
+                {
+                    <h1>agent</h1>
+                }
+                else if (ViewBag.UserType == "user")
+                {
+                    <h1>User</h1>
+                }
+
+
+
+            </div>*@
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+    @section scripts{
+        <script type="text/javascript">
+            localStorage.removeItem('activeTab');
+
+            var registeredusers = $('#users').DataTable({
+                "ordering": false,
+                "filter": false,
+                "sorting": false,
+                "info": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "No records found matching the search parameter"
+                }
+            });
+
+
+        </script>
+    }

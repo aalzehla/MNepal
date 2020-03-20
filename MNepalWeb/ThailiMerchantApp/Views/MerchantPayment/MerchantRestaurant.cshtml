@@ -1,0 +1,730 @@
+﻿
+
+@model ThailiMerchantApp.Models.MerchantRestaurant
+
+@{
+    ViewBag.Title = "MerchantRestaurant";
+    string hasBankKYC = ViewBag.HasBankKYC;
+    //List<SelectListItem> RestaurantName = new List<SelectListItem>();
+    ////RestaurantName.Add(new SelectListItem { Text = "--Select RestaurantName--", Value = "SelectRestaurantName", Disabled = true });
+    //RestaurantName.Add(new SelectListItem { Text = "Naglo Bakery Cafe", Value = "NagloBakeryCafe" });
+    //RestaurantName.Add(new SelectListItem { Text = "Annapurna Coffee Shop", Value = "AnnapurnaCoffeeShop" });
+
+    //List<SelectListItem> TransactionMedium = new List<SelectListItem>();
+    //TransactionMedium.Add(new SelectListItem { Text = "Wallet", Value = "30" });
+    //TransactionMedium.Add(new SelectListItem { Text = "Bank", Value = "33" });
+
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+@*//EDIT START*@
+@*<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/alertify.min.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/default.min.css" />*@
+
+<link href="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+
+<style>
+    .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        margin-right: 13px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /*.Rs-icon {
+        float: left;
+        margin-left: 12px;
+        margin-top: -33px;
+        color: #666666;
+        font-weight: 1;
+    }*/
+</style>
+@*<section class="content-header">
+        <h1>
+            Merchant
+            <small>Restaurant</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-user"></i> Merchant</a></li>
+            <li class="active">Restaurant</li>
+        </ol>
+    </section>*@
+
+<!-- Main content -->
+
+<div class="main-content">
+    <div class="two-colbg">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <section class="internet-payment pad-50">
+                        <div class="top-section">
+                            <h2 class="title">Merchant Restaurant</h2>
+                            <p>Please fill out the details for payment bill.</p>
+                        </div>
+
+                        <div class="instant-transactions">
+                            <h3 class="title">Other Merchant Payment</h3>
+                            <div class="transactions-grid clearfix">
+                                <div class="item load-wallet">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("MerchantRestaurant", "MerchantPayment")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-restaurant"></i>
+                                                <span>Restaurant</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item transfer-fund">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("MerchantCollege", "MerchantPayment")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-college"></i>
+                                                <span>College</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("MerchantSchool", "MerchantPayment")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-school"></i>
+                                                <span>School</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                            </div>
+                        </div>
+                        <!-- /instant transactions -->
+                    </section>
+                    <!-- /internet-payment -->
+                </div>
+
+                <div class="col-lg-6 right-form">
+                    <section class="content-inner pad-50">
+
+                        @using (Html.BeginForm(new
+                        {
+                            @id = "MerchantRestaurantForm",
+                            @class = "form-horizontal",
+                            @autocomplete = "off"
+                        }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+
+                            <div id="ajaxResponse">
+                            </div>
+
+                            <!-- Start -->
+
+                            <!-- /.box -->
+
+                            <div class="box box-info">
+                                <!-- /.box-header -->
+                                <!--Message-->
+                                @if (this.ViewData["merchantpay_messsage"] != null)
+                                {
+                                    if (this.ViewData["message_class"].ToString() == "success_info")
+                                    {
+                                        <div class="alert alert-success">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <h4>Success</h4> @this.ViewData["merchantpay_messsage"]
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-danger">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <h4>Error</h4> @this.ViewData["merchantpay_messsage"]
+                                        </div>
+                                    }
+                                }
+
+                                <div class="transfer-order clearfix">
+                                    <h3 class="title">Pay from</h3>
+
+                                    <select class="form-control selectpicker transaction-select from col-md-9" id="TransactionMedium" name="TransactionMedium" onmousedown="this.value='';">
+                                        <option data-icon="thaili-icon-load-wallet" value="30">Wallet</option>
+                                        @if (hasBankKYC.Equals("T"))
+                                        {
+                                            <option data-icon="thaili-icon-bank" value="33">Bank</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @*<div class="transfer-order pay-from">
+                                                    <h3 class="title">Pay From</h3>
+
+                                                    <div class="radio-wrapper">
+                                                        <div class="form-check form-check-inline">
+                                                            <label>
+                                                                <input  type="radio" name="paymentRadio">
+                                                                <span class="label-text"><i class="thaili-icon-load-wallet"></i> Wallet</span>
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check form-check-inline">
+                                                            <label>
+                                                                <input class="form-check-input" type="radio" name="paymentRadio">
+                                                                <span class="label-text"><i class="thaili-icon-bank"></i> Bank</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                        </div>
+                                                <!-- /payfrom field -->*@
+
+
+
+
+                                            @*<div class="form-group">
+                                                    <label for="@Html.NameFor(x=>x.TransactionMedium)" class="control-label col-md-12">
+                                                        @Html.DisplayNameFor(x => x.TransactionMedium)<span style="color:red">*</span>
+                                                    </label>
+
+                                                    <div class="col-sm-12">
+                                                        @Html.DropDownListFor(model => model.TransactionMedium, new SelectList(TransactionMedium, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "TransactionMedium" })
+
+                                                    </div>
+                                                </div>*@
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="@Html.NameFor(x=>x.RestaurantName)"> @Html.DisplayNameFor(x => x.RestaurantName) (<span style="color:red">*</span>)</label>
+
+                                                @Html.DropDownListFor(model => model.RestaurantName, new SelectList(ViewBag.Restaurant, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "RestaurantName", @placeholder = "Restaurant Name" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="@Html.NameFor(x=>x.BillNumber)"> @Html.DisplayNameFor(x => x.BillNumber) (<span style="color:red">*</span>)</label>
+
+                                                @Html.TextBoxFor(x => x.BillNumber, new { @class = "form-control", @maxlength = "10", @placeholder = "Bill Number", @oninput = "checkValidation()", @onkeypress = "return noCharacter(event)", @title = "Please use Bill number" })
+
+                                            </div>
+                                            <div class="form-group" id="BillNo" style="color:red; margin-top:-11px;"></div>
+                                        </div>
+
+
+                                        @*<div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="@Html.NameFor(x=>x.Amount)">
+                                                        @Html.DisplayNameFor(x => x.Amount)<span style="color:red">*</span>
+                                                    </label>
+                                                        @Html.TextBoxFor(x => x.Amount, new { @class = "form-control", @title = "Please enter Amount", @placeholder = "Amount", @maxlength = "5", @onkeypress = "return isNumber(event)", @onchange = "checkValidation()" })
+                                                    <span class="Rs-icon" id="amountRs">NRs.</span>
+                                                    <div id="amount" style="color:red;"></div>
+                                                </div>
+                                            </div>*@
+                                        @*<label for="@Html.NameFor(x=>x.Amount)">
+                                                @Html.DisplayNameFor(x => x.Amount)<span style="color:red">*</span>
+                                            </label>*@
+
+                                        <div class="col-md-6">
+                                            <label for="@Html.NameFor(x=>x.Amount)">
+                                                @Html.DisplayNameFor(x => x.Amount) (<span style="color:red">*</span>)
+                                            </label>
+                                            <div class="form-group  input-group">
+                                                <div class="form-control col-4">NPR.</div>
+                                                @*<input class="form-control col-4" id="NRs" type="text" value="NRs." readonly />*@
+                                                @Html.TextBoxFor(x => x.Amount, new { @class = "form-control", @title = "Please use Amount", @placeholder = "Amount", @maxlength = "9", @*@onkeypress = "return isNumber(event)",*@ @oninput = "checkValidation()",
+                                               @onkeypress = "return NumberDot(event)", @autocomplete = "off"
+                                           })
+
+                                            </div>
+                                            <div class="form-group" id="amount" style="color:red; margin-top:-11px;"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @*@Html.LabelFor(x => x.Remarks)*@
+                                                <label for="@Html.NameFor(x=>x.Remarks)"> @Html.DisplayNameFor(x => x.Remarks) (<span style="color:red">*</span>)</label>
+
+                                                @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control", @title = "Please insert Remarks", @placeholder = "Remarks", @maxlength = "30", @oninput ="checkValidation" })
+
+                                            </div>
+                                            <div class="form-group" id="Remark" style="color:red; margin-top:-11px;"></div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="@Html.NameFor(x=>x.TPin)"> @Html.DisplayNameFor(x => x.TPin) (<span style="color:red">*</span>)</label>
+
+                                                @Html.PasswordFor(x => x.TPin, new { @class = "form-control pwd1", @title = "Please use T-Pin number", @placeholder = "T-Pin", @maxlength = "4", @onkeypress = "return isNumber(event)", @oninput = "checkValidation()", @autocomplete = "new-password", @onpaste = "return false" })
+                                                <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                                            </div>
+                                            <div class="form-group" id="Pin" style="color:red; margin-top:-11px;"></div>
+                                        </div>
+
+                                    </div>
+                                    <br />
+                                    <div class="box-footer">
+                                        <input type="submit" class="btn btn-blue btn-big col-md-5" name="btnCommand" value="Confirm" id="btnSubmit" />
+
+                                        <a href="@Url.Action("MerchantRestaurant","MerchantPayment")" class="btn btn-blue btn-big " id="btnNew" title="Begin New Transaction" style="display:none">New Transaction</a>
+                                        <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
+                                    </div>
+
+                                </div>
+                                <!-- /.box -->
+
+                            </div>
+
+                        }
+
+
+                        <!-- /.content -->
+
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success modal -->
+<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/success-tick.svg" alt="">
+                </div>
+                <p class="msg">@*Success!*@</p>
+                <span class="msg">Your payment has been confirmed.</span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Failure modal -->
+<div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/denied-cross.svg" alt="">
+                </div>
+                <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
+                <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <!-- /.content -->
+    <!-- =============================================== -->
+    <!-- Load jQuery and the validate plugin -->
+    @*<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>*@
+
+
+    <!-- added for dialog box -->
+    @*<script type="text/javascript" src="~/Content/assets/js/jquery.js"></script>
+        <script type="text/javascript" src="~/Content/assets/vendor/bootstrap/js/popper.min.js"></script>
+        <script type="text/javascript" src="~/Content/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="~/Content/assets/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
+        <script type="text/javascript" src="~/Content/assets/js/main.js"></script>*@
+
+    @*<!-- added for dialog box -->
+        <script type="text/javascript" src="assets/js/jquery.js"></script>
+        <script type="text/javascript" src="assets/vendor/bootstrap/js/popper.min.js"></script>
+        <script type="text/javascript" src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Bootstrap select -->
+        <script type="text/javascript" src="assets/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
+        <!-- Bootstrap Datepicker -->
+        <script type="text/javascript" src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <!-- BX Slider -->
+        <script type="text/javascript" src="assets/vendor/bxslider/js/jquery.bxslider.js"></script>
+        <!-- Match Height -->
+        <script type="text/javascript" src="assets/vendor/matchHeight/jquery.matchHeight.js"></script>
+        <!-- jQuery Validation -->
+        <script type="text/javascript" src="assets/vendor/jquery-validation/jquery.validate.min.js"></script>
+        <!-- custom js -->
+        <script type="text/javascript" src="assets/js/main.js"></script>*@
+
+   
+
+    <script type="text/javascript">
+
+        $(".btnShow1").mousedown(function () {
+            $(".pwd1").attr("type", "text");
+        });
+        $(".btnShow1").on("mouseleave", function () {
+            $(".pwd1").attr("type", "password");
+        });
+
+        document.getElementById("successModal").onclick = function () {
+            var url = '@Url.Action("Index", "AgentDashboard")';
+            window.location.href = url;
+        };
+
+          // for decimal amount (Restricts input for the given textbox to the given inputFilter.)
+        function setInputFilter(textbox, inputFilter) {
+            ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+                textbox.addEventListener(event, function () {
+                    if (inputFilter(this.value)) {
+                        this.oldValue = this.value;
+                        this.oldSelectionStart = this.selectionStart;
+                        this.oldSelectionEnd = this.selectionEnd;
+                    } else if (this.hasOwnProperty("oldValue")) {
+                        this.value = this.oldValue;
+                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                    }
+                });
+            });
+        }
+
+        setInputFilter(document.getElementById("Amount"), function (value) {
+            if (value >= 10000) {
+                return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 10000);
+            }
+            else {
+                return /^\d*[.,]?\d{0,2}$/.test(value) && (value === "" || parseInt(value) <= 10000);
+
+            }
+
+
+        });
+
+        $(document).ready(function () {
+            //$('input#Amount').blur(function () {
+            //    var num = parseFloat($(this).val());
+            //    var cleanNum = num.toFixed(2);
+            //    $(this).val(cleanNum);
+            //});
+
+              $('input#Amount').blur(function (e) {
+                var value = parseFloat(e.target.value);
+                var newValue = (isNaN(value) ? 0 : value);
+
+                var cleanNum = newValue.toFixed(2);
+                  $(this).val(cleanNum);
+            });
+        });
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        ///for amount input number and dot only
+        function NumberDot(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+        function noCharacter(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 32 && charCode < 48) || (charCode > 57 && charCode < 65) || (charCode > 90 && charCode < 97) || (charCode > 122 && charCode < 127)) {
+                return false;
+            }
+            return true;
+        }
+
+        function checkValidation() {
+            var pin = $("[name='TPin']").val();
+            var amount = $("[name='Amount']").val();
+            var billNumber = $("[name='BillNumber']").val();
+            var remarks = $("[name='Remarks']").val();
+
+            if ((amount.trim() == "") || (amount.trim() == "0.00")|| (amount.trim() == "0")) {
+                $("#amount").html("");
+                $("#amount").append("<small>" + "Please Enter valid Amount" + "</small>");
+                $("#amount").show();
+            }
+            else if (amount.length < 2) {
+                $("#amount").html("");
+                $("#amount").append("<small>" + "Please Enter two digit value" + "</small>");
+                $("#amount").show();
+            }
+            else {
+                $("#amount").hide();
+            }
+            if (billNumber.trim() == "") {
+                $("#BillNo").html("");
+                $("#BillNo").append("<small>" + "Please Enter the Bill Number" + "</small>");
+                $("#BillNo").show();
+            }
+            else {
+                $("#BillNo").hide();
+            }
+            if (pin.trim() == "") {
+                $("#Pin").html("");
+                $("#Pin").append("<small>" + "Please Enter the T-Pin" + "</small>");
+                $("#Pin").show();
+            }
+            else if (pin.length != 4) {
+                $("#Pin").html("");
+                $("#Pin").append("<small>" + "T-Pin must be 4 character long." + "</small>");
+                $("#Pin").show();
+            }
+            else {
+                $("#Pin").hide();
+            }
+            if (remarks.trim() == "") {
+                $("#Remark").html("");
+                $("#Remark").append("<small>" + "Please Enter Remarks" + "</small>");
+                $("#Remark").show();
+            }
+            else {
+                $("#Remark").hide();
+            }
+        }
+
+        //////
+        //$("#amountRs").hide();
+
+        //$("#Amount").blur(function () {
+        //    if ($(this).val() == '') {
+        //        $("#amountRs").hide();
+        //        $("#Amount").css("padding-left", "12px");
+        //    }
+        //    else {
+        //        $("#amountRs").show();
+        //        $("#Amount").css("padding-left", "50px");
+        //    }
+        //});
+        ////
+    $("#clearButton").click(function () {
+        $("#Remarks").val("");
+        $("#BillNumber").val("");
+        $("#Amount").val("");
+        $("#TPin").val("");
+        $("#BillNo").hide();
+        $("#amount").hide();
+        $("#Pin").hide();
+        $("#Remark").hide();
+    });
+
+     $("#ajaxResponse").hide();
+     $("#BillNo").hide();
+     $("#amount").hide();
+     $("#Pin").hide();
+
+
+
+    $('#btnSubmit').click(function (e) {
+        e.preventDefault();
+
+        var servicecode = $("[name='TransactionMedium']").val();
+        var restaurantname = $("[name='RestaurantName']").val();
+        var pin = $("[name='TPin']").val();
+        var amount = $("[name='Amount']").val();
+        var billNumber = $("[name='BillNumber']").val();
+        var remarks = $("[name='Remarks']").val();
+            //if (amount.trim() == "")
+            //{
+            //    $("[name='Amount']").focus();
+            //    alertify.error('Amount cannot be empty');
+            //    return;
+            //}
+            //if (amount.trim() == "0") {
+            //    $("[name='Amount']").focus();
+            //    alertify.error('Amount cannot be 0');
+            //    return;
+            //}
+            //if (pin.trim() == "") {
+            //    $("[name='TPin']").val()
+            //    alertify.error('Pin cannot be empty');
+            //    return;
+            //}
+
+        if ((servicecode != "") && (restaurantname != "") && (amount != "") && (amount != 0) && (amount.length != 1) && (pin != "") && (billNumber != "") && (remarks != "")) {
+
+                var dataToPost = {
+                    TransactionMedium: servicecode,
+                    RestaurantName: restaurantname,
+                    amount: amount,
+                    TPin: pin
+                };
+
+                e.preventDefault(); //prevent the default action
+                $.ajax({
+                    url: '@Url.Action("MerchantRestaurant", "MerchantPayment")',
+                    type: "POST",
+                    data: dataToPost,
+                    async: false,
+                    success: function (data) {
+                        if (data.responseCode == "200") {
+                            $("#ajaxResponse").html("");
+                            var resp = JSON.parse(data.responseText);
+
+                            $('#successModal').modal("show");
+
+
+                            //swal(
+                            //    'Success', resp.message + 'Available Balance:' + resp.availableBalance, 'success'
+                            //)
+
+                            //var AppendText = "<div class='alert alert-success'><h4>Success &nbsp;</h4>";
+                            //AppendText = AppendText + resp.message;
+                            //AppendText = AppendText + "<br/> Available Balance:" + resp.availableBalance;
+                            //AppendText = AppendText + "<br/></div>";
+                            // $("#ajaxResponse").append(AppendText);
+                            $("Purpose").val("");
+                            $("#BillNumber").val("");
+                            $("#Amount").val("");
+                            $("#TPin").val("");
+                            $("#ajaxResponse").show();
+                            //$('#btnNew').show();
+                            //$('#btnSubmit').hide();
+                            //$('#clearButton').hide();
+                        }
+
+                        else {
+                            $("#ajaxResponse").html("");
+                            $("#message").html("");
+                            $("#message").append(data.responseText);
+                            $('#failureModal').modal("show");
+
+                            //$("#ajaxResponse").append("<div class='alert alert-danger'><h4>Error </h4> "
+                            //    + data.responseText + "<br/></div>");
+                            $("#ajaxResponse").show();
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Failed to retrieve.');
+                        //$("#ajaxResponse").html("");
+                        //$("#ajaxResponse").append(jqXHR.responseText);
+                        //$("#ajaxResponse").show();
+                        $("#message").html("");
+                        $("#message").append(jqXHR.responseText);
+                        $('#failureModal').modal("show");
+                    },
+                    //capture the request before it was sent to server
+                    beforeSend: function (jqXHR, settings) {
+                        //adding some Dummy data to the request
+                        settings.data += "&dummyData=whatever";
+                        //disable the button until we get the response
+                        $('#btnSubmit').attr("disabled", true);
+                    },
+                    complete: function (jqXHR, textStatus) {
+                        //enable the button
+                        $('#btnSubmit').attr("disabled", false);
+                    }
+                });
+
+            }
+            else {
+                checkValidation();
+                $("#message").html("");
+                $("#message").append("Please Enter the required fields.");
+                $('#failureModal').modal("show");
+                //$('#successModal').show();
+                ////$("#successModal").show();
+                //    $("#ajaxResponse").html("");
+                //    //$("#ajaxResponse").append("<div class='alert alert-danger'><h4>Error</h4>"
+                //    //    + "Please Enter the required Field" + "<br/></div>");
+                ////swal(
+                ////    'Error',
+                ////     "Please Enter the required Field", 'error'
+                ////)
+                //    $("#ajaxResponse").show();
+            }
+        });
+
+
+        //$('#MerchantRestaurantForm').bootstrapValidator({
+        //    feedbackIcons: {
+        //        valid: 'glyphicon glyphicon-ok',
+        //        invalid: 'glyphicon glyphicon-remove',
+        //        validating: 'glyphicon glyphicon-refresh'
+        //    },
+        //    fields: {
+
+        //        BillNumber: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'The Bill Number is required and cannot be empty'
+        //                },
+        //                stringLength: {
+        //                    max: 10,
+        //                    message: 'The Bill Number can have maximum 10 characters'
+        //                }
+        //            }
+        //        },
+
+        //        Amount: {
+        //            validators: {
+        //                integer: {
+        //                    message: 'The value is not an integer'
+        //                },
+        //                notEmpty: {
+        //                    message: 'The Amount is required and cannot be empty'
+        //                },
+
+        //                stringLength: {
+        //                    max: 4,
+        //                    min: 2,
+        //                    message: 'The Amount must be more than 2 and less than 4 characters long'
+        //                }
+        //            }
+        //        },
+
+        //        TPin: {
+        //            validators: {
+        //                integer: {
+        //                    message: 'The value is not an integer'
+        //                },
+        //                notEmpty: {
+        //                    message: 'The pin is required and cannot be empty'
+        //                },
+        //                stringLength: {
+        //                    max: 4,
+        //                    min: 4,
+        //                    message: 'The pin must be 4 digit numeric value'
+        //                }
+        //            }
+        //        }
+
+        //    }
+        //});
+
+    </script>
+}

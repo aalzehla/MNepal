@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "MerchantDetail";
+    Layout = null;
+}
+
+<!-- Start Data Show in Table -->
+<div id="MerchantDetail" class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Merchant Detail</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+
+        @if (ViewData["dtableMerchantStatus"] == null)
+        {
+            <div class="panel-body"> <b>No Result Found !! </b> </div>
+        }
+        else if (ViewData["dtableMerchantStatus"] != null)
+        {
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Contact Number</th>
+                        <th>Status</th>
+                        <th>IsApproved</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (System.Data.DataRow dr in (ViewData["dtableMerchantStatus"] as System.Data.DataTable).Rows)
+                {
+                        <tr>
+                            <td> @dr["Name"] </td>
+                            <td> @dr["ContactNumber1"] </td>
+                            <td>
+                                @if (@dr["Status"].ToString() == "Active")
+                                {
+                                    <span class="badge bg-green-active"> @dr["Status"] </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-red-active"> @dr["Status"] </span>
+                                }
+                            </td>
+                            <td>
+                                @if (@dr["IsApproved"].ToString() == "Approve")
+                                {
+                                    <span class="badge bg-green-active"> @dr["IsApproved"] </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-red-active"> @dr["IsApproved"] </span>
+                                }
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Modification","Payee", new { id = @dr["ClientCode"] } )">Update</a>
+                            </td>
+                        </tr>
+                    } <!-- for each end-->
+                </tbody>
+            </table>
+        }
+
+    </div>
+</div>
+<!-- End Data Show in Table -->
+

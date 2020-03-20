@@ -1,0 +1,50 @@
+﻿@model MNepalProject.Models.ComAndFocusOneLog
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ComAndFocusOneLog</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TraceId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TraceId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Message)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Message)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InOutFlag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InOutFlag)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

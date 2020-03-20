@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f7941d;
+        stroke: #f7941d;
+        stroke-width: 2px;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        font-size: 17px;
+        font-family: Chivo-Regular, Chivo;
+      }
+
+      .cls-3 {
+        stroke: none;
+      }
+
+      .cls-4 {
+        fill: none;
+      }
+    </style>
+  </defs>
+  <g id="Group_1234" data-name="Group 1234" transform="translate(-1623 -176)">
+    <g id="Rectangle_285" data-name="Rectangle 285" class="cls-1" transform="translate(1623 176)">
+      <path class="cls-3" d="M11,0H70a0,0,0,0,1,0,0V13A11,11,0,0,1,59,24H0a0,0,0,0,1,0,0V11A11,11,0,0,1,11,0Z"/>
+      <path class="cls-4" d="M11,1H68a1,1,0,0,1,1,1V13A10,10,0,0,1,59,23H2a1,1,0,0,1-1-1V11A10,10,0,0,1,11,1Z"/>
+    </g>
+    <text id="GSM" class="cls-2" transform="translate(1658 194)"><tspan x="-19.057" y="0">GSM</tspan></text>
+  </g>
+</svg>

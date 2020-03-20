@@ -1,0 +1,636 @@
+﻿@{
+    ViewBag.Title = "Agent Dashboard";
+    var checkMsg = "";
+}
+<link href="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+
+@*<section class="content-header">
+    <h1>
+        Dashboard
+        <small>Version 1.0.0</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Dashboard</li>
+    </ol>
+</section>*@
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />   
+
+<!-- Success modal -->
+<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="Success Confirmation" aria-describedby="Success Confirmation">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/success-tick.svg" alt="success-tick">
+                </div>
+                <p class="msg" style="color: #00a651; font-size: 20px; font-weight: 700;">Success!</p>
+                <span class="msg" style="color: #002d6a; font-size: 18px; font-weight: 400;">@this.ViewData["agent_message"]</span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Failure modal -->
+<div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="Failure Confirmation" aria-describedby="Failure Confirmation">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
+                </div>
+                <p style="color: #e31837; font-size: 20px; font-weight: 700;">Error!</p>
+                <span style="color: #002d6a; font-size: 18px; font-weight: 400;" id="message">@this.ViewData["agent_message"]</span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+<div class="main-content">
+    <div class="bg-grey pad-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 match-height">
+
+                    <section class="instant-transactions">
+                        <div class="top-section clearfix">
+                            <h2 class="title">Instant Transactions</h2>
+                            <a href="#" class="customize">customize</a>
+                        </div>
+
+                        <div class="transactions-grid clearfix">
+                            <div class="item load-wallet">
+                                <div class="item-inner">
+                                    @*<a href="~/FundTransfer/LoadWalletBW">*@
+                                    <a href="~/LoadWallet/EBanking">
+                                        <div class="content-inner">
+                                            <i class="thaili-icon-load-wallet"></i>
+                                            <span>Load Wallet</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /item -->
+
+                            <div class="item transfer-fund">
+                                <div class="item-inner">
+                                    <a href="~/FundTransfer/Index">
+                                        <div class="content-inner">
+                                            <i class="thaili-icon-transfer-funds"></i>
+                                            <span>Transfer funds</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /item -->
+
+                            <div class="item top-up">
+                                <div class="item-inner">
+                                    <a href="~/UtilityPay/TopUp">
+                                        @*<a href="~/UtilityPay/NTTopUp">*@
+                                        <div class="content-inner">
+                                            <i class="thaili-icon-top-up"></i>
+                                            <span>Top Up</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /item -->
+
+                            <div class="item recharge">
+                                <div class="item-inner">
+                                    <a href="~/UtilityPay/NewRecharge">
+                                        <div class="content-inner">
+                                            <i class="thaili-icon-recharge"></i>
+                                            <span>Recharge</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /item -->
+
+                            @*<div class="item withdraw">
+            <div class="item-inner">
+                <a href="~/FundTransfer/Withdraw">
+                    <div class="content-inner">
+                        <i class="thaili-icon-wallet"></i>
+                        <span>Withdraw </span>
+                    </div>
+                </a>
+            </div>
+        </div>*@
+                            <!-- /item -->
+                            <div class="item internet">
+                                <div class="item-inner">
+                                    <a href="~/FundTransfer/Withdraw">
+                                        <div class="content-inner">
+                                            <i class="thaili-icon-wallet" id="icon-withdraw"></i>
+                                            <span id="withdraw-text">Bank Transfer </span>
+
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="item internet">
+                                <div class="item-inner">
+                                    <a href="~/MerchantPayment/MerchantRestaurant">
+                                        <div class="content-inner">
+                                            <span class="icon-icon-merchant"></span>
+                                            <span class="merchant-text">Merchants</span>
+                                             
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /item -->
+
+                            <div class="item internet">
+                                <div class="item-inner">
+                                    <a href="~/Cash/OutAgent3">
+                                        <div class="content-inner">
+                                            <span class="icon-icon-cashout"></span>
+                                            <span class="cashout-text">Cash Out</span>
+
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /item -->
+                            <div class="item internet">
+                                <div class="item-inner">
+                                    <a href="~/Cash/In">
+                                        <div class="content-inner">
+                                            <img src="~/Content/assets/img/icons/icon-cashin.svg" style="max-width: 79%;" alt="Cashin Icon"/>
+                                            <span style="color:#00aeef;">Cash In</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- /instant transactions -->
+                </div>
+                @*<div class="col-md-6 match-height">*@
+                <div class="thaili-slider-wrapper, col-md-6 match-height">
+                    <div class="thaili-slider">
+                        <div class="item">
+                            <img src="~/Content/assets/img/slider/slider-img.jpg" alt="slider-image1">
+                        </div>
+
+                        <div class="item">
+                            <img src="~/Content/assets/img/slider/slider-img2.jpg" alt="slider-image2">
+                        </div>
+
+                        <div class="item">
+                            <img src="~/Content/assets/img/slider/slider-img.jpg" alt="slider-image3">
+                        </div>
+                    </div>
+                    <!-- /thaili-slider -->
+                </div>
+                <!-- /thaili-slider-wrapper -->
+                @*</div>*@
+
+            </div>
+        </div>
+    </div>
+
+    <section class="section-services featured-merchant pad-50">
+        <div class="container">
+            <div class="title-wrapper clearfix">
+                <h2 class="title">Featured Merchants</h2>
+                <a href="#" class="btn btn-default show-all">Show All</a>
+            </div>
+            <!-- /title-wrapper -->
+
+            <div class="transactions-grid clearfix">
+                 <div class="item load-wallet">
+                     <a href="~/UtilityPay/Electricity">
+                         <div class="item-inner">
+                             <div class="content-inner">
+                                 <i class="thaili-icon-electricity"></i>
+                                 <span>Electricity</span>
+                             </div>
+                         </div>
+</div>
+                <!-- /item -->
+                <div class="item transfer-fund">
+                    <a href="~/UtilityPay/Khanepani">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-khanepani"></i>
+                                <span>Khanepani</span>
+                            </div>
+                        </div>
+                        </a>
+                </div>
+                <!-- /item -->
+
+                <div class="item top-up">
+                    <a href="~/MerchantPayment/MerchantRestaurant">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-restaurant"></i>
+                                <span>Restaurant</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- /item -->
+
+                <div class="item recharge">
+                    <a href="~/MerchantPayment/MerchantCollege">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-college"></i>
+                                <span>College</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- /item -->
+
+                <div class="item withdraw">
+                    <a href="~/MerchantPayment/MerchantSchool">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-school"></i>
+                                <span>School</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- /item -->
+            </div>
+
+        </div>
+    </section>
+    <!-- /section-services Featured Merchant -->
+    @*<section class="section-services internet-payment bg-grey pad-50">
+            <div class="container">
+                <div class="title-wrapper clearfix">
+                    <h2 class="title">Internet Bill Payment</h2>
+                    <a href="#" class="btn btn-default show-all">Show All</a>
+                </div>
+                <!-- /title-wrapper -->
+
+                <div class="transactions-grid clearfix">
+                    <div class="item load-wallet">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-electricity"></i>
+                                <span>Electricity</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item transfer-fund">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-khanepani"></i>
+                                <span>Khanepani</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item top-up">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-restaurant"></i>
+                                <span>Restaurant</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item recharge">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-college"></i>
+                                <span>College</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item withdraw">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-school"></i>
+                                <span>School</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+                </div>
+
+            </div>
+        </section>*@
+    <!-- /section-services Internet Payment -->
+    @*<section class="section-services food-hospitality pad-50">
+            <div class="container">
+                <div class="title-wrapper clearfix">
+                    <h2 class="title">Food & Hospitality</h2>
+                    <a href="#" class="btn btn-default show-all">Show All</a>
+                </div>
+                <!-- /title-wrapper -->
+
+                <div class="transactions-grid clearfix">
+                    <div class="item load-wallet">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-electricity"></i>
+                                <span>Electricity</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item transfer-fund">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-khanepani"></i>
+                                <span>Khanepani</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item top-up">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-restaurant"></i>
+                                <span>Restaurant</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item recharge">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-college"></i>
+                                <span>College</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+
+                    <div class="item withdraw">
+                        <div class="item-inner">
+                            <div class="content-inner">
+                                <i class="thaili-icon-school"></i>
+                                <span>School</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /item -->
+                </div>
+
+            </div>
+        </section>*@
+    <!-- /section-services Internet Payment -->
+
+    <section class="download-app bg-grey">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="app-demo-img">
+                        <img src="~/Content/assets/img/app-demo.png" alt="app-demo">
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <div class="content-inner">
+                        <img src="~/Content/assets/img/playstore-icon.png" alt="playstore-icon">
+                        <h2 class="title">Easy payments with a touch.</h2>
+                        <p>Paying hasn't been so easier online.</p>
+                        <a href="#" class="btn btn-default download-link">Download Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /download-app -->
+
+    <section class="section-partners text-center pad-50">
+        <div class="container">
+            <h2 class="title bordered-title"><span>Partnered Banks</span></h2>
+
+            <div class="partner-list clearfix">
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/purnima-bank.png" alt="purnima-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/sidhartha-bank.png" alt="sidhartha-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/bok.png" alt="bok">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/janata-bank.png" alt="janata-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/kumari-bank.png" alt="kumari-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/sanima-bank.png" alt="sanima-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/century-bank.png" alt="century-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/gandaki-bank.png" alt="gandaki-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/mega-bank.png" alt="mega-bank">
+                </div>
+
+                <div class="item match-height">
+                    <img src="~/Content/assets/img/banks/nb-bank.png" alt="nb-bank">
+                </div>
+            </div>
+            <!-- /partner-list -->
+
+            <a href="#" class="btn btn-default">Show All</a>
+        </div>
+    </section>
+    <!-- /section-partner -->
+</div>
+
+
+@{if (this.ViewData["agent_message"] != null)
+    {
+        if (this.ViewData["message_class"].ToString() == "success_info")
+        {
+            <input type="text" name="checkMsg" value="success_info" hidden/>
+        }
+        else
+        {
+            <input type="text" name="checkMsg" value="failure_info" hidden />
+
+        }
+    }
+}
+
+
+
+
+
+
+@section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var changed = "F";
+            var table;
+
+            var checkMsg = $("[name='checkMsg']").val();
+            if (checkMsg == "success_info") {
+                $('#successModal').modal();
+            }
+            else if (checkMsg == "failure_info")
+            {
+                $('#failureModal').modal();
+            }
+
+            $('#Search').click(function (e) {
+                e.preventDefault();
+                changed = "T";
+                var ContactNumber1 = $('#ContactNumber1').val();
+                var TranID = $('#TranID').val();
+               var StartDate = $('#StartDate').val();
+               var EndDate = $('#EndDate').val();
+               var Parachanged = changed;
+                if ($.fn.DataTable.isDataTable('#SearchResultTable')) {
+                    table.destroy();
+                }
+                $('#loading').show();
+                $('#btnSearch').prop("disabled", true);
+                table = $('#SearchResultTable').DataTable({
+
+                    searching: false,
+                    "proccessing": true,
+                    "serverSide": true,
+                    "aaSorting": [],
+                    "ajax": {
+
+                        data: function (d) {
+                            d.ContactNumber1 = ContactNumber1;
+                            d.StartDate = StartDate;
+                            d.EndDate = EndDate;
+                            d.TranID = TranID;
+
+                            d.change = Parachanged;
+                        },
+                        url: "@Url.Action("AgentDashboardTable", "AgentDashboard")",
+                        type: 'POST',
+                    },
+                    "drawCallback": function (settings) {
+                        changed = "F";
+                        Parachanged = changed;
+                        $('#SearchResultTable').show();
+                        if (settings.json.recordsTotal > 0)
+                            $('#ToExcel').show();
+                        else
+                            $('#ToExcel').hide();
+                        $('#loading').hide();
+                        $('#btnSearch').prop("disabled", false);
+                    },
+                    "columns": [
+                        { "data": "Date" },
+                        { "data": "TranID" },
+                        { "data": "Description" },
+                        { "data": "Debit" },
+                        { "data": "Credit" },
+                        //{ "data": "Balance" }
+
+                        //   { "data": "TimeStamp" }
+                    ]
+                });
+            });
+
+            $('#StartDate').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date,
+                onSelect: function (dateText) {
+                    var to = dateText.split("/");
+                    var SDate = new Date(to[2], to[1] - 1, to[0]);
+                    $("#EndDate").datepicker("option", "minDate", SDate);
+                    $("#EndDate").val("");
+                }
+            });
+
+            $('#EndDate').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date
+            });
+        });
+            function SetActive(event) {
+                if ($('ul  li').hasClass('active')) {
+                    $('ul li').removeClass('active');
+                }
+
+                if ($('ul li a').hasClass('active')) {
+                    $('ul  li a').removeClass('active');
+                }
+                var att = $(event).attr('href');
+
+                $('ul li a[href="' + att + '"]').addClass('active');
+                $('ul li a[href="' + att + '"]').closest('li').addClass('active');
+
+
+            }
+
+            /**Validation Check */
+            /*    $('#CustomerAccountLog').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    UserName: {
+                        validators: {
+                            stringlength: {
+                                min: 10,
+                                max: 10,
+                                message: 'Please enter valid Mobile No'
+
+                            },
+                            regexp: {
+                                regexp:'^[9][8][0-9]{8}$' ,
+                                message: 'Mobile no must start with 98 and should be 10 digits'
+
+                            }
+                        }
+                    }
+
+
+                }
+
+            });*/
+
+
+
+    </script>
+}
+
+

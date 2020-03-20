@@ -1,0 +1,304 @@
+﻿@model MNepalWeb.ViewModel.RegCusDetailVM
+@{
+    ViewBag.Title = "RegCusReport";
+}
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Registered Customer
+        <small>Report</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i>Registered Customer</a></li>
+        <li class="active"> Report</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Search Registered Customer Report</h3>
+                </div>
+                <!-- /.box-header -->
+                @using (Html.BeginForm("RegCusReport", "Report", FormMethod.Post))
+                {
+                <!--Search-->
+                <div class="box-body">
+                    <div class="row">
+                        <!-- radio -->
+                        <div class="form-group">
+                            <div class="radio col-md-12">
+                                <div class="col-md-12">
+                                    @*<label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="Branch Code" checked />
+                                        <b>Branch Code</b>
+                                    </label>*@
+                             
+                                    &nbsp;
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="Date">
+                                        <b>Date</b>
+                                    </label>
+                                    &nbsp;
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="Profile" checked />
+                                        <b>Profile</b>
+                                    </label>
+                                
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <hr />
+                        </div>
+
+                        <div class="form-group" id="form">
+                            <div id="BranchCode" class="col-md-6 form-group" style="display:none;">
+                                <label>Branch Code</label>
+                                @*@Html.TextBoxFor(x => x.BranchCode, new { @class = "form-control", @maxlength = "15"})*@
+                            </div>
+                            <div id="Date" class="col-md-6 form-group">
+                                @*<label>Date</label>
+                                 <input type="text" class="form-control" id="txtAccountNoID" name="txtDate" placeholder="Date" maxlength="10" onkeypress="return isNumberKey(event)">*@
+
+                                <!---test-->
+                                <div id="dateRange" style="display:none;">
+
+                                    <hr />
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div id="StartDate" class="col-md-6 form-group">
+                                                <label>Start Date</label>
+                                                @Html.TextBoxFor(x => x.Parameter.StartDate, new { @class = "form-control", @maxlength = "10" })
+                                                @*  <input type="text" class="form-control" id="txtStartDate" name="StartDate" placeholder="DD/MM/YYYY" maxlength="10" value="@Model.Parameter.StartDate">*@
+
+                                            </div>
+                                            <div id="EndDate" class="col-md-6 form-group">
+                                                <label>End Date</label>
+                                                @Html.TextBoxFor(x => x.Parameter.EndDate, new { @class = "form-control", @maxlength = "10" })
+                                                @*   <input type="text" class="form-control" id="txtEndDate" name="EndDate" placeholder="DD/MM/YYYY" maxlength="10" value="@Model.Parameter.EndDate">*@
+
+                                            </div>
+
+
+                                        </div>
+                                       
+
+                                    </div>
+                               </div>
+                            <!--test-->
+                           
+                            </div>
+                            <div id="Profile" class="col-md-6 form-group">
+                                <div id="ProfileCode" class="col-md-6 form-group">
+                                    <label>Profile </label>
+                                    @*@Html.DropDownList("CustProfile", new SelectList(ViewBag.ProfileList, "Value", "Text", Model.ProfileCode), "All", new { @class = "form-control", @id = "ddlCustProfile", @data_target = "tdProfileName"})*@
+                                    @*@Html.DropDownListFor(model => model.Parameter.ProfileCode,ViewBag.ProfileList as SelectList, "Select")*@
+                                    @Html.DropDownList("Parameter.ProfileCode", (SelectList)ViewBag.Profilelist, "Select", new { @class = "form-control" })
+
+
+                               
+
+                                </div>
+                            </div>
+
+                            </div>
+
+
+                   </div>
+
+                   </div>
+                   <!-- /.box-body -->
+                   <div class="box-footer">
+                    <input type="submit" class="btn btn-primary" id="btnSearch" name="txtSearch" value="Search" />
+                   </div>
+                   <!-- /.box-footer -->
+
+                 }
+
+                <!-- /.box-body -->
+            </div>
+            <!--/.box -box-danger-->
+            <div id="data" class="box box-primary">
+            <!--Report List-->
+                <div class="box-body">
+                    @*<div class="row">
+                        <div class="col-md-6">
+
+                            @if (Model.Total.Trim() != "")
+                            {
+                                <span>Account activity report for : @Model.Name</span>
+
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            @if (Model.Balance.Trim() != "")
+                            {
+
+                                <span>Current Balance : @Model.Balance</span>
+
+                            }
+                        </div>
+
+                    </div>*@
+                    @{ if (Model.CustomerData.Count > 0)
+                        {
+                            <span class="fa fa-2x fa-file-excel-o pull-right" style="color:green" title="To Excel" id="ToExcel"></span>
+                            @*<span class="fa fa-2x fa-file-pdf-o pull-right" style="color:red" title="To PDF"></span>*@
+                            <div class="row" id="table">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td>Mobile No</td>
+                                            <td>Customer Name</td>
+                                            <td>Account No</td>
+                                            <td>Profile Name</td>
+                                            <td>Renew Date</td>
+                                            <td>Expiry Date</td>
+                                            <td>Status</td>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.CustomerData)
+                                        {
+                                            <tr>
+                                                <td>@item.MobileNo</td>
+                                                <td>@item.CustomerName</td>
+                                                <td>@item.AccountNo</td>
+                                                <td>@item.ProfileName</td>
+                                                <td>@item.RenewDate</td>
+                                                <td>@item.ExpiryDate</td>
+                                                <td>@item.Status</td>
+                                                
+                                            </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        }
+                        else
+                        {
+                            if(ViewBag.message!=null)
+                            {
+                                <h5>No Record(s) Found.</h5>
+                            }
+                        }
+                    }
+
+
+
+
+
+                </div>
+            <!--Report List-->
+                </div>
+
+        </div>
+        <!-- /.col-xs--->
+        <!-- End-->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts{
+    <script type="text/javascript">
+
+
+        $('#ToExcel').click(function () {
+            var fileName = $('#MobileNo input[type="text"]').val();
+            var d = new Date;
+            fileName = "Customer_Account_Activity_" + fileName + "_" + d.toLocaleDateString();
+            ToExcel('table', false, fileName);
+
+        });
+
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        $("#ProfileCode").show();
+        $("#Date").hide();
+        //$("#BranchCode").hide();
+
+        //debugger;
+        $("input[type='radio']").change(function () {
+
+            //if ($(this).val() == "Branch Code") {
+            //    $("#BranchCode").show();
+            //    $("#Date").hide();
+            //    $("#Profile").hide();
+            //}
+
+         if ($(this).val() == "Date") {
+                $("#Date").show();
+                //$("#BranchCode").hide();
+                $("#Profile").hide();
+            }
+
+            else if ($(this).val() == "Profile") {
+                $("#Profile").show();
+                $("#Date").hide();
+                //$("#BranchCode").hide();
+            }
+
+
+        });
+                
+
+        $('input[type=radio]').change(function () {
+            var val = $(this).val();
+            if (val = "Date") {
+                $('#dateRange').show(500);
+            }
+            else {
+                $('#dateRange').hide(500);
+            }
+        });
+
+        $('input[type=radio]').change(function () {
+            var val = $(this).val();
+            if (val = "Profile") {
+                $('#ProfileCode').show(500);
+            }
+            else {
+                $('#ProfileCode').hide(500);
+            }
+        });
+
+
+
+
+
+
+
+
+
+   </script>
+    }
+
+
+
+

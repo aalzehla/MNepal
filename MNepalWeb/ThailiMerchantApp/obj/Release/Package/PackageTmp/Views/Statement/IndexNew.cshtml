@@ -1,0 +1,257 @@
+﻿
+@{
+    ViewBag.Title = "IndexNew";
+}
+
+@model ThailiMerchantApp.Models.StatementInfo
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/alertify.min.css" />
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/default.min.css" /> 
+
+<!-- Main content -->
+ 
+<div class="main-content">
+    <div class="container">
+        <div class="pad-50">
+            <h2 class="title">Statement</h2>
+
+            <form class="statement-filter" action="statement.php">
+                <div class="top-section form-inline">
+                    <div class="form-group">
+                        <label class="search-label">Search</label>
+                    </div>
+
+                    <div class="form-group search-form-wrapper">
+                        <div class="search-form clearfix">
+                            <input type="search" class="form-control" id="mobileno" name="mobileno" maxlength="10" onkeypress="return isNumber(event)"  placeholder="Mobile Numbers/Services"  />
+                             
+                            <button type="button"><i class="far fa-search"></i></button>
+                        </div>
+                        <!-- /search-form -->
+                    </div>
+                    <!-- /form-group -->
+
+                    <div class="form-group">
+                        <div class="switch-field">
+                            <input type="radio" id="switch_left" name="searchSource" value="Bank Account" checked />
+                            <label class="form-control" for="switch_left">Bank Account</label> 
+                             
+                            @*<input type="radio"  id="btnSearch" name="txtSearch" value="Digital Wallet" />
+                            <label class="form-control" for="switch_right">Digital Wallet</label>*@
+                        </div>
+                        <!-- /switch-field -->
+                    </div>
+                     <input type="submit" class="btn btn-grey " id="btnSearch" name="txtSearch" value="Digital Wallet" />
+
+                    <!-- /form-group -->
+                </div>
+                <!-- /top-section -->
+
+                <div class="bottom-section clearfix">
+                    <div class="cnt-left float-left">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                @*<select name="statementStatus" id="" class="form-control status-select">
+                                    <option value="">Status</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>*@
+                            </div>
+
+                            <div class="form-group daterange-wrapper">
+                                <label>From</label>
+                                <div class="input-group input-daterange">
+                                    <input type="date" class="form-control datepicker-range" id="StartDate" name="StartDate" maxlength="10" onkeypress="return isNumber(event)" placeholder="DD/MM/YYYY" />
+                                     
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">To</span>
+                                    </div>
+                                    <input type="date" class="form-control datepicker-range" id="EndDate" name="EndDate" maxlength="10" onkeypress="return isNumber(event)" placeholder="DD/MM/YYYY" />
+ 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /float-left -->
+
+                    <div class="reset-wrapper float-right">
+                        
+                        <a href="#" class="btn btn-grey reset-button" id="clearButton" >Reset</a>
+                    </div>
+                </div>
+                <!-- /bottom-section -->
+            </form>
+
+            <div id="data"></div> 
+            
+            <!-- table-responsive -->
+
+            <div class="pagination-wrapper text-center">
+                <ul class="pagination">
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                </ul>
+            </div>
+            <!-- /pagination-wrapper -->
+        </div>
+    </div>
+</div>
+ 
+    @*<div class="main-content">
+        <div class="two-colbg">
+            <div class="container">
+                <div class="row"> 
+
+                    <div class="col-lg-6 right-form">
+                        <section class="content-inner pad-50">
+
+                            @using (Html.BeginForm(new { @id = "frmFundTransfer", @class = "transaction-form common-form" }))//"Index", "FundTransfer", FormMethod.Post,
+                            {
+                                <div id="ajaxResponse">
+                                </div>
+
+                                if (this.ViewData["fundTransfer_messsage"] != null)
+                                {
+                                    if (this.ViewData["message_class"].ToString() == "success_info")
+                                    {
+                                        <div class="alert alert-success">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <h4>Success &nbsp;</h4> <div class="content-inner"> @this.ViewData["fundTransfer_messsage"] </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-danger">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <h4>Error</h4> @this.ViewData["fundTransfer_messsage"]
+                                        </div>
+                                    }
+                                }
+
+                                <div class="box-body">
+                                    <!-- /.form-group -->
+                                    <div class="form-group">
+                                        <label>Mobile no</label>
+                                        <input type="search" class="form-control" id="mobileno" name="mobileno" maxlength="10" onkeypress="return isNumber(event)" value="@ViewBag.UserName" />
+         
+</div>
+
+                                <div class="form-group">
+                                 
+                                    <label>Start Date</label>
+                                    <input type="date" class="form-control" id="StartDate" name="StartDate" maxlength="10" onkeypress="return isNumber(event)" placeholder="DD/MM/YYYY" />
+         
+                                </div>
+
+                                <div class="form-group" >
+                                    <label>End Date</label>
+                                    <input type="date" class="form-control" id="EndDate" name="EndDate" maxlength="10" onkeypress="return isNumber(event)" placeholder="DD/MM/YYYY" />
+                                  
+                                </div>
+                                <!-- /.form-group -->
+
+
+                            </div>
+                                <!-- /.box-body -->
+                          
+                            <div class="box-footer">
+                                <input type="submit" class="btn btn-info pull-right" id="btnSearch" name="txtSearch" value="Digital Wallet"/>
+
+                                       <input type="text" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
+                            </div>
+                        }
+
+                        <div id="data"></div>
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>*@
+ 
+
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts {
+
+    <!-- Load jQuery and the validate plugin -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/alertify.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert-dev.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/sweetalert/dist/sweetalert.css" />
+
+
+    <!--jQuery Form Validation code -->
+    <script type="text/javascript">
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        } 
+         
+        $("#clearButton").click(function () {
+            $("#mobileno").val("");
+            $("#StartDate").val("");
+            $("#EndDate").val("");
+
+        }); 
+
+        $(document).ready(function () {
+             
+            $("#ajaxResponse").hide(); 
+
+            $('#btnSearch').click(function (e) {
+                debugger;
+                    var mobileno = $('#mobileno').val();
+
+                    var StartDate = $('#StartDate').val();
+                    var EndDate = $('#EndDate').val();
+                    var dataToPost = {
+                        mobileno: mobileno,
+                        StartDate: StartDate,
+                        EndDate: EndDate
+                    };
+                    e.preventDefault();
+             
+                    debugger;
+                        $.ajax({
+                            url: '@Url.Action("IndexNewOne", "Statement")',
+                            type: 'Get',
+                            data: dataToPost,
+                            //async: false,
+                            success: function (results) {
+                                debugger;
+                                $('#data').html(results);
+
+                            },
+                            error: function () {
+                                debugger;
+                                alert('No records Found!!');
+                            }
+
+                 });
+
+                });
+
+
+        });
+    </script>
+}
+

@@ -1,0 +1,196 @@
+﻿
+@{
+    ViewBag.Title = "Registered Agents Report";
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Report
+        <small>Registered Agents</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i>Report</a></li>
+        <li class="active"> Registered Agents</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">View Agent Details</h3>
+                </div>
+                <!-- /.box-header -->
+                @if (this.TempData["custmodify_messsage"] != null)
+                {
+                    if (this.TempData["message_class"].ToString() == "success_info")
+                    {
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4> @this.TempData["custmodify_messsage"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error</h4> @this.TempData["custmodify_messsage"]
+                        </div>
+                    }
+                }
+                @Html.Partial("_PartialSearch")
+
+                @*<div class="box-body">
+
+                    </div> *@
+                <!-- /.box-body -->
+            </div>
+            <!--/.box -box-danger-->
+            <div id="data" class="box box-primary">
+
+                @*@Html.Action("CustomerModifyDetail")*@
+            </div>
+
+        </div>
+        <!-- /.col-xs--->
+        <!-- End-->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts{
+
+    <script>
+
+        //$("#MobileNo").hide();
+        $("#Name").hide();
+        $("#AccountNo").hide();
+
+
+        $("input[type='radio']").change(function () {
+
+            if ($(this).val() == "Mobile Number") {
+                $("#MobileNo").show();
+                $("#Name").hide();
+                $("#AccountNo").hide();
+            }
+            else if ($(this).val() == "Name") {
+                $("#Name").show();
+                $("#AccountNo").hide();
+                $("#MobileNo").hide();
+            }
+            else if ($(this).val() == "AccountNumber") {
+                $("#AccountNo").show();
+                $("#MobileNo").hide();
+                $("#Name").hide();
+            }
+            else if ($(this).val() == "Name/Account") {
+                $("#Name").show();
+                $("#AccountNo").show();
+                $("#MobileNo").hide();
+            } else {
+                $("#MobileNo").hide();
+                $("#Name").hide();
+                $("#AccountNo").hide();
+            }
+
+        });
+
+
+        function isNumberKey(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+
+        $('#btnSearch').click(function (e) {
+
+            var mobileNo = $('#txtMobileNoID').val();
+            var name = $('#txtNameID').val();
+            var accountNo = $('#txtAccountNoID').val();
+
+            var SearchCol;
+
+            var radios = document.getElementsByName('optionsRadios');
+            for (var j = 0; j < radios.length; j++) {
+                if (radios[j].checked) {
+                    //debugger;
+                    SearchCol = radios[j].value;
+                    break;
+                }
+            }
+
+            e.preventDefault();
+
+            $.ajax({
+                url: '@Url.Action("AgentViewDetail", "Report")',
+                type: 'GET',
+                data: {
+                    SearchCol: SearchCol,
+                    txtMobileNo: mobileNo,
+                    txtName: name,
+                    txtAccountNo: accountNo
+                },
+                success: function (results) {
+                    //debugger;
+                    $('#data').html(results);
+
+                },
+                error: function () {
+                    //debugger;
+                    alert('Error Occured!!');
+                }
+            });
+
+        });
+
+        //test//
+
+        /**Validation Check */
+        $('#MobileNo').bootstrapValidator({
+            //feedbackIcons: {
+            //    valid: 'glyphicon glyphicon-ok',
+            //    invalid: 'glyphicon glyphicon-remove',
+            //    validating: 'glyphicon glyphicon-refresh'
+            //},
+            fields: {
+                txtMobileNo: {
+                    validators: {
+
+                        regexp: {
+                            regexp: '^[9][8][0-9]{8}$',
+                            message: 'Please enter valid Mobile No'
+
+                        }
+                    }
+                }
+
+
+            }
+
+        });
+
+
+    </script>
+}
+
+
+
+
+

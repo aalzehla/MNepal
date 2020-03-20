@@ -1,0 +1,306 @@
+﻿
+@{
+    ViewBag.Title = "Customer Registration Approval";
+    //var i = 1;
+}
+
+<section class="content-header">
+    <h1>
+        Customer
+        @*<small>Registration Approval</small>*@
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> @ViewContext.RouteData.Values["Controller"].ToString()</a></li>
+        <li class="active">@*@ViewContext.RouteData.Values["Action"].ToString()*@Registration Approval </li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Start Form -->
+            <!-- Start Data Show in Table -->
+            <div id="CustomerApprove" class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Registration Approval</h3>
+                </div>
+                <!-- /.box-header -->
+
+
+
+
+                @if (this.ViewData["custapprove_messsage"] != null)
+                {
+                    if (this.ViewData["message_class"].ToString() == "success_info")
+                    {
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4> @this.ViewData["custapprove_messsage"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error</h4> @this.ViewData["custmodify_messsage"]
+                        </div>
+                    }
+                }
+
+                <div class="box-body">
+                    <div class="box box-primary">
+
+                        @using (Html.BeginForm("ApproveList", "Customer", FormMethod.Get, new { @id = "ApproveList" }))
+                        {
+                            <div class="box-body">
+                                <div class="row">
+                                    <!-- radio -->
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <input type="radio" name="Key" id="optionsRadios1" value="Mobile" checked />
+                                            <label>Mobile Number</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="glyphicon glyphicon-phone" style="color:royalblue"></i>
+                                                </div>
+                                                <input type="text" class="form-control" id="txtMobileNoID" name="Value" placeholder="Mobile Number" maxlength="10" onkeypress="return isNumber(event);" value="@ViewBag.Value" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- /.box-body -->
+                            <div class="box-footer">
+                                <input type="submit" class="btn btn-primary" id="btnSearch" name="txtSearch" value="Search" />
+                            </div>
+                        }
+
+
+                    </div>
+
+
+
+                    @*@if (ViewData["dtableCustForApproval"] == null)
+                        {
+                            <div class="panel-body">
+                                <b>No Result Found !! </b>
+                            </div>
+                        }*@
+                    
+
+                        <div>
+
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#Registered " aria-controls="Registered " role="tab" data-toggle="tab">Registered  by Bank <span class="badge">@((ViewData["dtableCustForApproval"] as System.Data.DataTable).Rows.Count)</span></a></li>
+                              @if (ViewBag.COC == true)
+                              {
+                                <li role="presentation"><a href="#Self" aria-controls="Self" role="tab" data-toggle="tab">Self Registered  <span class="badge">@((ViewData["dtableCustForApprovalSelf"] as System.Data.DataTable).Rows.Count)</span> </a> </li>
+                              }
+
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="Registered">
+                                    <table class="table table-condensed" id="users">
+                                        <thead style="text-align:left">
+                                            <tr>
+                                                <th>Mobile Number</th>
+                                                <th>Customer Name</th>
+                                                <th>Address</th>
+                                                <th>Account Number</th>
+                                                <th>Registered Branch</th>
+                                                <th>CreatedBy</th>
+                                                <th>Details</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody style="text-align:left">
+
+                                            @if ((ViewData["dtableCustForApproval"] as System.Data.DataTable).Rows.Count > 0)
+                                            {
+                                                foreach (System.Data.DataRow dr in (ViewData["dtableCustForApproval"] as System.Data.DataTable).Rows)
+                                                {
+                                                    <tr>
+                                                        <td> @dr["MobileNumber"] </td>
+                                                        <td> @dr["Name"] </td>
+                                                        <td> @dr["Address"] </td>
+                                                        <td> @dr["BankAccountNumber"]</td>
+                                                        <td> @dr["BranchName"]</td>
+                                                        <td> @dr["CreatedBy"]</td>
+                                                        <td>
+                                                           <a href="@Url.Action("ViewApproveDetail", "Customer", new { id = dr["ClientCode"].ToString().Trim() })"><i class="fa fa-eye" title="View"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                } <!-- for each end-->
+                                            }
+                                           
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="Self">
+                                    <table class="table table-condensed" id="usersself">
+                                        <thead style="text-align:center">
+                                            <tr>
+                                                @*<th>@Html.CheckBox("chkSelectAllCus1", false)</th>*@
+                                                <th>Mobile Number</th>
+                                                <th>Customer Name</th>
+                                                <th>Address</th>
+                                                <th>Account Number</th>
+                                                <th>CreatedBy</th>
+                                                <th>Details</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody style="text-align:center">
+
+                                            
+                                            @if ((ViewData["dtableCustForApprovalSelf"] as System.Data.DataTable).Rows.Count > 0)
+                                            {
+                                                foreach (System.Data.DataRow dr in (ViewData["dtableCustForApprovalSelf"] as System.Data.DataTable).Rows)
+                                                {
+                                                    <tr>
+                                                        @*<td><input  type="checkbox" id="string.Format("chkSelectCus{0}", i)" name="chkbxGroup" value="@dr["ClientCode"]" /></td>*@
+                                                        <td> @dr["MobileNumber"] </td>
+                                                        <td> @dr["Name"] </td>
+                                                        <td> @dr["Address"] </td>
+                                                        <td> @dr["BranchName"]</td>
+                                                        <td> Self Registered</td>
+                                                        <td>
+                                                            <a href="@Url.Action("ViewSelfRegDetail", "Customer", new { id = dr["ClientCode"].ToString().Trim() })"><i class="fa fa-eye" title="View"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                } <!-- for each end-->
+                                            }
+                                           
+                                        </tbody>
+                                    </table>
+                                </div>
+                             
+                            </div>
+
+                        </div>
+                      
+                </div>
+                <!-- /.box-body -->
+                <div>
+                    @*<input id="btnSelApprove" name="btnSelApprove" type="button" class="btn btn-primary pull-right" value="Select and Approve" />
+                        &nbsp;&nbsp;
+                        <input id="btnSelReject" name="btnSelReject" type="button" class="btn btn-primary pull-right" value="Reject" />*@
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+@section scripts {
+
+    <script>
+
+        var registeredusers=$('#users').DataTable({
+            "ordering": false,
+            "filter": false,
+            "sorting": false,
+            "info": false,
+            "lengthChange": false,
+            "language": {
+                "emptyTable": "No records found matching the search parameter"
+            }
+        });
+
+       var selfregisteredusers= $('#usersself').DataTable({
+            "ordering": false,
+            "filter": false,
+            "sorting": false,
+            "info": false,
+            "lengthChange": false,
+            "language": {
+                "emptyTable": "No records found matching the search parameter"
+            }
+
+       });
+
+    
+    
+    
+
+        $(document).ready(function () {
+
+            //$('#chkSelectAllCus1').click(function () {
+            //    let status = false;
+            //    status = document.getElementById('chkSelectAllCus1').checked;
+
+            //    var cus = document.getElementsByName('chkbxGroup');
+            //    for (let i = 0; i < cus.length; i++)
+            //    {
+            //        cus[i].checked = status;
+            //    }
+            //});
+
+            @*$('#btnSelApprove').click(function (e) {
+                debugger;
+                var selCus = new Array() ;
+
+                $('input:checkbox[name=chkbxGroup]:checked').each(function () {
+					selCus.push(this.value);
+				});
+
+                alert('ClientCode: '+ selCus + ' sent to approval');
+				document.location = '@Url.Action("Approve", "Customer")' + $.param({cus=selCus});
+
+            });
+
+            $('btnSelReject').click(function () {
+
+            });*@
+
+        });
+
+
+
+
+        /**Validation Check */
+        $('#ApproveList').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                Value: {
+                    validators: {
+                        stringlength: {
+                           min: 10,
+                            max: 10,
+                            message: 'Please enter valid Mobile No'
+
+                        },
+                        regexp: {
+                            regexp: '^$|[9][8][0-9]{8}$',
+                            message: 'Mobile no must start with 98 and should be 10 digits'
+
+                        }
+                    }
+                }
+
+
+            }
+
+        });
+        if (!registeredusers.data().any() && selfregisteredusers.data().any()) {
+            //$('#Self').tab('show');
+            $('a[href="#Self"]').tab('show');
+            console.log($('#Self').tab('show'));
+        }
+      
+
+
+    </script>
+}
+<!-- =============================================== -->

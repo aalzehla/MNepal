@@ -1,0 +1,157 @@
+﻿
+@{
+    ViewBag.Title = "Customer Block/UnBlock ";
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Customer
+        @*<small>Block/UnBlock</small>*@
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Customer</a></li>
+        <li class="active">Block / UnBlock </li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-10">
+
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Block/Unblock </h3>
+                </div>
+                <!-- /.box-header -->
+                @if (this.TempData["deleteUser_messsage"] != null)
+                {
+                    if (this.TempData["message_class"].ToString() == "success_info")
+                    {
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4> @this.TempData["deleteUser_messsage"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error</h4> @this.TempData["deleteUser_messsage"]
+                        </div>
+                    }
+                }
+                @using (Html.BeginForm("DeleteUserList", "Customer", FormMethod.Get, new { @id = "DeleteUserList" }))
+                {
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label>Mobile Number</label>
+                                    <input type="text" class="form-control col-md-6" id="mobileNo" name="searchMobileNo" placeholder="Mobile Number" maxlength="10"  onkeypress="return isNumberKey(event)" required>
+                                </div>
+                            </div>
+                            </div>
+
+                    </div>
+                <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" id="btnSearch" name="txtSearch" value="Search" />
+                        </div>
+                    </div>
+
+                   @*</div>*@
+                }
+                <!--/.box -box-success-->
+
+                @Html.Action("DeleteUserDetail")
+
+            </div>
+            <!-- /.col-xs--->
+            <!-- End-->
+
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+    <!-- =============================================== -->
+
+    @section scripts{
+
+        <script>
+
+            function isNumber(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            }
+
+        $("#DeleteUserDetail").hide();
+
+        $('#btnSearch').click(function (e) {
+
+            var mobileNo = $('#mobileNo').val();
+
+            e.preventDefault();
+
+            $.ajax({
+                url: '@Url.Action("DeleteUserDetail", "Customer")',
+                type: 'GET',
+                data: {
+                    txtMobileNo: mobileNo
+                },
+                success: function (results) {
+                    $('#DeleteUserDetail').html(results);
+                    $("#DeleteUserDetail").show();
+                },
+                error: function () {
+                    alert('Error Occured!!');
+                }
+            });
+
+        });
+
+            /**Validation Check */
+            $('#DeleteUserList').bootstrapValidator({
+                //feedbackIcons: {
+                //    valid: 'glyphicon glyphicon-ok',
+                //    invalid: 'glyphicon glyphicon-remove',
+                //    validating: 'glyphicon glyphicon-refresh'
+                //},
+                fields: {
+                    searchMobileNo: {
+                        validators: {
+                            stringlength: {
+                                min: 10,
+                                max: 10,
+                                message: 'Please enter valid Mobile No'
+
+                            },
+                            regexp: {
+                                regexp: '^[9][8][0-9]{8}$',
+                                message: 'Mobile no must start with 98 and should be 10 digits'
+
+                            }
+                        }
+                    }
+
+
+                }
+
+            });
+
+
+
+
+        </script>
+    }

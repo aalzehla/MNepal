@@ -1,0 +1,101 @@
+﻿@using MNepalProject.Models.ViewModel;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html data-ng-app="MNepal">
+<head>
+    <title>Login</title>
+    <!-- start: META -->
+    <meta charset="utf-8" />
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- end: META -->
+    <!-- MAIN CSS -->
+    @Styles.Render("~/Content/ClipOneCss/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <!--end main css-->
+
+</head>
+<!-- start: BODY -->
+<body class="login example1" ng-controller="acc">
+
+    @if (Request.IsAuthenticated)
+    {
+        Response.Redirect("/Home/Index");
+    }
+    else
+    {         
+    
+        <div class="row">
+        <div class="main-login col-sm-4 col-sm-offset-4">
+            <div class="logo">MNepal</div>
+
+            <!-- start: LOGIN BOX -->
+            <div class="box-login">
+                <h3>Sign in to your account</h3>
+                <p>
+                    Please enter username and password
+                </p> 
+                @if(TempData["msg"]!=null)
+                {
+                    <div class="alert alert-success">
+                        <p>@TempData["msg"]</p>
+                    </div>
+                }
+                
+                <p class="col-lg-offset-4">
+                    @if (ViewData["msgLogin"] != "")
+                    {
+                        <div class="alert alert-danger">
+                            @ViewData["msgLogin"]
+                        </div>
+                    }
+                </p>
+                                     
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-login", role = "form" }))
+                {
+                @Html.AntiForgeryToken()
+
+                    <fieldset>
+                        <div class="form-group">
+                            <span class="input-icon">
+                                <input type="text" class="form-control" name="username" ng-model="username" placeholder="Username">
+                                <i class="icon-user"></i>
+                            </span>
+                        </div>
+                        <div class="form-group form-actions">
+                            <span class="input-icon">
+                                <input type="password" class="form-control password" ng-model="password" name="password" placeholder="Password">
+                                <i class="icon-lock"></i>
+                                <a class="forgot" href="#">I forgot my password</a>
+                            </span>
+                        </div>
+                        <div class="form-actions">
+                            <label for="remember" class="checkbox-inline">
+                                <input type="checkbox" class="grey remember" id="remember" value="true" name="rememberMe" >
+                                Keep me signed in
+                            </label>
+                            <input type="submit" value="Log in" class="btn btn-bricky pull-right" />
+                        </div>
+                    </fieldset>
+                }
+            </div>
+            <!-- end: LOGIN BOX -->
+        </div>
+    </div>
+    }
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/ClipOne")
+    @Scripts.Render("~/angjs")
+
+</body>
+
+</html>

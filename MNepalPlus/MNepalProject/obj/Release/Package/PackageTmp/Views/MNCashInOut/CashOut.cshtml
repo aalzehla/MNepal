@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "CashOut";
+}
+
+@section PageTitle
+    {
+
+    <ol class="breadcrumb">
+        <li class="active">
+            <span class="selected">CashOut</span>
+        </li>
+    </ol>
+}
+@section scripts
+{
+    @Scripts.Render("~/angjs")
+}
+<form name="myForm" ng-app="MNepal">
+    <div class="form-group" ng-controller="CashOut">
+        <div class="row" id="divLeft">
+            <label class="col-sm-2 control-label" for="form-field-13">
+                Agent's Mobile
+            </label>
+            <div class="col-sm-2">
+                <input type="number" name="amobile" placeholder="moblie no" ng-model="AMobileNo" id="form-field-13" class="form-control input-sm" required>
+                <span class="error" ng-show="myForm.amobile.$error.number">
+                    <i class="clip-warning"></i>... put a mobile no.
+                </span>
+            </div>
+        </div>
+
+        <div class="row" id="divLeft">
+            <label id="divrow" class="col-sm-2 control-label" for="form-field-13">
+                User's Mobile
+            </label>
+            <div id="divrow" class="col-sm-2">
+                <input type="number" name="umobile" placeholder="mobile no" ng-model="UMobileNo" id="form-field-13" class="form-control input-sm" required>
+                <span class="error" ng-show="myForm.umobile.$error.number">
+                    <i class="clip-warning"></i>... put a mobile no.
+                </span>
+            </div>
+        </div>
+
+        <div class="row" id="divLeft">
+            <label id="divrow" class="col-sm-2 control-label" for="form-field-13">
+                Amount
+            </label>
+            <div id="divrow" class="col-sm-2">
+                <input type="number" placeholder="amount" name="amount" ng-model="Amount" id="form-field-13" class="form-control input-sm" required>
+                <label class="error" ng-show="myForm.amount.$error.number">
+                    <i class="clip-warning"></i>... plz put amount.
+                </label>
+            </div>
+        </div>
+
+        <div class="row" id="divLeft">
+            <label id="divrow" class="col-sm-2 control-label" for="form-field-13">
+                User's Pin
+            </label>
+            <div id="divrow" class="col-sm-5">
+                <input type="text" placeholder="Pin no" ng-model="UPin" name="upin" id="form-field-13" class="form-control input-sm" required>
+            </div>
+        </div>
+
+        <div class="row" id="divLeft">
+            <div id="divrow" class="col-sm-2 col-sm-offset-2">
+                <button class="btn btn-blue next-step btn-block" type="submit" ng-click="cashOut()" ng-disabled="!myForm.umobile.$valid || !myForm.amobile.$valid ||
+                                                                              !myForm.amount.$valid || !myForm.upin.$valid">
+                    Send <i class="icon-circle-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+

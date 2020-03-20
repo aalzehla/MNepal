@@ -1,0 +1,196 @@
+﻿@model IEnumerable<MNepalWeb.ViewModel.Merchants>
+@{
+    ViewBag.Title = "Report Merchants";
+
+}
+<section class="content-header">
+    <h1>
+        Report
+        <small>Merchants</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Report</a></li>
+        <li class="active">Merchants</li>
+    </ol>
+</section>
+
+<link href="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+<section class="content-header"></section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Merchants</h3>
+                </div>
+
+
+
+                <div class="box-body">
+
+                    <form>
+                        <div class="col-md-12 form-group">
+                            @Html.DropDownList("Merchants", new SelectList(Model, "ClientCode", "Name"), "--Choose Merchant--", new { @class = "form-control", @Required = "required",@Id="Merchant" })
+                          
+                        </div>
+                        <br />
+                        <div class="col-md-6 form-group">
+                            <label>From </label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                @Html.TextBox("Start Date", (string)ViewBag.StartDate, new { @class = "form-control", @Id = "StartDate", @Required = "required", @placeholder = "DD/MM/YYYY", @readonly = "readonly" })
+                            </div>
+                        
+
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>To</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                @Html.TextBox("End Date", (string)ViewBag.EndDate, new { @class = "form-control", @Id = "EndDate", @Required = "required", @placeholder = "DD/MM/YYYY", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="col-md-12">
+                            <span id="message" style="color:red"></span>
+                        </div>
+                    </form>
+
+                    <div class="col-md-12">
+                        <div class="box box-solid">
+                            <div class="box-body">
+                                <button type="button" class="btn btn-primary pull-right" id="btngenerateReport">Generate Report</button>
+                            </div>
+                            <div class="overlay" id="load" style="display:none;">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <hr />
+                    <div class="col-md-12 form-group">
+                        <div id="data" style="width:auto">
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+    <!--modal-->
+
+</section>
+
+
+@section scripts{
+    <script src="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script type="text/javascript">
+       
+
+
+        $(document).ready(function () {
+
+       $("#StartDate").datepicker(
+         {
+             dateFormat: 'dd/mm/yy',
+             maxDate: new Date,
+             onSelect: function (dateText) {
+                 var from = $('#EndDate').val().split("/");
+                 if (from != "") {
+                     var EDate = new Date(from[2], from[1] - 1, from[0]);
+                     var to = dateText.split("/");
+                     var SDate = new Date(to[2], to[1] - 1, to[0]);;
+                     if (SDate > EDate) {
+                         $('#EndDate').val("");
+                         $('#message').text('End Date cannot be less than Start Date');
+                     }
+                     else {
+                         $('#message').text("");
+                     }
+                 }
+             },
+             showAnim: "slideDown"
+         });
+
+            $("#EndDate").datepicker(
+             {
+                 dateFormat: 'dd/mm/yy',
+                 maxDate: new Date,
+                 onSelect: function (dateText) {
+                     var from = $('#StartDate').val().split("/");
+                     if (from != "") {
+                         var SDate = new Date(from[2], from[1] - 1, from[0]);
+                         var to = dateText.split("/");
+                         var EDate = new Date(to[2], to[1] - 1, to[0]);;
+                         if (EDate < SDate) {
+                             debugger;
+                             $('#EndDate').val("");
+                             $('#message').text('End Date cannot be less than Start Date');
+                         }
+                         else {
+                             $('#message').text("");
+                         }
+                     }
+                 },
+                 showAnim: "slideDown"
+
+             });
+
+        });
+
+        $('#btngenerateReport').on('click', function () {
+            var Id = $('#Merchant').val();
+            var StartDate = $('#StartDate').val();
+            var EndDate = $('#EndDate').val();
+            $('#message').text("");
+
+            if (Id == "") {
+                $('#message').text("Please select the Merchant");
+                $('#Merchant').focus();
+                return;
+            }
+            if (StartDate == "")
+            {
+                $('#message').text("Please select Start Date");
+                return;
+            }
+            if (EndDate == "") {
+                $('#message').text("Please select the End Date");
+                return;
+            }
+            debugger;
+            $('#load').show();
+            $('#data').empty();
+            $.ajax({
+                cache: false,
+                type: "Get",
+                url: '@Url.Action("MerchantsDetails", "Report")',
+                data: { "ClientId": Id, "StartDate": StartDate, "EndDate": EndDate },
+                success: function (response) {
+                    debugger;
+                    $('#load').hide();
+                    $('#data').html(response);
+                },
+                error: function () {
+                    $('#load').hide();
+                    $('#message').text = "Data Could not be fetched at the moment";
+                }
+            });
+        });
+
+
+    </script>
+}
+

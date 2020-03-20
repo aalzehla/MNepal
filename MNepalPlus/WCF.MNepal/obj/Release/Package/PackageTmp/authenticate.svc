@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="WCF.MNepal.authenticate" CodeBehind="authenticate.svc.cs" %>

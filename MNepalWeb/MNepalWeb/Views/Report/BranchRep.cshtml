@@ -1,0 +1,135 @@
+﻿@model MNepalWeb.ViewModel.BranchVM
+@{
+    ViewBag.Title = "Report BranchWise";
+}
+
+
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Report
+        <small>BranchWise</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i>Report</a></li>
+        <li class="active"> BranchWise</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            @*<div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Search Criteria for Branchwise Report</h3>
+                </div>
+                <!-- /.box-header -->
+               
+                <!--Search-->
+                    <div class="box-body">
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span style="color:red">@ViewBag.error</span>
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Branch Code</label>
+                                    @Html.DropDownList("Parameter.BranchCode", new SelectList(Model.Parameter.BranchList,"Key","Value"), "---SELECT---", new { @class = " form-control select2", @style = "width: 100%;" })
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                            <!-- /.box-body -->
+                    <div class="box-footer">
+                        <input type="submit" class="btn btn-primary" id="btnSearch" name="txtSearch" value="Search" />
+                    </div>
+                
+
+            </div>*@
+
+            <!--REPORT-->
+            <div id="data" class="box box-primary">
+                <!--Report List-->
+                <div class="box-body">
+                    @{ if (Model.BranchInfo.Count > 0)
+                        {
+
+                            @*<span class="fa fa-2x fa-file-pdf-o pull-right" style="color:red" title="To PDF"></span>*@
+                            <a href="@Url.Action("GetReport", "Report",new {Key= "BranchInfo",Format="xlx",FileName="BranchUser_Report"})" target="_blank">
+                                <span class="fa fa-2x fa-file-excel-o pull-right" style="color:green" title="To Excel"></span>
+                            </a>
+                            <div class="container container-fluid" id="table" style="max-height:400px;overflow:auto;width:auto;">
+
+                                <table class="table table-bordered sticky-header">
+                                    <thead>
+
+                                        <tr>
+                                            <th>BranchName</th>
+                                            <th>Total Customer</th>
+                                            <th>Total Approved Customer</th>
+                                            <th>Total UnApproved Customer</th>
+                                            <th>Total Rejected Customer</th>
+                                            
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.BranchInfo)
+                                        {
+                                            <tr>
+                                                <td>@item.BranchName</td>
+                                                <td>@item.TotalCustomer</td>
+                                                <td>@item.TotalApproveCustomer</td>
+                                                <td>@item.TotalUnApproveCustomer</td>
+                                                <td>@item.TotalRejectedCustomer</td>
+                                               
+                                                                                            
+
+                                            </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        }
+
+                        else
+                        {
+
+                            if (ViewBag.message != null)
+                            {
+                                <h5>No Records Found.</h5>
+                            }
+
+                        }
+                    }
+                </div>
+                <!-- /.col-xs--->
+                <!-- End-->
+            </div>
+
+        </div>
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->

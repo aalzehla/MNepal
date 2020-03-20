@@ -1,0 +1,877 @@
+﻿@model MNepalWeb.Models.CustomerSRInfo
+
+@{
+    ViewBag.Title = "ViewSelfRegDetail";
+    var srcPP = "";
+    var srcfront = "";
+    var srcback = "";
+    //var srcfront = !string.IsNullOrEmpty(Model.FrontImage) ? VirtualPathUtility.ToAbsolute(Model.FrontImage) : "";
+    //var srcback = !string.IsNullOrEmpty(Model.BackImage) ? VirtualPathUtility.ToAbsolute(Model.BackImage) : "";
+    //var srcPP = !string.IsNullOrEmpty(Model.PassportImage) ? VirtualPathUtility.ToAbsolute(Model.PassportImage) : "";
+
+    string _ImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["ImgAddress"];
+    string _ApiImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["WCF"];
+
+    if (Model.CustStatus == "Web")
+    {
+        srcfront = _ImageSaveUrl + "Content/Upload/" + Model.FrontImage;
+        srcback = _ImageSaveUrl + "Content/Upload/" + Model.BackImage;
+        srcPP = _ImageSaveUrl + "Content/Upload/" + Model.PassportImage;
+    }
+    else
+    {
+        srcfront = _ApiImageSaveUrl + "Content/Upload/" + Model.FrontImage;
+        srcback = _ApiImageSaveUrl + "Content/Upload/" + Model.BackImage;
+        srcPP = _ApiImageSaveUrl + "Content/Upload/" + Model.PassportImage;
+    }
+
+    //if (!File.Exists(@srcfront)) {
+    //    srcfront = _ApiImageSaveUrl + "Content/Upload/" + Model.FrontImage;
+    //}
+    //if (!File.Exists(@srcback))
+    //{
+    //    srcback = _ApiImageSaveUrl + "Content/Upload/" + Model.BackImage;
+    //}
+    //if (!File.Exists(@srcPP))
+    //{
+    //    srcPP = _ApiImageSaveUrl + "Content/Upload/" + Model.PassportImage;
+    //}
+
+
+}
+
+<style>
+    tr.spaceUnder > td {
+        padding-bottom: 1.5em;
+    }
+
+</style>
+<!-- Content Header (Page header) -->
+
+<section class="content-header">
+    <h1>
+        Customer
+        @*<small>Detail</small>*@
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Customer</a></li>
+        <li class="active"> Registration Approval</li>
+        <li class="active"> Customer Approve Detail</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            <!-- Start Data Show in Table -->
+            <div class="box box-primary" id="CustomerModify">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Customer Approve Detail</h3>
+                </div>
+                <!-- /.box-header -->
+                @using (Html.BeginForm("Approve", "Customer", FormMethod.Post, new { @id = "ViewSelfRegDetail", @class = "ViewSelfRegDetail" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                     <!--ClientCode-->
+                    @Html.HiddenFor(x => x.ClientCode)
+                    <!--Name-->
+                    @Html.HiddenFor(x => x.Name)
+
+                    if (this.TempData["custmodify_messsage"] != null)
+                    {
+                        if (this.TempData["message_class"].ToString() == "success_info")
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Success</h4> @this.TempData["custmodify_messsage"]
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Error</h4> @this.TempData["custmodify_messsage"]
+                            </div>
+                        }
+                    }
+
+                       <!-- Start -->
+
+            <!-- /.box -->
+
+                    <div class="box box-danger">
+
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">UserName:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="UserName" name="UserName" value="@Model.UserName" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="box-header with-border">
+                                <h2 class="box-title">Personal Information</h2>
+                            </div>
+
+                            <br />
+
+                            <!--Passport Photo-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="col-md-2">
+                                        @Html.Label("Passport Photo:")
+                                    </div>
+                                    <div class="col-md-10">
+                                        <img src="@srcPP" style="width:80%;" />
+                                    </div>
+
+                                </div>                                                            
+                               
+
+
+                                <table class="col-md-6">
+                                    <tr class="spaceUnder">
+                                        <td>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">First Name:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="FName" name="txtFirstName" value="@Model.FName" readonly />
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                              
+                                    <tr class="spaceUnder">
+                                        <td>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Middle Name:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="MiddleName" name="txtMiddleName" value="@Model.MName" readonly />  
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                 
+
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Last Name:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="LastName" name="txtLastName" value="@Model.LName" readonly />
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    
+                                </table>
+                            </div>
+                         
+                            
+
+                            <br />
+                            <div class="row">
+                                @*//baki*@
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Gender:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="Gender" name="txtGender" value="@Model.Gender" readonly>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Date Of Birth:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+
+
+                                            @Html.TextBoxFor(model => model.DOB, new { @class = "form-control", @readonly = "readonly" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Country:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="Country" name="txtCountry" value="@Model.Country" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Nationality:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="Nationality" name="txtNationality" value="@Model.Nationality" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label class="control-label col-sm-4">Father's Name<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="FatherName" name="txtFatherName" value="@Model.FatherName" readonly />
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label class="control-label col-sm-4">Mother's Name<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="MotherName" name="txtMotherName" value="@Model.MotherName" readonly />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.MaritalStatus, new { @class = "control-label col-sm-4" })
+                                        <div class="col-sm-6">
+                                            <label class="radio-inline">
+                                                @Html.RadioButtonFor(x => x.MaritalStatus, "U", new { @checked = "checked", @disabled = "disabled" }) Unmarried
+                                            </label>
+                                            <label class="radio-inline">
+                                                @Html.RadioButtonFor(x => x.MaritalStatus, "M", new { @disabled = "disabled" }) Married
+                                            </label>
+                                            <label class="radio-inline">
+                                                @Html.RadioButtonFor(x => x.MaritalStatus, "D", new { @disabled = "disabled" }) Divorced
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Grandfather's Name:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="GrandFatherName" name="txtGrandFatherName" value="@Model.GrandFatherName" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+                        
+                            <div id="family" style="display:none;">
+                                @*<hr />*@
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">Spouse Name:<b style="color:red;">*</b></label>
+                                            <div class="col-sm-6">
+                                                @Html.TextBoxFor(x => x.SpouseName, new { @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                               
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">Father In law's Name:<b style="color:red;">*</b></label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="FatherInlawName" name="txtFatherInlawName" value="@Model.FatherInlawName" readonly />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <br />
+                            <div class="row">
+
+                                @*//baki*@
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Occupation:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="Occupation" name="txtOccupation" value="@Model.Occupation" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*//baki*@
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Email Address:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="Email" name="txtEmail" value="@Model.EmailAddress" readonly />
+
+                                            @*<input type="text" class="form-control" id="Email" name="txtEmail" placeholder="Email Address" maxlength="10" />*@
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- /.box -->
+
+                    </div>
+                    <div class="box-body">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h2 class="box-title">Address Information</h2>
+                            </div>
+                            <!-- /.box-header -->
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4 header">
+                                            Permanent Address
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4 header">
+                                            Current Address
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            Tole /Street /Road:
+                                            <b style="color:red;">*</b>
+                                        </label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="PStreet" name="PStreet" value="@Model.PStreet" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            Tole /Street /Road:
+                                            <b style="color:red;">*</b>
+                                        </label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="CStreet" name="CStreet" value="@Model.CStreet" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <br />
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            Province:
+                                            <b style="color:red;">*</b>
+                                        </label>
+                                        <div class="col-sm-6">
+                                           
+                                            <input type="text" class="form-control" id="PProvince" name="PProvince" value="@Model.PProvince" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            Province:
+                                            <b style="color:red;">*</b>
+                                        </label>
+                                        <div class="col-sm-6">
+                                            
+                                            <input type="text" class="form-control" id="CProvince" name="CProvince" value="@Model.CProvince" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">District:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                           <input type="text" class="form-control" id="PDistrict" name="PDistrict" value="@Model.PDistrict" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">District:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                             <input type="text" class="form-control" id="CDistrict" name="CDistrict" value="@Model.CDistrict" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            VDC/Municipality:
+                                            <b style="color:red;">*</b>
+                                        </label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="PVDC" name="PVDC" value="@Model.PVDC"  readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            VDC/Municipality:
+                                            <b style="color:red;">*</b>
+                                        </label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="CVDC" name="CVDC"  value="@Model.CVDC" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">House No.:@*<b style="color:red;">*</b>*@</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="PHouseNo" name="PHouseNo" value="@Model.PHouseNo"  readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">House No:@*<b style="color:red;">*</b>*@</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="CHouseNo" name="CHouseNo" value="@Model.CHouseNo" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            Ward No.:
+                                            <b style="color:red;">*</b>
+                                        </label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="PWardNo" name="PWardNo" value="@Model.PWardNo" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            Ward No.:
+                                            <b style="color:red;">*</b>
+                                        </label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="CWardNo" name="CWardNo" value="@Model.CWardNo" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                        </div>
+                    </div>
+
+                <!--Document-->
+                    <div class="box box-danger">
+
+                        <div class="box-header with-border">
+                            <h2 class="box-title">Document</h2>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Document:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="txtDocument" name="txtDocument" value="@Model.Document" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                @*<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Pan Number:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="PanNo" name="txtPanNo" value="@Model.PanNo" readonly />
+                                        </div>
+                                    </div>
+                                </div>*@
+
+
+                            </div>
+                       
+                        </div>
+                       
+                    </div>
+
+                  
+                    <div class="box box-danger">
+                        <div class="box-header with-border">
+                            <h2 class="box-title">Identification Information</h2>
+                        </div>
+                        <!-- /.box-header -->
+                        @if (Model.Document == "DocCitizenship")
+                        {
+
+                            <div id="citizenship">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Citizenship</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">
+                                                    Citizenship No:
+                                                    <b style="color:red;">*</b>
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="Citizenship" name="txtCitizenship" value="@Model.Citizenship" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Issue Date for Citizenship:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-6">
+                                                    @Html.TextBoxFor(model => model.CitizenshipIssueDate, new { @class = "form-control", @readonly = "readonly" })
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">
+                                                    Place of Issue for Citizenship:
+                                                    <b style="color:red;">*</b>
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="CitizenshipPlaceOfIssue" name="txtCitizenshipPlaceOfIssue" value="@Model.CitizenshipPlaceOfIssue" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        }
+                        else if (Model.Document == "DocLicense")
+                        {
+                            <div id="license">
+                                <!--license start-->
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">License</h3>
+                                </div>
+
+                                <div class="box-body">
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">License No:@*<b style="color:red;">*</b>*@</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="License" name="txtLicense" value="@Model.License" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Issue Date for License:@*<b style="color:red;">*</b>*@</label>
+                                                <div class="col-sm-6">
+                                                    @Html.EditorFor(model => model.LicenseIssueDate, new { @class = "form-control", @readonly = "readonly" })
+
+                                                    @*<input type="text" class="form-control" id="LicenseIssueDate" name="txtLicenseIssueDate" placeholder="Issue Date for License" maxlength="45" />*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">
+                                                    Expire Date for License:
+                                                    @*<b style="color:red;">*</b>*@
+                                                </label>
+                                                <div class="colj-sm-6">
+                                                    @Html.EditorFor(model => model.LicenseExpireDate, new { htmlAttributes = new { @readonly = "readonly" } })
+
+                                                    @*<input type="text" class="form-control" id="LicenseExpireDate" name="txtLicenseExpireDate" placeholder="Expire Date for License" maxlength="45" />*@
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">
+                                                    Place of Issue for License:
+                                                    @*<b style="color:red;">*</b>*@
+                                                </label>
+                                                <div class="col-sm-6">
+
+                                                    <input type="text" class="form-control" id="LicensePlaceOfIssue" name="txtLicensePlaceOfIssue" value="@Model.LicensePlaceOfIssue" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--license end-->
+                        }
+
+                        else if (Model.Document == "DocPassport")
+                        {
+
+                            <div id="passport">
+                                <!--passport start-->
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Passport</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">
+                                                    Passport No:
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="Passport" name="txtPassport" value="@Model.Passport" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Issue Date for Passport:</label>
+                                                <div class="col-sm-6">
+                                                    @Html.EditorFor(model => model.PassportIssueDate, new { @class = "form-control", @readonly = "readonly" })
+
+                                                    @*<input type="text" class="form-control" id="PassportIssueDate" name="txtPassportIssueDate" placeholder="Issue Date for Passport" maxlength="45" />*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">
+                                                    Expire Date for Passport:
+                                                    @*<b style="color:red;">*</b>*@
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    @Html.EditorFor(model => model.PassportExpireDate, new { @class = "form-control", @readonly = "readonly" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">
+                                                    Place of Issue for Passport:
+                                                    @*<b s tyle="color:red;">*</b>*@
+                                                </label>
+                                                <div class="col-sm-6">
+
+
+                                                    <input type="text" class="form-control" id="PassportPlaceOfIssue" name="txtPassportPlaceOfIssue" value="@Model.PassportPlaceOfIssue" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--passport end-->
+                        }
+                        <!--photo-->
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <div class="col-md-2">
+                                        @Html.Label("Front:")  
+                                    </div>
+                                    <div class="col-md-10">
+                                        <img src="@srcfront" style="width:80%;" />
+                                    </div>
+
+
+
+                                </div>
+
+
+
+                                <div class="col-md-6">
+                                    <div class="col-md-2">
+                                        @Html.Label("Back:")                                        
+                                    </div>
+                                    <div class="col-md-10">
+                                        <img src="@srcback" style="width:80%;" />
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <input type="submit" class="btn btn-primary" id="btnApprove" name="btnApprove" value="Approve">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="row">
+                             <div class="footer">
+                                 <div class="form-group">
+                                     <div class="col-md-6">
+                                         <button type="submit" class="btn btn-primary" name="btnCommand">
+                                             Approve
+                                         </button>
+                                     </div>
+                                 </div>
+                             </div>
+                            </div>*@
+
+                    </div>
+
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.content -->
+@section scripts {
+       <script type="text/javascript">
+
+           $(document).ready(function () {
+               var val = $('input[type=radio][name=MaritalStatus]:checked').val();
+               if (val != "Dis") {
+                   
+                   $('#family').show();
+               }
+               else {
+                  
+                   $('#family').hide();
+               }
+             
+
+           });
+
+
+       </script>
+    }

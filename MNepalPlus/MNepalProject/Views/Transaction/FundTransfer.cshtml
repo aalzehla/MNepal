@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "FundTransfer";
+}
+
+@section PageTitle
+    {
+
+    <ol class="breadcrumb">
+        <li class="active">
+            <a href="@Url.Action("Board","DashBoard")">
+                <i class="clip-home"></i>
+                <span class="selected">Home</span>
+            </a>
+            <strong>/FundTransfer</strong>
+        </li>
+    </ol>
+ }
+<form name="myForm" class="">  
+
+    <div class="form-group" ng-controller="FundTransfer">
+        <div class="row">
+            <label class="col-sm-2 control-label"> 
+                Transfer Type
+            </label>
+            <div class="col-sm-2">
+                <select  data-ng-model="tType" class="btn btn-default dropdown-toggle" ng-options="item.id as item.label for item in values ">
+                </select>
+            </div> 
+        </div>
+
+        <div class="row" >
+            <label class="col-sm-2 control-label" id="divrow">
+                Recipient's Mobile
+            </label>
+            <div class="col-sm-2" id="divrow">
+                <input type="number" name="rmobile" placeholder="moblie no" ng-model="rMobile"  class="form-control input-sm" required>
+                <span class="error" ng-show="myForm.rmobile.$error.number">
+                    <i class="clip-warning"></i>... put a mobile no.
+                </span>
+            </div>         
+        </div>
+
+        <div class="row">
+            <label id="divrow" class="col-sm-2 control-label">
+                Amount
+            </label>
+            <div id="divrow" class="col-sm-2">
+                <input type="number" placeholder="Amount" name="amount" data-ng-model="amount"  class="form-control input-sm" required>
+                <label class="error" ng-show="myForm.amount.$error.number">
+                    <i class="clip-warning"></i>... plz put amount.
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <label id="divrow" class="col-sm-2 control-label">
+                Select Pin Entry Method 
+            </label>
+            <div id="divrow" class="col-sm-5">
+                <input type="checkbox" ng-model="chkmethod" name="pinmethod"  ng-click="pinMethod()" value="ivr" id="ivr">
+            </div>
+        </div>
+
+        <div class="row" id="pin" >
+            <label id="divrow" class="col-sm-2 control-label">
+                PIN
+            </label>
+            <div id="divrow" class="col-sm-5">
+                <input type="number" placeholder="PIN" ng-model="PIN" name="PIN" ng-disabled="chkmethod" class="form-control input-sm">
+                <label class="error" ng-show="myForm.PIN.$error.number">
+                    <i class="clip-warning"></i>... plz enter your PIN NO.
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <label id="divrow" class="col-sm-2 control-label">
+                Remark
+            </label>
+            <div id="divrow" class="col-sm-5">
+                <input type="text" placeholder="Remark" ng-model="remark" name="remark"  class="form-control input-sm">
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="divrow" class="col-sm-2 col-sm-offset-2">
+                <button class="btn btn-blue next-step btn-block" ng-click="fTransfer()" ng-disabled="!myForm.rmobile.$valid ||
+                                                                                    !myForm.amount.$valid">
+                    Send <i class="icon-circle-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="divrow" class="col-sm-12">
+                <div class="alert alert-success" data-ng-if="error=='false'" data-ng-hide="status" data-ng-model="msg">
+                    <span>{{msg}}</span>
+                </div>
+                <div class="alert alert-danger" data-ng-if="error=='true'" data-ng-hide="status" data-ng-model="msg">
+                    <span>{{msg}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

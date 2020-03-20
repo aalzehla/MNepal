@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 79 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #00a651;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        font-size: 14px;
+        font-family: Chivo-Regular, Chivo;
+      }
+    </style>
+  </defs>
+  <g id="Group_1240" data-name="Group 1240" transform="translate(-1168 -735)">
+    <path id="Rectangle_310" data-name="Rectangle 310" class="cls-1" d="M11,0H79a0,0,0,0,1,0,0V13A11,11,0,0,1,68,24H0a0,0,0,0,1,0,0V11A11,11,0,0,1,11,0Z" transform="translate(1168 735)"/>
+    <g id="Group_1239" data-name="Group 1239" transform="translate(1)">
+      <g id="Group_1238" data-name="Group 1238">
+        <g id="Group_1237" data-name="Group 1237">
+          <text id="LANDLINE" class="cls-2" transform="translate(1207 752)"><tspan x="-33.208" y="0">LANDLINE</tspan></text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

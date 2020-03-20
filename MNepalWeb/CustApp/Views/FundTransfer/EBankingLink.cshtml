@@ -1,0 +1,666 @@
+﻿
+@{
+    ViewBag.Title = "Fund Transfer";
+    string hasKYC = ViewBag.hasKYC;
+    string hasLinkBankAcc = ViewBag.HasBankKYC;
+
+    var checkBankLink = ViewBag.HasBankKYC;
+
+}
+
+@model CustApp.Models.MNFundTransfer
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/alertify.min.css" />
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/default.min.css" />
+
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />
+<style>
+    .image_icon {
+        width: 50px;
+    }
+
+    .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        margin-right: 13px;
+        position: relative;
+        z-index: 2;
+    }
+</style>
+
+<!-- Main content -->
+<div class="main-content">
+    <div class="two-colbg">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <section class="internet-payment pad-50">
+                        <div class="top-section">
+                            <h2 class="title">E Banking</h2>
+                            <p>Please enter your mobile number and insert amount to transfer your fund.</p>
+
+                        </div>
+
+                        <div class="instant-transactions">
+                            <h3 class="title">Instant Transactions</h3>
+
+                            <div class="transactions-grid clearfix">
+                                <div class="item transfer-fund">
+                                    <div class="item-inner" style="padding:12px;">
+                                        <a href="~/FundTransfer/EBanking">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-transfer-funds"></i>
+                                                <span>E Banking</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                @{
+                                    if (checkBankLink == "T")
+                                    {
+                                        <div class="item load-wallet">
+                                            <div class="item-inner" onclick="checkBankLink()">
+                                                <a href="~/FundTransfer/LoadWalletBW">
+                                                    <div class="content-inner">
+                                                        <i class="thaili-icon-load-wallet"></i>
+                                                        <span>Mobile Banking</span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="item load-wallet">
+                                            <div class="item-inner" onclick="checkBankLink()">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-load-wallet"></i>
+                                                    <span>Mobile Banking</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+
+
+
+                            </div>
+                        </div>
+                        <!-- /instant transactions -->
+                    </section>
+                    <!-- /internet-payment -->
+                </div>
+
+                <div class="col-lg-6 right-form">
+                    <section class="content-inner pad-50">
+
+                        @*@using (Html.BeginForm(new { @id = "frmFundTransfer", @class = "transaction-form common-form" }))*@
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @action = "http://202.63.245.70/BankAwayRetail/sgonHttpHandler.aspx?Action.ShoppingMall.Login.Init=Y", @id = "EBankingLink", @class = "form-horizontal", @name = "EBankingLink" }))
+
+                        {
+                            <div id="ajaxResponse">
+                            </div>
+
+
+                            <INPUT TYPE=hidden NAME="BankId" VALUE="004">
+                            <INPUT TYPE=hidden NAME="MD" VALUE="P">
+                            <INPUT TYPE=hidden NAME="PID" VALUE="000000000286">
+                            <INPUT TYPE=hidden NAME="CRN" VALUE="NPR">
+                            <INPUT TYPE=hidden NAME="RU" VALUE="http://202.63.245.70/response_post.aspx?">
+                            <INPUT TYPE=hidden NAME="CG" VALUE="N">
+                            <INPUT TYPE=hidden NAME="USER_LANG_ID" VALUE="001">
+                            <INPUT TYPE=hidden NAME="UserType" VALUE="1">
+                            <INPUT TYPE=hidden NAME="AppType" VALUE="retail">
+
+
+
+                            <div class="box-body">
+                                <!-- /.form-group -->
+
+
+                                <div class="form-group">
+                                    <label>Payment Reference Number  (<span style="color:red">*</span>)</label>
+                                    <input type="text" id="PaymentReferenceNumber" name="PRN" class="form-control" placeholder="Payment Reference Number" onchange="checkValidation()" value="@ViewBag.PaymentReferenceNumber" readonly />
+
+                                </div>
+                                <div class="form-group">
+                                    <div id="check" style="margin-top:-9px;"></div>
+                                    <div id="MobNo" style="color:red; margin-top:-11px;"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Item Code (<span style="color:red">*</span>)</label>
+                                    <input type="text" id="ItemCode" name="ITC" class="form-control" placeholder="ItemCode" required title="Please use Mobile Number" maxlength="4" value="@ViewBag.ItemCode" readonly>
+
+                                </div>
+
+
+
+                                <label>Amount (<span style="color:red">*</span>)</label>
+                                <div class="form-group input-group">
+
+                                    <div class="form-control col-2">NRs.</div>
+
+
+                                    <input type="text" id="amount" name="AMT" class="form-control" placeholder="Amount"
+                                           pattern=".{0,2}" required title="Please use Amount" maxlength="5" onkeypress="return isNumber(event)" onchange="checkValidation()" value="@ViewBag.Amount" readonly/>
+
+                                </div>
+                                <div class="form-group" id="Amt" style="color:red; margin-top:-11px;"></div>
+
+                                <div class="form-group" style="display:none;">
+                                    <label>T-PIN (<span style="color:red">*</span>)</label>
+                                    <input type="password" id="pin" name="txtPin" class="form-control pwd1" placeholder="T-PIN" pattern=".{4,4}" required title="Please use T-Pin number" maxlength="4" onchange="checkValidation()" onkeypress="return isNumber(event)" value="1111" />
+                                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                                </div>
+                                <div class="form-group" id="TPin" style="color:red; margin-top:-11px;"></div>
+
+                                <div class="form-group">
+                                    <label>Remarks (<span style="color:red">*</span>)</label>
+                                    <textarea class="form-control" rows="3" id="note" name="txtNote" placeholder="Remarks" pattern=".{0}|.{,40}" required title="Please insert Remarks" onchange="checkValidation()">SDFS</textarea>
+                                </div>
+                                <div class="form-group" id="Remark" style="color:red; margin-top:-11px;"></div>
+
+                                <div class="form-group" style="display:none;">
+                                    <label>SRC</label>
+                                    <input type="text" id="src" name="txtSrc" class="form-control" value="WEB" />
+                                </div>
+                                <!-- /.form-group -->
+
+
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <input type="submit" class="btn btn-blue btn-big col-md-5" id="btnSubmit" name="txtSubmit" value="Confirm" />
+                                <a href="@Url.Action("Index", "FundTransfer")" class="btn btn-blue btn-big " id="btnNew" title="Begin New Transaction">New Transaction</a>
+                                <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
+                            </div>
+                        }
+
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success modal -->
+<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/success-tick.svg" alt="">
+                </div>
+                <p class="msg">@*Success!*@</p>
+                <span class="msg">Your payment has been confirmed.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Failure modal -->
+<div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/denied-cross.svg" alt="">
+                </div>
+                <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
+                <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts{
+
+    <!-- Load jQuery and the validate plugin -->
+    @*<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/alertify.min.js"></script>*@
+
+    <!--jQuery Form Validation code -->
+
+
+    @*for auto submit*@
+    @*<script type="text/javascript">
+
+        function formAutoSubmit() {
+
+            var frm = document.getElementById("EBankingLink");
+
+            frm.submit();
+
+        }
+
+        window.onload = formAutoSubmit;
+
+    </script>*@
+
+    <script type="text/javascript">
+
+
+        //
+        debugger;
+        //var auto_refresh = setInterval(
+        //    function () {
+        //        submitform();
+        //    }, 10);
+
+        //function submitform() {
+        //    $("input[name='txtSubmit']").trigger("click");
+
+        //} 
+
+        $(".btnShow1").mousedown(function () {
+            $(".pwd1").attr("type", "text");
+        });
+        $(".btnShow1").on("mouseleave", function () {
+            $(".pwd1").attr("type", "password");
+        })
+
+
+         function checkBankLink() {
+         $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetLnkBankAcc", "UserDashboard")',
+            success: function (data, textStatus) {
+                if (data != "T") {
+                    $("#message").html("");
+                    $("#message").append("Please link your bank account to get rid of restriction");
+                    $('#failureModal').modal("show");
+                }
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+            });
+        }
+
+         function checkKYC() {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetHasKYC", "UserDashboard")',
+                    success: function (data, textStatus) {
+                        if (data != "T") {
+                            $("#messageTitle").html("");
+                            $("#messageTitle").append("");
+                            $("#message").html("");
+                            $("#message").append("Please fill Customer KYC form to avoid restriction");
+                            $('#failureModal').modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("Data Not Found");
+                    }
+                });
+        }
+
+
+        var check = 0;
+
+              function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+                  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+
+                return false;
+            }
+            return true;
+        }
+
+        function checkValidation() {
+            var PaymentReferenceNumber = $("[name='PRN']").val();
+            var ItemCode = $("[name='ITC']").val();
+            var amount = $("[name='txtAmount']").val();
+            var note = $("[name='txtNote']").val();
+
+            if (PaymentReferenceNumber.trim() == "") {
+                check = 1;
+                $("#MobNo").html("");
+                $("#MobNo").append("<small>" + "Please Enter the Mobile Number" + "</small>");
+                $("#MobNo").show();
+                $("#check").hide();
+            }
+
+            else {
+                check = 0;
+                $("#MobNo").hide();
+            }
+
+            if ((amount.trim() == "") || (amount.trim() == "0")) {
+                $("#Amt").html("");
+                $("#Amt").append("<small>" + "Please Enter valid Amount" + "</small>");
+                $("#Amt").show();
+            }
+            else {
+                $("#Amt").hide();
+            }
+
+            if (ItemCode.trim() == "") {
+                $("#ItemCode").html("");
+                $("#ItemCode").append("<small>" + "Please Enter the T-Pin" + "</small>");
+                $("#ItemCode").show();
+            }
+
+            else {
+                $("#ItemCode").hide();
+            }
+
+            if (note.trim() == "") {
+                $("#Remark").html("");
+                $("#Remark").append("<small>" + "Please Enter the Remarks" + "</small>");
+                $("#Remark").show();
+            }
+            else {
+                $("#Remark").hide();
+            }
+        }
+        //function checkValidation() {
+        //    var recipientNo = $("[name='txtRecipientNo']").val();
+        //    var amount = $("[name='txtAmount']").val();
+        //    var pin = $("[name='txtPin']").val();
+        //    var note = $("[name='txtNote']").val();
+
+        //    if (recipientNo.trim() == "") {
+        //        check = 1;
+        //        $("#MobNo").html("");
+        //        $("#MobNo").append("<small>" + "Please Enter the Mobile Number" + "</small>");
+        //        $("#MobNo").show();
+        //        $("#check").hide();
+        //    }
+        //    else if ((recipientNo.substring(0, 2) != "98")) {
+        //        check = 1;
+        //        $("#MobNo").html("");
+        //        $("#MobNo").append("<small>" + "Mobile number must start with 98" + "</small>");
+        //        $("#MobNo").show();
+        //        $("#check").hide();
+        //    }
+        //    else if (recipientNo.length != 10) {
+        //        check = 1;
+        //        $("#MobNo").html("");
+        //        $("#MobNo").append("<small>" + "Mobile number must be of 10 digits" + "</small>");
+        //        $("#MobNo").show();
+        //        $("#check").hide();
+        //    }
+        //    else {
+        //        check = 0;
+        //        $("#MobNo").hide();
+        //    }
+
+        //    if ((amount.trim() == "") || (amount.trim() == "0")) {
+        //        $("#Amt").html("");
+        //        $("#Amt").append("<small>" + "Please Enter valid Amount" + "</small>");
+        //        $("#Amt").show();
+        //    }
+        //    else {
+        //        $("#Amt").hide();
+        //    }
+
+        //    if (pin.trim() == "") {
+        //        $("#TPin").html("");
+        //        $("#TPin").append("<small>" + "Please Enter the T-Pin" + "</small>");
+        //        $("#TPin").show();
+        //    }
+        //    else if (pin.length != 4) {
+        //        $("#TPin").html("");
+        //        $("#TPin").append("<small>" + "T-Pin must be 4 character long." + "</small>");
+        //        $("#TPin").show();
+        //    }
+        //    else {
+        //        $("#TPin").hide();
+        //    }
+
+        //    if (note.trim() == "") {
+        //        $("#Remark").html("");
+        //        $("#Remark").append("<small>" + "Please Enter the Remarks" + "</small>");
+        //        $("#Remark").show();
+        //    }
+        //    else {
+        //        $("#Remark").hide();
+        //    }
+        //}
+        ////////
+       //$("#amountRs").hide();
+       //$("#amount").blur(function(){
+       // if ($(this).val() == '')
+       // {
+       //         $("#amountRs").hide();
+       //         $("#amount").css("padding-left", "12px");
+       // }
+       // else {
+       //         $("#amountRs").show();
+       //         $("#amount").css("padding-left", "50px");
+       //      }
+       // });
+        ////
+        $("#clearButton").click(function () {
+
+            $("#PaymentReferenceNumber").val("");
+            $("#ItemCode").val("");
+            $("#Amount").val("");
+            $("#note").val("");
+            //$("#pin").val("");
+            $("#check").hide();
+            $("#MobNo").hide();
+            $("#Amt").hide();
+            //$("#TPin").hide();
+            $("#Remark").hide();
+
+            //$("#amount").val("");
+            //$("#note").val("");
+        });
+
+          $("#PaymentReferenceNumber").change(function (event) {
+            event.preventDefault();
+
+            var id = $("#PaymentReferenceNumber").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetCheckingUserName", "FundTransfer")',
+                data: { "Username": id },
+                success: function (data, textStatus) {
+                    var markup = data;
+                    if (check == 0) {
+                        if (data == "Success") {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Number Not Registered").show();
+                        }
+                        else {
+                            $("#check").html("");
+                            $("#check").css("color", "green");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Valid Number").show();
+                        }
+                    }
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+        });
+        @*$("#recipient").change(function (event) {
+            event.preventDefault();
+
+            var id = $("#recipient").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetCheckingUserName", "FundTransfer")',
+                data: { "Username": id },
+                success: function (data, textStatus) {
+                    var markup = data;
+                    if (check == 0) {
+                        if (data == "Success") {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Number Not Registered").show();
+                        }
+                        else {
+                            $("#check").html("");
+                            $("#check").css("color", "green");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Valid Number").show();
+                        }
+                    }
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+        });*@
+
+        $(document).ready(function () {
+
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
+
+            $('#btnNew').hide();
+
+            if ($("select[name='txtFundTransferType'] option:selected").val() == 'Wallet to Wallet') {
+                //alert(($("select[name='txtFundTransferType'] option:selected").val()))
+                $("#ServiceCode").html(""); //WalletToWallet
+                $("#ServiceCode").val("00");
+            }
+
+            $("#fundTransferType").change(function () {
+                var id = $("#fundTransferType").val();
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetServiceCode", "FundTransfer")',
+                    data: { "txtFundTransferType": id },
+                    success: function (data, textStatus) {
+                        $("#ServiceCode").html("");
+                        var markup = data;
+                        $("#ServiceCode").val(data);
+                    },
+                    error: function () {
+                        alert("Data Not Found");
+                    }
+                });
+            });
+
+            /* Start New Trans*/
+            if ($("select[name='txtFundTransferType1'] option:selected").val() == 'Wallet') {
+                if ($("select[name='txtFundTransferType2'] option:selected").val() == 'Wallet') {
+                    $("#ServiceCode").html(""); //WalletToWallet
+                    $("#ServiceCode").val("00");
+                }
+            }
+
+            $("#fundTransferType1").change(function () {
+                var id = $("#fundTransferType1").val();
+                var id2 = $("#fundTransferType2").val();
+                var idname = id + ' to ' + id2;
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetServiceCode", "FundTransfer")',
+                    data: { "txtFundTransferType": idname },
+                    success: function (data, textStatus) {
+                        $("#ServiceCode").html("");
+                        var markup = data;
+                        $("#ServiceCode").val(data);
+                    },
+                    error: function () {
+                        alert("Data Not Found");
+                    }
+                });
+            });
+
+            $("#fundTransferType2").change(function () {
+                var id = $("#fundTransferType1").val();
+                var id2 = $("#fundTransferType2").val();
+                var idname = id + ' to ' + id2;
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetServiceCode", "FundTransfer")',
+                    data: { "txtFundTransferType": idname },
+                    success: function (data, textStatus) {
+                        $("#ServiceCode").html("");
+                        var markup = data;
+                        $("#ServiceCode").val(data);
+                    },
+                    error: function () {
+                        alert("Data Not Found");
+                    }
+                });
+            });
+
+            /*End New Trans*/
+
+            $("#ajaxResponse").hide();
+            $("#MobNo").hide();
+            $("#Amt").hide();
+            $("#TPin").hide();
+            $("#Remark").hide();
+            $("#check").hide();
+
+            $("#btnSubmit").click(function () {
+
+                var PaymentReferenceNumber = $("[name='PRN']").val();
+                var amount = $("[name='txtAmount']").val();
+                var note = $("[name='txtNote']").val();
+                if ((PaymentReferenceNumber != "")&& (amount != "") && (amount != 0) && (note != "")) {
+
+                //var recipientNo = $("[name='txtRecipientNo']").val();
+                //var amount = $("[name='txtAmount']").val();
+                //var note = $("[name='txtNote']").val();
+                //if ((recipientNo != "") && (recipientNo.length == 10) && (amount != "") && (amount != 0) && (note != "")) {
+                  $.ajax({
+                        url: "http://202.63.245.70/BankAwayRetail/sgonHttpHandler.aspx?Action.ShoppingMall.Login.Init=Y"
+                        //,
+                        //success: function (result) {
+                        //    $("#div1").html(result);
+                        //}
+                    });
+                }
+
+                else {
+                    checkValidation();
+                    $("#message").html("");
+                    $("#message").append("Please Enter the required fields.");
+                    $('#failureModal').modal("show");
+
+                }
+            });
+
+
+        });
+
+
+
+
+
+
+    </script>
+}

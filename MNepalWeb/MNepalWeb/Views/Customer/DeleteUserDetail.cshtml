@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "";
+    Layout = null;
+}
+
+<!-- Start Data Show in Table -->
+<div id="DeleteUserDetail" class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title"></h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+
+        @if (ViewData["dtableCustomerList"] == null)
+        {
+            <div class="panel-body"> <b>No Result Found !! </b> </div>
+        }
+        else if (ViewData["dtableCustomerList"] != null)
+        {
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Name</th>
+                        <th>Contact Number</th>
+                        <th>Status</th>
+                        <th>IsApproved</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (System.Data.DataRow dr in (ViewData["dtableCustomerList"] as System.Data.DataTable).Rows)
+                    {
+                        <tr>
+                            <td> @dr["UserName"] </td>
+                            <td> @dr["Name"] </td>
+                            <td> @dr["ContactNumber1"] </td>
+                            @*<td>
+                                    @if (@dr["Status"].ToString() == "Active")
+                                    {
+                                        <span class="badge bg-green-active"> @dr["Status"] </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-red"> @dr["Status"] </span>
+                                    }
+
+                                </td>*@
+
+
+                            <td>
+                                @if (@dr["BlockStatus"].ToString() == "Blocked")
+                                {
+                                    <span class="badge bg-red">Block pending</span>
+                                }
+                                @if (@dr["BlockStatus"].ToString() == "Active")
+                                {
+                                    <span class="badge bg-red">Active pending</span>
+                                }
+                                @if (@dr["BlockStatus"].ToString() == "" && @dr["Status"].ToString() == "Active")
+                                {
+                                    <span class="badge bg-green-active">Active </span>
+                                }
+
+
+                                @if (@dr["BlockStatus"].ToString() == "" && @dr["Status"].ToString() == "Blocked")
+                                {
+                                    <span class="badge bg-red">Blocked </span>
+                                }
+                            </td>
+
+
+
+
+                            <td>
+                                @if (@dr["BlockStatus"].ToString() == "Blocked" || @dr["BlockStatus"].ToString() == "Active")
+
+                                {
+                                    <span class="badge bg-red">UnApprove @*@dr["IsApproved"]*@ </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-green-active"> @dr["IsApproved"] </span>
+                                }
+                                @*@if (@dr["IsApproved"].ToString() == "Approve" && @dr["BlockStatus"].ToString() != "Blocked")
+
+                                        {
+                                            <span class="badge bg-green-active"> @dr["IsApproved"] </span>
+                                        }
+                                        else if (@dr["IsApproved"].ToString() == "Approve" && @dr["BlockStatus"].ToString() != "Active")
+
+                                        {
+                                            <span class="badge bg-green-active"> @dr["IsApproved"] </span>
+                                        }else
+                                        {
+                                        <span class="badge bg-red">dr["IsApproved"]</span>
+                                    }*@
+                            </td>
+                            <td>
+                                <a href="@Url.Action("DeleteUser","Customer", new { id = @dr["ClientCode"] } )">Update</a>
+                            </td>
+                        </tr>
+                    } <!-- for each end-->
+                </tbody>
+            </table>
+        }
+
+    </div>
+</div>
+<!-- End Data Show in Table -->

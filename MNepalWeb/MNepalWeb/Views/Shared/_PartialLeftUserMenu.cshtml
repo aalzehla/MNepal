@@ -1,0 +1,87 @@
+﻿<!-- USER MENU-->
+<!-- sidebar menu: : style can be found in sidebar.less -->
+<ul class="sidebar-menu" data-widget="tree">
+    <li class="header">MAIN NAVIGATION</li>
+    @*<li class="active treeview menu-open">
+        <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/UserDashboard"><i class="fa fa-circle-o"></i> Dashboard</a></li>
+        </ul>
+    </li>*@   
+    <li class="menu-open removeactive">
+       
+        <a href="~/UserDashboard"><span>Dashboard</span></a>
+
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-user-circle-o"></i>
+            <span>User</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/Profile"><i class="fa fa-edit"></i> User Info</a></li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-exchange"></i>
+            <span>Payment</span>
+            <span class="pull-right-container">
+                <span class="label label-primary pull-right">@*3*@</span>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/FundTransfer"><i class="fa fa-exchange"></i> Fund Transfer</a></li>
+            <li><a href="~/Remit/RequestToken"><i class="fa fa-user-circle-o"></i> Request Token</a></li>
+            <li><a href="~/Cash/Out"><i class="fa fa-circle-o"></i> Cash Out</a></li>
+            <li><a href="~/UtilityPay/TopUp"><i class="fa fa-circle-o"></i> TopUp</a></li>
+            <li><a href="~/UtilityPay/Recharge"><i class="fa fa-circle-o"></i> Recharge Card</a></li>
+            <li><a href="~/MerchantPayment/MerchantIndex"><i class="fa fa-circle-o"></i> Merchant Payment</a></li>
+          
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-bar-chart"></i> <span>Report</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/Statement"><i class="fa fa-bar-chart-o"></i> Statement</a></li>
+        </ul>
+    </li>
+    @*<li class="treeview">
+        <a href="#">
+            <i class="fa fa-money"></i> <span>Payee</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/Payee/MerchantDetails"><i class="fa fa-user-circle-o"></i> Merchant Details</a></li>
+        </ul>
+    </li>*@
+    <li class="header">SETTINGS</li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-gears"></i> <span>Settings</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="~/ChangePassword"><i class="fa fa-key text-red"></i> Change Password</a></li>
+            <li><a href="~/PinReset"><i class="fa fa-map-pin text-green"></i> T-Pin Reset</a></li>
+        </ul>
+    </li>
+</ul>
+

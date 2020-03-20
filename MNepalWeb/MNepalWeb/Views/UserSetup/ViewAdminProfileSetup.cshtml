@@ -1,0 +1,922 @@
+﻿
+@{
+    ViewBag.Title = "View Admin Profile Setup";
+    List<SelectListItem> Status = new List<SelectListItem>();
+    Status.Add(new SelectListItem { Text = "Active", Value = "Active" });
+    Status.Add(new SelectListItem { Text = "Inactive", Value = "Inactive" });
+}
+
+@model MNepalWeb.Models.UserProfilesInfo
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        View Admin Profile
+        <small>View Profile</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">AdminProfile</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start Form -->
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Create Admin Profile</h3>
+                </div>
+                <!-- /.box-header -->
+                @using (Html.BeginForm("ViewAdminProfileSetup", "UserSetup", FormMethod.Post, new
+                {
+                    @id = "ViewAdminForm",
+                    @class = "form-horizontal"
+                }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    if (this.ViewData["admin_messsage"] != null)
+                    {
+                        if (this.ViewData["message_class"].ToString() == "success_info")
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Success</h4> @this.ViewData["admin_messsage"]
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Error</h4> @this.ViewData["admin_messsage"]
+                            </div>
+                        }
+                    }
+
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-10">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ProfileName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.EditorFor(model => model.ProfileName, new { htmlAttributes = new { @class = "form-control", @name = "txtProfileName", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ProfileDesc, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.EditorFor(model => model.ProfileDesc, new { htmlAttributes = new { @class = "form-control", @name = "txtProfileDesc", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="UserProfileStatus" class="control-label col-md-2">Status</label>
+                                    <div class="col-md-6">
+                                        @Html.DropDownListFor(model => model.UserProfileStatus, new SelectList(Status, "Value", "Text", Model.UserProfileStatus), new { @class = "form-control",@disabled="Disabled" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    @Html.Label("Assign Menus", htmlAttributes: new { @class = "control-label col-md-2" })
+                                </div>
+                                <table id="tadmin01" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="checkall" />Module</th>
+                                            <th colspan="3">Menus</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                @if (ViewBag.CanAdmin == "A")
+                                                {
+                                                    <input type="checkbox" id="checkallAdmin" name="checkallAdmin" value="A" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkAdmin" id="checkallAdmin" name="checkallAdmin" value="A" />
+                                                } Admin
+
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.CanAdminReg == "AA")
+                                                {
+                                                    <input type="checkbox" class="chkAdmin" id="chkARegistration" name="chkARegistration" value="AA" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkAdmin" id="chkARegistration" name="chkARegistration" value="AA" />
+                                                }
+                                                Registration
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.CanAdminModify == "AB")
+                                                {
+                                                    <input type="checkbox" class="chkAdmin" id="chkAModification" name="chkAModification" value="AB" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkAdmin" id="chkAModification" name="chkAModification" value="AB" />
+                                                } Modification
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.CanAPwdReset == "AC")
+                                                {
+                                                    <input type="checkbox" class="chkAdmin" id="chkAPwdReset" name="chkAPwdReset" value="AC" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkAdmin" id="chkAPwdReset" name="chkAPwdReset" value="AC" />
+                                                }
+                                                Password Reset
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @if (ViewBag.CanCust == "B")
+                                                {
+                                                    <input type="checkbox" id="checkallCustomer" name="checkallCustomer" value="B" checked= "checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" id="checkallCustomer" name="checkallCustomer" value="B" />
+                                                }
+                                                Customer
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.CanCReg == "BA")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCRegister" name="chkCRegister" value="BA" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCRegister" name="chkCRegister" value="BA" />
+                                                }
+                                                Registration
+                                                <br />
+                                                
+                                                @if (ViewBag.CApproveModify == "BD")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCApproveModify" name="chkApproveModify" value="BD" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCApproveModify" name="chkCApproveModify" value="BD" />
+                                                }
+                                                Approve Modified
+                                                <br />
+                                                
+                                                @if (ViewBag.CPinReset == "BG")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCPINReset" name="chkPinReset" value="BG" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCPINReset" name="chkPinReset" value="BG" />
+                                                } PIN Reset
+                                                <br />
+                                                
+                                                @if (ViewBag.CApproveDelete == "BJ")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCApproveDelete" name="chkApproveDelete" value="BJ" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCApproveDelete" name="chkApproveDelete" value="BJ" />
+                                                }
+                                                Approve Deleted
+                                                <br />
+
+                                                @if (ViewBag.CCharge == "BM")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCustomerCharge" name="chkCustCharge" value="BM" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCustomerCharge" name="chkCustCharge" value="BM" />
+                                                } Customer Charge
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.CanCApprove == "BB")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCApprove" name="chkCApprove" value="BB" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCApprove" name="chkCApprove" value="BB" />
+                                                }
+                                                Approve <br/>
+
+                                                @if (ViewBag.CStatus == "BE")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCustomerStatus" name="chkCustomerStatus" value="BE" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCustomerStatus" name="chkCustomerStatus" value="BE" />
+                                                } Customer Status <br/>
+
+                                                @if (ViewBag.CApprovePinReset == "BH")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkAPinReset" name="chkAPinReset" value="BH" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkAPinReset" name="chkAPinReset" value="BH" />
+                                                }
+                                                Approve PIN Reset <br/>
+                                                
+                                                @if (ViewBag.CUnBlockService == "BK")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCUnBlockService" name="chkCUnBlockService" value="BK" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCUnBlockService" name="chkCUnBlockService" value="BK" />
+                                                } UnBlock Service <br/>
+                                                
+                                                @if (ViewBag.CApproveRenewCharge == "BN")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCApproveRC" name="chkCApproveRC" value="BN" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCApproveRC" name="chkCApproveRC" value="BN" />
+                                                } Approve Renew Charge
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.CanCModify == "BC")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCModify" name="chkCModify" value="BC" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCModify" name="chkCModify" value="BC" />
+                                                }
+                                                Modify <br/>
+
+                                                @if (ViewBag.CRejectedList == "BF")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCRejectedList" name="chkCRejectedList" value="BF" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCRejectedList" name="chkCRejectedList" value="BF" />
+                                                }
+                                                Rejected List <br/>
+
+                                                @if (ViewBag.CanCDelete == "BI")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCDelete" name="chkCDelete" value="BI" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCDelete" name="chkCDelete" value="BI" />
+                                                }
+                                                Delete <br/>
+                                                @if (ViewBag.CApproveUnblock == "BL")
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCApproveUnBlock" name="chkCApproveUnBlock" value="BL" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkCustomer" id="chkCApproveUnBlock" name="chkCApproveUnBlock" value="BL" />
+                                                }
+                                                Approve UnBlock
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @if (ViewBag.BranchSetup == "C")
+                                                {
+                                                    <input type="checkbox" class="chkBranchSetup" name="checkallBranchSetup" id="checkallBranchSetup" value="C" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkBranchSetup" name="checkallBranchSetup" id="checkallBranchSetup" value="C" />
+                                                }
+                                                Branch Setup
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.BranchRegistration == "CA")
+                                                {
+                                                    <input type="checkbox" class="chkBranchSetup" name="chkBranchRegister" id="chkBranchRegister" value="CA" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkBranchSetup" name="chkBranchRegister" id="chkBranchRegister" value="CA" />
+                                                }
+                                                Branch Registration
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.BranchModification == "CB")
+                                                {
+                                                    <input type="checkbox" class="chkBranchSetup" id="chkBranchModify" name="chkBranchModify" value="CB" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkBranchSetup" id="chkBranchModify" name="chkBranchModify" value="CB" />
+                                                } Branch Modification
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.BranchStatus == "CC")
+                                                {
+                                                    <input type="checkbox" class="chkBranchSetup" id="chkBranchStatus" name="chkBranchStatus" value="CC" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkBranchSetup" id="chkBranchStatus" name="chkBranchStatus" value="CC" />
+                                                } Branch Status
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @if (ViewBag.AcTypeSetup == "D")
+                                                {
+                                                    <input type="checkbox" class="chkAcType" id="checkallAcType" value="D" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkAcType" id="checkallAcType" value="D" />
+                                                } Account Type Setup
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.AcTypeSetupm == "DA")
+                                                {
+                                                    <input type="checkbox" class="chkAcType" id="chkAcType" name="chkAcType" value="DA" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkAcType" id="chkAcType" name="chkAcType" value="DA" />
+                                                } Account Type Setup
+                                            </td>
+                                            <td>
+                                                &nbsp;
+                                            </td>
+                                            <td>
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @if (ViewBag.MNepalPay == "E")
+                                                {
+                                                    <input type="checkbox" class="chkMNepalPay" id="checkallMNepalPay" name="checkallMNepalPay" value="E" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkMNepalPay" id="checkallMNepalPay" name="checkallMNepalPay" value="E" />
+                                                } MNepal Pay
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.ManageService == "EA")
+                                                {
+                                                    <input type="checkbox" class="chkMNepalPay" id="chkManageServices" name="chkManageServices" value="EA" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkMNepalPay" id="chkManageServices" name="chkManageServices" value="EA" />
+                                                } Manage Services
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.CheckStatus == "EB")
+                                                {
+                                                    <input type="checkbox" class="chkMNepalPay" id="chkCheckStatus" name="chkCheckStatus" value="EB" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkMNepalPay" id="chkCheckStatus" name="chkCheckStatus" value="EB" />
+                                                } Check Status
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.Cancellation == "EC")
+                                                {
+                                                    <input type="checkbox" class="chkMNepalPay" id="chkCancellation" name="chkCancellation" value="EC" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkMNepalPay" id="chkCancellation" name="chkCancellation" value="EC" />
+                                                } Cancellation
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @if (ViewBag.UserSetup == "F")
+                                                {
+                                                    <input type="checkbox" class="chkUserSetup" id="checkallUserSetup" name="checkallUserSetup" value="F" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkUserSetup" id="checkallUserSetup" name="checkallUserSetup" value="F" />
+                                                } User Setup
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.UCreateAdminProfile == "FA")
+                                                {
+                                                    <input type="checkbox" class="chkUserSetup" id="chkCAdminProfile" name="chkCAdminProfile" value="FA" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkUserSetup" id="chkCAdminProfile" name="chkCAdminProfile" value="FA" />
+                                                } Create Admin Profile
+                                                <br/>
+                                                
+                                                @if (ViewBag.UModifyCustProfile == "FD")
+                                                {
+                                                    <input type="checkbox" class="chkUserSetup" id="chkMCustProfile" name="chkMCustProfile" value="FD" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkUserSetup" id="chkMCustProfile" name="chkMCustProfile" value="FD" />
+                                                } Modify Customer Profile
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.UModifyAdminProfile == "FB")
+                                                {
+                                                    <input type="checkbox" class="chkUserSetup" id="chkMAdminProfile" name="chkMAdminProfile" value="FB" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkUserSetup" id="chkMAdminProfile" name="chkMAdminProfile" value="FB" />
+                                                } Modify Admin Profile
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.UCreateCustProfile == "FC")
+                                                {
+                                                    <input type="checkbox" class="chkUserSetup" id="chkCCustomerProfile" name="chkCCustomerProfile" value="FC" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkUserSetup" id="chkCCustomerProfile" name="chkCCustomerProfile" value="FC" />
+                                                } Create Customer Profile
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @if (ViewBag.Request == "G")
+                                                {
+                                                    <input type="checkbox" class="chkRequest" id="checkallRequest" value="G" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkRequest" id="checkallRequest" value="G" />
+                                                } Request
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.RChequeBookList == "GA")
+                                                {
+                                                    <input type="checkbox" class="chkRequest" id="chkChkList" name="chkChkList" value="GA" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkRequest" id="chkChkList" name="chkChkList" value="GA" />
+                                                } Checkbook List
+                                                <br/>
+                                                @if (ViewBag.RRecommandationList == "GD")
+                                                {
+                                                    <input type="checkbox" class="chkRequest" id="chkRecomList" name="chkRecomList" value="GD" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkRequest" id="chkRecomList" name="chkRecomList" value="GD" />
+                                                } Recommendation List
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.RStmtList == "GB")
+                                                {
+                                                    <input type="checkbox" class="chkRequest" id="chkStmtList" name="chkStmtList" value="GB" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkRequest" id="chkStmtList" name="chkStmtList" value="GB" />
+                                                } Statement List
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.RComplainList == "GC")
+                                                {
+                                                    <input type="checkbox" class="chkRequest" id="chkComplainList" name="chkComplainList" value="GC" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkRequest" id="chkComplainList" name="chkComplainList" value="GC" />
+                                                } Complain List
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @if (ViewBag.Messaging == "H")
+                                                {
+                                                    <input type="checkbox" class="chkMsg" id="checkallMsg" name="checkallMsg" value="H" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkMsg" id="checkallMsg" name="checkallMsg" value="H" />
+                                                } Messaging
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.MUncastMsg == "HA")
+                                                {
+                                                    <input type="checkbox" class="chkMsg" id="chkUnicastMsg" name="chkUnicastMsg" value="HA" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkMsg" id="chkUnicastMsg" name="chkUnicastMsg" value="HA" />
+                                                } Unicast Messaging
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.MBulkMsg == "HB")
+                                                {
+                                                    <input type="checkbox" class="chkMsg" id="chkBulkMsg" name="chkBulkMsg" value="HB" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkMsg" id="chkBulkMsg" name="chkBulkMsg" value="HB" />
+                                                } Bulk Messaging
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.MResendMsg == "HC")
+                                                {
+                                                    <input type="checkbox" class="chkMsg" id="chkResendMsg" name="chkResendMsg" value="HC" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkMsg" id="chkResendMsg" name="chkResendMsg" value="HC" />
+                                                } Resend Message
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @if (ViewBag.Report == "I")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="checkallReport" name="checkallReport" value="I" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="checkallReport" name="checkallReport" value="I" />
+                                                } Report
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.ReSmsInOut == "IA")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRSMS" name="chkRSMS" value="IA" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRSMS" name="chkRSMS" value="IA" />
+                                                } SMS IN/Out
+                                                <br />
+                                                @if (ViewBag.ReRegisteredCustomer == "ID")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRRegisterCust" name="chkRRegisterCust" value="ID" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRRegisterCust" name="chkRRegisterCust" value="ID" />
+                                                } Registered Customers
+                                                <br />
+                                                @if (ViewBag.ReMerchantPayment == "IG")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRMerchantPay" name="chkRMerchantPay" value="IG" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRMerchantPay" name="chkRMerchantPay" value="IG" />
+                                                } Merchants Payments
+                                                <br />
+                                                @if (ViewBag.ReCardRequest == "IJ")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRCardRequest" name="chkRCardRequest" value="IJ" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRCardRequest" name="chkRCardRequest" value="IJ" />
+                                                } Card Requests
+                                                <br />
+                                                @if (ViewBag.ReAdminDetail == "IM")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRAdminDetail" name="chkRAdminDetail" value="IM" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRAdminDetail" name="chkRAdminDetail" value="IM" />
+                                                } Admin Details
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.ReChequeBookRequest == "IB")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRCheckBookReq" name="chkRCheckBookReq" value="IB" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRCheckBookReq" name="chkRCheckBookReq" value="IB" />
+                                                } Check Book Requests
+                                                <br />
+                                                @if (ViewBag.ReAdminActivities == "IE")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRAdminActivities" name="chkRAdminActivities" value="IE" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRAdminActivities" name="chkRAdminActivities" value="IE" />
+                                                } Admin Activities
+                                                <br />
+                                                @if (ViewBag.ReMNepalPayTran == "IH")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRMNepalPayTran" name="chkRMNepalPayTran" value="IH" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRMNepalPayTran" name="chkRMNepalPayTran" value="IH" />
+                                                } MNepalPay Transaction
+                                                <br />
+                                                @if (ViewBag.ReServicePayments == "IK")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkServicePayments" name="chkServicePayments" value="IK" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkServicePayments" name="chkServicePayments" value="IK" />
+                                                } Service Payments
+                                                <br />
+                                                @if (ViewBag.ReCharge == "IN")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkCharge" name="chkCharge" value="IN" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkCharge" name="chkCharge" value="IN" />
+                                                } Charge
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.ReStmtRequest == "IC")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRStmtReq" name="chkRStmtReq" value="IC" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRStmtReq" name="chkRStmtReq" value="IC" />
+                                                } Statement Requests
+                                                <br />
+                                                @if (ViewBag.ReCustActivities == "IF")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRCustAct" name="chkRCustAct" value="IF" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRCustAct" name="chkRCustAct" value="IF" />
+                                                } Customer Activities
+                                                <br />
+                                                @if (ViewBag.ReMNepalPayCancel == "II")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRPayCancel" name="chkRPayCancel" value="II" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRPayCancel" name="chkRPayCancel" value="II" />
+                                                } MNepalPay Cancellation
+                                                <br />
+                                                @if (ViewBag.ReTransactionDetail == "IL")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRTranDetail" name="chkRTranDetail" value="IL" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRTranDetail" name="chkRTranDetail" value="IL" />
+                                                } Transaction Details
+                                                <br />
+                                                @if (ViewBag.ReMNepalPayReport == "IO")
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRTopupReport" name="chkRTopupReport" value="IO" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkReport" id="chkRTopupReport" name="chkRTopupReport" value="IO" />
+                                                } MNepalPay Topup Report
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @if (ViewBag.Payee == "J")
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="checkallPayee" name="checkallPayee" value="J" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="checkallPayee" name="checkallPayee" value="J" />
+                                                } Payee
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.PMerchantRegister == "JA")
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkMRegister" name="chkMRegister" value="JA" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkMRegister" name="chkMRegister" value="JA" />
+                                                } Merchant Registration
+                                                <br />
+                                                @if (ViewBag.PComPartnerModify == "JD")
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkComPartnerModify" name="chkComPartnerModify" value="JD" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkComPartnerModify" name="chkComPartnerModify" value="JD" />
+                                                } Commision Partner Modification
+                                                <br />
+                                                @if (ViewBag.PModifyComSlab == "JG")
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkMComSlab" name="chkMComSlab" value="JG" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkMComSlab" name="chkMComSlab" value="JG" />
+                                                } Modify Commision Slab
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.PMerchantModification == "JB")
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkMModify" name="chkMModify" value="JB" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkMModify" name="chkMModify" value="JB" />
+                                                } Merchant Modification
+                                                <br />
+                                                @if (ViewBag.PMerchantDetails == "JE")
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkMDetail" name="chkMDetail" value="JE" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkMDetail" name="chkMDetail" value="JE" />
+                                                } Merchant Details
+                                                <br />
+                                                @if (ViewBag.PCommissionSlabDetail == "JH")
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkComSlabDetail" name="chkComSlabDetail" value="JH" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkComSlabDetail" name="chkComSlabDetail" value="JH" />
+                                                } Commission Slab Details
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.PCommisionPartnerRegistration == "JC")
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkComPartRegister" name="chkComPartRegister" value="JC" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkComPartRegister" name="chkComPartRegister" value="JC" />
+                                                } Commission Partner Registration
+                                                <br />
+                                                @if (ViewBag.PAddComSlab == "JF")
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkAComSlab" name="chkAComSlab" value="JF" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkPayee" id="chkAComSlab" name="chkAComSlab" value="JF" />
+                                                } Add Commission Slab
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @if (ViewBag.Setting == "K")
+                                                {
+                                                    <input type="checkbox" class="chkSetting" id="checkallSetting" name="checkallSetting" value="K" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkSetting" id="checkallSetting" name="checkallSetting" value="K" />
+                                                } Setting
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.SKeywordSetting == "KA")
+                                                {
+                                                    <input type="checkbox" class="chkSetting" id="chkCKeywordSettings" name="chkCKeywordSettings" value="KA" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkSetting" id="chkCKeywordSettings" name="chkCKeywordSettings" value="KA" />
+                                                } Keyword Settings
+                                                <br />
+                                                @if (ViewBag.SModifyMsg == "KD")
+                                                {
+                                                    <input type="checkbox" class="chkSetting" id="chkMMessages" name="chkMMessages" value="KD" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkSetting" id="chkMMessages" name="chkMMessages" value="KD" />
+                                                } Modify Messages
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.SCreateStaticKeyword == "KB")
+                                                {
+                                                    <input type="checkbox" class="chkSetting" id="chkCStaticKeyword" name="chkCStaticKeyword" value="KB" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkSetting" id="chkCStaticKeyword" name="chkCStaticKeyword" value="KB" />
+                                                } Create Static Keyword
+                                                <br />
+                                                @if (ViewBag.SChangePwd == "KE")
+                                                {
+                                                    <input type="checkbox" class="chkSetting" id="chkChangePwd" name="chkChangePwd" value="KE" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkSetting" id="chkChangePwd" name="chkChangePwd" value="KE" />
+                                                } Change Password
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.SModifyStaticKeyword == "KC")
+                                                {
+                                                    <input type="checkbox" class="chkSetting" id="chkMStaticKeyword" name="chkMStaticKeyword" value="KC" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="chkSetting" id="chkMStaticKeyword" name="chkMStaticKeyword" value="KC" />
+                                                } Modify Static Keyword
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+                            </div><!-- /. col-md-10-->
+                        </div>
+                        <!-- /. row-->
+                    </div>
+                    <!-- /. box-body-->
+
+                    @*<div class="box-footer">
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input type="submit" value="Create" class="btn btn-primary pull-right" />
+                            </div>
+                        </div>
+                    </div>*@
+                }
+
+            </div>
+        </div>
+        <!--End Form -->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Disable #x
+            $( "#checkall" ).prop( "disabled", true );
+            $("#checkallAdmin").prop("disabled", true);
+            $(".chkAdmin").prop("disabled", true);
+            $("#checkallCustomer").prop("disabled", true);
+            $(".chkCustomer").prop("disabled", true);
+
+            $("#checkallBranchSetup").prop("disabled", true);
+            $(".chkBranchSetup").prop("disabled", true);
+
+            $("#checkallAcType").prop("disabled", true);
+            $(".chkAcType").prop("disabled", true);
+
+            $("#checkallMNepalPay").prop("disabled", true);
+            $(".chkMNepalPay").prop("disabled", true);
+
+            $("#checkallUserSetup").prop("disabled", true);
+            $(".chkUserSetup").prop("disabled", true);
+
+            $("#checkallRequest").prop("disabled", true);
+            $(".chkRequest").prop("disabled", true);
+
+            $("#checkallMsg").prop("disabled", true);
+            $(".chkMsg").prop("disabled", true);
+
+            $("#checkallReport").prop("disabled", true);
+            $(".chkReport").prop("disabled", true);
+
+            $("#checkallPayee").prop("disabled", true);
+            $(".chkPayee").prop("disabled", true);
+
+            $("#checkallSetting").prop("disabled", true);
+            $(".chkSetting").prop("disabled", true);
+        });
+    </script>
+}
+<!-- =============================================== -->

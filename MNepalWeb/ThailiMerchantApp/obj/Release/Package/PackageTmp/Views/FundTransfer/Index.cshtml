@@ -1,0 +1,994 @@
+﻿
+@{
+    ViewBag.Title = "Fund Transfer";
+    string hasKYC = ViewBag.hasKYC;
+    string hasLinkBankAcc = ViewBag.HasBankKYC;
+
+    var checkBankLink = ViewBag.HasBankKYC;
+
+}
+
+@model ThailiMerchantApp.Models.MNFundTransfer
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/alertify.min.css" />
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/default.min.css" />
+@*<section class="content-header">
+        <h1>
+            Payment
+            <small> Fund Transfer</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-user"></i> Payment</a></li>
+            <li class="active">  Fund Transfer</li>
+        </ol>
+    </section>*@
+
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />
+<style>
+    .image_icon {
+        width: 50px;
+    }
+
+    .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        margin-right: 13px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /*.Rs-icon {
+        float: left;
+        margin-left: 12px;
+        margin-top: -33px;
+        color: #666666;
+        font-weight: lighter;
+    }*/
+</style>
+
+<!-- Main content -->
+<div class="main-content">
+    <div class="two-colbg">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <section class="internet-payment pad-50">
+                        <div class="top-section">
+                            <h2 class="title">Transfer Funds</h2>
+                            <p>Please enter your mobile number and insert amount to transfer your fund.</p>
+                            @*<p>For validity information, please <a href="#">click here</a></p>*@
+                        </div>
+                        <!-- /top-section -->
+
+                        <div class="instant-transactions">
+                            @*<h3 class="title">Instant Transactions</h3>*@
+
+                            <div class="transactions-grid clearfix">
+                                @*@{
+                                        if (checkBankLink == "T")
+                                        {
+                                            <div class="item load-wallet">
+                                                <div class="item-inner" onclick="checkBankLink()">
+                                                    <a href="~/FundTransfer/LoadWalletBW">
+                                                        <div class="content-inner">
+                                                            <i class="thaili-icon-load-wallet"></i>
+                                                            <span>Load Wallet</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="item load-wallet">
+                                                <div class="item-inner" onclick="checkBankLink()">
+                                                    <div class="content-inner">
+                                                        <i class="thaili-icon-load-wallet"></i>
+                                                        <span>Load Wallet</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }*@
+
+                                <div class="item load-wallet">
+                                    <div class="item-inner">
+                                        <a href="~/LoadWallet/EBanking">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-load-wallet"></i>
+                                                <span>Load Wallet</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="item transfer-fund">
+                                    <div class="item-inner" style="padding:12px;">
+                                        <a href="@Url.Action("Index", "FundTransfer")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-transfer-funds"></i>
+                                                <span>Transfer funds</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="~/UtilityPay/TopUp">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-top-up"></i>
+                                                <span>Top Up</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item recharge">
+                                    <div class="item-inner">
+                                        <a href="~/UtilityPay/NewRecharge">
+                                            @*<a href="~/UtilityPay/Recharge">*@
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-recharge"></i>
+                                                <span>Recharge</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                        <div class="item withdraw">
+                                            <div class="item-inner" style="padding:1px;">
+                                                <a href="~/FundTransfer/Withdraw">
+                                                    <div class="content-inner">
+                                                        <i class="thaili-icon-wallet" id="icon-withdraw"></i>
+                                                        <span id="withdraw-text">Bank Transfer</span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                   
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/MerchantPayment/MerchantRestaurant">
+                                            @*  <a href="~/MerchantPayment/MerchantIndex">*@
+                                            <div class="content-inner">
+                                                <span class="icon-icon-merchant"></span>
+                                                <span class="merchant-text">Merchants</span>
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/Cash/OutAgent3">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-cashout"></span>
+                                                <span class="cashout-text">Cash Out</span>
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/Cash/In">
+                                            <div class="content-inner">
+                                                <img src="~/Content/assets/img/icons/icon-cashin.svg" style="max-width: 79%;" />
+                                                <span style="color:#00aeef;">Cash In</span>
+
+                                                @*<span id="cashin-text">cashin </span>*@
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /instant transactions -->
+                    </section>
+                    <!-- /internet-payment -->
+                </div>
+
+                <div class="col-lg-6 right-form">
+                    <section class="content-inner pad-50">
+
+                        @using (Html.BeginForm(new { @id = "frmFundTransfer", @class = "transaction-form common-form", @autocomplete = "off" }))//"Index", "FundTransfer", FormMethod.Post,
+                        {
+                            <div id="ajaxResponse">
+                            </div>
+
+                            if (this.ViewData["fundTransfer_messsage"] != null)
+                            {
+                                if (this.ViewData["message_class"].ToString() == "success_info")
+                                {
+                                    <div class="alert alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Success &nbsp;</h4> <div class="content-inner"> @this.ViewData["fundTransfer_messsage"] </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Error</h4> @this.ViewData["fundTransfer_messsage"]
+                                    </div>
+                                }
+                            }
+
+                            @*<div class="transfer-order clearfix">
+                                    <h3 class="title">Transaction</h3>
+                                    <select class="form-control selectpicker transaction-select from" id="fundTransferType1" name="txtFundTransferType1" onmousedown="this.value='';">
+                                        <option data-icon="thaili-icon-load-wallet" value="Wallet">Wallet</option>
+                                        @if (hasKYC.Equals("T") && hasLinkBankAcc.Equals("T"))
+                                        {
+                                            <option data-icon="thaili-icon-bank" value="Bank">Bank</option>
+                                        }
+                                    </select>
+                                    <span class="placeholder">to</span>
+                                    <select class="form-control selectpicker transaction-select to" id="fundTransferType2" name="txtFundTransferType2">
+                                        <option data-icon="thaili-icon-load-wallet" value="Wallet">Wallet</option>
+                                        @if (hasKYC.Equals("T"))
+                                        {
+                                            <option data-icon="thaili-icon-bank" value="Bank">Bank</option>
+                                        }
+                                    </select>
+                                </div>*@
+
+
+                                    <div class="transfer-order clearfix">
+                                        <h3 class="title">Transaction</h3>
+
+
+                                        <select class="form-control selectpicker transaction-select from fundTransferType" id="fundTransferType" name="txtFundTransferType" @*id="MaritalStatus" name="txtMaritalStatus"*@ onmousedown="this.value='';"  >
+                                            <option data-icon="thaili-icon-load-wallet" value="Wallet to Wallet"  >Wallet</option>
+                                            @if (hasKYC.Equals("T") && hasLinkBankAcc.Equals("T"))
+                                            {
+                                                <option data-icon="thaili-icon-bank" value="Bank to Bank" >Bank</option>
+                                            }
+                                        </select>
+                                        <span class="placeholder">to</span>
+                                        <div id="Wallet" style="width:500px !important" >
+                                            <select class="form-control selectpicker transaction-select to" >
+                                                <option data-icon="thaili-icon-load-wallet" value="Wallet">Wallet</option>
+
+                                            </select>
+                                        </div>
+                                        <div id="Bank" style="width:500px !important;" >
+                                            <select class="form-control selectpicker transaction-select to"  >
+
+                                                <option data-icon="thaili-icon-bank" value="Bank">Bank</option>
+
+                                            </select>
+                                        </div>
+                                        </div>
+                                        
+                                        @*<div class="form-group">
+                                            <label>Transaction Medium</label>
+                                            <select class="form-control select2" id="fundTransferType" name="txtFundTransferType" style="width: 100%;">
+                                                <option selected="selected" value="Wallet to Wallet">wallet to wallet</option>
+                                                <option value="Wallet to Bank">Wallet to bank</option>
+                                                <option value="Bank to Wallet">Bank to Wallet</option>
+                                                <option value="Bank to Bank"> Internal Account Transfer</option>
+                                            </select>
+                                        </div>*@
+
+                                        //
+                                        @*<form action="" class="transaction-form common-form">
+                                        <div class="form-group">
+                                            <label for="">Select a Bank</label>
+                                            <select class="form-control selectpicker" name="bankName" data-live-search="true" data-size="5">
+                                                <option value="Purnima Bikas Bank Ltd.">Purnima Bikas Bank Ltd.</option>
+                                                <option value="Siddhartha Bank">Siddhartha Bank</option>
+                                                <option value="Bank of Kathmandu">Bank of Kathmandu</option>
+                                                <option value="Janata Bank">Janata Bank</option>
+                                                <option value="Kumari Bank">Kumari Bank</option>
+                                                <option value="Sanima Bank">Sanima Bank</option>
+                                                <option value="Century Bank">Century Bank</option>
+                                                <option value="Gandaki Bikas Bank Ltd.">Gandaki Bikas Bank Ltd.</option>
+                                                <option value="Mega Bank">Mega Bank</option>
+                                                <option value="Nepal Bangaladesh Bank">Nepal Bangaladesh Bank</option>
+                                            </select>
+                                        </div>
+
+                                        <label for="">Receipent</label>
+                                        <input type="number" name="reciepentNo" class="form-control" required>
+
+                                        <label for="">Amount</label>
+                                        <input type="number" name="transferAmount" class="form-control" required>
+
+                                        <label for="">Remarks</label>
+                                        <textarea name="transactionRemark" class="form-control" rows="8" cols="80">
+
+                                        </textarea>
+
+                                        <div class="btn-wrapper">
+                                            <button type="button" class="btn btn-blue btn-big" data-toggle="modal" data-target="#successModal">Confirm</button>
+                                            <button type="cancel" class="btn btn-default btn-big">Clear</button>
+                                        </div>
+                                    </form>*@
+
+
+
+                                        <div class="box-body">
+                                            <!-- /.form-group -->
+                                            <div class="form-group" style="display:none;">
+                                                <label>Trace ID</label>
+                                                @Html.EditorFor(model => model.tid, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = @ViewBag.TraceID, @name = "txtTraceID", @id = "traceID" } })
+                                            </div>
+
+                                            <div class="form-group" style="display:none;">
+                                                <label>Sender Mobile No.</label>
+                                                <input type="text" id="sender" name="txtSenderMobileNo" class="form-control" value="@ViewBag.SenderMobileNo" readonly />
+                                            </div>
+
+
+
+                                            <div class="form-group" style="display:none;">
+                                                <label>Service Code </label>
+                                                <input type="text" class="form-control" id="ServiceCode" name="txtServiceCode" value="@ViewBag.ServiceCode" readonly />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Recipient Mobile No. (<span style="color:red">*</span>)</label>
+                                                <input type="text" id="recipient" name="txtRecipientNo" class="form-control" placeholder="Recipient Mobile No." pattern=".{10,10}" required title="Please use Mobile Number" maxlength="10" onkeypress="return isNumber(event)" oninput="checkValidation()" onpaste="return false" />
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div id="check" style="margin-top:-9px;"></div>
+                                                <div id="MobNo" style="color:red; margin-top:-11px;"></div>
+                                            </div>
+
+                                            @*<div class="form-group">
+                                                <label>Amount <span style="color:red">*</span></label>
+                                                <input type="text" id="amount" name="txtAmount" class="form-control" placeholder="Amount"
+                                                       pattern=".{0,2}" required title="Please use 2 digit amount" maxlength="5" onkeypress="return isNumber(event)" onchange="checkValidation()" />
+                                                <span class="Rs-icon" id="amountRs">NRs.</span>
+                                                <div id="Amt" style="color:red;"></div>
+                                            </div>*@
+
+                                            <label>Amount (<span style="color:red">*</span>)</label>
+                                            <div class="form-group input-group">
+                                                @*<input class="form-control col-2" id="NRs" type="text" value="NRs." readonly />*@
+                                                <div class="form-control col-2">NPR.</div>
+                                                <input type="text" id="amount" name="txtAmount" class="form-control" placeholder="Amount"
+                                                       pattern=".{0,2}" required title="Please use Amount" maxlength="9" @*onkeypress="return isNumber(event)"*@ oninput="checkValidation()" onkeypress="return NumberDot(event)" autocomplete="off" />
+
+                                            </div>
+                                            <div class="form-group" id="Amt" style="color:red; margin-top:-11px;"></div>
+
+                                            <div class="form-group">
+                                                <label>T-PIN (<span style="color:red">*</span>)</label>
+                                                <input type="password" id="pin" name="txtPin" class="form-control pwd1" placeholder="T-PIN" pattern=".{4,4}" required title="Please use T-Pin number" maxlength="4" oninput="checkValidation()" onkeypress="return isNumber(event)" autocomplete="new-password" onpaste="return false" />
+                                                <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                                            </div>
+                                            <div class="form-group" id="TPin" style="color:red; margin-top:-11px;"></div>
+
+                                            <div class="form-group">
+                                                <label>Remarks (<span style="color:red">*</span>)</label>
+                                                <textarea class="form-control" rows="3" id="note" name="txtNote" placeholder="Remarks" pattern=".{0}|.{,40}" required title="Please insert Remarks" oninput="checkValidation()" maxlength="30"></textarea>
+                                            </div>
+                                            <div class="form-group" id="Remark" style="color:red; margin-top:-11px;"></div>
+
+                                            <div class="form-group" style="display:none;">
+                                                <label>SRC</label>
+                                                <input type="text" id="src" name="txtSrc" class="form-control" value="WEB" />
+                                            </div>
+                                            <!-- /.form-group -->
+
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                        @*<div class="box-footer">
+                                            <input type="submit" class="btn btn-primary pull-right" id="btnSubmit" name="txtSubmit" value="Submit" />
+                                            <a href="@Url.Action("Index","FundTransfer")" class="btn btn-primary pull-right" id="btnNew" title="Begin New Transaction">New Transaction</a>
+                                         </div>*@
+                                        <div class="box-footer">
+                                            <input type="submit" class="btn btn-blue btn-big col-md-5" id="btnSubmit" name="txtSubmit" value="Confirm" />
+                                            <a href="@Url.Action("Index","FundTransfer")" class="btn btn-blue btn-big " id="btnNew" title="Begin New Transaction">New Transaction</a>
+                                            <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
+                                        </div>
+                         }
+                        </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success modal -->
+<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/success-tick.svg" alt="">
+                </div>
+                <p class="msg">@*Success!*@</p>
+                <span class="msg">Your payment has been confirmed.</span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Failure modal -->
+<div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/denied-cross.svg" alt="">
+                </div>
+                <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
+                <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts{
+
+    <!-- Load jQuery and the validate plugin -->
+    @*<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/alertify.min.js"></script>*@
+
+    <!--jQuery Form Validation code -->
+
+    <script type="text/javascript">
+
+        $(".btnShow1").mousedown(function () {
+            $(".pwd1").attr("type", "text");
+        });
+        $(".btnShow1").on("mouseleave", function () {
+            $(".pwd1").attr("type", "password");
+        })
+
+        document.getElementById("successModal").onclick = function () {
+            var url = '@Url.Action("Index", "AgentDashboard")';
+            window.location.href = url;
+        };
+
+          // for decimal amount (Restricts input for the given textbox to the given inputFilter.)
+        function setInputFilter(textbox, inputFilter) {
+            ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+                textbox.addEventListener(event, function () {
+                    if (inputFilter(this.value)) {
+                        this.oldValue = this.value;
+                        this.oldSelectionStart = this.selectionStart;
+                        this.oldSelectionEnd = this.selectionEnd;
+                    } else if (this.hasOwnProperty("oldValue")) {
+                        this.value = this.oldValue;
+                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                    }
+                });
+            });
+        }
+
+        setInputFilter(document.getElementById("amount"), function (value) {
+
+            if ($("[name='txtServiceCode']").val() == "01") {
+                return /^\d*[.,]?\d{0,2}$/.test(value) && (value === "" || parseFloat(value) <= 50000);
+            }
+
+            if (value >= 10000) {
+                return /^\d*$/.test(value) && (value === "" || parseFloat(value) <= 10000);
+            }
+            else {
+                return /^\d*[.,]?\d{0,2}$/.test(value) && (value === "" || parseFloat(value) <= 10000);
+
+            }
+
+        });
+
+          $(document).ready(function () {
+            //$('input#amount').blur(function () {
+            //    var num = parseFloat($(this).val());
+            //    var cleanNum = num.toFixed(2);
+            //    $(this).val(cleanNum);
+            //});
+
+              $('input#amount').blur(function (e) {
+                  var value = parseFloat(e.target.value);
+                  var newValue = (isNaN(value) ? 0 : value);
+
+                  var cleanNum = newValue.toFixed(2);
+                  $(this).val(cleanNum);
+              });
+        });
+         function checkBankLink() {
+         $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetLnkBankAcc", "AgentDashboard")',
+            success: function (data, textStatus) {
+                if (data != "T") {
+                    $("#message").html("");
+                    $("#message").append("Please link your bank account to get rid of restriction");
+                    $('#failureModal').modal("show");
+                }
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+            });
+        }
+        
+        var check = 0;
+
+              function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+                  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+
+                return false;
+            }
+            return true;
+        }
+
+
+        ///for amount input number and dot only
+        function NumberDot(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+        function checkValidation() {
+            var recipientNo = $("[name='txtRecipientNo']").val();
+            var amount = $("[name='txtAmount']").val();
+            var pin = $("[name='txtPin']").val();
+            var note = $("[name='txtNote']").val();
+
+            if (recipientNo.trim() == "") {
+                check = 1;
+                $("#MobNo").html("");
+                $("#MobNo").append("<small>" + "Please Enter the Mobile Number" + "</small>");
+                $("#MobNo").show();
+                $("#check").hide();
+            }
+            else if ((recipientNo.substring(0, 2) != "98")) {
+                check = 1;
+                $("#MobNo").html("");
+                $("#MobNo").append("<small>" + "Mobile number must start with 98" + "</small>");
+                $("#MobNo").show();
+                $("#check").hide();
+            }
+            else if (recipientNo.length != 10) {
+                check = 1;
+                $("#MobNo").html("");
+                $("#MobNo").append("<small>" + "Mobile number must be of 10 digits" + "</small>");
+                $("#MobNo").show();
+                $("#check").hide();
+            }
+            else {
+                check = 0;
+                $("#MobNo").hide();
+            }
+            debugger;
+            if ((amount.trim() == "") || (amount.trim() == "0.00") || (amount.trim() == "0")) {
+                $("#Amt").html("");
+                $("#Amt").append("<small>" + "Please Enter valid Amount" + "</small>");
+                $("#Amt").show();
+            }
+            else {
+                $("#Amt").hide();
+            }
+
+            if (pin.trim() == "") {
+                $("#TPin").html("");
+                $("#TPin").append("<small>" + "Please Enter the T-Pin" + "</small>");
+                $("#TPin").show();
+            }
+            else if (pin.length != 4) {
+                $("#TPin").html("");
+                $("#TPin").append("<small>" + "T-Pin must be 4 character long." + "</small>");
+                $("#TPin").show();
+            }
+            else {
+                $("#TPin").hide();
+            }
+
+            if (note.trim() == "") {
+                $("#Remark").html("");
+                $("#Remark").append("<small>" + "Please Enter the Remarks" + "</small>");
+                $("#Remark").show();
+            }
+            else {
+                $("#Remark").hide();
+            }
+        }
+        //////
+       //$("#amountRs").hide();
+       //$("#amount").blur(function(){
+       // if ($(this).val() == '')
+       // {
+       //         $("#amountRs").hide();
+       //         $("#amount").css("padding-left", "12px");
+       // }
+       // else {
+       //         $("#amountRs").show();
+       //         $("#amount").css("padding-left", "50px");
+       //      }
+       // });
+        ////
+        $("#clearButton").click(function () {
+            $("#recipient").val("");
+            $("#amount").val("");
+            $("#pin").val("");
+            $("#note").val("");
+            $("#check").hide();
+            $("#MobNo").hide();
+            $("#Amt").hide();
+            $("#TPin").hide();
+            $("#Remark").hide();
+        });
+
+        $("#recipient").change(function (event) {
+            event.preventDefault();
+
+            var id = $("#recipient").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetCheckingUserName", "FundTransfer")',
+                data: { "Username": id },
+
+                success: function (data, textStatus) {
+                    var markup = data;
+                    if (check == 0) {
+                        if (data == "Error") {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Number Not Registered").show();
+                          //  $('#btnSubmit').attr("disabled", true);
+                        }
+                        else if (data == "MerchantRestricted") {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Transaction restricted to Merchant").show();
+                           // $('#btnSubmit').attr("disabled", true);
+                        }
+                        else {
+                            $("#check").html("");
+                            $("#check").css("color", "green");
+                            $("#check").css("font-size", "80%");
+                            $("#check").html("Valid Number").show();
+                            $('#btnSubmit').attr("disabled", false);
+                        }
+                    }
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+        });
+
+        $(document).ready(function () {
+
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
+
+            $('#btnNew').hide();
+            
+            ////HIDE/SHOW MARITAL STATUS DROPDOWNBOX ATTRIBUTES ---
+            $("#Bank").hide();
+            $('.fundTransferType').on('change', function () {
+                    if (this.value == 'Wallet to Wallet') {
+                        $("#Wallet").show();
+                        $("#Bank").hide();
+
+                    }
+
+                    else {
+                        $("#Wallet").hide();
+                        $("#Bank").show();
+                    }
+                });
+            
+            if ($("select[name='txtFundTransferType'] option:selected").val() == 'Wallet to Wallet') {
+                debugger;
+                //alert(($("select[name='txtFundTransferType'] option:selected").val()))
+                $("#ServiceCode").html(""); //WalletToWallet
+                $("#ServiceCode").val("00");
+            }
+
+            $("#fundTransferType").change(function () {
+                debugger;
+                var id = $("#fundTransferType").val();
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetServiceCode", "FundTransfer")',
+                    data: { "txtFundTransferType": id },
+                    success: function (data, textStatus) {
+                        $("#ServiceCode").html("");
+                        var markup = data;
+                        $("#ServiceCode").val(data);
+                    },
+                    error: function () {
+                        alert("Data Not Found");
+                    }
+                });
+            });
+
+            /* Start New Trans*/
+            if ($("select[name='txtFundTransferType1'] option:selected").val() == 'Wallet') {
+                if ($("select[name='txtFundTransferType2'] option:selected").val() == 'Wallet') {
+                    $("#ServiceCode").html(""); //WalletToWallet
+                    $("#ServiceCode").val("00");
+                }
+            }
+
+            $("#fundTransferType1").change(function () {
+                var id = $("#fundTransferType1").val();
+                var id2 = $("#fundTransferType2").val();
+                var idname = id + ' to ' + id2;
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetServiceCode", "FundTransfer")',
+                    data: { "txtFundTransferType": idname },
+                    success: function (data, textStatus) {
+                        $("#ServiceCode").html("");
+                        var markup = data;
+                        $("#ServiceCode").val(data);
+                    },
+                    error: function () {
+                        alert("Data Not Found");
+                    }
+                });
+            });
+
+            $("#fundTransferType2").change(function () {
+                var id = $("#fundTransferType1").val();
+                var id2 = $("#fundTransferType2").val();
+                var idname = id + ' to ' + id2;
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetServiceCode", "FundTransfer")',
+                    data: { "txtFundTransferType": idname },
+                    success: function (data, textStatus) {
+                        $("#ServiceCode").html("");
+                        var markup = data;
+                        $("#ServiceCode").val(data);
+                    },
+                    error: function () {
+                        alert("Data Not Found");
+                    }
+                });
+            });
+
+            /*End New Trans*/
+
+            $("#ajaxResponse").hide();
+            $("#MobNo").hide();
+            $("#Amt").hide();
+            $("#TPin").hide();
+            $("#Remark").hide();
+            $("#check").hide();
+
+        $('#btnSubmit').click(function (e) {
+            e.preventDefault();
+
+            var tid = $("[name='txtTraceID']").val();
+            var servicecode = $("[name='txtServiceCode']").val();
+            var umobile = $("[name='txtSenderMobileNo']").val();
+            var recipientNo = $("[name='txtRecipientNo']").val();
+            var amount = $("[name='txtAmount']").val();
+            var pin = $("[name='txtPin']").val();
+            var note = $("[name='txtNote']").val();
+            var src = $("[name='txtSrc']").val();
+
+            //if (recipientNo.length != 10) {
+            //    $("[name='txtRecipientNo']").focus();
+            //    alertify.error('Mobile number must be of 10 digits');
+            //    return;
+            //}
+
+            //if (recipientNo.substring(0,2)!="98") {
+            //    $("[name='txtRecipientNo']").focus();
+            //    alertify.error('Mobile number must start with 98');
+            //    return;
+            //}
+            //if (amount.trim() == "")
+            //{
+            //    $("[name='txtAmount']").focus();
+            //    alertify.error('Amount cannot be empty');
+            //    return;
+            //}
+            //if (amount.trim() == "0") {
+            //    $("[name='txtAmount']").focus();
+            //    alertify.error('Amount cannot be 0');
+            //    return;
+            //}
+            //if (pin.trim() == "") {
+            //    $("[name='txtPin']").val()
+            //    alertify.error('Pin cannot be empty');
+            //    return;
+            //}
+            //if (note.trim() == "") {
+            //    $("[name='txtNote']").val()
+            //    alertify.error('Pin cannot be empty');
+            //    return;
+            //}
+            if ((recipientNo != "") && (recipientNo.length == 10) && (amount != "") && (amount != 0) && (pin != "") && (pin.length == 4) && (note != "")) {
+
+                var dataToPost = {
+                    tid: tid,
+                    sc: servicecode,
+                    mobile: umobile,
+                    da: recipientNo,
+                    amount: amount,
+                    pin: pin,
+                    note: note,
+                    sourcechannel: src
+                };
+
+                e.preventDefault(); //prevent the default action
+                $.ajax({
+                    url: '@Url.Action("FundTransferTran", "FundTransfer")',
+                    type: "POST",
+                    data: dataToPost,
+                    async: false,
+                    success: function (data) {
+                        //alert('success');
+                        //alert(data.responseCode);
+                        //alert(data.responseText);
+                        if (data.responseCode == "200") {
+                            $("#ajaxResponse").html("");
+                            var resp = JSON.parse(data.responseText);
+                            $('#successModal').modal("show");
+                            //swal(
+                            //    'Success', resp.message + 'Available Balance:' + resp.availableBalance, 'success'
+                            //)
+
+                            //var AppendText = "<div class='alert alert-success'><h4>Success &nbsp;</h4>";
+                            //AppendText = AppendText + resp.message;
+                            //AppendText = AppendText + "<br/> Available Balance:" + resp.availableBalance;
+                            //AppendText = AppendText + "<br/></div>";
+                           // $("#ajaxResponse").append(AppendText);
+                            $("#recipient").val("");
+                            $("#amount").val("");
+                            $("#pin").val("");
+                            $("#note").val("");
+                            $("#check").hide();
+                            $("#ajaxResponse").show();
+                            //$('#btnNew').show();
+                            //$('#btnSubmit').hide();
+                            //$('#clearButton').hide();
+
+                        }
+                        //display error message
+                        else {
+                            $("#ajaxResponse").html("");
+                            $("#message").html("");
+                            $("#message").append(data.responseText);
+                            $('#failureModal').modal("show");
+                            //$("#ajaxResponse").append("<div class='alert alert-danger'><h4>Error </h4> "
+                            //    + data.responseText + "<br/></div>");
+                            //$("#ajaxResponse").show();
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Failed to retrieve.');
+                        $("#message").html("");
+                        $("#message").append(jqXHR.responseText);
+                        $('#failureModal').modal("show");
+                        //$("#ajaxResponse").html("");
+                        //$("#ajaxResponse").append(jqXHR.responseText);
+                        //$("#ajaxResponse").show();
+                    },
+                    //capture the request before it was sent to server
+                    beforeSend: function (jqXHR, settings) {
+                        //adding some Dummy data to the request
+                        settings.data += "&dummyData=whatever";
+                        //disable the button until we get the response
+                        $('#btnSubmit').attr("disabled", true);
+                    },
+                    complete: function (jqXHR, textStatus) {
+                        //enable the button
+                        $('#btnSubmit').attr("disabled", false);
+                    }
+                });
+
+            }
+            else {
+                checkValidation();
+                $("#message").html("");
+                $("#message").append("Please Enter the required fields.");
+                $('#failureModal').modal("show");
+                //$("#ajaxResponse").html("");
+                //$("#ajaxResponse").append("<div class='alert alert-danger'><h4>Error</h4>"
+                //    + "Please Enter the required Field" + "<br/></div>");
+                //$("#ajaxResponse").show();
+            }
+        });
+
+        });
+
+
+
+
+        //$('#frmFundTransfer').bootstrapValidator({
+        //    feedbackIcons: {
+        //        valid: 'glyphicon glyphicon-ok',
+        //        invalid: 'glyphicon glyphicon-remove',
+        //        validating: 'glyphicon glyphicon-refresh'
+        //    },
+        //    fields: {
+        //        txtRecipientNo: {
+        //            validators: {
+        //                phone: {
+        //                    country: 'Nepal',
+        //                    message: 'The phone number is not valid'
+        //                }
+        //            }
+        //        },
+        //        txtAmount: {
+        //            validators: {
+        //                integer: {
+        //                    message: 'The value is not an integer'
+        //                },
+        //                notEmpty: {
+        //                    message: 'The Amount is required and cannot be empty'
+        //                },
+        //                stringLength: {
+        //                    max: 4,
+        //                    min: 2,
+        //                    message: 'The Amount must be more than 2 and less than 4 characters long'
+        //                }
+        //            }
+        //        },
+        //        txtPin: {
+        //            validators: {
+        //                integer: {
+        //                    message: 'The value is not an integer'
+        //                },
+        //                notEmpty: {
+        //                    message: 'The pin is required and cannot be empty'
+        //                },
+        //                stringLength: {
+        //                    max: 4,
+        //                    min: 4,
+        //                    message: 'The pin must be 4 digit numeric password'
+        //                }
+        //            }
+        //        }
+        //    }
+        //});
+
+    </script>
+}

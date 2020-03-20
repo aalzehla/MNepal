@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Payee MerchantDetails";
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Payee
+        <small>Merchant Details</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Payee</a></li>
+        <li class="active"> Merchant Details</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+
+        <div class="col-xs-10">
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Merchant Details</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @if (ViewData["MerchantDetail"] == null)
+                    {
+                        <div class="panel-body"> <b>No Result Found !! </b> </div>
+                    }
+                    else if (ViewData["MerchantDetail"] != null)
+                    {
+                        <table id="t01" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (System.Data.DataRow dr in (ViewData["ViewMerchantDetails"] as System.Data.DataTable).Rows)
+                                {
+                                    <tr>
+                                        <td> @dr["Name"] </td>
+                                    </tr>
+                                } <!-- for each end-->
+                            </tbody>
+                        </table>
+                    }
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+
+        <!-- End-->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->

@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "T-Pin/Password Reset";
+}
+
+@model MNepalWeb.Models.UserInfo
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Customer
+        <small>T-Pin/Password Reset</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Customer</a></li>
+        <li class="active">T-Pin Reset</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-10">
+
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Pin Reset</h3>
+                </div>
+                <!-- /.box-header -->
+
+                @using (Html.BeginForm("PinReset", "Customer", FormMethod.Post, new { @id = "PinResetForm", @class = "formPinReset" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    if (this.ViewData["pinreset_messsage"] != null)
+                    {
+                        if (this.ViewData["message_class"].ToString() == "success_info")
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Success</h4> @this.ViewData["pinreset_messsage"]
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Error</h4> @this.ViewData["pinreset_messsage"]
+                            </div>
+                        }
+                    }
+                    <div class="box-body">
+
+                         <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label>Name</label>
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>Address</label>
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label>User Type</label>
+                                @Html.EditorFor(model => model.UserType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>Status</label>
+                                @Html.DropDownListFor(model => model.Status, new SelectList(new[] {
+                    new { Value = "Active", Text = "Active"},
+                    new { Value="InActive",Text="InActive" } },
+                    "Value", "Text"), "--Select --", new { required = "required", @class = "form-control", @disabled = "disabled" })
+                            </div>
+                        </div>
+
+                        <div class="row" style="display:none;">
+                            <div class="col-md-8 form-group">
+                                <label>Old Pin</label>
+                                @Html.EditorFor(model => model.PIN, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 form-group" style="display:none">
+                                <label>ClientCode</label>
+                                @Html.EditorFor(model => model.ClientCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>Mobile Number</label>
+                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+                        @*<div class="row">
+                            <div class="col-md-8 form-group">
+                                <label>New Pin</label>
+                                <input type="number" class="form-control" id="newPin" name="txtNewPin" placeholder="New Pin Number" pattern=".{4,4}" required title="Please use T-Pin">
+                            </div>
+                        </div>*@
+
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="container">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="type" value="Pin" checked>
+                                  Reset Pin
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="type" value="Pass">
+                                Reset Password
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="type" value="Both">
+                                 Reset Both
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" name="btnCommand" value="Reset">
+                           
+                        </div>
+                    </div>
+                }
+            </div>
+            <!--/.box -box-success-->
+
+        </div>
+        <!-- /.col-xs--->
+        <!-- End-->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->

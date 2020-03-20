@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "ChangePin";
+}
+@section PageTitle
+    {
+
+    <ol class="breadcrumb">
+        <li class="active">
+            <a href="@Url.Action("Board","DashBoard")">
+                <i class="clip-home"></i>
+                <span class="selected">Home</span>
+            </a>
+            <strong>/Change Pin</strong>
+        </li>
+    </ol>
+
+}
+<form name="myForm" class="">
+    <!-----------------Change Controller Name--------------------------->
+    <div class="form-group" ng-controller="CashIn">
+
+        <div class="row">
+            <label id="divrow" class="col-sm-2 control-label">
+                Existing PIN
+            </label>
+            <div id="divrow" class="col-sm-2">
+                <input type="number" placeholder="Existing PIN" name="ePIN" ng-model="ePIN" class="form-control input-sm" required>
+                <label class="error" ng-show="myForm.ePIN.$error.number">
+                    <i class="clip-warning"></i>... plz type your existing pin number.
+                </label>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <label class="col-sm-2 control-label" id="divrow">
+                New PIN
+            </label>
+            <div class="col-sm-2" id="divrow">
+                <input type="number" name="nPIN" placeholder="New PIN" ng-model="nPIN" class="form-control input-sm" required>
+                <span class="error" ng-show="myForm.nPIN.$error.number">
+                    <i class="clip-warning"></i>... plz type your new pin number
+                </span>
+            </div>
+        </div>
+
+        <div class="row">
+            <label id="divrow" class="col-sm-2 control-label">
+                Renter new Pin
+            </label>
+            <div id="divrow" class="col-sm-5">
+                <input type="text" placeholder="Renter New PIN No" ng-model="rPIN" name="rPIN" class="form-control input-sm" required>
+                <span class="error" ng-show="myForm.rPIN.$error.number">
+                    <i class="clip-warning"></i>... plz retype your new pin number
+                </span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="divrow" class="col-sm-2 col-sm-offset-2">
+                <button class="btn btn-green next-step btn-block" ng-click="cashIn()" ng-disabled="!myForm.ePIN.$valid ||!myForm.nPIN.$valid||
+                                                                                    !myForm.rPIN.$valid">
+                    Send <i class="icon-circle-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

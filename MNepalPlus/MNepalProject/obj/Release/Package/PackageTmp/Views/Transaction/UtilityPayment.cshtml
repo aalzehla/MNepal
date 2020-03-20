@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "UtilityPayment";
+}
+@section PageTitle
+    {
+    <ol class="breadcrumb">
+    <li class="active">
+        <strong>Transaction/UtilityPayment</strong>
+    </li>
+</ol>
+
+}
+
+<form name="myForm" class="">
+
+    <div class="form-group" data-ng-controller="UtilitiyPayment">
+        <div class="row">
+            <label class="col-sm-2 control-label">
+                Category
+            </label>
+            <div class="col-sm-2">
+                <select data-ng-model="_cat" class="btn btn-default dropdown-toggle" data-ng-options="item as item.catname for item in category" data-ng-change="getMerchantsByCatID(_cat)">
+                </select>           
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="col-sm-2 control-label" id="divrow">
+                Merchant
+            </label>
+            <div class="col-sm-2" id="divrow">
+                <select class="btn btn-default dropdown-toggle" data-ng-model="_merch" data-ng-options="item as item.mname for item in merchant" data-ng-change="onChangeMerchantDropDown(_merch)"></select>
+            </div>
+        </div>
+
+        <div class="row">
+            <label id="divrow" class="col-sm-2 control-label">
+                Amount
+            </label>
+            <div id="divrow" class="col-sm-2">
+                <input type="number" placeholder="Amount" name="amount" data-ng-model="amount" ng-true-value="ok" ng-disabled="ok"  class="form-control input-sm" required>
+                <label class="error" ng-show="myForm.amount.$error.number">
+                    <i class="clip-warning"></i>... plz put amount.
+                </label>
+            </div>
+            <div id="divrow" data-ng-if="denomination!=''">
+                <select class="btn btn-default dropdown-toggle" data-ng-model="_deno" ng-change="denomin(_deno)" data-ng-options="item as item for item in denomination"></select>
+            </div>            
+        </div>
+
+
+        <div class="row">
+            <label class="col-sm-2 control-label" id="divrow">
+                UtitlityID
+            </label>
+            <div class="col-sm-2" id="divrow">
+                <input type="number" name="uID" placeholder="uID" ng-model="quantity" class="form-control input-sm" required>
+                <span class="error" ng-show="myForm.uID.$error.number">
+                    <i class="clip-warning"></i>... uID is missing
+                </span>
+            </div>
+        </div>
+
+        <div class="row">
+            <label id="divrow" class="col-sm-2 control-label">
+                Select Pin Entry Method
+            </label>
+            <div id="divrow" class="col-sm-5">
+                <input type="checkbox" ng-model="chkPin" name="pinmethod" ng-click="pinMethod()" value="ivr" id="ivr">
+            </div>
+        </div>
+
+        <div class="row" id="pin">
+            <label id="divrow" class="col-sm-2 control-label">
+                PIN
+            </label>
+            <div id="divrow" class="col-sm-5">
+                <input type="number" placeholder="PIN" data-ng-model="pin" ng-disabled="chkPin" class="form-control input-sm">
+            </div>
+        </div>
+
+        <div class="row">
+            <label id="divrow" class="col-sm-2 control-label">
+                Remark
+            </label>
+            <div id="divrow" class="col-sm-5">
+                <input type="text" placeholder="Remark" ng-model="remark" name="remark" class="form-control input-sm" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="divrow" class="col-sm-2 col-sm-offset-2">
+                <button class="btn btn-blue next-step btn-block" ng-click="payment()" ng-disabled="!myForm.uID.$valid||!myForm.amount.$valid">
+                    Pay <i class="icon-circle-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+

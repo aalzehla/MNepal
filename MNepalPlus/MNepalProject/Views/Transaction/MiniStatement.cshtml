@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "MiniStatement";
+}
+@section PageTitle
+    {
+
+    <ol class="breadcrumb">
+        <li class="active">
+            <a href="@Url.Action("Board","DashBoard")">
+                <i class="clip-home"></i>
+                <span class="selected">Home</span>
+            </a>
+            <strong>/Mini Statement</strong>
+        </li>
+    </ol>
+
+}
+<form name="myForm" class="">
+    <div class="form-group" ng-controller="MiniStatement">
+        <div class="row">
+            <label class="col-sm-2 control-label">
+                User-Type
+            </label>
+            <div class="col-sm-2">
+                <select data-ng-model="uType" class="btn btn-default dropdown-toggle">
+                    <option value="21">Wallet User</option>
+                    <option value="23">Bank User</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <label id="divrow" class="col-sm-2 control-label">
+                Enter your Pin No.
+            </label>
+            <div id="divrow" class="col-sm-2">
+                <input type="number" name="pin" placeholder="Pin no" data-ng-model="PIN" class="form-control input-sm" required>
+                <span class="error" ng-show="myForm.pin.$error.number">
+                    <i class="clip-warning"></i>... enter pin no.
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div id="divrow" class="col-sm-6">
+                <button class="btn btn-green next-step btn-block " ng-click="mStatement()" data-ng-disabled="!myForm.pin.$valid">
+                    Send <i class="icon-circle-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div id="divrow" class="col-sm-12">
+                <div class="alert alert-success" data-ng-if="error=='false'" data-ng-hide="status" data-ng-model="msg">
+                    <span>{{msg}}</span>
+                </div>
+                <div class="alert alert-danger" data-ng-if="error=='true'" data-ng-hide="status" data-ng-model="msg">
+                    <span>{{msg}}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>

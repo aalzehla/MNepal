@@ -1,0 +1,391 @@
+﻿
+@{
+    ViewBag.Title = "Statement";
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+       Report
+        <small>Statement</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Report</a></li>
+        <li class="active"> Statement</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <div class="col-md-10">
+
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Statement</h3>
+                </div>
+                <!-- /.box-header -->
+                <form method="post" id="StatementForm" class="">
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    @*if (this.ViewData["search_messsage"] != null)
+            {
+                if (this.ViewData["message_class"].ToString() == "success_info")
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Success</h4> @this.ViewData["search_messsage"]
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Error</h4> @this.ViewData["search_messsage"]
+                    </div>
+                }
+            }*@
+
+
+                    @if (this.ViewData["statement_messsage"] != null)
+                    {
+                    if (this.ViewData["message_class"].ToString() == "success_info")
+                    {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Success</h4> @this.ViewData["search_messsage"]
+                    </div>
+                    }
+                    else
+                    {
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Error</h4> @this.ViewData["search_messsage"]
+                    </div>
+                    }
+                    }
+
+
+
+                    <div class="box-body">
+                        <!-- /.form-group -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Mobile Number  <b style="color:red;">*</b> </label>
+                                    <input type="text" class="form-control" id="mobileno" name="mobileno" maxlength="10" onkeypress="return isNumber(event)"  value="@ViewBag.UserName" readonly  />
+                                    <label id="check"> </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        @*<div class="form-group" style="display:none;">
+                    <label>BranchCode </label>
+                    <input type="text" class="form-control" id="BranchCode" name="txtBranchCode" value="@ViewBag.BranchCode" />
+                </div>*@
+
+                        @*<div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Source Account </label>
+                        <select class="form-control select2" id="sourceAccount" name="txtSourceAccount" style="width: 100%;">
+                            <option value="Wallet">Wallet</option>
+                            <option value="Bank">Bank</option>
+                        </select>
+                    </div>
+                </div>*@
+
+                        @*<div class="col-md-6">
+                        <div class="form-group">
+                            <label>Source Account Number </label>
+                            <input type="text" class="form-control" id="ACNo" name="txtAccountNo" value="@ViewBag.AccountNumber" readonly />
+                        </div>
+                    </div>
+                </div>*@
+
+                        @*<div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Start Date </label>
+                        <div class="input-group input-append date" id="datePicker">
+                            <input type="text" class="form-control" id='txtStartDate' name="txtStartDate" />
+                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>End Date </label>
+                        <div class="input-group input-append date" id="datePickerEnd">
+                            <input type='text' class="form-control" id='txtEndDate' name="txtEndDate" required />
+                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>*@
+                        <!-- /.form-group -->
+                        @*</div>
+                </div>*@
+                        <!-- /. -->
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        @*<button type="submit" class="btn btn-default">Cancel</button>*@
+                        <input type="submit" class="btn btn-info pull-right" id="btnSearch" name="txtSearch" value="Search">
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+
+            <div id="data"></div>
+
+            <!-- Start Data Show in Table -->
+            @*<div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Statement</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        @if (ViewData["dtableStatement"] == null)
+                        {
+                            <div class="panel-body"> <b>No Result Found !! </b> </div>
+                        }
+                        else if (ViewData["dtableStatement"] != null)
+                        {
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>TranDate</th>
+                                        <th>Debit</th>
+                                        <th>Credit</th>
+                                        <th>Desc1</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (System.Data.DataRow dr in (ViewData["dtableStatement"] as System.Data.DataTable).Rows)
+                                    {
+                                        <tr>
+                                            <td> @dr["TranDate"] </td>
+                                            <td> @dr["Debit"] </td>
+                                            <td> @dr["Credit"] </td>
+                                            <td> @dr["Desc1"] </td>
+                                            <td> @dr["Balance"] </td>
+                                        </tr>
+                                    } <!-- for each end-->
+                                </tbody>
+                            </table>
+                        }
+
+                    </div>
+                </div>*@
+            <!-- End Data Show in Table -->
+
+        </div>
+
+        <div class="col-md-2"> &nbsp; </div>
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+<!--  jQuery -->
+
+@section scripts{
+
+    
+  
+     <!-- Bootstrap Date-Picker Plugin -->
+
+    @*<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />*@
+
+    @*<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>*@
+
+   <!-- Load jQuery and the validate plugin -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+ <!--jQuery Form Validation code -->
+ <script>
+
+
+        @*var sourceAccount = $('#sourceAccount option:selected').val();
+
+        $(document).ready(function () {
+
+            $('#datePicker')
+                .datepicker({
+                    autoclose: true,
+                    format: 'dd/mm/yyyy'
+                });
+
+            $('#datePickerEnd')
+                .datepicker({
+                    autoclose: true,
+                    format: 'dd/mm/yyyy'
+                });
+
+            $("#sourceAccount").change(function () {
+                var id = $("#sourceAccount").val();
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetAcNo", "Statement")',
+                    data: { "txtSourceAccount": id },
+                    success: function (data, textStatus) {
+                        $("#ACNo").html("");
+                        var markup = data;
+                        $("#ACNo").val(data);
+                    },
+                    error: function () {
+                        alert("Data Not Found");
+                    }
+                });
+            });*@
+
+
+       function isNumber(evt) {
+           evt = (evt) ? evt : window.event;
+           var charCode = (evt.which) ? evt.which : evt.keyCode;
+           if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+               return false;
+           }
+           return true;
+       }
+
+
+
+
+
+
+
+           //$('#StatementForm').bootstrapValidator({
+           //    feedbackIcons: {
+           //        valid: 'glyphicon glyphicon-ok',
+           //        invalid: 'glyphicon glyphicon-remove',
+           //        validating: 'glyphicon glyphicon-refresh'
+           //    },
+           //    fields: {
+           //        txtStartDate: {
+           //            validators: {
+           //                notEmpty: {
+           //                    message: 'The date is required'
+           //                },
+           //                date: {
+           //                    format: 'YYYY/MM/DD',
+           //                    min: '2010/01/01',
+           //                    max: '2020/12/30',
+           //                    message: 'The date is not a valid'
+           //                }
+           //            }
+           //        },
+           //        txtEndDate: {
+           //            validators: {
+           //                notEmpty: {
+           //                    message: 'The date is required'
+           //                },
+           //                date: {
+           //                    format: 'YYYY/MM/DD',
+           //                    min: '2010/01/01',
+           //                    max: '2020/12/30',
+           //                    message: 'The date is not a valid'
+           //                }
+           //            }
+           //        }
+           //    }
+           //});
+
+           $('#btnSearch').click(function (e) {
+
+               //var SourceAccount = $('#sourceAccount').val();
+               //var ACNo = $('#ACNo').val();
+               //var startDate = $('#txtStartDate').val();
+               //var endDate = $('#txtEndDate').val();
+               //var branchCode = $('#BranchCode').val();
+               var mobileno = $('#mobileno').val();
+               e.preventDefault();
+               //if (mobileno.trim() == "")
+               //{
+               //    $('#mobileno').focus();
+               //    return;
+               //}
+               debugger;
+               $.ajax({
+                   url: '@Url.Action("MiniStatement", "Statement")',
+                   type: 'GET',
+                   //datatype: 'jsonp',
+                   //crossDomain: true,
+                   //data: { 'mobileno': mobileno },
+                   //async: false,
+
+                   //data: {
+                   //    mobile:'9803200158'
+                   //txtBranchCode: branchCode,
+                   //txtSourceAccount: SourceAccount,
+                   //txtAccountNo: ACNo,
+                   //txtStartDate: startDate,
+                   //txtEndDate: endDate
+                   //},
+                   success: function (results) {
+                       //alert("Success");
+                       $('#data').html(results);
+                       //   $("#CustomerStatement").show();
+                   },
+                   error: function () {
+                       alert('No records Found!!');
+                   }
+               });
+
+           });
+
+           /**Validation Check */
+
+       $(document).ready(function () {
+
+           $('#StatementForm').bootstrapValidator({
+               feedbackIcons: {
+                   valid: 'glyphicon glyphicon-ok',
+                   invalid: 'glyphicon glyphicon-remove',
+                   validating: 'glyphicon glyphicon-refresh'
+               },
+               fields: {
+                   mobileno: {
+                       validators: {
+                           //phone: {
+                           //    country: 'Nepal',
+                           //    message: 'The phone number is not valid'
+                           //},
+                           notEmpty: {
+                               message: 'The mobile number is required and cannot be empty'
+                           },
+                           regexp: {
+                               regexp: /^[9][8][0-9]{8}$/,
+                               message: 'Input value is not a valid mobile format'
+                           },
+                          
+                              
+                       }
+                   }
+               }
+             
+           });
+
+
+
+
+
+
+
+       });
+
+</script>
+}

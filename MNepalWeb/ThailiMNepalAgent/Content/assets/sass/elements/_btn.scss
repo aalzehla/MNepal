@@ -1,0 +1,77 @@
+.btn {
+    border-radius: 5px;
+    font-size: 15px;
+    transition: $global-transition;
+    padding: 9px 25px;
+
+    &:hover, &:focus {
+        transition: $global-transition;
+        box-shadow: none;
+    }
+
+    &:active, &:visited {
+        transform: none;
+    }
+
+    i {
+        margin-right: 5px;
+    }
+
+    /** Btn blue **/
+    &.btn-blue {
+        background-color: $color-lite-blue;
+        color: $color-white;
+
+        &:hover, &:focus {
+            background-color: darken($color-lite-blue, 10%);
+        }
+    }
+
+    /** Btn blue **/
+    &.btn-orange {
+        background-color: $color-orange;
+        color: $color-white;
+
+        &:hover, &:focus {
+            background-color: darken($color-orange, 10%);
+        }
+    }
+
+    /** Btn red **/
+    &.btn-red {
+        background-color: $color-red;
+        color: $color-white;
+
+        &:hover, &:focus {
+            background-color: darken($color-red, 10%);
+        }
+    }
+
+    &.btn-grey {
+        background-color: $color-grey-bg;
+        color: $color-black;
+
+        &:hover, &:focus {
+            background-color: darken($color-grey-bg, 10%);
+        }
+    }
+
+    /** Btn Default **/
+    &.btn-default {
+        background-color: $color-white;
+        border: 1px solid $color-search-text;
+        color: $color-search-text;
+
+        &:hover, &:focus {
+            background-color: $color-search-text;
+            color: $color-white;
+        }
+    }
+
+    /** Btn big **/
+    &.btn-big {
+        font-size: 1rem;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}

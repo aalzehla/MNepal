@@ -1,0 +1,272 @@
+﻿@using MNepalWeb.Models;
+
+@{
+    //var viewDataProduct = ViewData["FeaturedUserInfo"] as UserInfo;
+    var tempDataProduct = TempData["FeaturedUserInfo"] as UserInfo;
+    ViewBag.Title = "Dashboard";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Dashboard
+        <small>Version 1.0.0</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+
+    <!-- Start Form -->
+
+    <!-- Main row -->
+    <div class="row">
+        <!-- Left col -->
+        <div class="col-md-8">
+            <!-- MAP & BOX PANE -->
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">About MNepalPay</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                    <div class="row">
+                        <div class="col-md-9 col-sm-8">
+                            <div class="pad">
+
+                                <p>Internet/SMS based application available </p>
+
+                                <p> Features: </p>
+                                <ul>
+                                    <li>Fast transaction and instant reply.</li>
+                                    <li>No dependency in the network (SMS).</li>
+                                    <li>
+                                        Seamless integration of SMS and GPRS. </p>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-4">
+                            <div class="pad box-pane-right bg-green" style="min-height: 280px">
+                                <div class="description-block margin-bottom">
+                                    <div class="sparkbar pad" data-color="#fff"></div>
+                                    <h5 class="description-header"></h5>
+                                    <span class="description-text"></span>
+                                </div>
+                                <!-- /.description-block -->
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+        <!-- Left col -->
+        <!-- Right col-->
+
+        <div class="col-md-4">
+            <!-- Info Boxes Style 2 -->
+            <div class="info-box bg-blue-active">
+                <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Wallet Available Balance</span>
+                    <span class="info-box-number">Rs. &nbsp; @ViewBag.AvailBalnAmount</span>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 50%"></div>
+                    </div>
+                    <span class="progress-description">
+
+                    </span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+            <!-- PRODUCT LIST -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Services </h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <ul class="products-list product-list-in-box">
+                        <li class="item">
+                            @*<div class="product-img">
+                                <img src="~/Images/ntc.png" alt="Product Image"> <!-- "dist/img/default-50x50.gif"-->
+                            </div>*@
+                            <div class="product-info">
+                                <a href="javascript:void(0)" class="product-title">
+                                    ADSL Payment
+                                    <span class="label label-warning pull-right"></span>
+                                </a>
+                                <span class="product-description">
+                                    ADSL
+                                </span>
+                            </div>
+                        </li>
+                        <!-- /.item -->
+                        <li class="item">
+                            @*<div class="product-img">
+                                <img src="~/Images/ntc.png" alt="Product Image">
+                            </div>*@
+                            <div class="product-info">
+                                <a href="javascript:void(0)" class="product-title">
+                                    LandLine Bill Payment
+                                    <span class="label label-info pull-right"></span>
+                                </a>
+                                <span class="product-description">
+                                    Landline
+                                </span>
+                            </div>
+                        </li>
+                        <!-- /.item -->
+                        <li class="item">
+                            @*<div class="product-img">
+                                <img src="~/Images/ntc.png" alt="Product Image">
+                            </div>*@
+                            <div class="product-info">
+                                <a href="javascript:void(0)" class="product-title">
+                                    PrePaid Topup <span class="label label-danger pull-right"></span>
+                                </a>
+                                <span class="product-description">
+                                    PrePaid Topup
+                                </span>
+                            </div>
+                        </li>
+                        <!-- /.item -->
+                        <li class="item">
+                            @*<div class="product-img">
+                                <img src="~/Images/ntc.png" alt="Product Image">
+                            </div>*@
+                            <div class="product-info">
+                                <a href="javascript:void(0)" class="product-title">
+                                    PostPaid Topup
+                                    <span class="label label-success pull-right"></span> <!-- $399-->
+                                </a>
+                                <span class="product-description">
+                                    Postpaid Topup
+                                </span>
+                            </div>
+                        </li>
+                        <!-- /.item -->
+                        <li class="item">
+                            @*<div class="product-img">
+                                <img src="~/Images/ntc_cdma.png" alt="Product Image">
+                            </div>*@
+                            <div class="product-info">
+                                <a href="javascript:void(0)" class="product-title">
+                                    Recharge Cards
+                                    <span class="label label-success pull-right"></span>
+                                </a>
+                                <span class="product-description">
+                                    Recharge Cards
+                                </span>
+                            </div>
+                        </li>
+                        <!-- /.item -->
+                        <li class="item">
+                            @*<div class="product-img">
+                                <img src="~/Images/school.png" alt="Product Image">
+                            </div>*@
+                            <div class="product-info">
+                                <a href="javascript:void(0)" class="product-title">
+                                    Schools & College Fee Payment
+                                    <span class="label label-success pull-right"></span>
+                                </a>
+                                <span class="product-description">
+                                    Schools & College Fee Payment
+                                </span>
+                            </div>
+                        </li>
+                        <!-- /.item -->
+                        <li class="item">
+                            @*<div class="product-img">
+                                <img src="~/Images/resturant.png" alt="Product Image">
+                            </div>*@
+                            <div class="product-info">
+                                <a href="javascript:void(0)" class="product-title">
+                                    Restaurant Bill Payment
+                                    <span class="label label-success pull-right"></span>
+                                </a>
+                                <span class="product-description">
+                                    Restaurant Payment
+                                </span>
+                            </div>
+                        </li>
+                        <!-- /.item -->
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+                @*<div class="box-footer text-center">
+                        <a href="javascript:void(0)" class="uppercase">View All Services</a>
+                    </div>*@
+                <!-- /.box-footer -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+
+        <!-- Right Col-->
+    </div>
+
+
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Left col -->
+        <div class="col-md-4">
+
+        </div>
+
+        <!-- Right Col-->
+        @*<div class="col-md-4">
+
+            </div>*@
+
+    </div>
+    <!-- /.row -->
+
+    <!-- End Form -->
+
+    @*<div class="row">
+
+        @if (ViewBag.UserType == "admin")
+        {
+            <h1>admin</h1>
+        }
+        else if (ViewBag.UserType == "agent")
+        {
+            <h1>agent</h1>
+        }
+        else if (ViewBag.UserType == "user")
+        {
+            <h1>User</h1>
+        }
+
+    </div>*@
+    <!-- /.row -->
+</section>
+<!-- /.content -->

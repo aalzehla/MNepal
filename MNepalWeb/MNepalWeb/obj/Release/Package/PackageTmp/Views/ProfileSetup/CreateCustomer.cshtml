@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewBag.Title = "CreateCustomer";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Create Customer Profile
+        <small> Create</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">CreateCustomer</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Center column -->
+        <div class="col-md-12">
+
+            <!-- Horizontal Form -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Create Profile for Customer</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+
+                <div class="box-body">
+                    <!-- radio -->
+                    <div class="form-group">
+                        <div class="radio col-md-12">
+                            <div class="col-md-4">
+                                <label>
+                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="Mobile Number" />
+                                    <b>Mobile Number</b>
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                &nbsp;&nbsp;&nbsp;
+                                <label>
+                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="Name" />
+                                    <b>Name</b>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <hr />
+                    </div>
+
+                    <div id="MobileNo" class="col-md-4 form-group">
+                        <label>Mobile Number</label>
+                        <input type="text" class="form-control" id="txtMobileNoID" name="txtMobileNo" placeholder="Mobile Number">
+                    </div>
+
+                    <div id="Name" class="col-md-4 form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" id="txtNameID" name="txtName" placeholder="Name">
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <br />
+                        <input type="submit" class="btn btn-primary" id="btnSearch" name="txtSearch" value="Search">
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    &nbsp;
+                </div>
+                <!-- /.box-footer -->
+
+            </div>
+            <!-- /.box -->
+            <!-- Start Data Show in Table -->
+            <!-- End Data Show in Table -->
+            <div class="box box-primary" id="DataDetail">
+
+                @Html.Action("CustomerDetail")
+
+            </div>
+
+        </div>
+        <!-- /.col-md-12-->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+@section scripts{
+
+    <script>
+
+        $("#MobileNo").hide();
+        $("#Name").hide();
+        //$("#AccountNo").hide();
+        $("#DataDetail").hide();
+
+        $("input[type='radio']").change(function () {
+
+            if ($(this).val() == "Mobile Number") {
+                $("#MobileNo").show();
+                $("#Name").hide();
+            }
+            else if ($(this).val() == "Name") {
+                $("#Name").show();
+                $("#MobileNo").hide();
+                $("#AccountNo").hide();
+            }
+            //else if ($(this).val() == "Account Number") {
+            //    $("#AccountNo").show();
+            //    $("#MobileNo").hide();
+            //    $("#Name").hide();
+            //}
+            //else if ($(this).val() == "Name/Account") {
+            //    $("#Name").show();
+            //    $("#AccountNo").show();
+            //    $("#MobileNo").hide();
+            //}
+            else {
+                $("#MobileNo").hide();
+                $("#Name").hide();
+            }
+
+        });
+
+        $('#btnSearch').click(function (e) {
+
+            var mobileNo = $('#txtMobileNoID').val();
+            var name = $('#txtNameID').val();
+            var accountNo = $('#txtAccountNoID').val();
+
+            var SearchCol;
+
+            var radios = document.getElementsByName('optionsRadios');
+            for (var j = 0; j < radios.length; j++) {
+                if (radios[j].checked) {
+                    debugger;
+                    SearchCol = radios[j].value;
+                    break;
+                }
+            }
+
+            e.preventDefault();
+
+            $.ajax({
+                url: '@Url.Action("CustomerDetail", "ProfileSetup")',
+                type: 'GET',
+                data: {
+                    SearchCol: SearchCol,
+                    txtMobileNo: mobileNo,
+                    txtName: name//,
+                    //txtAccountNo: accountNo
+                },
+                success: function (results) {
+                    //debugger;
+                    $('#DataDetail').html(results);
+                    $("#DataDetail").show();
+                },
+                error: function () {
+                    //debugger;
+                    alert('Error Occured!!');
+                }
+            });
+
+        });
+
+    </script>
+}
+

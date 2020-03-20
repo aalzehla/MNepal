@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="MNepalWCF.selfReg" CodeBehind="selfReg.svc.cs" %>

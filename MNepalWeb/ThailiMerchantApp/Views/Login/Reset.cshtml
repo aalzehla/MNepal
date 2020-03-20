@@ -1,0 +1,810 @@
+﻿@model ThailiMerchantApp.ViewModel.ResetVM
+@{
+    ViewBag.Title = "Reset";
+    Layout = null;
+
+    string _WebUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["WebAddress"];
+    var loginLink = Path.Combine(_WebUrl + "Login/Index");
+    var backgroundLink = Path.Combine(_WebUrl + "Content/assets/img/home-bg.png");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MNepal | Mobile Banking</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    @*///start milayako*@
+    <!-- /Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Chivo:300,400,700" rel="stylesheet">
+    <!-- Custom style -->
+    <link href="~/Content/ThaliStyle.css" rel="stylesheet" />
+    <link rel="icon" type="image/ico" href="~/favicon.ico">
+    @*//end milayako*@
+
+    <!-- jQuery Validation -->
+    @*<script type="text/javascript" src="~/Content/assets/vendor/jquery-validation/jquery.validate.min.js"></script>*@
+    <!-- custom js -->
+    @*<script type="text/javascript" src="~/Content/assets/js/main.js"></script>*@
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">  
+
+
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            /*background-image: linear-gradient(#414688, #1f564c);
+            height: 100%;
+            margin: 0;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color:white;*/
+        }
+
+        legend {
+            color: white !important;
+        }
+
+        #box {
+            border: 1px solid rgb(200, 200, 200);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 2px;
+            background: rgba(200, 200, 200, 0.1);
+            border-radius: 4px;
+            top: 50px;
+            border-top: 3px solid;
+            border-top-color: #3c8dbc;
+        }
+
+        h2 {
+            margin-left: 168px;            
+            color: black;
+        }
+
+        h4{
+            margin-left:162px;
+        }
+
+        .lab{
+            margin-left: 160px;
+            
+        }
+
+        .lab1{
+            margin-left: 42px;
+        }
+
+        .pin1 {
+            margin-left: 60px;
+        }
+
+        .butn{
+            text-align: center;
+        }
+
+        .note {
+            margin-left: 500px;
+        }
+        .text-danger, .help-block {
+            color: #dd4b39 !important;
+        }
+
+        .box.box-primary {
+            border-top-color: #3c8dbc;
+        }
+
+        .field-icon {
+            float: right;
+            margin-left: -25px;
+            margin-top: -32px;
+            margin-right: 13px;
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+
+</head>
+<body>
+    <!-- Success modal -->
+    <div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="success-icon">
+                        <img src="~/Content/assets/img/success-tick.svg" alt="success-tick">
+                    </div>
+                    <p class="msg">Success!</p>
+                    <span class="msg">@this.ViewData["login_message"]</span>
+                    <br /> <br />
+                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Failure modal -->
+    <div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="success-icon">
+                        <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
+                    </div>
+                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">Error!</p>
+                    <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message">@this.ViewData["login_message"]</span>
+                    <br /> <br />
+                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main content -->
+    <div class="main-content">
+        <div class="hero-bg hero-bg-kyc" style="background-image: url('../../Content/assets/img/home-bg.png');">
+            <div class="container">
+                <a class="logo">
+                    <img src="~/Content/assets/img/thaili-logo.svg" alt="thaili-logo" />
+                </a>
+                <!-- /logo -->
+
+                @using (Html.BeginForm("Change", "Login", FormMethod.Post, new { @id = "ResetForm", @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.Mode)
+                    @Html.HiddenFor(x => x.ClientCode)
+                    @Html.HiddenFor(x => x.PhoneNumber)
+                    @Html.HiddenFor(x => x.Message)
+
+                    @Html.ValidationSummary(true)
+
+                    if (this.TempData["login_message"] != null)
+                    {
+                        if (this.TempData["message_class"].ToString() == "success_info")
+                        {
+                            <script>$('#successModal').modal("show");</script>
+                        }
+                        else
+                        {
+                            <script>$('#failureModal').modal("show");</script>
+                        }
+                    }
+
+                    <h4>@Model.Message</h4>
+
+                    if (Model.Mode == "FL")
+                    {
+                        <div class="box-body">
+                            <h2>Password</h2>
+                            
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your Old Password<b style="color:red">*</b></label>                                            
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 lab1">
+                                            <input type="password" class="form-control form-control pwd1" id="OldPassword" name="OldPassword" placeholder="Old Password" maxlength="12" @*onkeypress="checkValidation()"*@  onchange="checkValidation()" onpaste="return false" >
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                                            <div id="oldpswd" style="font-size:small; color:red;">
+                                                @Html.ValidationMessageFor(d => d.OldPassword, null, new { @class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!--line gap-->
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <br />
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your New Password<b style="color:red">*</b></label>
+                                           
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 lab1">
+                                            <input type="password" class="form-control form-control pwd2" id="newPwd" name="Password" placeholder="Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false" >
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow2"></span>
+                                            <div id="pswd" style="font-size:small; color:red;">
+                                                @Html.ValidationMessageFor(d => d.Password, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <br />
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your New Password<b style="color:red">*</b></label>                                            
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 lab1">                                           
+                                            <input type="password" class="form-control form-control pwd3" id="retypePassword" name="RetypePassword" placeholder="Retype Password" maxlength="12" onpaste="return false" >  
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow3"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p class="note" style="font-size:small"><b style="color:red">*</b>New Password must be 5-12 characters</p>
+
+                        </div>
+                        <br />
+                        <div class="box-body">
+                            <h2>Pin</h2>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your Old T-Pin<b style="color:red">*</b></label>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 pin1">
+                                            <input type="password" class="form-control form-control pwd1" id="OldPin" name="OldPin" placeholder="Old T-Pin" maxlength="4" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false" onkeypress="return isNumberKey(event)">
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                                            <div id="oldpin" style="font-size:small; color:red;">
+                                                @Html.ValidationMessageFor(d => d.OldPin, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <br />
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your New T-Pin<b style="color:red">*</b></label>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 pin1">
+                                            <input type="password" class="form-control form-control pwd2" id="newPin" name="Pin" placeholder="New T-Pin" maxlength="4" onpaste="return false" onkeypress="return isNumberKey(event)">
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow2"></span>                                            
+                                                @Html.ValidationMessageFor(d => d.Pin, null, new { @class = "text-danger" })                                      
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <br />
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your ReType T-Pin<b style="color:red">*</b></label>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 pin1">
+                                            <input type="password" class="form-control form-control pwd3" id="retypePin" name="RetypePin" placeholder="Retype T-Pin" maxlength="4" onpaste="return false" onkeypress="return isNumberKey(event)">  
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow3"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+
+                    }
+
+                    <!--Pin-->
+                    if (Model.Mode == "PN")
+                    {
+                        //Pin
+                        <div class="box-body" style="display:none;">
+                            <h2>Password</h2>
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your Old Password<b style="color:red">*</b></label>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 lab1">
+                                            <input type="password" class="form-control form-control pwd1" id="OldPassword" name="OldPassword" placeholder="Old Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false" >
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                                            <div id="oldpswd">
+                                                @Html.ValidationMessageFor(d => d.OldPassword, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!--line gap-->
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <br />
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your New Password<b style="color:red">*</b></label>
+
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 lab1">
+                                            <input type="password" class="form-control form-control pwd2" id="newPwd" name="Password" placeholder="Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false" >
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow2"></span>
+                                            <div id="pswd">
+                                                @Html.ValidationMessageFor(d => d.Password, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <br />
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your New Password<b style="color:red">*</b></label>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 lab1">
+                                            <input type="password" class="form-control form-control pwd3" id="retypePassword" name="RetypePassword" placeholder="Retype Password" maxlength="12" onpaste="return false">
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow3"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p class="note" style="font-size:small"><b style="color:red">*</b>New Password must be 5-12 characters</p>
+
+                        </div>
+                    
+                        <div class="box-body">
+                            <h2>Pin</h2>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your Old T-Pin<b style="color:red">*</b></label>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 pin1">
+                                            <input type="password" class="form-control form-control pwd1" id="OldPin" name="OldPin" placeholder="Old T-Pin" maxlength="4" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false" onkeypress="return isNumberKey(event)">
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                                            <div id="oldpin" style="font-size:small; color:red;">
+                                                @Html.ValidationMessageFor(d => d.OldPin, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <br />
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your New T-Pin<b style="color:red">*</b></label>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 pin1">
+                                            <input type="password" class="form-control form-control pwd2" id="newPin" name="Pin" placeholder="New T-Pin" maxlength="4" onpaste="return false" onkeypress="return isNumberKey(event)">
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow2"></span>
+                                            @Html.ValidationMessageFor(d => d.Pin, null, new { @class = "text-danger" })
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <br />
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your ReType T-Pin<b style="color:red">*</b></label>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 pin1">
+                                            <input type="password" class="form-control form-control pwd3" id="retypePin" name="RetypePin" placeholder="Retype T-Pin" maxlength="4" onpaste="return false" onkeypress="return isNumberKey(event)">
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow3"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+                    }
+
+                    <!--Password-->
+                    if (Model.Mode == "PW")
+                    {
+                        //Password
+                        <div class="box-body">
+                            <h2>Password</h2>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your Old Password<b style="color:red">*</b></label>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 lab1">
+                                            <input type="password" class="form-control form-control pwd1" id="OldPassword" name="OldPassword" placeholder="Old Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false"   required>
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                                            <div id="oldpswd" style="font-size:small; color:red;">
+                                                @Html.ValidationMessageFor(d => d.OldPassword, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <br />
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your New Password<b style="color:red">*</b></label>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 lab1">
+                                            <input type="password" class="form-control form-control pwd2" id="newPwd" name="Password" placeholder="Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false" required>
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow2"></span>
+                                            <div id="pswd" style="font-size:small; color:red;">
+                                                @Html.ValidationMessageFor(d => d.Password, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <br />
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 lab">
+                                            <label class="control-label" style="color:black">Enter Your New Password<b style="color:red">*</b></label>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="col-md-12 lab1">
+                                            <input type="password" class="form-control form-control pwd3" id="retypePassword" name="RetypePassword" placeholder="Retype Password" maxlength="12" onpaste="return false" required>
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow3"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    }
+
+                    <br />
+
+                    <div class="form-group butn">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-blue pull-right">Submit </button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <br />
+            <div class="powered-by" style="text-align:center">
+                <h5 class="title">Powered by</h5>
+                <a href="#" class="nibl-logo">
+                    <img src="~/Content/assets/img/nibl-logo.svg" alt="nibl-logo" />
+
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- jQuery 3 -->
+    <script src="~/Content/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Load jQuery and the validate plugin -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script> 
+
+   
+    <script src="~/Scripts/bootstrapvalidator.min.js"></script>
+    <script type="text/javascript">
+       
+        
+        //for disable back button in browser
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
+        //$("#pswd").hide();
+        //$("#oldpswd").hide();
+        //$("#oldpin").hide();
+
+        //test//
+
+
+        function isNumberKey(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+        function checkValidation() {
+
+            var oldpassword = $("[name='OldPassword']").val();
+            var password = $("[name='Password']").val();
+            var oldpin = $("[name='OldPin']").val();
+           
+
+
+            if (oldpassword.trim() == "") {
+                $("#oldpswd").html("");
+                //$("#pswd").append("<small>" + "The Password is required and cannot be empty" + "</small>");
+                $("#oldpswd").show();
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+
+            else {
+                $("#oldpswd").hide();
+                $('#btnSubmit').removeAttr('disabled');
+            }
+
+            if (password.trim() == "") {
+                $("#pswd").html("");               
+                $("#pswd").show();
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+
+            else {
+                $("#pswd").hide();
+                $('#btnSubmit').removeAttr('disabled');
+            }
+
+            if (oldpin.trim() == "") {
+                $("#oldpin").html("");                
+                $("#oldpin").show();
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+
+            else {
+                $("#oldpin").hide();
+                $('#btnSubmit').removeAttr('disabled');
+            }
+
+           
+        }
+
+
+        //test//
+
+
+        $(".btnShow1").mousedown(function () {
+            $(".pwd1").attr("type", "text");
+        });
+        $(".btnShow1").on("mouseleave", function () {
+            $(".pwd1").attr("type", "password");
+        });
+
+        $(".btnShow2").mousedown(function () {
+            $(".pwd2").attr("type", "text");
+        });
+        $(".btnShow2").on("mouseleave", function () {
+            $(".pwd2").attr("type", "password");
+        });
+
+        $(".btnShow3").mousedown(function () {
+            $(".pwd3").attr("type", "text");
+        });
+        $(".btnShow3").on("mouseleave", function () {
+            $(".pwd3").attr("type", "password");
+        });
+     
+
+        $(document).ready(function () {
+            $('#ResetForm').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    OldPin: {
+                        validators: {
+                            //integer: {
+                            //    message: 'The value is not an integer'
+                            //},
+                            notEmpty: {
+                                message: 'The old pin is required and cannot be empty'
+                            },
+                            stringLength: {
+                                max: 4,
+                                min: 4,
+                                message: 'The old pin must be 4 digit numeric pin'
+                            }
+                        }
+                    },
+                    Pin: {
+                        validators: {
+                            //integer: {
+                            //    message: 'The value is not an integer'
+                            //},
+                            notEmpty: {
+                                message: 'The new pin is required and cannot be empty'
+                            },
+                            stringLength: {
+                                max: 4,
+                                min: 4,
+                                message: 'The new pin must be 4 digit numeric pin'
+                            },
+
+                            different: {
+                                field: 'OldPin',
+                                message: 'The new pin and old pin should not be same. Please retry!'
+                            }
+                        }
+                    },
+                    RetypePin: {
+                        validators: {
+                            //integer: {
+                            //    message: 'The value is not an integer'
+                            //},
+                            notEmpty: {
+                                message: 'This field is required and cannot be empty'
+                            },
+                            stringLength: {
+                                max: 4,
+                                min: 4,
+                                message: 'The pin must be 4 digit numeric pin'
+                            },
+                            identical: {
+                                field: 'Pin',
+                                message: 'The Pin dont match. Please retry!'
+                            }
+                        }
+                    },
+                    OldPassword: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The old password is required and cannot be empty'
+                            }
+                        }
+                    },
+                    Password: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The password is required and cannot be empty'
+                            },
+                            //regexp: {
+                            //    regexp: /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!$%@@#£€*?&]{8,12}$/,
+                            //    message: 'New Password must be of 8-12 characters long which should include 1 uppercase & 1 number'
+                            //}
+                            stringLength: {
+                                min: 5,
+                                max: 12,
+                                message: 'The password must be of 5-12 characters'
+                            },
+
+                            different: {
+                                field: 'OldPassword',
+                                message: 'The new password and old password should not be same. Please retry!' 
+
+                            }
+                        }
+                    },
+                    RetypePassword: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The password is required and cannot be empty'
+                            },
+                            //stringLength: {
+                            //    min: 8,
+                            //    message: 'New Password must be of minimum 8 characters long which should include 1 uppercase & 1 number'
+                            //},
+                            identical: {
+                                field: 'Password',
+                                message: 'The password dont match'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+       
+    </script>
+
+
+</body>
+
+</html >

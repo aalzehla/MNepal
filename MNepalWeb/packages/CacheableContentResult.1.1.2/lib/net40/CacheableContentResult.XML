@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CacheableContentResult</name>
+    </assembly>
+    <members>
+        <member name="P:Toolbelt.Web.CacheableContentResult.GetContent">
+            <summary>
+            Get or set the function that return content bytes, called lazy if needed.
+            <para>If this function returned null, then this action result respond HTTP 404 Not Found status.</para>
+            </summary>
+        </member>
+    </members>
+</doc>

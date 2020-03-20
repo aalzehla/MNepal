@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "CustomerModifyDetail";
+    Layout = null;
+}
+
+<!-- Start Data Show in Table -->
+<div id="CustomerModifyDetail" class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Agent Detail</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+
+        @if (ViewData["dtableAgentStatus"] == null)
+        {
+            <div class="panel-body"> <b> @ViewBag.Message</b> </div>
+        }
+        else if (ViewData["dtableAgentStatus"] != null)
+        {
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Agent Mobile Number</th>
+                        <th>Agent Name</th>
+                        <th>Balance</th>
+                        <th>Location</th>
+                        <th>View Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (System.Data.DataRow dr in (ViewData["dtableAgentStatus"] as System.Data.DataTable).Rows)
+                {
+                        <tr>
+                            <td> @dr["AgentMobileNo"] </td>
+                            <td> @dr["AgentName"] </td>
+                            <td>@dr["Balance"]</td>
+                            <td>@dr["Location"]</td>
+                            <td>
+                                <a href="@Url.Action("ViewAgentDetails","Report", new { MobileNo = @dr["AgentMobileNo"] } )">
+                                    <i class="fa fa-eye" title="View"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    } <!-- for each end-->
+                </tbody>
+            </table>
+        }
+
+    </div>
+</div>
+<!-- End Data Show in Table -->

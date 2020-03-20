@@ -1,0 +1,503 @@
+﻿@model MNepalWeb.Models.CusProfileViewModel
+@{
+    ViewBag.Title = "ViewCustumerProfileDetail";
+    int Sno = 0;
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        UserRole Setup
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>UserRole Setup</a></li>
+        <li class="active">Modify Customer Role</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        @if (this.TempData["cusprofile_message"] != null)
+        {
+            if (this.TempData["message_class"].ToString() == "success_info")
+            {
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <h4>Success</h4> @this.TempData["cusprofile_message"]
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <h4>Error</h4> @this.TempData["cusprofile_message"]
+                </div>
+            }
+        }
+
+        <!-- Center column -->
+        <div class="col-md-12">
+
+            <!-- Horizontal Form -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Modify Customer Role</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Role Information</h3>
+                            </div>
+
+
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Role <b style="color:red;"></b></label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="PCode" name="txtProfileCode" value="@Model.ProfileCode" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <br />
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Role Description @*<b style="color:red;">*</b>*@</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="PDesc" name="txtProfileDesc" value="@Model.ProfileDesc" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*</div>*@
+                                <div>
+                                    <br />
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Role Status @*<b style="color:red;">*</b>*@</label>
+                                            <div class="col-sm-9">
+                                                @if (Model.ProfileStatus.ToString() == "A")
+                                                {
+                                                    <input type="text" class="form-control" id="PStatus" name="txtProfileStatus" value="Active (A)" readonly />
+                                                }
+                                                else if (Model.ProfileStatus.ToString() == "B")
+                                                {
+                                                    <input type="text" class="form-control" id="PStatus" name="txtProfileStatus" value="Blocked (B)" readonly />
+                                                }
+                                                else if (Model.ProfileStatus.ToString() == "R")
+                                                {
+                                                    <input type="text" class="form-control" id="PStatus" name="txtProfileStatus" value="Rejected (R)" readonly />
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*</div>*@
+                                <div>
+                                    <br />
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Renew Period <b style="color:red;"></b></label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="RenewPeriod" name="txtRenewPeriod" value="@Model.RenewPeriod" readonly />
+                                                    <span class="input-group-addon" id="basic-addon2">Months</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*</div>*@
+                                <div>
+                                    <br />
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Auto Renew <b style="color:red;"></b></label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-9">
+                                                    <input title="If checked Profile auto renews upon expiary"
+                                                           id="AutoRenew"
+                                                           name="txtAutoRenew"
+                                                           type="checkbox"
+                                                           disabled="disabled"
+                                                           value="T" @(Model.AutoRenew.ToString() == "T" ? "Checked" : string.Empty) />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            @*</div>*@
+
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Role Charge</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <table class="table  table-bordered  table-responsive" style="width:100%">
+                                            <tbody>
+                                                <tr>
+                                                    <th> Charge  </th>
+                                                    <th> Amount </th>
+
+                                                </tr>
+                                                <tr class="odd gradex">
+
+                                                    <td>Has Charge </td>
+
+                                                    <td>
+                                                        <div class="col-sm-9">
+                                                            <input id="HasCharge"
+                                                                   name="txtHasCharge"
+                                                                   type="checkbox"
+                                                                   disabled="disabled"
+                                                                   value="T" @(Model.HasCharge.ToString() == "T" ? "Checked" : string.Empty) />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="odd gradeX charge">
+
+                                                    <td> Registration Charge </td>
+
+                                                    <td>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="Registration" name="txtRegistration" value="@Model.Registration" readonly />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr class="odd gradex charge">
+
+                                                    <td> PIN Reset Charge </td>
+
+                                                    <td>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="PIN" name="txtPIN" value="@Model.PinReset" readonly />
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+
+
+                                                <tr class="odd gradex">
+
+                                                    <td> Renewal Charge </td>
+                                                    <td>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="Renewal" name="txtRenewal" value="@Model.ReNew" readonly />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="odd gradex">
+                                                    <td>Charge Account </td>
+                                                    <td>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="Charge" name="txtCharge" value="@Model.ChargeAccount" readonly />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                @*<tr class="odd gradex">
+
+                                                        <td>IsDrAlert </td>
+                                                        <td>
+                                                            <div class="col-sm-9">
+                                                                <input data-val="true"
+                                                                       id="IsDrAlert"
+                                                                       name="txtIsDrAlert"
+                                                                       type="checkbox"
+                                                                       disabled="disabled"
+                                                                       value="T" @(Model.IsDrAlert.ToString() == "T" ? "Checked" : string.Empty) />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="odd gradex drAlert">
+
+                                                        <td>Min Dr Alert Amount </td>
+                                                        <td>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" id="MinDrAlertAmt" name="txtMinDrAlertAmt" value="@Model.MinDrAlertAmt" readonly />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="odd gradex">
+
+                                                        <td>IsCrAlert </td>
+                                                        <td>
+                                                            <div class="col-sm-9">
+                                                                <input data-val="true"
+                                                                       id="IsCrAlert"
+                                                                       name="txtIsCrAlert"
+                                                                       type="checkbox"
+                                                                       disabled="disabled"
+                                                                       value="T" @(Model.IsCrAlert.ToString() == "T" ? "Checked" : string.Empty) />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+
+                                                    <tr class="odd gradex crAlert">
+                                                        <td>Min Cr Alert Amount </td>
+                                                        <td>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" id="MinCrAlertAmt" name="txtMinCrAlertAmt" value="@Model.MinCrAlertAmt" readonly />
+                                                            </div>
+                                                        </td>
+                                                    </tr>*@
+
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--new -->
+
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <fieldset>
+                                            <legend>Features</legend>
+                                            <span>Selected Features:<label id="lblselected">0</label></span>
+                                            <table class="table  table-bordered  table-responsive" style="width:100%" id="tblFeature">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width:5%"></th>
+                                                        <th style="width:35%">Name</th>
+                                                        <th style="width:15%">TXN Count</th>
+                                                        <th style="width:15%">PerTxnAmt </th>
+                                                        <th style="width:15%">PerDayAmt</th>
+                                                        <th style="width:15%">TXN Amt Monthly</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.MNFeatures)
+                                                    {
+
+                                                        if (item.IsSelected.ToString() == "T") 
+                                                        {
+                                                            <tr id="@item.FeatureCode">
+                                                                <td>
+                                                                    <input id="@string.Format("chkBox{0}", item.FeatureCode)" name="@string.Format("chkBox{0}", item.FeatureCode)"
+                                                                           type="checkbox"
+                                                                           value="true"
+                                                                           disabled="disabled"
+                                                                           @(item.IsSelected.ToString() == "T" ? "Checked" : string.Empty) />
+                                                                </td>
+                                                                <td>@item.FeatureName</td>
+                                                                <td id="@string.Format("tdTxnCount{0}", item.FeatureCode)">
+                                                                    @{if (item.IsSelected.ToString() == "T")
+                                                                        {
+                                                                            <input type="text" value="@item.TxnCount" class="form-control" name="@string.Format("txtTxnCount{0}",item.FeatureCode)" readonly />
+                                                                        }
+                                                                    }
+                                                                </td>
+
+                                                                <td id="@string.Format("tdPerTxn{0}",item.FeatureCode)">
+                                                                    @{if (item.IsSelected.ToString() == "T")
+                                                                        {
+                                                                            <input type="text" value="@item.PerTxnAmt.00" class="form-control" name="@string.Format("txtPerTxnAmt{0}",item.FeatureCode)" readonly />
+                                                                        }
+                                                                    }
+                                                                </td>
+
+                                                                <td id="@string.Format("tdPerDay{0}",item.FeatureCode)">
+                                                                    @{if (item.IsSelected.ToString() == "T")
+                                                                        {
+                                                                            <input type="text" value="@item.PerDayTxnAmt.00" class="form-control" name="@string.Format("txtPerDayTxnAmt{0}",item.FeatureCode)" readonly />
+                                                                        }
+                                                                    }
+                                                                </td>
+
+                                                                <td id="@string.Format("tdTxnCountM{0}", item.FeatureCode)">
+                                                                    @{if (item.IsSelected.ToString() == "T")
+                                                                        {
+                                                                            <input type="text" value="@item.TxnAmtM.00" class="form-control" name="@string.Format("txtTxnCountM{0}",item.FeatureCode)" readonly />
+                                                                        }
+                                                                    }
+                                                                </td>
+
+                                                            </tr>
+                                                                            }
+
+                                                                        }
+                                                </tbody>
+                                            </table>
+                                        </fieldset>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="hidFeatures" name="hidFeatures" />
+
+                            <!--new -->
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+@section scripts{
+    <script type="text/javascript">
+        var SelectedFeature = 0;
+        var arry = [];
+        var rowCount = $('#tblFeature tr').length;
+        $(document).ready(function () {
+
+
+            $('#tblFeature').find('tr').each(function () {
+                //debugger;
+                var row = $(this);
+                if (row.find('input[type="checkbox"]').is(':checked')) {
+                    var rowid = $(this).prop('rowIndex');
+                    var id = $(this).attr('id');
+                    arry[rowid - 1] = id;
+                    SelectedFeature = SelectedFeature + 1;
+
+                }
+
+            });
+            $('#hidFeatures').val(arry.toString());
+            $('#lblselected').text(SelectedFeature);
+
+            if ($('#HasCharge').is(':Checked')) {
+                $('.charge td').find('input:text').removeAttr('disabled');
+            }
+            else {
+                $('.charge td').find('input:text').val('');
+                $('.charge td').find('input:text').prop('disabled', 'true');
+            }
+
+            if ($('#IsDrAlert').is(':Checked')) {
+                $('.drAlert td').find('input:text').removeAttr('disabled');
+            }
+            else {
+                $('.drAlert td').find('input:text').val('');
+                $('.drAlert td').find('input:text').prop('disabled', 'true');
+            }
+
+            if ($('#IsCrAlert').is(':Checked')) {
+                $('.crAlert td').find('input:text').removeAttr('disabled');
+            }
+            else {
+                $('.crAlert td').find('input:text').val('');
+                $('.crAlert td').find('input:text').prop('disabled', 'true');
+            }
+
+        });
+
+
+
+        $('#HasCharge').click(function () {
+            if ($(this).is(':Checked')) {
+                $('.charge td').find('input:text').removeAttr('disabled');
+            }
+            else {
+                $('.charge td').find('input:text').val('');
+                $('.charge td').find('input:text').prop('disabled', 'true');
+            }
+
+        });
+
+        $('#IsDrAlert').click(function () {
+
+            if ($(this).is(':Checked')) {
+                $('.drAlert td').find('input:text').removeAttr('disabled');
+            }
+            else {
+                $('.drAlert td').find('input:text').val('');
+                $('.drAlert td').find('input:text').prop('disabled', 'true');
+            }
+
+        });
+
+        $('#IsCrAlert').click(function () {
+            if ($(this).is(':Checked')) {
+                $('.crAlert td').find('input:text').removeAttr('disabled');
+            }
+            else {
+                $('.crAlert td').find('input:text').val('');
+                $('.crAlert td').find('input:text').prop('disabled', 'true');
+            }
+
+        });
+
+
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        $('#tblFeature input:checkbox').click(function () {
+            var parntid = $(this).closest('tr').attr('id');
+            var rowid = $('#' + parntid).prop('rowIndex');
+            if ($(this).is(':checked')) {
+
+                var $inputTxnCount = $('<input onkeypress="return isNumber(event)" class="form-control" name="txtTxnCount' + parntid + '">', {
+                    type: 'text',
+                }).appendTo('#tdTxnCount' + parntid).focus();
+                var $inputPerTxn = $('<input onkeypress="return isNumber(event)" class="form-control" name="txtPerTxnAmt' + parntid + '">', {
+                    type: 'text',
+                }).appendTo('#tdPerTxn' + parntid).focus();
+                var $inputTxnPerDay = $('<input onkeypress="return isNumber(event)" class="form-control" name="txtPerDayTxnAmt' + parntid + '">', {
+                    type: 'text',
+                }).appendTo('#tdPerDay' + parntid).focus();
+                var $inputTxnCountM = $('<input onkeypress="return isNumber(event)" class="form-control" name="txtTxnCountM' + parntid + '">', {
+                    type: 'text',
+                }).appendTo('#tdTxnCountM' + parntid).focus();
+                SelectedFeature = SelectedFeature + 1;
+                arry[rowid - 1] = parntid;
+
+
+            }
+            else {
+
+                $('#' + parntid + ' input:text').remove();
+                SelectedFeature = SelectedFeature - 1;
+
+                arry[rowid - 1] = null;
+
+            }
+            $('#hidFeatures').val(arry.toString());
+            $('#lblselected').text(SelectedFeature);
+
+
+        });
+    </script>
+}
+

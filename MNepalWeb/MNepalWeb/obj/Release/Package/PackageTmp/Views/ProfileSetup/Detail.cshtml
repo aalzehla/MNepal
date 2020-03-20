@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = null;
+}
+
+<!-- Start Data Show in Table -->
+<div id="CustomerStatus" class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Customer Detail</h3>
+    </div>
+    <!-- /.box-header -->
+
+    <div class="box-body">
+
+        <table class="table table-condensed table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>ContactNumber1</th>
+                    <th>Status</th>
+                    <th>Usertype</th>
+                    <th>WalletNumber</th>
+                    <th>BankAccountNumber</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                        <tr>
+                            <td> @item.Name </td>
+
+                            <td> @item.Address </td>
+
+                            <td> @item.ContactNumber1 </td>
+
+                            <td> @item.Status </td>
+
+                            <td> @item.UserType </td>
+
+                            <td> @item.WalletNumber </td>
+
+                            <td> @item.BankAccountNumber </td>
+                            <td>
+                                <a href="@Url.Action("EditCustomerProfile","ProfileSetup", new {id = @item.ClientCode} )">Edit</a>
+                            </td>
+                        </tr>
+
+                    }<!-- for each end-->
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<!-- End Data Show in Table -->

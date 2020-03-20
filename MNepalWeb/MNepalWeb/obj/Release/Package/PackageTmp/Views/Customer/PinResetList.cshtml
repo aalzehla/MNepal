@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "PinResetList";
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Customer
+        <small>Pin Reset List</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Customer</a></li>
+        <li class="active"> PinResetList</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-10">
+
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Pin Reset List</h3>
+                </div>
+                <!-- /.box-header -->
+
+                <div class="box-body">
+
+                    <div class="form-group">
+                        <label>Mobile Number</label>
+                        <input type="number" class="form-control" id="mobileNo" name="searchMobileNo" placeholder="Mobile Number" required>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" id="btnSearch" name="txtSearch" value="Search" />
+                    </div>
+                </div>
+
+            </div>
+            <!--/.box -box-success-->
+
+            @Html.Action("PinResetDetail")
+
+        </div>
+        <!-- /.col-xs--->
+        
+        <!-- End-->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts{
+
+    <script>
+
+        $("#MobileNo").hide();
+        $("#PinResetDetail").hide();
+
+        $("input[type='radio']").change(function () {
+
+            if ($(this).val() == "Mobile Number") {
+                $("#MobileNo").show();
+            }
+
+        });
+
+        $('#btnSearch').click(function (e) {
+
+            var mobileNo = $('#mobileNo').val();
+
+            e.preventDefault();
+
+            $.ajax({
+                url: '@Url.Action("PinResetDetail", "Customer")',
+                type: 'GET',
+                data: {
+                    txtMobileNo: mobileNo
+                },
+                success: function (results) {
+                    $('#PinResetDetail').html(results);
+                    $("#PinResetDetail").show();
+                },
+                error: function () {
+                    alert('Error Occured!!');
+                }
+            });
+
+        });
+
+    </script>
+}
+

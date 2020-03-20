@@ -1,0 +1,2928 @@
+﻿@model MNSuperadmin.Models.UserInfo
+
+@{
+    ViewBag.Title = "CreateRegistration";
+
+}
+
+<style>
+    .disabledTab {
+        pointer-events: none;
+    }
+
+    .CustomError {
+        color: #dd4b39;
+        font-size: 14px;
+    }
+</style>
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+
+<link href="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+@*<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>*@
+
+<section class="content-header">
+    <h1>
+        Agent
+        <small>Registration</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Agent</a></li>
+        <li class="active"> Registration</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+
+
+        <!-- Start -->
+        <div class="col-xs-10">
+
+            @using (Html.BeginForm("CreateRegistration", "Agent", FormMethod.Post, new { @id = "AgentRegForm", @name = "AgentRegForm", @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                if (this.ViewData["registration_message"] != null)
+                {
+                    if (this.ViewData["message_class"].ToString() == "success_info")
+                    {
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4> @this.ViewData["registration_message"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error</h4> @this.ViewData["registration_message"]
+                        </div>
+                    }
+                }
+
+                <div id="validError">
+
+                </div>
+                <div>
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="disabled disabledTab active"><a href="#BasicDetails" aria-controls="BasicDetails" role="tab" data-toggle="tab">Basic Details</a></li>
+                        <li role="presentation" class="disabled disabledTab"><a href="#PersonalDetails" aria-controls="PersonalDetails" role="tab" data-toggle="tab">Personal Details</a></li>
+                        <li role="presentation" class="disabled disabledTab"><a href="#LocationDetails" aria-controls="LocationDetails" role="tab" data-toggle="tab">Location Details</a></li>
+                        <li role="presentation" class="disabled disabledTab"><a href="#DocIdentification" aria-controls="DocIdentification" role="tab" data-toggle="tab">Document Identification</a></li>
+
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <!--Login info-->
+                        <div role="tabpanel" class="tab-pane active" id="BasicDetails">
+
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Basic Details</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">UserName:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="tel" class="form-control" id="UserName" name="txtUserName" maxlength="10" required title="Please use mobile Number" placeholder="Please use the Mobile Number" onkeypress="return isNumberKey(event)" />
+                                                    <label id="check"> </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Email Address:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="Email" name="Email" placeholder="Email Address" maxlength="50" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">First Name:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="FName" name="txtFirstName" placeholder="First Name" maxlength="30" onkeypress="return isAlphabateDot(event)" style="text-transform: capitalize" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Middle Name:</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="MName" name="txtMiddleName" placeholder="Middle Name" maxlength="30" onkeypress="return isAlphabateDot(event)" style="text-transform: capitalize" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Last Name:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="LastName" name="txtLastName" placeholder="Last Name" onkeypress="return isAlphabateDot(event)" maxlength="30" style="text-transform: capitalize" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Gender:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+
+
+                                                    <select class="form-control select2" id="Gender" name="txtGender" style="width: 100%;">
+                                                        <option value="SelectGender" selected="selected" disabled>----Select Gender----</option>
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                        <option value="Other">Other</option>
+                                                    </select>
+                                                    @*<input type="text" class="form-control" id="GenderSelected" name="txtGenderSelected" maxlength="10" />*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Date Of Birth:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <div class="col-sm-10">
+
+                                                        @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control", @placeholder = "DD/MM/YYYY", @readonly = "readonly" } })
+
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="control-label ">AD</label>
+                                                    </div>
+                                                    <div class="col-sm-10 mt-2">
+
+
+                                                        @Html.Editor("BSDateOfBirth", new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "YYYY-MM-DD", @style = "margin-bottom:3px;", @readonly = "readonly" } })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="control-label">BS</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Nationality:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    @*<input type="text" class="form-control" id="Nationality" name="txtNationality" placeholder="Nationality" maxlength="10" />*@
+                                                    <select class="form-control" id="Nationality" name="txtNationality" style="width: 100%;">
+                                                        <option value="SelectNepalese" selected="selected" disabled>----Select Nepalese----</option>
+                                                        <option value="Nepalese">Nepalese</option>
+                                                        <option value="Indian">Indian</option>
+                                                        <option value="Chinese">Chinese</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Country:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+
+
+                                                    <select class="form-control select2" id="Country" name="txtCountry" style="width: 100%;">
+                                                        <option value="SelectCountry" selected="selected" disabled>----Select Country----</option>
+                                                        <option value="Nepal">Nepal</option>
+                                                        <option value="India">India</option>
+                                                        @*<option value="SAARC">SAARC</option>
+                                                            <option value="Asia">Asia</option>
+                                                            <option value="Europe">Europe</option>*@
+                                                        <option value="Other">Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <br />
+                                </div> <!--box body end-->
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+
+                            <a href="#PersonalDetails" aria-controls="PersonalDetails" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Personal Details>></a>
+                        </div>
+
+                        <!-- /.box -->
+                        <!--Costumer Detail-->
+                        <div role="tabpanel" class="tab-pane" id="PersonalDetails">
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Personal Details</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label class="control-label col-sm-4">Father's Name<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="FatherName" name="txtFatherName" maxlength="40" onkeypress="return isAlphabateDot(event)" placeholder="Father's Name" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label class="control-label col-sm-4">Mother's Name<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="MotherName" name="txtMotherName" maxlength="40" onkeypress="return isAlphabateDot(event)" placeholder="Mother's Name" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Grandfather's Name:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+
+                                                    <input type="text" class="form-control" id="GrandFatherName" name="txtGrandFatherName" onkeypress="return isAlphabateDot(event)" maxlength="30" placeholder="Grandfather's Name" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Occupation:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control select2" id="Occupation" name="txtOccupation" style="width: 100%;">
+                                                        <option value="SelectOccupation" selected="selected" disabled>----Select Occupation----</option>
+                                                        <option value="Agriculturist">Agriculturist</option>
+                                                        <option value="Business">Business</option>
+                                                        <option value="Engineer">Engineer</option>
+                                                        <option value="Government Service">Government Service</option>
+                                                        <option value="HouseWife">Housewife</option>
+                                                        <option value="Medical">Medical</option>
+                                                        <option value="Other">Others</option>
+                                                        <option value="Private Sector">Private Sector</option>
+                                                        <option value="Professional">Professional</option>
+                                                        <option value="Public Sector">Public Sector</option>
+                                                        <option value="Retired">Retired</option>
+                                                        <option value="Student">Student</option>
+                                                        <option value="UnEmployed">Unemployed</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.MaritalStatus, new { @class = "control-label col-sm-4" })
+                                                <div class="col-sm-8">
+                                                    <label class="radio-inline">
+                                                        @Html.RadioButtonFor(x => x.MaritalStatus, "U", new { @checked = "checked" }) Unmarried
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        @Html.RadioButtonFor(x => x.MaritalStatus, "M") Married
+                                                    </label>
+                                                    @*<label class="radio-inline">
+                                                            @Html.RadioButtonFor(x => x.MaritalStatus, "D") Divorced
+                                                        </label>*@
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @*<div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">MaritalStatus <b style="color:red;">*</b></label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control select3" id="MaritalStatus" name="MaritalStatus" style="width: 100%;">
+
+                                                            <option value="UnMarried" selected="selected">UnMarried</option>
+                                                            <option value="Married">Married</option>
+                                                            <option value="Divorced">Divorced</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>*@
+
+                                        <div id="family" style="display:none;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">Spouse Name:<b style="color:red;">*</b></label>
+                                                        <div class="col-sm-8">
+                                                            @Html.TextBoxFor(x => x.SpouseName, new { @class = "form-control", @placeholder = "Spouse Name", @onkeypress = "return isAlphabateDot(event)", @maxlength = 30 })
+                                                            <div id="spouseName" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">Father In Law's Name:<b style="color:red;">*</b></label>
+                                                        <div class="col-sm-8">
+                                                            @Html.TextBoxFor(x => x.FatherInLaw, new { @class = "form-control", @placeholder = "Father In law's Name", @onkeypress = "return isAlphabateDot(event)", @maxlength = 30 })
+                                                            <div id="fatherInLawName" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Pan Number:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="PanNo" name="txtPanNo" placeholder="Pan Number" maxlength="10" onkeypress="return isNumberKey(event)" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+
+                            <!-- /.box -->
+                            <a href="#BasicDetails" aria-controls="BasicDetails" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Basic Details</a>
+                            <a href="#LocationDetails" aria-controls="LocationDetails" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Location Details >></a>
+                        </div>
+                        <!--Personal Detail end-->
+                        <!-- /.box -->
+                        <!--Location detail add-->
+                        <div role="tabpanel" class="tab-pane" id="LocationDetails">
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Location Details</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h2 class="box-title">Address Information</h2>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="row">
+                                            <div class="col-md-6"></div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Same  as Permanent
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input type="checkbox" id="saveAsPermanentAdd" name ='SaveAsPermanentAdd' onclick="setCurretAddress()" disabled>
+                                                        <span class="checkmark"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4 header">
+                                                        Permanent Address
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4 header">
+                                                        Current Address
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Tole /Street /Road:
+                                                        @*<b style="color:red;">*</b>*@
+                                                    </label>
+                                                    <div class="col-sm-6">
+
+                                                        <input type="text" class="form-control" id="PStreet" name="PStreet" placeholder="Tole/Street/Road" maxlength="45" onkeypress="return AlphabetComma(event)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Tole /Street /Road:
+                                                        @*<b style="color:red;">*</b>*@
+                                                    </label>
+                                                    <div class="col-sm-6">
+
+                                                        <input type="text" class="form-control" id="CStreet" name="CStreet" placeholder="Tole/Street/Road" maxlength="45" onkeypress="return AlphabetComma(event)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Province:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        @Html.DropDownList("PProvince", ViewBag.PProvince as List<SelectListItem>, new { @class = "form-control placeholder_Province", @id = "PProvince" })
+                                                        <input type="hidden" class="form-control" id="PProvinceText" name="PProvinceText" />
+                                                        @*@Html.DropDownList("PProvince", ViewBag.PProvince as List<SelectListItem>, "--Select Province--", new { @class = "form-control" })*@
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Province:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        @Html.DropDownList("CProvince", ViewBag.CProvince as List<SelectListItem>, new { @class = "form-control placeholder_Province" })
+                                                        <input type="hidden" class="form-control" id="CProvinceText" name="CProvinceText" />
+                                                        @*@Html.DropDownList("CProvince", ViewBag.CProvince as List<SelectListItem>, "--Select Province--", new { @class = "form-control" })*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">District:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-6">
+                                                        @Html.DropDownList("PDistrictID", new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control  placeholder_PDistrict" })
+                                                        <input type="hidden" class="form-control" id="PDistrictText" name="PDistrictText" />
+                                                        @*@Html.DropDownList("PDistrictID", new SelectList(string.Empty, "Value", "Text"), "--Select District--", new { @class = "form-control" })*@
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">District:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-6">
+                                                        @Html.DropDownList("CDistrictID", new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control placeholder_CDistrict" })
+                                                        <input type="hidden" class="form-control" id="CDistrictText" name="CDistrictText" />
+                                                        @*@Html.DropDownList("CDistrictID", new SelectList(string.Empty, "Value", "Text"), "--Select District--", new { @class = "form-control" })*@
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        VDC / Municipality:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+
+                                                        <input type="text" class="form-control" id="PVDC" name="txtPVDC" placeholder="VDC/Municipality" maxlength="45" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        VDC / Municipality:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+
+                                                        <input type="text" class="form-control" id="CVDC" name="txtCVDC" placeholder="VDC/Municipality" maxlength="45" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">House No:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="PHouseNo" name="txtPHouseNo" placeholder="House No." maxlength="45" onkeypress="return isNumberKey(event)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">House No:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="CHouseNo" name="txtCHouseNo" placeholder="House No." maxlength="45" onkeypress="return isNumberKey(event)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br />
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Ward No.:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+
+                                                        <input type="text" class="form-control" id="PWardNo" name="txtPWardNo" placeholder="Ward No" maxlength="2" onkeypress="return isNumberKey(event)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">
+                                                        Ward No.:
+                                                        <b style="color:red;">*</b>
+                                                    </label>
+                                                    <div class="col-sm-6">
+
+                                                        <input type="text" class="form-control" id="CWardNo" name="txtCWardNo" placeholder="Ward No" maxlength="2" onkeypress="return isNumberKey(event)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <a href="#PersonalDetails" aria-controls="PersonalDetails" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Personal Details</a>
+                            <a href="#DocIdentification" aria-controls="DocIdentification" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Document Identification >></a>
+
+                        </div>
+                        <!--end profile-->
+                        <!--Bank Account-->
+                        <div role="tabpanel" class="tab-pane" id="DocIdentification">
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Document Identification</h3>
+                                </div>
+                                <div class="box box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label class="control-label col-sm-4">Upload Passport Size Photo:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <input type="file" id="PassportPhoto" name="PassportPhoto"  accept="image/x-png,image/jpeg"/>
+                                                    <div id="PassPhoto" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                    <label id="image2"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Document Type:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control select2" id="Document" name="txtDocument" style="width: 100%;">
+                                                        <option value="SelectDocument" selected="selected" disabled>----Select Document----</option>
+                                                        <option value="DocCitizenship">Citizenship</option>
+                                                        <option value="DocLicense">License</option>
+                                                        <option value="DocPassport">Passport</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <div id="citizenship" style="display:none;">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Citizenship</h3>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">
+                                                            Citizenship No:
+                                                            <b style="color:red;">*</b>
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" id="Citizenship" name="txtCitizenship" placeholder="Citizenship" maxlength="20" onkeypress="return NumberSlashDashParenthesis(event)" @*onchange="checkValidation()"*@ />
+                                                            <div id="CitizenNo" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">Issue Date for Citizenship:<b style="color:red;">*</b></label>
+                                                        <div class="col-sm-6">
+                                                            <div class="col-sm-10">
+
+                                                                @Html.EditorFor(model => model.CitizenshipIssueDate, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "DD/MM/YYYY", @readonly = "readonly" } })
+
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label class="control-label ">AD</label>
+                                                            </div>
+                                                            <div class="col-sm-10 mt-2">
+
+
+                                                                @Html.Editor("BSCitizenshipIssueDate", new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "YYYY-MM-DD", @style = "margin-bottom:3px;", @readonly = "readonly" } })
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label class="control-label">BS</label>
+                                                            </div>
+
+
+                                                            <div id="citizenDate" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">
+                                                            Place of Issue for Citizenship:
+                                                            <b style="color:red;">*</b>
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" id="CitizenshipPlaceOfIssue" name="txtCitizenshipPlaceOfIssue" placeholder="Place of Issue for Citizenship" maxlength="35" onkeypress="return AlphabetOnly(event)" @*onchange="checkValidation()"*@ />
+                                                            <div id="CitizenIssuePlace" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--photo-->
+                                            <br />
+
+                                            @*<div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8">
+                                                                @Html.Label("Front:", new { @class = "control-label col-md-2" })
+                                                                <div class="col-md-10">
+                                                                    <input type="file" id="Front" name="Front" />
+                                                                    <label id="image"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8">
+                                                                @Html.Label("Back:", new { @class = "control-label col-md-2" })
+                                                                <div class="col-md-10">
+                                                                    <input type="file" id="Back" name="Back" />
+                                                                    <label id="image1"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>*@
+                                        </div>
+                                    </div>
+
+                                    <div id="license" style="display:none;">
+                                        <!--passport start-->
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">License</h3>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">
+                                                            License No:
+                                                            <b style="color:red;">*</b>
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" id="License" name="txtLicense" placeholder="License" maxlength="20" onkeypress="return NumberSlashDash(event)" />
+                                                            <div id="LicNo" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">Issue Date for License:<b style="color:red;">*</b></label>
+                                                        <div class="col-sm-6">
+                                                            <div class="col-sm-10">
+
+                                                                @Html.EditorFor(model => model.LicenseIssueDate, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "DD/MM/YYYY", @readonly = "readonly" } })
+
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label class="control-label ">AD</label>
+                                                            </div>
+                                                            <div class="col-sm-10 mt-2">
+
+
+                                                                @Html.Editor("BSLicenseIssueDate", new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "YYYY-MM-DD", @style = "margin-bottom:3px;", @readonly = "readonly" } })
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label class="control-label">BS</label>
+                                                            </div>
+
+
+                                                            <div id="LicenseIssue" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">
+                                                            Expire Date for License:
+                                                            @*<b style="color:red;">*</b>*@
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            <div class="col-sm-10">
+
+                                                                @Html.EditorFor(model => model.LicenseExpireDate, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "DD/MM/YYYY", @readonly = "readonly" } })
+
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label class="control-label ">AD</label>
+                                                            </div>
+                                                            <div class="col-sm-10 mt-2">
+
+
+                                                                @Html.Editor("BSLicenseExpireDate", new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "YYYY-MM-DD", @style = "margin-bottom:3px;", @readonly = "readonly" } })
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label class="control-label">BS</label>
+                                                            </div>
+
+
+                                                            <div id="LicenseExpire" style="color:#dd4b39; padding-top:3px; font-weight:bold;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">
+                                                            Place of Issue for License:
+                                                            <b style="color:red;">*</b>
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" id="LicensePlaceOfIssue" name="txtLicensePlaceOfIssue" placeholder="Place of Issue for License" maxlength="35" onkeypress="return AlphabetOnly(event)" />
+                                                            <div id="LicIssuePlace" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                @*<div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <div class="col-sm-8">
+                                                                    @Html.Label("Front:", new { @class = "control-label col-md-2" })
+                                                                    <div class="col-md-10">
+                                                                        <input type="file" id="Front" name="Front" />
+                                                                        <label id="image"></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <div class="col-sm-8">
+                                                                    @Html.Label("Back:", new { @class = "control-label col-md-2" })
+                                                                    <div class="col-md-10">
+                                                                        <input type="file" id="Back" name="Back" />
+                                                                        <label id="image1"></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div id="passport" style="display:none;">
+                                        <!--passport start-->
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Passport</h3>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">
+                                                            Passport No:
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" id="Passport" name="txtPassport" placeholder="Passport" maxlength="20" onkeypress="return NumberSlashDash(event)" />
+                                                            <div id="PassNo" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">Issue Date for Passport:</label>
+                                                        <div class="col-sm-6">
+                                                            @Html.EditorFor(model => model.PassportIssueDate, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "DD/MM/YYYY", @readonly = "readonly" } })
+                                                            <div id="PassportIssue" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                            @*<input type="text" class="form-control" id="PassportIssueDate" name="txtPassportIssueDate" placeholder="Issue Date for Passport" maxlength="45" />*@
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label class="control-label ">AD</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">
+                                                            Expire Date for Passport:
+                                                            @*<b style="color:red;">*</b>*@
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            @Html.EditorFor(model => model.PassportExpireDate, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "DD/MM/YYYY", @readonly = "readonly" } })
+                                                            <div id="PassportExpire" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label class="control-label ">AD</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-4">
+                                                            Place of Issue for Passport:
+                                                            @*<b s tyle="color:red;">*</b>*@
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" id="PassportPlaceOfIssue" name="txtPassportPlaceOfIssue" placeholder="Place of Issue for Passport" maxlength="35" onkeypress="return AlphabetOnly(event)" />
+                                                            <div id="PassIssuePlace" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                @*<div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <div class="col-sm-8">
+                                                                    @Html.Label("Front:", new { @class = "control-label col-md-2" })
+                                                                    <div class="col-md-10">
+                                                                        <input type="file" id="Front" name="Front" />
+                                                                        <label id="image"></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <div class="col-sm-8">
+                                                                    @Html.Label("Back:", new { @class = "control-label col-md-2" })
+                                                                    <div class="col-md-10">
+                                                                        <input type="file" id="Back" name="Back" />
+                                                                        <label id="image1"></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-sm-8">
+                                                    @Html.Label("Front:", new { @class = "control-label col-md-2" })
+                                                    <div class="col-md-10">
+                                                        <input type="file" id="Front" name="Front" accept="image/x-png,image/jpeg"/>
+                                                        <div id="FrontUpload" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                        <label id="image"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-sm-8">
+                                                    @Html.Label("Back:", new { @class = "control-label col-md-2" })
+                                                    <div class="col-md-10">
+                                                        <input type="file" id="Back" name="Back" accept="image/x-png,image/jpeg"/>
+                                                        <div id="BackUpload" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                                        <label id="image1"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style="color:grey"><b style="color:red;">*</b>Note: File format has to be either in jpg, jpeg or png format. It must not exceed more than 2 MB.<b style="color:red;">*</b></div>
+
+                                </div>
+                            </div>
+
+                            <!---document Information-->
+
+                            <a href="#LocationDetails" aria-controls="LocationDetails" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Location Details</a>
+                            <div @*class="box-footer"*@>
+                                <input type="submit" class="btn btn-primary pull-right" name="btnCommand" value="Save & Continue" @*onclick="checkValidation()"*@ />
+                            </div>
+
+                        </div>
+
+                        <!--end setup profile-->
+                        <!-- /.box -->
+                        <!-- /.box-body -->
+                    </div>
+
+
+
+                </div>
+            }
+            <!-- /.row -->
+            <!-- End-->
+
+
+        </div>
+    </div>
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts {
+
+
+    <!-- Load jQuery and the validate plugin -->
+    @*
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>*@
+
+    @*
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>*@
+    @*
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>*@
+
+    <!-- jQuery Form Validation code -->
+
+
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script src="~/Content/date_comp/nepali.datepicker.v2.2.min.js"></script>
+    @*<script src="~/Content/date_comp/bootstrap.min.js"></script>*@
+    <link href="~/Content/date_comp/nepali.datepicker.v2.2.min.css" rel="stylesheet" />
+    <script src="~/Scripts/CRNepaliCalender.js"></script>
+    <script type="text/javascript">
+
+        var Count = [];
+        Count[0] = 1;
+
+        var yearRangeDOB = "1944:+0";
+        var yearRangeExpire = "1944:2033";
+        //function checkValidation() {
+            //debugger;
+            //var passportPic = $('#PassportPhoto').val();
+            //var FrontSide = $('#Front').val();
+            //var BackSide = $('#Back').val();
+            //var citizenNo = $('#Citizenship').val();
+            //var citizenDate = $('#CitizenshipIssueDate').val();
+            //var citizenIssuePlace = $('#CitizenshipPlaceOfIssue').val();
+            //var LicenseNo = $('#License').val();
+            //var LicIssueDate = $('#LicenseIssueDate').val();
+            //var LicExpireDate = $('#LicenseExpireDate').val();
+            //var LicIssuePlace = $('#LicensePlaceOfIssue').val();
+            //var PassportNo = $('#Passport').val();
+            //var passIssueDate = $('#PassportIssueDate').val();
+            //var passExpireDate = $('#PassportExpireDate').val();
+            //var passIssuePlace = $('#PassportPlaceOfIssue').val();
+            //var sName = $('#SpouseName').val();
+            //var fInLawName = $('#FatherInLaw').val();
+            //debugger;
+            //var docType = $('#Document').val();
+            //var maritalStatus = $('#MaritalStatus').val();
+
+
+            //if (passportPic.trim() == "") {
+            //    $("#PassPhoto").html("");
+            //    $("#PassPhoto").append( "The Photo is required and cannot be empty" );
+            //    $("#PassPhoto").show();
+            //    $('#btnSubmit').attr('disabled', 'disabled');
+            //}
+            //else {
+            //    $("#PassPhoto").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //}
+
+            //if (FrontSide.trim() == "") {
+            //    $("#FrontUpload").html("");
+            //    $("#FrontUpload").append("The Photo is required and cannot be empty");
+            //    $("#FrontUpload").show();
+            //    $('#btnSubmit').attr('disabled', 'disabled');
+            //}
+            //else {
+            //    $("#FrontUpload").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //}
+
+            //if (BackSide.trim() == "") {
+            //    $("#BackUpload").html("");
+            //    $("#BackUpload").append("The Photo is required and cannot be empty");
+            //    $("#BackUpload").show();
+            //    $('#btnSubmit').attr('disabled', 'disabled');
+            //}
+            // else {
+            //    $("#BackUpload").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //}
+            //if (maritalStatus.trim() == "Married" || maritalStatus.trim() == "Divorced") {
+            //    if (sName.trim() == "") {
+            //        $("#spouseName").html("");
+            //        $("#spouseName").append("Spouse name is required and cannot be empty");
+            //        $("#spouseName").show();
+            //        $('#btnSubmit').attr('disabled', 'disabled');
+            //    }
+            //    else {
+            //        $("#spouseName").hide();
+            //        $('#btnSubmit').removeAttr('disabled');
+            //    }
+            //    if (fInLawName.trim() == "") {
+            //        $("#fatherInLawName").html("");
+            //        $("#fatherInLawName").append("Father in Law's name is required and cannot be empty");
+            //        $("#fatherInLawName").show();
+            //        $('#btnSubmit').attr('disabled', 'disabled');
+            //    }
+            //    else {
+            //        $("#fatherInLawName").hide();
+            //        $('#btnSubmit').removeAttr('disabled');
+            //    }
+            //}
+
+            //if (docType.trim() == "DocCitizenship") {
+            //    if (citizenNo.trim() == "") {
+            //        $("#CitizenNo").html("");
+            //        $("#CitizenNo").append("The Citizenship No is required and cannot be empty");
+            //        $("#CitizenNo").show();
+            //        $('#btnSubmit').attr('disabled', 'disabled');
+            //    }
+            //    else {
+            //        $("#CitizenNo").hide();
+            //        $('#btnSubmit').removeAttr('disabled');
+            //    }
+
+            //    if (citizenDate.trim() == "") {
+            //        $("#citizenDate").html("");
+            //        $("#citizenDate").append("The Issue Date for Citizenship is required and cannot be empty" );
+            //        $("#citizenDate").show();
+            //        $('#btnSubmit').attr('disabled', 'disabled');
+            //    }
+            //    else {
+            //        $("#citizenDate").hide();
+            //        $('#btnSubmit').removeAttr('disabled');
+            //    }
+
+            //    if (citizenIssuePlace.trim() == "") {
+            //        $("#CitizenIssuePlace").html("");
+            //        $("#CitizenIssuePlace").append( "The Citizenship Issue Place is required and cannot be empty" );
+            //        $("#CitizenIssuePlace").show();
+            //        $('#btnSubmit').attr('disabled', 'disabled');
+            //    }
+            //    else {
+            //        $("#CitizenIssuePlace").hide();
+            //        $('#btnSubmit').removeAttr('disabled');
+            //    }
+            //}
+            //if (docType.trim() == "DocLicense") {
+            //    if (LicenseNo.trim() == "") {
+            //        $("#LicNo").html("");
+            //        $("#LicNo").append("The License No is required and cannot be empty");
+            //        $("#LicNo").show();
+            //        $('#btnSubmit').attr('disabled', 'disabled');
+            //    }
+            //    else {
+            //        $("#LicNo").hide();
+            //        $('#btnSubmit').removeAttr('disabled');
+            //    }
+
+            //    if (LicIssueDate.trim() == "") {
+            //        $("#LicenseIssue").html("");
+            //        $("#LicenseIssue").append("The License Issue Date is required and cannot be empty");
+            //        $("#LicenseIssue").show();
+            //        $('#btnSubmit').attr('disabled', 'disabled');
+            //    }
+            //    else {
+            //        $("#LicenseIssue").hide();
+            //        $('#btnSubmit').removeAttr('disabled');
+            //    }
+
+            //    if (LicExpireDate.trim() == "") {
+            //        $("#LicenseExpire").html("");
+            //        $("#LicenseExpire").append("The License Expire Date is required and cannot be empty");
+            //        $("#LicenseExpire").show();
+            //        $('#btnSubmit').attr('disabled', 'disabled');
+            //    }
+            //    else {
+            //        $("#LicenseExpire").hide();
+            //        $('#btnSubmit').removeAttr('disabled');
+            //    }
+
+            //    if (LicIssuePlace.trim() == "") {
+            //        $("#LicIssuePlace").html("");
+            //        $("#LicIssuePlace").append("The License Issue Place is required and cannot be empty");
+            //        $("#LicIssuePlace").show();
+            //        $('#btnSubmit').attr('disabled', 'disabled');
+            //    }
+            //    else {
+            //        $("#LicIssuePlace").hide();
+            //        $('#btnSubmit').removeAttr('disabled');
+            //    }
+            //}
+
+            //if (docType.trim() == "DocPassport") {
+            //    if (PassportNo.trim() == "") {
+            //        $("#PassNo").html("");
+            //        $("#PassNo").append("The Passport No is required and cannot be empty");
+            //        $("#PassNo").show();
+            //        $('#btnSubmit').attr('disabled', 'disabled');
+            //    }
+            //    else {
+            //        $("#PassNo").hide();
+            //        $('#btnSubmit').removeAttr('disabled');
+            //    }
+
+            //    if (passIssueDate.trim() == "") {
+            //        $("#PassportIssue").html("");
+            //        $("#PassportIssue").append("The Passport Issue Date is required and cannot be empty");
+            //        $("#PassportIssue").show();
+            //        $('#btnSubmit').attr('disabled', 'disabled');
+            //    }
+            //    else {
+            //        $("#PassportIssue").hide();
+            //        $('#btnSubmit').removeAttr('disabled');
+            //    }
+
+            //    if (passExpireDate.trim() == "") {
+            //        $("#PassportExpire").html("");
+            //        $("#PassportExpire").append("The Passport Expire Date is required and cannot be empty");
+            //        $("#PassportExpire").show();
+            //        $('#btnSubmit').attr('disabled', 'disabled');
+            //    }
+            //    else {
+            //        $("#PassportExpire").hide();
+            //        $('#btnSubmit').removeAttr('disabled');
+            //    }
+
+            //    if (passIssuePlace.trim() == "") {
+            //        $("#PassIssuePlace").html("");
+            //        $("#PassIssuePlace").append( "The Passport Issue Place is required and cannot be empty");
+            //        $("#PassIssuePlace").show();
+            //        $('#btnSubmit').attr('disabled', 'disabled');
+            //    }
+            //    else {
+            //        $("#PassIssuePlace").hide();
+            //        $('#btnSubmit').removeAttr('disabled');
+            //    }
+            //}
+        //}
+
+
+
+
+        $(document).ready(function () {
+            //$("#SpouseName").change(function () {
+            //    $("#spouseName").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#FatherInLaw").change(function () {
+            //    $("#fatherInLawName").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+
+            //$("#PassportPhoto").change(function () {
+            //    $("#PassPhoto").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#Front").change(function () {
+            //    $("#FrontUpload").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#Back").change(function () {
+            //    $("#BackUpload").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#CitizenshipNo").change(function () {
+            //    $("#CitizenNo").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#CitizenshipIssueDate").change(function () {
+            //    $("#citizenDate").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#CitizenshipPlaceOfIssue").change(function () {
+            //    $("#CitizenIssuePlace").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#License").change(function () {
+            //    $("#LicNo").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#LicenseIssueDate").change(function () {
+            //    $("#LicenseIssue").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#LicenseExpireDate").change(function () {
+            //    $("#LicenseExpire").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#LicensePlaceOfIssue").change(function () {
+            //    $("#LicIssuePlace").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#Passport").change(function () {
+            //    $("#PassNo").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#PassportIssueDate").change(function () {
+            //    $("#PassportIssue").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#PassportExpireDate").change(function () {
+            //    $("#PassportExpire").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+            //$("#PassportPlaceOfIssue").change(function () {
+            //    $("#PassIssuePlace").hide();
+            //    $('#btnSubmit').removeAttr('disabled');
+            //});
+
+            ///for plaeholder for province and district
+            $(".placeholder_Province").prepend("<option value='' disabled selected>--Select Province---</option>");
+            $(".placeholder_PDistrict").prepend("<option value='' disabled selected>--Select District---</option>");
+            $(".placeholder_CDistrict").prepend("<option value='' disabled selected>--Select District---</option>");
+
+         //for enable same as permanent button
+            $("#PProvince").change(function () {
+                $("input[name ='SaveAsPermanentAdd']").prop("disabled", false);
+            });
+
+            //start milayako 02
+             $("#PProvince").change(function () {
+                 $("#PDistrictID").empty();
+                 $(".placeholder_PDistrict").prepend("<option value='' disabled selected>--Select District---</option>");
+                 $('#PProvinceText').val($("#PProvince").val());
+                 $.ajax({
+                     type: 'POST',
+                     url: '@Url.Action("getdistrict")',
+
+                     dataType: 'json',
+
+                     data: { id: $("#PProvince").val() },
+
+
+                     success: function (districts) {
+
+
+                         $.each(districts, function (i, district) {
+                             $("#PDistrictID").append('<option value="' + district.Value + '">' +
+                                 district.Text + '</option>');
+
+                         });
+                     },
+                     error: function (ex) {
+                         alert('Failed to retrieve Province districts.' + ex);
+                     }
+                 });
+                 return false;
+             });
+
+             $("#CProvince").change(function () {
+                 $("#CDistrictID").empty();
+                 $(".placeholder_CDistrict").prepend("<option value='' disabled selected>--Select District---</option>");
+                 $('#CProvinceText').val($("#CProvince").val());
+                 $.ajax({
+                     type: 'POST',
+                     url: '@Url.Action("getdistrict")',
+
+                     dataType: 'json',
+
+                     data: { id: $("#CProvince").val() },
+
+
+                     success: function (districts) {
+
+
+                         $.each(districts, function (i, district) {
+                             $("#CDistrictID").append('<option value="' + district.Value + '">' +
+                                 district.Text + '</option>');
+
+                         });
+                     },
+                     error: function (ex) {
+                         alert('Failed to retrieve Province districts.' + ex);
+                     }
+                 });
+                 return false;
+            });
+
+            $("#PDistrictID").change(function () {
+                $('#PDistrictText').val($("#PDistrictID").val());
+            });
+            $("#CDistrictID").change(function () {
+                $('#CDistrictText').val($("#CDistrictID").val());
+            });
+
+
+            //end milayako 02
+
+        });
+         //start for same as permanent
+        function setCurretAddress() {
+            var checkBox = document.getElementById("saveAsPermanentAdd");
+            // Get the output text
+            var street = $("[name='PStreet']").val();
+            var VDC = $("[name='txtPVDC']").val();
+            var Province = $("[name='PProvince']").val();
+            var houseNo = $("[name='txtPHouseNo']").val();
+            var District = $("[name='PDistrictID']").val();
+            var ward = $("[name='txtPWardNo']").val();
+
+            if (checkBox.checked == true) {
+
+                $("#CStreet").val(street);
+                $("#CVDC").val(VDC);
+                $("#CProvince").val(Province);
+                $("#CProvinceText").val(Province);
+                $("#CHouseNo").val(houseNo);
+                $("#CWardNo").val(ward);
+                $("#CDistrictID").empty();
+
+                //for readonly= false when checkbox is not ticked
+                document.getElementById("CStreet").readOnly = true;
+                document.getElementById("CVDC").readOnly = true;
+                document.getElementById("CProvince").disabled = true;
+                document.getElementById("CHouseNo").readOnly = true;
+                document.getElementById("CWardNo").readOnly = true;
+                document.getElementById("CDistrictID").disabled = true;
+                document.getElementById("PStreet").readOnly = true;
+                document.getElementById("PVDC").readOnly = true;
+                document.getElementById("PProvince").disabled = true;
+                document.getElementById("PHouseNo").readOnly = true;
+                document.getElementById("PWardNo").readOnly = true;
+                document.getElementById("PDistrictID").disabled = true;
+
+                //$('#CustomerKYC3').bootstrapValidator('validate');
+                $(".placeholder_CDistrict").prepend("<option value='' disabled selected>--Select District---</option>");
+                $.ajax({
+                     type: 'POST',
+                     url: '@Url.Action("getdistrict")',
+
+                     dataType: 'json',
+
+                     data: { id: $("#CProvince").val() },
+
+
+                     success: function (districts) {
+                         $.each(districts, function (i, district) {
+                             $("#CDistrictID").append('<option value="' + district.Value + '">' +
+                                 district.Text + '</option>');
+
+                             $("#CDistrictID").val(District);
+                             $("#CDistrictText").val(District);
+                         });
+                     },
+                     error: function (ex) {
+                         alert('Failed to retrieve Province districts.' + ex);
+                     }
+                });
+                $('#CustomerKYC3').bootstrapValidator('enableFieldValidators', 'CStreet', false);
+                $('#CustomerKYC3').bootstrapValidator('enableFieldValidators', 'txtCVDC', false);
+                $('#CustomerKYC3').bootstrapValidator('enableFieldValidators', 'CProvince', false);
+                $('#CustomerKYC3').bootstrapValidator('enableFieldValidators', 'txtCWardNo', false);
+                $('#CustomerKYC3').bootstrapValidator('enableFieldValidators', 'CDistrictID', false);
+                return false;
+
+            }
+
+            else {
+                $('#CStreet, #CVDC, #CProvince, #CDistrictID, #CHouseNo, #CWardNo').val('');
+                //for readonly= false when checkbox is not ticked
+                document.getElementById("CStreet").readOnly = false;
+                document.getElementById("CVDC").readOnly = false;
+                document.getElementById("CProvince").disabled = false;
+                document.getElementById("CHouseNo").readOnly = false;
+                document.getElementById("CWardNo").readOnly = false;
+                document.getElementById("CDistrictID").disabled = false;
+                document.getElementById("PStreet").readOnly = false;
+                document.getElementById("PVDC").readOnly = false;
+                document.getElementById("PProvince").disabled = false;
+                document.getElementById("PHouseNo").readOnly = false;
+                document.getElementById("PWardNo").readOnly = false;
+                document.getElementById("PDistrictID").disabled = false;
+            }
+        }
+        //end for same as permanent
+        function NumberSlashDashParenthesis(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode != 45 && charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 47 && (charCode < 40 || charCode > 41))
+                return false;
+
+            return true;
+        }
+        function NumberSlashDash(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode != 45 && charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 47 )
+                return false;
+
+            return true;
+        }
+        function AlphabetComma(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 32 && charCode < 44) || (charCode > 44 && charCode < 48) || (charCode > 57 && charCode < 65) || (charCode > 90 && charCode < 97) || (charCode > 122 && charCode < 127) || (charCode > 47 && charCode < 58)) {
+
+                return false;
+            }
+            return true;
+        }
+
+        function isNumberKey(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+        function isAlphabateDot(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 32 && charCode < 46) || (charCode > 46 && charCode < 48) || (charCode > 57 && charCode < 65) || (charCode > 90 && charCode < 97) || (charCode > 122 && charCode < 127) || (charCode > 47 && charCode < 58)) {
+                
+                return false;
+            }
+            
+            return true;
+        }
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        function AlphabetOnly(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 32 && charCode < 44) || (charCode > 32 && charCode < 48) || (charCode > 57 && charCode < 65) || (charCode > 90 && charCode < 97) || (charCode > 122 && charCode < 127) || (charCode > 47 && charCode < 58)) {
+
+                return false;
+            }
+            return true;
+        }
+
+        function SetActive(event) {
+            if ($('ul  li').hasClass('active')) {
+                $('ul li').removeClass('active');
+            }
+
+            if ($('ul li a').hasClass('active')) {
+                $('ul  li a').removeClass('active');
+            }
+            var att = $(event).attr('href');
+
+            $('ul li a[href="' + att + '"]').addClass('active');
+            $('ul li a[href="' + att + '"]').closest('li').addClass('active');
+
+
+        }
+
+        function CheckMobile(value) {
+            var reg = new RegExp('^[9][8]\\d{8}$');
+            return reg.test(value);
+
+        }
+
+
+        //$("#LicenseIssueDate").datepicker(
+        //    {
+        //        dateFormat: 'dd/mm/yy',
+        //        maxDate: new Date,
+
+        //        //
+        //        yearRange: "-100:+0",
+        //        changeMonth: true,
+        //        changeYear: true,
+
+        //        //
+        //        onSelect: function (dateText) {
+
+        //            var from = $('#LicenseExpireDate').val().split("/");
+        //            if (from != "") {
+        //                var ELDate = new Date(from[2], from[1] - 1, from[0]);
+        //                var to = dateText.split("/");
+        //                var ILDate = new Date(to[2], to[1] - 1, to[0]);;
+        //                if (ILDate > ELDate) {
+        //                    $('#LicenseExpireDate').val("");
+        //                    alertify.error('License Issue Date cannot be greater than License Expiry Date');
+        //                }
+
+        //            }
+        //        },
+        //        showAnim: "slideDown"
+        //    });
+
+
+        //$("#LicenseExpireDate").datepicker(
+        //    {
+        //        dateFormat: 'dd/mm/yy',
+        //        maxDate: new Date,
+        //        //
+        //        yearRange: "-100:+0",
+        //        changeMonth: true,
+        //        changeYear: true,
+
+        //        //
+        //        onSelect: function (dateText) {
+
+        //            var from = $('#LicenseIssueDate').val().split("/");
+        //            if (from != "") {
+        //                var ILDate = new Date(from[2], from[1] - 1, from[0]);
+        //                var to = dateText.split("/");
+        //                var ELDate = new Date(to[2], to[1] - 1, to[0]);;
+        //                if (ELDate < ILDate) {
+
+        //                    $('#LicenseExpireDate').val("");
+        //                    alertify.error('License Expiry Date cannot be less than License Issue Date');
+        //                }
+
+        //            }
+        //        },
+        //        showAnim: "slideDown"
+
+
+
+        //    });
+        $("#DOB").datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date,
+                //yearRange: "-100:+0",
+                yearRange: yearRangeDOB,
+                changeMonth: true,
+                changeYear: true,
+                onSelect: function () {
+
+                    if ($('#DOB').val() != '') {
+                        $('#BSDateOfBirth').val(AD2BS(GetFormattedDate($('#DOB').val())));
+                    }
+
+                },
+                showAnim: "slideDown"
+            });
+
+        $("#CitizenshipIssueDate").datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date,
+                //yearRange: "-100:+0",
+                yearRange: yearRangeDOB,
+                changeMonth: true,
+                changeYear: true,
+                onSelect: function () {
+
+                    if ($('#CitizenshipIssueDate').val() != '') {
+                        $('#BSCitizenshipIssueDate').val(AD2BS(GetFormattedDate($('#CitizenshipIssueDate').val())));
+                    }
+
+                },
+                showAnim: "slideDown"
+            });
+
+        $("#LicenseIssueDate").datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date,
+                //yearRange: "-100:+0",
+                yearRange: yearRangeDOB,
+                changeMonth: true,
+                changeYear: true,
+                onSelect: function (dateText) {
+
+                    var from = $('#LicenseExpireDate').val().split("/");
+                    if (from != "") {
+                        var ELDate = new Date(from[2], from[1] - 1, from[0]);
+                        var to = dateText.split("/");
+                        var ILDate = new Date(to[2], to[1] - 1, to[0]);;
+                        if (ILDate > ELDate) {
+                            $('#LicenseExpireDate').val("");
+                            alertify.error('License Issue Date cannot be greater than License Expiry Date');
+                        }
+
+                    }
+                    if ($('#LicenseIssueDate').val() != '') {
+                        $('#BSLicenseIssueDate').val(AD2BS(GetFormattedDate($('#LicenseIssueDate').val())));
+                    }
+                },
+
+                showAnim: "slideDown"
+            });
+
+
+
+        $("#LicenseExpireDate").datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                //maxDate: new Date,
+               // yearRange: "-100:+10",
+
+                yearRange: yearRangeExpire,
+                changeMonth: true,
+                changeYear: true,
+
+
+                onSelect: function (dateText) {
+
+                    var from = $('#LicenseIssueDate').val().split("/");
+                    if (from != "") {
+                        var ILDate = new Date(from[2], from[1] - 1, from[0]);
+                        var to = dateText.split("/");
+                        var ELDate = new Date(to[2], to[1] - 1, to[0]);;
+                        if (ELDate < ILDate) {
+
+                            $('#LicenseExpireDate').val("");
+                            alertify.error('License Expiry Date cannot be less than License Issue Date');
+                        }
+
+                    }
+
+                    if ($('#LicenseExpireDate').val() != '') {
+                        $('#BSLicenseExpireDate').val(AD2BS(GetFormattedDate($('#LicenseExpireDate').val())));
+                    }
+                },
+                showAnim: "slideDown"
+
+            });
+
+        $("#PassportIssueDate").datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date,
+               // yearRange: "-100:+0",
+                yearRange: yearRangeDOB,
+                changeMonth: true,
+                changeYear: true,
+                //onSelect: function (dateText) {
+                //    changed = "T";
+                //    var from = $('#EndDate').val().split("/");
+                //    if (from != "") {
+                //        var EDate = new Date(from[2], from[1] - 1, from[0]);
+                //        var to = dateText.split("/");
+                //        var SDate = new Date(to[2], to[1] - 1, to[0]);;
+                //        if (SDate > EDate) {
+                //            $('#EndDate').val("");
+                //            $('#message').text('Issue Date cannot be more than Expiry Date');
+                //        }
+                //        else {
+                //            $('#message').text("");
+                //        }
+                //    }
+                //},
+                onSelect: function (dateText) {
+
+                    var from = $('#PassportExpireDate').val().split("/");
+                    if (from != "") {
+                        var EPDate = new Date(from[2], from[1] - 1, from[0]);
+                        var to = dateText.split("/");
+                        var IPDate = new Date(to[2], to[1] - 1, to[0]);;
+                        if (IPDate > EPDate) {
+                            $('#PassportExpireDate').val("");
+                            alertify.error('Passport Issue Date cannot be More than Passport Expiry Date');
+                        }
+
+                    }
+                },
+                showAnim: "slideDown"
+            });
+
+
+
+        $("#PassportExpireDate").datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                //maxDate: new Date,
+                //yearRange: "-100:+10",
+                yearRange: yearRangeExpire,
+                changeMonth: true,
+                changeYear: true,
+                //onSelect: function (dateText) {
+                //    changed = "T";
+                //    var from = $('#StartDate').val().split("/");
+                //    if (from != "") {
+                //        var SDate = new Date(from[2], from[1] - 1, from[0]);
+                //        var to = dateText.split("/");
+                //        var EDate = new Date(to[2], to[1] - 1, to[0]);;
+                //        if (EDate < SDate) {
+                //            debugger;
+                //            $('#EndDate').val("");
+                //            $('#message').text('Expiry Date cannot be less than Issue Date');
+                //        }
+                //        else {
+                //            $('#message').text("");
+                //        }
+                //    }
+                //},
+                onSelect: function (dateText) {
+
+                    var from = $('#PassportIssueDate').val().split("/");
+                    if (from != "") {
+                        var IPDate = new Date(from[2], from[1] - 1, from[0]);
+                        var to = dateText.split("/");
+                        var EPDate = new Date(to[2], to[1] - 1, to[0]);;
+                        if (EPDate < IPDate) {
+
+                            $('#PassportExpireDate').val("");
+                            alertify.error('Passport Expiry Date cannot be less than Passport Issue Date');
+                        }
+
+                    }
+                },
+                showAnim: "slideDown"
+
+            });
+
+
+
+        $('#UserName').change(function () {
+            $('#ContactNumber1').val($(this).val());
+        });
+
+        $("#UserName").change(function (event) {
+            event.preventDefault();
+
+            var id = $("#UserName").val();
+
+             
+
+            if (id.length == 10) {
+
+                if (id.substr(0, 2) != '98') {
+
+                    return;
+                }
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetCheckingUserName", "Agent")',
+                    data: { "Username": id },
+                    success: function (data, textStatus) {
+                        var markup = data;
+                        if (data == "Success") {
+                            $("#check").html("");
+                            $("#check").css("color", "green");
+                            $("#check").html("Valid").show();
+                        }
+                        else {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").html(markup).show();
+
+                        }
+                    },
+                    error: function () {
+                        alert("Data Not Found");
+                    }
+                });
+            }
+            else
+            {
+                $("#check").html("");
+              
+            }
+        });
+
+        $(document).ready(function () {
+
+            $('input[type=radio][name=MaritalStatus]').change(function () {
+                var val = $(this).val();
+                if (val != "U") {
+                    $('#family').show(500);
+                }
+                else {
+                    $('#family').hide(500);
+                }
+            });
+
+            //$('select[name=MaritalStatus]').change(function () {
+            //    if ($('select[name=MaritalStatus] option:selected').val() == 'UnMarried') {
+            //        $('#family').hide();
+
+            //    } else if ($('select[name=MaritalStatus] option:selected').val() == 'Married' || $('select[name=MaritalStatus] option:selected').val() == 'Divorced') {
+            //        $('#family').show();
+            //    }
+
+            //});
+
+            $('select[name=txtDocument]').change(function () {
+                if ($('select[name=txtDocument] option:selected').val() == 'DocCitizenship') {
+                    $('#citizenship').show();
+                    $('#license').hide();
+                    $('#passport').hide();
+                } else if ($('select[name=txtDocument] option:selected').val() == 'DocLicense') {
+                    $('#license').show();
+                    $('#citizenship').hide();
+                    $('#passport').hide();
+                } else if ($('select[name=txtDocument] option:selected').val() == 'DocPassport') {
+                    $('#passport').show();
+                    $('#citizenship').hide();
+                    $('#license').hide();
+                }
+            });
+
+
+
+        });
+
+        //photo validation
+        //this code will be executed when a new file is selected
+
+        $('#Front').bind('change', function () {
+
+            //converts the file size from bytes to MB
+            var fileSize = this.files[0].size / 1024 / 1024;
+
+            //gets the full file name including the extension
+            var fileName = this.files[0].name;
+
+            //finds where the extension starts
+            var dotPosition = fileName.lastIndexOf(".");
+
+            //gets only the extension
+            var fileExt = fileName.substring(dotPosition);
+            debugger;
+            //checks whether the file is .png,.jpg,.jpeg,.tif,.tiff,.jpe and less than 2 MB
+            if ((fileSize <= 2 && fileExt == ".png") || (fileSize <= 2 && fileExt == ".PNG") || (fileSize <= 2 && fileExt == ".jpg") || (fileSize <= 2 && fileExt == ".JPG") || (fileSize <= 2 && fileExt == ".jpeg") || (fileSize <= 2 && fileExt == ".JPEG") || (fileSize <= 2 && fileExt == ".jpe") || (fileSize <= 2 && fileExt == ".JPE") || (fileSize <= 2 && fileExt == ".TIF") || (fileSize <= 2 && fileExt == ".tif") || (fileSize <= 2 && fileExt == ".TIFF") || (fileSize <= 2 && fileExt == ".tiff")) {
+
+                $("#image").html("Valid Image");
+                $("#image").css("color", "green");
+
+
+                //successfully validated
+
+            } else if (fileSize >= 2) {
+                $("#image").html("Image size must not exceed more than 2 MB.");
+                $("#image").css("color", "#dd4b39");
+            }
+            else {
+                $("#image").html("Invalid Image format!");
+                $("#image").css("color", "#dd4b39");
+                //$("#image").html("Invalid Image");
+                //$("#image").css("color", "red");
+            }
+        });
+
+        $('#Back').bind('change', function () {
+
+            //converts the file size from bytes to MB
+            var fileSize = this.files[0].size / 1024 / 1024;
+
+            //gets the full file name including the extension
+            var fileName = this.files[0].name;
+
+            //finds where the extension starts
+            var dotPosition = fileName.lastIndexOf(".");
+
+            //gets only the extension
+            var fileExt = fileName.substring(dotPosition);
+            debugger;
+            //checks whether the file is .png and less than 1 MB
+            if ((fileSize <= 2 && fileExt == ".png") || (fileSize <= 2 && fileExt == ".PNG") || (fileSize <= 2 && fileExt == ".jpg") || (fileSize <= 2 && fileExt == ".JPG") || (fileSize <= 2 && fileExt == ".jpeg") || (fileSize <= 2 && fileExt == ".JPEG") || (fileSize <= 2 && fileExt == ".jpe") || (fileSize <= 2 && fileExt == ".JPE") || (fileSize <= 2 && fileExt == ".TIF") || (fileSize <= 2 && fileExt == ".tif") || (fileSize <= 2 && fileExt == ".TIFF") || (fileSize <= 2 && fileExt == ".tiff")) {
+
+                $("#image1").html("Valid Image");
+                $("#image1").css("color", "green");
+                //successfully validated
+
+            }
+            else if (fileSize >= 2) {
+                $("#image1").html("Image size must not exceed more than 2 MB.");
+                $("#image1").css("color", "#dd4b39");
+            }
+            else {
+                $("#image1").html("Invalid Image Format!");
+                $("#image1").css("color", "#dd4b39");
+
+                //$("#image1").html("Invalid Image");
+                //$("#image1").css("color", "red");
+            }
+        });
+
+        $('#PassportPhoto').bind('change', function () {
+
+            //converts the file size from bytes to MB
+            var fileSize = this.files[0].size / 1024 / 1024;
+
+            //gets the full file name including the extension
+            var fileName = this.files[0].name;
+
+            //finds where the extension starts
+            var dotPosition = fileName.lastIndexOf(".");
+
+            //gets only the extension
+            var fileExt = fileName.substring(dotPosition);
+            debugger;
+            //checks whether the file is .png and less than 1 MB
+            if ((fileSize <= 2 && fileExt == ".png") || (fileSize <= 2 && fileExt == ".PNG") || (fileSize <= 2 && fileExt == ".jpg") || (fileSize <= 2 && fileExt == ".JPG") || (fileSize <= 2 && fileExt == ".jpeg") || (fileSize <= 2 && fileExt == ".JPEG") || (fileSize <= 2 && fileExt == ".jpe") || (fileSize <= 2 && fileExt == ".JPE") || (fileSize <= 2 && fileExt == ".TIF") || (fileSize <= 2 && fileExt == ".tif") || (fileSize <= 2 && fileExt == ".TIFF") || (fileSize <= 2 && fileExt == ".tiff")) {
+
+                $("#image2").html("Valid Image");
+                $("#image2").css("color", "green");
+                //successfully validated
+
+            } else if (fileSize >= 2) {
+                $("#image2").html("Image size must not exceed more than 2 MB.");
+                $("#image2").css("color", "#dd4b39");
+            }
+            else {
+                $("#image2").html("invalid Image format!");
+                $("#image2").css("color", "#dd4b39");
+                //$("#image2").html("Invalid Image");
+                //$("#image2").css("color", "red");
+            }
+        });
+
+
+
+        $.validator.addMethod("lettersonly", function (value, element) {
+            debugger;
+            return this.optional(element) || /^[a-z. ]+$/i.test(value);
+        }, "Only letters and Space allowed");
+        jQuery.validator.addMethod("alphanumeric", function (value, element) {
+            return this.optional(element) || /^[\w\s]+$/i.test(value);
+        }, "only Letters and Numbers allowed");
+        $.validator.addMethod("regx", function (value, element, regexpr) {
+            return regexpr.test(value);
+        }, "please enter valid data");
+
+        $.validator.addMethod('lessThanEqual', function (value, element, param) {
+            debugger;
+            if ($(param).val().trim().length <= 0)
+                return true
+            else
+                return this.optional(element) || parseInt(value) < parseInt($(param).val());
+        }, "Validation failed");
+
+
+        $.validator.addMethod("pattern", function (value, element, param) {
+            if (this.optional(element)) {
+                return true;
+            }
+            if (typeof param === "string") {
+                param = new RegExp("^(?:" + param + ")$");
+            }
+            return param.test(value);
+        }, "Invalid format.");
+
+        var Errors = [];
+        i = 0;
+
+
+        var validator = $('#AgentRegForm').validate({
+
+            highlight: function (label) {
+                $(label).closest('.form-group').addClass('has-error');
+                //tab - pane
+                var tab_content = $(label).closest('.tab-pane');//parent().parent().parent().parent().parent().parent().parent();
+                if ($(tab_content).find(".active:has(div.has-error)").length == 0) {  //fieldset.tab-pane.active:has
+                    var id = $(tab_content).attr('id');
+                    $('a[href="#' + id + '"]').tab('show');
+
+                }
+
+            },
+            unhighlight: function (label) {
+                $(label).closest('.form-group').removeClass('has-error');
+            },
+            ignore: [],
+            rules: {
+                txtUserName: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 10,
+                    pattern: '[9][8][0-9]{8}'
+                },
+                //txtPassword:{
+                //    minlength:8,
+                //    maxlength:12
+                //},
+                txtFirstName: {
+                    required: true,
+                    lettersonly: true
+                },
+                txtMiddleName: {
+                    required: false,
+                    lettersonly: true
+                },
+                txtLastName: {
+                    required: true,
+                    lettersonly: true
+                },
+                txtGender: {
+                    required: true
+                },
+                DOB: {
+                    required: true
+                },
+
+                BSDateOfBirth: {
+                    required: true
+                },
+
+                txtNationality: {
+                    required: true
+                },
+                txtCountry : {
+                    required: true
+                },
+
+                //personal details
+                txtFatherName: {
+                    required: true,
+                    lettersonly: true
+                },
+
+                txtMotherName : {
+                    required: true,
+                    lettersonly: true
+                },
+                txtGrandFatherName: {
+                    required: true,
+                    lettersonly: true
+                },
+                txtOccupation: {
+                    required: true
+                },
+
+                MaritalStatus: {
+                    required: true
+                },
+
+                //for marital status validation
+
+                SpouseName: {
+                    required: function (element) {
+
+                        if ($('input[name="MaritalStatus"]:checked').val() == "M" || $('input[name="MaritalStatus"]:checked').val() == "D") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    },
+
+                    lettersonly: true
+                },
+
+                FatherInLaw: {
+                    required: function (element) {
+
+                        if ($('input[name="MaritalStatus"]:checked').val() == "M" || $('input[name="MaritalStatus"]:checked').val() == "D") {
+
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    },
+                    lettersonly: true
+                },
+
+
+                txtPanNo: {
+                    required: true
+                },
+                //start milayako 02
+                //PStreet: {
+                //    required: true
+                //},
+                PProvince: {
+                    required: true
+                },
+                PDistrictID: {
+                    required: true
+                },
+
+
+                txtPVDC: {
+                    required: true
+                },
+                txtPHouseNo: {
+                    required: false
+                },
+                txtPWardNo: {
+                    required: true
+                },
+
+
+                //PMunicipalityVDC: {
+                //    required: true
+                //},
+                //PHouseNo: {
+                //    required: true
+                //},
+                //PWardNo: {
+                //    required: true
+                //},
+                //CStreet: {
+                //    required: true
+                //},
+                CProvince: {
+                    required: true
+                },
+                CDistrictID: {
+                    required: true
+                },
+
+                txtCVDC: {
+                    required: true
+                },
+                txtCHouseNo: {
+                    required: false
+                },
+                txtCWardNo: {
+                    required: true
+                },
+                //CMunicipalityVDC: {
+                //    required: true
+
+                //},
+                //CHouseNo: {
+                //    required: true
+
+                //},
+                //CWardNo: {
+                //    required: true
+
+                //},
+
+
+                //end milayako 02
+                //start delete garnu parne 02
+                //Address: {
+                //required: true,
+                //alphanumeric: true
+
+                //},
+                //end delete garnu parne 02
+
+                //txtPin: {
+                //    required: true,
+                //    minlength: 4
+                //},
+
+                ///document identification
+                txtDocument: {
+                    required: true
+                },
+
+
+
+                //for citizenship validation
+                txtCitizenship: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocCitizenship") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+
+                CitizenshipIssueDate: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocCitizenship") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+
+                BSCitizenshipIssueDate: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocCitizenship") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+
+                txtCitizenshipPlaceOfIssue: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocCitizenship") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+
+
+                //for license validation
+                txtLicense: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocLicense") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+
+                LicenseIssueDate: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocLicense") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+
+                BSLicenseIssueDate: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocLicense") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+
+                LicenseExpireDate: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocLicense") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+
+                BSLicenseExpireDate: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocLicense") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+
+                txtLicensePlaceOfIssue: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocLicense") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+                //for passport validation
+                txtPassport: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocPassport") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+
+                PassportIssueDate: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocPassport") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+
+                PassportExpireDate: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocPassport") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+
+                txtPassportPlaceOfIssue: {
+                    required: function (element) {
+
+                        if ($("#Document").val() == "DocPassport") {
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+
+                    }
+                },
+                //txtCitizenship: {
+                //    required: false
+
+                //},
+                //txtLicense: {
+                //    required: false
+
+                //},
+                //txtPassport: {
+                //    required: false
+
+                //},
+
+
+
+                //CitizenshipIssueDate: {
+                //    required: false
+
+                //},
+                //LicenseIssueDate: {
+                //    required: false
+
+                //},
+                //PassportIssueDate: {
+                //    required: false
+
+                //},
+
+                //LicenseExpireDate: {
+                //    required: false
+
+                //},
+                //PassportExpireDate: {
+                //    required: false
+
+                //},
+                //txtCitizenshipPlaceOfIssue: {
+                //    required: false
+
+                //},
+
+                //txtLicensePlaceOfIssue: {
+                //    required: false
+
+                //},
+
+                //txtPassportPlaceOfIssue: {
+                //    required: false
+
+                //},
+                PassportPhoto: {
+                    required: true
+
+                }, Front: {
+                    required: true
+
+                }, Back: {
+                    required: true
+
+                },
+
+                CustProfile: {
+                    required: true
+                },
+                Email: {
+                    required: true,
+                    pattern: /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/
+                },
+                BankNoBin: {
+                    required: true
+                },
+                txtBranchCode: {
+                    required: true
+                },
+                txtBankAccountNumber: {
+                    required: true,
+                    maxlength: 14,
+                    minlength: 14
+                },
+
+
+                ////
+                TransactionLimit: {
+                    required: function (element) {
+                        return checkradiobtnlimit();
+                    }
+                },
+                TransactionCount: {
+                    required: function (element) {
+                        return checkradiobtnlimit();
+                    }
+                },
+                StartDate: {
+                    required: function (element) {
+                        debugger;
+                        var dateselected = $('input[type=radio][name=DateRange]:checked').val();
+                        if (checkradiobtn() && dateselected == "Cu") {
+                            return true;
+                        }
+                        return false;
+                    }
+                },
+                EndDate: {
+                    required: function (element) {
+                        debugger;
+                        var dateselected = $('input[type=radio][name=DateRange]:checked').val();
+                        if (checkradiobtn() && dateselected == "Cu") {
+                            return true;
+                        }
+                        return false;
+                    }
+                },
+                TransactionLimitMonthly: {
+                    required: function (element) {
+                        return checkradiobtnlimit();
+                    },
+                    min: 1
+                },
+                TransactionLimitDaily: {
+                    required: function (element) {
+                        return checkradiobtnlimit();
+                    },
+                    lessThanEqual: '#TransactionLimitMonthly',
+                    min: 1
+
+                },
+                LimitType: {
+                    required: function (element) {
+                        return checkradiobtn();
+                    }
+                },
+                DateRange: {
+                    required: function (element) {
+                        return checkradiobtn();
+                    }
+                }
+                ////
+            },
+            errorPlacement: function (error, element) {
+                if (element.is(":radio")) {
+                    //alert('oj');
+                    error.insertAfter(element.parent().parent());
+                }
+                else { // This is the default behavior of the script for all fields
+                    error.insertAfter(element);
+                }
+            },
+            messages: {
+                txtUserName: {
+                    required: "Please Enter a UserName,Should be Mobile Number",
+                    minlength: "UserName should be of 10 characters and must start with 98",
+                    maxlength: "UserName should be of 10 characters and must start with 98",
+                    pattern: "UserName should be of 10 characters and must start with 98"
+
+                },
+
+                Name: {
+                    required: "Please Enter Full Name",
+                    lettersonly: "Only letters and Space allowed"
+                },
+
+                //txtPassword: {
+                //    minlength: "Password must be minimum 8 character",
+                //    maxlength: "Password must be maximum 12 character"
+                //},
+
+                //start milayako 02
+
+               Email: {
+                    required: "Please Enter Email",
+
+                    pattern:"Please enter correct patterm"
+                },
+                txtFirstName: {
+                    required: "Please enter the First Name"
+                },
+
+                txtMiddleName: {
+                    required: "Please enter the Middle Name"
+                },
+                txtLastName: {
+                    required: "Please enter the Last Name"
+
+                },
+                txtGender: {
+                    required: "Please select the Gender"
+
+                },
+                DOB: {
+                    required: "Please select the DOB (AD)"
+
+                },
+
+                BSDateOfBirth: {
+                    required: "Please select the DOB (BS)"
+
+                },
+                txtNationality: {
+                    required: "Please select the Nationality"
+
+                },
+                txtCountry: {
+                    required: "Please select the Country"
+
+                },
+
+                //personal details
+                txtFatherName: {
+                    required: "Please enter the Father Name"
+
+                },
+                txtMotherName: {
+                    required: "Please enter the Mother Name"
+                },
+                txtGrandFatherName: {
+                    required: "Please enter the Grand Father Name"
+                },
+                txtOccupation: {
+                    required: "Please select the Occupation"
+                },
+
+                MaritalStatus: {
+                    required: "Please select the Marital Status"
+
+                },
+                SpouseName: {
+                    required: "Please enter the Spouse Name"
+
+                },
+                FatherInLaw: {
+                    required: "Please enter the Father In Law's Name"
+
+                },
+                txtPanNo: {
+                    required: "Please enter the Pan No"
+
+                },
+                PassportPhoto: {
+                    required: "Please enter the passport photo"
+
+                },
+                Front: {
+                    required: "Please enter the passport photo"
+
+                },
+                Back: {
+                    required: "Please enter the passport photo"
+
+                },
+
+                ///for location details
+
+                //PStreet: {
+                //    required: "Please select the Street"
+
+                //},
+                PProvince: {
+                    required: "Please select the Province"
+
+                },
+                PDistrict: {
+                    required: "Please select the District"
+
+                },
+
+
+                txtPVDC: {
+                    required: "Please enter the VDC"
+
+                },
+                txtPHouseNo: {
+                    required: "Please enter the House No"
+
+                },
+                txtPWardNo: {
+                    required: "Please enter the Ward No"
+
+                },
+                //PMunicipalityVDC: {
+                //    required: "Please enter the VDC"
+
+                //},
+
+                //CStreet: {
+                //    required: "Please enter the Street"
+                //},
+                CProvince: {
+                    required: "Please select the Province"
+                },
+                CDistrictID: {
+                    required: "Please select the District"
+                },
+
+                txtCVDC: {
+                    required: "Please enter the VDC"
+                },
+                //CMunicipalityVDC: {
+                //    required: "Please enter the VDC"
+                //},
+                txtCHouseNo: {
+                    required: "Please enter the House No"
+                },
+                txtCWardNo: {
+                    required: "Please enter the Ward No"
+                },
+                //end milayako 02
+
+                //start delete garnu parne 02
+                //Address: {
+
+                //    required: "Please enter the address",
+                //    alphanumeric: "only Letters and Numbers allowed"
+                //},
+
+                //end delete garnu parne 02
+                //txtPin: {
+                //    required: "Please Enter a Pin Number",
+                //    minlength: "Pin number should be of 4 digits"
+                //},
+
+                //for document identification
+
+                txtDocument: {
+                    required: "Please select the Document"
+                },
+                txtCitizenship: {
+                    required: "Please enter the Citizenship"
+                },
+
+                txtPassport: {
+                    required: "Please enter the Passport"
+                },
+                txtLicense: {
+                    required: "Please enter the License"
+                },
+                txtLicense: {
+                    required: "Please enter the License"
+                },
+
+
+
+
+
+                CitizenshipIssueDate: {
+                    required: "Please select the Citizenship Issue Date(AD)"
+                },
+                BSCitizenshipIssueDate: {
+                    required: "Please select the Citizenship Issue Date(BS)"
+                },
+                LicenseIssueDate: {
+                    required: "Please select the License Issue Date(AD)"
+                },
+                BSLicenseIssueDate: {
+                    required: "Please select the License Issue Date(BS)"
+                },
+                PassportIssueDate: {
+                    required: "Please select the Passport Issue Date"
+
+                },
+
+
+                LicenseExpireDate: {
+                    required: "Please select the License Expire Date(AD)"
+                },
+                BSLicenseExpireDate: {
+                    required: "Please select the License Expire Date(BS)"
+                },
+                PassportExpireDate: {
+                    required: "Please select the Passport Expire Date"
+                },
+
+                txtCitizenshipPlaceOfIssue: {
+                    required: "Please enter the Citizenship Place Of Issue"
+                },
+
+                txtLicensePlaceOfIssue: {
+                    required: "Please enter the License Place Of Issue"
+                },
+
+                txtPassportPlaceOfIssue: {
+                    required: "Please enter the Passport Place Of Issue"
+                },
+
+
+
+
+
+
+                CustProfile: {
+                    required: "Please Select a Role"
+                },
+                Email: {
+                    pattern: "Please enter a valid email address"
+
+                },
+                BankNoBin: {
+                    required: "Please Select the bank"
+                },
+                txtBranchCode: {
+                    required: "Please enter the branch code"
+                },
+                txtBankAccountNumber: {
+                    required: "Please fill in Bank Account number",
+                    maxlength: "Bank Account Number must be 14 digits",
+                    minlength: "Bank Account Number must be 14 digits"
+
+                },
+                ///
+                TransactionLimit: {
+
+                    required: "Please fill the Transaction Limit"
+
+                },
+                TransactionCount: {
+                    required: "This field is required"
+                },
+                TransactionLimitMonthly: {
+                    required: "This field is required",
+                    min: "Monthly limit cannot be zero"
+                },
+                TransactionLimitDaily: {
+                    required: "This field is required",
+                    lessThanEqual: "Daily limit should be less than monthly limit",
+                    min: "Daily limit cannot be zero"
+
+                },
+                LimitType: {
+                    required: "This field is required"
+                },
+                StartDate: {
+                    required: "This field is required"
+                },
+                EndDate: {
+                    required: "This field is required"
+                },
+                DateRange: {
+                    required: "Please select the DateRange"
+                },
+
+                submitHandler: function (AgentRegForm) {
+                    AgentRegForm.submit();
+                }
+                ///
+
+
+            }
+
+
+
+        });
+
+        var jQuery_1_10_2 = $.noConflict(true);
+
+
+    </script>
+}

@@ -1,0 +1,636 @@
+﻿
+@model ThailiMNepalAgent.Models.TopUpPay
+@{
+    ViewBag.Title = "Khanepani";
+
+    //List<SelectListItem> TransactionMedium = new List<SelectListItem>();
+    //TransactionMedium.Add(new SelectListItem { Text = "Wallet", Value = "32" });
+    //TransactionMedium.Add(new SelectListItem { Text = "Bank", Value = "35" });
+
+    //List<SelectListItem> Amount = new List<SelectListItem>();
+
+
+    //Amount.Add(new SelectListItem { Text = "550", Value = "550" });
+    //Amount.Add(new SelectListItem { Text = "1300", Value = "1300" });
+    //Amount.Add(new SelectListItem { Text = "2260", Value = "2260" });
+    ///
+    List<SelectListItem> SelectRecharge = new List<SelectListItem>();
+
+
+    SelectRecharge.Add(new SelectListItem { Text = "BroadLink", Value = "14" });
+    SelectRecharge.Add(new SelectListItem { Text = "DishHome", Value = "13" });
+    SelectRecharge.Add(new SelectListItem { Text = "NTCCDMA", Value = "12" });
+    SelectRecharge.Add(new SelectListItem { Text = "NTCGSM", Value = "11" });
+
+    //
+
+}
+
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/alertify.min.css" />
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/default.min.css" />
+
+
+@*<section class="content-header">
+        <h1>
+            Recharge Card
+            <small>BroadLink</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-user"></i> Recharge Card</a></li>
+            <li class="active">BroadLink</li>
+        </ol>
+    </section>*@
+
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />
+<style>
+    .image_icon {
+        width: 50px;
+    }
+
+
+    .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        margin-right: 13px;
+        position: relative;
+        z-index: 2;
+    }
+</style>
+<!-- Main content -->
+
+<div class="main-content">
+    <div class="two-colbg">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6">
+
+                    <section class="internet-payment pad-50">
+                        <div class="top-section">
+                            <h2 class="title">Khanepani</h2>
+                            <p>Please select the service provider whose khanepani you want to purchase.</p>
+                            <p>For validity information, please <a href="#">click here</a></p>
+                        </div>
+
+                        <section class="instant-transactions">
+                            <div class="top-section clearfix">
+                                @*<h2 class="title">Instant Transactions</h2>*@
+                                @*<a href="#" class="customize">customize</a>*@
+                            </div>
+
+                            <div class="transactions-grid clearfix">
+                                <div class="item load-wallet">
+                                    <div class="item-inner">
+                                        @*<a href="~/FundTransfer/LoadWalletBW">*@
+                                        <a href="~/LoadWallet/EBanking">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-load-wallet"></i>
+                                                <span>Load Wallet</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item transfer-fund">
+                                    <div class="item-inner">
+                                        <a href="~/FundTransfer/Index">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-transfer-funds"></i>
+                                                <span>Transfer funds</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="~/UtilityPay/TopUp">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-top-up"></i>
+                                                <span>Top Up</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item recharge">
+                                    <div class="item-inner">
+                                        <a href="~/UtilityPay/NewRecharge">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-recharge"></i>
+                                                <span>Recharge</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+                                @*<div class="item withdraw">
+                    <div class="item-inner">
+                        <a href="~/FundTransfer/Withdraw">
+                            <div class="content-inner">
+                                <i class="thaili-icon-wallet"></i>
+                                <span>Withdraw </span>
+                            </div>
+                        </a>
+                    </div>
+                </div>*@
+                                <!-- /item -->
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/FundTransfer/Withdraw">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-wallet"></span>
+                                                <span style="color:#bf8040;">Withdraw</span>
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/MerchantPayment/MerchantRestaurant">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-merchant"></span>
+                                                <span style="color:#002d6a;">Merchants</span>
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/Cash/OutAgent3">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-cashout"></span>
+                                                <span style="color:#ff9966;">Cash Out</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/Cash/In">
+                                            <div class="content-inner">
+                                                <img src="~/Content/assets/img/icons/icon-cashin.svg" style="max-width: 79%;" />
+
+                                                <span style="color:#00aeef;">Cash In</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+                            </div>
+                        </section>
+                        <!-- /internet-payment -->
+                    </section>
+                </div>
+
+                <div class="col-lg-6 right-form">
+                    <section class="content-inner pad-50">
+
+
+
+                        @using (Html.BeginForm(new { @id = "KhanepaniRegForm", @name = "KhanepaniRegForm", @class = "form-horizontal" }))
+                        {
+                            @*@Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true)*@
+
+
+                            <div id="ajaxResponse">
+                            </div>
+
+                            <div class="col-xs-12">
+                                <div class="box box-info">
+
+                                    @if (this.ViewData["recharge_message"] != null)
+                                    {
+                                        if (this.ViewData["message_class"].ToString() == "success_info")
+                                        {
+                                            <div class="alert alert-success">
+                                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                <h4>Success</h4> @this.ViewData["recharge_message"]
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-danger">
+                                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                <h4>Error</h4> @this.ViewData["recharge_message"]
+                                            </div>
+                                        }
+                                    }
+                                    @*//start milayako*@
+
+                                    <div style="margin-left:135px; margin-top:280px;">
+                                        Coming soon
+                                    </div>
+                                    @*//end milayako*@
+                                    <div class="transfer-order clearfix" style="display:none;">
+                                        <h3 class="title">Pay from</h3>
+
+                                        <select class="form-control selectpicker transaction-select from col-md-9" id="TransactionMedium" name="TransactionMedium" onmousedown="this.value='';">
+                                            <option data-icon="thaili-icon-load-wallet" value="32">Wallet</option>
+                                            <option data-icon="thaili-icon-bank" value="35">Bank</option>
+                                        </select>
+                                    </div>
+
+                                    @*//original
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="@Html.NameFor(x=>x.TransactionMedium)" class="control-label col-md-12"> @Html.DisplayNameFor(x => x.TransactionMedium)<span style="color:red">*</span></label>
+
+                                                <div class="col-sm-12">
+                                                    @Html.DropDownListFor(model => model.TransactionMedium, new SelectList(TransactionMedium, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "TransactionMedium" })
+                                                </div>
+                                            </div>
+                                        </div>*@
+
+
+                                    <div class="box-body" style="display:none;">
+                                        <!-- /.form-group -->
+
+                                        <div class="form-group">
+                                            <label for="@Html.NameFor(x=>x.SelectRecharge)">Pick a service provider<span style="color:red">*</span></label>
+                                            @Html.DropDownListFor(model => model.SelectRecharge, new SelectList(SelectRecharge, "Value", "Text"), new { @class = "form-control selectpicker transaction-select from", @required = "required", @style = "width: 100%;", @id = "SelectRecharge" })
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="@Html.NameFor(x=>x.Amount)">Amount<span style="color:red">*</span></label>
+
+                                            @*<input type="text" id="Amount" name="Amount" class="form-control" placeholder="Amount"
+                                                       pattern=".{0,2}" required title="Please use 2 digit amount" maxlength="5" onkeypress="return isNumber(event)" onchange="checkValidation()" />
+                                                <div id="Amt" style="color:red;"></div>*@
+                                            <select class="form-control" id="Amount" name="Amount" onmousedown="this.value='';">
+
+                                                <option id="b550" value="550">NRs. 550</option>
+                                                <option id="b100" value="100">NRs. 100</option>
+                                                <option id="b100" value="200">NRs. 200</option>
+                                                <option id="b350" value="350">NRs. 350</option>
+                                                <option id="b400" value="400">NRs. 400</option>
+                                                <option id="b500" value="500">NRs. 500</option>
+
+
+
+                                                <option id="b1000" value="1000">NRs. 1000</option>
+                                                <option id="b1200" value="1200">NRs. 1200</option>
+                                                <option id="b1500" value="1500">NRs. 1500</option>
+
+                                                <option id="b2000" value="2000">NRs. 2000</option>
+                                                <option id="b2260" value="2260">NRs. 2260</option>
+                                                <option id="b3000" value="3000">NRs. 3000</option>
+                                                <option id="b4000" value="4000">NRs. 4000</option>
+                                                <option id="b5000" value="5000">NRs. 5000</option>
+                                                <option id="b6000" value="6000">NRs. 6000</option>
+                                                <option id="b7000" value="7000">NRs. 7000</option>
+                                                <option id="b9000" value="9000">NRs. 9000</option>
+                                                <option id="b10000" value="10000">NRs. 10000</option>
+                                            </select>
+
+                                        </div>
+                                        <div id="Amt" style="color:red;"></div>
+
+                                        <div class="form-group">
+                                            <label for="@Html.NameFor(x=>x.Pin)"> @Html.DisplayNameFor(x => x.Pin)<span style="color:red">*</span></label>
+                                            @Html.PasswordFor(model => model.Pin, new { @class = "form-control pwd1", @required = "required", @maxlength = "4", @placeholder = "PIN", @onchange = "checkValidation()", @onkeypress = "return isNumber(event)", @title = "Please use T-Pin number" })
+                                            @Html.ValidationMessageFor(model => model.Pin, "", new { @class = "text-danger" })
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                                        </div>
+                                        <div class="form-group" id="TPin" style="color:red; margin-top:-11px;"></div>
+
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer" style="display:none;">
+                                        <input type="submit" class="btn btn-blue btn-big col-md-5" name="btnCommand" value="Confirm" id="btnSubmit" />
+                                        <a href="@Url.Action("Khanepani","UtilityPay")" class="btn btn-blue btn-big " id="btnNew" title="Begin New Transaction" style="display:none">New Transaction</a>
+                                        <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success modal -->
+<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/success-tick.svg" alt="">
+                </div>
+                <p class="msg">@*Success!*@</p>
+                <span class="msg">Your payment has been confirmed.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Failure modal -->
+<div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/denied-cross.svg" alt="">
+                </div>
+                <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
+                <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Load jQuery and the validate plugin -->
+@section scripts{
+    @*<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>*@
+
+
+
+    <script type="text/javascript">
+
+        $(".btnShow1").mousedown(function () {
+            $(".pwd1").attr("type", "text");
+        });
+        $(".btnShow1").on("mouseleave", function () {
+            $(".pwd1").attr("type", "password");
+        });
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+
+        function checkValidation() {
+            var servicecode = $("[name='TransactionMedium']").val();
+            var amount = $("[name='Amount']").val();
+            //var destmobile = $("[name='MobileNumber']").val();
+            var pin = $("[name='Pin']").val();
+
+            if ((amount == "") || (amount == "0") || (amount == null)) {
+                $("#Amt").html("");
+                $("#Amt").append("<small>" + "Please Choose valid Amount" + "</small>");
+                $("#Amt").show();
+            }
+            else {
+                $("#Amt").hide();
+            }
+            if (pin.trim() == "") {
+                $("#TPin").html("");
+                $("#TPin").append("<small>" + "Please Enter the T-Pin" + "</small>");
+                $("#TPin").show();
+            }
+            else if (pin.length != 4) {
+                $("#TPin").html("");
+                $("#TPin").append("<small>" + "T-Pin must be 4 character long." + "</small>");
+                $("#TPin").show();
+            }
+            else {
+                $("#TPin").hide();
+            }
+
+
+        }
+        var vidd
+        $(document).ready(function () {
+            $("#Amount").children('option').hide();
+            $("#Amount").children("option[value=550]").show()
+            $("#Amount").children("option[value=1200]").show()
+            $("#Amount").children("option[value=1500]").show()
+            $("#SelectRecharge").change(function () {
+                $("#Amount").val("");
+                 vidd = $("[name='SelectRecharge']").val();
+                $("#Amount").children('option').hide();
+                if (vidd == "11") {
+                    $("#Amount").children('option').hide();
+                    $("#Amount").children("option[value=100]").show()
+                    $("#Amount").children("option[value=200]").show()
+                    $("#Amount").children("option[value=500]").show()
+                    $("#Amount").children("option[value=1000]").show()
+                }
+                if (vidd == "12") {
+                    $("#Amount").children('option').hide();
+                    $("#Amount").children("option[value=100]").show()
+                    $("#Amount").children("option[value=200]").show()
+                    $("#Amount").children("option[value=500]").show()
+                    $("#Amount").children("option[value=1000]").show()
+                }
+                if (vidd == "13") {
+                    $("#Amount").children('option').hide();
+                    $("#Amount").children("option[value=350]").show()
+                    $("#Amount").children("option[value=400]").show()
+                    $("#Amount").children("option[value=500]").show()
+
+                    $("#Amount").children("option[value=1000]").show()
+                    $("#Amount").children("option[value=2000]").show()
+                    $("#Amount").children("option[value=3000]").show()
+                    $("#Amount").children("option[value=4000]").show()
+                    $("#Amount").children("option[value=5000]").show()
+                    $("#Amount").children("option[value=6000]").show()
+                    $("#Amount").children("option[value=7000]").show()
+                    $("#Amount").children("option[value=9000]").show()
+                    $("#Amount").children("option[value=10000]").show()
+                }
+                if (vidd == "14") {
+                    $("#Amount").children('option').hide();
+                    $("#Amount").children("option[value=550]").show()
+                    $("#Amount").children("option[value=1200]").show()
+                    $("#Amount").children("option[value=1500]").show()
+
+                }
+            })
+        })
+    $('#btnNew').hide();
+    $("#clearButton").click(function () {
+        //$("#SelectRecharge").val("");
+        $("#Amount").val("");
+        $("#Pin").val("");
+        $("#Amt").hide();
+        $("#TPin").hide();
+
+    });
+    //$('#NewRechargeRegForm').bootstrapValidator({
+    //    feedbackIcons: {
+    //        valid: 'glyphicon glyphicon-ok',
+    //        invalid: 'glyphicon glyphicon-remove',
+    //        validating: 'glyphicon glyphicon-refresh'
+    //    },
+    //    fields: {
+
+    //        Amount: {
+    //            validators: {
+    //                integer: {
+    //                    message: 'The value is not an integer'
+    //                },
+    //                notEmpty: {
+    //                    message: 'The Amount is required and cannot be empty'
+    //                },
+    //                stringLength: {
+    //                    max: 4,
+    //                    min: 2,
+    //                    message: 'The Amount must be more than 2 and less than 4 characters long'
+    //                }
+    //            }
+    //        },
+    //        Pin: {
+    //            validators: {
+    //                integer: {
+    //                    message: 'The value is not an integer'
+    //                },
+    //                notEmpty: {
+    //                    message: 'The pin is required and cannot be empty'
+    //                },
+    //                stringLength: {
+    //                    max: 4,
+    //                    min: 4,
+    //                    message: 'The pin must be 4 digit numeric value'
+    //                }
+    //            }
+    //        }
+    //    }
+    //});
+
+        $("#ajaxResponse").hide();
+        $("#Amt").hide();
+        $("#TPin").hide();
+
+      $('#btnSubmit').click(function (e) {
+            e.preventDefault();
+
+
+            var servicecode = $("[name='TransactionMedium']").val();
+            var vid = $("[name='SelectRecharge']").val();
+            var amount = $("[name='Amount']").val();
+            var pin = $("[name='Pin']").val();
+            var src = "http";
+
+
+            //if (amount.trim() == "")
+            //{
+            //    $("[name='Amount']").focus();
+            //    alertify.error('Amount cannot be empty');
+            //    return;
+            //}
+            //if (amount.trim() == "0") {
+            //    $("[name='Amount']").focus();
+            //    alertify.error('Amount cannot be 0');
+            //    return;
+            //}
+            //if (pin.trim() == "") {
+            //    $("[name='Pin']").val()
+            //    alertify.error('Pin cannot be empty');
+            //    return;
+            //}
+
+          if ((servicecode != "") && (vid !="")/*&&(destmobile != "")*/ && (amount != "") && (pin != "") && (pin.length == 4) /*&& (note != "")*/) {
+
+                var dataToPost = {
+                    TransactionMedium: servicecode,
+                    SelectRecharge: vid,
+                    //MobileNumber: destmobile,
+                    amount: amount,
+                    pin: pin,
+                    src: src
+                };
+                e.preventDefault(); //prevent the default action
+                $.ajax({
+                    url: '@Url.Action("Khanepani", "UtilityPay")',
+                    type: "POST",
+                    data: dataToPost,
+                    async: false,
+                    success: function (data) {
+
+                        debugger;
+                        if (data.responseCode == "200") {
+                            debugger;
+                            $("#ajaxResponse").html("");
+                            var resp = JSON.parse(data.responseText);
+                            $('#successModal').modal("show");
+
+                            //swal(
+                            //    'Success', resp.message + 'Available Balance:' + resp.availableBalance, 'success'
+                            //)
+
+                            //var AppendText = "<div class='alert alert-success'><h4>Success &nbsp;</h4>";
+                            //AppendText = AppendText + resp.message;
+                            //AppendText = AppendText + "<br/> Available Balance:" + resp.availableBalance;
+                            //AppendText = AppendText + "<br/></div>";
+                           // $("#ajaxResponse").append(AppendText);
+                            $("#Pin").val("");
+                            $("#ajaxResponse").show();
+                            $('#btnNew').show();
+                            $('#btnSubmit').hide();
+                            $('#clearButton').hide();
+
+                        }
+                        else {
+                            $("#message").html("");
+                            $("#message").append(data.responseText);
+                            $('#failureModal').modal("show");
+                            //$("#ajaxResponse").html("");
+                            //$("#ajaxResponse").append("<div class='alert alert-danger'><h4>Error </h4> "
+                            //    + data.responseText + "<br/></div>");
+                            //$("#ajaxResponse").show();
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Failed to retrieve.');
+                        $("#ajaxResponse").html("");
+                        $("#ajaxResponse").append(jqXHR.responseText);
+                        $("#ajaxResponse").show();
+                    },
+                    //capture the request before it was sent to server
+                    beforeSend: function (jqXHR, settings) {
+                        //adding some Dummy data to the request
+                        settings.data += "&dummyData=whatever";
+                        //disable the button until we get the response
+                        $('#btnSubmit').attr("disabled", true);
+                    },
+                    complete: function (jqXHR, textStatus) {
+                        //enable the button
+                        $('#btnSubmit').attr("disabled", false);
+                    }
+                });
+
+            }
+          else {
+              checkValidation();
+              $("#message").html("");
+              $("#message").append("Please Enter the required fields.");
+              $('#failureModal').modal("show");
+                //$("#ajaxResponse").html("");
+                //$("#ajaxResponse").append("<div class='alert alert-danger'><h4>Error</h4>"
+                //    + "Please Enter the required Field" + "<br/></div>");
+                //$("#ajaxResponse").show();
+            }
+        });
+
+
+    </script>
+}

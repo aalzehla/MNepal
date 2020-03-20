@@ -1,0 +1,66 @@
+﻿@model MNepalProject.Models.Feature
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Feature</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FeeMaster.ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FeeMaster.ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LimitMaster.ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LimitMaster.ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductMaster.ProductName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductMaster.ProductName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FeatureCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FeatureCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SourceBIN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SourceBIN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DestinationBIN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DestinationBIN)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

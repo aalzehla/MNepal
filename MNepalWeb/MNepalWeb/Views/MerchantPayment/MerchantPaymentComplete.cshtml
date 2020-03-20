@@ -1,0 +1,91 @@
+﻿
+@model MNepalWeb.ViewModel.MerchantPaymentVM
+@{
+    ViewBag.Title = "MerchantPaymentComplete";
+}
+<section class="content-header">
+    <h1></h1>
+</section>
+
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <div class="col-md-8">
+
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Successful</h3>
+                </div>
+                <!-- /.box-header -->
+                @if (Model.Method == "200")
+                {
+                    <div class="box-body ">
+                        <!-- /.form-group -->
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="alert alert-success">
+                                    @Model.Message
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    Sender
+                                </div>
+                                <div class="col-md-8">
+                                    @Model.Sender
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    Sent Amount
+                                </div>
+                                <div class="col-md-8">
+                                    @Model.Amount
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            @*<div class="col-md-6">
+                                <div class="col-md-4">
+                                   Mid
+                                </div>
+                                <div class="col-md-8">
+                                    @Model.MName
+                                </div>
+                            </div>*@
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    Tid
+                                </div>
+                                <div class="col-md-8">
+                                    @Model.Tid
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <!-- /.form-group -->
+                    </div>
+                }
+
+
+
+            </div>
+        </div>
+     
+        <div class="col-md-2">
+          &nbsp;  
+        </div>
+       
+
+    </div>
+    <!-- /.row -->
+</section>
+
+
+
+

@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "DashBoard";
+}
+
+@section PageTitle
+    {
+
+    <ol class="breadcrumb">
+        <li class="active">
+            <a href="@(Url.Action("Board","DashBoard"))">
+                <i class="clip-home"></i>
+                <span class="selected">Home</span>
+            </a>
+        </li>
+    </ol>
+
+}
+
+<!--------------------Start Panel---------------------->
+<div class="tabbable panel-tabs">
+    <ul id="myTab" class="nav nav-tabs tab-bricky">
+        <li class="active">
+            <a href="#myActivities" data-toggle="tab">
+                My Activities
+            </a>
+        </li>
+        <li>
+            <a href="#sth1" data-toggle="tab">
+                Something 1
+            </a>
+        </li>
+        <li>
+            <a href="#sth2" data-toggle="tab">
+               Something 2
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" data-ng-controller="dashboard">
+        <div class="tab-pane in active" id="myActivities">      
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover table-full-width">
+                    <thead>
+                        <tr>
+                            <th>Created Date</th>
+                            <th class="hidden-xs">Description</th>
+                            <th>Transaction Type</th>
+                            <th>Source</th>
+                            <th class="hidden-xs">Destination</th>
+                            <th>Amount</th>
+                            <th class="hidden-xs">Status</th>
+                        </tr>
+                    </thead>         <!--in javascript( filtername that contains array,        expression,              comparator)-->
+                    <tr data-ng-repeat="item in items|pagination : currentPage*itemsPerPage | limitTo: itemsPerPage">
+                        <td>{{item.CreatedDate|date:'medium'}}</td>
+                        <td>{{item.Description}}</td>
+                        <td>{{item.FeatureName}}</td><!--transaction type-->
+                        <td>{{item.SourceMobile}}</td>
+                        <td>{{item.DestinationMobile}}</td>
+                        <td>{{item.Amount}}</td>
+                        <td>{{item.StatusName}}</td>
+                    </tr>
+                </table>
+                <div class="pagination-div">
+
+                    <ul class="pagination">
+
+                        <li ng-class="DisablePrevPage()">
+
+                            <a href ng-click="prevPage()"> Prev</a>
+
+                        </li>
+
+                        <li ng-repeat="n in range()"
+                            ng-class="{active: n == currentPage}"
+                            ng-click="setPage(n)">
+
+                            <a href>{{n+1}}</a>
+
+                        </li>
+
+                        <li ng-class="DisableNextPage()">
+
+                            <a href ng-click="nextPage()">Next </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div> 
+                <p>
+                    <a href="#sth1" class="btn btn-teal show-tab">
+                        Something 1
+                    </a>
+                </p>
+        </div>
+        <div class="tab-pane" id="sth1">
+            <div class="alert alert-info">
+                <p>
+                    Something 1
+                </p>
+                <p>
+                    <a href="#sth2" class="btn btn-teal show-tab">
+                       GO Something  2
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="sth2">
+            <div class="alert alert-info">
+                <p>
+                    something 2
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------End Panel---------------------->

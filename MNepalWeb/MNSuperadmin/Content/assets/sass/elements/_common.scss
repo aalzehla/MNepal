@@ -1,0 +1,239 @@
+/** Background color classes **/
+.bg-grey {
+    background-color: $color-bg-grey;
+}
+
+.two-colbg {
+    background: linear-gradient(to right, $color-white 0%, $color-white 50%, $color-bg-grey 50%, $color-bg-grey 100%);
+}
+
+/** padding classes **/
+.pad-50 {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.bordered-title {
+    position: relative;
+
+    &::before {
+        content: '';
+        background-color: $color-notification;
+        top: 0.6em;
+        left: 0;
+        height: 1px;
+        width: 100%;
+        position: absolute;
+        z-index: 1;
+    }
+
+    span {
+        background-color: $color-white;
+        padding: 0 20px;
+        position: relative;
+        z-index: 2;
+    }
+}
+
+.bordered-title-below {
+    border-bottom: 1px solid $color-search-text;
+    color: $color-orange;
+    padding-bottom: 10px;
+}
+
+.nibl-logo {
+    max-width: 300px;
+    display: inline-block;
+    width: 100%;
+}
+
+/** modal **/
+.modal {
+    .modal-content {
+        border: none;
+        border-radius: 11px;
+        box-shadow: 0 4px 8px transparentize($color-black, 0.91);
+    }
+}
+
+.modal-backdrop {
+    background: $color-white;
+    filter: blur(4px) brightness(10);
+}
+
+.modal-open {
+    .header, .main-content, .footer {
+        filter: blur(4px);
+    }
+}
+
+/** Custom grid **/
+.transactions-grid {
+    margin: 0 -22px;
+
+    .item {
+        float: left;
+        width: 33.33%;
+        padding: 0 19px;
+        margin-bottom: 15px;
+        height: 132px;
+    }
+
+    .item-inner {
+        background-color: $color-white;
+        border-radius: 11px;
+        box-shadow: 0 3px 12px transparentize($color-black, 0.91);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        height: 100%;
+        padding: 12px;
+        width: 100%;
+    }
+
+    .content-inner {
+        text-align: center;
+
+        i {
+            font-size: 40px;
+        }
+
+        span {
+            display: block;
+            font-size: 0.944rem;
+            padding-top: 10px;
+        }
+    }
+}
+
+/** SuccessModal **/
+.common-modal {
+    .modal-dialog {
+        margin: 0 auto;
+        max-width: 315px;
+    }
+
+    .modal-body {
+        color: $color-dark-blue;
+        padding: 30px 25px;
+
+        p {
+            margin-bottom: 13px;
+        }
+
+        .msg {
+            color: $color-lite-green;
+            font-size: 1.111rem;
+            font-weight: $font-bold;
+
+            &.denied {
+                color: $color-red;
+            }
+        }
+
+        .success-icon {
+            display: inline-block;
+            max-width: 88px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .verification-code {
+            display: flex;
+            margin-bottom: 28px;
+            justify-content: space-between;
+            overflow: hidden;
+
+            span {
+                background-color: $color-bg-grey;
+                border-radius: 4px;
+                color: $color-green;
+                font-size: 1.389rem;
+                font-weight: $font-lite;
+                padding: 15px 5px;
+                width: calc(20% - 8px);
+            }
+        }
+
+        .btn-wrapper {
+            .btn {
+                width: 100%;
+            }
+        }
+    }
+}
+
+
+/** Pagination **/
+.pagination-wrapper {
+    .pagination {
+        justify-content: center;
+    }
+
+    .page-item.active .page-link {
+        background-color: $color-green;
+        border-color: $color-green;
+        color: $color-white;
+    }
+
+    .page-link {
+        border-color: $color-search-text;
+        border-radius: 5px;
+        color: $color-search-text;
+        font-size: 13px;
+        margin: 0 5px;
+
+        &:hover, &:focus {
+            background-color: transparentize($color-green, 0.3);
+            border-color: $color-green;
+            box-shadow: none;
+            color: $color-white;
+        }
+    }
+}
+
+
+/** Responsive  CSS **/
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 767.98px) {
+    .transactions-grid {
+        margin: 0 -10px;
+
+        .item {
+            padding: 0 10px;
+            width: 50%;
+        }
+    }
+}
+
+@media (max-width: 575.98px) {
+    /** padding classes **/
+    .pad-50 {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) and (max-width: 767.98px) {  }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .transactions-grid {
+        margin: 0 -10px;
+
+        .item {
+            padding: 0 10px;
+        }
+    }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+}

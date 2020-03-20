@@ -1,0 +1,151 @@
+.footer {
+    background-color: $color-footer-bg;
+    padding: 45px 0 39px;
+    position: relative;
+
+    &:before {
+        background: -webkit-linear-gradient(
+          to right,
+          $color-lite-green 0%, $color-lite-green 20%,
+          $color-lite-blue 20%, $color-lite-blue 40%,
+          $color-orange 40%, $color-orange 60%,
+          $color-dark-blue 60%, $color-dark-blue 80%,
+          $color-green 80%, $color-green 100%);
+        background: linear-gradient(
+            to right,
+            $color-lite-green 0%, $color-lite-green 20%,
+            $color-lite-blue 20%, $color-lite-blue 40%,
+            $color-orange 40%, $color-orange 60%,
+            $color-dark-blue 60%, $color-dark-blue 80%,
+            $color-green 80%, $color-green 100%);
+        position: absolute;
+        content: '';
+        height: 4px;
+        right: 0;
+        left: 0;
+        top: 0;
+    }
+
+    .logo {
+        max-width: 187px;
+    }
+
+    .footer-top {
+        margin-bottom: 15px;
+    }
+
+    .footer-bottom {
+        .title {
+            font-size: 0.944rem;
+        }
+
+        .cnt-right {
+            font-size: 15px;
+            font-weight: $font-lite;
+
+            a {
+                font-weight: $font-normal;
+            }
+        }
+    }
+}
+
+.footer-menu {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    justify-content: space-between;
+    width: 100%;
+
+    li {
+        list-style: none;
+    }
+
+    a {
+        color: $color-text;
+        font-size: 0.889rem;
+    }
+
+    & > li > a {
+        display: block;
+        font-weight: $font-bold;
+        font-size: 1.056rem;
+        margin-bottom: 6px;
+        pointer-events: none;
+    }
+
+    ul {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+
+/** Responsive  CSS **/
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 767.98px) {
+    .footer {
+        .logo {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .footer-top {
+            margin-bottom: 20px;
+        }
+
+        .footer-bottom {
+            .cnt-right {
+                padding-top: 20px;
+            }
+        }
+    }
+
+    .footer-menu {
+        display: block;
+
+        a {
+            display: block;
+            line-height: 26px;
+        }
+
+        ul {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+@media (max-width: 575.98px) {
+    .footer {
+        .footer-bottom {
+            .cnt-right {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) and (max-width: 767.98px) {  }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .footer {
+        .logo {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .footer-top {
+            margin-bottom: 40px;
+        }
+    }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {  }

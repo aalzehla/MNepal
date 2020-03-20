@@ -1,0 +1,1276 @@
+﻿@model MNepalWeb.Models.UserInfo
+@{
+    ViewBag.Title = "Registration";
+    List<SelectListItem> Zones = new List<SelectListItem>();
+    Zones.Add(new SelectListItem { Text = "Mechi", Value = "Mechi" });
+    Zones.Add(new SelectListItem { Text = "Koshi", Value = "Koshi" });
+    Zones.Add(new SelectListItem { Text = "Sagarmatha", Value = "Sagarmatha" });
+    Zones.Add(new SelectListItem { Text = "Janakpur", Value = "Janakpur" });
+    Zones.Add(new SelectListItem { Text = "Bagmati", Value = "Bagmati" });
+    Zones.Add(new SelectListItem { Text = "Narayani", Value = "Narayani" });
+    Zones.Add(new SelectListItem { Text = "Gandaki", Value = "Gandaki" });
+    Zones.Add(new SelectListItem { Text = "Lumbini", Value = "Lumbini" });
+    Zones.Add(new SelectListItem { Text = "Dhaulagiri", Value = "Dhaulagiri" });
+    Zones.Add(new SelectListItem { Text = "Rapti", Value = "Rapti" });
+    Zones.Add(new SelectListItem { Text = "Karnali", Value = "Karnali" });
+    Zones.Add(new SelectListItem { Text = "Bheri", Value = "Bheri" });
+    Zones.Add(new SelectListItem { Text = "Seti", Value = "Seti" });
+    Zones.Add(new SelectListItem { Text = "Mahakali", Value = "Mahakali" });
+    
+    List<SelectListItem> Gender = new List<SelectListItem>();
+    Gender.Add(new SelectListItem { Text = "Male", Value = "Male" });
+    Gender.Add(new SelectListItem { Text = "Female", Value = "Female" });
+
+
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<style>
+    .empty {
+        visibility: hidden;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        Customer
+        <small>Registration</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Customer</a></li>
+        <li class="active"> Registration</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+
+
+        <!-- Start -->
+        <div class="col-xs-10">
+
+            @using (Html.BeginForm("Registration", "Customer", FormMethod.Post, new { @id = "CustomerRegForm", @name = "CustomerRegForm", @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                if (this.TempData["registration_message"] != null)
+                {
+                    if (this.TempData["message_class"].ToString() == "success_info")
+                    {
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4> @this.ViewData["registration_message"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error</h4> @this.TempData["registration_message"]
+                        </div>
+                    }
+                }
+
+                <div id="validError">
+
+                </div>
+                <div>
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#Login" aria-controls="Login" role="tab" data-toggle="tab">Login Setup</a></li>
+                        <li role="presentation"><a href="#Detail" aria-controls="Detail" role="tab" data-toggle="tab">Detail</a></li>
+                        <li role="presentation"><a href="#Profile" aria-controls="Profile" role="tab" data-toggle="tab">Profile</a></li>
+                        <li role="presentation"><a href="#ServiceSetup" aria-controls="ServiceSetup" role="tab" data-toggle="tab">Service Setup</a></li>
+                        <li role="presentation"><a href="#Confirmation" aria-controls="Confirmation" role="tab" data-toggle="tab">Confirmation</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <!--Login info-->
+                        <div role="tabpanel" class="tab-pane active" id="Login">
+
+                            <div class="box box-info" style="display:none;">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Information</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">ClientCode<b style="color:red;">*</b></label>
+                                                <input type="number" class="form-control" id="CClientCode" name="ClientCode" value="@Model.ClientCode">
+                                            </div>
+                                        </div>
+                                        <!-- /.col -->
+
+                                        <div class="col-md-6">
+                                            <div class="form-group" style="display:none;">
+                                                <label class="control-label">AgentId:</label>
+                                                <input type="text" class="form-control" id="AgentId" name="AgentId" value="1" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+
+                            <div class="box box-danger">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Login Detail</h3>
+                                </div>
+                                <!-- /.box-header -->
+
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">UserName:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="UserName" data-target="tdUserName" onkeypress="return isNumber(event)" onkeyup="CopyValue(this);" name="UserName" pattern=".{10,15}" title="Please use mobile Number" placeholder="Please use the Mobile Number" autocomplete="off" value="@Model.UserName" maxlength="10" />
+                                                    <br/>
+                                                    <label id="check"> Please use the Mobile Number</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Password:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-9">
+                                                    <input type="password" class="form-control" id="Password" name="txtPassword" pattern=".{8,12}" title="Please use password" placeholder="Password" maxlength="20"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*  <a href="#Detail" aria-controls="Detail" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Detail>></a>*@
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+
+                        </div>
+
+                        <!-- /.box -->
+                        <!--Costumer Detail-->
+                        <div role="tabpanel" class="tab-pane" id="Detail">
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Profile</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Name:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" data-target="tdCostumerName" onblur="CopyValue(this);" placeholder="Name" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Email:<b style="color:red;"></b></label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="Email" name="Email" value="@Model.EmailAddress" data-target="tdEmail" onblur="CopyValue(this);" placeholder="email@email.com" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Address:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="Address" name="Address" placeholder="Address" data-target="tdAddress" onblur="CopyValue(this);" value="@Model.Address1" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">WardNo.:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="WardNo" name="WardNo" placeholder="Ward No" value="@Model.WardNumber" onkeypress="return isNumber(event)" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Zone:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-9">
+                                                    @Html.DropDownList("txtZone", new SelectList(Zones, "Value", "Text", Model.Zone), "--Select Zone--", new { @class = " form-control select2", @style = "width: 100%;" })
+                                                    @*<select class="form-control select2" id="Zone" name="txtZone" style="width: 100%;">
+                                                            <option value="">Select</option>
+                                                            <option value="Mechi">Mechi</option>
+                                                            <option value="Kosi">Kosi</option>
+                                                            <option value="Sagarmatha">Sagarmatha</option>
+                                                            <option value="Janakpur">Janakpur</option>
+                                                            <option value="Bagmati">Bagmati</option>
+                                                            <option value="Narayani">Narayani</option>
+                                                            <option value="Gandaki">Gandaki</option>
+                                                            <option value="Lumbini">Lumbini</option>
+                                                            <option value="Dhaulagiri">Dhaulagiri</option>
+                                                            <option value="Rapti">Rapti</option>
+                                                            <option value="Karnali">Karnali</option>
+                                                            <option value="Bheri">Bheri</option>
+                                                            <option value="Seti">Seti</option>
+                                                            <option value="Mahakali">Mahakali</option>
+                                                        </select>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">District:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="District" name="District" value="@Model.District" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">UserType:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="UserType" name="UserType" value="@Model.UserType" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">T-PIN:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-9">
+                                                    <input type="password" class="form-control" id="PIN" name="txtPin"
+                                                           pattern=".{4,4}" title="Please use T-Pin" autocomplete="off" onkeypress="return isNumber(event)" maxlength="4" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Status:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control select2" id="Status" name="txtStatus" style="width: 100%;">
+                                                        <option value="Active" selected="selected">Active</option>
+                                                        <option value="InActive" disabled>InActive</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">IsApproved:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-9">
+                                                    <div class="radio radio-primary">
+                                                        <label>
+                                                            <input type="radio" name="txtIsApproved" id="IsApproved" value="Approve" class="btn btn-success" disabled/> Approve
+                                                        </label>
+                                                        &nbsp;
+                                                        <label>
+                                                            <input type="radio" name="txtIsApproved" id="IsApproved1" autocomplete="off" value="UnApprove" checked class="btn btn-default"/> UnApprove
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">IsRejected:<b style="color:red;">*</b></label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control select2" id="IsRejected" name="txtIsRejected"
+                                                            style="width: 100%;">
+                                                        <option value="T" disabled>True</option>
+                                                        <option value="F" selected="selected">False</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+
+                            <!-- /.box -->
+
+
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Contact Information</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">
+                                                    Mobile Number:
+                                                    <b style="color:red;">*</b>
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="ContactNumber1" name="ContactNumber1" value="@Model.UserName" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">ContactNumber2:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" data-target="tdContactNumber" onblur="CopyValue(this);" id="ContactNumber2" name="ContactNumber2" value="@Model.ContactNumber2" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.row-->
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+
+                            <!-- /.box -->
+
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Wallet Information</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">
+                                                    WalletBankCode: <b style="color:red;">*</b>
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="WBankName" name="WalletName" value="@Model.WalletName" readonly />
+                                                    <input type="text" class="form-control" id="WBankCode" name="WalletCode" value="@Model.WalletCode" style="display:none;" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">
+                                                    WalletBranchCode:
+                                                    <b style="color:red;">*</b>
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    @Html.DropDownList("WBranchCode",
+                                            new SelectList(Enumerable.Empty<SelectListItem>(), "BranchCode", "BranchCode"), "Select",
+                                            new { @class = "form-control select2", @id = "WBranchCode", @name = "txtWBranchCode" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">
+                                                    WalletNumber:
+                                                    <b style="color:red;">*</b>
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="WalletNumber" name="txtWalletNumber" value="@Model.WalletNumber" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6" style="display:none;">
+                                            <div class="form-group">
+                                                <label class="control-label">WIsDefault:</label>
+                                                <input type="text" class="form-control" id="WIsDefault" name="txtWIsDefault" value="1" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+
+
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Bank Information</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">BankCode:</label>
+                                                <div class="col-sm-9">
+                                                    @Html.DropDownList("BankNoBin", (IEnumerable<SelectListItem>)ViewBag.Bank, "-- Choose Bank --", new { @class = "form-control select2", @id = "BankNoBin", @name = "txtBankNoBin" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6" style="display:none;">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">IsDefault:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="IsDefault" name="txtIsDefault" value="1" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label class="control-label ">BankAccountNumber:</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="BankAccountNumber" name="txtBankAccountNumber"
+                                                           onKeyPress="edValueKeyPress()" onKeyUp="edValueKeyPress()" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3"> BranchCode:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="BranchCode" name="txtBranchCode" class="form-control" value="" maxlength="3"  onkeypress="return isNumber(event)"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.box-body -->
+                                <!--new one added-->
+                            </div>
+                            @*<a href="#Login" aria-controls="Login" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Login</a>
+                                <a href="#Profile" aria-controls="Profile" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Profile >></a>*@
+                        </div>
+                        <!--costumer detail end-->
+                        <!-- /.box -->
+                        <!--profile add-->
+                        <div role="tabpanel" class="tab-pane" id="Profile">
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Costumer Profile</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Mobile Number <b style="color:red;">*</b></label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" placeholder="MobileNumber" value="@Model.UserName" id="PPMobile" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Profile <b style="color:red;">*</b></label>
+                                                <div class="col-sm-6">
+                                                    @Html.DropDownList("CustProfile", new SelectList(ViewBag.ProfileList, "Value", "Text", Model.ProfileCode), "Select Profile", new { @class = "form-control", @id = "ddlCustProfile", @data_target = "tdProfileName", @onblur = "CopyValue(this);" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<a href="#Detail" aria-controls="Detail" class="btn btn-primary pull-left" role="tab" data-toggle="tab" onclick="SetActive(this)"> << Go Back to Detail</a>
+                                <a href="#ServiceSetup" aria-controls="ServiceSetup" class="btn btn-primary pull-right" role="tab" data-toggle="tab" onclick="SetActive(this)">Go to Service Setup >></a>*@
+                            <div id="DataDetail">
+                                @*@Html.Action("GetFeatureDetail");*@
+                            </div>
+
+                        </div>
+                        <!--end profile-->
+                        <!--Service setup-->
+                        <div role="tabpanel" class="tab-pane" id="ServiceSetup">
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Service Setup</h3>
+                                </div>
+                                <div class="box box-body">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" style="text-align:left">Mobile Number<b style="color:red;"></b></label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" data-valid="mobile" placeholder="Mobile Number" id="SSMobile" value="@Model.UserName" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Account Setup</h3>
+                                </div>
+
+                                <div class="box box-body">
+                                    <input type="hidden" value="1" id="trcount" name="hidAccounts" />
+                                    <table class="table table-responsive" id="tblacc">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td>Ac Number</td>
+                                                <td style="width:15%;">Allias</td>
+                                                <td>Branch</td>
+                                                <td>Owner</td>
+                                                <td>Primary</td>
+                                                <td style="width:10%;">Ac Type</td>
+                                                <td>Enable Transaction</td>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="1">
+                                                <td><button class="delete">Del</button></td>
+                                                <td><input type="text" class="form-control" id="AccountNumber" maxlength="20" name="txtAcNumber1" placeholder="Ac Number" /> </td>
+                                                <td><input type="text" placeholder="Allias" name="txtAcAllias1" class="form-control" /></td>
+                                                <td><input type="text" class="form-control" name="txtBranchCode1" placeholder="Branch" maxlength="3"/></td>
+                                                <td><input type="text" placeholder="Owner" name="txtAcOwner1" value="Self" class="form-control" /></td>
+                                                <td><input type="checkbox" name="chkPrimary1" value="T" /></td>
+                                                <td><input type="text" placeholder="Ac Type" name="txtAcType1" class="form-control" /></td>
+                                                <td><input type="checkbox" name="chkTxnEnable1" value="T" /></td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="6">
+                                                    <button class="glyphicon glyphicon-plus-sign" id="tradd"></button>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--end setup profile-->
+
+
+
+                        <div role="tabpanel" class="tab-pane" id="Confirmation">
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Confirm Registration</h3>
+                                </div>
+                                <div class="box box-body">
+                                    <table class="table table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <td class="empty"></td>
+
+                                                <td class="empty"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="width:30%;">UserName</td>
+                                                <td id="tdUserName"></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="width:30%;">Costumer Name</td>
+                                                <td id="tdCostumerName"></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="width:30%;">Address</td>
+                                                <td id="tdAddress"></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:30%;">Email Address</td>
+                                                <td id="tdEmail"></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:30%;">Profile Name</td>
+                                                <td id="tdProfileName"></td>
+                                            </tr>
+
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary" name="btnCommand"> SAVE</button>
+                                    @*   <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit" />*@
+                                </div>
+                                <!-- /.box-footer -->
+
+                            </div>
+
+                        </div>
+
+                        <!-- /.box -->
+                        <!-- /.box-body -->
+                    </div>
+
+
+
+                </div>
+            }
+            <!-- /.row -->
+            <!-- End-->
+
+
+        </div>
+    </div>
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts {
+
+
+    <!-- Load jQuery and the validate plugin -->
+    @*<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>*@
+
+    @*<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>*@
+    @*<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>*@
+
+    <!-- jQuery Form Validation code -->
+    <script src="~/Content/dist/js/jquery.validate.js"></script>
+    <script type="text/javascript">
+        var Count = [];
+        Count[0] = 1;
+
+        $('#tblacc tbody').on('click', 'button', function () {
+            var totalLenght = $('#tblacc tbody tr').length;
+
+            if (totalLenght > 1) {
+                var Tr = $(this).closest('tr').attr('id');
+                Count[Tr-1] = "";
+                $('#trcount').val(Count.toString());
+                $(this).closest('tr').remove();
+
+            }
+
+            if ($('#tblacc tbody tr').length <2) {
+                $('#tblacc tbody tr:first button').hide();
+            }
+
+        });
+
+        $('#tradd').click(function (e) {
+            e.preventDefault();
+
+            var totalLenght = $('#tblacc tbody tr').length;
+            if ($.trim($('#tblacc tbody tr:first input[name^=txtAcNumber]').val()) == "")
+            {
+                $('#tblacc tbody tr:first input[name^=txtAcNumber]').focus()
+                return;
+            }
+            if(totalLenght<5)
+            {
+            var lastTr = $('#tblacc tbody tr:last').attr('id');
+            var newTr = parseInt(lastTr) + 1;
+            Count[lastTr] = newTr;
+            var tr = '<tr id="' + newTr + '"> <td><button class="delete">Del</button></td> <td><input type="text" placeholder="Account Number" maxlength="20" name="txtAcNumber' + newTr + '" class="form-control"/></td><td><input type="text" placeholder="Alias" name="txtAcAllias' + newTr + '" class="form-control" /></td>';
+            tr = tr + '<td><input type="text" placeholder="BranchCode" maxlength="3" class="form-control" name="txtBranchCode' + newTr + '" /></td><td><input type="text" placeholder="Owner" name="txtAcOwner' + newTr + '" value="Self" class="form-control"/></td> <td><input type="checkbox" name="chkPrimary' + newTr + '"  value="T"/></td>';
+            tr = tr + ' <td><input type="text" placeholder="Ac Type" name="txtAcType' + newTr + '" class="form-control"/></td> <td><input type="checkbox" name="chkTxnEnable' + newTr + '" value="T" /></td></tr>';
+
+            $('#tblacc tbody tr:first button').show();
+            $('#trcount').val(Count.toString());
+            $('#tblacc tbody').append(tr);
+
+
+
+
+            }
+
+
+        });
+
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+
+        function CopyValue(event) {
+            var value = event.value;
+            var target = $(event).attr('data-target');
+            $('#' + target).html(value);
+        }
+
+
+        function SetActive(event) {
+            if ($('ul  li').hasClass('active')) {
+                $('ul li').removeClass('active');
+            }
+
+            if ($('ul li a').hasClass('active')) {
+                $('ul  li a').removeClass('active');
+            }
+            var att = $(event).attr('href');
+            debugger;
+            $('ul li a[href="' + att + '"]').addClass('active');
+            $('ul li a[href="' + att + '"]').closest('li').addClass('active');
+
+
+        }
+
+        $(document).ready(function () {
+
+            if ($('#tblacc tbody tr').length == 1)
+            {
+                $('#tblacc tbody tr:first button').hide();
+            }
+
+           var ddlValue = $('#ddlCustProfile option:selected').val();
+
+            if (ddlValue.length > 0) {
+                $.ajax({
+                    url: '@Url.Action("GetFeatureDetail", "Customer")',
+                    type: 'Get',
+                    data: { Profile: ddlValue },
+                    success: function (results) {
+                        $('#DataDetail').html(results)
+                    },
+                    error: function () {
+                        $('#DataDetail').html('Profile Details could not be fetched at the moment')
+                    }
+                });
+            }
+
+
+        });
+
+            $('#ddlCustProfile').change(function (e) {
+                var ddlValue = $('#ddlCustProfile option:selected').val();
+
+                if (ddlValue.length > 0) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: '@Url.Action("GetFeatureDetail", "Customer")',
+                        type: 'Get',
+                        data: { Profile: ddlValue },
+                        success: function (results) {
+                            $('#DataDetail').html(results)
+                        },
+                        error: function () {
+                            $('#DataDetail').html('Profile Details could not be fetched at the moment')
+                        }
+                    });
+                }
+            });
+
+
+        function CheckMobile(value) {
+            var reg = new RegExp('^[9][8]\\d{8}$');
+            return reg.test(value);
+
+        }
+
+
+        $('#UserName').change(function () {
+
+                $('#ContactNumber1').val($(this).val());
+                $('#SSMobile').val($(this).val());
+                $('#PPMobile').val($(this).val());
+            });
+
+            function edValueKeyPress() {
+                var edValue = document.getElementById("BankAccountNumber");
+                var str = edValue.value;
+                var result = str.substr(0, 3);
+                $('#BranchCode').val(result);
+            }
+
+            //$('#UserName').blur(function () {
+            //    if(!CheckMobile($(this).val()))
+            //    {
+            //        $("#UserName").focus();
+            //        //$("#check").css("color", "red");
+            //        $("#check").html("Mobile number not in correct format, Must Start with 98").show();
+            //        return;
+            //    }
+
+            //});
+
+            $("#UserName").change(function (event) {
+                event.preventDefault();
+
+                var id = $("#UserName").val();
+                
+                if (id.length == 10) {
+                    //if (!CheckMobile($(this).val())) {
+
+                    //    $("#UserName").focus();
+                    //    $("#check").css("color", "red");
+                    //    $("#check").html("Mobile number not in correct format, Must Start with 98").show();
+                    //    return;
+                    //}
+                    if (id.substr(0, 2) != '98')
+                    {
+                     
+                        return;
+                    }
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        url: '@Url.Action("GetCheckingUserName", "Customer")',
+                        data: { "Username": id },
+                        success: function (data, textStatus) {
+                            var markup = data;
+                            if (data == "Success") {
+                                $("#check").html("");
+                                $("#check").css("color", "green");
+                                $("#check").html(markup).show();
+                            }
+                            else {
+                                $("#check").html("");
+                                $("#check").css("color", "red");
+                                $("#check").html(markup).show();
+                            }
+                        },
+                        error: function () {
+                            alert("Data Not Found");
+                        }
+                    });
+                }
+            });
+
+
+            //var selectedID = $('#WBankCode option:selected').text();
+            ////alert(selectedID)
+            //var selectedValID = $('#WBankCode option:selected').val();
+            //var sele = document.getElementById('WBankCode').value;
+
+            var seleWName = document.getElementById('WBankName').value;
+            var sele = document.getElementById('WBankCode').value;
+
+
+            $(document).ready(function () {
+
+                $.validator.addMethod("lettersonly", function (value, element) {
+                    return this.optional(element) || /^[a-z ]+$/i.test(value);
+                }, "Only letters and Space allowed");
+                jQuery.validator.addMethod("alphanumeric", function (value, element) {
+                    return this.optional(element) || /^\w+$/i.test(value);
+                }, "only Letters and Numbers allowed");
+                $.validator.addMethod("regx", function (value, element, regexpr) {
+                    return regexpr.test(value);
+                }, "please enter valid data");
+
+
+                $.validator.addMethod("pattern", function (value, element, param) {
+                    if (this.optional(element)) {
+                        return true;
+                    }
+                    if (typeof param === "string") {
+                        param = new RegExp("^(?:" + param + ")$");
+                    }
+                    return param.test(value);
+                }, "Invalid format.");
+
+                var Errors=[];
+                i = 0;
+
+                $('#CustomerRegForm').validate({
+
+                    highlight: function (label) {
+                        $(label).closest('.form-group').addClass('has-error');
+                        var tab_content = $(label).parent().parent().parent().parent().parent().parent().parent();
+                        if ($(tab_content).find("fieldset.tab-pane.active:has(div.has-error)").length == 0) {
+                            var id=$(tab_content).attr('id')
+                            $('a[href="#' + id + '"]').tab('show');
+
+                        }
+
+                    },
+                    unhighlight: function (label) {
+                        $(label).closest('.form-group').removeClass('has-error');
+                    },
+                    ignore:[],
+                    rules: {
+                        UserName: {
+                            required: true,
+                            minlength: 10,
+                            pattern: '[9][8][0-9]{8}'
+                        },
+                        txtPassword:{
+                            minlength:8,
+                            maxlength:12
+                        },
+                        Name: {
+                            required: true,
+                            lettersonly:true
+                        },
+                        Address: {
+                            required: true,
+                            alphanumeric:true
+
+                        },
+                        WardNo: {
+                            required: true
+
+                        },
+                        txtZone: {
+                            required:true
+
+                        },
+                        District: {
+                            required:true
+                        },
+                        txtPin: {
+                            required: true,
+                            minlength: 4
+                        },
+                        CustProfile: {
+                            required: true
+
+                        },
+                        Email: {
+                            email:true
+                        },
+                        BankNoBin: {
+                            required:true
+                        },
+                        txtBranchCode: {
+                            required:true
+                        }
+
+                    },
+                    messages: {
+                        UserName: {
+                            required: "Please Enter a UserName,Should be Mobile Number",
+                            minlength: "UserName should be of 10 characters",
+                            pattern:"invalid format"
+
+                        },
+                        
+                        Name: {
+                            required: "Please Enter Full Name",
+                            lettersonly:"Only letters and Space allowed"
+                        },
+
+                        txtPassword: {
+                            minlength: "Password must be minimum 8 character",
+                            maxlength: "Password must be maximum 12 character"
+                        },
+                        Address: {
+                            required: "Please enter the address",
+                            alphanumeric:"only Letters and Numbers allowed"
+                        },
+                        WardNo: {
+                            required: "Please enter the Ward number"
+
+                        },
+                        txtZone: {
+                            required:"Please enter the Zone"
+                        },
+                        District: {
+                            required: "Please Enter the District"
+                        },
+                        txtPin: {
+                            required: "Please Enter a Pin Number",
+                            minlength: "Pin number should be of 4 digits"
+                        },
+                        CustProfile: {
+                            required:"Please Select a Profile"
+                        },
+                        Email: {
+                            email: "Please enter a valid email address"
+                        },
+                        BankNoBin: {
+                            required: "Please Select the bank"
+                        },
+                        txtBranchCode: {
+                            required: "Please enter the branch code"
+                        }
+                    }
+
+
+                });
+
+
+                // $("#WBranchCode").prop("disabled", true);
+                //$("#BranchCode").prop("disabled", true);
+
+                if (seleWName == "Pumori Bank") {
+                    var id = $("#WBankCode").val();
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        url: '@Url.Action("GetPopulateBankCode", "Agent")',
+                        data: { "BankCode": id },
+                        success: function (data, textStatus) {
+
+                            $("#WBranchCode").html("");
+                            var markup;// = "<option value='0'>Select</option>";
+                            for (var x = 0; x < data.length; x++) {
+                                markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                            }
+                            $("#WBranchCode").html(markup).show();
+
+                            $("#WBranchCode").prop("disabled", false);
+                        },
+                        error: function () {
+                            alert("Data Not Found");
+                        }
+                    });
+                }
+
+                @*$("#WBankCode").change(function () {
+            var id = $("#WBankCode").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetPopulateBankCode", "Customer")',
+                data: { "BankCode": id },
+                success: function (data, textStatus) {
+
+                    $("#WBranchCode").html("");
+                    var markup = "<option value='0'>Select</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    }
+                    $("#WBranchCode").html(markup).show();
+
+                    $("#WBranchCode").prop("disabled", false);
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+        });*@
+
+                @*$("#BankNoBin").change(function () {
+            var id = $("#BankNoBin").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetPopulateBankCode", "Customer")',
+                data: { "BankCode": id },
+                success: function (data, textStatus) {
+
+                    $("#BranchCode").html("");
+                    var markup = "<option value='0'>Select</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    }
+                    $("#BranchCode").html(markup).show();
+
+                    $("#BranchCode").prop("disabled", false);
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+        });*@
+
+
+                //$('#WBankCode').change(function () {
+                //    var selectedValID = $('#WBankCode option:selected').val();
+                //    alert(selectedValID)
+                //    if (selectedValID != "") {
+
+                //        $.getJSON('/Customer/GetPopulateBankCode?BankCode=' + selectedValID,
+                //            function (data) {
+                //                var items = '<option>Select </option>';
+                //                $.each(data, function (i, state) {
+                //                    items += "<option value='" + txtWBranchCode.Value + "'>" + txtWBranchCode.Text + "</option>";
+                //                });
+                //                //$('#WBranchCode').html(items);
+                //                $("#WBranchCode").html(""); // clear before appending new list
+                //                $.each(items, function (i, city) {
+                //                    $("#WBranchCode").append(
+                //                        $('<option></option>').val(city.WBranchCode).html(city.txtWBranchCode));
+                //                });
+
+                //                $("#WBranchCode").prop("disabled", false);
+                //            });
+
+                //    } else {
+                //        $("#WBranchCode").empty();
+                //        $("#WBranchCode").prop("disabled", true);
+                //    }
+
+                //});
+
+
+                /**Validation Check */
+
+
+
+                //$('#CustomerRegForm').bootstrapValidator({
+
+                //    feedbackIcons: {
+                //        valid: 'glyphicon glyphicon-ok',
+                //        invalid: 'glyphicon glyphicon-remove',
+                //        validating: 'glyphicon glyphicon-refresh'
+                //    },
+                //    fields: {
+                //        UserName: {
+                //            validators: {
+                //                integer: {
+                //                    message: 'The value is not an integer'
+                //                },
+                //                notEmpty: {
+                //                    message: 'The UserName is required and cannot be empty'
+                //                },
+                //                stringLength: {
+                //                    max: 10,
+                //                    min: 10,
+                //                    message: 'The UserName must be 10 characters long'
+                //                }
+                //            }
+                //        },
+                //        txtPassword: {
+                //            validators: {
+                //                notEmpty: {
+                //                    message: 'The Password is required and cannot be empty'
+                //                },
+                //                stringLength: {
+                //                    max: 12,
+                //                    min: 8,
+                //                    message: 'The Password must be more than 8 and less than 12 characters long'
+                //                }
+                //            }
+                //        },
+                //        Name: {
+                //            validators: {
+                //                notEmpty: {
+                //                    message: 'The First Name is required and cannot be empty'
+                //                }
+                //            }
+                //        },
+                //   Address: {
+                //            validators: {
+                //                notEmpty: {
+                //                    message: 'The Address is required and cannot be empty'
+                //                }
+                //            }
+                //        },
+                //        WardNo: {
+                //            validators: {
+                //                notEmpty: {
+                //                    message: 'The Ward No is required and cannot be empty'
+                //                }
+                //            }
+                //        },
+                //        District: {
+                //            validators: {
+                //                notEmpty: {
+                //                    message: 'The District is required and cannot be empty'
+                //                }
+                //            }
+                //        },
+                //        txtZone: {
+                //            validators: {
+                //                notEmpty: {
+                //                    message: 'The Zone is required and cannot be empty'
+                //                }
+                //            }
+                //        },
+                //        txtPin: {
+                //            validators: {
+                //                integer: {
+                //                    message: 'The value is not an integer'
+                //                },
+                //                notEmpty: {
+                //                    message: 'The new pin is required and cannot be empty'
+                //                },
+                //                stringLength: {
+                //                    max: 4,
+                //                    min: 4,
+                //                    message: 'The new T-Pin must be 4 digit numeric password'
+                //                }
+                //            }
+                //        },
+                //        txtStatus: {
+                //            validators: {
+                //                notEmpty: {
+                //                    message: 'The WalletNumber is required and cannot be empty'
+                //                }
+                //            }
+                //        },
+                //        txtWBankCode: {
+                //            validators: {
+                //                notEmpty: {
+                //                    message: 'The WalletNumber is required and cannot be empty'
+                //                }
+                //            }
+                //        },
+                //        txtWalletNumber: {
+                //            validators: {
+                //                notEmpty: {
+                //                    message: 'The WalletNumber is required and cannot be empty'
+                //                },
+                //                stringLength: {
+                //                    max: 16,
+                //                    min: 16,
+                //                    message: 'The WalletNumber must be 16 digit numeric number'
+                //                }
+                //            }
+                //        },
+                //        txtBankAccountNumber: {
+                //            validators: {
+                //                stringLength: {
+                //                    max: 14,
+                //                    min: 14,
+                //                    message: 'The BankAccountNumber must be 14 digit numeric'
+                //                }
+                //            }
+                //        }
+                //    }
+                //});
+
+                });
+
+
+
+    </script>
+}
+
+<!-- =============================================== -->

@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_NewBackgroundProfile>False</_NewBackgroundProfile>
+    <_PublishTargetUrl>D:\MNepal Mobile Banking\MNepalPlus_July6\MNepalPlus\WCF.MNepal\bin\Release\PublishOutput</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="asterisknow.svc">
+      <publishTime>03/06/2015 15:30:01</publishTime>
+    </File>
+    <File Include="AsterixLog.txt">
+      <publishTime>03/06/2015 15:30:01</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>03/06/2015 15:29:59</publishTime>
+    </File>
+    <File Include="bin/da/FluentValidation.resources.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/de/FluentValidation.resources.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/es/FluentValidation.resources.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/fi/FluentValidation.resources.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/FluentValidation.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/fr/FluentValidation.resources.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/it/FluentValidation.resources.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/ko/FluentValidation.resources.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.EntityFramework.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Owin.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Cookies.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.OAuth.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/MNepalProject.dll">
+      <publishTime>07/06/2017 12:28:15</publishTime>
+    </File>
+    <File Include="bin/MNepalProject.dll.config">
+      <publishTime>07/06/2017 12:26:58</publishTime>
+    </File>
+    <File Include="bin/MNepalProject.pdb">
+      <publishTime>07/06/2017 12:28:15</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/nl/FluentValidation.resources.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/Owin.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/pl/FluentValidation.resources.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/pt/FluentValidation.resources.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/ru/FluentValidation.resources.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/sv/FluentValidation.resources.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/tr/FluentValidation.resources.dll">
+      <publishTime>03/06/2015 15:30:00</publishTime>
+    </File>
+    <File Include="bin/WCF.MNepal.dll">
+      <publishTime>07/06/2017 16:11:26</publishTime>
+    </File>
+    <File Include="bin/WCF.MNepal.pdb">
+      <publishTime>07/06/2017 16:11:26</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>03/06/2015 15:30:01</publishTime>
+    </File>
+    <File Include="cash.svc">
+      <publishTime>03/06/2015 15:30:01</publishTime>
+    </File>
+    <File Include="coupon.svc">
+      <publishTime>03/06/2015 15:30:01</publishTime>
+    </File>
+    <File Include="ft.svc">
+      <publishTime>03/06/2015 15:30:01</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>03/06/2015 15:30:01</publishTime>
+    </File>
+    <File Include="IVR.svc">
+      <publishTime>03/06/2015 15:30:01</publishTime>
+    </File>
+    <File Include="merchant.svc">
+      <publishTime>03/06/2015 15:30:01</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>03/06/2015 15:30:01</publishTime>
+    </File>
+    <File Include="pt.svc">
+      <publishTime>03/06/2015 15:30:01</publishTime>
+    </File>
+    <File Include="query.svc">
+      <publishTime>03/06/2015 15:30:01</publishTime>
+    </File>
+    <File Include="remit.svc">
+      <publishTime>12/15/2015 11:11:59</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>07/06/2017 16:11:28</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

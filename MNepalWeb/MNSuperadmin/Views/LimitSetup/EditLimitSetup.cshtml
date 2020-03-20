@@ -1,0 +1,123 @@
+﻿@model MNSuperadmin.Models.UserProfilesInfo
+
+@{
+    ViewBag.Title = "EditLimit";
+    List<SelectListItem> Status = new List<SelectListItem>();
+    Status.Add(new SelectListItem { Text = "Active", Value = "Active" });
+    Status.Add(new SelectListItem { Text = "Inactive", Value = "Inactive" });
+
+
+
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Limit Setup 
+        @*<small>Update Wallet Limit</small>*@
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Limit Setup</a></li>
+        <li class="active">Modify</li>
+        <li class="active">Update Limit Setup</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Update Limit Setup</h3>
+            </div>
+        </div>
+
+        <!-- /.box-header -->
+
+        @using (Html.BeginForm("EditLimitSetup", "LimitSetup", FormMethod.Post, new { @id = "EditLimitForm", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            if (this.TempData["editWalletmodify_messsage"] != null)
+            {
+                if (this.TempData["message_class"].ToString() == "success_info")
+                {
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Error</h4> @this.TempData["editWalletmodify_messsage"]
+                    </div>
+                }
+                else
+                {
+
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Success</h4> @this.TempData["editWalletmodify_messsage"]
+                    </div>
+                }
+            }
+
+
+
+
+            <div class="box-body">
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Wallet Profile Code <b style="color:red;">*</b></label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" id="WalletProfileCode" name="WalletProfileCode" placeholder="WalletProfileCode" maxlength="40" value="@Model.WalletProfileCode" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">
+                        Wallet Transaction Count:<b style="color:red;">*</b>
+                    </label>
+                    <div class="col-md-5">
+                        <input type="number" class="form-control" id="WTxnCount" name="WTxnCount" required placeholder="Wallet Transaction Count" value="@Model.WTxnCount" />
+                        @*<label id="check"> Please use Email Address </label>*@
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Per Transaction Amount:<b style="color:red;">*</b></label>
+                    <div class="col-md-5">
+
+                        <input type="number" class="form-control" id="WPerTxnAmt" name="WPerTxnAmt" required placeholder="Wallet Per Transaction Amount" value="@Model.WPerTxnAmt" />
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Per Day Amount:<b style="color:red;"></b></label>
+                    <div class="col-md-5">
+                        <input type="number" class="form-control" id="WPerDayAmt" name="WPerDayAmt" required placeholder="Wallet Per Day Amount" value="@Model.WPerDayAmt" />
+
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Transaction Amount:<b style="color:red;"></b></label>
+                    <div class="col-md-5">
+                        <input type="number" class="form-control" id="WTxnAmtM" name="WTxnAmtM" required placeholder="Wallet Transaction Amount" value="@Model.WTxnAmtM" />
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- /. box-body-->
+
+            <div class="box-footer">
+                <div class="form-group col-md-10">
+                    <input type="submit" class="btn btn-primary pull-right" id="btnCommand" name="btnCommand" value="Submit" />
+                </div>
+            </div>
+
+
+        }
+</section>
+

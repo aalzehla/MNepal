@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "ManageService";
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        MNepal Service
+        <small>Service</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> MNepalPay</a></li>
+        <li class="active"> Manage Service</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+
+        <div class="col-xs-12">
+
+            <!-- START -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">MNepal Service</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @*@if (ViewData["UNApproveReject"] == null)
+                    {
+                        <div class="panel-body"> <b>No Pending requests for unapproval !! </b> </div>
+                    }
+                    else if (ViewData["UNApproveReject"] != null)
+                    {*@
+                        <table id="t01" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Service Name</th>
+                                    <th>A/C Number</th>
+                                    <th>Status</th>
+                                    <th colspan="2">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>MNepal Inter Bank Transfer</td>
+                                    <td>0000</td>
+                                    <td>Active</td>
+                                    <td>
+                                        <a href="#"><i class="fa fa-edit"></i></a>
+                                    </td>
+                                    <td>
+                                        <a href="#"><i class="fa fa-eye"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>MNepal Merchant Payment</td>
+                                    <td>0000</td>
+                                    <td>Active</td>
+                                    <td>
+                                        <a href="#"><i class="fa fa-edit"></i></a>
+                                    </td>
+                                    <td>
+                                        <a href="#"><i class="fa fa-eye"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>MNepal Cashout</td>
+                                    <td>0000</td>
+                                    <td>Active</td>
+                                    <td>
+                                        <a href="#"><i class="fa fa-edit"></i></a>
+                                    </td>
+                                    <td>
+                                        <a href="#"><i class="fa fa-eye"></i></a>
+                                    </td>
+                                </tr>
+                                @*@foreach (System.Data.DataRow dr in (ViewData["UNApproveReject"] as System.Data.DataTable).Rows)
+                                {
+                                    <tr>
+                                        <td> @dr["Name"] </td>
+                                        <td> @dr["Address"] </td>
+                                        <td> @dr["UserName"] </td>
+                                        <td> @dr["ContactNumber1"] </td>
+                                        <td> @dr["Status"] </td>
+                                        <td> @dr["IsApproved"] </td>
+                                        <td> <span class="badge bg-red"> @dr["IsRejected"] </span> </td>
+                                    </tr>
+                                }*@ <!-- for each end-->
+
+                            </tbody>
+                            <tfoot>
+
+                            </tfoot>
+                        </table>
+                    @*}*@
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            <!-- END -->
+
+        </div>
+        <!-- End-->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+

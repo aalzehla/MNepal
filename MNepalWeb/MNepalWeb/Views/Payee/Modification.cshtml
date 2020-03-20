@@ -1,0 +1,424 @@
+﻿@{
+    ViewBag.Title = "Modification";
+}
+
+@model MNepalWeb.Models.UserInfo
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Merchant
+        <small>Modification</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Merchant</a></li>
+        <li class="active"> Merchant Modification</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+
+    <!-- /.box-header -->
+
+    @using (Html.BeginForm("Modification", "Payee", FormMethod.Post, new { @id = "MerchantModification", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        if (this.ViewData["merchant_messsage"] != null)
+        {
+            if (this.ViewData["message_class"].ToString() == "success_info")
+            {
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <h4>Success</h4> @this.ViewData["merchant_messsage"]
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <h4>Error</h4> @this.ViewData["merchant_messsage"]
+                </div>
+            }
+        }
+                       <!-- Start -->
+
+        <div class="col-xs-10">
+        </div>
+            <div class="box box-info" style="display:none;">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Information</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6"style="display:none">
+                            <div class="form-group">
+                                <label>ClientCode</label>
+                                @Html.EditorFor(model => model.ClientCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                        <!-- /.col -->
+
+                        @*<div class="col-md-6">
+                            <div class="form-group" style="display:none;">
+                                <label class="control-label">AgentId:</label>
+                                <input type="text" class="form-control" id="AgentId" name="txtAgentId" value="1" />
+                            </div>
+                        </div>*@
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                  @*  <h3 class="box-title">Login Detail</h3>*@
+                </div>
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">User Name:<b style="color:red;">*</b></label>
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @*<label id="check"> Please use Email Address</label>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-6">Current Status : @Model.IsApproved</label>
+                               
+                                    @*@Model.IsApproved*@
+                              
+                              </div>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+                        @*<div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Password:<b style="color:red;">*</b></label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" id="Password" name="txtPassword" pattern=".{8,12}" required title="Please use password" placeholder="Password" maxlength="12" />
+                                </div>
+                            </div>
+                        </div>*@
+                   
+
+             
+            <!-- /.box -->
+
+
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Profile</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Full Name:<b style="color:red;">*</b></label>
+                            <div class="col-sm-8">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "required",@maxlength="60" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Address:<b style="color:red;">*</b></label>
+                            <div class="col-sm-8">
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control",@maxlength="50" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Mobile Number:<b style="color:red;">*</b></label>
+                            <div class="col-sm-7">
+                                @Html.EditorFor(model => model.ContactNumber1, new { htmlAttributes = new { @class = "form-control", @maxLength = "10", @onkeypress = "return isNumber(event)" } })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Contact Number 2:</label>
+                            <div class="col-sm-7">
+                                @Html.EditorFor(model => model.ContactNumber2, new { htmlAttributes = new { @class = "form-control", @maxLength = "10", @onkeypress = "return isNumber(event)" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">User Type:<b style="color:red;">*</b></label>
+                            <div class="col-sm-7">
+                                @Html.EditorFor(model => model.UserType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Wallet Ac:<b style="color:red;">*</b></label>
+                            <div class="col-sm-7">
+                                @Html.EditorFor(model => model.WalletNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Bank Code:</label>
+                            <div class="col-sm-7">
+                                   @Html.DropDownListFor(x=>x.BankNo, (IEnumerable<SelectListItem>)ViewBag.Bank, "-- Choose Bank --", new { @class = "form-control select2", @id = "BankNoBin", @name = "txtBankNoBin" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display:none;">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">IsDefault:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="IsDefault" name="txtIsDefault" value="1" readonly />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            
+                                <label class="control-label col-sm-4">Bank Account Number:</label>
+                           
+                            <div class="col-sm-7">
+                                @Html.EditorFor(model => model.BankAccountNumber, new {
+                               htmlAttributes = new
+                               {
+                                   @id= "BankAccountNumber",
+                                   @class = "form-control",
+                                   @onKeyPress = "return isNumber(event); edValueKeyPress()",
+                                   @onKeyUp = "edValueKeyPress()",
+                                   @maxlength = "14"
+                               }
+                           })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4"> Branch Code:</label>
+                            <div class="col-sm-7">
+                                @Html.EditorFor(model => model.BranchCode, new { htmlAttributes = new { @class = "form-control",@maxlength="3", @id= "BranchCode"} })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Status:<b style="color:red;">*</b></label>
+                            <div class="col-sm-6">
+                                <select class="form-control select2" id="Status" name="txtStatus" style="width: 100%;">
+                                    <option value="Active" selected="selected">Active</option>
+                                    <option value="InActive">InActive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group" style="display:none">
+                            <label class="control-label col-sm-3">IsApproved:<b style="color:red;">*</b></label>
+                            <div class="col-sm-9">
+                                <div class="radio radio-primary">
+                                    <label>
+                                        <input type="radio" name="txtIsApproved" id="IsApproved" value="UnApprove" class="btn btn-success" disabled /> UnApprove
+                                    </label>
+                                    &nbsp;
+                                    <label>
+                                        <input type="radio" name="txtIsApproved" id="IsApproved1" autocomplete="off" value="Approve" checked class="btn btn-default" /> Approve
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">IsRejected:<b style="color:red;">*</b></label>
+                            <div class="col-sm-6">
+                                <select class="form-control select2" id="IsRejected" name="txtIsRejected"
+                                        style="width: 100%;">
+                                    <option value="T" disabled>True</option>
+                                    <option value="F" selected="selected">False</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+            <!-- /.box -->
+
+
+     
+            <!-- /.box -->
+
+
+            <!-- /.box -->
+
+            <div class="box box-info">
+                
+                <div class="box-footer">
+                    <div class="col-md-12">
+                        <div class="btn-toolbar">
+                            <input type="button" class="btn btn-primary" value="Go Back" onclick="location.href='@Url.Action("Index", "Payee")'" />
+
+                            <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit" id="Submit" />
+                        </div>
+                        </div>
+                    </div>
+
+                </div>
+                    <!-- /.box -->
+                    <!-- /.box-body -->
+                    <!-- End -->
+         }
+
+
+
+                </div>
+   
+ 
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+@section scripts {
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+<script type="text/javascript">
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+
+    function edValueKeyPress() {
+        var edValue = document.getElementById("BankAccountNumber");
+        var str = edValue.value;
+        var result = str.substr(0, 3);
+        $('#BranchCode').val(result);
+    }
+
+    
+
+    $(document).ready(function () {
+
+        $('#MerchantModification').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+
+                Name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Name is required and cannot be empty'
+                        }
+                    }
+                },
+               Address: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Address is required and cannot be empty'
+                        }
+                    }
+                },
+               
+                BankAccountNumber: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Bank Account number is required'
+                        },
+                        //integer: {
+                        //    message: 'Bank account number must be numeric value'
+                        //},
+                        stringLength: {
+                            max: 14,
+                            min: 12,
+                            message: 'The WalletNumber must be 12 to 14 digits long'
+                        }
+                    }
+                },
+              
+                ContactNumber2: {
+                    validators: {
+                        regexp: {
+                            regexp: /^[9][8][0-9]{8}$/,
+                            message: 'Input value is not a valid mobile format'
+                            }
+                            //,
+                        //notEmpty: {
+                        //    message: 'The mobile number is required and cannot be empty'
+                        //}
+                    }
+                },
+                BankNoBin: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Bank is required and cannot be empty'
+                        }
+                    }
+                }
+
+
+
+            }
+        });
+
+    });
+
+    </script>
+}
+<!-- =============================================== -->
+

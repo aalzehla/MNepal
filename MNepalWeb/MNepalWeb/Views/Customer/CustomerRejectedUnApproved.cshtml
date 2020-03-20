@@ -1,0 +1,313 @@
+﻿
+@model IEnumerable<MNepalWeb.Models.UserInfo>
+@{
+    ViewBag.Title = "Customer Registration Rejected";
+}
+
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Customer
+        @*<small>Status</small>*@
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Customer</a></li>
+        <li class="active">Registration Rejected </li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+
+        <div class="col-xs-12">
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Registration Rejected </h3>
+                </div>
+                <!-- /.box-header -->
+                @*@Html.Partial("_PartialSearch")*@
+                <!--start-->
+
+
+
+                <div class="box-body">
+                    <div class="row">
+                        <!-- radio -->
+                        <div class="form-group">
+                            <div class="radio col-md-12">
+                                <div class="col-md-12">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="Mobile Number" checked />
+                                        <b>Mobile Number</b>
+                                    </label>
+                                    &nbsp;
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="First Name" />
+                                        <b>Name</b>
+                                    </label>
+                                    &nbsp;
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="Account Number">
+                                        <b>Account Number</b>
+                                    </label>
+                                    &nbsp;
+                                    <label style="display:none">
+                                        <input type="radio" name="optionsRadios" id="optionsRadios4" value="Name/Account">
+                                        <b>Name/Account</b>
+                                    </label>
+                                    @*&nbsp;
+                                        <label>
+                                            <input type="radio" name="optionsRadios" id="optionsRadios5" value="All" checked>
+                                            <b>All</b>
+                                        </label>*@
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <hr />
+                        </div>
+
+                        <div class="form-group" id="form">
+                            <div id="MobileNo" class="col-md-6 form-group">
+                                @*<label>Mobile Number</label>*@
+                                <input type="text" class="form-control" id="txtMobileNoID" name="txtMobileNo" placeholder="Mobile Number" maxlength="10" onkeypress="return isNumberKey(event)">
+                            </div>
+                            <div id="AccountNo" class="col-md-6 form-group">
+                                @*<label>AccountNumber</label>*@
+                                <input type="text" class="form-control" id="txtAccountNoID" name="txtAccountNo" placeholder="Account Number" maxlength="14">
+                            </div>
+                            <div id="FirstName" class="col-md-6 form-group">
+                                @*<label>Name</label>*@
+                                <input type="text" class="form-control" id="txtNameID" name="txtName" placeholder="Name" maxlength="20">
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <input type="submit" class="btn btn-primary" id="btnSearch" name="txtSearch" value="Search" />
+                </div>
+                <!-- /.box-footer -->
+                <!--end-->
+            </div>
+
+            @*<div id=" " class="box box-primary">
+                @Html.Action("CusRejUnApproved")
+            </div>*@
+
+            <!--/.box -box-danger-->
+            <!-- Start Data Show in Table -->
+            <div id="data" class="box box-primary">
+                <div id="CustomerStatus" class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Customer Rejected List</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        @if (ViewData["dtableCustomerUNApproveReject"] == null)
+                        {
+                            <div class="panel-body"> <b>No Pending requests for new customer !! </b> </div>
+                        }
+                        else if (ViewData["dtableCustomerUNApproveReject"] != null)
+                        {
+                            <table id="t01" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>User Name</th>
+                                        <th>Name</th>
+                                        @*<th>Address</th>*@
+                                        <th>Account Number</th>
+                                        <th>Created Branch</th>
+                                        <th>Created By</th>
+                                        @*<th>Approved By</th>*@
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (System.Data.DataRow dr in (ViewData["dtableCustomerUNApproveReject"] as System.Data.DataTable).Rows)
+                                    {
+                                        <tr>
+                                            <td> @dr["UserName"] </td>
+                                            <td> @dr["Name"] </td>
+                                            @*<td> @dr["Address"] </td>*@
+                                            <td> @dr["BankAccountNumber"] </td>
+                                            <td> @dr["UserBranchName"] </td>
+                                            <td> @dr["CreatedBy"] </td>
+                                            @*<td> @dr["ApprovedBy"] </td>*@
+                                            <td><a href="@Url.Action("ViewRejected","Customer",new {Id=@dr["ClientCode"] })" class="glyphicon glyphicon-edit" title="Edit"></a></td>
+                                        </tr>
+                                    } <!-- for each end-->
+
+                                </tbody>
+                                <tfoot>
+
+                                </tfoot>
+                            </table>
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- End Data Show in Table -->
+
+        </div>
+        <!-- /.col-xs--->
+        <!-- End-->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts{
+
+    <script type="text/javascript">
+
+        //$("#MobileNo").hide();
+        $("#FirstName").hide();
+        $("#AccountNo").hide();
+        //$("#CustomerStatus").hide();
+
+        $("input[type='radio']").change(function () {
+
+            if ($(this).val() == "Mobile Number") {
+                $("#MobileNo").show();
+                $("#FirstName").hide();
+                $("#AccountNo").hide();
+            }
+            else if ($(this).val() == "First Name") {
+                $("#FirstName").show();
+                $("#AccountNo").hide();
+                $("#MobileNo").hide();
+            }
+            else if ($(this).val() == "Account Number") {
+                $("#AccountNo").show();
+                $("#MobileNo").hide();
+                $("#FirstName").hide();
+            }
+            else if ($(this).val() == "Name/Account") {
+                $("#FirstName").show();
+                $("#AccountNo").show();
+                $("#MobileNo").hide();
+            } else {
+                $("#MobileNo").hide();
+                $("#Name").hide();
+                $("#AccountNo").hide();
+            }
+
+        });
+
+        function isNumberKey(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+
+        $('#btnSearch').click(function (e) {
+
+            var mobileNo = $('#txtMobileNoID').val();
+            var name = $('#txtNameID').val();
+            var accountNo = $('#txtAccountNoID').val();
+
+            var SearchCol;
+
+            var radios = document.getElementsByName('optionsRadios');
+            for (var j = 0; j < radios.length; j++) {
+                if (radios[j].checked) {
+                    //debugger;
+                    SearchCol = radios[j].value;
+                    break;
+                }
+            }
+
+            e.preventDefault();
+
+            $.ajax({
+                url: '@Url.Action("CusRejUnApproved", "Customer")',
+                type: 'GET',
+                data: {
+                    SearchCol: SearchCol,
+                    txtMobileNo: mobileNo,
+                    txtName: name,
+                    txtAccountNo: accountNo
+                },
+                success: function (results) {
+                    debugger;
+                    //$('#CustomerStatus').html(results);
+                    //$("#CustomerStatus").show();
+                    $('#data').html(results);
+                },
+                error: function () {
+                    //debugger;
+                    alert('Error Occured!!');
+                }
+            });
+
+
+
+        });
+
+        /**Validation Check */
+        $('#MobileNo').bootstrapValidator({
+                //feedbackIcons: {
+                //    valid: 'glyphicon glyphicon-ok',
+                //    invalid: 'glyphicon glyphicon-remove',
+                //    validating: 'glyphicon glyphicon-refresh'
+                //},
+                fields: {
+                    txtMobileNo: {
+                        validators: {
+                            stringlength: {
+                                min: 2,
+
+                                message: 'Please enter valid Mobile No'
+
+                            },
+                            regexp: {
+                                regexp: '^[9][8][0-9]{8}$',
+                                message: 'Mobile number must start with 98 and must be 10 digits'
+
+                            }
+                        }
+                    }
+
+
+                }
+
+        });
+
+        var registeredusers = $('#t01').DataTable({
+            "ordering": false,
+            "filter": false,
+            "sorting": false,
+            "info": false,
+            "lengthChange": false,
+            "language": {
+                "emptyTable": "No records found matching the search parameter"
+            }
+        });
+    </script>
+}
+
+
+
+

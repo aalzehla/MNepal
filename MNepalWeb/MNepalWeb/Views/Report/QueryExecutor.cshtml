@@ -1,0 +1,126 @@
+﻿@model MNepalWeb.Models.ExecuteQuery
+@{
+    ViewBag.Title = "QueryExecutor";
+}
+<section class="content-header">
+    <h1>
+        Report
+        <small>Execute Query</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Report</a></li>
+        <li class="active">Execute Query</li>
+    </ol>
+</section>
+
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Execute Query</h3>
+                </div>
+                @using (Html.BeginForm("QueryExecutor", "Report", FormMethod.Post, new { @id = "CusReport" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @*if (!string.IsNullOrEmpty(Model.Message))
+                        {
+                            <h3 style="color:red">@Model.Message</h3>
+                        }*@
+                    <div class="box-body">
+                        <br />
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-12 form-group">
+                                    <label>Query</label>
+                                    <div class="input-group">
+                                        @Html.TextAreaFor(x => x.Query, new { @class = "form-control", @cols = "500", @rows = "10", @style = "background:black;color:white;border-radius: 7px;max-height:350px;max-width:80%; min-height:150px;min-width:80%;height:150px;", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-2 form-group">
+                                    <label>Timeout</label>
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(x => x.TimeOut, new { @class = "form-control" })
+                                        <div class="input-group-addon">
+                                            <span>Seconds</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <input type="submit" class="btn btn-primary pull-right" value="Execute" />
+                    </div>
+                }
+
+                @if (Model.Data.Rows.Count > 0)
+                {
+                    <div class="box-body">
+                        <div style="max-height:15%;max-width:100%;overflow:scroll">
+                            <table class="table table-striped" id="ResultTable">
+                                <thead>
+                                    <tr>
+                                        @for (int i = 0; i < Model.Data.Columns.Count; i++)
+                                        {
+                                            <td style="background-color:blue;color:white">@Model.Data.Columns[i].ColumnName.ToString()</td>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @for (int i = 0; i < Model.Data.Rows.Count; i++)
+                                    {
+                                        <tr>
+                                            @for (int j = 0; j < Model.Data.Columns.Count; j++)
+                                            {
+                                                <td>@Model.Data.Rows[i][j].ToString()</td>
+                                            }
+
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var message = '@Model.Message';
+            if (message.length > 1)
+                alertify.error('Error : ' + message);
+
+
+            var table;
+            if ($.fn.DataTable.isDataTable('#ResultTable')) {
+                table.destroy();
+            }
+
+            table = $('#ResultTable').DataTable({
+                searching: false,
+                aaSorting: [],
+                ordering: false,
+                orderCellsTop: true,
+                fixedHeader: true,
+                lengthChange: false
+
+            });
+        });
+    </script>
+}

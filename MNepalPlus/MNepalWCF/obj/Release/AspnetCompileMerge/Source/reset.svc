@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="MNepalWCF.reset" CodeBehind="reset.svc.cs" %>

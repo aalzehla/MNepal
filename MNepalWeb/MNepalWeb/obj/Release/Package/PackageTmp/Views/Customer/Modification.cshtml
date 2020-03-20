@@ -1,0 +1,1172 @@
+﻿@model MNepalWeb.Models.UserInfo
+@{
+    ViewBag.Title = "Modification";
+    var Sno = 0;
+    var hidFields = "";
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Customer
+        <small>Modification</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Customer</a></li>
+        <li class="active"> Customer Modification</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            <!-- Start Data Show in Table -->
+            <div class="box box-primary" id="CustomerModify">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Customer Modification</h3>
+                </div>
+                <!-- /.box-header -->
+
+                @using (Html.BeginForm("Modification", "Customer", FormMethod.Post, new { @id = "CustomerModification", @class = "CustomerModification" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    if (this.TempData["custmodify_messsage"] != null)
+                    {
+                        if (this.TempData["message_class"].ToString() == "success_info")
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Success</h4> @this.TempData["custmodify_messsage"]
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Error</h4> @this.TempData["custmodify_messsage"]
+                            </div>
+                        }
+                    }
+
+                    //tab - pane////
+
+                    <div>
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#Login" aria-controls="Login" role="tab" data-toggle="tab">Login Setup</a></li>
+                            <li role="presentation"><a href="#CustomerInfo" aria-controls="CustomerInfo" role="tab" data-toggle="tab">Customer Info</a></li>
+                            <li role="presentation"><a href="#BankAccount" aria-controls="BankAccount" role="tab" data-toggle="tab">Bank Account</a></li>
+                            <li role="presentation"><a href="#CustomerProfile" aria-controls="CustomerProfile" role="tab" data-toggle="tab">Customer Profile</a></li>
+                            @*<li role="presentation"><a href="#ServiceSetup" aria-controls="ServiceSetup" role="tab" data-toggle="tab">Service Setup</a></li>*@
+                            @*<li role="presentation" class="active"><a href="#Confirmation" aria-controls="Confirmation" role="tab" data-toggle="tab">Confirmation</a></li>*@
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+
+                            <!--Login-->
+                            <div role="tabpanel" class="tab-pane active" id="Login">
+
+                                <div class="box box-info">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Login Information</h3>
+                                    </div>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Mobile Number <b style="color:red;">*</b></label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="ContactNumber1" name="ContactNumber1" value="@Model.ContactNumber1"  readonly/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <br />
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Service Provider <b style="color:red;">*</b></label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="ServiceProvider" name="ServiceProvider" value="Nepal Telecom" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <br />
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">New Mobile Number @*<b style="color:red;">*</b>*@</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="NewMobileNo" name="NewMobileNo" value="@Model.NewMobileNo"  placeholder="Please use Mobile No"/>
+                                                    <label id="check"> Please use valid Mobile Number </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <br />
+                                    </div>
+
+                                    <!--ClientCode-->
+                                    <div class="form-group" style="display:none;">
+                                        @Html.LabelFor(model => model.ClientCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-5">
+                                            @Html.EditorFor(model => model.ClientCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            @Html.ValidationMessageFor(model => model.ClientCode, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <!--COC-->
+                                    @*<div class="form-group" style="display:none;">
+                                        <input type="checkbox" id="COC" name="COC" value="T" @(Model.COC.ToString() == "T" ? "Checked" : string.Empty) />Centralized Operation Contol
+                                        <div class="col-sm-2">
+                                            <a href="#">Profile Details</a>
+                                        </div>
+                                    </div>*@
+
+                                    <!--IsApproved-->
+
+                                    <div class="form-group" style="display:none;">
+                                        @Html.LabelFor(model => model.IsApproved, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+
+                                            @*@if (Model.IsApproved == "Approve")
+                                            {
+                                                <div class="radio radio-primary">
+                                                    <label>
+                                                        <input type="radio" name="IsApproved" id="IsApproved" value="Approve" class="btn btn-success" checked /> @Model.IsApproved
+                                                    </label>&nbsp;
+                                                    <label>
+                                                        <input type="radio" name="IsApproved" id="IsApproved1" autocomplete="off" value="UnApprove" class="btn btn-default" /> UnApprove
+                                                    </label>
+                                                </div>
+                                            }*@
+                                            @*else
+                                            {*@
+                                                <div class="radio radio-primary">
+                                                    <label>
+                                                        <input type="radio" name="IsApproved" id="IsApproved" value="Approve" class="btn btn-success" />
+                                                        Approve
+                                                    </label>&nbsp;
+                                                    <label>
+                                                        <input type="radio" name="IsApproved" id="IsApproved1" autocomplete="off" value="UnApprove" class="btn btn-default" checked />
+                                                        UnApprove
+                                                    </label>
+                                                </div>
+                                            
+
+                                              
+                                          @*  }*@
+
+                                        </div>
+                                    </div>
+
+                                    <!--ContactNumber2-->
+                                    <div class="form-group" style="display:none;">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Contact Number 2</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="ContactNumber2" name="ContactNumber2" value="@Model.ContactNumber2" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+
+                                    <!--PIN-->
+                                    <div class="form-group" style="display:none;">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">PIN</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="PIN" name="PIN" value="@Model.PIN" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Status-->
+
+                                    <div class="form-group" style="display:none;">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Status</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="Status" name="Status" value="@Model.Status" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+                                        @*<div class="box-footer">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary pull-right" id="btnSaveExit" name="btnSaveExit" value="Save & Exit">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary pull-right" id="btnCommand" name="Submit" value="Save">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary pull-right" id="btnCancel" name="btnCancel" value="Cancel">
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+
+                                    </div>
+                                </div>
+
+                            <!--Customer Info-->
+                            <div role="tabpanel" class="tab-pane" id="CustomerInfo">
+
+                                <div class="box box-info">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Customer Information</h3>
+                                    </div>
+                                </div>
+                                
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Mobile Number <b style="color:red;">*</b></label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="ContactNumber1" @*name="ContactNumber1"*@ value="@Model.ContactNumber1" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <br />
+                                    </div>
+
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Personal Information</h3>
+                                        </div>
+                                    </div>
+
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Name<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @*<div>
+                                            <br />
+                                        </div>*@
+
+                                    <div class="row" style="display:none;">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">FName<b style="color:red;">*</b></label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="FName" name="FName" value="@Model.FName" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @*<div>
+                                        <br />
+                                    </div>*@
+
+                                    <div class="row" style="display:none;">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">MName</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="MName" name="MName" value="@Model.MName" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @*<div>
+                                        <br />
+                                    </div>*@
+
+                                    <div class="row" style="display:none;">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">LName<b style="color:red;">*</b></label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="LName" name="LName" value="@Model.LName" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                   
+
+                                    <div class="row" style="display:none;">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">BranchCode<b style="color:red;">*</b></label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="BranchCode" name="BranchCode" value="@Model.BranchCode" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <br />
+                                    </div>
+
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">UserName<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="UserName" name="UserName" value="@Model.UserName" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <br />
+                                        </div>
+
+                                        <div class="row" style="display:none;">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Gender<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-6">
+                                                        @*<input type="text" class="form-control" id="Gender" name="Gender" value="@Model.Gender" />*@
+                                                        <select class="form-control select2" id="Gender" name="Gender" style="width: 100%;">
+                                                            <option value="" hidden>Select</option>
+                                                            <option value="M" @(Model.Gender.ToString() == "M" ? "Selected" : string.Empty)>Male</option>
+                                                            <option value="F" @(Model.Gender.ToString() == "F" ? "Selected" : string.Empty)>Female</option>
+                                                            <option value="O" @(Model.Gender.ToString() == "O" ? "Selected" : string.Empty)>Other</option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">BankAccountNumber</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="BankAccountNumber" name="BankAccountNumber" value="@Model.BankAccountNumber"  />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                        <div>
+                                            <br />
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Address</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <br />
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Contact Number</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="ContactNumber1" @*name="ContactNumber1"*@ value="@Model.ContactNumber1" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <br />
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Customer Type</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="UserType" name="UserType" value="@Model.UserType" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <br />
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Email Address</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="EmailAddress" name="EmailAddress" value="@Model.EmailAddress" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <br />
+                                        </div>
+
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Client Status</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="ClientStatus" name="ClientStatus" value="@Model.IsApproved" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <br />
+                                    </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-3">Block Customer </label>
+                                                    <div class="col-sm-9">
+                                                        <div class="col-sm-9">
+                                                            <input data-val="true"
+                                                                   title="If want to block the customer"
+                                                                   id="IsRejected"
+                                                                   name="IsRejected"
+                                                                   type="checkbox"
+                                                                   value="T" />
+                                                        </div>
+                                                      
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--Footer-->
+                                        @*<div class="box-footer">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <input type="submit" class="btn btn-primary pull-right" id="btnSaveExit" name="btnSaveExit" value="Save & Exit">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <input type="submit" class="btn btn-primary pull-right" id="btnCommand" name="Submit" value="Save">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <input type="submit" class="btn btn-primary pull-right" id="btnCancel" name="btnCancel" value="Cancel">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>*@
+
+                                    </div>
+                                </div>
+
+
+                            <!--Bank Account-->
+                            <div role="tabpanel" class="tab-pane" id="BankAccount">
+
+                                <div class="box box-info">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Account Setup</h3>
+                                    </div>
+                                </div>
+
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Mobile Number <b style="color:red;">*</b></label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="ContactNumber1" @*name="ContactNumber1"*@ value="@Model.ContactNumber1" readonly/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <br />
+                                    </div>
+
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h4 class="box-title">ADD SOURCE ACCOUNT</h4>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                     
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <table class="table  table-bordered  table-responsive" id="tblacc" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>Account Number</th>
+                                                            <th>Alias<b style="color:red;">*</b></th>
+                                                            <th>Branch Code</th>
+                                                            <th>Account Owner</th>
+                                                            <th>Primary</th>
+                                                            <th>Account Type</th>
+                                                            <th>Txn Enabled</th>
+                                                         
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var Acc in Model.Trans)
+                                                        {
+                                                            Sno++;
+
+                                                            <tr id="@Sno">
+                                                                <td><button class="delete">Del</button></td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" name="@string.Format("txtAcNumber{0}", Sno)" value="@Acc.AcNumber"/>
+                                                                </td>
+
+                                                                <td>
+                                                                    <input type="text" class="form-control" name="@string.Format("txtAllias{0}", Sno)"  value="@Acc.Alias"/>
+                                                                </td>
+
+                                                                <td>
+                                                                    <input type="text" class="form-control" name="@string.Format("txtBranchCode{0}", Sno)" value="@Acc.TBranchCode"/>
+                                                                </td>
+
+                                                                <td>
+                                                                    <input type="text" class="form-control" name="@string.Format("txtAcOwner{0}", Sno)" value="@Acc.AcOwner" />
+                                                                </td>
+
+                                                                <td>
+                                                                    <input type="checkbox" name="@string.Format("chkPrimary{0}", Sno)"
+                                                                           value="T"
+                                                                           @(Acc.IsPrimary == "T" ? "Checked" : string.Empty)
+
+                                                                         />
+                                                                </td>
+
+                                                                <td>
+                                                                    <input type="text" class="form-control" name="@string.Format("txtAcType{0}", Sno)" value="@Acc.AcType" />
+                                                                </td>
+
+                                                                <td>
+                                                                    <input type="checkbox" name="@string.Format("chkTxnEnabled{0}", Sno)"
+                                                                           value="T" 
+                                                                           @(Acc.TxnEnabled == "T" ? "Checked" : string.Empty)
+                                                                           />
+                                                                </td>
+
+
+
+                                                            </tr>
+                                                            hidFields = hidFields + "," + Sno;
+
+                                                        }
+
+                                                       
+                                                    </tbody>
+
+                                                    </table>
+                                                <input type="hidden"  id="trcount" name="hidAccounts" value="@(hidFields==""?hidFields:hidFields.Substring(1,hidFields.Length-1))"  />
+                                                </div>
+                                            </div>
+
+
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                            <div class="form-group">
+                                                                
+                                                                <button type="button" class="btn btn-default btn-sm" id="tradd"><span class="glyphicon glyphicon-plus"></span>ADD</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        <br />
+                                                    </div>
+
+
+                                                    @*<div class="box box-info">
+                                                        <div class="box-header with-border">
+                                                            <h4 class="box-title">SOURCE ACCOUNT INFORMATION</h4>
+                                                        </div>
+                                                    </div>*@
+                                                    <!-- /.box-header -->
+
+                                                    @*<div class="box-body">
+
+                                                        <div class="row">
+                                                            <div class="col-md-10">
+                                                                <table class="table  table-bordered  table-responsive" style="width:100%">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Account Number</th>
+                                                                            <th>Alias<b style="color:red;">*</b></th>
+                                                                            <th>Branch Code</th>
+                                                                            <th>Account Owner</th>
+                                                                            <th>Primary</th>
+                                                                            <th>Account Type</th>
+                                                                            <th>Txn Enabled</th>
+                                                                         
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <input type="text" class="form-control" id="AccountNumber" name="txtAcNumber1"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="text" class="form-control" id="AccAlies" name="txtAcAllias1" />
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="text" class="form-control" id="BranchCode" name="txtBranchCode1" />
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="text" class="form-control" id="AcOwner" name="txtAcOwner1" />
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="checkbox" name="chkPrimary1" value="T" />
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="text" class="form-control" id="AcType" name="AcType" />
+                                                                            </td>
+                                                                            <td>
+                                                                            <td>
+                                                                            <input type="checkbox" name="chkTxnEnable1" value="T" />
+                                                                            </td>
+                                                                            
+                                                                          
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+
+                                                    @*<div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-primary pull-right" id="btnSaveExit" name="btnSaveExit" value="Save & Exit">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-primary pull-right" id="btnCommand" name="Submit" value="Save">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-primary pull-right" id="btnCancel" name="btnCancel" value="Cancel">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            <!--Customer Profile-->
+                            <div role="tabpanel" class="tab-pane" id="CustomerProfile">
+
+                                <div class="box box-info">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Costumer Profile</h3>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Mobile Number <b style="color:red;">*</b></label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="ContactNumber1" @*name="ContactNumber1"*@ value="@Model.ContactNumber1" readonly/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <br />
+                                        </div>
+                                       
+
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Profile Name <b style="color:red;">*</b></label>
+                                                    <div class="col-sm-6">
+                                                        @*@Html.DropDownList("CustProfile", (SelectList)ViewBag.ProfileList, "Select Profile", new { @required = "Required", @class = "form-control", @id = "ddlCustProfile" })*@
+                                                        @Html.DropDownListFor(x => x.ProfileCode, new SelectList(ViewBag.ProfileList,"Value","Text"), "Select Profile", new { @required = "Required", @class = "form-control", @id = "ddlCustProfile" })
+                                                        
+                                                       
+                                                      
+
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @*<div class="box-footer">
+                                            <div class="row">
+                                             <div class="col-md-2">
+                                                <div class="form-group">
+                                                 <input type="submit" class="btn btn-primary pull-right" id="btnSaveExit" name="btnSaveExit" value="Save & Exit">
+                                                 </div>
+                                                 </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <input type="submit" class="btn btn-primary pull-right" id="btnCommand" name="Submit" value="Save">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <input type="submit" class="btn btn-primary pull-right" id="btnCancel" name="btnCancel" value="Cancel">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>*@
+
+
+
+                                    </div>
+                                </div>
+                                <div id="DataDetail">
+                                    @*@Html.Action("GetFeatureDetail");*@
+                                </div>
+                                                                
+                            </div>
+
+                            <!--Service Setup-->
+                            @*<div role="tabpanel" class="tab-pane" id="ServiceSetup">
+                              <p>
+                                  This is test page
+                              </p>
+
+                            </div>*@
+
+                            <!--End of TAB panel-->
+                            </div>
+                            <!--End of TAB nav-->
+                            </div>
+                            <!--Fixed Footer-->
+                            <div class="footer fixed">
+
+                                <div class="box-footer">
+                                    <div class="row">
+                                       <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-primary pull-right" id="btnCommand" name="btnCommand" value="Submit">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                @*<input type="submit" class="btn btn-primary pull-right" id="btnCancel" name="btnCancel" value="Cancel">*@
+                                                <a href="@Url.Action("ListView","Customer")" class="btn btn-primary pull-right">Cancel</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                         
+                               
+                                                 
+                        <!-- /.col-xs--->
+                        <!-- End-->
+                 }
+                    </div>
+    </div>
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+@section scripts {
+<script src="~/Content/dist/js/jquery.validate.js"></script>
+    <script type="text/javascript">
+        function edValueKeyPress() {
+            var edValue = document.getElementById("BankAccountNumber");
+            var str = edValue.value;
+            var result = str.substr(0, 3);
+            $('#BranchCode').val(result);
+        }
+
+        $('#ddlCustProfile').change(function (e) {
+            var ddlValue = $('#ddlCustProfile option:selected').val();
+            e.preventDefault();
+            $.ajax({
+                url: '@Url.Action("GetFeatureDetail", "Customer")',
+                type: 'Get',
+                data: { Profile: ddlValue },
+                success: function (results) {
+                    $('#DataDetail').html(results)
+                },
+                error: function () {
+                    $('#DataDetail').html('Profile Details could not be fetched at the moment')
+                }
+            });
+        });
+
+        ///////////////////////////////////////////////////
+
+
+      //  Count[0] = 1;
+        var Count = []
+
+        $(document).ready(function () {
+            Count = $('#trcount').val().split(',');
+            if (Count[0] == "")
+                Count[0] = 1;
+
+            var ddlValue = $('#ddlCustProfile option:selected').val();
+
+            if (ddlValue.length > 0) {
+                $.ajax({
+                    url: '@Url.Action("GetFeatureDetail", "Customer")',
+                    type: 'Get',
+                    data: { Profile: ddlValue },
+                    success: function (results) {
+                        $('#DataDetail').html(results)
+                    },
+                    error: function () {
+                        $('#DataDetail').html('Profile Details could not be fetched at the moment')
+                    }
+                });
+            }
+
+
+        });
+        $('#tblacc tbody').on('click', 'button', function () {
+            var totalLenght = $('#tblacc tbody tr').length;
+            if (totalLenght > 1) {
+                var Tr = $(this).closest('tr').attr('id');
+                Count[Tr - 1] = "";
+                $('#trcount').val(Count.toString());
+                $(this).closest('tr').remove();
+
+            }
+
+
+        });
+
+        $('#tradd').click(function (e) {
+            e.preventDefault();
+            debugger;
+            var totalLenght = $('#tblacc tbody tr').length;
+            if (totalLenght > 0) {
+                if ($.trim($('#tblacc tbody tr:first input[name^=txtAcNumber]').val()) == "") {
+                    $('#tblacc tbody tr:first input[name^=txtAcNumber]').focus()
+                    return;
+                }
+            }
+
+            if (totalLenght < 5) {
+                var lastTr;
+
+                if (totalLenght != 0) {
+                    lastTr= $('#tblacc tbody tr:last').attr('id');
+                }
+                else
+                {
+                    lastTr = 0;
+                }
+                var newTr = parseInt(lastTr) + 1;
+                Count[lastTr] = newTr;
+                var tr = '<tr id="' + newTr + '"> <td><button class="delete">Del</button></td> <td><input type="text" placeholder="Account Number" maxlength="20" name="txtAcNumber' + newTr + '" class="form-control"/></td><td><input type="text" placeholder="Alias" name="txtAllias' + newTr + '" class="form-control" /></td>';
+                tr = tr + '<td><input type="text" placeholder="BranchCode" class="form-control" name="txtBranchCode' + newTr + '" /></td><td><input type="text" placeholder="Owner" name="txtAcOwner' + newTr + '" value="Self" class="form-control"/></td> <td><input type="checkbox" name="chkPrimary' + newTr + '"  value="T"/></td>';
+                tr = tr + ' <td><input type="text" placeholder="Ac Type" name="txtAcType' + newTr + '" class="form-control"/></td> <td><input type="checkbox" name="chkTxnEnable' + newTr + '" value="T" /></td></tr>';
+
+                $('#trcount').val(Count.toString());
+                $('#tblacc tbody').append(tr);
+            }
+
+
+        });
+
+
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        function CheckMobile(value) {
+            var reg = new RegExp('^[9][8]\\d{8}$');
+            return reg.test(value);
+
+        }
+
+
+         $('#UserName').blur(function () {
+                if(!CheckMobile($(this).val()))
+                {
+                    $("#UserName").focus();
+                    //$("#check").css("color", "red");
+                    $("#check").html("Mobile number not in correct format, Must Start with 98").show();
+                    return;
+                }
+
+         });
+
+            $("#UserName").change(function (event) {
+                event.preventDefault();
+
+                var id = $("#UserName").val();
+                if (!CheckMobile($(this).val())) {
+
+                    $("#UserName").focus();
+                    $("#check").css("color", "red");
+                    $("#check").html("Mobile number not in correct format, Must Start with 98").show();
+                    return;
+                }
+
+            });
+
+            
+          
+            $(document).ready(function () {
+
+
+
+                $.validator.addMethod("lettersonly", function (value, element) {
+                    return this.optional(element) || /^[a-z ]+$/i.test(value);
+                }, "Only letters and Space allowed");
+                jQuery.validator.addMethod("alphanumeric", function (value, element) {
+                    return this.optional(element) || /^\w+$/i.test(value);
+                }, "only Letters and Numbers allowed");
+
+                $.validator.addMethod("pattern", function (value, element, param) {
+                    if (this.optional(element)) {
+                        return true;
+                    }
+                    if (typeof param === "string") {
+                        param = new RegExp("^(?:" + param + ")$");
+                    }
+                    return param.test(value);
+                }, "Invalid format.");
+
+                var Errors = [];
+                i = 0;
+
+                $('#CustomerModification').validate({
+
+                    highlight: function (label) {
+                        $(label).closest('.form-group').addClass('has-error');
+                        var tab_content = $(label).parent().parent().parent().parent().parent().parent().parent();
+                        if ($(tab_content).find("fieldset.tab-pane.active:has(div.has-error)").length == 0) {
+                            var id = $(tab_content).attr('id')
+                            $('a[href="#' + id + '"]').tab('show');
+
+                        }
+
+                    },
+                    unhighlight: function (label) {
+                        $(label).closest('.form-group').removeClass('has-error');
+
+                    },
+                    ignore: [],
+                    rules: {
+                        UserName: {
+                            required: true,
+                            minlength: 10
+
+                        },
+                        Name: {
+                            required: true,
+                            lettersonly: true
+                        },
+                        Address: {
+                            required: true
+
+
+                        },
+                        EmailAddress: {
+                            email: true
+                        },
+                        NewMobileNo: {
+                            pattern: '[9][8][0-9]{8}'
+                        },
+                        //FName: {
+                        //    required: true,
+                        //    lettersonly: true
+
+                        //},
+                        //LName: {
+                        //    required: true,
+                        //    lettersonly: true
+
+                        //},
+                        //Gender: {
+                        //    required: true,
+                        //    lettersonly: true
+
+                        //},
+
+                        //txtZone: {
+                        //    required: true
+
+                        //},
+                        //District: {
+                        //    required: true
+                        //},
+                        //txtPin: {
+                        //    required: true,
+                        //    minlength: 4
+                        //},
+                        CustProfile: {
+                            required: true
+
+                        }
+
+                    },
+                    messages: {
+                        UserName: {
+                            required: "Please Enter a UserName,Should be Mobile Number",
+                            minlength: "UserName should be of 10 characters"
+                        },
+                        Name: {
+                            required: "Please Enter Full Name",
+                            lettersonly: "Only letters and Space allowed"
+                        },
+                        Address: {
+                            required: "Please enter the address"
+
+                        },
+                        EmailAddress: {
+                            email: "Please enter a valid email address"
+                        },
+                        NewMobileNo: {
+                            pattern: "Mobile Number must start with 98"
+                        },
+                        //FName: {
+                        //    required: "Please enter First name",
+                        //    lettersonly: "Only letters allowed"
+
+                        //},
+                        //LName: {
+                        //    required: "Please enter Last name",
+                        //    lettersonly: "Only letters allowed"
+
+                        //},
+                        //Gender: {
+                        //    required: "Please select Gender"
+                        //},
+
+                        //District: {
+                        //    required: "Please Enter the District"
+                        //},
+                        //txtPin: {
+                        //    required: "Please Enter a Pin Number",
+                        //    minlength: "Pin number should be of 4 digits"
+                        //},
+                        CustProfile: {
+                            required: "Please Select a Profile"
+                        }
+                    }
+                });
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+}
+<!-- =============================================== -->

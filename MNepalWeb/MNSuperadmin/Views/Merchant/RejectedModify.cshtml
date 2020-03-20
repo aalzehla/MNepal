@@ -1,0 +1,1266 @@
+﻿@{
+    ViewBag.Title = "Modification Rejected";
+
+    var srcfront = "";
+    var srcback = "";
+    var srcPP = "";
+    var srcRegCerti = "";
+    var srcTaxClearFront = "";
+    var srcTaxClearBack = "";
+
+    string _ImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["ImageAddress"];
+    string _ApiImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["WCFImageAddress"];
+    string _SuperAdminImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["SuperAdmin"];
+
+    if (Model.FrontImage == null && Model.BackImage == null && Model.PassportImage == null)
+    {
+        srcfront = _SuperAdminImageSaveUrl + "Content/assets/img/citizenship1.jpg";
+        srcback = _SuperAdminImageSaveUrl + "Content/assets/img/citizenship2.jpg";
+        srcPP = _SuperAdminImageSaveUrl + "Images/default_image.png";
+    }
+    else
+    {
+        srcfront = _ApiImageSaveUrl + "Content/Upload/" + Model.FrontImage;
+        srcback = _ApiImageSaveUrl + "Content/Upload/" + Model.BackImage;
+        srcPP = _ApiImageSaveUrl + "Content/Upload/" + Model.PassportImage;
+        srcRegCerti = _ApiImageSaveUrl + "Content/Upload/" + Model.RegCertificateImage;
+        srcTaxClearFront = _ApiImageSaveUrl + "Content/Upload/" + Model.TaxClearFrontImage;
+        srcTaxClearBack = _ApiImageSaveUrl + "Content/Upload/" + Model.TaxClearBackImage;
+
+    }
+}
+
+@model MNSuperadmin.Models.UserInfo
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Merchant
+        <small>Modification</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Merchant</a></li>
+        <li class="active"> Merchant Rejected Modification</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+
+        <!-- /.box-header -->
+
+        @using (Html.BeginForm("RejectedModify", "Merchant", FormMethod.Post, new { @id = "RejectedModifyMerchants", @name = "RejectedModifyMerchants", @class = "form-horizontal", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            if (this.ViewData["merchant_messsage"] != null)
+            {
+                if (this.ViewData["message_class"].ToString() == "success_info")
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Success</h4> @this.ViewData["merchant_messsage"]
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Error</h4> @this.ViewData["merchant_messsage"]
+                    </div>
+                }
+            }
+            <!-- Start -->
+
+            <div class="col-xs-10">
+            </div>
+            <div class="box box-info" style="display:none;">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Information</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6" style="display:none">
+                            <div class="form-group">
+                                <label>ClientCode</label>
+                                @Html.EditorFor(model => model.ClientCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                     
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Login Detail</h3>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">User Name:<b style="color:red;">*</b></label>
+                                <div class="col-sm-7">
+                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">User Type:<b style="color:red;">*</b></label>
+                                <div class="col-sm-7">
+                                    @Html.EditorFor(model => model.UserType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-sm-8">Current Status : <b style="color:red;">@Model.IsApproved</b></label>
+
+                                @*@Model.IsApproved*@
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+          
+            <!-- /.box -->
+
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Profile</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">First Name:<b style="color:red;">*</b></label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="FName" value="@Model.FName" name="txtFirstName" placeholder="First Name" maxlength="55" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Middle Name:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="MName" value="@Model.MName" name="txtMiddleName" placeholder="Middle Name" maxlength="30" onkeypress="return isAlphabateDot(event)" style="text-transform: capitalize" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Last Name:<b style="color:red;">*</b></label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="LName" value="@Model.LName" name="txtLastName" placeholder="Last Name" onkeypress="return isAlphabateDot(event)" maxlength="30" style="text-transform: capitalize" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Business Name:<b style="color:red;">*</b></label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="BusinessName" value="@Model.BusinessName" name="txtBusinessName" placeholder="Business Name" onkeypress="return isAlphabateDot(event)" maxlength="30" style="text-transform: capitalize" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row">
+                        <div class="col-md-6" style="display:none">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Status:<b style="color:red;">*</b></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control select2" id="Status" name="txtStatus" style="width: 100%;">
+                                        <option value="Active" selected="selected">Active</option>
+                                        <option value="InActive">InActive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Website Name:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control WebsiteName" value="@Model.WebsiteName" name="txtWebsiteName" placeholder="Website Name" maxlength="50" onkeypress="return isNumberKey(event)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Merchant Category:<b style="color:red;">*</b></label>
+                                <div class="col-sm-7">
+                                    @Html.DropDownList("MerchantCategory", ViewBag.MerchantCategory as List<SelectListItem>, new { @class = "form-control", @id = "MerchantCategory" })
+                                    <input type="hidden" class="form-control" id="MerchantCategoryText" name="MerchantCategoryText" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" style="display:none">
+                                <label class="control-label col-sm-3">IsApproved:<b style="color:red;">*</b></label>
+                                <div class="col-sm-9">
+                                    <div class="radio radio-primary">
+                                        <label>
+                                            <input type="radio" name="txtIsApproved" id="IsApproved" value="UnApprove" class="btn btn-success" disabled /> UnApprove
+                                        </label>
+                                        &nbsp;
+                                        <label>
+                                            <input type="radio" name="txtIsApproved" id="IsApproved1" autocomplete="off" value="Approve" checked class="btn btn-default" /> Approve
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row" style="display:none">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">IsRejected:<b style="color:red;">*</b></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control select2" id="IsRejected" name="txtIsRejected"
+                                            style="width: 100%;">
+                                        <option value="T" disabled>True</option>
+                                        <option value="F" selected="selected">False</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Address Information</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    Tole /Street /Road:
+                                    @*<b style="color:red;">*</b>*@
+                                </label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="PStreet" value="@Model.PStreet" name="PStreet" placeholder="Tole/Street/Road" maxlength="45" onkeypress="return AlphabetComma(event)" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    VDC / Municipality:
+                                    <b style="color:red;">*</b>
+                                </label>
+                                <div class="col-sm-7">
+
+                                    <input type="text" class="form-control" id="PVDC" value="@Model.PVDC" name="txtPVDC" placeholder="VDC/Municipality" maxlength="45" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">House No:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="PHouseNo" value="@Model.PHouseNo" name="txtPHouseNo" placeholder="House No." maxlength="45" onkeypress="return isNumberKey(event)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    Ward No.:
+                                    <b style="color:red;">*</b>
+                                </label>
+                                <div class="col-sm-7">
+
+                                    <input type="text" class="form-control" id="PWardNo" value="@Model.PWardNo" name="txtPWardNo" placeholder="Ward No" maxlength="2" onkeypress="return isNumberKey(event)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    Province:
+                                    <b style="color:red;">*</b>
+                                </label>
+                                <div class="col-sm-7">
+                                    @Html.DropDownList("PProvince", ViewBag.PProvince as List<SelectListItem>, new { @class = "form-control placeholder_Province", @id = "PProvince" })
+                                    <input type="hidden" class="form-control" id="PProvinceText" name="PProvinceText" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">District:<b style="color:red;">*</b></label>
+                                <div class="col-sm-7">
+                                    @Html.DropDownList("PDistrictID", ViewBag.PDistrictID as List<SelectListItem>, new { @required = "Required", @class = "form-control placeholder_PDistrict" })
+                                    <input type="hidden" class="form-control" id="PDistrictText" name="PDistrictText" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- /.box -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Contact Information</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Mobile Number:<b style="color:red;">*</b></label>
+                                <div class="col-sm-7">
+                                    @Html.EditorFor(model => model.ContactNumber1, new { htmlAttributes = new { @class = "form-control", @maxLength = "10", @readonly = "readonly", @onkeypress = "return isNumber(event)" } })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Contact Number 2:</label>
+                                <div class="col-sm-7">
+                                    @Html.EditorFor(model => model.ContactNumber2, new { htmlAttributes = new { @class = "form-control", @maxLength = "10", @placeholder = "Contact Number 2", @onkeypress = "return isNumber(event)" } })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Landline Number:@*<b style="color:red;">*</b>*@</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="LandlineNumber" value="@Model.LandlineNumber" name="txtLandlineNumber" onkeypress="return isNumber(event)" maxlength="10" placeholder="Landline Number" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Email Address:<b style="color:red;">*</b></label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="Email" value="@Model.EmailAddress" name="Email" placeholder="Email Address" maxlength="50" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row-->
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+
+            <!-- /.box -->
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Bank Information</h3>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6" style="display:none;">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">IsDefault:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="IsDefault" name="txtIsDefault" value="1" readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Bank Code:</label>
+                            <div class="col-sm-7">
+                                @Html.DropDownListFor(x => x.BankNo, (IEnumerable<SelectListItem>)ViewBag.Bank,@*"-- Choose Bank --",*@                                                                                                                   /**/
+                                                                                                                                                                                                                                                                                          /**/
+                                                                                                                                                                                                                                                                                          /**/
+                                                                                                                                                                                                                                                                                          /**/
+                                                                                                                                                                                                                                                                                          new { @class = "form-control select2", @id = "BankNoBin", @name = "txtBankNoBin" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Wallet Ac:<b style="color:red;">*</b></label>
+                            <div class="col-sm-7">
+                                @Html.EditorFor(model => model.WalletNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <label class="control-label col-sm-4">Bank Account Number:</label>
+
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="BankAccountNumber" name="BankAccountNumber" value="@Model.BankAccountNumber" onKeyPress="return isNumber(event); edValueKeyPress();" onKeyUp="edValueKeyPress()" maxlength="14" placeholder="Bank Account Number" @*required*@ />
+                                @*@Html.EditorFor(model => model.BankAccountNumber, new
+        {
+            htmlAttributes = new
+            {
+                @id = "BankAccountNumber",
+                @class = "form-control",
+                @onKeyPress = "return isNumber(event); edValueKeyPress()",
+                @onKeyUp = "edValueKeyPress()",
+                @maxlength = "14",
+                @name = "txtBankAccountNumber"
+            }
+        })*@
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4"> Branch Code:</label>
+                            <div class="col-sm-7">
+                                @Html.EditorFor(model => model.BranchCode, new { htmlAttributes = new { @class = "form-control", @maxlength = "3", @id = "BranchCode" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box box-info">
+                <div class="box-header">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Document Identification</h3>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-sm-4">
+                                <label class="control-label ">
+                                    <input type="checkbox" value="checkbox" id="PanVatChecked" @if (@Model.PanNo != "" || @Model.VATNumber != "") { @: checked
+                                           } /> PAN/VAT Number:
+                                </label>
+                            </div>
+                            <div class="col-sm-7" id="PanVatNo">
+                                <select class="form-control select2" name="PanVatNo" style="width: 100%;" disabled>
+                                    <option value="Select" selected="selected" disabled>----Select----</option>
+                                    <option value="PanNo" @if (@Model.PanNo != "") { @: selected
+                                            }>
+                                        PAN Number
+                                    </option>
+                                    <option value="VatNo" @if (@Model.VATNumber != "") { @: selected
+                                            }>
+                                        VAT Number
+                                    </option>
+                                </select>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="PanDiv" style="display:none">
+                        <br />
+                        <div class="col-md-6" id="PanNumber" @if (Model.PanNo == "") { @: style="display:none"
+                             }>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">PAN Number:@*<b style="color:red;">*</b>*@</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control pan" name="txtPanNo" value="@Model.PanNo" placeholder="Pan Number" maxlength="9" onkeypress="return isNumber(event);" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" id="VATNumber" @if (Model.VATNumber == "") { @: style="display:none"
+                             }>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">VAT Number:@*<b style="color:red;">*</b>*@</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control vat" name="txtVATNumber" value="@Model.VATNumber" maxlength="9" @*required title="Please use VAT Number" *@ placeholder="VAT Number" onkeypress="return isNumber(event);" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">PAN/VAT Photo:</label>
+                                <div class="col-sm-4">
+                                    <div class="col-md-10">
+                                        <img src="@srcTaxClearBack" style="width:300px; height:250px;" alt="Tax Document Image" />
+                                    </div>
+                                    <div style="display:none;">
+                                        <input type="text" value="@Model.TaxClearBackImage" name="txtOldTaxClearBack" id="txtOldTaxClearBack" />
+                                    </div>
+
+                                    <input type="file" id="TaxClearBack" name="TaxClearBack" accept="image/x-png,image/jpeg" />
+                                    <div id="TaxClearB" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                    <label id="TaxClearBimage"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="color:grey;font-size:12px; padding-left:30px"><b style="color:red;">*</b>Note: File format has to be either in jpg, jpeg or png format and portrait layout.<b style="color:red;">*</b></div>
+                    </div>
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-sm-12">
+                                <label class="control-label ">
+                                    <input type="checkbox" value="checkbox" id="CertificateChecked" @if (@Model.RegistrationNumber != "") { @: checked
+                                           } />
+                                    Business Registration Certificate.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="CertificateDiv">
+                        <div class="row">
+                            <br />
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Registration Number:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="RegistrationNumber" name="txtRegistrationNumber" value="@Model.RegistrationNumber" maxlength="20" placeholder="Registration Number" onkeypress="return isNumber(event);" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4">Registration Certificate:</label>
+                                    <div class="col-sm-4">
+                                        <div class="col-md-10">
+                                            <img src="@srcRegCerti" style="width:300px;height:250px;" alt="Registration Certification Image" />
+                                        </div>
+                                        <div style="display:none;">
+                                            <input type="text" value="@Model.RegCertificateImage" name="txtOldRegCerti" id="txtOldRegCerti" />
+                                        </div>
+                                        <input type="file" id="RegCertificatePhoto" name="RegCertificatePhoto" accept="image/x-png,image/jpeg" />
+                                        <div id="RegCertiPhoto" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                        <label id="imageregCerti"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="color:grey;font-size:12px; padding-left:30px"><b style="color:red;">*</b>Note: File format has to be either in jpg, jpeg or png format and portrait layout.<b style="color:red;">*</b></div>
+                    </div>
+                    <hr />
+
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-sm-12">
+                                <label class="control-label ">
+                                    <input type="checkbox" value="checkbox" id="CitizenshipChecked" @if (@Model.Citizenship != "") { @: checked
+                                           } />
+                                    Business owner’s Citizenship.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="CitizenshipDiv">
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        Citizenship No:
+                                        <b style="color:red;">*</b>
+                                    </label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="Citizenship" name="txtCitizenship" placeholder="Citizenship" maxlength="20" value="@Model.Citizenship" onkeypress="return NumberSlashDashParenthesis(event)" />
+                                        <div id="CitizenNo" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Issue Date for Citizenship:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-8">
+                                        <div class="col-sm-10">
+                                            @Html.EditorFor(model => model.CitizenshipIssueDate, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "DD/MM/YYYY", @readonly = "readonly" } })
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label class="control-label ">AD</label>
+                                        </div>
+
+                                        <div class="col-sm-10 mt-2">
+                                            @Html.Editor("BSCitizenshipIssueDate", new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "YYYY-MM-DD", @style = "margin-bottom:3px;", @readonly = "readonly" } })
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label class="control-label">BS</label>
+                                        </div>
+                                        <div id="citizenDate" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        Place of Issue for Citizenship:
+                                        <b style="color:red;">*</b>
+                                    </label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="CitizenshipPlaceOfIssue" value="@Model.CitizenshipPlaceOfIssue" name="txtCitizenshipPlaceOfIssue" placeholder="Place of Issue for Citizenship" maxlength="35" onkeypress="return AlphabetOnly(event)" @*onchange="checkValidation()"*@ />
+                                        <div id="CitizenIssuePlace" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4">Citizenship (Front):</label>
+                                    <div class="col-sm-4">
+
+                                        <div class="col-md-10">
+                                            <img src="@srcfront" style="width:300px;height:250px;" alt="Front Document Image" />
+                                        </div>
+                                        <div style="display:none;">
+                                            <input type="text" value="@Model.FrontImage" name="txtOldfront" id="txtOldfront" />
+                                        </div>
+
+                                        <input type="file" id="Front" name="Front" accept="image/x-png,image/jpeg" />
+                                        <div id="FrontUpload" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                        <label id="image"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4">Citizenship (Back):</label>
+                                    <div class="col-sm-4">
+                                        <div class="col-md-10">
+                                            <img src="@srcback" style="width:300px; height:250px;" alt="Back Document Image" />
+                                        </div>
+                                        <div style="display:none;">
+                                            <input type="text" value="@Model.BackImage" name="txtOldback" id="txtOldback" />
+                                        </div>
+
+                                        <input type="file" id="Back" name="Back" accept="image/x-png,image/jpeg" />
+                                        <div id="BackUpload" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                        <label id="image1"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="color:grey;font-size:12px; padding-left:30px"><b style="color:red;">*</b>Note: File format has to be either in jpg, jpeg or png format and in Landscape layout.<b style="color:red;">*</b></div>
+                    </div><hr />
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-sm-12">
+                                <label class="control-label ">
+                                    <input type="checkbox" value="checkbox" id="TaxChecked" @if (@Model.TaxClearFrontImage != "") { @: checked
+                                           } />
+                                    Recent Tax Clearance Certificate.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row" id="TaxDiv">
+                        <br />
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-4"> Tax Clearance Photo:</label>
+                                <div class="col-sm-4">
+
+                                    <div class="col-md-10">
+                                        <img src="@srcTaxClearFront" style="width:300px; height:250px;" alt="Tax Clearance Document Image" />
+                                    </div>
+                                    <div style="display:none;">
+                                        <input type="text" value="@Model.TaxClearFrontImage" name="txtOldTaxClearFront" />
+                                    </div>
+
+                                    <input type="file" id="TaxClearFront" name="TaxClearFront" accept="image/x-png,image/jpeg" />
+                                    <div id="TaxClearF" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                    <label id="TaxClearFimage"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="color:grey;font-size:12px; padding-left:30px"><b style="color:red;">*</b>Note: File format has to be either in jpg, jpeg or png format and portrait layout.<b style="color:red;">*</b></div>
+                    </div>
+
+                    <hr />
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-sm-12">
+                                <label class="control-label ">
+                                    <input type="checkbox" value="checkbox" id="LogoChecked" @if (@Model.PassportImage != "") { @: checked
+                                           } />
+                                    Business Logo.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row" id="LogoDiv">
+                        <br />
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-4"> Upload Logo:</label>
+                                <div class="col-sm-4">
+                                    <div class="col-md-10">
+                                        <img src="@srcPP" style="width:300px;height:250px;" alt="Profile Image" />
+                                    </div>
+                                    <div style="display:none;">
+                                        <input type="text" value="@Model.PassportImage" name="txtOldPP" />
+                                    </div>
+
+                                    <input type="file" id="PassportPhoto" name="PassportPhoto" accept="image/x-png,image/jpeg" />
+                                    <div id="PassPhoto" style="color:#dd4b39; padding-top:3px; font-weight:bold;"></div>
+                                    <label id="image2"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.box-body -->
+
+
+            <div class="box box-info">
+                <!--Remarks-->
+                <br />
+                <div class="form-group">
+                    <label class="control-label col-md-2"> Rejected Remarks:</label>
+                    <div class="col-md-5">
+                        @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", @readonly = "readonly", @maxlength = "200", @rows = "4", @cols = "50", @style = "min-height:50px;min-width:200px;max-height:100px;max-width:380px;" })
+
+                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="col-md-12">
+                        <div class="btn-toolbar">
+                            <input type="button" class="btn btn-primary" value="Go Back" onclick="location.href='@Url.Action("ModificationRejected", "Merchant")'" />
+
+                            <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit" id="btnCommand" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.box -->
+            <!-- /.box-body -->
+            <!-- End -->
+        }
+
+
+
+    </div>
+
+
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+@section scripts {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/bootstrapvalidator.min.js"></script>
+    <script src="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script src="~/Content/date_comp/nepali.datepicker.v2.2.min.js"></script>
+    <link href="~/Content/date_comp/nepali.datepicker.v2.2.min.css" rel="stylesheet" />
+    <script src="~/Scripts/CRNepaliCalender.js"></script>
+    <script type="text/javascript">
+
+    var Count = [];
+    Count[0] = 1;
+
+    var yearRangeDOB = "1944:+0";
+    var yearRangeExpire = "1944:2033";
+
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+
+    function edValueKeyPress() {
+        var edValue = document.getElementById("BankAccountNumber");
+        var str = edValue.value;
+        var result = str.substr(0, 3);
+        $('#BranchCode').val(result);
+    }
+
+        //CHECKBOX IS CHECKED IF THE VALUE IS ADDED IN THE TEXT FIELD
+        if ($('select[name=PanVatNo] option:selected').val() == 'Select') {
+            $('#PanDiv').hide();
+            $('#PanNumber').hide();
+            $('#VATNumber').hide();
+            $('#PanNumber').val("");
+            $('#VATNumber').val("");
+        } else if ($('select[name=PanVatNo] option:selected').val() == 'PanNo') {
+            $('#PanDiv').show();
+            $('#PanNumber').show();
+        } else if ($('select[name=PanVatNo] option:selected').val() == 'VatNo') {
+            $('#PanDiv').show();
+            $('#VATNumber').show();
+        }
+        function PanVatChecked() {
+            $('select[name=PanVatNo]').prop('disabled', false);
+            $("#PanVatNo").show();
+            $('select[name=PanVatNo]').change(function () {
+                if ($('select[name=PanVatNo] option:selected').val() == 'Select') {
+                    $('#PanDiv').hide();
+                    $('#PanNumber').hide();
+                    $('#VATNumber').hide();
+                    $('.pan').val("");
+                    $('.vat').val("");
+                } else if ($('select[name=PanVatNo] option:selected').val() == 'PanNo') {
+                    $('#PanDiv').show();
+                    $('#PanNumber').show();
+                    $('#VATNumber').hide();
+                    $('.vat').val("");
+                } else if ($('select[name=PanVatNo] option:selected').val() == 'VatNo') {
+                    $('#PanDiv').show();
+                    $('#PanNumber').hide();
+                    $('.pan').val("");
+                    $('#VATNumber').show();
+                }
+            });
+        };
+        function PanVatUnchecked() {
+            $("#PanVatNo").hide();
+            $('select[name=PanVatNo]').prop('disabled', true);
+            $("#PanDiv").hide();
+            $('.pan').val("");
+            $('.vat').val("");
+            //$('#txtOldTaxClearBack').val("");
+            //$('#TaxClearBack').val("");
+        }
+
+        if ($("#PanVatChecked").is(':checked'))
+            PanVatChecked();
+        else
+            PanVatUnchecked();
+
+        $("#PanVatChecked").click(function () {
+            if ($("#PanVatChecked").is(':checked')) {
+                PanVatChecked();
+            }
+            else {
+                PanVatUnchecked();
+            }
+        });
+        //CHECKBOX IS CHECKED IS THE VALUE IS ADDED IN THE TEXT FIELD-- END
+
+        //HIDE/SHOW ALL THE ELEMENTS OF CHECKBOX
+        if ($("#CitizenshipChecked").is(':checked')) {
+            $("#CitizenshipDiv").show();
+        }
+        else {
+            $("#CitizenshipDiv").hide();
+        }
+        $("#CitizenshipChecked").click(function () {
+            if ($("#CitizenshipChecked").is(':checked')) {
+                $("#CitizenshipDiv").show();
+            }
+            else {
+                $("#CitizenshipDiv").hide();
+                $("#Citizenship").val("");
+                $("#CitizenshipPlaceOfIssue").val("");
+                //$("#txtOldfront").val("");
+                //$("#txtOldback").val("");
+            }
+        });
+
+
+        if ($("#TaxChecked").is(':checked')) {
+            $("#TaxDiv").show();
+        }
+        else {
+            $("#TaxDiv").hide();
+        }
+        $("#TaxChecked").click(function () {
+            if ($("#TaxChecked").is(':checked')) {
+                $("#TaxDiv").show();
+            }
+            else {
+                $("#TaxDiv").hide();
+            }
+        });
+
+
+        if ($("#LogoChecked").is(':checked')) {
+            $("#LogoDiv").show();
+        }
+        else {
+            $("#LogoDiv").hide();
+        }
+        $("#LogoChecked").click(function () {
+            if ($("#LogoChecked").is(':checked')) {
+                $("#LogoDiv").show();
+            }
+            else {
+                $("#LogoDiv").hide();
+            }
+        });
+
+
+        if ($("#CertificateChecked").is(':checked')) {
+            $("#CertificateDiv").show();
+        }
+        else {
+            $("#CertificateDiv").hide();
+        }
+        $("#CertificateChecked").click(function () {
+            if ($("#CertificateChecked").is(':checked')) {
+                $("#CertificateDiv").show();
+            }
+            else {
+                $("#CertificateDiv").hide();
+                $("#RegistrationNumber").val("");
+                //$("#RegCertificatePhoto").val("");
+                //$("#txtOldRegCerti").val("");
+            }
+        });
+
+        //HIDE/SHOW ALL THE ELEMENTS OF CHECKBOX---- END
+
+    $("#CitizenshipIssueDate").datepicker(
+        {
+            dateFormat: 'dd/mm/yy',
+            maxDate: new Date,
+            //yearRange: "-100:+0",
+            yearRange: yearRangeDOB,
+            changeMonth: true,
+            changeYear: true,
+            onSelect: function () {
+
+                if ($('#CitizenshipIssueDate').val() != '') {
+                    $('#BSCitizenshipIssueDate').val(AD2BS(GetFormattedDate($('#CitizenshipIssueDate').val())));
+                }
+
+            },
+            showAnim: "slideDown"
+        });
+
+
+        //start
+             $("#PProvince").change(function () {
+                 $("#PDistrictID").empty();
+                 $(".placeholder_PDistrict").prepend("<option value='' disabled selected>--Select District---</option>");
+                 $('#PProvinceText').val($("#PProvince").val());
+                 $.ajax({
+                     type: 'POST',
+                     url: '@Url.Action("getdistrict")',
+
+                     dataType: 'json',
+
+                     data: { id: $("#PProvince").val() },
+
+
+                     success: function (districts) {
+
+
+                         $.each(districts, function (i, district) {
+                             $("#PDistrictID").append('<option value="' + district.Value + '">' +
+                                 district.Text + '</option>');
+
+                         });
+                     },
+                     error: function (ex) {
+                         alert('Failed to retrieve Province districts.' + ex);
+                     }
+                 });
+                 return false;
+             });
+        //End
+
+
+
+        $(document).ready(function () {
+
+            $('#RejectedModifyMerchants').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+
+                    Name: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Name is required and cannot be empty'
+                            }
+                        }
+                    },
+
+                    txtFirstName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'First Name is required'
+                            },
+                        }
+                    },
+
+                    txtLastName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Last Name is required'
+                            },
+                        }
+                    },
+
+                    txtBusinessName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Business Name is required'
+                            },
+                        }
+                    },
+
+                    //txtRegistrationNumber: {
+                    //    validators: {
+                    //        notEmpty: {
+                    //            message: 'Registration Number is required'
+                    //        },
+                    //    }
+                    //},
+
+                    //txtVAT: {
+                    //    validators: {
+                    //        notEmpty: {
+                    //            message: 'VAT Number is required'
+                    //        },
+                    //    }
+                    //},
+
+                    Email: {
+                        validators: {
+                            regexp: {
+                                regexp: /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+                                message: 'Email Address is not valid'
+                            },
+                            notEmpty: {
+                                message: 'Email Address is required and cannot be empty'
+                            }
+                        }
+                    },
+
+                    txtPWardNo: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Ward No is required and cannot be empty'
+                            },
+                            integer: {
+                                message: 'The value is not number'
+                            }
+                        }
+                    },
+
+                    txtPVDC: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The VDC/Municipality name is required and cannot be empty'
+                            },
+                        }
+                    },
+
+                    Address: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Address is required and cannot be empty'
+                            }
+                        }
+                    },
+
+                    txtPanNo: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The PAN number is required and cannot be empty'
+                            }
+                        }
+                    },
+
+                    txtVATNumber: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The VAT number is required and cannot be empty'
+                            }
+                        }
+                    },
+
+                    txtRegistrationNumber: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The PAN number is required and cannot be empty'
+                            }
+                        }
+                    },
+
+                    ContactNumber2: {
+                        validators: {
+                            regexp: {
+                                regexp: /^[9][8][0-9]{8}$/,
+                                message: 'Input value is not a valid mobile format'
+                            }
+                            //,
+                            //notEmpty: {
+                            //    message: 'The mobile number is required and cannot be empty'
+                            //}
+                        }
+                    },
+                    BankNoBin: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Bank is required and cannot be empty'
+                            }
+                        }
+                    },
+
+                    //PassportPhoto: {
+                    //    validators: {
+                    //        notEmpty: {
+                    //            message: 'Please enter the passport photo'
+                    //        }
+                    //    }
+                    //},
+                    //TaxClearBack: {
+                    //    validators: {
+                    //        notEmpty: {
+                    //            message: 'Please enter the PAN/VAT photo'
+                    //        }
+                    //    }
+                    //},
+                    //RegCertificatePhoto: {
+                    //    validators: {
+                    //        notEmpty: {
+                    //            message: 'Please enter the registration certificate photo'
+                    //        }
+                    //    }
+                    //},
+                    txtCitizenship: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter the citizenship number'
+                            }
+                        }
+                    },
+                    txtCitizenshipPlaceOfIssue: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter the citizenship place of issue'
+                            }
+                        }
+                    },
+                    BankAccountNumber: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Bank Account number is required'
+                            },
+                            stringLength: {
+                                max: 14,
+                                min: 12,
+                                message: 'The Account Number must be between 12 to 14 digits long'
+                            }
+                        }
+                    },
+                    //Front: {
+                    //    validators: {
+                    //        notEmpty: {
+                    //            message: 'Please enter the citizenship front photo'
+                    //        }
+                    //    }
+                    //},
+                    //Back: {
+                    //    validators: {
+                    //        notEmpty: {
+                    //            message: 'Please enter the citizenship back photo'
+                    //        }
+                    //    }
+                    //},
+                    //TaxClearFront: {
+                    //    validators: {
+                    //        notEmpty: {
+                    //            message: 'Please enter the tax clearance certificate photo'
+                    //        }
+                    //    }
+                    //}
+
+
+                }
+            });
+
+        });
+
+    </script>
+}
+<!-- =============================================== -->

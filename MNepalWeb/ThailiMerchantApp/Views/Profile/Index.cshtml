@@ -1,0 +1,379 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = "Profile";
+    //var srcPP = "";
+    //var srcfront = "";
+    //var srcback = "";
+
+    //string _ImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["ImageAddress"];
+    //string _ApiImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["WCFImageAddress"];
+
+    //if (ViewBag.FrontImage == null && ViewBag.BackImage == null && ViewBag.PassportImage == null)
+    //{
+    //    srcfront = _ImageSaveUrl + "Content/assets/img/citizenship1.jpg";
+    //    srcback = _ImageSaveUrl + "Content/assets/img/citizenship2.jpg";
+    //    srcPP = _ImageSaveUrl + "Images/default_image.png";
+    //}
+    //else
+    //{
+    //    srcfront = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.FrontImage;
+    //    srcback = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.BackImage;
+    //    srcPP = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.PassportImage;
+    //}
+
+    var srcfront = "";
+    var srcback = "";
+    var srcPP = "";
+    var srcRegCerti = "";
+    var srcTaxClearFront = "";
+    var srcTaxClearBack = "";
+    var QRCodeImg = "";
+    QRCodeImg = "~/Images/" + "QRCode_" + ViewBag.userName + ".jpg";
+    string _ImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["ImageAddress"];
+    string _ApiImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["WCFImageAddress"];
+    string _SuperAdminImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["SuperAdmin"];
+
+    if (ViewBag.FrontImage == null && ViewBag.BackImage == null && ViewBag.PassportImage == null)
+    {
+        srcfront = _SuperAdminImageSaveUrl + "Content/assets/img/citizenship1.jpg";
+        srcback = _SuperAdminImageSaveUrl + "Content/assets/img/citizenship2.jpg";
+        srcPP = _SuperAdminImageSaveUrl + "Images/default_image.png";
+    }
+    else
+    {
+        srcfront = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.FrontImage;
+        srcback = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.BackImage;
+        srcPP = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.PassportImage;
+        srcRegCerti = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.RegCertificateImage;
+        srcTaxClearFront = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.TaxClearFrontImage;
+        srcTaxClearBack = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.TaxClearBackImage;
+
+    }
+
+}
+
+<!-- Content Header (Page header) -->
+@*<section class="content-header">
+        <h1>
+            User
+            <small>User Information</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-user"></i> User</a></li>
+            <li class="active"> User Information</li>
+        </ol>
+    </section>*@
+
+
+<!-- Main content -->
+
+<div class="main-content">
+    <div class="pad-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+
+                    <aside class="sidebar user-sidebar">
+                        <div class="content-inner">
+                            <div class="top-section">
+                                <div class="user-info">
+                                    <div class="img-holder">
+                                        @*<img src="@srcPP" style=" width:109.75px; object-fit: cover; height:109.75px;" alt="">*@
+                                        <img src="@srcPP" style=" width:109.75px; height:109.75px;" alt="Profile Photo">
+                                    </div>
+
+                                    <div class="user-detail">
+                                        <span class="name">@ViewBag.Name</span><br />
+                                        <span class="phone">@ViewBag.ContactNumber1</span>&nbsp;&nbsp;
+                                        @*<span class="phone">@ViewBag.ContactNumber2</span>*@
+                                    </div>
+                                </div>
+
+                                <div class="btn-wrapper">
+                                    <a href="#" class="btn btn-grey">
+                                        <i class="thaili-icon-load-wallet"></i>
+                                        Nrs.@ViewBag.AvailBalnAmount
+                                    </a>
+
+                                    <a href="#" class="btn btn-grey">
+                                        <i class="thaili-icon-bank"></i>
+                                        Nrs.
+                                        <div class="bankbal1"></div>
+                                    </a>
+
+                                </div>
+                            </div>
+
+                            <ul class="user-menu">
+                                <li class="active"><a href="@Url.Action("Index", "Profile")">User Detail</a></li>
+                                @*<li><a href="#">Notification Settings</a></li>
+                                    <li><a href="#">Devices</a></li>*@
+                                <li><a href="@Url.Action("Index", "ChangePassword")">Change Password</a></li>
+                                <li><a href="@Url.Action("Index", "PinReset")">Change Thaili Pin</a></li>
+
+                                <li class="logout"><a href="Logout">Log out</a></li>
+                            </ul>
+                        </div>
+                    </aside>
+
+                    <!-- /sidebar -->
+                </div>
+                <div class="col-lg-8">
+                    <div class="personal-wrapper">
+                        <h2 class="title bordered-title-below">Personal Details</h2>
+
+                        <div class="user-detail content-wrapper">
+                            <div class="row">
+                                <div class="col-md-6 item match-height">
+                                    <label for="">Business Name:</label>
+                                    <span>@ViewBag.Name</span>
+                                </div>
+
+                                <!---->
+                                <div class="col-md-6 item match-height">
+                                    <label for="">Proprietor Name:</label>
+                                    <span>@ViewBag.ProprietorName</span>
+                                </div>
+                                <div class="col-md-12 item match-height">
+                                    <label for="">Address:</label>
+                                    <span>@ViewBag.Address</span>
+                                </div>
+                            </div>
+
+
+
+                            <!--Self Registration fields-->
+                            @*<div class="col-md-6 item match-height">
+                                    <label for="">Father's Name:</label>
+                                    <span>@ViewBag.FatherName</span>
+                                </div>*@
+
+
+                        </div>
+
+
+                        @*@if (ViewBag.SelfReg == "T")
+                            {*@
+                        <h2 class="title bordered-title-below">Document Identification Details</h2>
+
+                        <div class="identity-detail content-wrapper">
+                            <div class="row">
+                                <div class="col-md-6 item">
+                                    <label>Citizenship</label>
+                                    <div class="img-wrapper">
+                                        <div class="img-holder">
+                                            <a href="@srcfront" class="with-caption image-link" title="Citizenship Front Image"><img id="srcfront" class="myImg" src="@srcfront" style="border-radius:8px; height:100%; height:120px; width:100%; width:250px;" alt="Citizenship Front Image" /></a>
+                                        </div>
+
+                                        <div class="img-holder">
+                                            <a href="@srcback" class="with-caption image-link" title="Citizenship Back Image"><img id="srcback" class="myImg" src="@srcback" style="border-radius:8px; height:100%; height:120px; width:100%; width:250px;" alt=" Citizenship Back Image" /></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                </div>
+                                <div class="col-md-4 item">
+                                    <label>Profile Image</label>
+                                    <div class="img-holder profile-img">
+                                        <a href="@srcPP" class="with-caption image-link" title="Profile Image"><img id="srcPP" class="myImg" src="@srcPP" style="border-radius:8px;  height:100%; height:120px; width:100%; width:120px; object-fit:cover" alt="Profile Photo" /></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-4 item">
+                                    <label>PAN/VAT Certificate</label>
+                                    <div class="img-holder">
+                                        <a href="@srcTaxClearBack" class="with-caption image-link" title="PAN/VAT Certificate"><img id="srcTaxClearBack" class="myImg" src="@srcTaxClearBack" style="border-radius:8px; height:100%; height:120px; width:100%; width:120px;" alt="Pan/Vat Image" /></a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 item">
+                                    <label>Registration Certificate</label>
+
+                                    <div class="img-holder">
+                                        <a href="@srcRegCerti" class="with-caption image-link" title="Registration Certificate"><img id="srcRegCerti" class="myImg" src="@srcRegCerti" style="border-radius:8px; height:100%; height:120px; width:100%; width:120px;" alt="Registration Image" /></a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 item">
+                                    <label>Tax Clearance Certificate</label>
+                                    @*<a href="#TaxClearanceCertificate">
+                                        <img src="@srcTaxClearFront" class="thumbnail" style="border-radius:8px; height:100%; height:120px; width:100%; width:120px;" alt="Tax Clearance Image"/>
+                                    </a>
+
+                                    <!-- lightbox container hidden with CSS -->
+                                    <a href="#_" class="lightbox" id="TaxClearanceCertificate">
+                                        <img src="@srcTaxClearFront"/>
+                                    </a>*@
+                                    <div class="img-holder">
+                                        <a id="" href="@srcTaxClearFront" class="with-caption image-link" title="Tax Clearance Certificate"> <img id="srcTaxClearFront" class="myImg" src="@srcTaxClearFront" style="border-radius:8px; height:100%; height:120px; width:100%; width:120px;" alt="Tax Clearance Image" /></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        @*<h2 class="title bordered-title-below">QR Code Image</h2>
+                            <div class="row">
+                                <div class="col-md-8 item">
+                                    <div class="img-holder">
+                                        <a href="@Url.Content(QRCodeImg)" class="with-caption image-link" title="@ViewBag.Name"><img src="@Url.Content(QRCodeImg)" alt="QR Code" style="height:200px; width:200px;" /></a>
+                                    </div>
+                                </div>
+                            </div>*@
+                        @* } *@
+                        @*else
+                            {
+                                <h2 class="title bordered-title-below">Identity Details</h2>
+
+                                <div class="identity-detail content-wrapper">
+                                    <div class="row">
+                                        <div class="col-md-6 item">
+                                            <label>Citizenship</label>
+
+                                            <div class="img-wrapper">
+                                                <div class="img-holder">
+                                                    <img src="@srcfront" style="height:120px; width:250px;" alt="Front Citizenship Photo">
+                                                </div>
+
+                                                <div class="img-holder">
+                                                    <img src="@srcback" width="133" height="93" style="height:120px; width:250px;" alt="Back Citizenship Photo">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6 item">
+                                            <label>Profile Image</label>
+
+                                            <dib class="img-holder profile-img">
+                                                <img src="@srcPP" height="120" width="120" alt="Profile Photo">
+                                            </dib>
+                                        </div>
+                                    </div>
+                                </div>
+                            }*@
+
+
+                        @*///for bank details*@
+                        <br />
+                        @if (ViewBag.HasBankKYC == "T")
+                        {
+                            <h2 class="title bordered-title-below">Bank Details</h2>
+                            <div class="user-detail content-wrapper">
+                                <div class="row">
+                                    <div class="col-md-6 item match-height">
+                                        <label for="">Bank Name:</label>
+                                        <span>@ViewBag.BankName</span>
+                                    </div>
+
+                                    <!---->
+                                    <div class="col-md-6 item match-height">
+                                        <label for="">Bank Account No.:</label>
+                                        <span>@ViewBag.BankAccountNumber</span>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                        }
+
+
+                    </div>
+                </div>
+
+                <!-- /personal-detail -->
+            </div>
+        </div>
+    </div>
+</div>
+@*<style>
+
+    /** LIGHTBOX MARKUP **/
+
+    .lightbox {
+        /** Default lightbox to hidden */
+        display: none;
+        /** Position and style */
+        position: fixed;
+        z-index: 999;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        top: 0;
+        left: 0;
+        background: rgba(0,0,0,0.8);
+    }
+
+        .lightbox img {
+            /** Pad the lightbox image */
+            width:auto;
+            height:auto;
+            max-width: 200%;
+            max-height: 200%;
+            margin-top: 2%;
+            margin-bottom: 2%
+        }
+
+        .lightbox:target {
+            /** Remove default browser outline */
+            outline: none;
+            /** Unhide lightbox **/
+            display: block;
+        }
+</style>*@
+
+@section scripts{
+    <link href="~/Content/MagnificPopup.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.magnific-popup-1.1.0.min.js"></script>
+    <script>
+
+             @*$.ajax({
+                        cache: false,
+                        async: true,
+                        type: "GET",
+                        url: '@Url.Action("BankQuery", "MerchantDashboard")',
+                        data: { "Username": "" },
+                        success: function (data, textStatus, jqXHR) {
+
+                            if (data.responseCode == "200") {
+                                var resp = data.responseText;
+                                //$("#bankbal").html(resp.text());
+
+                                $(".bankbal1").text(resp);
+                            }
+
+                        },
+                        error: function () {
+                            alert("Data Not Found");
+
+                        }
+                        });*@
+
+        $(".image-link").magnificPopup({
+            type: 'image',
+            closeBtnInside: false,
+            closeOnContentClick: false,
+
+            callbacks: {
+                open: function () {
+                    var self = this;
+                    self.wrap.on('click.pinhandler', 'img', function () {
+                        self.wrap.toggleClass('mfp-force-scrollbars');
+                    });
+                },
+                beforeClose: function () {
+                    this.wrap.off('click.pinhandler');
+                    this.wrap.removeClass('mfp-force-scrollbars');
+                }
+            },
+
+            image: {
+                verticalFit: true
+            }
+
+        });
+
+    </script>
+}
+

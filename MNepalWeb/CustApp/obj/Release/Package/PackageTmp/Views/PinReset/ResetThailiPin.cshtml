@@ -1,0 +1,439 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = "Reset Thaili Pin";
+    var srcPP = "";
+
+    string _ImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["ImageAddress"];
+    string _ApiImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["WCFImageAddress"];
+
+    if (ViewBag.hasKYC != "T")
+    {
+        srcPP = _ImageSaveUrl + "Images/default_image.png";
+    }
+    else
+    {
+        if (ViewBag.PassportImage == "")
+        {
+            srcPP = _ImageSaveUrl + "Images/default_image.png";
+        }
+        else
+        {
+            srcPP = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.PassportImage;
+        }
+    }
+}
+
+<style type="text/css">
+    /* Adjust icon position */
+
+    #PinResetForm .form-control-feedback {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        position: relative;
+        z-index: 2;
+        margin-right: 15px;
+    }
+</style>
+
+
+
+
+<!-- Content Header (Page header) -->
+@*<section class="content-header">
+        <h1>
+            Settings
+            <small> T-Pin Reset</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-user"></i> Payment</a></li>
+            <li class="active"> T-Pin Reset</li>
+        </ol>
+    </section>*@
+
+
+
+<!-- Main content -->
+<div class="main-content">
+    <div class="pad-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <aside class="sidebar user-sidebar">
+                        <div class="content-inner">
+                            <div class="top-section">
+                                <div class="user-info">
+                                    <div class="img-holder">
+                                        <img src="@srcPP" style="height:109.75px; width:109.75px;" alt="Profile Image">
+                                    </div>
+
+                                    <div class="user-detail">
+                                        <span class="name">@ViewBag.Name</span><br />
+                                        <span class="phone">@ViewBag.ContactNumber1</span>&nbsp;&nbsp;
+                                        <span class="phone">@ViewBag.ContactNumber2</span>
+                                    </div>
+                                </div>
+
+                                <div class="btn-wrapper">
+                                    <a href="#" class="btn btn-grey">
+                                        <i class="thaili-icon-load-wallet"></i>
+                                        Nrs.@ViewBag.AvailBalnAmount
+                                    </a>
+
+                                    <a href="#" class="btn btn-grey">
+                                        <i class="thaili-icon-bank"></i>
+                                        Nrs.
+                                        <div class="bankbal1"></div>
+                                    </a>
+
+                                </div>
+                            </div>
+
+                            <ul class="user-menu">
+                                <li><a href="Profile/Index">User Detail</a></li>
+                                @*<li><a href="#">Notification Settings</a></li>
+        <li><a href="#">Devices</a></li>*@
+                                <li><a href="@Url.Action("Index", "ChangePassword")">Change Password</a></li>
+                                <li><a href="@Url.Action("Index", "PinReset")">Change Thaili Pin</a></li>
+                                <li  class="active"><a href="@Url.Action("ResetThailiPin", "PinReset")">Reset Thaili Pin</a></li>
+
+                                <li class="logout"><a href="Logout">Log out</a></li>
+                            </ul>
+                        </div>
+                    </aside>
+
+                    <!-- /sidebar -->
+                </div>
+                <div class="col-lg-8">
+                    <div class="personal-wrapper">
+                        <h2 class="title bordered-title-below">Reset your T-PIN</h2>
+
+                        <div class="content-wrapper user-form-wrapper clearfix ">
+
+                            <div class="notification-wrapper">
+                                @if (this.ViewData["pin_messsage"] != null)
+                                {
+                                    if (this.ViewData["message_class"].ToString() == "success_info")
+                                    {
+                                        <div class="alert success-alert" role="alert">
+
+                                            <i class="far fa-info-circle"></i> <span>@this.ViewData["pin_messsage"]</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert danger-alert" role="alert">
+
+                                            <i class="far fa-info-circle"></i> <span>@this.ViewData["pin_messsage"]</span>
+                                        </div>
+                                    }
+                                }
+                            </div>
+
+                            <div class="form-wrapper">
+
+                                @using (Html.BeginForm("ResetThailiPin", "PinReset", FormMethod.Post, new { @id = "PinResetForm", @class = "form-horizontal" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true)
+
+
+                                    <div class="box-body">
+
+                                        <div class="form-group">
+                                            <div for="inputT-PIN2" class="label-wrapper">
+                                                <label for="inputEmail2">Enter your Registered Mobile Number<b style="color:red">*</b></label>
+                                            </div>
+                                            <input type="text" class="form-control" id="resetPin" name="txtResetPin" placeholder="Enter your Mobile Number" maxlength="10" onkeypress="return isNumberKey(event)" required>
+
+
+                                        </div>
+
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="btn-wrapper">
+                                        <button type="submit" class="btn btn-blue" id="btnSubmit">Confirm</button>
+                                    </div>
+
+                                    <div class="note">*Note: Must be 10 numeric digits.</div>
+
+
+                                    <!-- /.box-footer -->
+                                }
+
+                                <!-- /T-PIN-change form -->
+                            </div>
+                            <!-- /form-wrapper -->
+                        </div>
+
+                    </div>
+                    <!-- /personal-detail -->
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- Success modal -->
+<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/success-tick.svg" alt="success-tick">
+                </div>
+                <p class="msg"></p>
+                <span class="msg">Your T-PIN has been Successfully Reset. Please check your SMS for New T-PIN.</span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Failure modal -->
+<div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
+                </div>
+                <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;"></p>
+                <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Failure modal session expired -->
+<div class="modal fade common-modal" id="failureModalSessionExpired" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
+                </div>
+                <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;"></p>
+                <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;">Session expired. Please login again</span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <!-- Load jQuery and the validate plugin -->
+    @*<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>*@
+
+    <!-- jQuery Form Validation code -->
+    <script type="text/javascript">
+
+
+    function isNumberKey(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+         document.getElementById("successModal").onclick = function () {
+         var url = '@Url.Action("Index", "UserDashboard")';
+         window.location.href = url;
+        };
+        document.getElementById("failureModalSessionExpired").onclick = function () {
+         var url = '@Url.Action("Index", "LogOut")';
+         window.location.href = url;
+        };
+
+    $(document).ready(function () {
+
+        ////
+        //$(".btnShow1").mousedown(function () {
+        //    $(".pwd1").attr("type", "text");
+        //});
+        //$(".btnShow1").on("mouseleave", function () {
+        //    $(".pwd1").attr("type", "password");
+        //});
+
+        //$(".btnShow2").mousedown(function () {
+        //    $(".pwd2").attr("type", "text");
+        //});
+        //$(".btnShow2").on("mouseleave", function () {
+        //    $(".pwd2").attr("type", "password");
+        //});
+
+        //$(".btnShow3").mousedown(function () {
+        //    $(".pwd3").attr("type", "text");
+        //});
+        //$(".btnShow3").on("mouseleave", function () {
+        //    $(".pwd3").attr("type", "password");
+        //});
+
+
+
+        $('#PinResetForm')
+            .on('init.field.bv', function (e, data) {
+                // data.bv      --> The BootstrapValidator instance
+                // data.field   --> The field name
+                // data.element --> The field element
+
+                var $parent = data.element.parents('.form-group'),
+                    $icon = $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]'),
+                    options = data.bv.getOptions(),                      // Entire options
+                    validators = data.bv.getOptions(data.field).validators; // The field validators
+
+                if (validators.notEmpty && options.feedbackIcons && options.feedbackIcons.required) {
+
+                    $icon.addClass(options.feedbackIcons.required).show();
+                }
+
+            })
+
+            .bootstrapValidator({
+            feedbackIcons: {
+                required: 'fa fa-asterisk',
+                valid: 'fa fa-check-circle fa-lg text-success',
+                invalid: 'fa fa-times-circle fa-lg text-danger',
+                validating: 'fa fa-refresh-circle fa-lg'
+            },
+            fields: {
+                txtResetPin: {
+                    validators: {
+                        //integer: {
+                        //    message: 'The value is not an integer'
+                        //},
+                        notEmpty: {
+                            message: 'The number cannot be empty'
+                        },
+                        stringLength: {
+                            max: 10,
+                            min: 10,
+                            message: 'The number must be of 10 digits'
+                        }
+                    }
+                }
+            }
+           })
+
+            .on('status.field.bv', function (e, data) {
+                // Remove the required icon when the field updates its status
+                var $parent = data.element.parents('.form-group'),
+                    $icon = $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]'),
+                    options = data.bv.getOptions(),                      // Entire options
+                    validators = data.bv.getOptions(data.field).validators; // The field validators
+
+                if (validators.notEmpty && options.feedbackIcons && options.feedbackIcons.required) {
+                    $icon.removeClass(options.feedbackIcons.required).addClass('fa');
+                }
+            });
+    });
+        debugger;
+        @*$.ajax({
+                cache: false,
+                async: true,
+                type: "GET",
+                url: '@Url.Action("BankQuery", "UserDashboard")',
+                data: { "Username": "" },
+                success: function (data, textStatus, jqXHR) {
+
+                    if (data.responseCode == "200") {
+                        debugger;
+                        var resp = data.responseText;
+                        //$("#bankbal").html(resp.text());
+                         $('#successModal').modal("show");
+
+                        $(".bankbal1").text(resp);
+                    }
+
+                },
+                error: function () {
+                    alert("Data Not Found");
+
+                }
+            });*@
+
+        $('#btnSubmit').click(function (e) {
+            e.preventDefault();
+            debugger;
+            var mobile = $("[name='txtResetPin']").val();
+            if ((mobile != "")) {
+
+                var dataToPost = {
+                    mobileNumber: mobile
+                };
+
+                $.ajax({                    
+                    url: '@Url.Action("ResetThailiPin", "PinReset")',
+                    type: "POST",
+                    data: dataToPost,
+                    async: false,
+                    success: function (data) {
+                        debugger;
+                        if (data.responseCode == "200") {
+                            $("#ajaxResponse").html("");
+                            //var resp = JSON.parse(data.responseText);
+                            $('#successModal').modal("show");
+
+                           
+                        }
+                        //display error message
+                        else {
+                            $("#ajaxResponse").html("");
+                            $("#message").html("");
+                            $("#message").append(data.responseText);
+                            if (data.responseText == "Session expired. Please login again") {
+                                $('#failureModalSessionExpired').modal("show");
+                            }
+                            else {
+                                $('#failureModal').modal("show");
+                            }
+
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Failed to retrieve.');
+                        $("#message").html("");
+                        $("#message").append(jqXHR.responseText);
+                        $('#failureModal').modal("show");
+
+                    },
+                    //capture the request before it was sent to server
+                    beforeSend: function (jqXHR, settings) {
+                        //adding some Dummy data to the request
+                        settings.data += "&dummyData=whatever";
+                        //disable the button until we get the response
+                        $('#btnSubmit').attr("disabled", true);
+                    },
+                    complete: function (jqXHR, textStatus) {
+                        //enable the button
+                        $('#btnSubmit').attr("disabled", false);
+                    }
+                });
+
+            }
+            else {
+                checkValidation();
+                $("#message").html("");
+                $("#message").append("Please Enter the required fields.");
+                $('#failureModal').modal("show");
+
+            }
+        });
+
+    </script>
+}
+

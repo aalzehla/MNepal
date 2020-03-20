@@ -1,0 +1,123 @@
+// @font-face {
+//   font-family: 'thaili-fonts';
+//   src:  url('assets/fonts/thaili-fonts/thaili-fonts.eot?xay29k');
+//   src:  url('assets/fonts/thaili-fonts/thaili-fonts.eot?xay29k#iefix') format('embedded-opentype'),
+//     url('assets/fonts/thaili-fonts/thaili-fonts.ttf?xay29k') format('truetype'),
+//     url('assets/fonts/thaili-fonts/thaili-fonts.woff?xay29k') format('woff'),
+//     url('assets/fonts/thaili-fonts/thaili-fonts.svg?xay29k#thaili-fonts') format('svg');
+//   font-weight: normal;
+//   font-style: normal;
+// }
+//
+// [class^="thaili-"], [class*=" thaili-"] {
+//   /* use !important to prevent issues with browser extensions that change fonts */
+//   font-family: 'thaili-fonts' !important;
+//   speak: none;
+//   font-style: normal;
+//   font-weight: normal;
+//   font-variant: normal;
+//   text-transform: none;
+//   line-height: 1;
+//
+//   /* Better Font Rendering =========== */
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+// }
+//
+// .thaili-icon-college:before {
+//   content: "\e900";
+// }
+// .thaili-icon-electricity:before {
+//   content: "\e901";
+// }
+// .thaili-icon-internet:before {
+//   content: "\e902";
+// }
+// .thaili-icon-khanepani:before {
+//   content: "\e903";
+// }
+// .thaili-icon-load-wallet:before {
+//   content: "\e904";
+// }
+// .thaili-icon-recharge:before {
+//   content: "\e905";
+// }
+// .thaili-icon-restaurant:before {
+//   content: "\e906";
+// }
+// .thaili-icon-school:before {
+//   content: "\e907";
+// }
+// .thaili-icon-top-up:before {
+//   content: "\e908";
+// }
+// .thaili-icon-transfer-funds:before {
+//   content: "\e909";
+// }
+// .thaili-icon-wallet:before {
+//   content: "\e90a";
+// }
+
+
+@font-face {
+  font-family: 'thaili-fonts';
+  src:  url('assets/fonts/thaili-fonts/thaili-fonts.eot?iqfugm');
+  src:  url('assets/fonts/thaili-fonts/thaili-fonts.eot?iqfugm#iefix') format('embedded-opentype'),
+    url('assets/fonts/thaili-fonts/thaili-fonts.ttf?iqfugm') format('truetype'),
+    url('assets/fonts/thaili-fonts/thaili-fonts.woff?iqfugm') format('woff'),
+    url('assets/fonts/thaili-fonts/thaili-fonts.svg?iqfugm#thaili-fonts') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="thaili-"], [class*=" thaili-"]  {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'thaili-fonts' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.thaili-icon-bank:before {
+  content: "\e900";
+}
+.thaili-icon-college:before {
+  content: "\e901";
+}
+.thaili-icon-electricity:before {
+  content: "\e902";
+}
+.thaili-icon-internet:before {
+  content: "\e903";
+}
+.thaili-icon-khanepani:before {
+  content: "\e904";
+}
+.thaili-icon-load-wallet:before {
+  content: "\e905";
+}
+.thaili-icon-recharge:before {
+  content: "\e906";
+}
+.thaili-icon-restaurant:before {
+  content: "\e907";
+}
+.thaili-icon-school:before {
+  content: "\e908";
+}
+.thaili-icon-top-up:before {
+  content: "\e909";
+}
+.thaili-icon-transfer-funds:before {
+  content: "\e90a";
+}
+.thaili-icon-wallet:before {
+  content: "\e90b";
+}

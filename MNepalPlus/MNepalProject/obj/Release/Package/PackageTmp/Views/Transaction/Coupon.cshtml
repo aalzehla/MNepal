@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "Coupon";
+}
+@section PageTitle
+    {
+
+<ol class="breadcrumb">
+    <li class="active">
+        <a href="@Url.Action("Board","DashBoard")">
+            <i class="clip-home"></i>
+            <span class="selected">Home</span>
+        </a>
+        <strong>/Coupon</strong>
+    </li>
+</ol>
+
+}
+<form name="myForm" class="">
+    <!-----------------Change Controller Name--------------------------->
+    <div class="form-group" ng-controller="CashIn">
+        <div class="row">
+            <label class="col-sm-2 control-label">
+                Category
+            </label>
+            <div class="col-sm-2">
+                <select class="btn btn-default dropdown-toggle">
+                    <option value="">Telecom Coupons</option>
+                    <option value="">Coupons 1</option>
+                    <option value="">Coupons 2</option>
+                    <option value="">Coupons 3</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="col-sm-2 control-label" id="divrow">
+                Service
+            </label>
+            <div class="col-sm-2" id="divrow">
+                <select class="btn btn-default dropdown-toggle">
+                    <option value="">NTC</option>
+                    <option value="">Other 1</option>
+                    <option value="">Other 2</option>
+                    <option value="">Other 3</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <label id="divrow" class="col-sm-2 control-label">
+                Amount
+            </label>
+            <div id="divrow" class="col-sm-2">
+                <input type="number" placeholder="Amount" name="amount" ng-model="Amount" class="form-control input-sm" required>
+                <label class="error" ng-show="myForm.amount.$error.number">
+                    <i class="clip-warning"></i>... plz put amount.
+                </label>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <label class="col-sm-2 control-label" id="divrow">
+                Quantity
+            </label>
+            <div class="col-sm-2" id="divrow">
+                <input type="number" name="quantity" placeholder="quantity" ng-model="quantity" class="form-control input-sm" required>
+                <span class="error" ng-show="myForm.quantity.$error.number">
+                    <i class="clip-warning"></i>... type the quantity
+                </span>
+            </div>
+        </div>
+
+        <div class="row">
+            <label id="divrow" class="col-sm-2 control-label">
+                Remark
+            </label>
+            <div id="divrow" class="col-sm-5">
+                <input type="text" placeholder="Remark" ng-model="remark" name="remark" class="form-control input-sm" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="divrow" class="col-sm-2 col-sm-offset-2">
+                <button class="btn btn-blue next-step btn-block" ng-click="cashIn()" ng-disabled="!myForm.quantity.$valid ||
+                                                                                    !myForm.amount.$valid || !myForm.remark.$valid">
+                    Send <i class="icon-circle-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+

@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewBag.Title = "Rejected List";
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Customer
+        <small>Rejected List</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Customer</a></li>
+        <li class="active"> Rejected List</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+
+        <div class="col-xs-12">
+
+            <!-- START UNAPPROVED CUSTOMER -->
+            <div class="box box-primary">
+                @if (this.TempData["custmodify_messsage"] != null)
+                {
+                    if (this.TempData["message_class"].ToString() == "success_info")
+                    {
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4> @this.TempData["custmodify_messsage"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error</h4> @this.TempData["custmodify_messsage"]
+                        </div>
+                    }
+                }
+                <div class="box-header with-border">
+                    <h3 class="box-title">Rejected List For New Customer</h3>
+                </div>
+
+               
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @if (ViewData["UNApproveReject"] == null)
+                    {
+                        <div class="panel-body"> <b>No Pending requests for new customer !! </b> </div>
+                    }
+                    else if (ViewData["UNApproveReject"] != null)
+                    {
+                        <table id="t01" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>Name</th>
+                                    @*<th>Address</th>*@
+                                    <th>Account Number</th>
+                                    <th>Created Branch</th>
+                                    <th>Created By</th>
+                                    @*<th>Approved By</th>*@
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (System.Data.DataRow dr in (ViewData["UNApproveReject"] as System.Data.DataTable).Rows)
+                                {
+                                    <tr>
+                                        <td> @dr["UserName"] </td>
+                                        <td> @dr["Name"] </td>
+                                        @*<td> @dr["Address"] </td>*@                                        
+                                        <td> @dr["BankAccountNumber"] </td>
+                                        <td> @dr["UserBranchName"] </td>
+                                        <td> @dr["CreatedBy"] </td>
+                                        @*<td> @dr["ApprovedBy"] </td>*@
+                                        <td><a href="@Url.Action("ViewRejected","Customer",new {Id=@dr["ClientCode"] })" class="glyphicon glyphicon-eye-open" title="View"></a></td>
+                                    </tr>
+                                } <!-- for each end-->
+
+                            </tbody>
+                            <tfoot>
+
+                            </tfoot>
+                        </table>
+                    }
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            <!-- END UNAPPROVED CUSTOMER -->
+            <!-- START APPROVED CUSTOMER -->
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Rejected List For existing Customer</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @if (ViewData["ApproveReject"] == null)
+                    {
+                        <div class="panel-body"> <b>No Pending requests for existing customer !! </b></div>
+                    }
+                    else if (ViewData["ApproveReject"] != null)
+                    {
+
+                        <table id="t02" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>UserName</th>
+                                    <th @*style="width: 20px"*@>Name</th>
+                                    @*<th>Address</th>*@
+                                    <th>Account Number</th>
+                                    <th>Modified Branch</th>
+                                    <th>Modified By</th>
+                                    @*<th>Approved By</th>*@
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (System.Data.DataRow dr in (ViewData["ApproveReject"] as System.Data.DataTable).Rows)
+                                {
+                                    <tr>
+                                        <td> @dr["UserName"] </td>
+                                        <td> @dr["Name"] </td>
+                                        @*<td> @dr["Address"] </td>*@
+                                        <td> @dr["BankAccountNumber"] </td>
+                                        <td> @dr["ModifyingBranch"] </td>
+                                        <td> @dr["ModifiedBy"] </td>
+                                        @*<td> @dr["ApprovedBy"] </td>*@
+                                        <td><a href="@Url.Action("Modification","Customer",new {Id=@dr["ClientCode"] })" class="glyphicon glyphicon-eye-open" title="View"></a></td>
+                                    </tr>
+                                } <!-- for each end-->
+
+                            </tbody>
+                            <tfoot>
+
+                            </tfoot>
+                        </table>
+                    }
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            <!-- END APPROVED CUSTOMER -->
+
+        </div>
+        <!-- End-->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->

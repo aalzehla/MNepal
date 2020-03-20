@@ -1,0 +1,272 @@
+﻿
+
+@model MNepalWeb.Models.MerchantRestaurant
+
+@{
+    ViewBag.Title = "MerchantRestaurant";
+
+    //List<SelectListItem> RestaurantName = new List<SelectListItem>();
+    ////RestaurantName.Add(new SelectListItem { Text = "--Select RestaurantName--", Value = "SelectRestaurantName", Disabled = true });
+    //RestaurantName.Add(new SelectListItem { Text = "Naglo Bakery Cafe", Value = "NagloBakeryCafe" });
+    //RestaurantName.Add(new SelectListItem { Text = "Annapurna Coffee Shop", Value = "AnnapurnaCoffeeShop" });
+
+    List<SelectListItem> TransactionMedium = new List<SelectListItem>();
+    TransactionMedium.Add(new SelectListItem { Text = "Wallet", Value = "30" });
+    TransactionMedium.Add(new SelectListItem { Text = "Bank", Value = "33" });
+
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+@*//EDIT START*@
+
+
+<link href="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+@*<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>*@
+@*//EDIT END*@
+<section class="content-header">
+    <h1>
+        Merchant
+        <small>Restaurant</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Merchant</a></li>
+        <li class="active">Restaurant</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        @using (Html.BeginForm("MerchantRestaurant", "MerchantPayment", FormMethod.Post, new { @id = "MerchantRestaurantForm", @class = "form-horizontal" }))
+        {
+
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+
+            //edit start
+            <!-- Start -->
+
+            <!-- /.box -->
+
+            <div class="box box-info">
+                @*<div class="box-header with-border">
+                        <h3 class="box-title">Personal Detail</h3>
+                    </div>*@
+                <!-- /.box-header -->
+                <!--Message-->
+                @if (this.ViewData["merchantpay_messsage"] != null)
+                {
+                    if (this.ViewData["message_class"].ToString() == "success_info")
+                    {
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4> @this.ViewData["merchantpay_messsage"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error</h4> @this.ViewData["merchantpay_messsage"]
+                        </div>
+                    }
+                }
+                <div class="box-body">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="@Html.NameFor(x=>x.RestaurantName)" class="control-label col-md-4"> @Html.DisplayNameFor(x => x.RestaurantName)<span style="color:red">*</span></label>
+                                <div class="col-sm-8">
+                                    @*@Html.DropDownListFor(model => model.RestaurantName, new SelectList(RestaurantName, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "RestaurantName" })*@
+                                    @Html.DropDownListFor(model => model.RestaurantName, new SelectList(ViewBag.Restaurant, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "RestaurantName", @placeholder = "Restaurant Name" })
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <br />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="@Html.NameFor(x=>x.BillNumber)" class="control-label col-md-4"> @Html.DisplayNameFor(x => x.BillNumber)<span style="color:red">*</span></label>
+
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(x => x.BillNumber, new { @class = "form-control", @maxlength = "10" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="@Html.NameFor(x=>x.TransactionMedium)" class="control-label col-md-4"> @Html.DisplayNameFor(x => x.TransactionMedium)<span style="color:red">*</span></label>
+
+                                <div class="col-sm-8">
+                                    @Html.DropDownListFor(model => model.TransactionMedium, new SelectList(TransactionMedium, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "TransactionMedium" })
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <br />
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="@Html.NameFor(x=>x.Amount)" class="control-label col-md-4"> @Html.DisplayNameFor(x => x.Amount)<span style="color:red">*</span></label>
+
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(x => x.Amount, new { @class = "form-control", @title = "Please enter Amount", @placeholder = "Please enter Amount", @maxlength = "5" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.Purpose, new { @class = "control-label col-md-4" })
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(x => x.Purpose, new { @class = "form-control", @title = "Please enter Purpose", @placeholder = "Please enter Purpose", @maxlength = "50" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="@Html.NameFor(x=>x.TPin)" class="control-label col-md-4"> @Html.DisplayNameFor(x => x.TPin)<span style="color:red">*</span></label>
+
+                                <div class="col-sm-8">
+                                    @Html.PasswordFor(x => x.TPin, new { @class = "form-control", @title = "Please enter T-Pin", @placeholder = "Please enter T-Pin", @maxlength = "4" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    <div @*class="box-footer"*@>
+                        <input type="submit" class="btn btn-primary" name="btnCommand" value="Save & Continue" />
+                    </div>
+
+                </div>
+                <!-- /.box -->
+
+            </div>
+
+        }
+
+    </div>
+
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+<!-- Load jQuery and the validate plugin -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+<!-- jQuery Form Validation code -->
+
+<script type="text/javascript">
+
+    $('#MerchantCollegeForm').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            RestaurantName: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Restaurant Name is required and cannot be empty'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z ]+$/,
+                        message: 'Your Restaurant Name cannot have numbers or symbols'
+                    }
+                }
+            },
+
+            BillNumber: {
+                stringLength: {
+                    max: 10,
+
+                    message: 'The BillNumber can have maximum 10 characters'
+                },
+                notEmpty: {
+                    message: 'The Bill Number is required and cannot be empty'
+                }
+            }
+        },
+
+        TransactionMedium: {
+            validators: {
+                notEmpty: {
+                    message: 'The Transaction Medium is required and cannot be empty'
+                },
+                regexp: {
+                    regexp: /^[a-zA-Z ]+$/,
+                    message: 'Your Transaction Medium cannot have numbers or symbols'
+                }
+            }
+        },
+
+        Amount: {
+            validators: {
+                integer: {
+                    message: 'The value is not an integer'
+                },
+                notEmpty: {
+                    message: 'The Amount is required and cannot be empty'
+                }
+            }
+        },
+        //  Purpose: {
+        //              validators: {
+        //                  notEmpty: {
+        //                      message: 'The Purpose is required and cannot be empty'
+        //                 },
+        //                 regexp: {
+        //                     regexp: /^[a-zA-Z ]+$/,
+        //                     message: 'Your Purpose cannot have numbers or symbols'
+        //                 }
+        ///             }
+        //  }
+
+        TPin: {
+            validators: {
+                integer: {
+                    message: 'The value is not an integer'
+                },
+                notEmpty: {
+                    message: 'The pin is required and cannot be empty'
+                },
+                stringLength: {
+                    max: 4,
+                    min: 4,
+                    message: 'The pin must be 4 digit numeric value'
+                }
+            }
+        }
+    
+    });
+
+
+</script>

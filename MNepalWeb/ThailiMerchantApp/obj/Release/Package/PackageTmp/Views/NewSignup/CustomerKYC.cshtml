@@ -1,0 +1,2033 @@
+﻿@model ThailiMerchantApp.Models.CustomerSRInfo
+@{
+    ViewBag.Title = "CustomerKYC";
+    Layout = "";
+
+}
+
+
+
+<!-- =============================================== -->
+<style>
+    .box-header {
+        margin-left: 60px;
+    }
+
+    .content-header {
+        margin-left: 60px;
+    }
+
+    #header {
+        margin-left: 60px;
+    }
+
+    .container-fluid {
+        background: #f2f2f2;
+        /*background: linear-gradient(to bottom right, #e6b3ff, #ccccff );*/
+    }
+
+    .Passport {
+        margin-left: 60px;
+    }
+
+    .header {
+        font-size: large;
+    }
+</style>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MNepal | Mobile Banking</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="~/Content/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/Content/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/Content/dist/css/AdminLTE.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="~/Content/plugins/iCheck/square/blue.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link href="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+</head>
+<body class="container-fluid">
+
+    <section class="content-header">
+        <h1>
+            Customer
+            <small>Registration</small>
+        </h1>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Main row -->
+        <div class="row">
+
+            @using (Html.BeginForm("CustomerKYC", "Signup", FormMethod.Post, new { @id = "CustomerKYC", @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {
+                if (this.ViewData["registration_message"] != null)
+                {
+                    if (this.ViewData["message_class"].ToString() == "success_info")
+                    {
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4> @this.ViewData["registration_message"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error</h4> @this.ViewData["registration_message"]
+                        </div>
+                    }
+                }
+
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+
+            <!-- Start -->
+
+            <!-- /.box -->
+
+                <div class="box box-info">
+
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">UserName:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+                                        @*<input type="text" class="form-control" id="UserName" data-target="tdUserName" onkeypress="return isNumber(event)" onkeyup="CopyValue(this);" name="UserName" pattern=".{10,15}" title="Please use mobile Number" placeholder="Please use the Mobile Number" autocomplete="off" value="@Model.UserName" maxlength="10" />*@
+
+
+                                        @Session["Mobile"]
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <br />
+                        <div class="box-header with-border">
+                            <h2 class="box-title">Personal Information</h2>
+                        </div>
+
+                        <br />
+                        <div class="row">
+                            <label class="control-label col-sm-4" style="color:red;">Maximum 2MB . Photo must be jpg or png format</label>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.Label("Passport Photo:", new { @class = "control-label col-md-4" })<b style="color:red;">*</b>
+
+                                    <div class="col-sm-6">
+                                        <input type="file" id="PassportPhoto" name="PassportPhoto" />
+                                        <label id="image2"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-4" style="display:none;">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        Mobile Number:
+                                        <b style="color:red;">*</b>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="ContactNumber1" name="txtContactNumber1" readonly />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">First Name:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="FName" name="txtFirstName" placeholder="First Name" maxlength="30" style="text-transform: capitalize" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Middle Name:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="MiddleName" name="txtMiddleName" placeholder="Middle Name" maxlength="30" style="text-transform: capitalize" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Last Name:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="LastName" name="txtLastName" placeholder="Last Name" maxlength="30" style="text-transform: capitalize" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Gender:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+
+
+                                        <select class="form-control select2" id="Gender" name="txtGender" style="width: 100%;">
+                                            <option value="SelectGender" selected="selected" disabled>----Select Gender----</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        @*<input type="text" class="form-control" id="GenderSelected" name="txtGenderSelected" maxlength="10" />*@
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Date Of Birth:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+
+
+                                        @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control date-picker", @maxlength = "10", @placeholder = "DD/MM/YYYY" } })
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Country:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="Country" name="txtCountry" placeholder="Country" maxlength="10" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Nationality:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="Nationality" name="txtNationality" placeholder="Nationality" maxlength="10" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label class="control-label col-sm-4">Father's Name<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="FatherName" name="txtFatherName" maxlength="30" />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label class="control-label col-sm-4">Mother's Name<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="MotherName" name="txtMotherName" maxlength="30" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.MaritalStatus, new { @class = "control-label col-sm-4" })
+                                    <div class="col-sm-6">
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(x => x.MaritalStatus, "U", new { @checked = "checked" }) Unmarried
+                                        </label>
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(x => x.MaritalStatus, "M") Married
+                                        </label>
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(x => x.MaritalStatus, "D") Divorced
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Grandfather's Name:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+
+                                        <input type="text" class="form-control" id="GrandFatherName" name="txtGrandFatherName" maxlength="30" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="family" style="display:none;">
+                            @*<hr />*@
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @*@Html.LabelFor(x => x.SpouseName, new { @class = "control-label col-sm-4" })*@
+                                        <label class="control-label col-sm-4">Spouse Name:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                            @Html.TextBoxFor(x => x.SpouseName, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Father In law's Name:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="FatherInlawName" name="txtFatherInlawName" maxlength="30" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <br />
+                        <div class="row">
+
+                            @*//baki*@
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Occupation:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+
+                                        <select class="form-control select2" id="Occupation" name="txtOccupation" style="width: 100%;">
+                                            <option value="SelectOccupation" selected="selected" disabled>----Select Occupation----</option>
+                                            <option value="Professional">Professional</option>
+                                            <option value="GovernmentSector">Governtment Sector</option>
+                                            <option value="Business">Business</option>
+                                            <option value="PrivateSector">Private Sector</option>
+                                            <option value="PublicSector">Public Sector</option>
+                                            <option value="Others">Others</option>
+
+                                        </select>
+                                        @*<input type="text" class="form-control" id="Occupation" name="txtOccupation" maxlength="20" />*@
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*//baki*@
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Email Address:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+
+                                        <input type="text" class="form-control" id="Email" name="txtEmail" value="@Model.EmailAddress" data-target="tdEmail" placeholder="email@email.com" />
+
+                                        @*<input type="text" class="form-control" id="Email" name="txtEmail" placeholder="Email Address" maxlength="10" />*@
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- /.box -->
+
+                </div>
+
+
+                <div class="box-body">
+                    <div class="box box-info">
+                        <div class="box-header with-border">
+                            <h2 class="box-title">Address Information</h2>
+                        </div>
+                        <!-- /.box-header -->
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4 header">
+                                        Permanent Address
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4 header">
+                                        Current Address
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        Tole /Street /Road:
+                                        <b style="color:red;">*</b>
+                                    </label>
+                                    <div class="col-sm-6">
+
+                                        <input type="text" class="form-control" id="PStreet" name="PStreet" placeholder="Tole/Street/Road" maxlength="45" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        Tole /Street /Road:
+                                        <b style="color:red;">*</b>
+                                    </label>
+                                    <div class="col-sm-6">
+
+                                        <input type="text" class="form-control" id="CStreet" name="CStreet" placeholder="Tole/Street/Road" maxlength="45" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        Province:
+                                        <b style="color:red;">*</b>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        @Html.DropDownList("PProvince", ViewBag.PProvince as List<SelectListItem>, "--Select Province--", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        Province:
+                                        <b style="color:red;">*</b>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        @Html.DropDownList("CProvince", ViewBag.CProvince as List<SelectListItem>, "--Select Province--", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">District:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+                                        @Html.DropDownList("PDistrict", new SelectList(string.Empty, "Value", "Text"), "--Select District--", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">District:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+                                        @Html.DropDownList("CDistrict", new SelectList(string.Empty, "Value", "Text"), "--Select District--", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        VDC / Municipality:
+                                        <b style="color:red;">*</b>
+                                    </label>
+                                    <div class="col-sm-6">
+
+                                        <input type="text" class="form-control" id="PVDC" name="txtPVDC" placeholder="VDC/Municipality" maxlength="45" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        VDC / Municipality:
+                                        <b style="color:red;">*</b>
+                                    </label>
+                                    <div class="col-sm-6">
+
+                                        <input type="text" class="form-control" id="CVDC" name="txtCVDC" placeholder="VDC/Municipality" maxlength="45" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">House No.:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="PHouseNo" name="txtPHouseNo" placeholder="House No." maxlength="45" onkeypress="return isNumberKey(event)" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">House No:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="CHouseNo" name="txtCHouseNo" placeholder="House No." maxlength="45" onkeypress="return isNumberKey(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        Ward No.:
+                                        <b style="color:red;">*</b>
+                                    </label>
+                                    <div class="col-sm-6">
+
+                                        <input type="text" class="form-control" id="PWardNo" name="txtPWardNo" placeholder="Ward No" maxlength="3" onkeypress="return isNumberKey(event)" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        Ward No.:
+                                        <b style="color:red;">*</b>
+                                    </label>
+                                    <div class="col-sm-6">
+
+                                        <input type="text" class="form-control" id="CWardNo" name="txtCWardNo" placeholder="Ward No" maxlength="3" onkeypress="return isNumberKey(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                    </div>
+                </div>
+
+
+
+
+                <!--Document-->
+                <div class="box box-info">
+
+                    <div class="box-header with-border">
+                        <h2 class="box-title">Document</h2>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Document:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2" id="txtDocument" name="txtDocument" style="width: 100%;">
+                                            <option value="SelectDocument" selected="selected" disabled>----Select Document----</option>
+                                            <option value="DocCitizenship">Citizenship</option>
+                                            <option value="DocLicense">License</option>
+                                            <option value="DocPassport">Passport</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Pan Number:@*<b style="color:red;">*</b>*@</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="PanNo" name="txtPanNo" placeholder="Pan Number" maxlength="10" onkeypress="return isNumberKey(event)" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+                    <div class="box box-info">
+                        <div class="box-header with-border">
+                            <h2 class="box-title">Identification Information</h2>
+                        </div>
+                        <!-- /.box-header -->
+
+
+                        <div id="citizenship" style="display:none;">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Citizenship</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                Citizenship No:
+                                                <b style="color:red;">*</b>
+                                            </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="Citizenship" name="txtCitizenship" placeholder="Citizenship" maxlength="16" @*onkeypress="return isNumberKey(event)"*@ />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">Issue Date for Citizenship:<b style="color:red;">*</b></label>
+                                            <div class="col-sm-6">
+                                                @Html.EditorFor(model => model.CitizenshipIssueDate, new { htmlAttributes = new { @class = "form-control date-picker", @maxlength = "10", @placeholder = "DD/MM/YYYY" } })
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                Place of Issue for Citizenship:
+                                                <b style="color:red;">*</b>
+                                            </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="CitizenshipPlaceOfIssue" name="txtCitizenshipPlaceOfIssue" placeholder=" Place of Issue for Citizenship" maxlength="35" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--photo-->
+                                <br />
+                                 
+                               
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Maximum 2MB. Photo must be jpg or png format</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                        @Html.Label("Front:", new { @class = "control-label col-md-2" })<b style="color:red;">*</b>
+                                                        <div class="col-md-10">
+                                                            <input type="file" id="Front" name="Front" />
+                                                            <label id="image"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                        @Html.Label("Back:", new { @class = "control-label col-md-2" })<b style="color:red;">*</b>
+                                                        <div class="col-md-10">
+                                                            <input type="file" id="Back" name="Back" />
+                                                            <label id="image1"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 
+                            </div>
+                        </div>
+
+                        <div id="license" style="display:none;">
+                            <!--license start-->
+                            <div class="box-header with-border">
+                                <h3 class="box-title">License</h3>
+                            </div>
+
+                            <div class="box-body">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">License No:<b style="color:red;">*</b></label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="License" name="txtLicense" placeholder="License" maxlength="12" onkeypress="return isNumberKey(event)" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">Issue Date for License:<b style="color:red;">*</b></label>
+                                            <div class="col-sm-6">
+                                                @Html.EditorFor(model => model.LicenseIssueDate, new { htmlAttributes = new { @class = "form-control date-picker", @maxlength = "10", @placeholder = "DD/MM/YYYY" } })
+
+                                                @*<input type="text" class="form-control" id="LicenseIssueDate" name="txtLicenseIssueDate" placeholder="Issue Date for License" maxlength="45" />*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                Expire Date for License:
+                                                <b style="color:red;">*</b>
+                                            </label>
+                                            <div class="col-sm-6">
+                                                @Html.EditorFor(model => model.LicenseExpireDate, new { htmlAttributes = new { @class = "form-control date-picker", @maxlength = "10", @placeholder = "DD/MM/YYYY" } })
+
+                                                @*<input type="text" class="form-control" id="LicenseExpireDate" name="txtLicenseExpireDate" placeholder="Expire Date for License" maxlength="45" />*@
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                Place of Issue for License:
+                                                <b style="color:red;">*</b>
+                                            </label>
+                                            <div class="col-sm-6">
+
+                                                <input type="text" class="form-control" id="LicensePlaceOfIssue" name="txtLicensePlaceOfIssue" placeholder=" Place of Issue for License" maxlength="35" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br />
+                               
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Maximum 2MB. Photo must be jpg or png format</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                        @Html.Label("Front:", new { @class = "control-label col-md-2" })<b style="color:red;">*</b>
+                                                        <div class="col-md-10">
+                                                            <input type="file" id="Front" name="Front" />
+                                                            <label id="image"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                        @Html.Label("Back:", new { @class = "control-label col-md-2" })<b style="color:red;">*</b>
+                                                        <div class="col-md-10">
+                                                            <input type="file" id="Back" name="Back" />
+                                                            <label id="image1"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                 
+                            </div>
+                        </div>
+                        <!--license end-->
+
+
+                        <div id="passport" style="display:none;">
+                            <!--passport start-->
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Passport</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                Passport No:<b style="color:red;">*</b>
+                                            </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="Passport" name="txtPassport" placeholder="Passport" maxlength="15" onkeypress="return isNumberKey(event)" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">Issue Date for Passport:<b style="color:red;">*</b></label>
+                                            <div class="col-sm-6">
+                                                @Html.EditorFor(model => model.PassportIssueDate, new { htmlAttributes = new { @class = "form-control date-picker", @maxlength = "10", @placeholder = "DD/MM/YYYY" } })
+
+                                                @*<input type="text" class="form-control" id="PassportIssueDate" name="txtPassportIssueDate" placeholder="Issue Date for Passport" maxlength="45" />*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                Expire Date for Passport:
+                                                <b style="color:red;">*</b>
+                                            </label>
+                                            <div class="col-sm-6">
+                                                @Html.EditorFor(model => model.PassportExpireDate, new { htmlAttributes = new { @class = "form-control date-picker", @maxlength = "10", @placeholder = "DD/MM/YYYY" } })
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                Place of Issue for Passport:
+                                                <b s tyle="color:red;">*</b>
+                                            </label>
+                                            <div class="col-sm-6">
+
+
+                                                <input type="text" class="form-control" id="PassportPlaceOfIssue" name="txtPassportPlaceOfIssue" placeholder=" Place of Issue for Passport" maxlength="35" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                   
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">Maximum 2MB. Photo must be jpg or png format</div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-8">
+                                                            @Html.Label("Front:", new { @class = "control-label col-md-2" })<b style="color:red;">*</b>
+                                                            <div class="col-md-10">
+                                                                <input type="file" id="Front" name="Front" />
+                                                                <label id="image"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-8">
+                                                            @Html.Label("Back:", new { @class = "control-label col-md-2" })<b style="color:red;">*</b>
+                                                            <div class="col-md-10">
+                                                                <input type="file" id="Back" name="Back" />
+                                                                <label id="image1"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+ 
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--passport end-->
+
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary" name="btnCommand">
+                                    PROCEED
+                                </button>
+                            </div>
+                        </div>
+
+
+                        @*<div>
+                                <input type="submit" class="btn btn-primary" name="btnCommand" value="Save & Continue" />
+                            </div>*@
+
+
+
+
+                    </div>
+
+            }
+
+        </div>
+
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+    <!-- =============================================== -->
+    <!-- Load jQuery and the validate plugin -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+    <!-- jQuery Form Validation code -->
+
+    <script src="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".date-picker").datepicker({
+                dateFormat: 'dd/mm/yy',
+                yearRange: "-100:+0",
+                changeMonth: true,
+                changeYear: true,
+
+
+                maxDate: new Date
+            });
+
+        });
+        //start milayako
+         $(document).ready(function () {
+
+             $("#PProvince").change(function () {
+                 $("#PDistrict").empty();
+                 $.ajax({
+                     type: 'POST',
+                     url: '@Url.Action("getdistrict")',
+
+                     dataType: 'json',
+
+                     data: { id: $("#PProvince").val() },
+
+
+                     success: function (districts) {
+
+
+                         $.each(districts, function (i, district) {
+                             $("#PDistrict").append('<option value="' + district.Value + '">' +
+                                 district.Text + '</option>');
+
+                         });
+                     },
+                     error: function (ex) {
+                         alert('Failed to retrieve Province districts.' + ex);
+                     }
+                 });
+                 return false;
+             });
+
+             $("#CProvince").change(function () {
+                 $("#CDistrict").empty();
+                 $.ajax({
+                     type: 'POST',
+                     url: '@Url.Action("getdistrict")',
+
+                     dataType: 'json',
+
+                     data: { id: $("#CProvince").val() },
+
+
+                     success: function (districts) {
+
+
+                         $.each(districts, function (i, district) {
+                             $("#CDistrict").append('<option value="' + district.Value + '">' +
+                                 district.Text + '</option>');
+
+                         });
+                     },
+                     error: function (ex) {
+                         alert('Failed to retrieve Province districts.' + ex);
+                     }
+                 });
+                 return false;
+             });
+         });
+
+        //end milayako
+    </script>
+
+
+    <script type="text/javascript">
+
+
+        function isNumberKey(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+              && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+
+        $("#LicenseIssueDate").datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date,
+
+        //
+         yearRange: "-100:+0",
+                changeMonth: true,
+                changeYear: true,
+
+        //
+                onSelect: function (dateText) {
+
+                    var from = $('#LicenseExpireDate').val().split("/");
+                    if (from != "") {
+                        var ELDate = new Date(from[2], from[1] - 1, from[0]);
+                        var to = dateText.split("/");
+                        var ILDate = new Date(to[2], to[1] - 1, to[0]);;
+                        if (ILDate > ELDate) {
+                            $('#LicenseExpireDate').val("");
+                            alertify.error('License Issue Date cannot be greater than License Expiry Date');
+                        }
+
+                    }
+                },
+                showAnim: "slideDown"
+            });
+
+
+        $("#LicenseExpireDate").datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date,
+         //
+         yearRange: "-100:+0",
+                changeMonth: true,
+                changeYear: true,
+
+        //
+                onSelect: function (dateText) {
+
+                    var from = $('#LicenseIssueDate').val().split("/");
+                    if (from != "") {
+                        var ILDate = new Date(from[2], from[1] - 1, from[0]);
+                        var to = dateText.split("/");
+                        var ELDate = new Date(to[2], to[1] - 1, to[0]);;
+                        if (ELDate < ILDate) {
+
+                            $('#LicenseExpireDate').val("");
+                            alertify.error('License Expiry Date cannot be less than License Issue Date');
+                        }
+
+                    }
+                },
+                showAnim: "slideDown"
+
+
+
+            });
+
+        $("#PassportIssueDate").datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date,
+         //
+         yearRange: "-100:+0",
+                changeMonth: true,
+                changeYear: true,
+
+        //
+                onSelect: function (dateText) {
+
+                    var from = $('#PassportExpireDate').val().split("/");
+                    if (from != "") {
+                        var EPDate = new Date(from[2], from[1] - 1, from[0]);
+                        var to = dateText.split("/");
+                        var IPDate = new Date(to[2], to[1] - 1, to[0]);;
+                        if (IPDate > EPDate) {
+                            $('#PassportExpireDate').val("");
+                            alertify.error('Passport Issue Date cannot be More than Passport Expiry Date');
+                        }
+
+                    }
+                },
+                showAnim: "slideDown"
+            });
+
+
+        $("#PassportExpireDate").datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date,
+         //
+         yearRange: "-100:+0",
+                changeMonth: true,
+                changeYear: true,
+
+        //
+                onSelect: function (dateText) {
+
+                    var from = $('#PassportIssueDate').val().split("/");
+                    if (from != "") {
+                        var IPDate = new Date(from[2], from[1] - 1, from[0]);
+                        var to = dateText.split("/");
+                        var EPDate = new Date(to[2], to[1] - 1, to[0]);;
+                        if (EPDate < IPDate) {
+
+                            $('#PassportExpireDate').val("");
+                            alertify.error('Passport Expiry Date cannot be less than Passport Issue Date');
+                        }
+
+                    }
+                },
+                showAnim: "slideDown"
+
+
+
+            });
+
+
+        $('#UserName').change(function () {
+            $('#ContactNumber1').val($(this).val());
+        });
+
+        //function edValueKeyPress() {
+        //    var edValue = document.getElementById("BankAccountNumber");
+        //    var str = edValue.value;
+        //    var result = str.substr(0, 3);
+        //    $('#BranchCode').val(result);
+        //}
+
+        $("#UserName").change(function (event) {
+            event.preventDefault();
+
+            var id = $("#UserName").val();
+
+            if (id.length == 10) {
+                if (id.substr(0, 2) != '98') {
+
+                    return;
+                }
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetCheckingUserName", "Customer")',
+                    data: { "Username": id },
+                    success: function (data, textStatus) {
+                        var markup = data;
+                        if (data == "Success") {
+                            $("#check").html("");
+                            $("#check").css("color", "green");
+                            $("#check").html(markup).show();
+                        }
+                        else {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").html(markup).show();
+                        }
+                    },
+                    error: function () {
+                        alert("Data Not Found");
+                    }
+                });
+            }
+        });
+
+
+    //var selectedID = $('#WBankCode option:selected').text();
+    ////alert(selectedID)
+    //var selectedValID = $('#WBankCode option:selected').val();
+
+    //var seleWName = document.getElementById('WBankName').value;
+    //var sele = document.getElementById('WBankCode').value;
+
+        $(document).ready(function () {
+
+            $('input[type=radio][name=MaritalStatus]').change(function () {
+                var val = $(this).val();
+                if (val != "U") {
+                    $('#family').show(500);
+                }
+                else {
+                    $('#family').hide(500);
+                }
+            });
+
+
+            $('select[name=txtDocument]').change(function () {
+                if ($('select[name=txtDocument] option:selected').val() == 'DocCitizenship') {
+                    $('#citizenship').show();
+                    $('#license').hide();
+                    $('#passport').hide();
+                } else if ($('select[name=txtDocument] option:selected').val() == 'DocLicense') {
+                    $('#license').show();
+                    $('#citizenship').hide();
+                    $('#passport').hide();
+                } else if ($('select[name=txtDocument] option:selected').val() == 'DocPassport') {
+                    $('#passport').show();
+                    $('#citizenship').hide();
+                    $('#license').hide();
+                }
+            });
+
+            //photo validation
+            //this code will be executed when a new file is selected
+            $('#Front').bind('change', function () {
+
+                //converts the file size from bytes to MB
+                var fileSize = this.files[0].size / 1024 / 1024;
+
+                //gets the full file name including the extension
+                var fileName = this.files[0].name;
+
+                //finds where the extension starts
+                var dotPosition = fileName.lastIndexOf(".");
+
+                //gets only the extension
+                var fileExt = fileName.substring(dotPosition);
+                debugger;
+                //checks whether the file is .png and less than 1 MB
+                if ((fileSize <= 1 && fileExt == ".png") || (fileSize <= 1 && fileExt == ".PNG") || (fileSize <= 1 && fileExt == ".jpg") || (fileSize <= 1 && fileExt == ".JPG")) {
+
+                    $("#image").html("Valid Image");
+                    $("#image").css("color", "green");
+
+
+                    //successfully validated
+
+                }
+                else {
+                    $("#image").html("Invalid Image");
+                    $("#image").css("color", "red");
+                }
+            });
+
+            $('#Back').bind('change', function () {
+
+                //converts the file size from bytes to MB
+                var fileSize = this.files[0].size / 1024 / 1024;
+
+                //gets the full file name including the extension
+                var fileName = this.files[0].name;
+
+                //finds where the extension starts
+                var dotPosition = fileName.lastIndexOf(".");
+
+                //gets only the extension
+                var fileExt = fileName.substring(dotPosition);
+                debugger;
+                //checks whether the file is .png and less than 1 MB
+                if ((fileSize <= 1 && fileExt == ".png") || (fileSize <= 1 && fileExt == ".jpg")) {
+
+                    $("#image1").html("Valid Image");
+                    $("#image1").css("color", "green");
+                    //successfully validated
+
+                }
+                else {
+                    $("#image1").html("Invalid Image");
+                    $("#image1").css("color", "red");
+                }
+            });
+
+            $('#PassportPhoto').bind('change', function () {
+
+                //converts the file size from bytes to MB
+                var fileSize = this.files[0].size / 1024 / 1024;
+
+                //gets the full file name including the extension
+                var fileName = this.files[0].name;
+
+                //finds where the extension starts
+                var dotPosition = fileName.lastIndexOf(".");
+
+                //gets only the extension
+                var fileExt = fileName.substring(dotPosition);
+                debugger;
+                //checks whether the file is .png and less than 1 MB
+                if ((fileSize <= 1 && fileExt == ".png") || (fileSize <= 1 && fileExt == ".jpg")) {
+
+                    $("#image2").html("Valid Image");
+                    $("#image2").css("color", "green");
+                    //successfully validated
+
+                }
+                else {
+                    $("#image2").html("Invalid Image");
+                    $("#image2").css("color", "red");
+                }
+            });
+
+           //$("#WBranchCode").prop("disabled", true);
+           //$("#BranchCode").prop("disabled", true);
+
+          @*if (seleWName == "Pumori Bank") {
+            var id = $("#WBankCode").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetPopulateBankCode", "Agent")',
+                data: { "BankCode": id },
+                success: function (data, textStatus) {
+
+                    $("#WBranchCode").html("");
+                    var markup;// = "<option value='0'>Select</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    }
+                    $("#WBranchCode").html(markup).show();
+
+                    $("#WBranchCode").prop("disabled", false);
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+          }*@
+
+
+
+
+          @*$("#WBankCode").change(function () {
+            var id = $("#WBankCode").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetPopulateBankCode", "Agent")',
+                data: { "BankCode": id },
+                success: function (data, textStatus) {
+
+                    $("#WBranchCode").html("");
+                    var markup = "<option value='0'>Select</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    }
+                    $("#WBranchCode").html(markup).show();
+
+                    $("#WBranchCode").prop("disabled", false);
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+           });*@
+
+           @*$("#BankNoBin").change(function () {
+            var id = $("#BankNoBin").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetPopulateBankCode", "Customer")',
+                data: { "BankCode": id },
+                success: function (data, textStatus) {
+
+                    $("#BranchCode").html("");
+                    var markup = "<option value='0'>Select</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    }
+                    $("#BranchCode").html(markup).show();
+
+                    $("#BranchCode").prop("disabled", false);
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+           });*@
+
+        /**Validation Check */
+            $('#CustomerKYC').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                //txtContactNumber2: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The Contact2 is required and cannot be empty'
+                //        }
+                //    }
+                //},
+                txtPassword: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Password is required and cannot be empty'
+                        }
+                    }
+                },
+                txtUserName: {
+                    validators: {
+                        //integer: {
+                        //    message: 'The value is not an integer'
+                        //},
+                        notEmpty: {
+                            message: 'The UserName is required and cannot be empty'
+                        },
+                        //stringLength: {
+                        //    max: 10,
+                        //    min: 10,
+                        //    message: 'The UserName must be 10 characters long'
+                        //},
+                        //regexp: {
+                        //    regexp: /^[9][8]\d{8}$/,
+                        //    message: 'Please enter valid Phone Number'
+
+                        //}
+                        regexp: {
+                            regexp: /^[9][8][0-9]{8}$/,
+                            message: 'Input value is not a valid mobile format'
+                        }
+                    }
+                },
+                txtFirstName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The First Name is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'Your Full name cannot have numbers or symbols'
+                        }
+                    }
+                },
+                //txtMiddleName: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The Middle Name is required and cannot be empty'
+                //        },
+                //        regexp: {
+                //            regexp: /^[a-zA-Z ]+$/,
+                //            message: 'Your Full name cannot have numbers or symbols'
+                //        }
+                //    }
+                //},
+                txtLastName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Last Name is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'Your Full name cannot have numbers or symbols'
+                        }
+                    }
+                },
+                txtGender: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Gender is required and cannot be empty'
+                        }
+                    }
+                },
+                DOB: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The DOB is required and cannot be empty',
+                        }
+                      //    regexp: {
+                     //      dateFormat: 'dd/mm/yy',
+                      //     message: 'Your DOB is incorrect'
+                     //   }
+                    }
+                },
+                txtNationality: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Nationalityis required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'Your Full name cannot have numbers or symbols'
+                        }
+                    }
+                },
+
+                txtFatherName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Father Name is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'Your Father Name cannot have numbers or symbols'
+                        }
+                    }
+                },
+                txtMotherName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Mother Name is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'Your Mother Name cannot have numbers or symbols'
+                        }
+                    }
+                },
+           //     txtRelationSelected: {
+           //         validators: {
+           //             notEmpty: {
+           //                 message: 'The Relation is required and cannot be empty'
+           //             },
+           //             regexp: {
+           //                 regexp: /^[a-zA-Z ]+$/,
+           //                 message: 'Your Full name cannot have numbers or symbols'
+            //            }
+            //        }
+            //    },
+                txtMaritalStatus: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Marital Status is required and cannot be empty'
+                        }
+                    }
+                },
+
+                txtGrandFatherName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Grandfather is required and cannot be empty'
+
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'Your Grandfather cannot have numbers or symbols'
+                        }
+
+                    }
+                },
+                txtOccupation: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Occupation is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'Your Full name cannot have numbers or symbols'
+                        }
+                    }
+                },
+                txtEmail: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Email Address is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+                            message: "Please enter a valid email address"
+                        }
+
+                    }
+                },
+                //txtPanNo: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The Pan No. is required and cannot be empty'
+                //        }
+                //    }
+                //},
+                PassportPhoto: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Photo is required and cannot be empty'
+                        }
+                    }
+                },
+                txtCountry: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Country is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'Your Full name cannot have numbers or symbols'
+                        }
+                    }
+                },
+                //start milayako
+                PProvince: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Province is required and cannot be empty'
+                        }
+                    }
+                },
+                //PDistrict: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The District is required and cannot be empty'
+                //        },
+                //        regexp: {
+                //            regexp: /^[a-zA-Z ]+$/,
+                //            message: 'District name cannot have numbers or symbols'
+                //        }
+                //    }
+                //},
+
+
+
+                //end milayako
+
+
+                //txtPZone: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The Zone is required and cannot be empty'
+                //        }
+                //    }
+                //},
+                //txtPDistrict: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The District is required and cannot be empty'
+                //        },
+                //        regexp: {
+                //            regexp: /^[a-zA-Z ]+$/,
+                //            message: 'District name cannot have numbers or symbols'
+                //        }
+                //    }
+                //},
+                txtPVDC: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The VDC/Municipality is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'VDC/Municipality cannot have numbers or symbols'
+                        }
+                    }
+                },
+                txtPHouseNo: {
+                    validators: {
+                        //notEmpty: {
+                        //    message: 'The House No. is required and cannot be empty'
+                        //}
+
+                    }
+                },
+                txtPWardNo:{
+                    validators: {
+                        notEmpty: {
+                            message: 'The Ward No is required and cannot be empty'
+                        }
+                    }
+                },
+                PStreet: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Tole / Street / Road is required and cannot be empty'
+                        }
+                    }
+                },
+                //start milayako
+                CProvince: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Province is required and cannot be empty'
+                        }
+                    }
+                },
+
+                //CDistrict: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The District is required and cannot be empty'
+                //        },
+                //        regexp: {
+                //            regexp: /^[a-zA-Z ]+$/,
+                //            message: 'District name cannot have numbers or symbols'
+                //        }
+                //    }
+                //},
+
+
+
+                //end milayako
+                //txtCZone: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The Zone is required and cannot be empty'
+                //        },
+                //        regexp: {
+                //            regexp: /^[a-zA-Z ]+$/,
+                //            message: 'Your Full name cannot have numbers or symbols'
+                //        }
+                //    }
+                //},
+                //txtCDistrict: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The District is required and cannot be empty'
+                //        },
+                //        regexp: {
+                //            regexp: /^[a-zA-Z ]+$/,
+                //            message: 'District name cannot have numbers or symbols'
+                //        }
+                //    }
+                //},
+                txtCVDC: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The VDC/Municipality is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'VDC/Municipality cannot have numbers or symbols'
+                        }
+                    }
+                },
+                txtCHouseNo: {
+                    validators: {
+                        //notEmpty: {
+                        //    message: 'The House No. is required and cannot be empty'
+                        //}
+
+                    }
+                },
+                txtCWardNo: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Ward No is required and cannot be empty'
+                        }
+                    }
+                },
+                CStreet: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Tole / Street / Road is required and cannot be empty'
+                        }
+                    }
+                },
+
+
+                txtCitizenship: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Citizenship is required and cannot be empty'
+                        }
+                    }
+                },
+               CitizenshipIssueDate: {
+                    validators: {
+                       notEmpty: {
+                           message: 'The Issue Date for Citizenship is required and cannot be empty'
+                       }
+              //        regexp: {
+              //             dateFormat: 'dd/mm/yy',
+               //            message: 'Your DOB is incorrect'
+                //        }
+                    }
+                },
+                txtCitizenshipPlaceOfIssue: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Place of Issue for Citizenship is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'Place of Issue for Citizenship cannot have numbers or symbols'
+                        }
+                    }
+                },
+
+                txtLicense: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The License is required and cannot be empty'
+                        }
+                    }
+                },
+                LicenseIssueDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Issue Date for License is required and cannot be empty'
+                        },
+         regexp: {
+                           dateFormat: 'dd/mm/yy',
+                           message: 'Your DOB is incorrect'
+                        }
+                    }
+                },
+                LicenseExpireDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Expire Date for License is required and cannot be empty'
+                        },
+                      regexp: {
+
+                           dateFormat: 'dd/mm/yy',
+                           message: 'Your DOB is incorrect'
+                        }
+                    }
+                },
+
+                txtLicensePlaceOfIssue: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Place of Issue for License is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'Place of Issue for License cannot have numbers or symbols'
+                       }
+                    }
+                },
+
+                txtPassport: {
+                    validators: {
+                       notEmpty: {
+                            message: 'The Passport is required and cannot be empty'
+                       }
+                    }
+                },
+                PassportIssueDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Issue Date for Passport is required and cannot be empty'
+                        },
+         //regexp: {
+         //                  dateFormat: 'dd/mm/yy',
+         //                  message: 'Your DOB is incorrect'
+         //               }
+                    }
+                },
+                PassportExpireDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Expire Date for Passport is required and cannot be empty'
+                        },
+         regexp: {
+                           dateFormat: 'dd/mm/yy',
+                           message: 'Your DOB is incorrect'
+                        }
+                    }
+                },
+                txtPassportPlaceOfIssue: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Place of Issue for Passport is required and cannot be empty'
+                        },
+                       regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                           message: 'Place of Issue for Passport cannot have numbers or symbols'
+                       }
+                    }
+                },
+
+                //If Married//
+                SpouseName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Spouse Name is required and cannot be empty'
+                        }
+                    }
+                },
+                txtFatherInlawName:{
+                    validators: {
+                        notEmpty: {
+                            message: 'FatherInLaw Name is required and cannot be empty'
+                        }
+                    }
+                },
+                txtDocument: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Document is required and cannot be empty'
+                        }
+                    }
+                },
+                Front: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Front Photo is required and cannot be empty'
+                        }
+                    }
+                },
+                Back: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Back Photo is required and cannot be empty'
+                        }
+                    }
+                },
+
+
+
+
+
+                //txtPassword: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The Password is required and cannot be empty'
+                //        },
+                //        stringLength: {
+                //            max: 12,
+                //            min: 8,
+                //            message: 'The Password must be more than 8 and less than 12 characters long'
+                //        }
+                //    }
+                //},
+
+                //txtAddress: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The Address is required and cannot be empty'
+                //        }
+                //    }
+                //},
+
+
+
+                //txtUserType: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The UserType is required and cannot be empty'
+                //        }
+                //    }
+                //},
+                //txtPin: {
+                //    validators: {
+                //        integer: {
+                //            message: 'The value is not an integer'
+                //        },
+                //        notEmpty: {
+                //            message: 'The new T-Pin is required and cannot be empty'
+                //        },
+                //        stringLength: {
+                //            max: 4,
+                //            min: 4,
+                //            message: 'The new T-Pin must be 4 digit numeric password'
+                //        }
+                //    }
+                //},
+                //txtStatus: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The Status is required and cannot be empty'
+                //        }
+                //    }
+                //},
+                txtBankNoBin: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Wallet Bank Code is required and cannot be empty'
+                        }
+                    }
+                },
+                //txtWalletNumber: {
+                //    validators: {
+                //        notEmpty: {
+                //            message: 'The WalletNumber is required and cannot be empty'
+                //        },
+                //        stringLength: {
+                //            max: 16,
+                //            min: 16,
+                //            message: 'The WalletNumber must be 16 digit numeric number'
+                //        }
+                //    }
+                //},
+                txtBankAccountNumber: {
+                    validators: {
+                        stringLength: {
+                            max: 14,
+                            min: 14,
+                            message: 'The BankAccountNumber must be 14 digit numeric'
+                        }
+                    }
+                }
+                }
+
+        });
+
+        });
+
+    </script>
+
+</body>
+</html>
+<!-- =============================================== -->
