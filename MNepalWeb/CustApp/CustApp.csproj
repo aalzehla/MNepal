@@ -224,6 +224,7 @@
     <Compile Include="Controllers\TermsAndConditionController.cs" />
     <Compile Include="Controllers\UserDashboardController.cs" />
     <Compile Include="Controllers\UtilityPayController.cs" />
+    <Compile Include="Controllers\WlinkController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -240,6 +241,7 @@
     <Compile Include="Models\DAL.cs" />
     <Compile Include="Models\DatatablesJS.cs" />
     <Compile Include="Models\DMAT.cs" />
+    <Compile Include="Models\ISP.cs" />
     <Compile Include="UserModels\DMATUserModel.cs" />
     <Compile Include="Models\InMemMNTransactionAccount.cs" />
     <Compile Include="Models\JsonParse.cs" />
@@ -25533,6 +25535,8 @@
     <Content Include="Views\PrivacyPolicy\PrivacyPolicy.cshtml" />
     <Content Include="Views\TermsAndCondition\Index.cshtml" />
     <Content Include="Views\Help\ContactUs.cshtml" />
+    <Content Include="Views\Wlink\Index.cshtml" />
+    <Content Include="Views\Wlink\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

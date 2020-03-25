@@ -126,6 +126,7 @@
     <Content Include="authlogin.svc" />
     <Content Include="bankinfo.svc" />
     <Content Include="cash.svc" />
+    <Content Include="wlink.svc" />
     <None Include="Connected Services\MerchantReference\commoninterface1.disco" />
     <Content Include="Connected Services\MerchantReference\WCF.MNepal.MerchantReference.ResponseData.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -333,6 +334,9 @@
     <Compile Include="Utilities\SelfRegisterUtils.cs" />
     <Compile Include="Utilities\TraceIdCheckUtils.cs" />
     <Compile Include="Utilities\WalletLimitUtils.cs" />
+    <Compile Include="wlink.svc.cs">
+      <DependentUpon>wlink.svc</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\MerchantReference\" />

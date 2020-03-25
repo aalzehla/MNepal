@@ -503,5 +503,60 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
+        #region"Response CP Wlink payments"
+        public static int PaypointWlinkInfo(PaypointModel resPaypointWlinkPaymentInfo)
+        {
+            var objresPaypointWlinkModel = new PaypointUserModel();
+            var objresPaypointWlinkPaymentInfo = new PaypointModel
+            {
+                billDateP = resPaypointWlinkPaymentInfo.transactionDate,
+                billAmountP = resPaypointWlinkPaymentInfo.amount,
+                billNumberCP = resPaypointWlinkPaymentInfo.billNumber,
+                refStanCP = resPaypointWlinkPaymentInfo.refStan,
+                customerNameCP = resPaypointWlinkPaymentInfo.customerName,
+                companyCodeCP = resPaypointWlinkPaymentInfo.companyCode,
+                userId = resPaypointWlinkPaymentInfo.UserName,
+                customer_codeKI = resPaypointWlinkPaymentInfo.ClientCode,
+                Mode = "RSWlinkP" //Response wlink payment from Checkpayment
+            };
+            return objresPaypointWlinkModel.ResponsePaypointWlinkPaymentInfo(objresPaypointWlinkPaymentInfo);
+        }
+        #endregion
+
+        #region Request excute payment
+        public static int RequestEPPaypointWlinkInfo(PaypointModel reqEPPaypointInfo)
+        {
+            var objreqEPaypointModel = new PaypointUserModel();
+            var objreqEPaypointInfo = new PaypointModel
+            {
+                companyCode = reqEPPaypointInfo.companyCodeReqEP,
+                serviceCode = reqEPPaypointInfo.serviceCodeReqEP,
+                account = reqEPPaypointInfo.accountReqEP,
+                special1 = reqEPPaypointInfo.special1ReqEP,
+                special2 = reqEPPaypointInfo.special2ReqEP,
+
+                transactionDate = reqEPPaypointInfo.transactionDateReqEP,
+                transactionId = reqEPPaypointInfo.transactionIdReqEP,
+                refStan = reqEPPaypointInfo.refStanReqEP,
+                amount = reqEPPaypointInfo.amountReqEP,
+                billNumber = reqEPPaypointInfo.billNumberReqEP,
+
+                userId = reqEPPaypointInfo.userIdReqEP,
+                userPassword = reqEPPaypointInfo.userPasswordReqEP,
+                salePointType = reqEPPaypointInfo.salePointTypeReqEP,
+                retrievalReference = reqEPPaypointInfo.retrievalReferenceReqEP,
+                remarks = reqEPPaypointInfo.remarkReqEP,
+                UserName = reqEPPaypointInfo.UserName,
+                ClientCode = reqEPPaypointInfo.ClientCode,
+                paypointType = reqEPPaypointInfo.paypointType,
+                //ErrorMessage = reqPaypointInfo.ErrorMessage,
+                Mode = "RQEP"
+
+            };
+            return objreqEPaypointModel.RequestPaypointInfo(objreqEPaypointInfo);
+        }
+
+        #endregion
+
     }
 }
