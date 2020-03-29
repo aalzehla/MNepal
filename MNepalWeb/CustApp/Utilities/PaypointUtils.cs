@@ -108,5 +108,22 @@ namespace CustApp.Utilities
         }
         #endregion
 
+        #region Subisu Details
+        public static DataSet GetSubisuDetails(ISP KPObj)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = KPObj.ClientCode,
+                UserName = KPObj.UserName,
+                CustomerID = KPObj.CustomerID,
+                refStan = KPObj.refStan,
+                Mode = "Subisu" // GET Subisu Details
+            };
+            return objUserModel.GetSubisuPaymentDetails(objUserInfo);
+        }
+        #endregion
+
+
     }
 }

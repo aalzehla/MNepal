@@ -405,6 +405,64 @@ namespace WCF.MNepal.UserModels
 
         #endregion
 
+        #region response Subisu paymentS
+        public int ResponsePaypointSubisuPaymentInfo(PaypointModel objresPaypointSubisuPaymentInfo)
+        {
+            SqlConnection sqlCon = null;
+            int ret;
+            try
+            {
+                using (sqlCon = new SqlConnection(DatabaseConnection.ConnectionString()))
+                {
+                    sqlCon.Open();
+                    using (SqlCommand sqlCmd = new SqlCommand("[s_MNPaypointWlinkPaymentRes]", sqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        sqlCmd.Parameters.AddWithValue("@billDate", objresPaypointSubisuPaymentInfo.billDateP);
+                        sqlCmd.Parameters.AddWithValue("@billAmount", objresPaypointSubisuPaymentInfo.billAmountP);
+                        sqlCmd.Parameters.AddWithValue("@billNumber", objresPaypointSubisuPaymentInfo.billNumberCP);
+                        sqlCmd.Parameters.AddWithValue("@refStan", objresPaypointSubisuPaymentInfo.refStanCP);
+                        sqlCmd.Parameters.AddWithValue("@customerName", objresPaypointSubisuPaymentInfo.customerNameCP);
+                        sqlCmd.Parameters.AddWithValue("@companyCode", objresPaypointSubisuPaymentInfo.companyCodeCP);
+                        sqlCmd.Parameters.AddWithValue("@UserName", objresPaypointSubisuPaymentInfo.userId);
+                        sqlCmd.Parameters.AddWithValue("@ClientCode", objresPaypointSubisuPaymentInfo.customer_codeKI);
+
+                        sqlCmd.Parameters.AddWithValue("@Mode", objresPaypointSubisuPaymentInfo.Mode);
+
+                        sqlCmd.Parameters.Add("@RegIDOut", SqlDbType.Char, 500);
+                        sqlCmd.Parameters["@RegIDOut"].Direction = ParameterDirection.Output;
+
+                        sqlCmd.Parameters.Add("@MsgStr", SqlDbType.VarChar, 500);
+                        sqlCmd.Parameters["@MsgStr"].Direction = ParameterDirection.Output;
+
+                        ret = sqlCmd.ExecuteNonQuery();
+                        //if (objresPaypointPaymentInfo.Mode.Equals("SCA", StringComparison.InvariantCultureIgnoreCase))
+                        //{
+                        //    ret = Convert.ToInt32(sqlCmd.Parameters["@RegIDOut"].Value);
+
+                        //}
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                if (sqlCon != null)
+                {
+                    sqlCon.Close();
+                }
+            }
+            return ret;
+        }
+
+        #endregion
+
 
         #region Response Checkpayment for khanepani invoice
         public int ResponsePaypointKhanepaniInvoiceInfo(PaypointModel objresPaypointKhanepaniInvoiceInfo)

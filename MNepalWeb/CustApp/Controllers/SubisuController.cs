@@ -16,11 +16,11 @@ using System.Web.Script.Serialization;
 
 namespace CustApp.Controllers
 {
-    public class WlinkController : Controller
+    public class SubisuController : Controller
     {
         DAL objdal = new DAL();
-        // GET: Wlink
-        #region Get Wlink
+        // GET: Subisu
+        #region "GET: Subisu Index"
         public ActionResult Index()
         {
             string userName = (string)Session["LOGGED_USERNAME"];
@@ -35,8 +35,6 @@ namespace CustApp.Controllers
                 this.ViewData["userType"] = this.TempData["userType"];
                 ViewBag.UserType = this.TempData["userType"];
                 ViewBag.Name = name;
-
-                //ViewBag.NepalWater = PaypointUtils.GetNepalWaterName();
                 ViewBag.SenderMobileNo = userName;
 
                 int id = TraceIdGenerator.GetID() + 1;
@@ -102,12 +100,10 @@ namespace CustApp.Controllers
         }
         #endregion
 
-             
-
-        #region "POST: Wlink CheckPayment"
+        #region "POST: Subisu CheckPayment"
         [HttpPost]
 
-        public async Task<ActionResult> WlinkCheckPayment(ISP isp)
+        public async Task<ActionResult> SubisuPayment(ISP isp)
         {
             string userName = (string)Session["LOGGED_USERNAME"];
             string clientCode = (string)Session["LOGGEDUSER_ID"];
@@ -148,9 +144,10 @@ namespace CustApp.Controllers
                 ViewBag.PassportImage = userInfo.PassportImage;
             }
 
-            Session["CustomerName"] = isp.CustomerName;
-            //api call here
+            Session["MobileNumber"] = isp.mobile;
+            Session["CustomerID"] = isp.CustomerID;
 
+            //api call here
             HttpResponseMessage _res = new HttpResponseMessage();
             string mobile = userName; //mobile is username
             TraceIdGenerator _tig = new TraceIdGenerator();
@@ -159,7 +156,7 @@ namespace CustApp.Controllers
 
             using (HttpClient client = new HttpClient())
             {
-                var action = "wlink.svc/checkpayment";
+                var action = "subisu.svc/checkpayment";
                 var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
 
                 var content = new FormUrlEncodedContent(new[]{
@@ -167,14 +164,14 @@ namespace CustApp.Controllers
                         new KeyValuePair<string, string>("mobile", mobile),
                         new KeyValuePair<string, string>("src","http"),
                         new KeyValuePair<string, string>("tokenID",tokenID),
-                        new KeyValuePair<string, string>("companyCode", "597"),
-                        new KeyValuePair<string, string>("serviceCode", "0"),
-                        new KeyValuePair<string, string>("account", isp.CustomerName),
-                        new KeyValuePair<string, string>("special1",""),
+                        new KeyValuePair<string, string>("companyCode", "596"),
+                        new KeyValuePair<string, string>("serviceCode","0"),
+                        new KeyValuePair<string, string>("account", isp.CustomerID),
+                        new KeyValuePair<string, string>("special1",isp.mobile),
                         new KeyValuePair<string, string>("special2",""),
                         new KeyValuePair<string, string>("tid", tid),
                         new KeyValuePair<string, string>("ClientCode", clientCode),
-                        new KeyValuePair<string, string>("paypointType", "Worldlink"),
+                        new KeyValuePair<string, string>("paypointType", "Subisu"),
 
 
                     });
@@ -244,7 +241,8 @@ namespace CustApp.Controllers
         }
         #endregion
 
-        #region "GET: Wlink Details"
+
+        #region "GET: Subisu Details"
         public ActionResult Details()
         {
             string userName = (string)Session["LOGGED_USERNAME"];
@@ -261,39 +259,39 @@ namespace CustApp.Controllers
                 ViewBag.Name = name;
 
                 ViewBag.SenderMobileNo = userName;
-                //string S_NWCounter = (string)Session["NWCounter"];
-                string S_CustomerName = (string)Session["CustomerName"];
-                if ((S_CustomerName == null))
+
+                string S_MobileNumber = (string)Session["MobileNumber"];
+                string S_CustomerID = (string)Session["CustomerID"];
+
+                if ((S_MobileNumber == null) || (S_CustomerID == null))
                 {
                     return RedirectToAction("Index");
                 }
 
                 ISP iSP = new ISP();
-                //NWObj.NWCounter = S_NWCounter;
-                iSP.CustomerName = S_CustomerName;
+                iSP.CustomerID = S_CustomerID;
                 iSP.UserName = userName;
                 iSP.ClientCode = clientCode;
                 iSP.refStan = getrefStan(iSP);
-
                 MNPayPointISPPayments regobj = new MNPayPointISPPayments();
-                DataSet DPaypointSet = PaypointUtils.GetWlinkDetails(iSP);
+
+                DataSet DPaypointSet = PaypointUtils.GetSubisuDetails(iSP);
                 DataTable dResponse = DPaypointSet.Tables["dtResponse"];
-                DataTable dWlinkPayment = DPaypointSet.Tables["dtNWPayment"];
-
-
+                DataTable dSubisuPayment = DPaypointSet.Tables["dtSubisuPayment"];
                 if (dResponse != null && dResponse.Rows.Count > 0)
                 {
                     regobj.CustomerID = dResponse.Rows[0]["account"].ToString();
-                    regobj.CustomerName = dResponse.Rows[0]["customerName"].ToString();
+                    //regobj.CustomerName = dResponse.Rows[0]["customerName"].ToString();
                     regobj.TotalAmountDue = dResponse.Rows[0]["amount"].ToString();
                     regobj.NWBranchCode = dResponse.Rows[0]["serviceCode"].ToString();
                     regobj.payPointType = dResponse.Rows[0]["paypointType"].ToString();
-                    if (dWlinkPayment != null && dWlinkPayment.Rows.Count > 0)
+                    regobj.description = dResponse.Rows[0]["description"].ToString();
+                    if (dSubisuPayment != null && dSubisuPayment.Rows.Count > 0)
                     {
-                        regobj.description = dResponse.Rows[0]["description"].ToString();
-                        regobj.billDate = dWlinkPayment.Rows[0]["billDate"].ToString();
-                        regobj.billAmount = dWlinkPayment.Rows[0]["billAmount"].ToString();
+                        regobj.billDate = dSubisuPayment.Rows[0]["billDate"].ToString();
+                        regobj.billAmount = dSubisuPayment.Rows[0]["billAmount"].ToString();
                     }
+
                     else
                     {
                         return RedirectToAction("Index");
@@ -303,16 +301,13 @@ namespace CustApp.Controllers
                 {
                     return RedirectToAction("Index");
                 }
+                
                 ViewBag.NWBranchCode = regobj.NWBranchCode.ToString();
-                ViewBag.CustomerID = regobj.CustomerID;
+                ViewBag.CustomerID = regobj.CustomerID;               
                 ViewBag.TotalAmountDue = regobj.TotalAmountDue;
-
-                //Viewbag For details from Wlink
+                ViewBag.payPointType = regobj.payPointType;
                 ViewBag.description = regobj.description.ToString();
-                ViewBag.CustomerName = regobj.CustomerName;
                 ViewBag.billDate = regobj.billDate.ToString();
-                ViewBag.paypointType = regobj.payPointType.ToString();
-
 
                 int id = TraceIdGenerator.GetID() + 1;
                 string stringid = (id).ToString();//this.GetID() + 1
@@ -377,9 +372,9 @@ namespace CustApp.Controllers
         }
         #endregion
 
-        #region "POST: Wlink ExecutePayment"
+        #region "POST: Subisu ExecutePayment"
         [HttpPost]
-        public async Task<ActionResult> WlinkExecutePayment(ISP iSP)
+        public async Task<ActionResult> SubisukExecutePayment(ISP iSP)
         {
             string userName = (string)Session["LOGGED_USERNAME"];
             string clientCode = (string)Session["LOGGEDUSER_ID"];
@@ -420,18 +415,18 @@ namespace CustApp.Controllers
                 ViewBag.PassportImage = userInfo.PassportImage;
             }
 
-            string S_NWCounter = (string)Session["NWCounter"];
-            string S_CustomerID = (string)Session["CustomerName"];
+            string S_MobileNumber = (string)Session["MobileNumber"];              
+            string S_CustomerID = (string)Session["CustomerID"];
 
             ISP NWObj = new ISP();
             //NWObj.NWCounter = S_NWCounter;
-            NWObj.CustomerName = S_CustomerID;
+            NWObj.CustomerID = S_CustomerID;
             NWObj.UserName = userName;
             NWObj.ClientCode = clientCode;
             NWObj.refStan = getrefStan(NWObj);
             ISP regobj = new ISP();
 
-            DataSet DPaypointSet = PaypointUtils.GetWlinkDetails(NWObj);
+            DataSet DPaypointSet = PaypointUtils.GetSubisuDetails(NWObj);
 
             DataTable dResponse = DPaypointSet.Tables["dtResponse"];
             DataTable dNWPayment = DPaypointSet.Tables["dtNWPayment"];
@@ -456,7 +451,7 @@ namespace CustApp.Controllers
             {
                 var destinationTestNumber = System.Configuration.ConfigurationManager.AppSettings["DestinationTestNumber"];
                 var destinationMerchantId = System.Configuration.ConfigurationManager.AppSettings["DestinationMerchantIdPaypoint"];
-                var action = "wlink.svc/executepayment";
+                var action = "subisu.svc/executepayment";
                 var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
                 string tokenID = Session["TokenID"].ToString();
                 var content = new FormUrlEncodedContent(new[]{
@@ -469,10 +464,10 @@ namespace CustApp.Controllers
                         new KeyValuePair<string, string>("note", "Execute "+iSP.Remarks),//User
                         new KeyValuePair<string, string>("src","http"), ////default
                         new KeyValuePair<string, string>("tokenID",tokenID),//default
-                        new KeyValuePair<string, string>("companyCode", "597"),//default
+                        new KeyValuePair<string, string>("companyCode", "596"),//default
                         new KeyValuePair<string, string>("serviceCode", regobj.ServiceCode),//default
                         new KeyValuePair<string, string>("account",  regobj.CustomerID),//user
-                        new KeyValuePair<string, string>("special1",""),//user
+                        new KeyValuePair<string, string>("special1",S_MobileNumber),//user
                         new KeyValuePair<string, string>("special2", ""),//user
                         new KeyValuePair<string, string>("tid", tid),//default
                         new KeyValuePair<string, string>("amountpay", regobj.TotalAmountDue),//database
@@ -480,7 +475,7 @@ namespace CustApp.Controllers
                         new KeyValuePair<string, string>("billNumber", regobj.billNumber),//Database
                         new KeyValuePair<string, string>("rltCheckPaymt", regobj.responseCode),//Database
                         new KeyValuePair<string, string>("ClientCode", clientCode),
-                        new KeyValuePair<string, string>("paypointType", "Worldlink"),
+                        new KeyValuePair<string, string>("paypointType", "Subisu"),
                         new KeyValuePair<string, string>("customerName", regobj.CustomerName),
                         new KeyValuePair<string, string>("walletBalance", availBaln.amount),
                         new KeyValuePair<string, string>("retrievalReference", regobj.retrievalReference),//Database
@@ -557,10 +552,10 @@ namespace CustApp.Controllers
         }
         #endregion
 
-        #region Get Wlink refStan From Response Table
+        #region Get Nepal Water refStan From Response Table
         public string getrefStan(ISP isp)
         {
-            string Query_refStan = "select refStan from MNPaypointResponse where account='" + isp.CustomerName + "' AND ClientCode='" + isp.ClientCode + "' AND UserName='" + isp.UserName + "'";
+            string Query_refStan = "select refStan from MNPaypointResponse where account='" + isp.CustomerID +  "' AND ClientCode='" + isp.ClientCode + "' AND UserName='" + isp.UserName + "'";
             DataTable dt = new DataTable();
             dt = objdal.MyMethod(Query_refStan);
             string refStan = string.Empty;

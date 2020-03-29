@@ -12,7 +12,6 @@ namespace CustApp.Models
         public string ServiceCode { get; set; }
         public string TestNumbers { get; set; }
         public string Commission { get; set; }
-        
 
 
 
@@ -45,7 +44,7 @@ namespace CustApp.Models
     }
 
     ////For MNPayPointWlinkPayments
-    public class MNPayPointWlinkPayments
+    public class MNPayPointISPPayments
     {
         public string CustomerName { get; set; }
         public string NWBranchCode { get; set; }

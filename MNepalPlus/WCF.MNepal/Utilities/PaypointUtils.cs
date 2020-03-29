@@ -558,5 +558,25 @@ namespace WCF.MNepal.Utilities
 
         #endregion
 
+        #region"Response CP Wlink payments"
+        public static int PaypointSubisuInfo(PaypointModel resPaypointSubisuPaymentInfo)
+        {
+            var objresPaypointWlinkModel = new PaypointUserModel();
+            var objresPaypointWlinkPaymentInfo = new PaypointModel
+            {
+                billDateP = resPaypointSubisuPaymentInfo.transactionDateReqCP,
+                billAmountP = resPaypointSubisuPaymentInfo.amountReqCP,
+                billNumberCP = resPaypointSubisuPaymentInfo.billNumberReqCP,
+                refStanCP = resPaypointSubisuPaymentInfo.refStanReqCP,
+                customerNameCP = resPaypointSubisuPaymentInfo.customerNameCP,
+                companyCodeCP = resPaypointSubisuPaymentInfo.companyCodeCP,
+                userId = resPaypointSubisuPaymentInfo.UserName,
+                customer_codeKI = resPaypointSubisuPaymentInfo.ClientCode,
+                Mode = "RSSubisu" //Response subisu payment from Checkpayment
+            };
+            return objresPaypointWlinkModel.ResponsePaypointSubisuPaymentInfo(objresPaypointWlinkPaymentInfo);
+        }
+        #endregion
+
     }
 }

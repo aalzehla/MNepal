@@ -221,6 +221,7 @@
     <Compile Include="Controllers\ShareController.cs" />
     <Compile Include="Controllers\SignupController.cs" />
     <Compile Include="Controllers\StatementController.cs" />
+    <Compile Include="Controllers\SubisuController.cs" />
     <Compile Include="Controllers\TermsAndConditionController.cs" />
     <Compile Include="Controllers\UserDashboardController.cs" />
     <Compile Include="Controllers\UtilityPayController.cs" />
@@ -25537,6 +25538,8 @@
     <Content Include="Views\Help\ContactUs.cshtml" />
     <Content Include="Views\Wlink\Index.cshtml" />
     <Content Include="Views\Wlink\Details.cshtml" />
+    <Content Include="Views\Subisu\Index.cshtml" />
+    <Content Include="Views\Subisu\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

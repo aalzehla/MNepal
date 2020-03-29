@@ -21,23 +21,24 @@ using WCF.MNepal.ErrorMsg;
 using WCF.MNepal.Helper;
 using WCF.MNepal.Models;
 using WCF.MNepal.Utilities;
+
 namespace WCF.MNepal
 {
     [ServiceContract(Namespace = "")]
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
-    public class wlink
+    [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Single, InstanceContextMode = InstanceContextMode.Single)]
+    public class subisu
     {
         // To use HTTP GET, add [WebGet] attribute. (Default ResponseFormat is WebMessageFormat.Json)
         // To create an operation that returns XML,
         //     add [WebGet(ResponseFormat=WebMessageFormat.Xml)],
         //     and include the following line in the operation body:
         //         WebOperationContext.Current.OutgoingResponse.ContentType = "text/xml";
-
-        #region"Check Paypoint Wlink"
+        #region"Check Paypoint NepalWater"
         [OperationContract]
         [WebInvoke(Method = "POST",
                   ResponseFormat = WebMessageFormat.Json)]
-        public string CheckPayment(Stream input)
+        public string checkpayment(Stream input)
         {
             string PaypointPwd = System.Web.Configuration.WebConfigurationManager.AppSettings["PaypointPwd"];
             string PaypointUserID = System.Web.Configuration.WebConfigurationManager.AppSettings["PaypointUserID"];
@@ -49,36 +50,43 @@ namespace WCF.MNepal
 
             string tid = qs["tid"];
             string vid = qs["vid"]; //MerchantID
+            //string sc = qs["sc"];
             string sc = "00";
             string mobile = qs["mobile"];
 
+            //string da = "9840066836";//merchant in 30
+
+
             string da = System.Web.Configuration.WebConfigurationManager.AppSettings["DestinationNoForTestServer"];
-
-            string note = "utility payment for Worldlink. Customer Name=" + qs["account"];//+ ". " + qs["note"];
-
+            string note = "utility payment for subisu. Customer Name=" + qs["account"];//+ ". " + qs["note"];
             string src = qs["src"];
             string result = "";
             string sessionID = qs["tokenID"];
             string resultMessageResCP = "";
+
             string companyCode = qs["companyCode"];
             string serviceCode = qs["serviceCode"];
             string account = qs["account"];
-            string special1 = "";
+            string special1 = qs["special1"];
             string special2 = "";
             string transactionDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");//"2019-11-22T11:11:02";
             long millisecondstrandId = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             string transactionId = millisecondstrandId.ToString(); //"120163339819";
             string userId = PaypointUserID;
+            //string userId = "MNepalLT";
+            //string userPassword = "MNepalLT";
             string userPassword = PaypointPwd.Trim();
             string salePointType = "6";
             string ClientCode = qs["ClientCode"];
-            string paypointType = "Worldlink";//qs["paypointType"]
+            //string paypointType = "NepalWater";//qs["paypointType"]
+            string paypointType = "Subisu";//qs["paypointType"]
             string transactionType = string.Empty;
 
-            PaypointModel reqCPPaypointWlinkInfo = new PaypointModel();
-            PaypointModel resCPPaypointWlinkInfo = new PaypointModel();
+            PaypointModel reqCPPaypointSubisuInfo = new PaypointModel();
+            PaypointModel resCPPaypointSubisuInfo = new PaypointModel();
 
-            PaypointModel resPaypointWlinkInfo = new PaypointModel();
+
+            PaypointModel resPaypointSubisuPaymentInfo = new PaypointModel();//to store data of Response of CP only
 
             string totalAmount = string.Empty;
             string totalCount = string.Empty;
@@ -96,10 +104,12 @@ namespace WCF.MNepal
             TraceIdGenerator traceid = new TraceIdGenerator();
             tid = traceid.GenerateUniqueTraceID();
 
-
             //for CP transaction for nepal water
             try
             {
+                //for checkpayment link 
+                //string URI = "https://test.paypoint.md:4445/PayPointWS/PayPointMSOperations.asmx/CheckPayment";
+
                 //For checkpaypoint link in webconfig
                 string URI = System.Web.Configuration.WebConfigurationManager.AppSettings["CPPaypointUrl"];
 
@@ -109,7 +119,7 @@ namespace WCF.MNepal
                     "&userId=" + userId.Trim() + "&userPassword=" + userPassword.Trim() + "&salePointType=" + salePointType;
 
                 //for checkpayment request insert in database
-                reqCPPaypointWlinkInfo = new PaypointModel()
+                reqCPPaypointSubisuInfo = new PaypointModel()
                 {
                     companyCodeReqCP = companyCode,
                     serviceCodeReqCP = serviceCode,
@@ -142,14 +152,22 @@ namespace WCF.MNepal
                 string exectransactionDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"); //Current DateTime
                 string rltCheckPaymt = "";
                 string customerName = "";
-                string utilityCode = "";
 
                 using (WebClient wc = new WebClient())
                 {
                     wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
                     var HtmlResult = wc.UploadString(URI, myParameters);// response from checkpayment
+
+                    //                        string HtmlResult = @"<string xmlns=""http://tempuri.org/""><PPResponse Result=""000"" Key=""93eb6e47-2ab1-41f8-b6e8-b93e99fd1be5""><ResultMessage>Operation is succesfully completed </ResultMessage>
+                    //<UtilityInfo><UtilityCode> 598 </UtilityCode></UtilityInfo><BillInfo><Bill><BillNumber> 93eb6e47-2ab1-41f8-b6e8-b93e99fd1be5 </BillNumber>
+                    //<DueDate> 2019-11-26T07:13:38 </DueDate><Amount> 13900 </Amount><ReserveInfo> ISHWORI PD.SHRESTHA </ReserveInfo><BillParam><mask> 1 </mask>
+                    //                        <commission type=""0"" val=""0.00"" op=""-"" paysource=""1""></commission></BillParam>" +
+                    //                            "<RefStan> 21265641797314 </RefStan></Bill></BillInfo></PPResponse></string>";
+
                     XmlDocument xmlDoc = new XmlDocument();
+
                     xmlDoc.LoadXml(HtmlResult);
+
                     XmlNodeList test = xmlDoc.GetElementsByTagName("*");
                     string results = test[0].InnerText;
                     string HtmlResult1 = results;
@@ -157,11 +175,16 @@ namespace WCF.MNepal
                     //for getting key value from check payment
                     var reader = new StringReader(HtmlResult1);
                     var xdoc = XDocument.Load(reader);
+
                     XDocument docParse = XDocument.Parse(xdoc.ToString());
                     IEnumerable<XElement> responses = docParse.Descendants();
+
                     var xElem = XElement.Parse(docParse.ToString());
+
                     rltCheckPaymt = xElem.Attribute("Result").Value;
                     string keyrlt = "";// response.Attribute("Key").Value;
+
+
                     message = resultMessageResCP;
                     if (xElem.Attribute("Result").Value == "000")
                     {
@@ -170,26 +193,42 @@ namespace WCF.MNepal
                         amountpay = xElem.Descendants().Elements("Amount").Where(x => x.Name == "Amount").SingleOrDefault().Value;
                         refStan = xElem.Descendants().Elements("RefStan").Where(x => x.Name == "RefStan").SingleOrDefault().Value;
                         exectransactionDate = xElem.Descendants().Elements("DueDate").Where(x => x.Name == "DueDate").SingleOrDefault().Value;
-                        customerName = xElem.Descendants().Elements("ReserveInfo").Where(x => x.Name == "ReserveInfo").SingleOrDefault().Value;
-                        utilityCode = xElem.Descendants().Elements("UtilityCode").Where(x => x.Name == "UtilityCode").SingleOrDefault().Value;
 
-                        resPaypointWlinkInfo = new PaypointModel()
+
+
+
+                        //for checkpayment payaments response insert in database for nepal water
+
+                        resPaypointSubisuPaymentInfo = new PaypointModel()
                         {
-                            
-                           billNumber = billNumber,
-                           amount = amountpay,
-                           refStan = refStan,
-                           transactionDate = exectransactionDate,
-                           customerName = account,
-                           companyCode = utilityCode,
+                            companyCodeReqCP = companyCode,
+                            serviceCodeReqCP = serviceCode,
+                            accountReqCP = account,
+                            special1ReqCP = special1,
+                            special2ReqCP = special2,
+                            customerNameCP = qs["account"],
+                            transactionDateReqCP = transactionDate,
+                            transactionIdReqCP = transactionId,
+                            userIdReqCP = userId,
+                            userPasswordReqCP = userPassword,
+                            salePointTypeReqCP = salePointType,
+                            companyCodeCP = qs["companyCode"],
+
+                            refStanReqCP = refStan,
+                            amountReqCP = (Convert.ToInt32(amountpay) / 100).ToString(), //amount in paisa
+                            billNumberReqCP = billNumber,
+                            //retrievalReferenceReqCP = fundtransfer.tid,
+                            retrievalReferenceReqCP = tid,
+                            remarkReqCP = "Check Payment",
                             UserName = mobile,
                             ClientCode = ClientCode,
-
+                            paypointType = paypointType
                         };
 
-                        int resultsPayments = PaypointUtils.PaypointWlinkInfo(resPaypointWlinkInfo);
+                        int resultsPayments = PaypointUtils.PaypointSubisuInfo(resPaypointSubisuPaymentInfo);
 
                     }
+
                     else
                     {
                         keyrlt = xElem.Attribute("Key").Value;
@@ -197,8 +236,8 @@ namespace WCF.MNepal
                     }
                     resultMessageResCP = xElem.Elements("ResultMessage").Where(x => x.Name == "ResultMessage").SingleOrDefault().Value;
 
-                    //for checkpayment response insert in database in wlink
-                    resCPPaypointWlinkInfo = new PaypointModel()
+                    //for checkpayment response insert in database in subisu
+                    resCPPaypointSubisuInfo = new PaypointModel()
                     {
                         companyCodeResCP = companyCode,
                         serviceCodeResCP = serviceCode,
@@ -213,13 +252,13 @@ namespace WCF.MNepal
                         salePointTypeResCP = salePointType,
 
                         refStanResCP = refStan,
-                        amountResCP = amountpay,
+                        amountResCP = (Convert.ToInt32(amountpay) / 100).ToString(),
                         billNumberResCP = billNumber,
                         //retrievalReferenceResCP = fundtransfer.tid,
                         retrievalReferenceResCP = tid,
                         responseCodeResCP = rltCheckPaymt,
                         descriptionResCP = "Check Payment " + keyrlt,
-                        customerNameCP = account,
+                        customerNameCP = customerName,
                         UserName = mobile,
                         ClientCode = ClientCode,
                         paypointType = paypointType,
@@ -254,12 +293,14 @@ namespace WCF.MNepal
 
             }
 
+            ///for  inserting CP PayPoint Data of  subisu 
+
             try
             {
-                int resultsReqCP = PaypointUtils.RequestCPPaypointInfo(reqCPPaypointWlinkInfo);
-                int resultsResCP = PaypointUtils.ResponseCPPaypointInfo(resCPPaypointWlinkInfo);
+                int resultsReqCP = PaypointUtils.RequestCPPaypointInfo(reqCPPaypointSubisuInfo);
+                int resultsResCP = PaypointUtils.ResponseCPPaypointInfo(resCPPaypointSubisuInfo);
 
-                
+
                 if ((resultsReqCP > 0) && (resultsResCP > 0))
 
                 {
@@ -276,7 +317,6 @@ namespace WCF.MNepal
                 string ss = ex.Message;
                 message = result;
             }
-
 
             if (statusCode == "")
             {
@@ -296,8 +336,8 @@ namespace WCF.MNepal
                 {
                     StatusCode = Convert.ToInt32(statusCode),
                     StatusMessage = failedmessage,
-                    retrievalRef = resCPPaypointWlinkInfo.retrievalReferenceResCP,
-                    refStanCK = resCPPaypointWlinkInfo.refStanResCP
+                    retrievalRef = resCPPaypointSubisuInfo.retrievalReferenceResCP,
+                    refStanCK = resCPPaypointSubisuInfo.refStanResCP
                 };
                 result = JsonConvert.SerializeObject(v);
             }
@@ -324,13 +364,13 @@ namespace WCF.MNepal
         }
         #endregion
 
-
-        #region"execute Paypoint Wlink"
+        #region"execute Paypoint"
         [OperationContract]
         [WebInvoke(Method = "POST",
                   ResponseFormat = WebMessageFormat.Json)]
         public string executepayment(Stream input)
         {
+
             string PaypointPwd = System.Web.Configuration.WebConfigurationManager.AppSettings["PaypointPwd"];
             string PaypointUserID = System.Web.Configuration.WebConfigurationManager.AppSettings["PaypointUserID"];
 
@@ -351,7 +391,7 @@ namespace WCF.MNepal
 
             string amount = qs["amount"];//amount paid by customer 
             string pin = qs["pin"];
-            string note = "utility payment for Worldlink. Customer Name=" + qs["account"];//+ ". " + qs["note"];
+            string note = "utility payment for Subisu. Customer Name=" + qs["account"];//+ ". " + qs["note"];
             string src = qs["src"];
             string result = "";
             string sessionID = qs["tokenID"];
@@ -362,7 +402,7 @@ namespace WCF.MNepal
             string serviceCode = qs["serviceCode"]; //"11";// 
                                                     // string serviceCode = qs["special1s"]; //"11";//
             string account = qs["account"]; //"1234567";//            
-            string special1 = ""; //
+            string special1 = qs["special1"]; //
             string special2 = ""; //
             string transactionDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");//"2019-11-22T11:11:02";
             long millisecondstrandId = DateTimeOffset.Now.ToUnixTimeMilliseconds();
@@ -391,11 +431,11 @@ namespace WCF.MNepal
             int walletBalancePaisaInt = 0;
             walletBalancePaisaInt = Convert.ToInt32((Convert.ToDouble(walletBalance)) * 100);
             int amountpayInt = Convert.ToInt32(amountpay);
-            PaypointModel reqEPPaypointWlinkInfo = new PaypointModel();
-            PaypointModel resEPPaypointWlinkInfo = new PaypointModel();
+            PaypointModel reqEPPaypointSubisuInfo = new PaypointModel();
+            PaypointModel resEPPaypointSubisuInfo = new PaypointModel();
 
-            PaypointModel reqGTPaypointNepalWaterInfo = new PaypointModel();
-            PaypointModel resGTPaypointNepalWaterInfo = new PaypointModel();
+            PaypointModel reqGTPaypointSubisuInfo = new PaypointModel();
+            PaypointModel resGTPaypointSubisuInfo = new PaypointModel();
 
             string totalAmount = string.Empty;
             string totalCount = string.Empty;
@@ -1579,11 +1619,11 @@ namespace WCF.MNepal
                                     string execPayParameters = "companyCode=" + companyCode + "&serviceCode=" + serviceCode +
                                             "&account=" + account + "&special1=" + special1 + "&special2=" + special2 +
                                             "&transactionDate=" + exectransactionDate + "&transactionId=" + exectransactionId +
-                                            "&refStan=" + refStan + "&amount=" + amount + "&billNumber=" + billNumber +
+                                            "&refStan=" + refStan + "&amount=" + (Convert.ToInt32(amount) * 100).ToString() + "&billNumber=" + billNumber +
                                             "&userId=" + userId.Trim() + "&userPassword=" + userPassword.Trim() + "&salePointType=" + salePointType;
 
                                     //for executepayment request insert in database for wlink
-                                    reqEPPaypointWlinkInfo = new PaypointModel()
+                                    reqEPPaypointSubisuInfo = new PaypointModel()
                                     {
                                         companyCodeReqEP = companyCode,
                                         serviceCodeReqEP = serviceCode,
@@ -1650,7 +1690,7 @@ namespace WCF.MNepal
 
 
                                         //for Response Execute Payment
-                                        resEPPaypointWlinkInfo = new PaypointModel()
+                                        resEPPaypointSubisuInfo = new PaypointModel()
                                         {
                                             companyCodeResEP = companyCode,
                                             serviceCodeResEP = serviceCode,
@@ -1688,8 +1728,8 @@ namespace WCF.MNepal
 
                             try
                             {
-                                int resultsReqEP = PaypointUtils.RequestEPPaypointInfo(reqEPPaypointWlinkInfo);
-                                int resultsResEP = PaypointUtils.ResponseEPPaypointInfo(resEPPaypointWlinkInfo);
+                                int resultsReqEP = PaypointUtils.RequestEPPaypointInfo(reqEPPaypointSubisuInfo);
+                                int resultsResEP = PaypointUtils.ResponseEPPaypointInfo(resEPPaypointSubisuInfo);
 
                                 if ((resultsReqEP > 0) && (resultsResEP > 0))
                                 {
@@ -1731,7 +1771,7 @@ namespace WCF.MNepal
                                         string GetTranParameters = "userLogin=" + userId + "&userPassword=" + userPassword + "&stan=" + "-1" + "&refStan=" + refStan + "&key=" + "" + "&billNumber=" + gtBillNumber;
 
                                         //for get transaction payment request insert in database
-                                        reqGTPaypointNepalWaterInfo = new PaypointModel()
+                                        reqGTPaypointSubisuInfo = new PaypointModel()
                                         {
                                             companyCodeReqGTP = companyCode,
                                             serviceCodeReqGTP = serviceCode,
@@ -1830,7 +1870,7 @@ namespace WCF.MNepal
                                             //end get transaction payment status validation
 
                                             ////for get transaction payment response insert in database
-                                            resGTPaypointNepalWaterInfo = new PaypointModel()
+                                            resGTPaypointSubisuInfo = new PaypointModel()
                                             {
                                                 companyCodeResGTP = companyCode,
                                                 serviceCodeResGTP = serviceCode,
@@ -1867,8 +1907,8 @@ namespace WCF.MNepal
                                     try
                                     {
 
-                                        int resultsReqGTP = PaypointUtils.RequestGTPaypointInfo(reqGTPaypointNepalWaterInfo);
-                                        int resultsResGTP = PaypointUtils.ResponseGTPaypointInfo(resGTPaypointNepalWaterInfo);
+                                        int resultsReqGTP = PaypointUtils.RequestGTPaypointInfo(reqGTPaypointSubisuInfo);
+                                        int resultsResGTP = PaypointUtils.ResponseGTPaypointInfo(resGTPaypointSubisuInfo);
 
                                         if ((resultsReqGTP > 0) && (resultsResGTP > 0))
                                         {
@@ -1945,7 +1985,7 @@ namespace WCF.MNepal
                     (statusCode != "188") && (statusCode != "189") && (statusCode != "190") && (statusCode != "800") && (statusCode != "902") &&
                     (statusCode != "904") && (statusCode != "906") && (statusCode != "907") && (statusCode != "909") && (statusCode != "911") &&
                     (statusCode != "913") && (statusCode != "90") && (statusCode != "91") && (statusCode != "94") && (statusCode != "95") &&
-                    (statusCode != "98") && (statusCode != "99") && (statusCodeBalance != "400") && (compResultResp != "000") && (statusCodeBalance != "400") 
+                    (statusCode != "98") && (statusCode != "99") && (statusCodeBalance != "400") && (compResultResp != "000") && (statusCodeBalance != "400")
                     && (statusCode != "200") && (statusCode != "508")
                     )
                 //((statusCodeBalance != "400") && (compResultResp != "000")) || ((statusCodeBalance != "400") && (statusCode != "200")) ||
@@ -2372,7 +2412,6 @@ namespace WCF.MNepal
                                                 mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
                                             }
                                             else if (validTransactionData.ResponseCode == "OK")
-
                                             {
                                                 statusCode = "200";
                                                 message = result;
@@ -2395,7 +2434,7 @@ namespace WCF.MNepal
                                                 messagereply += " You have successfully reverse  NPR " + validTransactionData.Amount
                                                                     + " to " +
                                                                     //GetMerchantName 
-                                                                    "Utility payment for Worldlink." + " on date " +
+                                                                    "Utility payment for Subisu." + " on date " +
                                                                     (validTransactionData.CreatedDate).ToString("dd/MM/yyyy")
                                                                 + "." + "\n";
                                                 messagereply += "Thank you. MNepal";
@@ -2534,7 +2573,7 @@ namespace WCF.MNepal
                             messagereply += " You have successfully paid NPR " + validTransactionData.Amount
                                             + " to " + " account name: " + account + ". " +
                                             //GetMerchantName 
-                                            "Utility payment for Worldlink." + " on date " +
+                                            "Utility payment for Subisu." + " on date " +
                                                 (validTransactionData.CreatedDate).ToString("dd/MM/yyyy")
                                             + "." + "\n";
                             messagereply += "Thank you. MNepal";
@@ -2670,7 +2709,5 @@ namespace WCF.MNepal
             Console.WriteLine($"Hi {data.tid} from ThreadPool.");
             Thread.Sleep(1000);
         }
-
-
     }
 }

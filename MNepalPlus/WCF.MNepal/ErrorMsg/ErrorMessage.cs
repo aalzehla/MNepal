@@ -56,5 +56,8 @@ namespace WCF.MNepal.ErrorMsg
         public string Error_909 = "Cannot connect to bank .Please try again later";
         public string Error_911 = "Cannot connect to bank .Please try again later";
         public string Error_913 = "Duplicate transaction";
+
+
+        public string Error_508 = "Monthly Transaction amount limit reached";
     }
 }

@@ -126,6 +126,7 @@
     <Content Include="authlogin.svc" />
     <Content Include="bankinfo.svc" />
     <Content Include="cash.svc" />
+    <Content Include="subisu.svc" />
     <Content Include="wlink.svc" />
     <None Include="Connected Services\MerchantReference\commoninterface1.disco" />
     <Content Include="Connected Services\MerchantReference\WCF.MNepal.MerchantReference.ResponseData.datasource">
@@ -294,6 +295,9 @@
     </Compile>
     <Compile Include="share.svc.cs">
       <DependentUpon>share.svc</DependentUpon>
+    </Compile>
+    <Compile Include="subisu.svc.cs">
+      <DependentUpon>subisu.svc</DependentUpon>
     </Compile>
     <Compile Include="topup.svc.cs">
       <DependentUpon>topup.svc</DependentUpon>
