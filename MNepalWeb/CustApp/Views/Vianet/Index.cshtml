@@ -1,7 +1,7 @@
 ﻿@model CustApp.Models.ISP
 
 @{
-    ViewBag.Title = "Worldlink Payment";
+    ViewBag.Title = "Vianet Payment";
     string hasBankKYC = ViewBag.HasBankKYC;
 
 }
@@ -24,7 +24,7 @@
 </style>
 
 
-@using (Html.BeginForm("WlinkCheckPayment", "Wlink", FormMethod.Post, new { @id = "WlinkCheckPayment", @name = "WlinkCheckPayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("VianetCheckPayment", "Vianet", FormMethod.Post, new { @id = "VianetCheckPayment", @name = "VianetCheckPayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -37,7 +37,7 @@
                     <div class="col-lg-6">
                         <section class="internet-payment pad-50">
                             <div class="top-section">
-                                <h2 class="title">Worldlink Bill Payment</h2>
+                                <h2 class="title">Vianet Bill Payment</h2>
                                 <p>Please fill the required field.</p>
                             </div>
                             <div class="instant-transactions">
@@ -149,27 +149,11 @@
                                 }
                             }
 
-                            @*<div class="transfer-order clearfix">
-                                    <h3 class="title">Pay from</h3>
-
-                                    <select class="form-control selectpicker transaction-select from col-md-9" id="TransactionMedium" name="TransactionMedium" onmousedown="this.value='';">
-                                        <option data-icon="thaili-icon-load-wallet" value="00">Wallet</option>
-                                        @if (hasBankKYC.Equals("T"))
-                                        {
-                                            <option data-icon="thaili-icon-bank" value="10">Bank</option>
-                                        }
-                                    </select>
-                                </div>*@
-
-
-
-                            
-
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="col-sm-12">Customer Name:<b style="color:red;">*</b></label>
-                                        <input type="text" class="form-control select2" id="CustomerID" name="txtCustomerID" placeholder="Example: test" maxlength="20" oninput="checkValidation()" />
+                                        <label class="col-sm-12">Account Number:<b style="color:red;">*</b></label>
+                                        <input type="text" class="form-control select2" id="CustomerID" name="txtCustomerID" placeholder="Example: 123456" minlength="3" maxlength="6" onkeypress="return isNumber(event)" oninput="checkValidation()" />
                                     </div>
                                     <div class="form-group" id="CustErr" style="color:red; margin-top:-11px;"></div>
                                 </div>
@@ -190,24 +174,6 @@
             </div>
         </div>
     </div>
-
-
-    <!-- Success modal -->
-    @*<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <div class="success-icon">
-                            <img src="~/Content/assets/img/success-tick.svg" alt="success-tick">
-                        </div>
-                        <p class="msg"></p>
-                        <span class="msg">Your payment has been confirmed.</span>
-                        <br /> <br />
-                        <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
-                    </div>
-                </div>
-            </div>
-        </div>*@
 
     <!-- Failure modal -->
     <div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
@@ -291,7 +257,6 @@
             return true;
         }
 
-        
 
         function checkValidation() {
             var Cust = $("[name='txtCustomerID']").val();
@@ -299,7 +264,7 @@
 
             if ((Cust.trim() == "")) {
                 $("#CustErr").html("");
-                $("#CustErr").append("<small>" + "Customer Name is required and cannot be empty" + "</small>");
+                $("#CustErr").append("<small>" + "Customer ID is required and cannot be empty" + "</small>");
                 $("#CustErr").show();
             }
             else {
@@ -311,6 +276,7 @@
 
         $("#clearButton").click(function () {
             $("[name='txtCustomerID']").val("");
+            
         });
 
 
@@ -318,25 +284,25 @@
 
         $('#btnSubmit').click(function (e) {
             e.preventDefault();
-            debugger;
+
             var CustomerID = $("[name='txtCustomerID']").val();
             
             if ((CustomerID != "")) {
 
                 var dataToPost = {
-                    CustomerName: CustomerID
+                    CustomerID: CustomerID
                 };
 
                 e.preventDefault(); //prevent the default action
                 $.ajax({
-                    url: '@Url.Action("WlinkCheckPayment","Wlink")',
+                    url: '@Url.Action("VianetCheckPayment", "Vianet")',
                     type: "POST",
                     data: dataToPost,
                     async: false,
                     success: function (data) {
-                        debugger;
+
                         if (data.responseCode == "200") {
-                            var url = '@Url.Action("Details", "Wlink")';
+                            var url = '@Url.Action("Details", "Vianet")';
                             window.location.href = url;
                         }
                         //display error message

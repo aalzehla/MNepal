@@ -517,6 +517,7 @@ namespace WCF.MNepal.Utilities
                 companyCodeCP = resPaypointWlinkPaymentInfo.companyCode,
                 userId = resPaypointWlinkPaymentInfo.UserName,
                 customer_codeKI = resPaypointWlinkPaymentInfo.ClientCode,
+                RemainingDays = resPaypointWlinkPaymentInfo.RemainingDays,
                 Mode = "RSWlinkP" //Response wlink payment from Checkpayment
             };
             return objresPaypointWlinkModel.ResponsePaypointWlinkPaymentInfo(objresPaypointWlinkPaymentInfo);
@@ -575,6 +576,32 @@ namespace WCF.MNepal.Utilities
                 Mode = "RSSubisu" //Response subisu payment from Checkpayment
             };
             return objresPaypointWlinkModel.ResponsePaypointSubisuPaymentInfo(objresPaypointWlinkPaymentInfo);
+        }
+        #endregion
+
+        #region"Response CP Vianet payments"
+        public static int PaypointVianetPaymentInfo(PaypointModel resPaypointVianetPaymentInfo)
+        {
+            var objresPaypointVianetPaymentModel = new PaypointUserModel();
+            var objresPaypointVianetPaymentInfo = new PaypointModel
+            {
+
+
+                description = resPaypointVianetPaymentInfo.description,
+                amountP = resPaypointVianetPaymentInfo.amountP,
+                PackageId = resPaypointVianetPaymentInfo.PackageId,
+                billNumber = resPaypointVianetPaymentInfo.billNumber,
+                refStan = resPaypointVianetPaymentInfo.refStan,
+                amount = resPaypointVianetPaymentInfo.amount,
+                transactionDate = resPaypointVianetPaymentInfo.transactionDate, 
+                customerName = resPaypointVianetPaymentInfo.customerName,
+                companyCode = resPaypointVianetPaymentInfo.companyCode,
+                UserName = resPaypointVianetPaymentInfo.UserName,
+                ClientCode = resPaypointVianetPaymentInfo.ClientCode,
+                Mode = "RSVianetP" //Response vianet payment from Checkpayment
+
+            };
+            return objresPaypointVianetPaymentModel.ResponsePaypointVianetPaymentInfo(objresPaypointVianetPaymentInfo);
         }
         #endregion
 

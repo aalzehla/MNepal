@@ -95,7 +95,7 @@ namespace WCF.MNepal
             string customerNo = string.Empty;
             TraceIdGenerator traceid = new TraceIdGenerator();
             tid = traceid.GenerateUniqueTraceID();
-
+            List<Packages> pkg = new List<Packages>();
 
             //for CP transaction for nepal water
             try
@@ -141,8 +141,9 @@ namespace WCF.MNepal
                 string exectransactionId = ""; //Unique
                 string exectransactionDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"); //Current DateTime
                 string rltCheckPaymt = "";
-                string customerName = "";
+                string remainingDays = "";
                 string utilityCode = "";
+                string mask = "";
 
                 using (WebClient wc = new WebClient())
                 {
@@ -170,22 +171,54 @@ namespace WCF.MNepal
                         amountpay = xElem.Descendants().Elements("Amount").Where(x => x.Name == "Amount").SingleOrDefault().Value;
                         refStan = xElem.Descendants().Elements("RefStan").Where(x => x.Name == "RefStan").SingleOrDefault().Value;
                         exectransactionDate = xElem.Descendants().Elements("DueDate").Where(x => x.Name == "DueDate").SingleOrDefault().Value;
-                        customerName = xElem.Descendants().Elements("ReserveInfo").Where(x => x.Name == "ReserveInfo").SingleOrDefault().Value;
+                        remainingDays = xElem.Descendants().Elements("ReserveInfo").Where(x => x.Name == "ReserveInfo").SingleOrDefault().Value;
                         utilityCode = xElem.Descendants().Elements("UtilityCode").Where(x => x.Name == "UtilityCode").SingleOrDefault().Value;
+                        mask = xElem.Descendants().Elements("mask").Where(x => x.Name == "mask").SingleOrDefault().Value;
 
-                        resPaypointWlinkInfo = new PaypointModel()
+                        Packages packages = new Packages();
+                        if (mask == "0" || mask == "6")
                         {
-                            
-                           billNumber = billNumber,
-                           amount = amountpay,
-                           refStan = refStan,
-                           transactionDate = exectransactionDate,
-                           customerName = account,
-                           companyCode = utilityCode,
-                            UserName = mobile,
-                            ClientCode = ClientCode,
 
-                        };
+                            var package = xElem.Descendants("packages").SingleOrDefault();
+                            //var packageList = package.Descendants("package").ToList();
+
+                            XmlDocument xmlDoc1 = new XmlDocument();
+                            xmlDoc1.LoadXml(package.ToString());
+
+                            XmlNodeList xmlNodeList = xmlDoc1.SelectNodes("/packages/package");
+
+                            string stringBuilderDescriptions = "";
+                            string stringBuilderAmounts = "";
+                            string stringBuilderPackageId = "";
+                            foreach (XmlNode xmlNode in xmlNodeList)
+                            {
+                                packages.Description = xmlNode.OuterXml; /*xmlNode.InnerText;*/
+                                packages.Amount = xmlNode.Attributes["amount"].Value;
+                                packages.PackageId = xmlNode.Attributes["id"].Value;
+                                pkg.Add(packages);
+                                // viewbag ma halna agadi
+                                stringBuilderDescriptions = stringBuilderDescriptions + packages.Description + Environment.NewLine;
+                                stringBuilderAmounts = stringBuilderAmounts + packages.Amount + Environment.NewLine;
+                                stringBuilderPackageId = stringBuilderPackageId + packages.PackageId + Environment.NewLine;
+
+                            }
+
+                            resPaypointWlinkInfo = new PaypointModel()
+                            {
+
+                                billNumber = billNumber,
+                                amount = amountpay,
+                                refStan = refStan,
+                                transactionDate = exectransactionDate,
+                                customerName = account,
+                                companyCode = utilityCode,
+                                UserName = mobile,
+                                ClientCode = ClientCode,
+                                RemainingDays = remainingDays
+                                
+
+                            };
+                        }
 
                         int resultsPayments = PaypointUtils.PaypointWlinkInfo(resPaypointWlinkInfo);
 
@@ -224,6 +257,7 @@ namespace WCF.MNepal
                         ClientCode = ClientCode,
                         paypointType = paypointType,
                         resultMessageResCP = resultMessageResCP,
+                        customerName = remainingDays
 
                     };
                 }
@@ -297,7 +331,8 @@ namespace WCF.MNepal
                     StatusCode = Convert.ToInt32(statusCode),
                     StatusMessage = failedmessage,
                     retrievalRef = resCPPaypointWlinkInfo.retrievalReferenceResCP,
-                    refStanCK = resCPPaypointWlinkInfo.refStanResCP
+                    refStanCK = resCPPaypointWlinkInfo.refStanResCP,
+                    remainingDays = resCPPaypointWlinkInfo.customerName
                 };
                 result = JsonConvert.SerializeObject(v);
             }

@@ -16,11 +16,11 @@ using System.Web.Script.Serialization;
 
 namespace CustApp.Controllers
 {
-    public class SubisuController : Controller
+    public class VianetController : Controller
     {
         DAL objdal = new DAL();
-        // GET: Subisu
-        #region "GET: Subisu Index"
+        // GET: Vianet
+        #region "GET: Vianet Index"
         public ActionResult Index()
         {
             string userName = (string)Session["LOGGED_USERNAME"];
@@ -35,6 +35,7 @@ namespace CustApp.Controllers
                 this.ViewData["userType"] = this.TempData["userType"];
                 ViewBag.UserType = this.TempData["userType"];
                 ViewBag.Name = name;
+
                 ViewBag.SenderMobileNo = userName;
 
                 int id = TraceIdGenerator.GetID() + 1;
@@ -100,10 +101,10 @@ namespace CustApp.Controllers
         }
         #endregion
 
-        #region "POST: Subisu CheckPayment"
+        #region "POST: Vianet CheckPayment"
         [HttpPost]
 
-        public async Task<ActionResult> SubisuPayment(ISP isp)
+        public async Task<ActionResult> VianetCheckPayment(ISP iSP)
         {
             string userName = (string)Session["LOGGED_USERNAME"];
             string clientCode = (string)Session["LOGGEDUSER_ID"];
@@ -143,9 +144,10 @@ namespace CustApp.Controllers
                 userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
                 ViewBag.PassportImage = userInfo.PassportImage;
             }
+            
 
-            Session["MobileNumber"] = isp.mobile;
-            Session["CustomerID"] = isp.CustomerID;
+
+            Session["CustomerID"] = iSP.CustomerID;
 
             //api call here
             HttpResponseMessage _res = new HttpResponseMessage();
@@ -156,7 +158,7 @@ namespace CustApp.Controllers
 
             using (HttpClient client = new HttpClient())
             {
-                var action = "subisu.svc/checkpayment";
+                var action = "vianet.svc/checkpayment";
                 var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
 
                 var content = new FormUrlEncodedContent(new[]{
@@ -164,14 +166,14 @@ namespace CustApp.Controllers
                         new KeyValuePair<string, string>("mobile", mobile),
                         new KeyValuePair<string, string>("src","http"),
                         new KeyValuePair<string, string>("tokenID",tokenID),
-                        new KeyValuePair<string, string>("companyCode", "596"),
-                        new KeyValuePair<string, string>("serviceCode","0"),
-                        new KeyValuePair<string, string>("account", isp.CustomerID),
-                        new KeyValuePair<string, string>("special1",isp.mobile),
+                        new KeyValuePair<string, string>("companyCode", "716"),
+                        new KeyValuePair<string, string>("serviceCode", "0"),
+                        new KeyValuePair<string, string>("account", iSP.CustomerID),
+                        new KeyValuePair<string, string>("special1",""),
                         new KeyValuePair<string, string>("special2",""),
                         new KeyValuePair<string, string>("tid", tid),
                         new KeyValuePair<string, string>("ClientCode", clientCode),
-                        new KeyValuePair<string, string>("paypointType", "Subisu"),
+                        new KeyValuePair<string, string>("paypointType", "Vianet"),
 
 
                     });
@@ -241,14 +243,14 @@ namespace CustApp.Controllers
         }
         #endregion
 
-
-        #region "GET: Subisu Details"
+        #region "GET: Vianet Details"
         public ActionResult Details()
         {
             string userName = (string)Session["LOGGED_USERNAME"];
             string clientCode = (string)Session["LOGGEDUSER_ID"];
             string name = (string)Session["LOGGEDUSER_NAME"];
             string userType = (string)Session["LOGGED_USERTYPE"];
+
 
             TempData["userType"] = userType;
 
@@ -260,38 +262,74 @@ namespace CustApp.Controllers
 
                 ViewBag.SenderMobileNo = userName;
 
-                string S_MobileNumber = (string)Session["MobileNumber"];
+
                 string S_CustomerID = (string)Session["CustomerID"];
 
-                if ((S_MobileNumber == null) || (S_CustomerID == null))
+                if ((S_CustomerID == null))
                 {
                     return RedirectToAction("Index");
                 }
 
-                ISP iSP = new ISP();
-                iSP.CustomerID = S_CustomerID;
-                iSP.UserName = userName;
-                iSP.ClientCode = clientCode;
-                iSP.refStan = getrefStan(iSP);
+                ISP NWObj = new ISP();
+                NWObj.CustomerID = S_CustomerID;
+                NWObj.UserName = userName;
+                NWObj.ClientCode = clientCode;
+                NWObj.refStan = getrefStan(NWObj);
                 MNPayPointISPPayments regobj = new MNPayPointISPPayments();
 
-                DataSet DPaypointSet = PaypointUtils.GetSubisuDetails(iSP);
+                DataSet DPaypointSet = PaypointUtils.GetVianetDetails(NWObj);
                 DataTable dResponse = DPaypointSet.Tables["dtResponse"];
-                DataTable dSubisuPayment = DPaypointSet.Tables["dtSubisuPayment"];
+                DataTable dVianetPayment = DPaypointSet.Tables["dtNWPayment"];
+
+                List<ISP> ListDetails = new List<ISP>();
                 if (dResponse != null && dResponse.Rows.Count > 0)
                 {
                     regobj.CustomerID = dResponse.Rows[0]["account"].ToString();
-                    //regobj.CustomerName = dResponse.Rows[0]["customerName"].ToString();
-                    regobj.TotalAmountDue = dResponse.Rows[0]["amount"].ToString();
+                    regobj.TotalAmountDue = dResponse.Rows[0]["amount"].ToString();  
                     regobj.NWBranchCode = dResponse.Rows[0]["serviceCode"].ToString();
                     regobj.payPointType = dResponse.Rows[0]["paypointType"].ToString();
-                    regobj.description = dResponse.Rows[0]["description"].ToString();
-                    if (dSubisuPayment != null && dSubisuPayment.Rows.Count > 0)
+                    if (dVianetPayment != null && dVianetPayment.Rows.Count > 0)
                     {
-                        regobj.billDate = dSubisuPayment.Rows[0]["billDate"].ToString();
-                        regobj.billAmount = dSubisuPayment.Rows[0]["billAmount"].ToString();
-                    }
+                        regobj.description = dVianetPayment.Rows[0]["descriptions"].ToString(); 
+                        regobj.PackageAmount = dVianetPayment.Rows[0]["PackageAmount"].ToString();
+                        regobj.PackageId = dVianetPayment.Rows[0]["PackageId"].ToString();
 
+
+                        string[] lines = regobj.description.Split(new[] { Environment.NewLine }, StringSplitOptions.None); //to split string to new line
+                        lines = lines.Take(lines.Length - 1).ToArray();  //to remove last list which is empty 
+
+                        string[] lines1 = regobj.PackageAmount.Split(new[] { Environment.NewLine }, StringSplitOptions.None); //to split string to new line
+                        lines1 = lines1.Take(lines1.Length - 1).ToArray();  //to remove last list which is empty 
+
+
+                        string[] lines2 = regobj.PackageId.Split(new[] { Environment.NewLine }, StringSplitOptions.None); //to split string to new line
+                        lines2 = lines2.Take(lines2.Length - 1).ToArray();  //to remove last list which is empty 
+
+
+                        //List<string> list = new List<string>(lines);
+
+                        for (int i = 0; i < lines.Length; i++)
+                        {
+                            string Packages = lines[i];
+                            ListDetails.Add(new ISP
+                            {
+                                Description = Packages  ,
+                                PackageAmount = lines1[i],
+                                PackageId = lines2[i]
+
+                            }) ;
+                        }
+
+                       
+
+                        ViewBag.ListDetails = ListDetails;
+
+
+
+                        regobj.billDate = dVianetPayment.Rows[0]["billDate"].ToString();
+                        regobj.billAmount = dVianetPayment.Rows[0]["billAmount"].ToString();
+
+                    }
                     else
                     {
                         return RedirectToAction("Index");
@@ -301,14 +339,13 @@ namespace CustApp.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                
+
                 ViewBag.NWBranchCode = regobj.NWBranchCode.ToString();
-                ViewBag.CustomerID = regobj.CustomerID;               
+                ViewBag.CustomerID = regobj.CustomerID;
                 ViewBag.TotalAmountDue = regobj.TotalAmountDue;
                 ViewBag.payPointType = regobj.payPointType;
                 ViewBag.description = regobj.description.ToString();
                 ViewBag.billDate = regobj.billDate.ToString();
-
                 int id = TraceIdGenerator.GetID() + 1;
                 string stringid = (id).ToString();//this.GetID() + 1
                 string traceID = stringid.PadLeft(11, '0') + 'W';
@@ -369,12 +406,13 @@ namespace CustApp.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+
         }
         #endregion
 
-        #region "POST: Subisu ExecutePayment"
+        #region "POST: Vianet ExecutePayment"
         [HttpPost]
-        public async Task<ActionResult> SubisukExecutePayment(ISP iSP)
+        public async Task<ActionResult> VianetExecutePayment(ISP iSP)
         {
             string userName = (string)Session["LOGGED_USERNAME"];
             string clientCode = (string)Session["LOGGEDUSER_ID"];
@@ -415,8 +453,9 @@ namespace CustApp.Controllers
                 ViewBag.PassportImage = userInfo.PassportImage;
             }
 
-            string S_MobileNumber = (string)Session["MobileNumber"];              
+
             string S_CustomerID = (string)Session["CustomerID"];
+            var packageId = iSP.PackageId;
 
             ISP NWObj = new ISP();
             //NWObj.NWCounter = S_NWCounter;
@@ -426,7 +465,7 @@ namespace CustApp.Controllers
             NWObj.refStan = getrefStan(NWObj);
             ISP regobj = new ISP();
 
-            DataSet DPaypointSet = PaypointUtils.GetSubisuDetails(NWObj);
+            DataSet DPaypointSet = PaypointUtils.GetVianetDetails(NWObj);
 
             DataTable dResponse = DPaypointSet.Tables["dtResponse"];
             DataTable dNWPayment = DPaypointSet.Tables["dtNWPayment"];
@@ -446,12 +485,11 @@ namespace CustApp.Controllers
             string mobile = userName; //mobile is username
             TraceIdGenerator _tig = new TraceIdGenerator();
             var tid = _tig.GenerateTraceID();
-
             using (HttpClient client = new HttpClient())
             {
                 var destinationTestNumber = System.Configuration.ConfigurationManager.AppSettings["DestinationTestNumber"];
                 var destinationMerchantId = System.Configuration.ConfigurationManager.AppSettings["DestinationMerchantIdPaypoint"];
-                var action = "subisu.svc/executepayment";
+                var action = "vianet.svc/executepayment";
                 var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
                 string tokenID = Session["TokenID"].ToString();
                 var content = new FormUrlEncodedContent(new[]{
@@ -464,10 +502,10 @@ namespace CustApp.Controllers
                         new KeyValuePair<string, string>("note", "Execute "+iSP.Remarks),//User
                         new KeyValuePair<string, string>("src","http"), ////default
                         new KeyValuePair<string, string>("tokenID",tokenID),//default
-                        new KeyValuePair<string, string>("companyCode", "596"),//default
+                        new KeyValuePair<string, string>("companyCode", "716"),//default
                         new KeyValuePair<string, string>("serviceCode", regobj.ServiceCode),//default
                         new KeyValuePair<string, string>("account",  regobj.CustomerID),//user
-                        new KeyValuePair<string, string>("special1",S_MobileNumber),//user
+                        new KeyValuePair<string, string>("special1",packageId),//user
                         new KeyValuePair<string, string>("special2", ""),//user
                         new KeyValuePair<string, string>("tid", tid),//default
                         new KeyValuePair<string, string>("amountpay", regobj.TotalAmountDue),//database
@@ -475,7 +513,7 @@ namespace CustApp.Controllers
                         new KeyValuePair<string, string>("billNumber", regobj.billNumber),//Database
                         new KeyValuePair<string, string>("rltCheckPaymt", regobj.responseCode),//Database
                         new KeyValuePair<string, string>("ClientCode", clientCode),
-                        new KeyValuePair<string, string>("paypointType", "Subisu"),
+                        new KeyValuePair<string, string>("paypointType", "Vianet"),
                         new KeyValuePair<string, string>("customerName", regobj.CustomerName),
                         new KeyValuePair<string, string>("walletBalance", availBaln.amount),
                         new KeyValuePair<string, string>("retrievalReference", regobj.retrievalReference),//Database
@@ -496,8 +534,7 @@ namespace CustApp.Controllers
                 {
                     if (_res.IsSuccessStatusCode)
                     {
-                        //Session value removed
-                        Session.Remove("NWCounter");
+                        //Session value remove
                         Session.Remove("CustomerID");
 
                         result = true;
@@ -552,10 +589,10 @@ namespace CustApp.Controllers
         }
         #endregion
 
-        #region Get Subisu refStan From Response Table
-        public string getrefStan(ISP isp)
+        #region Get Vianet refStan From Response Table
+        public string getrefStan(ISP NWObj)
         {
-            string Query_refStan = "select refStan from MNPaypointResponse where account='" + isp.CustomerID +  "' AND ClientCode='" + isp.ClientCode + "' AND UserName='" + isp.UserName + "'";
+            string Query_refStan = "select refStan from MNPaypointResponse where account='" + NWObj.CustomerID + "' AND ClientCode='" + NWObj.ClientCode + "' AND UserName='" + NWObj.UserName + "'";
             DataTable dt = new DataTable();
             dt = objdal.MyMethod(Query_refStan);
             string refStan = string.Empty;
@@ -566,5 +603,6 @@ namespace CustApp.Controllers
             return refStan;
         }
         #endregion
+
     }
 }

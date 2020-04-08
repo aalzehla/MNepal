@@ -404,7 +404,6 @@ D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.Http.xml
 D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.Cookies.xml
 D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.OAuth.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\obj\Debug\WCF.MNepal.csprojAssemblyReference.cache
 D:\MNepal\MNepalPlus\WCF.MNepal\obj\Debug\WCF.MNepal.csproj.CopyComplete
 D:\MNepal\MNepalPlus\WCF.MNepal\obj\Debug\WCF.MNepal.dll
 D:\MNepal\MNepalPlus\WCF.MNepal\obj\Debug\WCF.MNepal.pdb

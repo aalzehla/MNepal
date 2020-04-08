@@ -127,6 +127,7 @@
     <Content Include="bankinfo.svc" />
     <Content Include="cash.svc" />
     <Content Include="subisu.svc" />
+    <Content Include="vianet.svc" />
     <Content Include="wlink.svc" />
     <None Include="Connected Services\MerchantReference\commoninterface1.disco" />
     <Content Include="Connected Services\MerchantReference\WCF.MNepal.MerchantReference.ResponseData.datasource">
@@ -250,6 +251,7 @@
     <Compile Include="Models\MNRemit.cs" />
     <Compile Include="Models\NEAFundTransfer.cs" />
     <Compile Include="Models\NepalWater.cs" />
+    <Compile Include="Models\Packages.cs" />
     <Compile Include="Models\PassAndPin.cs" />
     <Compile Include="Models\PaypointModel.cs" />
     <Compile Include="Models\PinChange.cs" />
@@ -338,6 +340,9 @@
     <Compile Include="Utilities\SelfRegisterUtils.cs" />
     <Compile Include="Utilities\TraceIdCheckUtils.cs" />
     <Compile Include="Utilities\WalletLimitUtils.cs" />
+    <Compile Include="vianet.svc.cs">
+      <DependentUpon>vianet.svc</DependentUpon>
+    </Compile>
     <Compile Include="wlink.svc.cs">
       <DependentUpon>wlink.svc</DependentUpon>
     </Compile>

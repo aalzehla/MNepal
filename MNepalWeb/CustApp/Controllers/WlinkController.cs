@@ -293,6 +293,7 @@ namespace CustApp.Controllers
                         regobj.description = dResponse.Rows[0]["description"].ToString();
                         regobj.billDate = dWlinkPayment.Rows[0]["billDate"].ToString();
                         regobj.billAmount = dWlinkPayment.Rows[0]["billAmount"].ToString();
+                        regobj.PackageRemainingDays = dWlinkPayment.Rows[0]["RemainingDays"].ToString();
                     }
                     else
                     {
@@ -312,6 +313,7 @@ namespace CustApp.Controllers
                 ViewBag.CustomerName = regobj.CustomerName;
                 ViewBag.billDate = regobj.billDate.ToString();
                 ViewBag.paypointType = regobj.payPointType.ToString();
+                ViewBag.remainingDays = regobj.PackageRemainingDays.ToString();
 
 
                 int id = TraceIdGenerator.GetID() + 1;

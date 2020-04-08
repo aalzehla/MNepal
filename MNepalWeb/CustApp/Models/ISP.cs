@@ -12,9 +12,10 @@ namespace CustApp.Models
         public string ServiceCode { get; set; }
         public string TestNumbers { get; set; }
         public string Commission { get; set; }
+        public string Description { get; set; }
 
-
-
+        public string PackageAmount { get; set; }
+        public string PackageId { get; set; }
         public string NWCounter { get; set; }
         public string NWBranchCode { get; set; }
         public string CustomerID { get; set; }
@@ -74,5 +75,8 @@ namespace CustApp.Models
         public string billDateFrom { get; set; }
         public string billDateTo { get; set; }
         public string payPointType { get; set; }
+        public string PackageAmount { get; set; }
+        public string PackageId { get; set; }
+        public string PackageRemainingDays { get; set; }
     }
 }

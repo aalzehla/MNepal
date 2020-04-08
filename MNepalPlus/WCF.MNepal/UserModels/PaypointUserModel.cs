@@ -369,6 +369,7 @@ namespace WCF.MNepal.UserModels
                         sqlCmd.Parameters.AddWithValue("@companyCode", objresPaypointWlinkPaymentInfo.companyCodeCP);
                         sqlCmd.Parameters.AddWithValue("@UserName", objresPaypointWlinkPaymentInfo.userId);
                         sqlCmd.Parameters.AddWithValue("@ClientCode", objresPaypointWlinkPaymentInfo.customer_codeKI);
+                        sqlCmd.Parameters.AddWithValue("@remainingDays", objresPaypointWlinkPaymentInfo.RemainingDays);
 
                         sqlCmd.Parameters.AddWithValue("@Mode", objresPaypointWlinkPaymentInfo.Mode);
 
@@ -427,8 +428,69 @@ namespace WCF.MNepal.UserModels
                         sqlCmd.Parameters.AddWithValue("@companyCode", objresPaypointSubisuPaymentInfo.companyCodeCP);
                         sqlCmd.Parameters.AddWithValue("@UserName", objresPaypointSubisuPaymentInfo.userId);
                         sqlCmd.Parameters.AddWithValue("@ClientCode", objresPaypointSubisuPaymentInfo.customer_codeKI);
+                        sqlCmd.Parameters.AddWithValue("@remainingDays", "");
 
                         sqlCmd.Parameters.AddWithValue("@Mode", objresPaypointSubisuPaymentInfo.Mode);
+
+                        sqlCmd.Parameters.Add("@RegIDOut", SqlDbType.Char, 500);
+                        sqlCmd.Parameters["@RegIDOut"].Direction = ParameterDirection.Output;
+
+                        sqlCmd.Parameters.Add("@MsgStr", SqlDbType.VarChar, 500);
+                        sqlCmd.Parameters["@MsgStr"].Direction = ParameterDirection.Output;
+
+                        ret = sqlCmd.ExecuteNonQuery();
+                        //if (objresPaypointPaymentInfo.Mode.Equals("SCA", StringComparison.InvariantCultureIgnoreCase))
+                        //{
+                        //    ret = Convert.ToInt32(sqlCmd.Parameters["@RegIDOut"].Value);
+
+                        //}
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                if (sqlCon != null)
+                {
+                    sqlCon.Close();
+                }
+            }
+            return ret;
+        }
+
+        #endregion
+
+        #region response vianet
+        public int ResponsePaypointVianetPaymentInfo(PaypointModel objresPaypointVianetPaymentInfo)
+        {
+            SqlConnection sqlCon = null;
+            int ret;
+            try
+            {
+                using (sqlCon = new SqlConnection(DatabaseConnection.ConnectionString()))
+                {
+                    sqlCon.Open();
+                    using (SqlCommand sqlCmd = new SqlCommand("[s_MNPaypointVianetPaymentRes]", sqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        sqlCmd.Parameters.AddWithValue("@description", objresPaypointVianetPaymentInfo.description); 
+                        sqlCmd.Parameters.AddWithValue("@packageAmount", objresPaypointVianetPaymentInfo.amountP); 
+                        sqlCmd.Parameters.AddWithValue("@packageId", objresPaypointVianetPaymentInfo.PackageId);
+                        sqlCmd.Parameters.AddWithValue("@billNumber", objresPaypointVianetPaymentInfo.billNumber);
+                        sqlCmd.Parameters.AddWithValue("@refStan", objresPaypointVianetPaymentInfo.refStan);
+                        sqlCmd.Parameters.AddWithValue("@billAmount", objresPaypointVianetPaymentInfo.amount);
+                        sqlCmd.Parameters.AddWithValue("@billDate", objresPaypointVianetPaymentInfo.transactionDate);
+                        sqlCmd.Parameters.AddWithValue("@customerName", objresPaypointVianetPaymentInfo.customerName);
+                        sqlCmd.Parameters.AddWithValue("@companyCode", objresPaypointVianetPaymentInfo.companyCode);
+                        sqlCmd.Parameters.AddWithValue("@UserName", objresPaypointVianetPaymentInfo.UserName);
+                        sqlCmd.Parameters.AddWithValue("@ClientCode", objresPaypointVianetPaymentInfo.ClientCode);
+                        sqlCmd.Parameters.AddWithValue("@Mode", objresPaypointVianetPaymentInfo.Mode);
 
                         sqlCmd.Parameters.Add("@RegIDOut", SqlDbType.Char, 500);
                         sqlCmd.Parameters["@RegIDOut"].Direction = ParameterDirection.Output;
