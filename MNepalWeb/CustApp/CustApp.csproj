@@ -203,6 +203,7 @@
     <Compile Include="Controllers\DematController.cs" />
     <Compile Include="Controllers\DishHomeController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FAQController.cs" />
     <Compile Include="Controllers\ForgetPasswordController.cs" />
     <Compile Include="Controllers\FundTransferController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Controllers\MerchantPaymentController.cs" />
     <Compile Include="Controllers\NEAController.cs" />
     <Compile Include="Controllers\NepalWaterController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\PinResetController.cs" />
     <Compile Include="Controllers\PrivacyPolicyController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -243,6 +245,7 @@
     <Compile Include="Models\DatatablesJS.cs" />
     <Compile Include="Models\DMAT.cs" />
     <Compile Include="Models\ISP.cs" />
+    <Compile Include="Models\Notifications.cs" />
     <Compile Include="UserModels\DMATUserModel.cs" />
     <Compile Include="Models\InMemMNTransactionAccount.cs" />
     <Compile Include="Models\JsonParse.cs" />
@@ -25540,6 +25543,12 @@
     <Content Include="Views\Wlink\Details.cshtml" />
     <Content Include="Views\Subisu\Index.cshtml" />
     <Content Include="Views\Subisu\Details.cshtml" />
+    <Content Include="Views\Notifications\Index.cshtml" />
+    <Content Include="Views\FAQ\Index.cshtml" />
+    <Content Include="Views\PrivacyPolicy\ReportFraud.cshtml" />
+    <Content Include="Views\Help\Career.cshtml" />
+    <Content Include="Views\Help\BlogOrNews.cshtml" />
+    <Content Include="Views\Help\Bank.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

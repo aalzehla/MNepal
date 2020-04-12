@@ -8,14 +8,16 @@ namespace CustApp.Controllers
 {
     public class PrivacyPolicyController : Controller
     {
-       
-
-
         public ActionResult PrivacyPolicy()
         {
            
             return View();
         }
 
+        public ActionResult ReportFraud()
+        {
+
+            return View();
+        }
     }
 }

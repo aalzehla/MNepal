@@ -13,5 +13,26 @@ namespace CustApp.Controllers
         {
             return View();
         }
+
+        public ActionResult AboutUs()
+        {
+            return Redirect("http://mnepal.com/");
+        }
+
+        public ActionResult Career()
+        {
+            return View();
+        }
+
+        public ActionResult BlogOrNews()
+        {
+            return View();
+        }
+
+        public ActionResult Bank()
+        {
+            return View();
+        }
+
     }
 }

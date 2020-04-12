@@ -123,29 +123,29 @@
 
                                     <li>@Html.ActionLink("Privacy Policy", "PrivacyPolicy", "PrivacyPolicy")</li>
                                     <li>@Html.ActionLink("Terms and Conditions", "Index", "TermsAndCondition")</li>
-                                    <li><a href="#">Report Fraud or Misuse of Account</a></li>
+                                    <li>@Html.ActionLink("Report Fraud or Misuse of Account", "ReportFraud", "PrivacyPolicy")</li>
                                 </ul>
                             </li>
 
                             <li>
                                 <a href="#">Company</a>
                                 <ul>
-                                    <li><a href="#">About us</a></li>
-                                    <li><a href="#">Career</a></li>
-                                    <li><a href="#">Blog/News</a></li>
+                                    <li>@Html.ActionLink("About Us", "AboutUs", "Help")</li>
+                                    <li>@Html.ActionLink("Career", "Career", "Help")</li>
+                                    <li>@Html.ActionLink("Blog/News", "BlogOrNews", "Help")</li>
+
                                 </ul>
                             </li>
                             <li>
                                 <a href="#">Partners</a>
                                 <ul>
-                                    <li><a href="#">Banks</a></li>
-                                    <li><a href="#">Western Union</a></li>
+                                    <li>@Html.ActionLink("Bank Partner", "Bank", "Help")</li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="#">Help</a>
                                 <ul>
-                                    <li><a href="#">FAQ's</a></li>
+                                    <li>@Html.ActionLink("FAQ's", "Index", "FAQ")</li>
                                     <li>@Html.ActionLink("Contact Us", "ContactUs", "Help")</li>
                                 </ul>
                             </li>
