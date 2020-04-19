@@ -280,7 +280,7 @@ namespace CustApp.Controllers
                 DataTable dResponse = DPaypointSet.Tables["dtResponse"];
                 DataTable dWlinkPayment = DPaypointSet.Tables["dtNWPayment"];
 
-
+                List<ISP> ListDetails = new List<ISP>();
                 if (dResponse != null && dResponse.Rows.Count > 0)
                 {
                     regobj.CustomerID = dResponse.Rows[0]["account"].ToString();
@@ -290,10 +290,43 @@ namespace CustApp.Controllers
                     regobj.payPointType = dResponse.Rows[0]["paypointType"].ToString();
                     if (dWlinkPayment != null && dWlinkPayment.Rows.Count > 0)
                     {
-                        regobj.description = dResponse.Rows[0]["description"].ToString();
+                        regobj.description = dResponse.Rows[0]["descriptions"].ToString();
                         regobj.billDate = dWlinkPayment.Rows[0]["billDate"].ToString();
                         regobj.billAmount = dWlinkPayment.Rows[0]["billAmount"].ToString();
                         regobj.PackageRemainingDays = dWlinkPayment.Rows[0]["RemainingDays"].ToString();
+                        regobj.PackageAmount = dWlinkPayment.Rows[0]["PackageAmount"].ToString();
+                        regobj.PackageId = dWlinkPayment.Rows[0]["PackageId"].ToString();
+
+
+                        string[] lines = regobj.description.Split(new[] { Environment.NewLine }, StringSplitOptions.None); //to split string to new line
+                        lines = lines.Take(lines.Length - 1).ToArray();  //to remove last list which is empty 
+
+                        string[] lines1 = regobj.PackageAmount.Split(new[] { Environment.NewLine }, StringSplitOptions.None); //to split string to new line
+                        lines1 = lines1.Take(lines1.Length - 1).ToArray();  //to remove last list which is empty 
+
+
+                        string[] lines2 = regobj.PackageId.Split(new[] { Environment.NewLine }, StringSplitOptions.None); //to split string to new line
+                        lines2 = lines2.Take(lines2.Length - 1).ToArray();  //to remove last list which is empty 
+
+
+                        //List<string> list = new List<string>(lines);
+
+                        for (int i = 0; i < lines.Length; i++)
+                        {
+                            string Packages = lines[i];
+                            ListDetails.Add(new ISP
+                            {
+                                Description = Packages,
+                                PackageAmount = lines1[i],
+                                PackageId = lines2[i]
+
+                            });
+                        }
+
+
+
+                        ViewBag.ListDetails = ListDetails;
+
                     }
                     else
                     {

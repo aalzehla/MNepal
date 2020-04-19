@@ -467,6 +467,15 @@ namespace WCF.MNepal
             //tid = traceid.GenerateUniqueTraceID();
             tid = retrievalReference;
 
+            if (special1 == "")
+            {
+                special1 = special1;
+            }
+            else
+            {
+                special1 = special1;
+            }
+
             FundTransfer fundtransfer = new FundTransfer
             {
                 tid = tid,

@@ -332,7 +332,8 @@ namespace WCF.MNepal
                     StatusMessage = failedmessage,
                     retrievalRef = resCPPaypointWlinkInfo.retrievalReferenceResCP,
                     refStanCK = resCPPaypointWlinkInfo.refStanResCP,
-                    remainingDays = resCPPaypointWlinkInfo.customerName
+                    remainingDays = resCPPaypointWlinkInfo.customerName,
+                    description = pkg
                 };
                 result = JsonConvert.SerializeObject(v);
             }
@@ -448,6 +449,15 @@ namespace WCF.MNepal
             // TraceIdGenerator traceid = new TraceIdGenerator();
             //tid = traceid.GenerateUniqueTraceID();
             tid = retrievalReference;
+
+            if (special1 == "")
+            {
+                special1 = special1;
+            }
+            else
+            {
+                special1 = special1;
+            }
 
             FundTransfer fundtransfer = new FundTransfer
             {

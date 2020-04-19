@@ -199,6 +199,7 @@ namespace CustApp.Controllers
             }
         }
 
+        
         public ActionResult ResetThailiPin()
         {
             string userName = (string)Session["LOGGED_USERNAME"];
@@ -291,6 +292,7 @@ namespace CustApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]        
         public async Task<ActionResult> ResetThailiPin(FormCollection collection)
         {
             string clientCode = (string)Session["LOGGEDUSER_ID"];
