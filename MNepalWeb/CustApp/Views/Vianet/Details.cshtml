@@ -1,7 +1,7 @@
 ﻿@model CustApp.Models.ISP
 
 @{
-    ViewBag.Title = "Worldlink Payment";
+    ViewBag.Title = "Vianet Payment";
     string hasBankKYC = ViewBag.HasBankKYC;
     //float TotalAmountDue = parseFloat(@ViewBag.TotalAmountDue);
 
@@ -22,9 +22,15 @@
         position: relative;
         z-index: 2;
     }
+
+    .show-tick{
+        margin-top:10px;
+        height:45px;
+        width:610px;
+    }
 </style>
 
-@using (Html.BeginForm("WlinkExecutePayment", "Wlink", FormMethod.Post, new { @id = "WlinkExecutePayment", @name = "WlinkExecutePayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("VianetExecutePayment", "Vianet", FormMethod.Post, new { @id = "VianetExecutePayment", @name = "VianetExecutePayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
 {
 
     @Html.AntiForgeryToken()
@@ -38,7 +44,7 @@
                     <div class="col-lg-6">
                         <section class="internet-payment pad-50">
                             <div class="top-section">
-                                <h2 class="title">Worldlink Bill Payment</h2>
+                                <h2 class="title">Vianet Bill Payment</h2>
                                 <p>Please fill the required field.</p>
                             </div>
                             <div class="instant-transactions">
@@ -154,14 +160,14 @@
                                 <h2 class="title">Confirm Payment</h2>
                             </div>
                             @*<div class="row">
-                                    <div class="col-md-6">
-                                        <label>NepalWater Counter:</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>@ViewBag.NWBranchName</label>
-                                    </div>
-                                </div>*@
-                            <h5>@ViewBag.remainingDays</h5>
+            <div class="col-md-6">
+                <label>NepalWater Counter:</label>
+            </div>
+            <div class="col-md-6">
+                <label>@ViewBag.NWBranchName</label>
+            </div>
+        </div>*@
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Service Name:</label>
@@ -170,7 +176,6 @@
                                     <label>@ViewBag.paypointType</label>
                                 </div>
                             </div>
-
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -188,26 +193,39 @@
                                     <label>Total Dues:</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <label>RS.@ViewBag.TotalAmountDue</label>
+                                    <label id="totalDeuAmount">RS.@ViewBag.TotalAmountDue</label>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Package Details:</label>
-                                    @* @Html.DropDownList("Description", new SelectList(ViewBag.ListDetails, "Description", "Description"), new { @class = "show-tick", @id = "drpdwn", onChange = "updateNRs()" })*@
-                                    <select id="drpdwn" onChange="updateNRs()" name="Description" class="show-tick">
+                                   @* @Html.DropDownList("Description", new SelectList(ViewBag.ListDetails, "Description", "Description"), new { @class = "show-tick", @id = "drpdwn", onChange = "updateNRs()" })*@
+                                    <select id = "drpdwn" onChange = "updateNRs()" name="Description" class="show-tick">
                                         @foreach (var package in ViewBag.ListDetails)
                                         {
-                                            <option amount="@package.PackageAmount" id="@package.PackageId" name="getPackageId">@package.Description</option>
+                                        <option amount ="@package.PackageAmount" id="@package.PackageId" name="getPackageId">@package.Description</option>  
 
                                         }
-
+                                       
                                     </select>
                                 </div>
+
                             </div>
+                            <hr />
+                            @*<table>
+                                @foreach (var shift in ViewBag.ListDetails)
+                                {
 
+                                    <tr>
+                                        <td style="text-align:center;padding-left:10px;">
+                                            @shift.Description<hr />
+                                        </td>
+                                    </tr>
 
+                                }
+                            </table>*@
+                            <br />
                             <br />
 
                             <div class="transfer-order clearfix">
@@ -248,7 +266,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="col-sm-12" for="@Html.NameFor(x=>x.TPin)"> Tpin (<span style="color:red">*</span>)</label>
+                                        <label class="col-sm-12" for="@Html.NameFor(x=>x.TPin)"> Tpin (<span style="color: red">*</span>)</label>
 
                                         @Html.PasswordFor(x => x.TPin, new { @class = "form-control pwd1", @title = "Please use T-Pin number", @placeholder = "T-Pin", @maxlength = "4", @onkeypress = "return isNumber(event)", @oninput = "checkValidation()", @autocomplete = "new-password", @onpaste = "return false" })
                                         <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
@@ -360,7 +378,9 @@
          window.location.href = url;
         };
 
-         function updateNRs()
+
+        
+       function updateNRs()
        {
            debugger;
 
@@ -378,6 +398,10 @@
            document.getElementById('totalDeuAmount').innerHTML = "NRs. " + selectedOptionAmount;
            document.getElementById('amount').value = selectedOptionAmount;
         }
+
+        
+
+      
 
         function isNumber(evt) {
             evt = (evt) ? evt : window.event;
@@ -405,7 +429,8 @@
             return true;
         }
 
-        $(".placeholder_Month").prepend("<option value='0' disabled selected>---Select Month---</option>");
+        
+        $(".show-tick").prepend("<option value='0' disabled selected>---Select Option---</option>");
 
         function checkValidation() {
             var remarks = $("[name='Remarks']").val();
@@ -479,7 +504,8 @@
             var amount = $("[name='amount']").val();
             var TPin = $("[name='TPin']").val();
             var Remarks = $("[name='Remarks']").val();
-            var servicecode = $("[name='TransactionMedium']").val();
+            var servicecode = $("[name='TransactionMedium']").val();  //getPackageId
+            var getPackageId = window.getPackageId;  
             if ((amount != "") && (Remarks != "") && (TPin != "") && (TPin.length == 4)) {
 
                 var dataToPost = {
@@ -487,17 +513,19 @@
                     amount: amount,
                     Remarks: Remarks,
                     TPin: TPin,
+                    PackageId: getPackageId
                 };
 
                 e.preventDefault(); //prevent the default action
                 $.ajax({
-                    url: '@Url.Action("WlinkExecutePayment", "Wlink")',
+                    url: '@Url.Action("VianetExecutePayment", "Vianet")',
                     type: "POST",
                     data: dataToPost,
                     async: false,
                     success: function (data) {
 
                         if (data.responseCode == "200") {
+                            debugger;
                             $("#ajaxResponse").html("");
                             var resp = JSON.parse(data.responseText);
                             $('#successModal').modal("show");

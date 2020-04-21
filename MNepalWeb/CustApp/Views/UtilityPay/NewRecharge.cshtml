@@ -22,8 +22,8 @@
     List<SelectListItem> SelectRecharge = new List<SelectListItem>();
 
 
-    SelectRecharge.Add(new SelectListItem { Text = "BroadLink", Value = "14" });
-    SelectRecharge.Add(new SelectListItem { Text = "DishHome", Value = "13" });
+    //SelectRecharge.Add(new SelectListItem { Text = "BroadLink", Value = "14" });
+    //SelectRecharge.Add(new SelectListItem { Text = "DishHome", Value = "13" });
     SelectRecharge.Add(new SelectListItem { Text = "NTCDMA", Value = "12" });
     SelectRecharge.Add(new SelectListItem { Text = "NTGSM", Value = "11" });
 
@@ -318,7 +318,7 @@
                                                 <div id="Amt" style="color:red;"></div>*@
                                             <select class="form-control" id="Amount" name="Amount" onmousedown="this.value='';">
 
-                                                <option id="b550" value="550">NPR. 550</option>
+                                                @*<option id="b550" value="200">NPR. 200</option>*@
                                                 <option id="b100" value="100">NPR. 100</option>
                                                 <option id="b100" value="200">NPR. 200</option>
                                                 <option id="b350" value="350">NPR. 350</option>
@@ -328,8 +328,8 @@
 
 
                                                 <option id="b1000" value="1000">NPR. 1000</option>
-                                                <option id="b1200" value="1200">NPR. 1200</option>
-                                                <option id="b1500" value="1500">NPR. 1500</option>
+                                                @*<option id="b1200" value="500">NPR. 500</option>*@
+                                                @*<option id="b1500" value="1000">NPR. 1000</option>*@
 
                                                 <option id="b2000" value="2000">NPR. 2000</option>
                                                 <option id="b2260" value="2260">NPR. 2260</option>
@@ -534,9 +534,9 @@
         var vidd
         $(document).ready(function () {
             $("#Amount").children('option').hide();
-            $("#Amount").children("option[value=550]").show()
-            $("#Amount").children("option[value=1200]").show()
-            $("#Amount").children("option[value=1500]").show()
+            $("#Amount").children("option[value=200]").show()
+            $("#Amount").children("option[value=500]").show()
+            $("#Amount").children("option[value=1000]").show()
             $("#SelectRecharge").change(function () {
                 $("#Amount").val("");
                  vidd = $("[name='SelectRecharge']").val();
@@ -573,9 +573,9 @@
                 }
                 if (vidd == "14") {
                     $("#Amount").children('option').hide();
-                    $("#Amount").children("option[value=550]").show()
-                    $("#Amount").children("option[value=1200]").show()
-                    $("#Amount").children("option[value=1500]").show()
+                    $("#Amount").children("option[value=200]").show()
+                    $("#Amount").children("option[value=500]").show()
+                    $("#Amount").children("option[value=1000]").show()
 
                 }
             })

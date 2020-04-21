@@ -66,7 +66,7 @@ namespace CustApp.Controllers
                     ViewBag.IsRejected = userInfo.IsRejected;
                     ViewBag.hasKYC = userInfo.hasKYC;
                 }
-                
+
                 DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
 
                 DataTable dtableUser = DSet.Tables["dtUserInfo"];
@@ -76,9 +76,9 @@ namespace CustApp.Controllers
                 {
                     userInfo.ContactNumber1 = dtableUser.Rows[0]["ContactNumber1"].ToString();
                     userInfo.ContactNumber2 = dtableUser.Rows[0]["ContactNumber2"].ToString();
-                    
+
                     ViewBag.ContactNumber1 = userInfo.ContactNumber1;
-                    ViewBag.ContactNumber2 = userInfo.ContactNumber2;                  
+                    ViewBag.ContactNumber2 = userInfo.ContactNumber2;
                     ViewBag.SelfReg = userInfo.SelfRegistered;
                     //added//
                 }
@@ -90,7 +90,7 @@ namespace CustApp.Controllers
                     ViewBag.CustStatus = userInfo.CustStatus;
                 }
 
-                    if (dDoc != null && dDoc.Rows.Count > 0)
+                if (dDoc != null && dDoc.Rows.Count > 0)
                 {
                     userInfo.Document = dDoc.Rows[0]["DocType"].ToString();
                     userInfo.FrontImage = dDoc.Rows[0]["FrontImage"].ToString();
@@ -115,7 +115,8 @@ namespace CustApp.Controllers
 
         // POST: ChangePassword/Index/1
         [HttpPost]
-        public ActionResult Index(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Index(FormCollection collection)
         {
             string clientCode = (string)Session["LOGGEDUSER_ID"];
             string name = (string)Session["LOGGEDUSER_NAME"];
@@ -133,17 +134,18 @@ namespace CustApp.Controllers
                 string oldPwd = collection["txtOldPwd"].ToString();
                 string newPwd = collection["txtNewPwd"].ToString();
                 string retypePwd = collection["retypePassword"].ToString();
-				
-				userInfo.OPassword = oldPwd;
+
+                userInfo.OPassword = oldPwd;
                 userInfo.Password = newPwd;
                 userInfo.ClientCode = clientCode;
 
                 string displayMessage = null;
                 string messageClass = null;
 
-                try {
-                  
-                   
+                try
+                {
+
+
                     if ((newPwd != "") && (retypePwd != "") && (oldPwd != ""))
                     {
                         PasswordValidator validate = new PasswordValidator();
@@ -152,7 +154,7 @@ namespace CustApp.Controllers
                             displayMessage = "New password and re-typed password do not match";
                             messageClass = CssSetting.FailedMessageClass;
                         }
-                       else 
+                        else
                         if (!validate.IsValid(newPwd))
                         {
                             displayMessage = "Password should be of 5-12 characters long which should include 1 uppercase & 1 number";
@@ -165,8 +167,8 @@ namespace CustApp.Controllers
                             displayMessage = isUpdated
                                                      ? "Your Password has been successfully changed. " /*Password Information has successfully been updated.*/
                                                      : "Your Password doesn't match the old password. "; /*Error::Please Enter Correct old Password.*/
-                           messageClass = isUpdated ? CssSetting.SuccessMessageClass : CssSetting.FailedMessageClass;
-                            if(isUpdated)
+                            messageClass = isUpdated ? CssSetting.SuccessMessageClass : CssSetting.FailedMessageClass;
+                            if (isUpdated)
                             {
                                 FormsAuthentication.SignOut();
                                 Session.RemoveAll();
@@ -185,14 +187,14 @@ namespace CustApp.Controllers
 
                         }
 
-                        
+
                     }
                     else
                     {
                         displayMessage = "Password is Empty";
                         messageClass = CssSetting.FailedMessageClass;
                     }
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -211,6 +213,6 @@ namespace CustApp.Controllers
                 return RedirectToAction("Index", "Login");
             }
         }
-        
+
     }
 }

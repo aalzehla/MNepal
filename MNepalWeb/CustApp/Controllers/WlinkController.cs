@@ -280,7 +280,7 @@ namespace CustApp.Controllers
                 DataTable dResponse = DPaypointSet.Tables["dtResponse"];
                 DataTable dWlinkPayment = DPaypointSet.Tables["dtNWPayment"];
 
-
+                List<ISP> ListDetails = new List<ISP>();
                 if (dResponse != null && dResponse.Rows.Count > 0)
                 {
                     regobj.CustomerID = dResponse.Rows[0]["account"].ToString();
@@ -288,11 +288,60 @@ namespace CustApp.Controllers
                     regobj.TotalAmountDue = dResponse.Rows[0]["amount"].ToString();
                     regobj.NWBranchCode = dResponse.Rows[0]["serviceCode"].ToString();
                     regobj.payPointType = dResponse.Rows[0]["paypointType"].ToString();
+                    regobj.description = dResponse.Rows[0]["description"].ToString();
+
                     if (dWlinkPayment != null && dWlinkPayment.Rows.Count > 0)
                     {
-                        regobj.description = dResponse.Rows[0]["description"].ToString();
                         regobj.billDate = dWlinkPayment.Rows[0]["billDate"].ToString();
                         regobj.billAmount = dWlinkPayment.Rows[0]["billAmount"].ToString();
+                        regobj.PackageRemainingDays = dWlinkPayment.Rows[0]["RemainingDays"].ToString();
+
+                        if (dWlinkPayment.Rows[0]["PackageAmount"].ToString()!=null && dWlinkPayment.Rows[0]["PackageId"].ToString()!=null &&
+                            dWlinkPayment.Rows[0]["Descriptions"].ToString()!=null)
+                        {
+                            try
+                            {
+                                regobj.PackageAmount = dWlinkPayment.Rows[0]["PackageAmount"].ToString();
+                                regobj.PackageId = dWlinkPayment.Rows[0]["PackageId"].ToString();
+                                regobj.PackageId = dWlinkPayment.Rows[0]["Descriptions"].ToString();
+
+
+                                string[] lines = regobj.description.Split(new[] { Environment.NewLine }, StringSplitOptions.None); //to split string to new line
+                                lines = lines.Take(lines.Length - 1).ToArray();  //to remove last list which is empty 
+
+                                string[] lines1 = regobj.PackageAmount.Split(new[] { Environment.NewLine }, StringSplitOptions.None); //to split string to new line
+                                lines1 = lines1.Take(lines1.Length - 1).ToArray();  //to remove last list which is empty 
+
+
+                                string[] lines2 = regobj.PackageId.Split(new[] { Environment.NewLine }, StringSplitOptions.None); //to split string to new line
+                                lines2 = lines2.Take(lines2.Length - 1).ToArray();  //to remove last list which is empty 
+
+
+                                //List<string> list = new List<string>(lines);
+
+                                for (int i = 0; i < lines.Length; i++)
+                                {
+                                    string Packages = lines[i];
+                                    ListDetails.Add(new ISP
+                                    {
+                                        Description = Packages,
+                                        PackageAmount = lines1[i],
+                                        PackageId = lines2[i]
+
+                                    });
+                                }
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                                throw ex;
+                            }
+                        }
+
+
+                        ViewBag.ListDetails = ListDetails;
+
                     }
                     else
                     {
@@ -312,6 +361,7 @@ namespace CustApp.Controllers
                 ViewBag.CustomerName = regobj.CustomerName;
                 ViewBag.billDate = regobj.billDate.ToString();
                 ViewBag.paypointType = regobj.payPointType.ToString();
+                ViewBag.remainingDays = regobj.PackageRemainingDays.ToString();
 
 
                 int id = TraceIdGenerator.GetID() + 1;

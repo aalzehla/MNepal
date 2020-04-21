@@ -27,14 +27,10 @@ namespace WCF.MNepal
     [ServiceContract(Namespace = "")]
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Single, InstanceContextMode = InstanceContextMode.Single)]
-    public class subisu
+    public class vianet
     {
-        // To use HTTP GET, add [WebGet] attribute. (Default ResponseFormat is WebMessageFormat.Json)
-        // To create an operation that returns XML,
-        //     add [WebGet(ResponseFormat=WebMessageFormat.Xml)],
-        //     and include the following line in the operation body:
-        //         WebOperationContext.Current.OutgoingResponse.ContentType = "text/xml";
-        #region"Check Paypoint NepalWater"
+
+        #region"Check Paypoint Vianet"
         [OperationContract]
         [WebInvoke(Method = "POST",
                   ResponseFormat = WebMessageFormat.Json)]
@@ -50,15 +46,11 @@ namespace WCF.MNepal
 
             string tid = qs["tid"];
             string vid = qs["vid"]; //MerchantID
-            //string sc = qs["sc"];
             string sc = "00";
             string mobile = qs["mobile"];
-
-            //string da = "9840066836";//merchant in 30
-
-
             string da = System.Web.Configuration.WebConfigurationManager.AppSettings["DestinationNoForTestServer"];
-            string note = "utility payment for subisu. Customer Name=" + qs["account"];//+ ". " + qs["note"];
+            string note = "utility payment for Vianet. Customer ID=" + qs["account"];//+ ". " + qs["note"];
+
             string src = qs["src"];
             string result = "";
             string sessionID = qs["tokenID"];
@@ -66,8 +58,9 @@ namespace WCF.MNepal
 
             string companyCode = qs["companyCode"];
             string serviceCode = qs["serviceCode"];
+
             string account = qs["account"];
-            string special1 = qs["special1"];
+            string special1 = "";
             string special2 = "";
             string transactionDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");//"2019-11-22T11:11:02";
             long millisecondstrandId = DateTimeOffset.Now.ToUnixTimeMilliseconds();
@@ -78,15 +71,14 @@ namespace WCF.MNepal
             string userPassword = PaypointPwd.Trim();
             string salePointType = "6";
             string ClientCode = qs["ClientCode"];
-            //string paypointType = "NepalWater";//qs["paypointType"]
-            string paypointType = "Subisu";//qs["paypointType"]
+            string paypointType = qs["paypointType"];
             string transactionType = string.Empty;
 
-            PaypointModel reqCPPaypointSubisuInfo = new PaypointModel();
-            PaypointModel resCPPaypointSubisuInfo = new PaypointModel();
+            PaypointModel reqCPPaypointVianetInfo = new PaypointModel();//to store data request of CP which is also commmon in nea
+            PaypointModel resCPPaypointVianetInfo = new PaypointModel();//to store data response of CP which is also commmon in nea
 
-
-            PaypointModel resPaypointSubisuPaymentInfo = new PaypointModel();//to store data of Response of CP only
+            //PaypointModel resPaypointPaymentInfo = new PaypointModel();
+            PaypointModel resPaypointVianetPaymentInfo = new PaypointModel();//to store data of Response of CP only
 
             string totalAmount = string.Empty;
             string totalCount = string.Empty;
@@ -104,7 +96,10 @@ namespace WCF.MNepal
             TraceIdGenerator traceid = new TraceIdGenerator();
             tid = traceid.GenerateUniqueTraceID();
 
-            //for CP transaction for nepal water
+
+            List<Packages> pkg = new List<Packages>();
+
+            //for CP transaction for vianet
             try
             {
                 //for checkpayment link 
@@ -119,7 +114,7 @@ namespace WCF.MNepal
                     "&userId=" + userId.Trim() + "&userPassword=" + userPassword.Trim() + "&salePointType=" + salePointType;
 
                 //for checkpayment request insert in database
-                reqCPPaypointSubisuInfo = new PaypointModel()
+                reqCPPaypointVianetInfo = new PaypointModel()
                 {
                     companyCodeReqCP = companyCode,
                     serviceCodeReqCP = serviceCode,
@@ -152,17 +147,13 @@ namespace WCF.MNepal
                 string exectransactionDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"); //Current DateTime
                 string rltCheckPaymt = "";
                 string customerName = "";
+                string mask = "";
+                string reserveInfo = "";
 
                 using (WebClient wc = new WebClient())
                 {
                     wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
                     var HtmlResult = wc.UploadString(URI, myParameters);// response from checkpayment
-
-                    //                        string HtmlResult = @"<string xmlns=""http://tempuri.org/""><PPResponse Result=""000"" Key=""93eb6e47-2ab1-41f8-b6e8-b93e99fd1be5""><ResultMessage>Operation is succesfully completed </ResultMessage>
-                    //<UtilityInfo><UtilityCode> 598 </UtilityCode></UtilityInfo><BillInfo><Bill><BillNumber> 93eb6e47-2ab1-41f8-b6e8-b93e99fd1be5 </BillNumber>
-                    //<DueDate> 2019-11-26T07:13:38 </DueDate><Amount> 13900 </Amount><ReserveInfo> ISHWORI PD.SHRESTHA </ReserveInfo><BillParam><mask> 1 </mask>
-                    //                        <commission type=""0"" val=""0.00"" op=""-"" paysource=""1""></commission></BillParam>" +
-                    //                            "<RefStan> 21265641797314 </RefStan></Bill></BillInfo></PPResponse></string>";
 
                     XmlDocument xmlDoc = new XmlDocument();
 
@@ -193,42 +184,62 @@ namespace WCF.MNepal
                         amountpay = xElem.Descendants().Elements("Amount").Where(x => x.Name == "Amount").SingleOrDefault().Value;
                         refStan = xElem.Descendants().Elements("RefStan").Where(x => x.Name == "RefStan").SingleOrDefault().Value;
                         exectransactionDate = xElem.Descendants().Elements("DueDate").Where(x => x.Name == "DueDate").SingleOrDefault().Value;
+                        reserveInfo = xElem.Descendants().Elements("ReserveInfo").Where(x => x.Name == "ReserveInfo").SingleOrDefault().Value;
+                        mask = xElem.Descendants().Elements("mask").Where(x => x.Name == "mask").SingleOrDefault().Value;
 
 
-
-
-                        //for checkpayment payaments response insert in database for nepal water
-
-                        resPaypointSubisuPaymentInfo = new PaypointModel()
+                       
+                        Packages packages = new Packages();
+                        if (mask == "0" || mask == "6")
                         {
-                            companyCodeReqCP = companyCode,
-                            serviceCodeReqCP = serviceCode,
-                            accountReqCP = account,
-                            special1ReqCP = special1,
-                            special2ReqCP = special2,
-                            customerNameCP = qs["account"],
-                            transactionDateReqCP = transactionDate,
-                            transactionIdReqCP = transactionId,
-                            userIdReqCP = userId,
-                            userPasswordReqCP = userPassword,
-                            salePointTypeReqCP = salePointType,
-                            companyCodeCP = qs["companyCode"],
 
-                            refStanReqCP = refStan,
-                            amountReqCP = (Convert.ToInt32(amountpay) / 100).ToString(), //amount in paisa
-                            billNumberReqCP = billNumber,
-                            //retrievalReferenceReqCP = fundtransfer.tid,
-                            retrievalReferenceReqCP = tid,
-                            remarkReqCP = "Check Payment",
-                            UserName = mobile,
-                            ClientCode = ClientCode,
-                            paypointType = paypointType
-                        };
+                            var package = xElem.Descendants("packages").SingleOrDefault();
+                            //var packageList = package.Descendants("package").ToList();
 
-                        int resultsPayments = PaypointUtils.PaypointSubisuInfo(resPaypointSubisuPaymentInfo);
+                            XmlDocument xmlDoc1 = new XmlDocument();
+                            xmlDoc1.LoadXml(package.ToString());
 
+                            XmlNodeList xmlNodeList = xmlDoc1.SelectNodes("/packages/package");
+
+                            string stringBuilderDescriptions = "";
+                            string stringBuilderAmounts = "";
+                            string stringBuilderPackageId = "";
+                            foreach (XmlNode xmlNode in xmlNodeList)
+                            {
+                                packages.Description = xmlNode.OuterXml; /*xmlNode.InnerText;*/
+                                packages.Amount = xmlNode.Attributes["amount"].Value; 
+                                packages.PackageId = xmlNode.Attributes["id"].Value;
+                                pkg.Add(packages);
+                                // viewbag ma halna agadi
+                                stringBuilderDescriptions = stringBuilderDescriptions + packages.Description + Environment.NewLine;
+                                stringBuilderAmounts = stringBuilderAmounts + packages.Amount + Environment.NewLine;
+                                stringBuilderPackageId = stringBuilderPackageId + packages.PackageId + Environment.NewLine;
+
+                            }
+                            resPaypointVianetPaymentInfo = new PaypointModel()
+                            {
+                                description = stringBuilderDescriptions,
+                                amountP = stringBuilderAmounts,
+                                PackageId = stringBuilderPackageId,
+                                billNumber = billNumber,
+                                refStan = refStan,
+                                amount = amountpay,
+                                transactionDate = exectransactionDate,
+                                customerName = account,
+                                companyCode = companyCode,
+                                UserName = mobile,
+                                ClientCode = ClientCode,
+
+                            };
+
+
+                        } 
+                        //end list of package
+
+                        //for checkpayment payaments response insert in database for vianet                       
+
+                        int resultsPayments = PaypointUtils.PaypointVianetPaymentInfo(resPaypointVianetPaymentInfo);
                     }
-
                     else
                     {
                         keyrlt = xElem.Attribute("Key").Value;
@@ -236,8 +247,8 @@ namespace WCF.MNepal
                     }
                     resultMessageResCP = xElem.Elements("ResultMessage").Where(x => x.Name == "ResultMessage").SingleOrDefault().Value;
 
-                    //for checkpayment response insert in database in subisu
-                    resCPPaypointSubisuInfo = new PaypointModel()
+                    //for checkpayment response insert in database in nepal water
+                    resCPPaypointVianetInfo = new PaypointModel()
                     {
                         companyCodeResCP = companyCode,
                         serviceCodeResCP = serviceCode,
@@ -252,7 +263,7 @@ namespace WCF.MNepal
                         salePointTypeResCP = salePointType,
 
                         refStanResCP = refStan,
-                        amountResCP = (Convert.ToInt32(amountpay) / 100).ToString(),
+                        amountResCP = amountpay,
                         billNumberResCP = billNumber,
                         //retrievalReferenceResCP = fundtransfer.tid,
                         retrievalReferenceResCP = tid,
@@ -293,12 +304,10 @@ namespace WCF.MNepal
 
             }
 
-            ///for  inserting CP PayPoint Data of  subisu 
-
             try
             {
-                int resultsReqCP = PaypointUtils.RequestCPPaypointInfo(reqCPPaypointSubisuInfo);
-                int resultsResCP = PaypointUtils.ResponseCPPaypointInfo(resCPPaypointSubisuInfo);
+                int resultsReqCP = PaypointUtils.RequestCPPaypointInfo(reqCPPaypointVianetInfo);
+                int resultsResCP = PaypointUtils.ResponseCPPaypointInfo(resCPPaypointVianetInfo);
 
 
                 if ((resultsReqCP > 0) && (resultsResCP > 0))
@@ -318,6 +327,7 @@ namespace WCF.MNepal
                 message = result;
             }
 
+
             if (statusCode == "")
             {
                 result = result.ToString();
@@ -336,8 +346,9 @@ namespace WCF.MNepal
                 {
                     StatusCode = Convert.ToInt32(statusCode),
                     StatusMessage = failedmessage,
-                    retrievalRef = resCPPaypointSubisuInfo.retrievalReferenceResCP,
-                    refStanCK = resCPPaypointSubisuInfo.refStanResCP
+                    retrievalRef = resCPPaypointVianetInfo.retrievalReferenceResCP,
+                    refStanCK = resCPPaypointVianetInfo.refStanResCP,
+                    description = pkg
                 };
                 result = JsonConvert.SerializeObject(v);
             }
@@ -361,7 +372,9 @@ namespace WCF.MNepal
                 result = JsonConvert.SerializeObject(v);
             }
             return result;
+
         }
+
         #endregion
 
         #region"execute Paypoint"
@@ -370,7 +383,6 @@ namespace WCF.MNepal
                   ResponseFormat = WebMessageFormat.Json)]
         public string executepayment(Stream input)
         {
-
             string PaypointPwd = System.Web.Configuration.WebConfigurationManager.AppSettings["PaypointPwd"];
             string PaypointUserID = System.Web.Configuration.WebConfigurationManager.AppSettings["PaypointUserID"];
 
@@ -391,7 +403,7 @@ namespace WCF.MNepal
 
             string amount = qs["amount"];//amount paid by customer 
             string pin = qs["pin"];
-            string note = "utility payment for Subisu. Customer Name=" + qs["account"];//+ ". " + qs["note"];
+            string note = "utility payment for Vianet. Customer Name=" + qs["account"];//+ ". " + qs["note"];
             string src = qs["src"];
             string result = "";
             string sessionID = qs["tokenID"];
@@ -430,12 +442,13 @@ namespace WCF.MNepal
             string retrievalReference = qs["retrievalReference"];
             int walletBalancePaisaInt = 0;
             walletBalancePaisaInt = Convert.ToInt32((Convert.ToDouble(walletBalance)) * 100);
-            int amountpayInt = Convert.ToInt32(amountpay);
-            PaypointModel reqEPPaypointSubisuInfo = new PaypointModel();
-            PaypointModel resEPPaypointSubisuInfo = new PaypointModel();
+            int amountpayInt = Convert.ToInt32(amount);
 
-            PaypointModel reqGTPaypointSubisuInfo = new PaypointModel();
-            PaypointModel resGTPaypointSubisuInfo = new PaypointModel();
+            PaypointModel reqEPPaypointVianetInfo = new PaypointModel();
+            PaypointModel resEPPaypointVianetInfo = new PaypointModel();
+
+            PaypointModel reqGTPaypointVianetInfo = new PaypointModel();
+            PaypointModel resGTPaypointVianetInfo = new PaypointModel();
 
             string totalAmount = string.Empty;
             string totalCount = string.Empty;
@@ -454,6 +467,15 @@ namespace WCF.MNepal
             //tid = traceid.GenerateUniqueTraceID();
             tid = retrievalReference;
 
+            if (special1 == "")
+            {
+                special1 = special1;
+            }
+            else
+            {
+                special1 = special1;
+            }
+
             FundTransfer fundtransfer = new FundTransfer
             {
                 tid = tid,
@@ -465,8 +487,6 @@ namespace WCF.MNepal
                 note = note,
                 sourcechannel = src
             };
-
-
             if (sc == "00")
             {
                 if (walletBalancePaisaInt >= amountpayInt)// if wallet balance less then bill amount then show error msg
@@ -1619,11 +1639,11 @@ namespace WCF.MNepal
                                     string execPayParameters = "companyCode=" + companyCode + "&serviceCode=" + serviceCode +
                                             "&account=" + account + "&special1=" + special1 + "&special2=" + special2 +
                                             "&transactionDate=" + exectransactionDate + "&transactionId=" + exectransactionId +
-                                            "&refStan=" + refStan + "&amount=" + (Convert.ToInt32(amount) * 100).ToString() + "&billNumber=" + billNumber +
+                                            "&refStan=" + refStan + "&amount=" + amount + "&billNumber=" + billNumber +
                                             "&userId=" + userId.Trim() + "&userPassword=" + userPassword.Trim() + "&salePointType=" + salePointType;
 
                                     //for executepayment request insert in database for wlink
-                                    reqEPPaypointSubisuInfo = new PaypointModel()
+                                    reqEPPaypointVianetInfo = new PaypointModel()
                                     {
                                         companyCodeReqEP = companyCode,
                                         serviceCodeReqEP = serviceCode,
@@ -1690,7 +1710,7 @@ namespace WCF.MNepal
 
 
                                         //for Response Execute Payment
-                                        resEPPaypointSubisuInfo = new PaypointModel()
+                                        resEPPaypointVianetInfo = new PaypointModel()
                                         {
                                             companyCodeResEP = companyCode,
                                             serviceCodeResEP = serviceCode,
@@ -1728,8 +1748,8 @@ namespace WCF.MNepal
 
                             try
                             {
-                                int resultsReqEP = PaypointUtils.RequestEPPaypointInfo(reqEPPaypointSubisuInfo);
-                                int resultsResEP = PaypointUtils.ResponseEPPaypointInfo(resEPPaypointSubisuInfo);
+                                int resultsReqEP = PaypointUtils.RequestEPPaypointInfo(reqEPPaypointVianetInfo);
+                                int resultsResEP = PaypointUtils.ResponseEPPaypointInfo(resEPPaypointVianetInfo);
 
                                 if ((resultsReqEP > 0) && (resultsResEP > 0))
                                 {
@@ -1771,7 +1791,7 @@ namespace WCF.MNepal
                                         string GetTranParameters = "userLogin=" + userId + "&userPassword=" + userPassword + "&stan=" + "-1" + "&refStan=" + refStan + "&key=" + "" + "&billNumber=" + gtBillNumber;
 
                                         //for get transaction payment request insert in database
-                                        reqGTPaypointSubisuInfo = new PaypointModel()
+                                        reqGTPaypointVianetInfo = new PaypointModel()
                                         {
                                             companyCodeReqGTP = companyCode,
                                             serviceCodeReqGTP = serviceCode,
@@ -1870,7 +1890,7 @@ namespace WCF.MNepal
                                             //end get transaction payment status validation
 
                                             ////for get transaction payment response insert in database
-                                            resGTPaypointSubisuInfo = new PaypointModel()
+                                            resGTPaypointVianetInfo = new PaypointModel()
                                             {
                                                 companyCodeResGTP = companyCode,
                                                 serviceCodeResGTP = serviceCode,
@@ -1907,8 +1927,8 @@ namespace WCF.MNepal
                                     try
                                     {
 
-                                        int resultsReqGTP = PaypointUtils.RequestGTPaypointInfo(reqGTPaypointSubisuInfo);
-                                        int resultsResGTP = PaypointUtils.ResponseGTPaypointInfo(resGTPaypointSubisuInfo);
+                                        int resultsReqGTP = PaypointUtils.RequestGTPaypointInfo(reqGTPaypointVianetInfo);
+                                        int resultsResGTP = PaypointUtils.ResponseGTPaypointInfo(resGTPaypointVianetInfo);
 
                                         if ((resultsReqGTP > 0) && (resultsResGTP > 0))
                                         {
@@ -2434,7 +2454,7 @@ namespace WCF.MNepal
                                                 messagereply += " You have successfully reverse  NPR " + validTransactionData.Amount
                                                                     + " to " +
                                                                     //GetMerchantName 
-                                                                    "Utility payment for Subisu." + " on date " +
+                                                                    "Utility payment for Vianet." + " on date " +
                                                                     (validTransactionData.CreatedDate).ToString("dd/MM/yyyy")
                                                                 + "." + "\n";
                                                 messagereply += "Thank you. MNepal";
@@ -2573,7 +2593,7 @@ namespace WCF.MNepal
                             messagereply += " You have successfully paid NPR " + validTransactionData.Amount
                                             + " to " + " account name: " + account + ". " +
                                             //GetMerchantName 
-                                            "Utility payment for Subisu." + " on date " +
+                                            "Utility payment for Vianet." + " on date " +
                                                 (validTransactionData.CreatedDate).ToString("dd/MM/yyyy")
                                             + "." + "\n";
                             messagereply += "Thank you. MNepal";
@@ -2650,29 +2670,6 @@ namespace WCF.MNepal
                 statusCode = "400";
                 message = ex.Message;
             }
-            ///START Register For SMS
-            //try
-            //{
-            //    int results = CustActivityUtils.RegisterCustActivityInfo(custsmsInfo);
-            //    if (results > 0)
-            //    {
-
-            //        message = result;
-            //    }
-            //    else
-            //    {
-            //        message = result;
-            //    }
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    string ss = ex.Message;
-            //    message = result;
-            //}
-
-            ///END SMS Register For SMS
-
             if (statusCodeBalance == "400")
             {
                 statusCode = "400";

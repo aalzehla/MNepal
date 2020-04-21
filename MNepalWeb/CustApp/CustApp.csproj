@@ -227,6 +227,7 @@
     <Compile Include="Controllers\TermsAndConditionController.cs" />
     <Compile Include="Controllers\UserDashboardController.cs" />
     <Compile Include="Controllers\UtilityPayController.cs" />
+    <Compile Include="Controllers\VianetController.cs" />
     <Compile Include="Controllers\WlinkController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -25543,12 +25544,17 @@
     <Content Include="Views\Wlink\Details.cshtml" />
     <Content Include="Views\Subisu\Index.cshtml" />
     <Content Include="Views\Subisu\Details.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Notifications\Index.cshtml" />
     <Content Include="Views\FAQ\Index.cshtml" />
     <Content Include="Views\PrivacyPolicy\ReportFraud.cshtml" />
     <Content Include="Views\Help\Career.cshtml" />
     <Content Include="Views\Help\BlogOrNews.cshtml" />
     <Content Include="Views\Help\Bank.cshtml" />
+=======
+    <Content Include="Views\Vianet\Index.cshtml" />
+    <Content Include="Views\Vianet\Details.cshtml" />
+>>>>>>> vianet
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

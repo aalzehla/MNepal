@@ -185,7 +185,7 @@ namespace WCF.MNepal.Models
         public string special2 { get; set; }
 
 
-
+        public string PackageId { get; set; }
 
 
         public string transactionDate { get; set; }
@@ -212,7 +212,7 @@ namespace WCF.MNepal.Models
         public string resultMessage { get; set; }
 
 
-
+        public string RemainingDays { get; set; }
 
 
 

@@ -20,6 +20,7 @@ using WCF.MNepal.Utilities;
 namespace WCF.MNepal
 {
     [ServiceContract(Namespace = "")]
+    [ServiceBehavior]
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class authlogin
     {

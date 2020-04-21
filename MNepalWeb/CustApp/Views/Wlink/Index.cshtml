@@ -37,8 +37,8 @@
                     <div class="col-lg-6">
                         <section class="internet-payment pad-50">
                             <div class="top-section">
-                                <h2 class="title">Nepal Water Bill Payment</h2>
-                                <p>Please select the NepalWater counter and fill the required field.</p>
+                                <h2 class="title">Worldlink Bill Payment</h2>
+                                <p>Please fill the required field.</p>
                             </div>
                             <div class="instant-transactions">
                                 <h3 class="title">Other Merchant Payment</h3>
@@ -334,7 +334,7 @@
                     data: dataToPost,
                     async: false,
                     success: function (data) {
-
+                        debugger;
                         if (data.responseCode == "200") {
                             var url = '@Url.Action("Details", "Wlink")';
                             window.location.href = url;
