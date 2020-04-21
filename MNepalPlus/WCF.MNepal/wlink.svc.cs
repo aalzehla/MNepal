@@ -205,7 +205,9 @@ namespace WCF.MNepal
 
                             resPaypointWlinkInfo = new PaypointModel()
                             {
-
+                                description = stringBuilderDescriptions,
+                                amountP = stringBuilderAmounts,
+                                PackageId = stringBuilderPackageId,
                                 billNumber = billNumber,
                                 amount = amountpay,
                                 refStan = refStan,

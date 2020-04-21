@@ -509,6 +509,9 @@ namespace WCF.MNepal.Utilities
             var objresPaypointWlinkModel = new PaypointUserModel();
             var objresPaypointWlinkPaymentInfo = new PaypointModel
             {
+                description = resPaypointWlinkPaymentInfo.description,
+                amountP = resPaypointWlinkPaymentInfo.amountP,
+                PackageId = resPaypointWlinkPaymentInfo.PackageId,
                 billDateP = resPaypointWlinkPaymentInfo.transactionDate,
                 billAmountP = resPaypointWlinkPaymentInfo.amount,
                 billNumberCP = resPaypointWlinkPaymentInfo.billNumber,

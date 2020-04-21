@@ -361,6 +361,9 @@ namespace WCF.MNepal.UserModels
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
+                        sqlCmd.Parameters.AddWithValue("@description", objresPaypointWlinkPaymentInfo.description);
+                        sqlCmd.Parameters.AddWithValue("@packageAmount", objresPaypointWlinkPaymentInfo.amountP);
+                        sqlCmd.Parameters.AddWithValue("@packageId", objresPaypointWlinkPaymentInfo.PackageId);
                         sqlCmd.Parameters.AddWithValue("@billDate", objresPaypointWlinkPaymentInfo.billDateP);
                         sqlCmd.Parameters.AddWithValue("@billAmount", objresPaypointWlinkPaymentInfo.billAmountP);
                         sqlCmd.Parameters.AddWithValue("@billNumber", objresPaypointWlinkPaymentInfo.billNumberCP);
@@ -420,6 +423,9 @@ namespace WCF.MNepal.UserModels
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
+                        sqlCmd.Parameters.AddWithValue("@description", "");
+                        sqlCmd.Parameters.AddWithValue("@packageAmount","");
+                        sqlCmd.Parameters.AddWithValue("@packageId", "");
                         sqlCmd.Parameters.AddWithValue("@billDate", objresPaypointSubisuPaymentInfo.billDateP);
                         sqlCmd.Parameters.AddWithValue("@billAmount", objresPaypointSubisuPaymentInfo.billAmountP);
                         sqlCmd.Parameters.AddWithValue("@billNumber", objresPaypointSubisuPaymentInfo.billNumberCP);
