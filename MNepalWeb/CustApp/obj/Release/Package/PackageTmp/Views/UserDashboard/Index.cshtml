@@ -39,7 +39,7 @@
 <style>
     .image_icon {
         width: 50px;
-    } 
+    }
 </style>
 <div class="main-content">
     <div class="bg-grey pad-50">
@@ -56,31 +56,31 @@
                         <div class="transactions-grid clearfix">
 
                             @*@{
-            if (checkBankLink == "T")
-            {
-                <div class="item load-wallet">
-                    <div class="item-inner" onclick="checkBankLink()">
-                        <a href="~/FundTransfer/LoadWalletBW">
-                            <div class="content-inner">
-                                <i class="thaili-icon-load-wallet"></i>
-                                <span>Load Wallet</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="item load-wallet">
-                    <div class="item-inner" onclick="checkBankLink()">
-                            <div class="content-inner">
-                                <i class="thaili-icon-load-wallet"></i>
-                                <span>Load Wallet</span>
-                            </div>
-                    </div>
-                </div>
-            }
-        }*@
+                                    if (checkBankLink == "T")
+                                    {
+                                        <div class="item load-wallet">
+                                            <div class="item-inner" onclick="checkBankLink()">
+                                                <a href="~/FundTransfer/LoadWalletBW">
+                                                    <div class="content-inner">
+                                                        <i class="thaili-icon-load-wallet"></i>
+                                                        <span>Load Wallet</span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="item load-wallet">
+                                            <div class="item-inner" onclick="checkBankLink()">
+                                                    <div class="content-inner">
+                                                        <i class="thaili-icon-load-wallet"></i>
+                                                        <span>Load Wallet</span>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }*@
 
                             <div class="item load-wallet">
                                 <div class="item-inner">
@@ -199,7 +199,7 @@
                                 }
                             }
                             <!-- /item -->
-                           
+
 
                         </div>
 
@@ -326,7 +326,51 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
+    <section class="section-services featured-merchant pad-50">
+        <div class="container">
+            <div class="title-wrapper clearfix">
+                <h2 class="title">Internet Service Provider</h2>
+                <a href="#" class="btn btn-default show-all">Show All</a>
+            </div>
+            <hr />
+            <div class="transactions-grid clearfix">
+                <div class="item load-wallet">
+                    <div class="item-inner">
+                        <a href="~/Wlink/Index">
+                            <div class="content-inner">
+                                <span class="icon-icon-wlink"></span>
+                                <span class="wlink-text">Worldlink</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="item load-wallet">
+                    <div class="item-inner">
+                        <a href="~/Subisu/Index">
+                            <div class="content-inner">
+                                <span class="icon-icon-subisu"></span>
+                                <span class="subisu-text">Subisu</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="item load-wallet">
+                    <div class="item-inner">
+                        <a href="~/Vianet/Index">
+                            <div class="content-inner">
+                                <span class="icon-icon-share"></span>
+                                <span class="share-text">Vianet</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
 
@@ -351,56 +395,55 @@
         </div>
     </section>
     <!-- /download-app -->
-
     @*<section class="section-partners text-center pad-50">
-        <div class="container">
-            <h2 class="title bordered-title"><span>Partnered Banks</span></h2>
+            <div class="container">
+                <h2 class="title bordered-title"><span>Partnered Banks</span></h2>
 
-            <div class="partner-list clearfix">
-                <div class="item match-height">
-                    <img src="~/Content/assets/img/banks/purnima-bank.png" alt="purnima-bank">
+                <div class="partner-list clearfix">
+                    <div class="item match-height">
+                        <img src="~/Content/assets/img/banks/purnima-bank.png" alt="purnima-bank">
+                    </div>
+
+                    <div class="item match-height">
+                        <img src="~/Content/assets/img/banks/sidhartha-bank.png" alt="sidhartha-bank">
+                    </div>
+
+                    <div class="item match-height">
+                        <img src="~/Content/assets/img/banks/bok.png" alt="bok">
+                    </div>
+
+                    <div class="item match-height">
+                        <img src="~/Content/assets/img/banks/janata-bank.png" alt="janata-bank">
+                    </div>
+
+                    <div class="item match-height">
+                        <img src="~/Content/assets/img/banks/kumari-bank.png" alt="kumari-bank">
+                    </div>
+
+                    <div class="item match-height">
+                        <img src="~/Content/assets/img/banks/sanima-bank.png" alt="sanima-bank">
+                    </div>
+
+                    <div class="item match-height">
+                        <img src="~/Content/assets/img/banks/century-bank.png" alt="century-bank">
+                    </div>
+
+                    <div class="item match-height">
+                        <img src="~/Content/assets/img/banks/gandaki-bank.png" alt="gandaki-bank">
+                    </div>
+
+                    <div class="item match-height">
+                        <img src="~/Content/assets/img/banks/mega-bank.png" alt="mega-bank">
+                    </div>
+
+                    <div class="item match-height">
+                        <img src="~/Content/assets/img/banks/nb-bank.png" alt="nb-bank">
+                    </div>
                 </div>
 
-                <div class="item match-height">
-                    <img src="~/Content/assets/img/banks/sidhartha-bank.png" alt="sidhartha-bank">
-                </div>
-
-                <div class="item match-height">
-                    <img src="~/Content/assets/img/banks/bok.png" alt="bok">
-                </div>
-
-                <div class="item match-height">
-                    <img src="~/Content/assets/img/banks/janata-bank.png" alt="janata-bank">
-                </div>
-
-                <div class="item match-height">
-                    <img src="~/Content/assets/img/banks/kumari-bank.png" alt="kumari-bank">
-                </div>
-
-                <div class="item match-height">
-                    <img src="~/Content/assets/img/banks/sanima-bank.png" alt="sanima-bank">
-                </div>
-
-                <div class="item match-height">
-                    <img src="~/Content/assets/img/banks/century-bank.png" alt="century-bank">
-                </div>
-
-                <div class="item match-height">
-                    <img src="~/Content/assets/img/banks/gandaki-bank.png" alt="gandaki-bank">
-                </div>
-
-                <div class="item match-height">
-                    <img src="~/Content/assets/img/banks/mega-bank.png" alt="mega-bank">
-                </div>
-
-                <div class="item match-height">
-                    <img src="~/Content/assets/img/banks/nb-bank.png" alt="nb-bank">
-                </div>
+                <a href="#" class="btn btn-default">Show All</a>
             </div>
-
-            <a href="#" class="btn btn-default">Show All</a>
-        </div>
-    </section>*@
+        </section>*@
     <!-- /section-partner -->
 </div>
 
@@ -470,7 +513,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript">
-   
+
 
     function checkKYC() {
         $.ajax({

@@ -161,6 +161,7 @@
     <Compile Include="BasicAuthentication\MyBasicAuthenticationFilter.cs" />
     <Compile Include="BasicAuthentication\RandomCodeGenerate.cs" />
     <Compile Include="Connection\DatabaseConnection.cs" />
+    <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PushNotificationController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
