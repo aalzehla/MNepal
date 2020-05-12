@@ -13,7 +13,8 @@ namespace CustApp.Models
         public string TestNumbers { get; set; }
         public string Commission { get; set; }
         public string Description { get; set; }
-
+        public string Bonus { get; set; }
+        public string BillDate { get; set; }
         public string PackageAmount { get; set; }
         public string PackageId { get; set; }
         public string NWCounter { get; set; }
@@ -36,10 +37,11 @@ namespace CustApp.Models
         public string billNumber { get; set; }
         public string responseCode { get; set; }
         public string retrievalReference { get; set; }
+        public string DHServiceCode { get; set; }
 
 
 
-       
+
 
 
     }

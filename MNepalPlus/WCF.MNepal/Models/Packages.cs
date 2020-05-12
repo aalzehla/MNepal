@@ -10,5 +10,6 @@ namespace WCF.MNepal.Models
         public string Description { get; set; }
         public string Amount { get; set; }
         public string PackageId { get; set; }
+        public string Bonus { get; set; }
     }
 }

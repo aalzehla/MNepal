@@ -1,9 +1,8 @@
 ﻿@model CustApp.Models.ISP
 
 @{
-    ViewBag.Title = "Worldlink Payment";
+    ViewBag.Title = "Dish Home Online Payment";
     string hasBankKYC = ViewBag.HasBankKYC;
-    //float TotalAmountDue = parseFloat(@ViewBag.TotalAmountDue);
 
 }
 
@@ -22,19 +21,12 @@
         position: relative;
         z-index: 2;
     }
-    .show-tick{
-        margin-top:10px;
-        height:45px;
-        width:610px;
-    }
 </style>
 
-@using (Html.BeginForm("WlinkExecutePayment", "Wlink", FormMethod.Post, new { @id = "WlinkExecutePayment", @name = "WlinkExecutePayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("DishHomePinCheckPayment", "TvServicePayment", FormMethod.Post, new { @id = "DishHomePinCheckPayment", @name = "DishHomePinCheckPayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
 {
-
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
     <div class="main-content">
         <div class="two-colbg">
             <div class="container">
@@ -43,7 +35,7 @@
                     <div class="col-lg-6">
                         <section class="internet-payment pad-50">
                             <div class="top-section">
-                                <h2 class="title">Worldlink Bill Payment</h2>
+                                <h2 class="title">Dish Home Bill Payment</h2>
                                 <p>Please fill the required field.</p>
                             </div>
                             <div class="instant-transactions">
@@ -155,155 +147,60 @@
                                 }
                             }
 
-                            <div class="box-header with-border">
-                                <h2 class="title">Confirm Payment</h2>
-                            </div>
-                            @*<div class="row">
-                                    <div class="col-md-6">
-                                        <label>NepalWater Counter:</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>@ViewBag.NWBranchName</label>
-                                    </div>
-                                </div>*@
-                            <h5>@ViewBag.remainingDays</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Service Name:</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label>@ViewBag.paypointType</label>
-                                </div>
-                            </div>
+                            @*<div class="transfer-order clearfix">
+                                    <h3 class="title">Pay from</h3>
 
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Customer Name:</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label>@ViewBag.CustomerID</label>
-                                </div>
-                            </div>
-
-
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Total Dues:</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label>RS.@ViewBag.TotalAmountDue</label>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Package Details:</label>
-                                    @* @Html.DropDownList("Description", new SelectList(ViewBag.ListDetails, "Description", "Description"), new { @class = "show-tick", @id = "drpdwn", onChange = "updateNRs()" })*@
-                                    <select id="drpdwn" onChange="updateNRs()" name="Description" class="show-tick">
-                                        @foreach (var package in ViewBag.ListDetails)
+                                    <select class="form-control selectpicker transaction-select from col-md-9" id="TransactionMedium" name="TransactionMedium" onmousedown="this.value='';">
+                                        <option data-icon="thaili-icon-load-wallet" value="00">Wallet</option>
+                                        @if (hasBankKYC.Equals("T"))
                                         {
-                                            <option amount="@package.PackageAmount" id="@package.PackageId" name="getPackageId">@package.Description</option>
-
+                                            <option data-icon="thaili-icon-bank" value="10">Bank</option>
                                         }
-
                                     </select>
-                                </div>
-                            </div>
+                                </div>*@
 
 
-                            <br />
-
-                            <div class="transfer-order clearfix">
-                                <h3 class="title">Pay from</h3>
-
-                                <select class="form-control selectpicker transaction-select from col-md-9" id="TransactionMedium" name="TransactionMedium" onmousedown="this.value='';">
-                                    <option data-icon="thaili-icon-load-wallet" value="00">Wallet</option>
-                                    @if (hasBankKYC.Equals("T"))
-                                    {
-                                        <option data-icon="thaili-icon-bank" value="10">Bank</option>
-                                    }
-                                </select>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="col-sm-12" for="@Html.NameFor(x=>x.amount)">
-                                        Amount
-                                        (<span style="color:red">*</span>)
-                                    </label>
-                                    <div class="form-group  input-group">
-                                        <div class="form-control col-4">NPR.</div>
-                                        @Html.TextBox("amount", (string)ViewBag.TotalAmountDue, new
-                                       {
-                                           @class = "form-control",
-                                           @title = "Please use Amount",
-                                           @placeholder = "Amount",
-                                           @maxlength = "9",
-                                           @oninput = "checkValidation()",
-                                           @onkeypress = "return NumberDot(event)",
-                                           @autocomplete = "off",
-                                           @readonly = "readonly"
-                                       })
-
-                                    </div>
-                                    <div class="form-group" id="AmtErr" style="color:red; margin-top:-11px;"></div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="col-sm-12" for="@Html.NameFor(x=>x.TPin)"> Tpin (<span style="color:red">*</span>)</label>
-
-                                        @Html.PasswordFor(x => x.TPin, new { @class = "form-control pwd1", @title = "Please use T-Pin number", @placeholder = "T-Pin", @maxlength = "4", @onkeypress = "return isNumber(event)", @oninput = "checkValidation()", @autocomplete = "new-password", @onpaste = "return false" })
-                                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
-                                    </div>
-                                    <div class="form-group" id="PinErr" style="color:red; margin-top:-11px;"></div>
-                                </div>
-
-                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="col-sm-12" for="@Html.NameFor(x=>x.Remarks)"> Remarks (<span style="color:red">*</span>)</label>
-
-                                        @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control", @title = "Please insert Remarks", @placeholder = "Remarks", @maxlength = "30", @oninput = "checkValidation()" })
-
+                                        <label class="col-sm-12">CAS ID/Chip ID/Customer ID :<b style="color:red;">*</b></label>
+                                        <input type="text" class="form-control select2" id="CustomerID" name="txtCustomerID" placeholder="Example: 1234567" maxlength="20" oninput="checkValidation()" />
                                     </div>
-                                    <div class="form-group" id="RemarkErr" style="color:red; margin-top:-11px;"></div>
+                                    <div class="form-group" id="CustErr" style="color:red; margin-top:-11px;"></div>
                                 </div>
+
                             </div>
 
                             <br />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-12">Dish Home Voucher:<b style="color:red;">*</b></label>
 
+                                        @Html.DropDownList("DHServiceCode", new SelectList(ViewBag.DHServiceCode, "Key", "Value"), new
+                                   {
+                                       @class = "form-control select2 selectpicker placeholder_voucher",
+                                       @oninput = "checkValidation()",
+                                       @onclick = "checkValidation()",
+                                       @id = "DHServiceCode",
+                                       data_show_subtext = "true",
+                                       data_live_search = "true"
+                                   })
 
+                                    </div>
+                                    <div class="form-group" id="NepalWaterErr" style="color:red; margin-top:-11px;"></div>
+                                </div>
+                            </div>
+                            <br />
 
                             <div class="box-footer">
-                                <input type="submit" class="btn btn-blue btn-big col-md-5" name="btnCommand" value="Pay" id="btnSubmit" />
+                                <input type="submit" class="btn btn-blue btn-big col-md-5" name="btnCommand" value="Get Details" id="btnSubmit" />
                                 <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
                             </div>
 
                         </section>
                     </div>
 
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Success modal -->
-    <div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <div class="success-icon">
-                        <img src="~/Content/assets/img/success-tick.svg" alt="success-tick">
-                    </div>
-                    <p class="msg"></p>
-                    <span class="msg">Your payment has been confirmed.</span>
-                    <br /> <br />
-                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
                 </div>
             </div>
         </div>
@@ -317,7 +214,7 @@
                     <div class="success-icon">
                         <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
                     </div>
-                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;"></p>
+                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
                     <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
                     <br /> <br />
                     <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
@@ -334,7 +231,7 @@
                     <div class="success-icon">
                         <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
                     </div>
-                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;"></p>
+                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
                     <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;">Session expired. Please login again</span>
                     <br /> <br />
                     <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
@@ -356,33 +253,14 @@
         });
 
 
-        document.getElementById("successModal").onclick = function () {
-         var url = '@Url.Action("Index", "UserDashboard")';
+        @*document.getElementById("successModal").onclick = function () {
+         var url = '@Url.Action("Details", "NepalWater")';
          window.location.href = url;
-        };
+        };*@
         document.getElementById("failureModalSessionExpired").onclick = function () {
          var url = '@Url.Action("Index", "LogOut")';
          window.location.href = url;
         };
-
-         function updateNRs()
-       {
-           debugger;
-
-           var a = document.getElementById('drpdwn').value;
-
-           var dropdown = document.getElementById('drpdwn');
-           var selectedOption = dropdown.options[dropdown.selectedIndex];
-           var selectedOptionAmount = selectedOption.getAttribute('amount');
-           var selectedOptionId = selectedOption.getAttribute('id');
-           window.getPackageId = selectedOptionId;
-           console.log(selectedOption);
-           console.log(selectedOptionAmount);
-           console.log(selectedOptionId);
-
-           document.getElementById('totalDeuAmount').innerHTML = "NRs. " + selectedOptionAmount;
-           document.getElementById('amount').value = selectedOptionAmount;
-        }
 
         function isNumber(evt) {
             evt = (evt) ? evt : window.event;
@@ -410,69 +288,27 @@
             return true;
         }
 
-        $(".placeholder_Month").prepend("<option value='0' disabled selected>---Select Month---</option>");
+        $(".placeholder_voucher").prepend("<option value='0' disabled selected>---Select Voucher---</option>");
 
         function checkValidation() {
-            var remarks = $("[name='Remarks']").val();
-            var amount = $("[name='amount']").val();
-            var amount1 = parseFloat($("[name='amount']").val());
-            var pin = $("[name='TPin']").val();
-            var TotaldueAmount = parseFloat(@ViewBag.TotalAmountDue);
-            //var Months = $('select[name=Months] option:selected').val();
-            //Restrict input field to two decimals with jQuery
-            $("[name='amount']").on('input', function () {
-                this.value = this.value.match(/^\d+\.?\d{0,2}/);
-            });
-            if ((amount.trim() == "") || (amount.trim() == "0.00") || (amount.trim() == "0") || (amount1 < TotaldueAmount)) {
-                $("#AmtErr").html("");
-                $("#AmtErr").append("<small>" + "Please Enter valid Amount" + "</small>");
-                $("#AmtErr").show();
+            var Cust = $("[name='txtCustomerID']").val();
+            var DHServiceCode = $("[name='DHServiceCode']").val();
+
+            if ((Cust.trim() == "")) {
+                $("#CustErr").html("");
+                $("#CustErr").append("<small>" + "Customer ID is required and cannot be empty" + "</small>");
+                $("#CustErr").show();
             }
             else {
-                $("#AmtErr").hide();
+                $("#CustErr").hide();
             }
-
-            if (pin.trim() == "") {
-                $("#PinErr").html("");
-                $("#PinErr").append("<small>" + "Please Enter the T-Pin" + "</small>");
-                $("#PinErr").show();
-            }
-            else if (pin.length != 4) {
-                $("#PinErr").html("");
-                $("#PinErr").append("<small>" + "T-Pin must be 4 character long." + "</small>");
-                $("#PinErr").show();
-            }
-            else {
-                $("#PinErr").hide();
-            }
-
-            if (remarks.trim() == "") {
-                $("#RemarkErr").html("");
-                $("#RemarkErr").append("<small>" + "Please Enter Remarks" + "</small>");
-                $("#RemarkErr").show();
-            }
-            else {
-                $("#RemarkErr").hide();
-            }
-
-            //if ($('select[name=Months] option:selected').val() == '0') {
-            //    $("#MonthsErr").html("");
-            //    $("#MonthsErr").append("<small>" + "Please Select Specific Month" + "</small>");
-            //    $("#MonthsErr").show();
-            //}
-            //else {
-            //    $("#MonthsErr").hide();
-            //}
         }
 
 
 
         $("#clearButton").click(function () {
-            //$("[name='txtCustomerID']").val("");
-            //$("[name='amount']").val("");
-            $("[name='Remarks']").val("");
-            $("[name='TPin']").val("");
-            $("[name='Months']").val('0');
+            $("[name='txtCustomerID']").val("");
+            $("[name='DHServiceCode']").val("");
         });
 
 
@@ -481,36 +317,26 @@
         $('#btnSubmit').click(function (e) {
             e.preventDefault();
             debugger;
-            var amount = $("[name='amount']").val();
-            var TPin = $("[name='TPin']").val();
-            var Remarks = $("[name='Remarks']").val();
-            var servicecode = $("[name='TransactionMedium']").val();
-            if ((amount != "") && (Remarks != "") && (TPin != "") && (TPin.length == 4)) {
+            var CustomerID = $("[name='txtCustomerID']").val();
+            var DHServiceCode = $("[name='DHServiceCode']").val();
+            if ((CustomerID != "") && (DHServiceCode != "")) {
 
                 var dataToPost = {
-                    TransactionMedium: servicecode,
-                    amount: amount,
-                    Remarks: Remarks,
-                    TPin: TPin,
+                    CustomerID: CustomerID,
+                    DHServiceCode: DHServiceCode
                 };
 
                 e.preventDefault(); //prevent the default action
                 $.ajax({
-                    url: '@Url.Action("WlinkExecutePayment", "Wlink")',
+                    url: '@Url.Action("DishHomePinCheckPayment", "TvServicePayment")',
                     type: "POST",
                     data: dataToPost,
                     async: false,
                     success: function (data) {
 
                         if (data.responseCode == "200") {
-                            $("#ajaxResponse").html("");
-                            var resp = JSON.parse(data.responseText);
-                            $('#successModal').modal("show");
-
-                            $("#TPin").val("");
-                            $("#Remarks").val("");
-                            $("#amount").val("");
-
+                            var url = '@Url.Action("DHPinDetails", "TvServicePayment")';
+                            window.location.href = url;
                         }
                         //display error message
                         else {

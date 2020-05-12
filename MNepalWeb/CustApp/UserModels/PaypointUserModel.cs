@@ -425,5 +425,102 @@ namespace CustApp.UserModels
 
             return dtset;
         }
+
+        #region Dish Home Payment Details
+        public DataSet GetDishHomePaymentDetails(ISP objUserInfo)
+        {
+            Database database;
+            DataSet dtset = null;
+
+            try
+            {
+                database = DatabaseConnection.GetDatabase();
+                using (var command = database.GetStoredProcCommand("[s_MNPaypoints]"))
+                {
+                    database.AddInParameter(command, "@KhanepaniCounter", DbType.String, null);
+                    database.AddInParameter(command, "@CustomerID", DbType.String, objUserInfo.CustomerID);
+                    database.AddInParameter(command, "@ClientCode", DbType.String, objUserInfo.ClientCode);
+                    database.AddInParameter(command, "@UserName", DbType.String, objUserInfo.UserName);
+                    database.AddInParameter(command, "@mode", DbType.String, objUserInfo.Mode);
+                    database.AddInParameter(command, "@SCNo", DbType.String, null);
+                    database.AddInParameter(command, "@NEABranchName", DbType.String, null);
+                    database.AddInParameter(command, "@refStan", DbType.String, objUserInfo.refStan);
+                    string[] tables = new string[] { "dtResponse", "dtNWPayment" };
+
+                    using (var dataset = new DataSet())
+                    {
+                        database.LoadDataSet(command, dataset, tables);
+
+                        if (dataset.Tables.Count > 0)
+                        {
+                            dtset = dataset;
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                database = null;
+                Database.ClearParameterCache();
+            }
+
+            return dtset;
+        }
+        #endregion
+
+
+        #region Dish Home Pin Service Code
+        public Dictionary<string, string> GetDishHomeServiceCode()
+        {
+            SqlDataReader rdr;
+            SqlConnection conn = null;
+            Dictionary<string, string> ListDHSserviceCode = new Dictionary<string, string>();
+            try
+            {
+                using (conn = new SqlConnection(DatabaseConnection.ConnectionStr()))
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.CommandText = "SELECT * FROM MNDishHomeServiceCode (NOLOCK) ";
+                        cmd.Connection = conn;
+                        if (conn.State != ConnectionState.Open)
+                        {
+                            conn.Open();
+                        }
+                        rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            string DHServiceCode = rdr["ServiceCode"].ToString();
+                            string DHVoucherAmount = rdr["Notes"].ToString();
+                            //string NEATypeId = rdr["NeaID"].ToString();
+                            ListDHSserviceCode.Add(DHServiceCode, DHVoucherAmount);
+                        }
+                        if (conn.State != ConnectionState.Closed)
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+
+            }
+            return ListDHSserviceCode;
+        }
+        #endregion
     }
 }

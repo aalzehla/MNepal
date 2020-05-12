@@ -186,7 +186,7 @@ namespace WCF.MNepal.Models
 
 
         public string PackageId { get; set; }
-
+        public string Bonus { get; set; }
 
         public string transactionDate { get; set; }
         public string transactionId { get; set; }
@@ -210,9 +210,9 @@ namespace WCF.MNepal.Models
         public string ClientCode { get; set; }
         public string paypointType { get; set; }
         public string resultMessage { get; set; }
-
-
         public string RemainingDays { get; set; }
+        public string voucherCode { get; set; }
+        public string id { get; set; }
 
 
 

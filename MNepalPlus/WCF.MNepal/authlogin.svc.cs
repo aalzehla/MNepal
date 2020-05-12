@@ -1,4 +1,6 @@
-﻿using MNepalProject.Models;
+﻿using MNepalProject.Controllers;
+using MNepalProject.Helper;
+using MNepalProject.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

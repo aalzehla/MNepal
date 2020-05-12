@@ -225,6 +225,7 @@
     <Compile Include="Controllers\StatementController.cs" />
     <Compile Include="Controllers\SubisuController.cs" />
     <Compile Include="Controllers\TermsAndConditionController.cs" />
+    <Compile Include="Controllers\TvServicePaymentController.cs" />
     <Compile Include="Controllers\UserDashboardController.cs" />
     <Compile Include="Controllers\UtilityPayController.cs" />
     <Compile Include="Controllers\VianetController.cs" />
@@ -25552,6 +25553,10 @@
     <Content Include="Views\Help\Bank.cshtml" />
     <Content Include="Views\Vianet\Index.cshtml" />
     <Content Include="Views\Vianet\Details.cshtml" />
+    <Content Include="Views\TvServicePayment\Index.cshtml" />
+    <Content Include="Views\TvServicePayment\Details.cshtml" />
+    <Content Include="Views\TvServicePayment\DishHomePinCode.cshtml" />
+    <Content Include="Views\TvServicePayment\DHPinDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

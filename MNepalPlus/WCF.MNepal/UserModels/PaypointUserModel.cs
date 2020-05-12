@@ -531,6 +531,70 @@ namespace WCF.MNepal.UserModels
 
         #endregion
 
+        #region response dish home online
+        public int ResponsePaypointDishHomeOnlinePaymentInfo(PaypointModel objresPaypointDishHomeOnlinePaymentInfo)
+        {
+            SqlConnection sqlCon = null;
+            int ret;
+            try
+            {
+                using (sqlCon = new SqlConnection(DatabaseConnection.ConnectionString()))
+                {
+                    sqlCon.Open();
+                    using (SqlCommand sqlCmd = new SqlCommand("[s_MNPaypointTvServicePaymentRes]", sqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        sqlCmd.Parameters.AddWithValue("@billDate", objresPaypointDishHomeOnlinePaymentInfo.transactionDate);
+                        sqlCmd.Parameters.AddWithValue("@billAmount", objresPaypointDishHomeOnlinePaymentInfo.amount);
+                        sqlCmd.Parameters.AddWithValue("@billNumber", objresPaypointDishHomeOnlinePaymentInfo.billNumber);
+                        sqlCmd.Parameters.AddWithValue("@refStan", objresPaypointDishHomeOnlinePaymentInfo.refStan);
+                        sqlCmd.Parameters.AddWithValue("@customerName", objresPaypointDishHomeOnlinePaymentInfo.customerName);
+                        sqlCmd.Parameters.AddWithValue("@companyCode", objresPaypointDishHomeOnlinePaymentInfo.companyCode);
+                        sqlCmd.Parameters.AddWithValue("@UserName", objresPaypointDishHomeOnlinePaymentInfo.UserName);
+                        sqlCmd.Parameters.AddWithValue("@ClientCode", objresPaypointDishHomeOnlinePaymentInfo.ClientCode);
+                        sqlCmd.Parameters.AddWithValue("@description", objresPaypointDishHomeOnlinePaymentInfo.description);
+                        sqlCmd.Parameters.AddWithValue("@packageAmount", objresPaypointDishHomeOnlinePaymentInfo.amountP);
+                        sqlCmd.Parameters.AddWithValue("@bonus", objresPaypointDishHomeOnlinePaymentInfo.Bonus);
+                        sqlCmd.Parameters.AddWithValue("@Mode", objresPaypointDishHomeOnlinePaymentInfo.Mode);
+
+
+
+                        sqlCmd.Parameters.Add("@RegIDOut", SqlDbType.Char, 500);
+                        sqlCmd.Parameters["@RegIDOut"].Direction = ParameterDirection.Output;
+
+                        sqlCmd.Parameters.Add("@MsgStr", SqlDbType.VarChar, 500);
+                        sqlCmd.Parameters["@MsgStr"].Direction = ParameterDirection.Output;
+
+                        ret = sqlCmd.ExecuteNonQuery();
+                        //if (objresPaypointPaymentInfo.Mode.Equals("SCA", StringComparison.InvariantCultureIgnoreCase))
+                        //{
+                        //    ret = Convert.ToInt32(sqlCmd.Parameters["@RegIDOut"].Value);
+
+                        //}
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                if (sqlCon != null)
+                {
+                    sqlCon.Close();
+                }
+            }
+            return ret;
+        }
+
+        #endregion
+
+
+
 
         #region Response Checkpayment for khanepani invoice
         public int ResponsePaypointKhanepaniInvoiceInfo(PaypointModel objresPaypointKhanepaniInvoiceInfo)
@@ -1051,6 +1115,88 @@ namespace WCF.MNepal.UserModels
             }
 
             return dtset;
+        }
+
+        #endregion
+
+        #region response paypoint payment (CP,EP,GP)
+        public int ResponsePaypointDHPinInfo(PaypointModel objresPaypointInfo)
+        {
+            SqlConnection sqlCon = null;
+            int ret;
+            try
+            {
+                using (sqlCon = new SqlConnection(DatabaseConnection.ConnectionString()))
+                {
+                    sqlCon.Open();
+                    using (SqlCommand sqlCmd = new SqlCommand("[s_MNPaypointDHPinRes]", sqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        sqlCmd.Parameters.Add(new SqlParameter("@companyCode", objresPaypointInfo.companyCode));
+                        sqlCmd.Parameters.AddWithValue("@serviceCode", objresPaypointInfo.serviceCode);
+                        sqlCmd.Parameters.AddWithValue("@account", objresPaypointInfo.account);
+                        sqlCmd.Parameters.AddWithValue("@special1", objresPaypointInfo.special1);
+                        sqlCmd.Parameters.AddWithValue("@special2", objresPaypointInfo.special2);
+
+                        sqlCmd.Parameters.AddWithValue("@transactionDate", objresPaypointInfo.transactionDate);
+                        sqlCmd.Parameters.AddWithValue("@transactionId", objresPaypointInfo.transactionId);
+
+                        sqlCmd.Parameters.AddWithValue("@refStan", objresPaypointInfo.refStan);
+                        sqlCmd.Parameters.AddWithValue("@amount", objresPaypointInfo.amount);
+                        sqlCmd.Parameters.AddWithValue("@billNumber", objresPaypointInfo.billNumber);
+
+                        sqlCmd.Parameters.AddWithValue("@userId", objresPaypointInfo.userId);
+                        sqlCmd.Parameters.AddWithValue("@userPassword", objresPaypointInfo.userPassword);
+                        sqlCmd.Parameters.AddWithValue("@salePointType", objresPaypointInfo.salePointType);
+                        sqlCmd.Parameters.AddWithValue("@retrievalReference", objresPaypointInfo.retrievalReference);
+
+                        sqlCmd.Parameters.AddWithValue("@responseCode", objresPaypointInfo.responseCode);
+                        sqlCmd.Parameters.AddWithValue("@description", objresPaypointInfo.description);
+                        sqlCmd.Parameters.AddWithValue("@customerName", objresPaypointInfo.customerName);
+                        sqlCmd.Parameters.AddWithValue("@ClientCode", objresPaypointInfo.ClientCode);
+                        sqlCmd.Parameters.AddWithValue("@UserName", objresPaypointInfo.UserName);
+                        sqlCmd.Parameters.AddWithValue("@paypointType", objresPaypointInfo.paypointType);
+                        sqlCmd.Parameters.AddWithValue("@resultMessage", objresPaypointInfo.resultMessage);
+                        sqlCmd.Parameters.AddWithValue("@voucherCode", objresPaypointInfo.voucherCode);
+                        sqlCmd.Parameters.AddWithValue("@id", objresPaypointInfo.id);
+
+
+
+
+
+                        //sqlCmd.Parameters.AddWithValue("@ErrorMessage", objreqPaypointInfo.ErrorMessage);
+                        sqlCmd.Parameters.AddWithValue("@Mode", objresPaypointInfo.Mode);
+
+                        sqlCmd.Parameters.Add("@RegIDOut", SqlDbType.Char, 500);
+                        sqlCmd.Parameters["@RegIDOut"].Direction = ParameterDirection.Output;
+
+                        sqlCmd.Parameters.Add("@MsgStr", SqlDbType.VarChar, 500);
+                        sqlCmd.Parameters["@MsgStr"].Direction = ParameterDirection.Output;
+
+                        ret = sqlCmd.ExecuteNonQuery();
+                        if (objresPaypointInfo.Mode.Equals("SCA", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            ret = Convert.ToInt32(sqlCmd.Parameters["@RegIDOut"].Value);
+
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                if (sqlCon != null)
+                {
+                    sqlCon.Close();
+                }
+            }
+            return ret;
         }
 
         #endregion

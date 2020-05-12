@@ -54,5 +54,6 @@ namespace CustApp.Models
         public string fineAmount { get; set; }
         public string billDateFrom { get; set; }
         public string billDateTo { get; set; }
+        public string bonus { get; set; }
     }
 }

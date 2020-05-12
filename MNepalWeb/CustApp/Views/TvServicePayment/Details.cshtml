@@ -1,7 +1,7 @@
-﻿@model CustApp.Models.ISP
+﻿@model CustApp.Models.NepalWater
 
 @{
-    ViewBag.Title = "Worldlink Payment";
+    ViewBag.Title = "DishHome Payment";
     string hasBankKYC = ViewBag.HasBankKYC;
     //float TotalAmountDue = parseFloat(@ViewBag.TotalAmountDue);
 
@@ -22,19 +22,18 @@
         position: relative;
         z-index: 2;
     }
-    .show-tick{
-        margin-top:10px;
-        height:45px;
-        width:610px;
+
+    .show-tick {
+        margin-top: 10px;
+        height: 45px;
+        width: 610px;
     }
 </style>
 
-@using (Html.BeginForm("WlinkExecutePayment", "Wlink", FormMethod.Post, new { @id = "WlinkExecutePayment", @name = "WlinkExecutePayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("DHExecutePayment", "TvServicePayment", FormMethod.Post, new { @id = "DHExecutePayment", @name = "DHExecutePayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
 {
-
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
     <div class="main-content">
         <div class="two-colbg">
             <div class="container">
@@ -43,7 +42,7 @@
                     <div class="col-lg-6">
                         <section class="internet-payment pad-50">
                             <div class="top-section">
-                                <h2 class="title">Worldlink Bill Payment</h2>
+                                <h2 class="title">Dish Home Bill Payment</h2>
                                 <p>Please fill the required field.</p>
                             </div>
                             <div class="instant-transactions">
@@ -158,44 +157,34 @@
                             <div class="box-header with-border">
                                 <h2 class="title">Confirm Payment</h2>
                             </div>
-                            @*<div class="row">
-                                    <div class="col-md-6">
-                                        <label>NepalWater Counter:</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>@ViewBag.NWBranchName</label>
-                                    </div>
-                                </div>*@
-                            <h5>@ViewBag.remainingDays</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Service Name:</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label>@ViewBag.paypointType</label>
-                                </div>
-                            </div>
 
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>Customer Name:</label>
+                                    <label>CAS ID/Chip ID/Customer ID:</label>
                                 </div>
                                 <div class="col-md-6">
                                     <label>@ViewBag.CustomerID</label>
                                 </div>
                             </div>
 
-
-
                             <div class="row">
+                                <div class="col-md-6">
+                                    <label>Total Amount:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label id="totalDeuAmount">@ViewBag.TotalAmountDue</label>
+                                </div>
+                            </div>
+
+                            @*<div class="row">
                                 <div class="col-md-6">
                                     <label>Total Dues:</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <label>RS.@ViewBag.TotalAmountDue</label>
+                                    <label id="totalDeuAmount">RS.@ViewBag.TotalAmountDue</label>
                                 </div>
-                            </div>
+                            </div>*@
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -204,13 +193,14 @@
                                     <select id="drpdwn" onChange="updateNRs()" name="Description" class="show-tick">
                                         @foreach (var package in ViewBag.ListDetails)
                                         {
-                                            <option amount="@package.PackageAmount" id="@package.PackageId" name="getPackageId">@package.Description</option>
-
+                                            <option amount="@package.amount" id="@package.bonus" name="getPackageId">@package.description</option>
                                         }
 
                                     </select>
                                 </div>
+
                             </div>
+
 
 
                             <br />
@@ -291,7 +281,6 @@
         </div>
     </div>
 
-
     <!-- Success modal -->
     <div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -365,6 +354,7 @@
          window.location.href = url;
         };
 
+
          function updateNRs()
        {
            debugger;
@@ -383,6 +373,7 @@
            document.getElementById('totalDeuAmount').innerHTML = "NRs. " + selectedOptionAmount;
            document.getElementById('amount').value = selectedOptionAmount;
         }
+
 
         function isNumber(evt) {
             evt = (evt) ? evt : window.event;
@@ -410,7 +401,7 @@
             return true;
         }
 
-        $(".placeholder_Month").prepend("<option value='0' disabled selected>---Select Month---</option>");
+        $(".show-tick").prepend("<option value='0' disabled selected>---Select Option---</option>");
 
         function checkValidation() {
             var remarks = $("[name='Remarks']").val();
@@ -480,7 +471,6 @@
 
         $('#btnSubmit').click(function (e) {
             e.preventDefault();
-            debugger;
             var amount = $("[name='amount']").val();
             var TPin = $("[name='TPin']").val();
             var Remarks = $("[name='Remarks']").val();
@@ -496,7 +486,7 @@
 
                 e.preventDefault(); //prevent the default action
                 $.ajax({
-                    url: '@Url.Action("WlinkExecutePayment", "Wlink")',
+                    url: '@Url.Action("DHExecutePayment", "TvServicePayment")',
                     type: "POST",
                     data: dataToPost,
                     async: false,

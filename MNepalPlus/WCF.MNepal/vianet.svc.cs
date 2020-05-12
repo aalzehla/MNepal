@@ -210,7 +210,6 @@ namespace WCF.MNepal
                                 packages.Amount = xmlNode.Attributes["amount"].Value; 
                                 packages.PackageId = xmlNode.Attributes["id"].Value;
                                 pkg.Add(packages);
-                                // viewbag ma halna agadi
                                 stringBuilderDescriptions = stringBuilderDescriptions + packages.Description + Environment.NewLine;
                                 stringBuilderAmounts = stringBuilderAmounts + packages.Amount + Environment.NewLine;
                                 stringBuilderPackageId = stringBuilderPackageId + packages.PackageId + Environment.NewLine;

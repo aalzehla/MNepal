@@ -140,6 +140,47 @@ namespace CustApp.Utilities
         }
         #endregion
 
+        #region Dish Home Details
+        public static DataSet GetDishHomeDetails(ISP iSP)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = iSP.ClientCode,
+                UserName = iSP.UserName,
+                CustomerID = iSP.CustomerID,
+                refStan = iSP.refStan,
+                Mode = "DishHome" // GET Dish Home Details
+            };
+            return objUserModel.GetDishHomePaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region Dish Home Details
+        public static DataSet GetDishHomePinDetails(ISP iSP)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = iSP.ClientCode,
+                UserName = iSP.UserName,
+                CustomerID = iSP.CustomerID,
+                refStan = iSP.refStan,
+                Mode = "DHPin" // GET Dish Home Details
+            };
+            return objUserModel.GetDishHomePaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region
+        public static Dictionary<string, string> GetDishHomeServiceCode()
+        {
+            var objKhanepaniModel = new PaypointUserModel();
+
+            return objKhanepaniModel.GetDishHomeServiceCode();
+        }
+
+        #endregion
 
     }
 }

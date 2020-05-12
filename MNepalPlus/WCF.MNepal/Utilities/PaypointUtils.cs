@@ -10,10 +10,6 @@ namespace WCF.MNepal.Utilities
 {
     public class PaypointUtils
     {
-
-
-
-
         #region Request check payment
         public static int RequestCPPaypointInfo(PaypointModel reqCPPaypointInfo)
         {
@@ -252,7 +248,7 @@ namespace WCF.MNepal.Utilities
             var objresPaypointPaymentModel = new PaypointUserModel();
             var objresPaypointPaymentInfo = new PaypointModel
             {
-                
+
 
                 descriptionP = resPaypointPaymentInfo.descriptionP,
                 billDateP = resPaypointPaymentInfo.billDateP,
@@ -373,12 +369,12 @@ namespace WCF.MNepal.Utilities
                 refStan = resPaypointKhanepaniInvoiceInfo.refStan,
                 UserName = resPaypointKhanepaniInvoiceInfo.UserName,
                 ClientCode = resPaypointKhanepaniInvoiceInfo.ClientCode,
-                 
+
                 Mode = "RSKI"
 
 
 
-        };
+            };
             return objresPaypointKhanepaniInvoiceModel.ResponsePaypointKhanepaniInvoiceInfo(objresPaypointKhanepaniInvoiceInfo);
         }
         #endregion
@@ -596,7 +592,7 @@ namespace WCF.MNepal.Utilities
                 billNumber = resPaypointVianetPaymentInfo.billNumber,
                 refStan = resPaypointVianetPaymentInfo.refStan,
                 amount = resPaypointVianetPaymentInfo.amount,
-                transactionDate = resPaypointVianetPaymentInfo.transactionDate, 
+                transactionDate = resPaypointVianetPaymentInfo.transactionDate,
                 customerName = resPaypointVianetPaymentInfo.customerName,
                 companyCode = resPaypointVianetPaymentInfo.companyCode,
                 UserName = resPaypointVianetPaymentInfo.UserName,
@@ -607,6 +603,104 @@ namespace WCF.MNepal.Utilities
             return objresPaypointVianetPaymentModel.ResponsePaypointVianetPaymentInfo(objresPaypointVianetPaymentInfo);
         }
         #endregion
+
+        #region"Response CP DishHome Online payments"
+        public static int PaypointDishHomeInfo(PaypointModel resPaypointVianetPaymentInfo)
+        {
+            var objresPaypointDishHomePaymentModel = new PaypointUserModel();
+            var objresPaypointDishHomeOnlinePaymentInfo = new PaypointModel
+            {
+
+
+                description = resPaypointVianetPaymentInfo.description,
+                amountP = resPaypointVianetPaymentInfo.amountP,
+                Bonus = resPaypointVianetPaymentInfo.Bonus,
+                PackageId = resPaypointVianetPaymentInfo.PackageId,
+                billNumber = resPaypointVianetPaymentInfo.billNumber,
+                refStan = resPaypointVianetPaymentInfo.refStan,
+                amount = resPaypointVianetPaymentInfo.amount,
+                transactionDate = resPaypointVianetPaymentInfo.transactionDate,
+                customerName = resPaypointVianetPaymentInfo.customerName,
+                companyCode = resPaypointVianetPaymentInfo.companyCode,
+                UserName = resPaypointVianetPaymentInfo.UserName,
+                ClientCode = resPaypointVianetPaymentInfo.ClientCode,
+                Mode = "RSDishHomeOnline" //Response vianet payment from Checkpayment
+
+            };
+            return objresPaypointDishHomePaymentModel.ResponsePaypointDishHomeOnlinePaymentInfo(objresPaypointDishHomeOnlinePaymentInfo);
+        }
+        #endregion
+
+        #region"Response CP DishHome Online payments"
+        public static int PaypointDishHomePinInfo(PaypointModel resPaypointVianetPaymentInfo)
+        {
+            var objresPaypointDishHomePaymentModel = new PaypointUserModel();
+            var objresPaypointDishHomeOnlinePaymentInfo = new PaypointModel
+            {
+
+
+                description = "",
+                amountP = "",
+                Bonus = "",
+                PackageId = "",
+                billNumber = resPaypointVianetPaymentInfo.billNumber,
+                refStan = resPaypointVianetPaymentInfo.refStan,
+                amount = resPaypointVianetPaymentInfo.amount,
+                transactionDate = resPaypointVianetPaymentInfo.transactionDate,
+                customerName = resPaypointVianetPaymentInfo.customerName,
+                companyCode = resPaypointVianetPaymentInfo.companyCode,
+                UserName = resPaypointVianetPaymentInfo.UserName,
+                ClientCode = resPaypointVianetPaymentInfo.ClientCode,
+                Mode = "RSDishHomePin" //Response vianet payment from Checkpayment
+
+            };
+            return objresPaypointDishHomePaymentModel.ResponsePaypointDishHomeOnlinePaymentInfo(objresPaypointDishHomeOnlinePaymentInfo);
+        }
+        #endregion
+
+
+        #region Response excute payment
+
+        public static int ResponseEPPaypointDHPinInfo(PaypointModel resEPPaypointInfo)
+        {
+            var objresEPaypointModel = new PaypointUserModel();
+            var objresEPaypointInfo = new PaypointModel
+            {
+                companyCode = resEPPaypointInfo.companyCodeResEP,
+                serviceCode = resEPPaypointInfo.serviceCodeResEP,
+                account = resEPPaypointInfo.accountResEP,
+                special1 = resEPPaypointInfo.special1ResEP,
+                special2 = resEPPaypointInfo.special2ResEP,
+
+                transactionDate = resEPPaypointInfo.transactionDateResEP,
+                transactionId = resEPPaypointInfo.transactionIdResEP,
+                refStan = resEPPaypointInfo.refStanResEP,
+                amount = resEPPaypointInfo.amountResEP,
+                billNumber = resEPPaypointInfo.billNumberResEP,
+
+                userId = resEPPaypointInfo.userIdResEP,
+                userPassword = resEPPaypointInfo.userPasswordResEP,
+                salePointType = resEPPaypointInfo.salePointTypeResEP,
+                retrievalReference = resEPPaypointInfo.retrievalReferenceResEP,
+                responseCode = resEPPaypointInfo.responseCodeResEP,
+                description = resEPPaypointInfo.descriptionResEP,
+                customerName = resEPPaypointInfo.customerNameResEP,
+                UserName = resEPPaypointInfo.UserName,
+                ClientCode = resEPPaypointInfo.ClientCode,
+                paypointType = resEPPaypointInfo.paypointType,
+                resultMessage = resEPPaypointInfo.resultMessageResEP,
+                voucherCode= resEPPaypointInfo.voucherCode,
+                id = resEPPaypointInfo.id,
+                Mode = "RSDHPnInf"
+
+
+
+
+            };
+            return objresEPaypointModel.ResponsePaypointDHPinInfo(objresEPaypointInfo);
+        }
+        #endregion
+
 
     }
 }

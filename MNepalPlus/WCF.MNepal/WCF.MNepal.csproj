@@ -126,6 +126,7 @@
     <Content Include="authlogin.svc" />
     <Content Include="bankinfo.svc" />
     <Content Include="cash.svc" />
+    <Content Include="DishHomePinless.svc" />
     <Content Include="subisu.svc" />
     <Content Include="vianet.svc" />
     <Content Include="wlink.svc" />
@@ -203,6 +204,9 @@
     </Compile>
     <Compile Include="coupon.svc.cs">
       <DependentUpon>coupon.svc</DependentUpon>
+    </Compile>
+    <Compile Include="DishHomePinless.svc.cs">
+      <DependentUpon>DishHomePinless.svc</DependentUpon>
     </Compile>
     <Compile Include="ErrorMsg\ErrorMessage.cs" />
     <Compile Include="forgot.svc.cs">
