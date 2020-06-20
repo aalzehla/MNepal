@@ -593,6 +593,68 @@ namespace WCF.MNepal.UserModels
 
         #endregion
 
+        #region response utility
+        public int ResponsePaypointUtilityInfo(PaypointModel objresPaypointPaymentInfo)
+        {
+            SqlConnection sqlCon = null;
+            int ret;
+            try
+            {
+                using (sqlCon = new SqlConnection(DatabaseConnection.ConnectionString()))
+                {
+                    sqlCon.Open();
+                    using (SqlCommand sqlCmd = new SqlCommand("[s_MNTopUp]", sqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        sqlCmd.Parameters.AddWithValue("@description", objresPaypointPaymentInfo.description);
+                        sqlCmd.Parameters.AddWithValue("@packageAmount", objresPaypointPaymentInfo.amountP);
+                        sqlCmd.Parameters.AddWithValue("@billDate", objresPaypointPaymentInfo.transactionDate);
+                        sqlCmd.Parameters.AddWithValue("@billAmount", objresPaypointPaymentInfo.amount);
+                        sqlCmd.Parameters.AddWithValue("@billNumber", objresPaypointPaymentInfo.billNumber);
+                        sqlCmd.Parameters.AddWithValue("@refStan", objresPaypointPaymentInfo.refStan);
+                        sqlCmd.Parameters.AddWithValue("@serviceNumber", objresPaypointPaymentInfo.customerName);
+                        sqlCmd.Parameters.AddWithValue("@companyCode", objresPaypointPaymentInfo.companyCode);
+                        sqlCmd.Parameters.AddWithValue("@userName", objresPaypointPaymentInfo.UserName);
+                        sqlCmd.Parameters.AddWithValue("@clientCode", objresPaypointPaymentInfo.ClientCode);
+                        sqlCmd.Parameters.AddWithValue("@serviceCode", objresPaypointPaymentInfo.serviceCode);
+                        sqlCmd.Parameters.AddWithValue("@Mode", objresPaypointPaymentInfo.Mode);
+
+
+
+                        sqlCmd.Parameters.Add("@RegIDOut", SqlDbType.Char, 500);
+                        sqlCmd.Parameters["@RegIDOut"].Direction = ParameterDirection.Output;
+
+                        sqlCmd.Parameters.Add("@MsgStr", SqlDbType.VarChar, 500);
+                        sqlCmd.Parameters["@MsgStr"].Direction = ParameterDirection.Output;
+
+                        ret = sqlCmd.ExecuteNonQuery();
+                        //if (objresPaypointPaymentInfo.Mode.Equals("SCA", StringComparison.InvariantCultureIgnoreCase))
+                        //{
+                        //    ret = Convert.ToInt32(sqlCmd.Parameters["@RegIDOut"].Value);
+
+                        //}
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                if (sqlCon != null)
+                {
+                    sqlCon.Close();
+                }
+            }
+            return ret;
+        }
+
+        #endregion
+
 
 
 

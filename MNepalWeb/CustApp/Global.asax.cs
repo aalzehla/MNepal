@@ -18,6 +18,7 @@ namespace CustApp
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AntiForgeryConfig.SuppressIdentityHeuristicChecks = true;
+            MvcHandler.DisableMvcResponseHeader = true; //this line is to hide mvc header
         }
     }
 }

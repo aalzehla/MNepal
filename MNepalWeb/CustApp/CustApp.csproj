@@ -227,6 +227,7 @@
     <Compile Include="Controllers\TermsAndConditionController.cs" />
     <Compile Include="Controllers\TvServicePaymentController.cs" />
     <Compile Include="Controllers\UserDashboardController.cs" />
+    <Compile Include="Controllers\UtilityController.cs" />
     <Compile Include="Controllers\UtilityPayController.cs" />
     <Compile Include="Controllers\VianetController.cs" />
     <Compile Include="Controllers\WlinkController.cs" />
@@ -20913,6 +20914,7 @@
     <Content Include="Content\eng_date_comp\node_modules\yargs\lib\parser.js" />
     <Content Include="Content\eng_date_comp\node_modules\yargs\lib\usage.js" />
     <Content Include="Content\eng_date_comp\node_modules\yargs\lib\validation.js" />
+    <Content Include="Content\image\loading.gif" />
     <Content Include="Content\image\nibl.png" />
     <Content Include="Content\NewIcon\demo-files\demo.css" />
     <Content Include="Content\NewIcon\demo-files\demo.js" />
@@ -25557,6 +25559,16 @@
     <Content Include="Views\TvServicePayment\Details.cshtml" />
     <Content Include="Views\TvServicePayment\DishHomePinCode.cshtml" />
     <Content Include="Views\TvServicePayment\DHPinDetails.cshtml" />
+    <Content Include="Views\Utility\NCellTopUp.cshtml" />
+    <Content Include="Views\Utility\NCellDetails.cshtml" />
+    <Content Include="Views\Utility\NTCTopUp.cshtml" />
+    <Content Include="Views\Utility\NTCTopUpDetails.cshtml" />
+    <Content Include="Views\Utility\NTCCDMA.cshtml" />
+    <Content Include="Views\Utility\NTCCDMADetails.cshtml" />
+    <Content Include="Views\Utility\SmartCellTopUp.cshtml" />
+    <Content Include="Views\Utility\SmartCellTopUpDetails.cshtml" />
+    <Content Include="Views\Utility\SmartCellEPIN.cshtml" />
+    <Content Include="Views\Utility\SmartCellEPINCheckDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

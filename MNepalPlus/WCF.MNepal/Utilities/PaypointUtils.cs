@@ -631,6 +631,131 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
+        #region"Response CP Utility Online payments"
+        public static int PaypointUtilityNCellInfo(PaypointModel resPaypointTopUpInfo)
+        {
+            var objresPaypointNcellPaymentModel = new PaypointUserModel();
+            var objresPaypointNcellPaymentInfo = new PaypointModel
+            {
+
+                description = "",
+                amountP = "",
+                billNumber = resPaypointTopUpInfo.billNumber,
+                refStan = resPaypointTopUpInfo.refStan,
+                amount = resPaypointTopUpInfo.amount,
+                transactionDate = resPaypointTopUpInfo.transactionDate,
+                customerName = resPaypointTopUpInfo.customerName,
+                companyCode = resPaypointTopUpInfo.companyCode,
+                UserName = resPaypointTopUpInfo.UserName,
+                ClientCode = resPaypointTopUpInfo.ClientCode,
+                serviceCode = resPaypointTopUpInfo.serviceCode,
+                Mode = "RSNcell" //Response Ncell payment from Checkpayment
+
+            };
+            return objresPaypointNcellPaymentModel.ResponsePaypointUtilityInfo(objresPaypointNcellPaymentInfo);
+        }
+        #endregion
+
+        #region"Response CP Utility Online payments"
+        public static int PaypointUtilityNTCInfo(PaypointModel resPaypointTopUpInfo)
+        {
+            var objresPaypointNTCPaymentModel = new PaypointUserModel();
+            var objresPaypointNTCPaymentInfo = new PaypointModel
+            {
+
+                description = resPaypointTopUpInfo.description,
+                amountP = resPaypointTopUpInfo.amountP,
+                billNumber = resPaypointTopUpInfo.billNumber,
+                refStan = resPaypointTopUpInfo.refStan,
+                amount = resPaypointTopUpInfo.amount,
+                transactionDate = resPaypointTopUpInfo.transactionDate,
+                customerName = resPaypointTopUpInfo.customerName,
+                companyCode = resPaypointTopUpInfo.companyCode,
+                UserName = resPaypointTopUpInfo.UserName,
+                ClientCode = resPaypointTopUpInfo.ClientCode,
+                serviceCode = resPaypointTopUpInfo.serviceCode,
+                Mode = "RSNTC" //Response NTC payment from Checkpayment
+
+            };
+            return objresPaypointNTCPaymentModel.ResponsePaypointUtilityInfo(objresPaypointNTCPaymentInfo);
+        }
+        #endregion
+
+        #region"Response CP Utility Online payments"
+        public static int PaypointUtilityNTCCDMAInfo(PaypointModel resPaypointTopUpInfo)
+        {
+            var objresPaypointNTCPaymentModel = new PaypointUserModel();
+            var objresPaypointNTCPaymentInfo = new PaypointModel
+            {
+
+                description = "",
+                amountP = "",
+                billNumber = resPaypointTopUpInfo.billNumber,
+                refStan = resPaypointTopUpInfo.refStan,
+                amount = resPaypointTopUpInfo.amount,
+                transactionDate = resPaypointTopUpInfo.transactionDate,
+                customerName = resPaypointTopUpInfo.customerName,
+                companyCode = resPaypointTopUpInfo.companyCode,
+                UserName = resPaypointTopUpInfo.UserName,
+                ClientCode = resPaypointTopUpInfo.ClientCode,
+                serviceCode = resPaypointTopUpInfo.serviceCode,
+                Mode = "RSNTCCDMA" //Response NTC CDMA payment from Checkpayment
+
+            };
+            return objresPaypointNTCPaymentModel.ResponsePaypointUtilityInfo(objresPaypointNTCPaymentInfo);
+        }
+        #endregion
+
+        #region"Response CP Utility Online payments"
+        public static int PaypointUtilitySmartCellTopUpInfo(PaypointModel resPaypointTopUpInfo)
+        {
+            var objresPaypointNTCPaymentModel = new PaypointUserModel();
+            var objresPaypointNTCPaymentInfo = new PaypointModel
+            {
+
+                description = "",
+                amountP = "",
+                billNumber = resPaypointTopUpInfo.billNumber,
+                refStan = resPaypointTopUpInfo.refStan,
+                amount = resPaypointTopUpInfo.amount,
+                transactionDate = resPaypointTopUpInfo.transactionDate,
+                customerName = resPaypointTopUpInfo.customerName,
+                companyCode = resPaypointTopUpInfo.companyCode,
+                UserName = resPaypointTopUpInfo.UserName,
+                ClientCode = resPaypointTopUpInfo.ClientCode,
+                serviceCode = resPaypointTopUpInfo.serviceCode,
+                Mode = "RSSCTopUp" //Response SmartCell TopUp payment from Checkpayment
+
+            };
+            return objresPaypointNTCPaymentModel.ResponsePaypointUtilityInfo(objresPaypointNTCPaymentInfo);
+        }
+        #endregion
+
+        #region"Response CP Utility Online payments"
+        public static int PaypointUtilitySmartCellEPINInfo(PaypointModel resPaypointTopUpInfo)
+        {
+            var objresPaypointNTCPaymentModel = new PaypointUserModel();
+            var objresPaypointNTCPaymentInfo = new PaypointModel
+            {
+
+                description = "",
+                amountP = "",
+                billNumber = resPaypointTopUpInfo.billNumber,
+                refStan = resPaypointTopUpInfo.refStan,
+                amount = resPaypointTopUpInfo.amount,
+                transactionDate = resPaypointTopUpInfo.transactionDate,
+                customerName = resPaypointTopUpInfo.customerName,
+                companyCode = resPaypointTopUpInfo.companyCode,
+                UserName = resPaypointTopUpInfo.UserName,
+                ClientCode = resPaypointTopUpInfo.ClientCode,
+                serviceCode = resPaypointTopUpInfo.serviceCode,
+                Mode = "RSSCEPIN" //Response SmartCell TopUp payment from Checkpayment
+
+            };
+            return objresPaypointNTCPaymentModel.ResponsePaypointUtilityInfo(objresPaypointNTCPaymentInfo);
+        }
+        #endregion
+
         #region"Response CP DishHome Online payments"
         public static int PaypointDishHomePinInfo(PaypointModel resPaypointVianetPaymentInfo)
         {

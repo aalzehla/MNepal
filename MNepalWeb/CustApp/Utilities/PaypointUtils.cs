@@ -172,6 +172,146 @@ namespace CustApp.Utilities
         }
         #endregion
 
+        #region Ncell Details
+        public static DataSet GetNcellDetails(ISP iSP)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = iSP.ClientCode,
+                UserName = iSP.UserName,
+                CustomerID = iSP.CustomerID,
+                refStan = iSP.refStan,
+                Mode = "Ncell" // GET NCell Details
+            };
+            return objUserModel.GetPayPointPaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region NTC Details
+        public static DataSet GetNTCDetails(ISP iSP)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = iSP.ClientCode,
+                UserName = iSP.UserName,
+                CustomerID = iSP.CustomerID,
+                refStan = iSP.refStan,
+                Mode = "NTC" // GET NTC Details
+            };
+            return objUserModel.GetPayPointPaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region NTC CDMA Details
+        public static DataSet GetNTCCDMADetails(ISP iSP)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = iSP.ClientCode,
+                UserName = iSP.UserName,
+                CustomerID = iSP.CustomerID,
+                refStan = iSP.refStan,
+                Mode = "NTCCDMA" // GET NTC Details
+            };
+            return objUserModel.GetPayPointPaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region SmartCell TopUp Details
+        public static DataSet GetSmartCellTopUpDetails(ISP iSP)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = iSP.ClientCode,
+                UserName = iSP.UserName,
+                CustomerID = iSP.CustomerID,
+                refStan = iSP.refStan,
+                Mode = "SCTopUp" // GET SmartCell TopUp Details
+            };
+            return objUserModel.GetPayPointPaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region SmartCell EPIN Details
+        public static DataSet GetSmartCellEPINDetails(ISP iSP)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = iSP.ClientCode,
+                UserName = iSP.UserName,
+                CustomerID = iSP.CustomerID,
+                refStan = iSP.refStan,
+                Mode = "SCEPIN" // GET SmartCell EPIN Details
+            };
+            return objUserModel.GetPayPointPaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region GetNCellServices
+        public static Dictionary<string, string> GetNCellServices()
+        {
+            var objKhanepaniModel = new PaypointUserModel();
+
+            return objKhanepaniModel.GetNCellServices();
+        }
+
+        #endregion
+
+        #region GetNCellPackages
+        public static Dictionary<string, string> GetNCellPackages()
+        {
+            var objKhanepaniModel = new PaypointUserModel();
+
+            return objKhanepaniModel.GetNCellPackages();
+        }
+
+        #endregion
+
+        #region GetNTCServices
+        public static Dictionary<string, string> GetNTCServices()
+        {
+            var objKhanepaniModel = new PaypointUserModel();
+
+            return objKhanepaniModel.GetNTCServices();
+        }
+
+        #endregion
+
+        #region GetNTCCDMAServices
+        public static Dictionary<string, string> GetNTCCDMAServices()
+        {
+            var objKhanepaniModel = new PaypointUserModel();
+
+            return objKhanepaniModel.GetNTCCDMAServices();
+        }
+
+        #endregion
+
+        #region GetSmartCellServices
+        public static Dictionary<string, string> GetSmartCellServices()
+        {
+            var objKhanepaniModel = new PaypointUserModel();
+
+            return objKhanepaniModel.GetSmartCellServices();
+        }
+
+        #endregion
+
+        #region GetSmartCell EPIN Services
+        public static Dictionary<string, string> GetSmartCellEPINServices()
+        {
+            var objKhanepaniModel = new PaypointUserModel();
+
+            return objKhanepaniModel.GetSmartCellServices();
+        }
+
+        #endregion
+
         #region
         public static Dictionary<string, string> GetDishHomeServiceCode()
         {

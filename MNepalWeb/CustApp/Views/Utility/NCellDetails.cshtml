@@ -1,7 +1,7 @@
-﻿@model CustApp.Models.ISP
+﻿@model CustApp.Models.NepalWater
 
 @{
-    ViewBag.Title = "Vianet Payment";
+    ViewBag.Title = "NCell Payment";
     string hasBankKYC = ViewBag.HasBankKYC;
     //float TotalAmountDue = parseFloat(@ViewBag.TotalAmountDue);
 
@@ -23,19 +23,17 @@
         z-index: 2;
     }
 
-    .show-tick{
-        margin-top:10px;
-        height:45px;
-        width:610px;
+    .show-tick {
+        margin-top: 10px;
+        height: 45px;
+        width: 610px;
     }
 </style>
 
-@using (Html.BeginForm("VianetExecutePayment", "Vianet", FormMethod.Post, new { @id = "VianetExecutePayment", @name = "VianetExecutePayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("NCellExecutePayment", "Utility", FormMethod.Post, new { @id = "NCellExecutePayment", @name = "NCellExecutePayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
 {
-
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
     <div class="main-content">
         <div class="two-colbg">
             <div class="container">
@@ -44,7 +42,7 @@
                     <div class="col-lg-6">
                         <section class="internet-payment pad-50">
                             <div class="top-section">
-                                <h2 class="title">Vianet Bill Payment</h2>
+                                <h2 class="title">NCell</h2>
                                 <p>Please fill the required field.</p>
                             </div>
                             <div class="instant-transactions">
@@ -159,73 +157,35 @@
                             <div class="box-header with-border">
                                 <h2 class="title">Confirm Payment</h2>
                             </div>
-                            @*<div class="row">
-            <div class="col-md-6">
-                <label>NepalWater Counter:</label>
-            </div>
-            <div class="col-md-6">
-                <label>@ViewBag.NWBranchName</label>
-            </div>
-        </div>*@
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>Service Name:</label>
+                                    <label>Service Provider:</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <label>@ViewBag.paypointType</label>
+                                    <label>NCell</label>
                                 </div>
                             </div>
 
+
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>Customer Name:</label>
+                                    <label>Mobile Number:</label>
                                 </div>
                                 <div class="col-md-6">
                                     <label>@ViewBag.CustomerID</label>
                                 </div>
                             </div>
 
-
-
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>Total Dues:</label>
+                                    <label>Total Amount:</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <label id="totalDeuAmount">RS.@ViewBag.TotalAmountDue</label>
+                                    <label id="totalDeuAmount">@ViewBag.BillAmount</label>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Package Details:</label>
-                                   @* @Html.DropDownList("Description", new SelectList(ViewBag.ListDetails, "Description", "Description"), new { @class = "show-tick", @id = "drpdwn", onChange = "updateNRs()" })*@
-                                    <select id = "drpdwn" onChange = "updateNRs()" name="Description" class="show-tick">
-                                        @foreach (var package in ViewBag.ListDetails)
-                                        {
-                                        <option amount ="@package.PackageAmount" id="@package.PackageId" name="getPackageId">@package.Description</option>  
-
-                                        }
-                                       
-                                    </select>
-                                </div>
-                            </div>
-
-                            <hr />
-                            @*<table>
-                                @foreach (var shift in ViewBag.ListDetails)
-                                {
-
-                                    <tr>
-                                        <td style="text-align:center;padding-left:10px;">
-                                            @shift.Description<hr />
-                                        </td>
-                                    </tr>
-
-                                }
-                            </table>*@
-                            <br />
                             <br />
 
                             <div class="transfer-order clearfix">
@@ -248,7 +208,7 @@
                                     </label>
                                     <div class="form-group  input-group">
                                         <div class="form-control col-4">NPR.</div>
-                                        @Html.TextBox("amount", (string)ViewBag.TotalAmountDue, new
+                                        @Html.TextBox("amount", (string)ViewBag.BillAmount, new
                                        {
                                            @class = "form-control",
                                            @title = "Please use Amount",
@@ -266,7 +226,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="col-sm-12" for="@Html.NameFor(x=>x.TPin)"> Tpin (<span style="color: red">*</span>)</label>
+                                        <label class="col-sm-12" for="@Html.NameFor(x=>x.TPin)"> Tpin (<span style="color:red">*</span>)</label>
 
                                         @Html.PasswordFor(x => x.TPin, new { @class = "form-control pwd1", @title = "Please use T-Pin number", @placeholder = "T-Pin", @maxlength = "4", @onkeypress = "return isNumber(event)", @oninput = "checkValidation()", @autocomplete = "new-password", @onpaste = "return false" })
                                         <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
@@ -303,7 +263,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Success modal -->
     <div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
@@ -379,29 +338,6 @@
         };
 
 
-        
-       function updateNRs()
-       {
-           debugger;
-
-           var a = document.getElementById('drpdwn').value;
-
-           var dropdown = document.getElementById('drpdwn');
-           var selectedOption = dropdown.options[dropdown.selectedIndex];
-           var selectedOptionAmount = selectedOption.getAttribute('amount');
-           var selectedOptionId = selectedOption.getAttribute('id');
-           window.getPackageId = selectedOptionId;
-           console.log(selectedOption);
-           console.log(selectedOptionAmount);
-           console.log(selectedOptionId);
-
-           document.getElementById('totalDeuAmount').innerHTML = "NRs. " + selectedOptionAmount;
-           document.getElementById('amount').value = selectedOptionAmount;
-        }
-
-        
-
-      
 
         function isNumber(evt) {
             evt = (evt) ? evt : window.event;
@@ -429,7 +365,6 @@
             return true;
         }
 
-        
         $(".show-tick").prepend("<option value='0' disabled selected>---Select Option---</option>");
 
         function checkValidation() {
@@ -500,12 +435,10 @@
 
         $('#btnSubmit').click(function (e) {
             e.preventDefault();
-            debugger;
             var amount = $("[name='amount']").val();
             var TPin = $("[name='TPin']").val();
             var Remarks = $("[name='Remarks']").val();
-            var servicecode = $("[name='TransactionMedium']").val();  
-            var getPackageId = window.getPackageId;  //getPackageId
+            var servicecode = $("[name='TransactionMedium']").val();
             if ((amount != "") && (Remarks != "") && (TPin != "") && (TPin.length == 4)) {
 
                 var dataToPost = {
@@ -513,19 +446,17 @@
                     amount: amount,
                     Remarks: Remarks,
                     TPin: TPin,
-                    PackageId: getPackageId
                 };
 
                 e.preventDefault(); //prevent the default action
                 $.ajax({
-                    url: '@Url.Action("VianetExecutePayment", "Vianet")',
+                    url: '@Url.Action("NCellExecutePayment", "Utility")',
                     type: "POST",
                     data: dataToPost,
                     async: false,
                     success: function (data) {
 
                         if (data.responseCode == "200") {
-                            debugger;
                             $("#ajaxResponse").html("");
                             var resp = JSON.parse(data.responseText);
                             $('#successModal').modal("show");
