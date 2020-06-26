@@ -618,6 +618,7 @@ namespace WCF.MNepal.UserModels
                         sqlCmd.Parameters.AddWithValue("@userName", objresPaypointPaymentInfo.UserName);
                         sqlCmd.Parameters.AddWithValue("@clientCode", objresPaypointPaymentInfo.ClientCode);
                         sqlCmd.Parameters.AddWithValue("@serviceCode", objresPaypointPaymentInfo.serviceCode);
+                        sqlCmd.Parameters.AddWithValue("@serviceDescription", objresPaypointPaymentInfo.paypointType);
                         sqlCmd.Parameters.AddWithValue("@Mode", objresPaypointPaymentInfo.Mode);
 
 

@@ -191,7 +191,8 @@ namespace WCF.MNepal
                             companyCode = companyCode,
                             UserName = mobile,
                             ClientCode = ClientCode,
-                            serviceCode = serviceCode
+                            serviceCode = serviceCode,
+                            paypointType = paypointType
 
                         };
 

@@ -649,6 +649,7 @@ namespace WCF.MNepal.Utilities
                 UserName = resPaypointTopUpInfo.UserName,
                 ClientCode = resPaypointTopUpInfo.ClientCode,
                 serviceCode = resPaypointTopUpInfo.serviceCode,
+                paypointType = resPaypointTopUpInfo.paypointType,
                 Mode = "RSNcell" //Response Ncell payment from Checkpayment
 
             };
@@ -674,6 +675,7 @@ namespace WCF.MNepal.Utilities
                 UserName = resPaypointTopUpInfo.UserName,
                 ClientCode = resPaypointTopUpInfo.ClientCode,
                 serviceCode = resPaypointTopUpInfo.serviceCode,
+                paypointType = "",
                 Mode = "RSNTC" //Response NTC payment from Checkpayment
 
             };
@@ -699,6 +701,7 @@ namespace WCF.MNepal.Utilities
                 UserName = resPaypointTopUpInfo.UserName,
                 ClientCode = resPaypointTopUpInfo.ClientCode,
                 serviceCode = resPaypointTopUpInfo.serviceCode,
+                paypointType = "",
                 Mode = "RSNTCCDMA" //Response NTC CDMA payment from Checkpayment
 
             };
@@ -724,6 +727,7 @@ namespace WCF.MNepal.Utilities
                 UserName = resPaypointTopUpInfo.UserName,
                 ClientCode = resPaypointTopUpInfo.ClientCode,
                 serviceCode = resPaypointTopUpInfo.serviceCode,
+                paypointType = "",
                 Mode = "RSSCTopUp" //Response SmartCell TopUp payment from Checkpayment
 
             };
@@ -749,6 +753,7 @@ namespace WCF.MNepal.Utilities
                 UserName = resPaypointTopUpInfo.UserName,
                 ClientCode = resPaypointTopUpInfo.ClientCode,
                 serviceCode = resPaypointTopUpInfo.serviceCode,
+                paypointType = "",
                 Mode = "RSSCEPIN" //Response SmartCell TopUp payment from Checkpayment
 
             };

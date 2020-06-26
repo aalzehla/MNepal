@@ -166,14 +166,15 @@ namespace CustApp.Controllers
             }
             if(iSP.ServiceCode=="3")
             {
-                paypointType = "NCell DataPackage";
                 if (iSP.PackageAmount == "Per Day 300MB - 98.99 Rs")
                 {
                     special1 = "Per_Day_300MB";
+                    paypointType = special1;
                 }
                 if (iSP.PackageAmount == "Per Day 500MB - 498.83 Rs")
                 {
                     special1 = "Per_Day_500MB";
+                    paypointType = special1;
                 }
             }
             using (HttpClient client = new HttpClient())

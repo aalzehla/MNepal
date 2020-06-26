@@ -266,7 +266,6 @@ namespace WCF.MNepal.Models
         public string userIdCP { get; set; }
         public string userPasswordCP { get; set; }
         public string salePointTypeCP { get; set; }
-
         public string retrievalReferenceCP { get; set; }
 
 

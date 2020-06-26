@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\MNepal\Desktop\New folder</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\MNepal\Desktop\wcf</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="asterisknow.svc">
@@ -58,13 +58,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 15:30:00</publishTime>
     </File>
     <File Include="bin/MNepalProject.dll">
-      <publishTime>03/17/2020 15:35:32</publishTime>
+      <publishTime>05/19/2020 16:12:06</publishTime>
     </File>
     <File Include="bin/MNepalProject.dll.config">
-      <publishTime>03/08/2020 15:00:49</publishTime>
+      <publishTime>04/21/2020 12:59:02</publishTime>
     </File>
     <File Include="bin/MNepalProject.pdb">
-      <publishTime>03/17/2020 15:35:32</publishTime>
+      <publishTime>05/19/2020 16:12:06</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>02/18/2018 09:44:54</publishTime>
@@ -109,10 +109,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/01/2018 12:20:56</publishTime>
     </File>
     <File Include="bin/WCF.MNepal.dll">
-      <publishTime>03/19/2020 12:49:26</publishTime>
+      <publishTime>06/26/2020 10:57:45</publishTime>
     </File>
     <File Include="bin/WCF.MNepal.pdb">
-      <publishTime>03/19/2020 12:49:26</publishTime>
+      <publishTime>06/26/2020 10:57:45</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>03/06/2015 15:30:01</publishTime>
@@ -135,6 +135,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="coupon.svc">
       <publishTime>03/11/2019 16:06:44</publishTime>
     </File>
+    <File Include="DishHomePinless.svc">
+      <publishTime>05/12/2020 10:46:26</publishTime>
+    </File>
     <File Include="forgot.svc">
       <publishTime>10/14/2018 15:50:32</publishTime>
     </File>
@@ -151,7 +154,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/11/2019 16:06:45</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>03/08/2020 15:00:47</publishTime>
+      <publishTime>04/07/2020 15:30:42</publishTime>
     </File>
     <File Include="paypoint.svc">
       <publishTime>11/24/2019 14:51:43</publishTime>
@@ -186,11 +189,23 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="share.svc">
       <publishTime>03/05/2020 16:33:26</publishTime>
     </File>
+    <File Include="subisu.svc">
+      <publishTime>04/21/2020 12:58:48</publishTime>
+    </File>
     <File Include="topup.svc">
       <publishTime>03/11/2019 16:06:49</publishTime>
     </File>
+    <File Include="Utility.svc">
+      <publishTime>05/12/2020 12:16:58</publishTime>
+    </File>
+    <File Include="vianet.svc">
+      <publishTime>04/21/2020 12:59:02</publishTime>
+    </File>
     <File Include="Web.config">
-      <publishTime>03/17/2020 15:36:24</publishTime>
+      <publishTime>06/23/2020 09:54:11</publishTime>
+    </File>
+    <File Include="wlink.svc">
+      <publishTime>03/25/2020 11:50:25</publishTime>
     </File>
   </ItemGroup>
 </Project>
