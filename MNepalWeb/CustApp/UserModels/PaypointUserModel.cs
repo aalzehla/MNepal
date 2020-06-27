@@ -426,7 +426,7 @@ namespace CustApp.UserModels
             return dtset;
         }
 
-        #region Dish Home Payment Details
+        #region DishHome, BroadLink Payment Details 
         public DataSet GetDishHomePaymentDetails(ISP objUserInfo)
         {
             Database database;
@@ -840,6 +840,55 @@ namespace CustApp.UserModels
                             string DHVoucherAmount = rdr["Notes"].ToString();
                             //string NEATypeId = rdr["NeaID"].ToString();
                             ListDHSserviceCode.Add(DHServiceCode, DHVoucherAmount);
+                        }
+                        if (conn.State != ConnectionState.Closed)
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+
+            }
+            return ListDHSserviceCode;
+        }
+        #endregion
+
+        #region BroadLink Service Code
+        public Dictionary<string, string> GetBroadLinkServiceCode()
+        {
+            SqlDataReader rdr;
+            SqlConnection conn = null;
+            Dictionary<string, string> ListDHSserviceCode = new Dictionary<string, string>();
+            try
+            {
+                using (conn = new SqlConnection(DatabaseConnection.ConnectionStr()))
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.CommandText = "SELECT * FROM MNBroadLinkServiceCode (NOLOCK) ";
+                        cmd.Connection = conn;
+                        if (conn.State != ConnectionState.Open)
+                        {
+                            conn.Open();
+                        }
+                        rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            string BLServiceCode = rdr["ServiceCode"].ToString();
+                            string BLVoucherAmount = rdr["ServiceName"].ToString();
+                            //string NEATypeId = rdr["NeaID"].ToString();
+                            ListDHSserviceCode.Add(BLServiceCode, BLVoucherAmount);
                         }
                         if (conn.State != ConnectionState.Closed)
                         {

@@ -125,6 +125,7 @@
     <Content Include="authenticate.svc" />
     <Content Include="authlogin.svc" />
     <Content Include="bankinfo.svc" />
+    <Content Include="BroadLink.svc" />
     <Content Include="cash.svc" />
     <Content Include="DishHomePinless.svc" />
     <Content Include="subisu.svc" />
@@ -189,6 +190,9 @@
     </Compile>
     <Compile Include="bankinfo.svc.cs">
       <DependentUpon>bankinfo.svc</DependentUpon>
+    </Compile>
+    <Compile Include="BroadLink.svc.cs">
+      <DependentUpon>BroadLink.svc</DependentUpon>
     </Compile>
     <Compile Include="cash.svc.cs">
       <DependentUpon>cash.svc</DependentUpon>

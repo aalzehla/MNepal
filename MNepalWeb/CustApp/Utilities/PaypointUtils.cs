@@ -252,6 +252,22 @@ namespace CustApp.Utilities
         }
         #endregion
 
+        #region BroadLink Details
+        public static DataSet GetBroadLinkDetails(ISP iSP)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = iSP.ClientCode,
+                UserName = iSP.UserName,
+                CustomerID = iSP.CustomerID,
+                refStan = iSP.refStan,
+                Mode = "BroadLink" // GET BroadLink Details
+            };
+            return objUserModel.GetDishHomePaymentDetails(objUserInfo);
+        }
+        #endregion
+
         #region GetNCellServices
         public static Dictionary<string, string> GetNCellServices()
         {
@@ -318,6 +334,16 @@ namespace CustApp.Utilities
             var objKhanepaniModel = new PaypointUserModel();
 
             return objKhanepaniModel.GetDishHomeServiceCode();
+        }
+
+        #endregion
+
+        #region
+        public static Dictionary<string, string> GetBroadLinkServiceCode()
+        {
+            var objKhanepaniModel = new PaypointUserModel();
+
+            return objKhanepaniModel.GetBroadLinkServiceCode();
         }
 
         #endregion

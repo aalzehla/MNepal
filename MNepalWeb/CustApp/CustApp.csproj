@@ -196,6 +196,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Connection\DatabaseConnection.cs" />
     <Compile Include="Controllers\BankAccController.cs" />
+    <Compile Include="Controllers\BroadLinkController.cs" />
     <Compile Include="Controllers\CashController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\CustomerRegAppController.cs" />
@@ -25569,6 +25570,8 @@
     <Content Include="Views\Utility\SmartCellTopUpDetails.cshtml" />
     <Content Include="Views\Utility\SmartCellEPIN.cshtml" />
     <Content Include="Views\Utility\SmartCellEPINCheckDetails.cshtml" />
+    <Content Include="Views\BroadLink\Index.cshtml" />
+    <Content Include="Views\BroadLink\BroadLinkDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

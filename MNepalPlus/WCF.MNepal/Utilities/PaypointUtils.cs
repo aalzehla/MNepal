@@ -831,6 +831,33 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
+        #region"Response CP BroadLink Online payments"
+        public static int PaypointBroadLinkInfo(PaypointModel resPaypointVianetPaymentInfo)
+        {
+            var objresPaypointBroadLinkPaymentModel = new PaypointUserModel();
+            var objresPaypointBroadLinkOnlinePaymentInfo = new PaypointModel
+            {
+                description = "",
+                amountP = "",
+                Bonus = "",
+                PackageId = "",
+                billNumber = resPaypointVianetPaymentInfo.billNumber,
+                refStan = resPaypointVianetPaymentInfo.refStan,
+                amount = resPaypointVianetPaymentInfo.amount,
+                transactionDate = resPaypointVianetPaymentInfo.transactionDate,
+                customerName = resPaypointVianetPaymentInfo.customerName,
+                companyCode = resPaypointVianetPaymentInfo.companyCode,
+                UserName = resPaypointVianetPaymentInfo.UserName,
+                ClientCode = resPaypointVianetPaymentInfo.ClientCode,
+                serviceCode = resPaypointVianetPaymentInfo.serviceCode,
+                paypointType = resPaypointVianetPaymentInfo.paypointType,              
+                Mode = "BroadLink" //Response broadlink payment from Checkpayment
+
+            };
+            return objresPaypointBroadLinkPaymentModel.ResponsePaypointUtilityInfo(objresPaypointBroadLinkOnlinePaymentInfo);
+        }
+        #endregion
+
 
     }
 }
