@@ -134,7 +134,23 @@ namespace CustApp.Utilities
                 UserName = KPObj.UserName,
                 CustomerID = KPObj.CustomerID,
                 refStan = KPObj.refStan,
-                Mode = "Vianet" // GET NEA Details
+                Mode = "Vianet" // GET Vianet Details
+            };
+            return objUserModel.GetVianetPaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region SIMTV Details
+        public static DataSet GetSIMTVDetails(ISP KPObj)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = KPObj.ClientCode,
+                UserName = KPObj.UserName,
+                CustomerID = KPObj.CustomerID,
+                refStan = KPObj.refStan,
+                Mode = "SIMTV" // GET SIMTV Details
             };
             return objUserModel.GetVianetPaymentDetails(objUserInfo);
         }

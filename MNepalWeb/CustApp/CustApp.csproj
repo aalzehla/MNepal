@@ -25557,6 +25557,8 @@
     <Content Include="Views\TvServicePayment\Details.cshtml" />
     <Content Include="Views\TvServicePayment\DishHomePinCode.cshtml" />
     <Content Include="Views\TvServicePayment\DHPinDetails.cshtml" />
+    <Content Include="Views\TvServicePayment\SIMTV.cshtml" />
+    <Content Include="Views\TvServicePayment\SIMTVDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

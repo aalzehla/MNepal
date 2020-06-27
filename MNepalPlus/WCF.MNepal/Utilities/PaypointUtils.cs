@@ -604,6 +604,32 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
+        #region"Response CP Vianet payments"
+        public static int PaypointSIMTVPaymentInfo(PaypointModel resPaypointVianetPaymentInfo)
+        {
+            var objresPaypointSIMTVPaymentModel = new PaypointUserModel();
+            var objresPaypointSIMTVPaymentInfo = new PaypointModel
+            {
+
+
+                description = resPaypointVianetPaymentInfo.description,
+                amountP = resPaypointVianetPaymentInfo.amountP,
+                PackageId = "",
+                billNumber = resPaypointVianetPaymentInfo.billNumber,
+                refStan = resPaypointVianetPaymentInfo.refStan,
+                amount = resPaypointVianetPaymentInfo.amount,
+                transactionDate = resPaypointVianetPaymentInfo.transactionDate,
+                customerName = resPaypointVianetPaymentInfo.customerName,
+                companyCode = resPaypointVianetPaymentInfo.companyCode,
+                UserName = resPaypointVianetPaymentInfo.UserName,
+                ClientCode = resPaypointVianetPaymentInfo.ClientCode,
+                Mode = "SIMTV" //Response SIMTV payment from Checkpayment
+
+            };
+            return objresPaypointSIMTVPaymentModel.ResponsePaypointVianetPaymentInfo(objresPaypointSIMTVPaymentInfo);
+        }
+        #endregion
+
         #region"Response CP DishHome Online payments"
         public static int PaypointDishHomeInfo(PaypointModel resPaypointVianetPaymentInfo)
         {
