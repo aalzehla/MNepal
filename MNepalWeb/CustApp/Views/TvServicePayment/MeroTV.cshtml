@@ -1,7 +1,7 @@
 ﻿@model CustApp.Models.ISP
 
 @{
-    ViewBag.Title = "SIMTV Payment";
+    ViewBag.Title = "MeroTV Payment";
     string hasBankKYC = ViewBag.HasBankKYC;
 
 }
@@ -24,7 +24,7 @@
 </style>
 
 
-@using (Html.BeginForm("SIMTVCheckPayment", "TvServicePayment", FormMethod.Post, new { @id = "SIMTVCheckPayment", @name = "SIMTVCheckPayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("MeroTVCheckPayment", "TvServicePayment", FormMethod.Post, new { @id = "MeroTVCheckPayment", @name = "MeroTVCheckPayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -39,7 +39,7 @@
                     <div class="col-lg-6">
                         <section class="internet-payment pad-50">
                             <div class="top-section">
-                                <h2 class="title">SIMTV Bill Payment</h2>
+                                <h2 class="title">MeroTV Bill Payment</h2>
                                 <p>Please fill the required field.</p>
                             </div>
                             <div class="instant-transactions">
@@ -154,8 +154,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="col-sm-12">Customer Number:<b style="color:red;">*</b></label>
-                                        <input type="text" class="form-control select2" id="CustomerID" name="txtCustomerID" placeholder="Example: 0123456789" maxlength="10" onkeypress="return isNumber(event)" oninput="checkValidation()" />
+                                        <label class="col-sm-12">Account Number:<b style="color:red;">*</b></label>
+                                        <input type="text" class="form-control select2" id="CustomerID" name="txtCustomerID" placeholder="Example: 0123456789" maxlength="12" onkeypress="return isNumber(event)" oninput="checkValidation()" />
                                     </div>
                                     <div class="form-group" id="CustErr" style="color:red; margin-top:-11px;"></div>
                                 </div>
@@ -297,14 +297,14 @@
 
                 e.preventDefault(); //prevent the default action
                 $.ajax({
-                    url: '@Url.Action("SIMTVCheckPayment", "TvServicePayment")',
+                    url: '@Url.Action("MeroTVCheckPayment", "TvServicePayment")',
                     type: "POST",
                     data: dataToPost,
                     async: true,
                     success: function (data) {
                         $(".preload").show();
                         if (data.responseCode == "200") {
-                            var url = '@Url.Action("SIMTVDetails", "TvServicePayment")';
+                            var url = '@Url.Action("MeroTVDetails", "TvServicePayment")';
                             window.location.href = url;
                         }
                         //display error message

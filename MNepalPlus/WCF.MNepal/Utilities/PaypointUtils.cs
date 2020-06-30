@@ -589,6 +589,9 @@ namespace WCF.MNepal.Utilities
                 description = resPaypointVianetPaymentInfo.description,
                 amountP = resPaypointVianetPaymentInfo.amountP,
                 PackageId = resPaypointVianetPaymentInfo.PackageId,
+                smartCards="",
+                ftthUser = "",
+                reserveInfo = "",
                 billNumber = resPaypointVianetPaymentInfo.billNumber,
                 refStan = resPaypointVianetPaymentInfo.refStan,
                 amount = resPaypointVianetPaymentInfo.amount,
@@ -604,7 +607,7 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
-        #region"Response CP Vianet payments"
+        #region"Response CP SIMTV payments"
         public static int PaypointSIMTVPaymentInfo(PaypointModel resPaypointVianetPaymentInfo)
         {
             var objresPaypointSIMTVPaymentModel = new PaypointUserModel();
@@ -615,6 +618,9 @@ namespace WCF.MNepal.Utilities
                 description = resPaypointVianetPaymentInfo.description,
                 amountP = resPaypointVianetPaymentInfo.amountP,
                 PackageId = "",
+                smartCards="",
+                ftthUser = "",
+                reserveInfo ="",
                 billNumber = resPaypointVianetPaymentInfo.billNumber,
                 refStan = resPaypointVianetPaymentInfo.refStan,
                 amount = resPaypointVianetPaymentInfo.amount,
@@ -627,6 +633,60 @@ namespace WCF.MNepal.Utilities
 
             };
             return objresPaypointSIMTVPaymentModel.ResponsePaypointVianetPaymentInfo(objresPaypointSIMTVPaymentInfo);
+        }
+        #endregion
+
+        #region"Response CP MeroTV payments"
+        public static int PaypointMeroTVPaymentInfo(PaypointModel resPaypointMeroTVPaymentInfo)
+        {
+            var objresPaypointMeroTVPaymentModel = new PaypointUserModel();
+            var objresPaypointMeroTVPaymentInfo = new PaypointModel
+            {
+                description = resPaypointMeroTVPaymentInfo.description,
+                amountP = resPaypointMeroTVPaymentInfo.amountP,
+                PackageId = resPaypointMeroTVPaymentInfo.PackageId,
+                smartCards = resPaypointMeroTVPaymentInfo.smartCards,
+                ftthUser = "",
+                reserveInfo = resPaypointMeroTVPaymentInfo.reserveInfo,
+                billNumber = resPaypointMeroTVPaymentInfo.billNumber,
+                refStan = resPaypointMeroTVPaymentInfo.refStan,
+                amount = resPaypointMeroTVPaymentInfo.amount,
+                transactionDate = resPaypointMeroTVPaymentInfo.transactionDate,
+                customerName = resPaypointMeroTVPaymentInfo.customerName,
+                companyCode = resPaypointMeroTVPaymentInfo.companyCode,
+                UserName = resPaypointMeroTVPaymentInfo.UserName,
+                ClientCode = resPaypointMeroTVPaymentInfo.ClientCode,
+                Mode = "MeroTV" //Response vianet payment from Checkpayment
+
+            };
+            return objresPaypointMeroTVPaymentModel.ResponsePaypointVianetPaymentInfo(objresPaypointMeroTVPaymentInfo);
+        }
+        #endregion
+
+        #region"Response CP SkyTV payments"
+        public static int PaypointSkyTVPaymentInfo(PaypointModel resPaypointSkyTVPaymentInfo)
+        {
+            var objresPaypointMeroTVPaymentModel = new PaypointUserModel();
+            var objresPaypointMeroTVPaymentInfo = new PaypointModel
+            {
+                description = resPaypointSkyTVPaymentInfo.description,
+                amountP = resPaypointSkyTVPaymentInfo.amountP,
+                PackageId = resPaypointSkyTVPaymentInfo.PackageId,
+                smartCards = resPaypointSkyTVPaymentInfo.smartCards,
+                ftthUser = resPaypointSkyTVPaymentInfo.ftthUser,
+                reserveInfo = resPaypointSkyTVPaymentInfo.reserveInfo,
+                billNumber = resPaypointSkyTVPaymentInfo.billNumber,
+                refStan = resPaypointSkyTVPaymentInfo.refStan,
+                amount = resPaypointSkyTVPaymentInfo.amount,
+                transactionDate = resPaypointSkyTVPaymentInfo.transactionDate,
+                customerName = resPaypointSkyTVPaymentInfo.customerName,
+                companyCode = resPaypointSkyTVPaymentInfo.companyCode,
+                UserName = resPaypointSkyTVPaymentInfo.UserName,
+                ClientCode = resPaypointSkyTVPaymentInfo.ClientCode,
+                Mode = "SkyTV" //Response vianet payment from Checkpayment
+
+            };
+            return objresPaypointMeroTVPaymentModel.ResponsePaypointVianetPaymentInfo(objresPaypointMeroTVPaymentInfo);
         }
         #endregion
 

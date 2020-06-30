@@ -156,6 +156,38 @@ namespace CustApp.Utilities
         }
         #endregion
 
+        #region MeroTV Details
+        public static DataSet GetMeroTVDetails(ISP KPObj)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = KPObj.ClientCode,
+                UserName = KPObj.UserName,
+                CustomerID = KPObj.CustomerID,
+                refStan = KPObj.refStan,
+                Mode = "MeroTV" // GET MeroTV Details
+            };
+            return objUserModel.GetVianetPaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region SkyTV Details
+        public static DataSet GetSkyTVDetails(ISP KPObj)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = KPObj.ClientCode,
+                UserName = KPObj.UserName,
+                CustomerID = KPObj.CustomerID,
+                refStan = KPObj.refStan,
+                Mode = "SkyTV" // GET SkyTV Details
+            };
+            return objUserModel.GetVianetPaymentDetails(objUserInfo);
+        }
+        #endregion
+
         #region Dish Home Details
         public static DataSet GetDishHomeDetails(ISP iSP)
         {
@@ -194,6 +226,16 @@ namespace CustApp.Utilities
             var objKhanepaniModel = new PaypointUserModel();
 
             return objKhanepaniModel.GetDishHomeServiceCode();
+        }
+
+        #endregion
+
+        #region
+        public static Dictionary<string, string> GetSkyTvServiceCode()
+        {
+            var objKhanepaniModel = new PaypointUserModel();
+
+            return objKhanepaniModel.GetSkyTvServiceCode();
         }
 
         #endregion

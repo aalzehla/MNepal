@@ -38,12 +38,7 @@ namespace CustApp.Models
         public string responseCode { get; set; }
         public string retrievalReference { get; set; }
         public string DHServiceCode { get; set; }
-
-
-
-
-
-
+        public string smartCards { get; set; }
     }
 
     ////For MNPayPointWlinkPayments
@@ -80,5 +75,13 @@ namespace CustApp.Models
         public string PackageAmount { get; set; }
         public string PackageId { get; set; }
         public string PackageRemainingDays { get; set; }
+        public string smartCards { get; set; }
+
+
+    }
+
+    public class SmartCards
+    {
+        public string smartCards { get; set; }
     }
 }

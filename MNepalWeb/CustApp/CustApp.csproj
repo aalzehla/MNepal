@@ -25559,6 +25559,10 @@
     <Content Include="Views\TvServicePayment\DHPinDetails.cshtml" />
     <Content Include="Views\TvServicePayment\SIMTV.cshtml" />
     <Content Include="Views\TvServicePayment\SIMTVDetails.cshtml" />
+    <Content Include="Views\TvServicePayment\MeroTV.cshtml" />
+    <Content Include="Views\TvServicePayment\MeroTVDetails.cshtml" />
+    <Content Include="Views\TvServicePayment\Sky.cshtml" />
+    <Content Include="Views\TvServicePayment\SkyDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

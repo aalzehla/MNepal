@@ -471,7 +471,7 @@ namespace WCF.MNepal.UserModels
 
         #endregion
 
-        #region response vianet
+        #region response vianet/simtv/merotv
         public int ResponsePaypointVianetPaymentInfo(PaypointModel objresPaypointVianetPaymentInfo)
         {
             SqlConnection sqlCon = null;
@@ -488,6 +488,9 @@ namespace WCF.MNepal.UserModels
                         sqlCmd.Parameters.AddWithValue("@description", objresPaypointVianetPaymentInfo.description); 
                         sqlCmd.Parameters.AddWithValue("@packageAmount", objresPaypointVianetPaymentInfo.amountP); 
                         sqlCmd.Parameters.AddWithValue("@packageId", objresPaypointVianetPaymentInfo.PackageId);
+                        sqlCmd.Parameters.AddWithValue("@smartCards", objresPaypointVianetPaymentInfo.smartCards);
+                        sqlCmd.Parameters.AddWithValue("@ftthUser", objresPaypointVianetPaymentInfo.ftthUser);
+                        sqlCmd.Parameters.AddWithValue("@reserveInfo", objresPaypointVianetPaymentInfo.reserveInfo);
                         sqlCmd.Parameters.AddWithValue("@billNumber", objresPaypointVianetPaymentInfo.billNumber);
                         sqlCmd.Parameters.AddWithValue("@refStan", objresPaypointVianetPaymentInfo.refStan);
                         sqlCmd.Parameters.AddWithValue("@billAmount", objresPaypointVianetPaymentInfo.amount);

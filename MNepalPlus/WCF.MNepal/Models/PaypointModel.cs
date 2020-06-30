@@ -213,35 +213,9 @@ namespace WCF.MNepal.Models
         public string RemainingDays { get; set; }
         public string voucherCode { get; set; }
         public string id { get; set; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        public string smartCards { get; set; }
+        public string ftthUser { get; set; }
+        public string reserveInfo { get; set; }
 
 
 
