@@ -9,6 +9,7 @@
 <!-- Main content -->
 <link href="~/Content/NewIcon/style.css" rel="stylesheet" />
 <link href="~/Content/ThaliStyle.css" rel="stylesheet" />
+
 <style>
     .image_icon {
         width: 100px;
@@ -22,6 +23,8 @@
         position: relative;
         z-index: 2;
     }
+
+   
 </style>
 
 @using (Html.BeginForm("NCellTopUpCheck", "Utility", FormMethod.Post, new { @id = "NCellTopUpCheck", @name = "NCellTopUpCheck", @class = "form-horizontal", enctype = "multipart/form-data" }))
