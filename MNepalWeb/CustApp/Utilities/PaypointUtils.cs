@@ -134,7 +134,55 @@ namespace CustApp.Utilities
                 UserName = KPObj.UserName,
                 CustomerID = KPObj.CustomerID,
                 refStan = KPObj.refStan,
-                Mode = "Vianet" // GET NEA Details
+                Mode = "Vianet" // GET Vianet Details
+            };
+            return objUserModel.GetVianetPaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region SIMTV Details
+        public static DataSet GetSIMTVDetails(ISP KPObj)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = KPObj.ClientCode,
+                UserName = KPObj.UserName,
+                CustomerID = KPObj.CustomerID,
+                refStan = KPObj.refStan,
+                Mode = "SIMTV" // GET SIMTV Details
+            };
+            return objUserModel.GetVianetPaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region MeroTV Details
+        public static DataSet GetMeroTVDetails(ISP KPObj)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = KPObj.ClientCode,
+                UserName = KPObj.UserName,
+                CustomerID = KPObj.CustomerID,
+                refStan = KPObj.refStan,
+                Mode = "MeroTV" // GET MeroTV Details
+            };
+            return objUserModel.GetVianetPaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region SkyTV Details
+        public static DataSet GetSkyTVDetails(ISP KPObj)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = KPObj.ClientCode,
+                UserName = KPObj.UserName,
+                CustomerID = KPObj.CustomerID,
+                refStan = KPObj.refStan,
+                Mode = "SkyTV" // GET SkyTV Details
             };
             return objUserModel.GetVianetPaymentDetails(objUserInfo);
         }
@@ -339,11 +387,19 @@ namespace CustApp.Utilities
         #endregion
 
         #region
+
         public static Dictionary<string, string> GetBroadLinkServiceCode()
         {
             var objKhanepaniModel = new PaypointUserModel();
 
             return objKhanepaniModel.GetBroadLinkServiceCode();
+        }
+
+        public static Dictionary<string, string> GetSkyTvServiceCode()
+        {
+            var objKhanepaniModel = new PaypointUserModel();
+
+            return objKhanepaniModel.GetSkyTvServiceCode();
         }
 
         #endregion

@@ -129,7 +129,11 @@
     <Content Include="cash.svc" />
     <Content Include="DishHomePinless.svc" />
     <Content Include="subisu.svc" />
+<<<<<<< HEAD
     <Content Include="Utility.svc" />
+=======
+    <Content Include="TVServicePayment.svc" />
+>>>>>>> TvServicePayment
     <Content Include="vianet.svc" />
     <Content Include="wlink.svc" />
     <None Include="Connected Services\MerchantReference\commoninterface1.disco" />
@@ -312,6 +316,9 @@
     </Compile>
     <Compile Include="topup.svc.cs">
       <DependentUpon>topup.svc</DependentUpon>
+    </Compile>
+    <Compile Include="TVServicePayment.svc.cs">
+      <DependentUpon>TVServicePayment.svc</DependentUpon>
     </Compile>
     <Compile Include="UserModels\AgentCheckerUserModel.cs" />
     <Compile Include="UserModels\BankCheckerUserModel.cs" />

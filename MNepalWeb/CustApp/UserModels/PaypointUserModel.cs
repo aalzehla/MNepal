@@ -864,6 +864,7 @@ namespace CustApp.UserModels
         }
         #endregion
 
+
         #region BroadLink Service Code
         public Dictionary<string, string> GetBroadLinkServiceCode()
         {
@@ -876,7 +877,9 @@ namespace CustApp.UserModels
                 {
                     using (SqlCommand cmd = new SqlCommand())
                     {
+
                         cmd.CommandText = "SELECT * FROM MNBroadLinkServiceCode (NOLOCK) ";
+
                         cmd.Connection = conn;
                         if (conn.State != ConnectionState.Open)
                         {
@@ -885,10 +888,64 @@ namespace CustApp.UserModels
                         rdr = cmd.ExecuteReader();
                         while (rdr.Read())
                         {
+
                             string BLServiceCode = rdr["ServiceCode"].ToString();
                             string BLVoucherAmount = rdr["ServiceName"].ToString();
                             //string NEATypeId = rdr["NeaID"].ToString();
                             ListDHSserviceCode.Add(BLServiceCode, BLVoucherAmount);
+                        }
+                        if (conn.State != ConnectionState.Closed)
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+
+            }
+            return ListDHSserviceCode;
+        }
+        #endregion
+
+        #region SkyTv Service Code
+        public Dictionary<string, string> GetSkyTvServiceCode()
+
+        {
+            SqlDataReader rdr;
+            SqlConnection conn = null;
+            Dictionary<string, string> ListDHSserviceCode = new Dictionary<string, string>();
+            try
+            {
+                using (conn = new SqlConnection(DatabaseConnection.ConnectionStr()))
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+
+                       cmd.CommandText = "SELECT * FROM MNSkyTvServiceCode (NOLOCK) ";
+
+                        cmd.Connection = conn;
+                        if (conn.State != ConnectionState.Open)
+                        {
+                            conn.Open();
+                        }
+                        rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            string STServiceCode = rdr["ServiceCode"].ToString();
+                            string STServiceName = rdr["ServiceName"].ToString();
+                            //string NEATypeId = rdr["NeaID"].ToString();
+                            ListDHSserviceCode.Add(STServiceCode, STServiceName);
+
                         }
                         if (conn.State != ConnectionState.Closed)
                         {

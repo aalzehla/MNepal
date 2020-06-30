@@ -11,7 +11,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DC4D24CF-BC62-4AAA-9667-670C5F40F9B6}</ProjectGuid>
+    <ProjectGuid>{73DA3D1D-CEF6-4C72-87A7-D7E4B6F3C320}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -25572,6 +25572,12 @@
     <Content Include="Views\Utility\SmartCellEPINCheckDetails.cshtml" />
     <Content Include="Views\BroadLink\Index.cshtml" />
     <Content Include="Views\BroadLink\BroadLinkDetails.cshtml" />
+    <Content Include="Views\TvServicePayment\SIMTV.cshtml" />
+    <Content Include="Views\TvServicePayment\SIMTVDetails.cshtml" />
+    <Content Include="Views\TvServicePayment\MeroTV.cshtml" />
+    <Content Include="Views\TvServicePayment\MeroTVDetails.cshtml" />
+    <Content Include="Views\TvServicePayment\Sky.cshtml" />
+    <Content Include="Views\TvServicePayment\SkyDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

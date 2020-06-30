@@ -12,4 +12,14 @@ namespace WCF.MNepal.Models
         public string PackageId { get; set; }
         public string Bonus { get; set; }
     }
+
+    public class SmartCards
+    {
+        public string smartCards { get; set; }
+    }
+
+    public class User
+    {
+        public string user { get; set; }
+    }
 }
