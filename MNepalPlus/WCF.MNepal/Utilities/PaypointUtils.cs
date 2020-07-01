@@ -690,6 +690,60 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
+        #region"Response CP WebSurfer payments"
+        public static int PaypointWebSurferPaymentInfo(PaypointModel resPaypointWebSurferPaymentInfo)
+        {
+            var objresPaypointWebSurferPaymentModel = new PaypointUserModel();
+            var objresPaypointWebSurferPaymentInfo = new PaypointModel
+            {
+                description = resPaypointWebSurferPaymentInfo.description,
+                amountP = resPaypointWebSurferPaymentInfo.amountP,
+                PackageId = resPaypointWebSurferPaymentInfo.PackageId,
+                smartCards = "",
+                ftthUser = resPaypointWebSurferPaymentInfo.ftthUser,
+                reserveInfo = resPaypointWebSurferPaymentInfo.reserveInfo,
+                billNumber = resPaypointWebSurferPaymentInfo.billNumber,
+                refStan = resPaypointWebSurferPaymentInfo.refStan,
+                amount = resPaypointWebSurferPaymentInfo.amount,
+                transactionDate = resPaypointWebSurferPaymentInfo.transactionDate,
+                customerName = resPaypointWebSurferPaymentInfo.customerName,
+                companyCode = resPaypointWebSurferPaymentInfo.companyCode,
+                UserName = resPaypointWebSurferPaymentInfo.UserName,
+                ClientCode = resPaypointWebSurferPaymentInfo.ClientCode,
+                Mode = "WebSurfer" //Response websurfer payment from Checkpayment
+
+            };
+            return objresPaypointWebSurferPaymentModel.ResponsePaypointVianetPaymentInfo(objresPaypointWebSurferPaymentInfo);
+        }
+        #endregion
+
+        #region"Response CP ArrowNet payments"
+        public static int PaypointArrowNetPaymentInfo(PaypointModel resPaypointArrowNetPaymentInfo)
+        {
+            var objresPaypointArrowNetPaymentModel = new PaypointUserModel();
+            var objresPaypointArrowNetPaymentInfo = new PaypointModel
+            {
+                description = resPaypointArrowNetPaymentInfo.description,
+                amountP = resPaypointArrowNetPaymentInfo.amountP,
+                PackageId = resPaypointArrowNetPaymentInfo.PackageId,
+                smartCards = "",
+                ftthUser = "",
+                reserveInfo = resPaypointArrowNetPaymentInfo.reserveInfo,
+                billNumber = resPaypointArrowNetPaymentInfo.billNumber,
+                refStan = resPaypointArrowNetPaymentInfo.refStan,
+                amount = resPaypointArrowNetPaymentInfo.amount,
+                transactionDate = resPaypointArrowNetPaymentInfo.transactionDate,
+                customerName = resPaypointArrowNetPaymentInfo.customerName,
+                companyCode = resPaypointArrowNetPaymentInfo.companyCode,
+                UserName = resPaypointArrowNetPaymentInfo.UserName,
+                ClientCode = resPaypointArrowNetPaymentInfo.ClientCode,
+                Mode = "ArrowNet" //Response ArrowNet payment from Checkpayment
+
+            };
+            return objresPaypointArrowNetPaymentModel.ResponsePaypointVianetPaymentInfo(objresPaypointArrowNetPaymentInfo);
+        }
+        #endregion
+
         #region"Response CP DishHome Online payments"
         public static int PaypointDishHomeInfo(PaypointModel resPaypointVianetPaymentInfo)
         {
