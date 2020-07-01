@@ -188,6 +188,38 @@ namespace CustApp.Utilities
         }
         #endregion
 
+        #region WebSurfer Details
+        public static DataSet GetWebSurferDetails(ISP KPObj)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = KPObj.ClientCode,
+                UserName = KPObj.UserName,
+                CustomerID = KPObj.CustomerID,
+                refStan = KPObj.refStan,
+                Mode = "WebSurfer" // GET WebSurfer Details
+            };
+            return objUserModel.GetVianetPaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region ArrowNet Details
+        public static DataSet GetArrowNetDetails(ISP KPObj)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = KPObj.ClientCode,
+                UserName = KPObj.UserName,
+                CustomerID = KPObj.CustomerID,
+                refStan = KPObj.refStan,
+                Mode = "ArrowNet" // GET Arrownet Details
+            };
+            return objUserModel.GetVianetPaymentDetails(objUserInfo);
+        }
+        #endregion
+
         #region Dish Home Details
         public static DataSet GetDishHomeDetails(ISP iSP)
         {

@@ -127,6 +127,7 @@
     <Content Include="bankinfo.svc" />
     <Content Include="cash.svc" />
     <Content Include="DishHomePinless.svc" />
+    <Content Include="ISP.svc" />
     <Content Include="subisu.svc" />
     <Content Include="TVServicePayment.svc" />
     <Content Include="vianet.svc" />
@@ -229,6 +230,9 @@
     <Compile Include="Helper\TraceIdCheck.cs" />
     <Compile Include="Helper\TransLimitCheck.cs" />
     <Compile Include="Helper\UserNameCheck.cs" />
+    <Compile Include="ISP.svc.cs">
+      <DependentUpon>ISP.svc</DependentUpon>
+    </Compile>
     <Compile Include="IVR.svc.cs">
       <DependentUpon>IVR.svc</DependentUpon>
     </Compile>

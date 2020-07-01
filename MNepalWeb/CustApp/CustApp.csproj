@@ -208,6 +208,7 @@
     <Compile Include="Controllers\FundTransferController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ISPController.cs" />
     <Compile Include="Controllers\KhanepaniController.cs" />
     <Compile Include="Controllers\LoadWalletController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -25563,6 +25564,10 @@
     <Content Include="Views\TvServicePayment\MeroTVDetails.cshtml" />
     <Content Include="Views\TvServicePayment\Sky.cshtml" />
     <Content Include="Views\TvServicePayment\SkyDetails.cshtml" />
+    <Content Include="Views\ISP\WebSurfer.cshtml" />
+    <Content Include="Views\ISP\WebSurferDetails.cshtml" />
+    <Content Include="Views\ISP\ArrowNet.cshtml" />
+    <Content Include="Views\ISP\ArrowNetDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
