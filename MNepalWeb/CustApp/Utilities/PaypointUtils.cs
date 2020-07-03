@@ -220,6 +220,22 @@ namespace CustApp.Utilities
         }
         #endregion
 
+        #region Khalti Details
+        public static DataSet GetKhaltiDetails(ISP KPObj)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = KPObj.ClientCode,
+                UserName = KPObj.UserName,
+                CustomerID = KPObj.CustomerID,
+                refStan = KPObj.refStan,
+                Mode = "Khalti" // GET Khalti Details
+            };
+            return objUserModel.GetVianetPaymentDetails(objUserInfo);
+        }
+        #endregion
+
         #region Dish Home Details
         public static DataSet GetDishHomeDetails(ISP iSP)
         {

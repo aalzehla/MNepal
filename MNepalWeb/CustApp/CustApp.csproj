@@ -211,6 +211,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ISPController.cs" />
     <Compile Include="Controllers\KhanepaniController.cs" />
+    <Compile Include="Controllers\LoadFundController.cs" />
     <Compile Include="Controllers\LoadWalletController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogOutController.cs" />
@@ -25583,12 +25584,15 @@
     <Content Include="Views\ISP\WebSurferDetails.cshtml" />
     <Content Include="Views\ISP\ArrowNet.cshtml" />
     <Content Include="Views\ISP\ArrowNetDetails.cshtml" />
+    <Content Include="Views\LoadFund\Khalti.cshtml" />
+    <Content Include="Views\LoadFund\KhaltiDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\bootstrap\" />
     <Folder Include="Views\Demat\" />
     <Folder Include="Views\Feedback\" />
+    <Folder Include="Views\LoadMoney\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

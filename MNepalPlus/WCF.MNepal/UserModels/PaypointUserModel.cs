@@ -471,7 +471,7 @@ namespace WCF.MNepal.UserModels
 
         #endregion
 
-        #region response vianet/simtv/merotv/simtv/websurfer/arrownet
+        #region response vianet/simtv/merotv/simtv/websurfer/arrownet/khalti
         public int ResponsePaypointVianetPaymentInfo(PaypointModel objresPaypointVianetPaymentInfo)
         {
             SqlConnection sqlCon = null;

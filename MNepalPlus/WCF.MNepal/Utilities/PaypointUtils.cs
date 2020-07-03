@@ -744,6 +744,8 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
+
+
         #region"Response CP DishHome Online payments"
         public static int PaypointDishHomeInfo(PaypointModel resPaypointVianetPaymentInfo)
         {
@@ -925,6 +927,33 @@ namespace WCF.MNepal.Utilities
 
             };
             return objresPaypointDishHomePaymentModel.ResponsePaypointDishHomeOnlinePaymentInfo(objresPaypointDishHomeOnlinePaymentInfo);
+        }
+        #endregion
+
+        #region"Response CP Khalti payments"
+        public static int PaypointKhaltiPaymentInfo(PaypointModel resPaypointKhaltiPaymentInfo)
+        {
+            var objresPaypointKhaltiPaymentModel = new PaypointUserModel();
+            var objresPaypointKhaltiPaymentInfo = new PaypointModel
+            {
+                description = "",
+                amountP = "",
+                PackageId = "",
+                smartCards = "",
+                ftthUser = "",
+                reserveInfo = resPaypointKhaltiPaymentInfo.reserveInfo,
+                billNumber = resPaypointKhaltiPaymentInfo.billNumber,
+                refStan = resPaypointKhaltiPaymentInfo.refStan,
+                amount = resPaypointKhaltiPaymentInfo.amount,
+                transactionDate = resPaypointKhaltiPaymentInfo.transactionDate,
+                customerName = resPaypointKhaltiPaymentInfo.customerName,
+                companyCode = resPaypointKhaltiPaymentInfo.companyCode,
+                UserName = resPaypointKhaltiPaymentInfo.UserName,
+                ClientCode = resPaypointKhaltiPaymentInfo.ClientCode,
+                Mode = "Khalti" //Response Khalti payment from Checkpayment
+
+            };
+            return objresPaypointKhaltiPaymentModel.ResponsePaypointVianetPaymentInfo(objresPaypointKhaltiPaymentInfo);
         }
         #endregion
 

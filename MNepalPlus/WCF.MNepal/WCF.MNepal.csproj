@@ -129,6 +129,7 @@
     <Content Include="cash.svc" />
     <Content Include="DishHomePinless.svc" />
     <Content Include="ISP.svc" />
+    <Content Include="LoadFund.svc" />
     <Content Include="subisu.svc" />
     <Content Include="Utility.svc" />
     <Content Include="TVServicePayment.svc" />
@@ -240,6 +241,9 @@
     </Compile>
     <Compile Include="IVR.svc.cs">
       <DependentUpon>IVR.svc</DependentUpon>
+    </Compile>
+    <Compile Include="LoadFund.svc.cs">
+      <DependentUpon>LoadFund.svc</DependentUpon>
     </Compile>
     <Compile Include="merchant.svc.cs">
       <DependentUpon>merchant.svc</DependentUpon>
