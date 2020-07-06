@@ -11,5 +11,6 @@ namespace WCF.MNepal.Models
         public string Amount { get; set; }
         public string PackageId { get; set; }
         public string Bonus { get; set; }
+        public string commissionAmount { get; set; }
     }
 }

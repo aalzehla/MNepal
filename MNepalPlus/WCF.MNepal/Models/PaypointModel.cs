@@ -213,6 +213,7 @@ namespace WCF.MNepal.Models
         public string RemainingDays { get; set; }
         public string voucherCode { get; set; }
         public string id { get; set; }
+        public string commissionAmount { get; set; }
 
 
 

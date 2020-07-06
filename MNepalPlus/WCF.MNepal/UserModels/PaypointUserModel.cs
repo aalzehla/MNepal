@@ -611,6 +611,7 @@ namespace WCF.MNepal.UserModels
                         sqlCmd.Parameters.AddWithValue("@packageAmount", objresPaypointPaymentInfo.amountP);
                         sqlCmd.Parameters.AddWithValue("@billDate", objresPaypointPaymentInfo.transactionDate);
                         sqlCmd.Parameters.AddWithValue("@billAmount", objresPaypointPaymentInfo.amount);
+                        sqlCmd.Parameters.AddWithValue("@commissionAmount", objresPaypointPaymentInfo.commissionAmount);
                         sqlCmd.Parameters.AddWithValue("@billNumber", objresPaypointPaymentInfo.billNumber);
                         sqlCmd.Parameters.AddWithValue("@refStan", objresPaypointPaymentInfo.refStan);
                         sqlCmd.Parameters.AddWithValue("@serviceNumber", objresPaypointPaymentInfo.customerName);

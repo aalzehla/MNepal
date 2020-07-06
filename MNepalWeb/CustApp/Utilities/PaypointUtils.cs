@@ -322,5 +322,31 @@ namespace CustApp.Utilities
 
         #endregion
 
+        #region
+        public static Dictionary<string, string> GetUTLServiceCode()
+        {
+            var objKhanepaniModel = new PaypointUserModel();
+
+            return objKhanepaniModel.GetUTLServiceCode();
+        }
+
+        #endregion
+
+        #region UTL Details
+        public static DataSet GetUTLDetails(ISP iSP)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = iSP.ClientCode,
+                UserName = iSP.UserName,
+                CustomerID = iSP.CustomerID,
+                refStan = iSP.refStan,
+                Mode = "UTL" // GET UTL Details
+            };
+            return objUserModel.GetDishHomePaymentDetails(objUserInfo);
+        }
+        #endregion
+
     }
 }

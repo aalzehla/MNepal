@@ -13198,6 +13198,343 @@ namespace WCF.MNepal
         }
         #endregion
 
+        #region"Check UTL Payment"
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+                  ResponseFormat = WebMessageFormat.Json)]
+        public string UTLcheckpayment(Stream input)
+        {
+            string PaypointPwd = System.Web.Configuration.WebConfigurationManager.AppSettings["PaypointPwd"];
+            string PaypointUserID = System.Web.Configuration.WebConfigurationManager.AppSettings["PaypointUserID"];
+            System.Net.ServicePointManager.ServerCertificateValidationCallback += delegate { return true; }; //to prevent from SSL error
+            StreamReader sr = new StreamReader(input);
+            string s = sr.ReadToEnd();
+            sr.Dispose();
+            NameValueCollection qs = HttpUtility.ParseQueryString(s);
+
+            string tid = qs["tid"];
+            string vid = qs["vid"];
+            string sc = "00";
+            string mobile = qs["mobile"];
+            string da = System.Web.Configuration.WebConfigurationManager.AppSettings["DestinationNoForTestServer"];
+            string note = "Utility payment for UTL. Mobile Number=" + qs["account"];
+            string src = qs["src"];
+            string result = "";
+            string sessionID = qs["tokenID"];
+            string companyCode = qs["companyCode"];
+            string serviceCode = qs["serviceCode"];
+            string account = qs["account"];
+            string special1 = qs["special1"];
+            string special2 = "";
+            string transactionDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
+            long millisecondstrandId = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            string transactionId = millisecondstrandId.ToString();
+            string userId = PaypointUserID;
+            string userPassword = PaypointPwd.Trim();
+            string salePointType = "6";
+            string ClientCode = qs["ClientCode"];
+            string paypointType = qs["paypointType"];
+            string transactionType = string.Empty;
+            string resultMessageResCP = "";
+
+            PaypointModel reqCPPaypointUTLInfo = new PaypointModel();//to store data request of CP which is also commmon in nea
+            PaypointModel resCPPaypointUTLInfo = new PaypointModel();//to store data response of CP which is also commmon in nea
+
+            //PaypointModel resPaypointPaymentInfo = new PaypointModel();
+            PaypointModel resPaypointUTLPaymentInfo = new PaypointModel();//to store data of Response of CP only
+
+            string totalAmount = string.Empty;
+            string totalCount = string.Empty;
+            string totalBAmount = string.Empty;
+            string totalBCount = string.Empty;
+            string balance = string.Empty;
+            string message = string.Empty;
+            string statusCode = string.Empty;
+            string failedmessage = string.Empty;
+            string GetMerchantName = string.Empty;
+            string retrievalRef = string.Empty;
+            string refStanCK = string.Empty;
+
+            string customerNo = string.Empty;
+            TraceIdGenerator traceid = new TraceIdGenerator();
+            tid = traceid.GenerateUniqueTraceID();
+
+            List<Packages> pkg = new List<Packages>();
+
+            //for CP transaction for nepal water
+            try
+            {
+                string URI = System.Web.Configuration.WebConfigurationManager.AppSettings["CPPaypointUrl"];
+
+                string myParameters = "companyCode=" + companyCode + "&serviceCode=" + serviceCode +
+                    "&account=" + account + "&special1=" + (Convert.ToInt32(special1) * 100).ToString() + "&special2=" + special2 +
+                    "&transactionDate=" + transactionDate + "&transactionId=" + transactionId +
+                    "&userId=" + userId.Trim() + "&userPassword=" + userPassword.Trim() + "&salePointType=" + salePointType;
+
+                //for checkpayment request insert in database
+                reqCPPaypointUTLInfo = new PaypointModel()
+                {
+                    companyCodeReqCP = companyCode,
+                    serviceCodeReqCP = serviceCode,
+                    accountReqCP = account,
+                    special1ReqCP = special1,
+                    special2ReqCP = special2,
+
+                    transactionDateReqCP = transactionDate,
+                    transactionIdReqCP = transactionId,
+                    userIdReqCP = userId,
+                    userPasswordReqCP = userPassword,
+                    salePointTypeReqCP = salePointType,
+
+                    refStanReqCP = "",
+                    amountReqCP = "",//amountInPaisa
+                    billNumberReqCP = "",
+                    //retrievalReferenceReqCP = fundtransfer.tid,
+                    retrievalReferenceReqCP = tid,
+                    remarkReqCP = "Check Payment",
+                    UserName = mobile,
+                    ClientCode = ClientCode,
+                    paypointType = paypointType,
+
+                };
+
+                string billNumber = "";
+                string amountpay = "";
+                string refStan = "";
+                string exectransactionId = ""; //Unique
+                string exectransactionDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"); //Current DateTime
+                string rltCheckPaymt = "";
+                string customerName = "";
+                string mask = "";
+
+                using (WebClient wc = new WebClient())
+                {
+                    wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+                    var HtmlResult = wc.UploadString(URI, myParameters);// response from checkpayment
+
+                    XmlDocument xmlDoc = new XmlDocument();
+
+                    xmlDoc.LoadXml(HtmlResult);
+
+                    XmlNodeList test = xmlDoc.GetElementsByTagName("*");
+                    string results = test[0].InnerText;
+                    string HtmlResult1 = results;
+
+                    //for getting key value from check payment
+                    var reader = new StringReader(HtmlResult1);
+                    var xdoc = XDocument.Load(reader);
+
+                    XDocument docParse = XDocument.Parse(xdoc.ToString());
+                    IEnumerable<XElement> responses = docParse.Descendants();
+
+                    var xElem = XElement.Parse(docParse.ToString());
+
+                    rltCheckPaymt = xElem.Attribute("Result").Value;
+                    string keyrlt = "";// response.Attribute("Key").Value;
+                    var billAmount = "";
+
+                    message = resultMessageResCP;
+                    if (xElem.Attribute("Result").Value == "000")
+                    {
+                        keyrlt = xElem.Attribute("Key").Value;
+                        billNumber = xElem.Descendants().Elements("BillNumber").Where(x => x.Name == "BillNumber").SingleOrDefault().Value;
+                        amountpay = xElem.Descendants().Elements("Amount").Where(x => x.Name == "Amount").SingleOrDefault().Value;
+                        refStan = xElem.Descendants().Elements("RefStan").Where(x => x.Name == "RefStan").SingleOrDefault().Value;
+                        exectransactionDate = xElem.Descendants().Elements("DueDate").Where(x => x.Name == "DueDate").SingleOrDefault().Value;
+                        customerName = xElem.Descendants().Elements("ReserveInfo").Where(x => x.Name == "ReserveInfo").SingleOrDefault().Value;
+                        mask = xElem.Descendants().Elements("mask").Where(x => x.Name == "mask").SingleOrDefault().Value;
+                        if (amountpay == "0")
+                        {
+                            billAmount = special1;
+                        }
+                        else
+                        {
+                            billAmount = amountpay;
+                        }
+
+                        Packages packages = new Packages();
+                        if (mask == "0" || mask == "6")
+                        {
+
+                            var commission = xElem.Descendants("BillParam").SingleOrDefault();
+                            //var packageList = package.Descendants("package").ToList();
+
+                            XmlDocument xmlDoc1 = new XmlDocument();
+                            xmlDoc1.LoadXml(commission.ToString());
+
+                            XmlNodeList xmlNodeList = xmlDoc1.SelectNodes("/BillParam/commission");
+
+                            string stringBuilderDescriptions = "";
+                            string stringBuilderCommission = "";
+                            foreach (XmlNode xmlNode in xmlNodeList)
+                            {
+                                packages.Description = xmlNode.OuterXml; /*xmlNode.InnerText;*/
+                                packages.commissionAmount = xmlNode.Attributes["val"].Value;
+                                pkg.Add(packages);
+                                stringBuilderDescriptions = stringBuilderDescriptions + packages.Description + Environment.NewLine;
+                                stringBuilderCommission = packages.commissionAmount;
+
+                            }
+
+                            resPaypointUTLPaymentInfo = new PaypointModel()
+                            {
+                                billNumber = billNumber,
+                                refStan = refStan,
+                                amount = billAmount,
+                                description = stringBuilderDescriptions,
+                                commissionAmount = stringBuilderCommission,
+                                transactionDate = exectransactionDate,
+                                customerName = account,
+                                companyCode = companyCode,
+                                UserName = mobile,
+                                ClientCode = ClientCode,
+                                serviceCode = serviceCode,
+                                paypointType = paypointType
+
+                            };
+
+                        }
+
+                        //end list of package
+
+                        int resultsPayments = PaypointUtils.PaypointUtilityUTLInfo(resPaypointUTLPaymentInfo);
+                    }
+                    else
+                    {
+                        keyrlt = xElem.Attribute("Key").Value;
+                        resultMessageResCP = xElem.Elements("ResultMessage").Where(x => x.Name == "ResultMessage").SingleOrDefault().Value;
+                    }
+                    resultMessageResCP = xElem.Elements("ResultMessage").Where(x => x.Name == "ResultMessage").SingleOrDefault().Value;
+
+                    //for checkpayment response insert in database in nepal water
+                    resCPPaypointUTLInfo = new PaypointModel()
+                    {
+                        companyCodeResCP = companyCode,
+                        serviceCodeResCP = serviceCode,
+                        accountResCP = account,
+                        special1ResCP = special1,
+                        special2ResCP = special2,
+
+                        transactionDateResCP = transactionDate,
+                        transactionIdResCP = transactionId,
+                        userIdResCP = userId,
+                        userPasswordResCP = userPassword,
+                        salePointTypeResCP = salePointType,
+
+                        refStanResCP = refStan,
+                        amountResCP = amountpay,
+                        billNumberResCP = billNumber,
+                        //retrievalReferenceResCP = fundtransfer.tid,
+                        retrievalReferenceResCP = tid,
+                        responseCodeResCP = rltCheckPaymt,
+                        descriptionResCP = "Check Payment " + keyrlt,
+                        customerNameCP = customerName,
+                        UserName = mobile,
+                        ClientCode = ClientCode,
+                        paypointType = paypointType,
+                        resultMessageResCP = resultMessageResCP,
+
+                    };
+                }
+
+
+                if (!(rltCheckPaymt == "000"))//show error when CP response is not 000 
+                {
+                    statusCode = "400";
+                    // message = result;
+                    message = resultMessageResCP;
+                    failedmessage = message;
+
+                }
+                else
+                {
+                    statusCode = "200";
+                    message = resultMessageResCP;
+                    failedmessage = message;
+                }
+            }
+            catch (Exception ex)
+            {
+                message = result + ex + "Error Message ";
+                //mnft.ResponseStatus(HttpStatusCode.BadRequest, result); //200 - OK
+                statusCode = "400";
+                // failedmessage = message;
+                failedmessage = resultMessageResCP;
+
+            }
+
+            ///for  inserting CP PayPoint Data of Nepal Water which is simlar to nea 
+
+            try
+            {
+                int resultsReqCP = PaypointUtils.RequestCPPaypointInfo(reqCPPaypointUTLInfo);
+                int resultsResCP = PaypointUtils.ResponseCPPaypointInfo(resCPPaypointUTLInfo);
+
+
+                if ((resultsReqCP > 0) && (resultsResCP > 0))
+
+                {
+                    message = result;
+                }
+                else
+                {
+                    message = result;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string ss = ex.Message;
+                message = result;
+            }
+
+            if (statusCode == "")
+            {
+                result = result.ToString();
+            }
+            else if (statusCode == "200")
+            {
+                if (message == "")
+                {
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        result = failedmessage; // "Could not process your request,Please Try again.";
+                    }
+                    message = result;
+                }
+                var v = new
+                {
+                    StatusCode = Convert.ToInt32(statusCode),
+                    StatusMessage = failedmessage,
+                    retrievalRef = resCPPaypointUTLInfo.retrievalReferenceResCP,
+                    refStanCK = resCPPaypointUTLInfo.refStanResCP
+                };
+                result = JsonConvert.SerializeObject(v);
+            }
+            else if (statusCode != "200")
+            {
+                if (message == "")
+                {
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        result = failedmessage; // "Could not process your request,Please Try again.";
+                    }
+                    message = result;
+                }
+                var v = new
+                {
+                    StatusCode = Convert.ToInt32(statusCode),
+                    StatusMessage = failedmessage,
+                    retrievalRef = "",
+                    refStanCK = ""
+                };
+                result = JsonConvert.SerializeObject(v);
+            }
+            return result;
+
+        }
+        #endregion
+
         static void BackgroundTaskWithObject(Object stateInfo)
         {
             FundTransfer data = (FundTransfer)stateInfo;

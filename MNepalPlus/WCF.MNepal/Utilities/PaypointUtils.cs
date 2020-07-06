@@ -631,7 +631,7 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
-        #region"Response CP Utility Online payments"
+        #region"Response CP NCell payments"
         public static int PaypointUtilityNCellInfo(PaypointModel resPaypointTopUpInfo)
         {
             var objresPaypointNcellPaymentModel = new PaypointUserModel();
@@ -640,6 +640,7 @@ namespace WCF.MNepal.Utilities
 
                 description = "",
                 amountP = "",
+                commissionAmount = "",
                 billNumber = resPaypointTopUpInfo.billNumber,
                 refStan = resPaypointTopUpInfo.refStan,
                 amount = resPaypointTopUpInfo.amount,
@@ -657,7 +658,7 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
-        #region"Response CP Utility Online payments"
+        #region"Response CP NTC payments"
         public static int PaypointUtilityNTCInfo(PaypointModel resPaypointTopUpInfo)
         {
             var objresPaypointNTCPaymentModel = new PaypointUserModel();
@@ -666,6 +667,7 @@ namespace WCF.MNepal.Utilities
 
                 description = resPaypointTopUpInfo.description,
                 amountP = resPaypointTopUpInfo.amountP,
+                commissionAmount="",
                 billNumber = resPaypointTopUpInfo.billNumber,
                 refStan = resPaypointTopUpInfo.refStan,
                 amount = resPaypointTopUpInfo.amount,
@@ -683,7 +685,7 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
-        #region"Response CP Utility Online payments"
+        #region"Response CP NTCCDMA payments"
         public static int PaypointUtilityNTCCDMAInfo(PaypointModel resPaypointTopUpInfo)
         {
             var objresPaypointNTCPaymentModel = new PaypointUserModel();
@@ -695,6 +697,7 @@ namespace WCF.MNepal.Utilities
                 billNumber = resPaypointTopUpInfo.billNumber,
                 refStan = resPaypointTopUpInfo.refStan,
                 amount = resPaypointTopUpInfo.amount,
+                commissionAmount="",
                 transactionDate = resPaypointTopUpInfo.transactionDate,
                 customerName = resPaypointTopUpInfo.customerName,
                 companyCode = resPaypointTopUpInfo.companyCode,
@@ -709,7 +712,7 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
-        #region"Response CP Utility Online payments"
+        #region"Response CP SmartCellTopUp payments"
         public static int PaypointUtilitySmartCellTopUpInfo(PaypointModel resPaypointTopUpInfo)
         {
             var objresPaypointNTCPaymentModel = new PaypointUserModel();
@@ -718,6 +721,7 @@ namespace WCF.MNepal.Utilities
 
                 description = "",
                 amountP = "",
+                commissionAmount="",
                 billNumber = resPaypointTopUpInfo.billNumber,
                 refStan = resPaypointTopUpInfo.refStan,
                 amount = resPaypointTopUpInfo.amount,
@@ -735,7 +739,7 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
-        #region"Response CP Utility Online payments"
+        #region"Response CP SmartCellEPINInfo payments"
         public static int PaypointUtilitySmartCellEPINInfo(PaypointModel resPaypointTopUpInfo)
         {
             var objresPaypointNTCPaymentModel = new PaypointUserModel();
@@ -744,6 +748,7 @@ namespace WCF.MNepal.Utilities
 
                 description = "",
                 amountP = "",
+                commissionAmount="",
                 billNumber = resPaypointTopUpInfo.billNumber,
                 refStan = resPaypointTopUpInfo.refStan,
                 amount = resPaypointTopUpInfo.amount,
@@ -785,6 +790,33 @@ namespace WCF.MNepal.Utilities
 
             };
             return objresPaypointDishHomePaymentModel.ResponsePaypointDishHomeOnlinePaymentInfo(objresPaypointDishHomeOnlinePaymentInfo);
+        }
+        #endregion
+
+        #region"Response CP UTL payments"
+        public static int PaypointUtilityUTLInfo(PaypointModel resPaypointUTLInfo)
+        {
+            var objresPaypointUTLPaymentModel = new PaypointUserModel();
+            var objresPaypointUTLPaymentInfo = new PaypointModel
+            {
+
+                description = resPaypointUTLInfo.description,
+                amountP = "",
+                billNumber = resPaypointUTLInfo.billNumber,
+                refStan = resPaypointUTLInfo.refStan,
+                amount = resPaypointUTLInfo.amount,
+                commissionAmount = resPaypointUTLInfo.commissionAmount,
+                transactionDate = resPaypointUTLInfo.transactionDate,
+                customerName = resPaypointUTLInfo.customerName,
+                companyCode = resPaypointUTLInfo.companyCode,
+                UserName = resPaypointUTLInfo.UserName,
+                ClientCode = resPaypointUTLInfo.ClientCode,
+                serviceCode = resPaypointUTLInfo.serviceCode,
+                paypointType = resPaypointUTLInfo.paypointType,
+                Mode = "UTL" //Response UTL payment from Checkpayment
+
+            };
+            return objresPaypointUTLPaymentModel.ResponsePaypointUtilityInfo(objresPaypointUTLPaymentInfo);
         }
         #endregion
 

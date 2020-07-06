@@ -25569,6 +25569,8 @@
     <Content Include="Views\Utility\SmartCellTopUpDetails.cshtml" />
     <Content Include="Views\Utility\SmartCellEPIN.cshtml" />
     <Content Include="Views\Utility\SmartCellEPINCheckDetails.cshtml" />
+    <Content Include="Views\Utility\UTL.cshtml" />
+    <Content Include="Views\Utility\UTLDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

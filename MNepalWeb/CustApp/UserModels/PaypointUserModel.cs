@@ -863,5 +863,54 @@ namespace CustApp.UserModels
             return ListDHSserviceCode;
         }
         #endregion
+
+        #region UTL Service Code
+        public Dictionary<string, string> GetUTLServiceCode()
+        {
+            SqlDataReader rdr;
+            SqlConnection conn = null;
+            Dictionary<string, string> ListDHSserviceCode = new Dictionary<string, string>();
+            try
+            {
+                using (conn = new SqlConnection(DatabaseConnection.ConnectionStr()))
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.CommandText = "SELECT * FROM MNUTLServiceCode (NOLOCK) ";
+                        cmd.Connection = conn;
+                        if (conn.State != ConnectionState.Open)
+                        {
+                            conn.Open();
+                        }
+                        rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            string DHServiceCode = rdr["UTLServiceCode"].ToString();
+                            string DHVoucherAmount = rdr["UTLPackageAmount"].ToString();
+                            //string NEATypeId = rdr["NeaID"].ToString();
+                            ListDHSserviceCode.Add(DHServiceCode, DHVoucherAmount);
+                        }
+                        if (conn.State != ConnectionState.Closed)
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+
+            }
+            return ListDHSserviceCode;
+        }
+        #endregion
     }
 }
