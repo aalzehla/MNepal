@@ -216,7 +216,7 @@ namespace WCF.MNepal.Models
         public string smartCards { get; set; }
         public string ftthUser { get; set; }
         public string reserveInfo { get; set; }
-
+        public string commissionAmount { get; set; }
 
 
         //for check payment
