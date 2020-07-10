@@ -11,7 +11,7 @@ namespace MNepalAPI.Utilities
     {
         public static int Notification(NotificationModel resNotificationInfo)
         {
-            var objresPaypointNotificationModel = new NotificationUserModel();
+            var objresNotificationModel = new NotificationUserModel();
             var objresPaypointNotificationInfo = new NotificationModel
             {
 
@@ -22,7 +22,7 @@ namespace MNepalAPI.Utilities
 
 
             };
-            return objresPaypointNotificationModel.ResponseNotificationInfo(objresPaypointNotificationInfo);
+            return objresNotificationModel.ResponseNotificationInfo(objresPaypointNotificationInfo);
         }
     }
 }

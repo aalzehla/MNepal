@@ -82,3 +82,9 @@ D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\obj\Debug\MNepalAPI.csprojAsse
 D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\obj\Debug\MNepalAPI.csproj.CopyComplete
 D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\obj\Debug\MNepalAPI.dll
 D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\obj\Debug\MNepalAPI.pdb
+D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\bin\zxing.dll
+D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\bin\zxing.presentation.dll
+D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\bin\zxing.pdb
+D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\bin\zxing.xml
+D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\bin\zxing.presentation.pdb
+D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\bin\zxing.presentation.xml
