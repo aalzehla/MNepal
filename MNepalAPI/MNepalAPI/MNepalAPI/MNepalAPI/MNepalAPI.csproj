@@ -164,14 +164,20 @@
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PushNotificationController.cs" />
+    <Compile Include="Controllers\QRCodeGeneratorController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Notifications.cs" />
+    <Compile Include="Models\QRCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserModel\GetQRCodeUserModel.cs" />
     <Compile Include="UserModel\NotificationUserModel.cs" />
+    <Compile Include="UserModel\QRCodeGeneratorUserModel.cs" />
+    <Compile Include="Utilities\GetQRCodeImageUrl.cs" />
     <Compile Include="Utilities\NotificationUtilities.cs" />
+    <Compile Include="Utilities\QRCodeGeneratorUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

@@ -240,5 +240,15 @@ namespace CustApp.Utilities
 
         #endregion
 
+        #region
+        public static Dictionary<string, string> GetNetTvVoucher()
+        {
+            var objKhanepaniModel = new PaypointUserModel();
+
+            return objKhanepaniModel.GetNetTvVoucher();
+        }
+
+        #endregion
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model CustApp.Models.ISP
 
 @{
-    ViewBag.Title = "Sky Internet/TV Online Payment";
+    ViewBag.Title = "Net Tv Online Payment";
     string hasBankKYC = ViewBag.HasBankKYC;
 
 }
@@ -24,7 +24,7 @@
     }
 </style>
 
-@using (Html.BeginForm("SkyCheckPayment", "TvServicePayment", FormMethod.Post, new { @id = "SkyCheckPayment", @name = "SkyCheckPayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("NetTvCheckPayment", "TvServicePayment", FormMethod.Post, new { @id = "NetTvCheckPayment", @name = "NetTvCheckPayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -39,12 +39,94 @@
                     <div class="col-lg-6">
                         <section class="internet-payment pad-50">
                             <div class="top-section">
-                                <h2 class="title">Sky Internet/TV Bill Payment</h2>
+                                <h2 class="title">NetTV Bill Payment</h2>
                                 <p>Please fill the required field.</p>
                             </div>
-                            <blockquote class="blockquote">
-                                <h4 style="text-align:justify">Customer ID and Set Top Box No or CAS ID is a unique ID provided by Sky Cable TV while installing the Set Top Box (STB).</h4>
-                            </blockquote>
+                            <div class="instant-transactions">
+                                <h3 class="title">Other Merchant Payment</h3>
+                                <div class="transactions-grid clearfix">
+                                    <div class="item load-wallet">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("MerchantRestaurant", "MerchantPayment")">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-restaurant"></i>
+                                                    <span>Restaurant</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+
+                                    <div class="item transfer-fund">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("MerchantCollege", "MerchantPayment")">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-college"></i>
+                                                    <span>College</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+
+                                    <div class="item top-up">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("MerchantSchool", "MerchantPayment")">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-school"></i>
+                                                    <span>School</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+
+                                    <div class="item top-up">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("MerchantInsurance", "MerchantPayment")">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-school"></i>
+                                                    <span>Insurance</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+                                    <div class="item top-up">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("Index", "NEA" )">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-electricity"></i>
+                                                    <span>NEA</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+                                    <div class="item top-up">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("Index", "Khanepani" )">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-khanepani"></i>
+                                                    <span>Khanepani</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+                                    <div class="item top-up">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("Index", "NepalWater" )">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-khanepani"></i>
+                                                    <span>Nepal Water</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+                                </div>
+                            </div>
                         </section>
 
                     </div>
@@ -97,7 +179,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="col-sm-12">Service Mode:<b style="color:red;">*</b></label>
+                                        <label class="col-sm-12">NetTv Voucher:<b style="color:red;">*</b></label>
 
                                         @Html.DropDownList("DHServiceCode", new SelectList(ViewBag.DHServiceCode, "Key", "Value"), new
                                    {
@@ -210,7 +292,7 @@
             return true;
         }
 
-        $(".placeholder_voucher").prepend("<option value='0' disabled selected>---Select Service---</option>");
+        $(".placeholder_voucher").prepend("<option value='0' disabled selected>---Select Voucher---</option>");
 
         function checkValidation() {
             var Cust = $("[name='txtCustomerID']").val();
@@ -250,14 +332,14 @@
 
                 e.preventDefault(); //prevent the default action
                 $.ajax({
-                    url: '@Url.Action("SkyCheckPayment", "TvServicePayment")',
+                    url: '@Url.Action("NetTvCheckPayment", "TvServicePayment")',
                     type: "POST",
                     data: dataToPost,
                     async: true,
                     success: function (data) {
                         $(".preload").show();
                         if (data.responseCode == "200") {
-                            var url = '@Url.Action("SkyDetails", "TvServicePayment")';
+                            var url = '@Url.Action("NetTvDetails", "TvServicePayment")';
                             window.location.href = url;
                         }
                         //display error message

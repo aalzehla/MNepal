@@ -25563,6 +25563,9 @@
     <Content Include="Views\TvServicePayment\MeroTVDetails.cshtml" />
     <Content Include="Views\TvServicePayment\Sky.cshtml" />
     <Content Include="Views\TvServicePayment\SkyDetails.cshtml" />
+    <Content Include="Views\TvServicePayment\NetTv.cshtml" />
+    <Content Include="Views\Wlink\Index - Copy.cshtml" />
+    <Content Include="Views\Subisu\Index - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
