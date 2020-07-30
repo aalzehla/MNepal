@@ -249,9 +249,7 @@ namespace MNepalWeb.UserModels
         
         //Get Profile
         public static CusProfileViewModel  GetCustProfileDetails(string ProfileCode,bool GetAll)
-        {
-
-          
+        { 
             string retMsgStr = string.Empty;
             CusProfileViewModel CustProfile = new CusProfileViewModel();
          

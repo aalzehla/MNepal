@@ -48,5 +48,7 @@ namespace ThailiMNepalAgent.Models
         public string SelectTopupNTC { get; set; }
         public string SelectADSL { get; set; }
 
+        public string TokenUnique { get; set; }
+
     }
 }

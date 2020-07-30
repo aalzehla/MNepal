@@ -77,11 +77,7 @@
     <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
     <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.ServiceModel.Routing" />
     <Reference Include="System.Web" />
@@ -127,15 +123,15 @@
     <Content Include="bankinfo.svc" />
     <Content Include="BroadLink.svc" />
     <Content Include="cash.svc" />
+    <None Include="Connected Services\MerchantReference\commoninterface1.disco" />
     <Content Include="DishHomePinless.svc" />
     <Content Include="ISP.svc" />
     <Content Include="LoadFund.svc" />
-    <Content Include="subisu.svc" />
-    <Content Include="Utility.svc" />
+    <Content Include="neareverse.svc" />
     <Content Include="TVServicePayment.svc" />
+    <Content Include="Utility.svc" />
     <Content Include="vianet.svc" />
     <Content Include="wlink.svc" />
-    <None Include="Connected Services\MerchantReference\commoninterface1.disco" />
     <Content Include="Connected Services\MerchantReference\WCF.MNepal.MerchantReference.ResponseData.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -176,6 +172,7 @@
     <Content Include="reset.svc" />
     <Content Include="selfReg.svc" />
     <Content Include="share.svc" />
+    <Content Include="subisu.svc" />
     <Content Include="topup.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -234,6 +231,7 @@
     <Compile Include="Helper\SQLHelperQuery.cs" />
     <Compile Include="Helper\TokenGenerator.cs" />
     <Compile Include="Helper\TraceIdCheck.cs" />
+    <Compile Include="Helper\TranIDCheck.cs" />
     <Compile Include="Helper\TransLimitCheck.cs" />
     <Compile Include="Helper\UserNameCheck.cs" />
     <Compile Include="ISP.svc.cs">
@@ -282,6 +280,9 @@
     <Compile Include="Models\TopupTransfer.cs" />
     <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Models\UserValidate.cs" />
+    <Compile Include="neareverse.svc.cs">
+      <DependentUpon>neareverse.svc</DependentUpon>
+    </Compile>
     <Compile Include="paypoint.svc.cs">
       <DependentUpon>paypoint.svc</DependentUpon>
     </Compile>
@@ -338,9 +339,11 @@
     <Compile Include="UserModels\PinUserModel.cs" />
     <Compile Include="UserModels\PwdUserModel.cs" />
     <Compile Include="UserModels\RemitUserModel.cs" />
+    <Compile Include="UserModels\ReqTokenUserModels.cs" />
     <Compile Include="UserModels\ResetPin.cs" />
     <Compile Include="UserModels\SelfRegisterUserModel.cs" />
     <Compile Include="UserModels\TraceIdCheckerUserModel.cs" />
+    <Compile Include="UserModels\TranIDUserModel.cs" />
     <Compile Include="UserModels\TransactionLimitUserModel.cs" />
     <Compile Include="UserModels\UpdateFTUserModel.cs" />
     <Compile Include="Utilities\AgentCheckUtils.cs" />
@@ -357,9 +360,11 @@
     <Compile Include="Utilities\PinUtils.cs" />
     <Compile Include="Utilities\PwdUtils.cs" />
     <Compile Include="Utilities\RemitUtils.cs" />
+    <Compile Include="Utilities\ReqTokenUtils.cs" />
     <Compile Include="Utilities\ResetPinUtils.cs" />
     <Compile Include="Utilities\SelfRegisterUtils.cs" />
     <Compile Include="Utilities\TraceIdCheckUtils.cs" />
+    <Compile Include="Utilities\TranIDUtils.cs" />
     <Compile Include="Utilities\WalletLimitUtils.cs" />
     <Compile Include="Utility.svc.cs">
       <DependentUpon>Utility.svc</DependentUpon>
@@ -384,6 +389,7 @@
     <Content Include="Connected Services\WebReference\WCF.MNepal.WebReference.VerifyTxnResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -4,19 +4,44 @@
 <!-- sidebar menu: : style can be found in sidebar.less -->
 <ul class="sidebar-menu" data-widget="tree">
     <li class="header">MAIN NAVIGATION</li>
-    <li class="active treeview menu-open">
+    <li class="menu-open removeactive">
+        <a href="~/AdminDashboard">
+            @*<i class="fa fa-dashboard"></i>*@ <span>Dashboard</span>
+            @*<span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>*@
+        </a>
+        @*<ul class="treeview-menu">
+            <li><a href="~/AdminDashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        </ul>*@
+    </li>
+    
+    @*<li class="treeview">
         <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-bar-chart"></i> <span>Quick Reports</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
             </span>
         </a>
         <ul class="treeview-menu">
-            <li><a href="~/AdminDashboard"><i class="fa fa-circle-o"></i> Dashboard</a></li>
+            <li><a href="@Url.Action("CusReport","Report")"><i class="fa fa-circle-o"></i>Customer Ac Activity</a></li>
+            <li><a href="@Url.Action("CustomerAccountLog","Report")"><i class="fa fa-circle-o"></i>Customer Log</a></li>
+            <li><a href="@Url.Action("Merchants","Report")"><i class="fa fa-circle-o"></i>Merchants </a></li>
         </ul>
-    </li>
-    
-           
+    </li>*@
+
+    @*<li class="treeview">
+        <a href="#">
+            <i class="fa fa-bar-chart"></i> <span>Summary Reports</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="@Url.Action("Summary","Report")"><i class="fa fa-circle-o"></i>Transaction Summary</a></li>
+            
+        </ul>
+    </li>*@
     
 @Html.Raw(ViewBag.Menu)
   

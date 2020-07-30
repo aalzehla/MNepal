@@ -1,0 +1,314 @@
+﻿
+@{
+    ViewBag.Title = "Token Redeem";
+}
+
+@model ThailiMNepalAgent.Models.MNFundTransfer
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Token Redeem
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">TokenRedeem</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <div class="col-md-8">
+
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Token Redeem</h3>
+                </div>
+                <!-- /.box-header -->
+                @using (Html.BeginForm("TokenRedeem", "Remit", FormMethod.Post, new { @id = "frmTokenRedeem" }))
+                {
+                    <div id="ajaxResponse">
+                    </div>
+
+                    if (this.ViewData["remit_messsage"] != null)
+                    {
+                        if (this.ViewData["message_class"].ToString() == "success_info")
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Success</h4> @this.ViewData["remit_messsage"]
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Error</h4> @this.ViewData["remit_messsage"]
+                            </div>
+                        }
+                    }
+
+                    <div id="ajaxResponse">
+                    </div>
+
+                        <div class="box-body">
+                            <!-- /.form-group -->
+                            <div class="form-group" style="display:none;">
+                                <label>Trace ID</label>
+                                <input type="text" id="traceID" name="txtTraceID" class="form-control" placeholder="Trace ID" value="@ViewBag.TraceID" pattern=".{12,12}" required title="Please use Trace number" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Agent Mobile No</label>
+                                <input type="text" id="sender" name="mobile" class="form-control" value="@ViewBag.AgentMobileNo" readonly />
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                <label>Service Code </label>
+                                <input type="text" class="form-control" id="ServiceCode" name="txtServiceCode" value="41" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Sender Mobile Number</label>
+                                <input type="text" id="remitCustSender" name="RemitCusSender" class="form-control" placeholder="Sender Mobile No" pattern=".{10,13}" required title="Please use Sender Mobile number" maxlength="10" onkeypress="return isNumber(event)" />
+                            </div> 
+
+                            <div class="form-group">
+                                <label>Recipient Mobile Number</label>
+                                <input type="text" id="recipient" name="RemitReceiver" class="form-control" placeholder="Recipient Mobile No" pattern=".{10,13}" required title="Please use Recipient Mobile number" maxlength="10" onkeypress="return isNumber(event)" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Beneficial Name</label>
+                                <input type="text" id="beneficialName" name="txtBeneficialName" class="form-control" placeholder="BeneficialName" pattern=".{0,20}" required title="Please use Recipient Beneficial Name" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Code</label>
+                                <input type="text" id="code" name="sa" class="form-control" placeholder="Code" pattern=".{4,4}" required title="Please use 4 digit code" value="@ViewBag.Code" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Amount</label>
+                                <input type="text" id="amount" name="amount" class="form-control" placeholder="Amount"
+                                       pattern=".{2,4}" required title="Please use 4 digit amount" value="@ViewBag.Amount" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Token ID</label>
+                                <input type="text" id="tokenID" name="RequestTokenCode" class="form-control" placeholder="TokenID" maxlength="8" required title="Please use 8 digit TokenID" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>PIN</label>
+                                <input type="password" id="pin" name="pin" class="form-control" placeholder="PIN" pattern=".{4,4}" required title="Please use the Pin number" maxlength="4" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Note</label>
+                                <textarea class="form-control" rows="3" id="note" name="note" placeholder="Note Enter ..." pattern=".{0}|.{,40}" required title="Please use the Pin number"></textarea>
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                <label>SRC</label>
+                                <input type="text" id="src" name="sourcechannel" class="form-control" value="WEB" />
+                            </div>
+                            <!-- /.form-group -->
+                        </div>
+                    <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <input type="submit" class="btn btn-primary pull-right" id="btnSubmit" name="txtSubmit" value="Submit" />
+                        </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-2"> &nbsp; </div>
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts{
+
+    <!-- Load jQuery and the validate plugin -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+    <!--jQuery Form Validation code -->
+    <script type="text/javascript">
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        $("#recipient").change(function (event) {
+            event.preventDefault();
+
+            var id = $("#recipient").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetRequestTokenCode", "Remit")',
+                data: { "recipientNo": id },
+                success: function (data, textStatus) {
+                    $("#beneficialName").html("");
+                    var markup = data;
+                    $("#beneficialName").val(data.BeneficialName);
+                    $("#code").val(data.RequestTokenCode);
+                    $("#amount").val(data.Amount);
+                    $("#note").val(data.Purpose);
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+        });
+
+        $(document).ready(function () {
+
+            $('#frmTokenRedeem').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    txtTraceID: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The TraceID is required and cannot be empty'
+                            }
+                        }
+                    },
+                    txtAmount: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Amount is required and cannot be empty'
+                            },
+                            stringLength: {
+                                max: 4,
+                                min: 2,
+                                message: 'The Amount must be more than 2 and less than 4 characters long'
+                            }
+                        }
+                    },
+                    pin: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The pin is required and cannot be empty'
+                            },
+                            stringLength: {
+                                max: 4,
+                                min: 4,
+                                message: 'The pin must 4 digit numeric password'
+                            }
+                        }
+                    },
+                    txtRecipientNo: {
+                        validators: {
+                            phone: {
+                                country: 'Nepal',
+                                message: 'The phone number is not valid'
+                            },
+                            regexp: {
+                                regexp: '("^[98][0-9]{8}$")',
+                                message: 'Mobile must start with 98'
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            $("#ajaxResponse").hide();
+
+            @*$('#btnSubmit').click(function (e) {
+
+                var tid = $("[name='txtTraceID']").val();
+                var servicecode = $("[name='txtServiceCode']").val();
+                var umobile = $("[name='txtSenderMobileNo']").val();
+                var recipientNo = $("[name='txtRecipientNo']").val();
+                var amount = $("[name='txtAmount']").val();
+                var pin = $("[name='txtPin']").val();
+                var note = $("[name='txtNote']").val();
+                var src = $("[name='txtSrc']").val();
+                var tokenno=$("[name='txtTokenID']").val();
+                var code=$("[name='txtCode']").val();
+
+                var dataToPost = {
+                    tid: tid,
+                    sc: servicecode,
+                    mobile: umobile,
+                    da: recipientNo,
+                    amount: amount,
+                    pin: pin,
+                    note: note,
+                    sourcechannel: src,
+                    RequestTokenCode: tokenno,
+                    sa:code
+                };
+
+                e.preventDefault(); //prevent the default action
+
+                $.ajax({
+                    url: '@Url.Action("TokenRedeem", "Remit")',
+                    type: 'POST',
+                    data: dataToPost,
+                    cache: false,
+                    async: false,
+                    success: function (data, textStatus, jqXHR) {
+                        alert('success');
+                        alert(data.responseCode);
+                        alert(data.responseText);
+
+                        if ((textStatus == "success") && (data.responseCode == "200")) {
+                            $("#ajaxResponse").html("");
+                            $("#ajaxResponse").append("<div class='alert alert-success'><h4>Success</h4>"
+                                + data.responseText + "<br/></div>");
+                            $("#ajaxResponse").show();
+                        }
+                        //display error message
+                        else {
+                            $("#ajaxResponse").html("");
+                            $("#ajaxResponse").append("<div class='alert alert-danger'><h4>Error</h4>"
+                                + data.responseText + "<br/></div>");
+                            $("#ajaxResponse").show();
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Failed to retrieve.');
+                        $("#ajaxResponse").html(jqXHR.responseText);
+                    },
+                    //capture the request before it was sent to server
+                    beforeSend: function (jqXHR, settings) {
+                        //adding some Dummy data to the request
+                        settings.data += "&dummyData=whatever";
+                        //disable the button until we get the response
+                        $('#btnSubmit').attr("disabled", true);
+                    },
+                    complete: function (jqXHR, textStatus) {
+                        //enable the button
+                        $('#btnSubmit').attr("disabled", false);
+                    }
+                });
+            });*@
+
+        });
+
+    </script>
+}
+

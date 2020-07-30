@@ -33,28 +33,39 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
+    <meta http-equiv="Cache-Control" content="no-cache, no-store" />
+    <meta http-equiv="Pragma" content="no-cache" />
+
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
+
     <!-- /Google font -->
-    <link href="https://fonts.googleapis.com/css?family=Chivo:300,400,700" rel="stylesheet">
+    @*<link href="https://fonts.googleapis.com/css?family=Chivo:300,400,700" rel="stylesheet">*@
 
     <!-- Custom style -->
     <link href="~/Content/ThaliStyle.css" rel="stylesheet" />
     <link href="~/Content/plugins/DataTables/datatables.css" rel="stylesheet" />
     <link rel="icon" type="image/ico" href="~/favicon.ico">
+    <script src="~/Content/assets/js/jquery-3.5.0.js"></script>
 
-    <!-- Bootstrap 3.3.7 -->
-    @*<link rel="stylesheet" href="~/Content/bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <!--jQuery-->
-        <link href="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
-        <!--datatable-->
-        <link href="~/Content/plugins/DataTables/datatables.css" rel="stylesheet" />
-        <!--filesaver-->
-        <script src="~/Scripts/FileSaver.min.js"></script>*@
     <style>
-        .dropdown-menu{
-            z-index:2;
+        .dropdown-menu {
+            z-index: 2;
         }
     </style>
 
+    <script>
+        if (self == top) {
+            document.documentElement.style.display = 'block';
+        } else {
+            top.location = self.location;
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input:text,form").attr("autocomplete", "off");
+        });
+    </script>
 
 </head>
 
@@ -367,8 +378,6 @@
 
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/alertify.js"></script>
-
-    @*<script type="text/javascript" src="http://beneposto.pl/jqueryrotate/js/jQueryRotateCompressed.js"></script>*@
 
 
     <script>

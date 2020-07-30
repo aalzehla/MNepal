@@ -6,7 +6,20 @@
 @model MNepalWeb.Models.MNFundTransfer
 <!-- =============================================== -->
 <!-- Content Header (Page header) -->
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/alertify.min.css" />
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/default.min.css" />
 <section class="content-header">
+    <h1>
+        Payment
+        <small> Fund Transfer</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Payment</a></li>
+        <li class="active">  Fund Transfer</li>
+    </ol>
+</section>
+@*<section class="content-header">
     <h1>
         Fund Transfer
     </h1>
@@ -14,7 +27,7 @@
         <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
         <li class="active">Fund Transfer</li>
     </ol>
-</section>
+</section>*@
 
 <!-- Main content -->
 <section class="content">
@@ -68,12 +81,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Fund Transfer Type </label>
+                            <label>Transaction Medium</label>
                             <select class="form-control select2" id="fundTransferType" name="txtFundTransferType" style="width: 100%;">
-                                <option selected="selected" value="Wallet to Wallet">Wallet A/C To Wallet A/C</option>
-                                <option value="Wallet to Bank">Wallet A/C To Bank A/C</option>
-                                <option value="Bank to Wallet">Bank A/C To Wallet A/C</option>
-                                <option value="Bank to Bank">Bank A/C To Bank A/C</option>
+                                <option selected="selected" value="Wallet to Wallet">wallet to wallet</option>
+                                <option value="Wallet to Bank">Wallet to bank</option>
+                                <option value="Bank to Wallet">Bank to Wallet</option>
+                                <option value="Bank to Bank"> Internal Account Transfer</option>
                             </select>
                         </div>
 
@@ -84,19 +97,19 @@
 
                         <div class="form-group">
                             <label>Recipient Mobile Number</label>
-                            <input type="text" id="recipient" name="txtRecipientNo" class="form-control" placeholder="Recipient No" pattern=".{10,10}" required title="Please use phone Number" />
+                            <input type="text" id="recipient" name="txtRecipientNo" class="form-control" placeholder="Recipient No" pattern=".{10,10}" required title="Please use phone Number" maxlength="10" onkeypress="return isNumber(event)"/>
                             <label id="check">                </label>
                         </div>
 
                         <div class="form-group">
                             <label>Amount</label>
                             <input type="text" id="amount" name="txtAmount" class="form-control" placeholder="Amount"
-                                   pattern=".{2,4}" required title="Please use 4 digit amount" />
+                                   pattern=".{2,4}" required title="Please use 4 digit amount" maxlength="6" onkeypress="return isNumber(event)"/>
                         </div>
 
                         <div class="form-group">
                             <label>T-PIN</label>
-                            <input type="password" id="pin" name="txtPin" class="form-control" placeholder="T-PIN" pattern=".{4,4}" required title="Please use the Pin number" />
+                            <input type="password" id="pin" name="txtPin" class="form-control" placeholder="T-PIN" pattern=".{4,4}" required title="Please use the Pin number"  maxlength="4"/>
                         </div>
 
                         <div class="form-group">
@@ -114,11 +127,14 @@
 
                     <div class="box-footer">
                         <input type="submit" class="btn btn-primary pull-right" id="btnSubmit" name="txtSubmit" value="Submit" />
+                        <a href="@Url.Action("Index","FundTransfer")" class="btn btn-primary pull-right" id="btnNew" title="Begin New Transaction">New Transaction</a>
+
+                       
                     </div>
                     
-                    }
-                @*</form>*@
-                    </div>
+                 }
+               
+               </div>
         </div>
 
         <div class="col-md-2"> &nbsp; </div>
@@ -137,8 +153,19 @@
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
 
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/alertify.min.js"></script>
+
     <!--jQuery Form Validation code -->
     <script type="text/javascript">
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
 
         $("#recipient").change(function (event) {
             event.preventDefault();
@@ -170,6 +197,15 @@
 
         $(document).ready(function () {
 
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
+
+            $('#btnNew').hide();
             if ($("select[name='txtFundTransferType'] option:selected").val() == 'Wallet to Wallet') {
                 //alert(($("select[name='txtFundTransferType'] option:selected").val()))
                 $("#ServiceCode").html(""); //WalletToWallet
@@ -247,6 +283,7 @@
         $("#ajaxResponse").hide();
 
         $('#btnSubmit').click(function (e) {
+            e.preventDefault();
 
             var tid = $("[name='txtTraceID']").val();
             var servicecode = $("[name='txtServiceCode']").val();
@@ -257,6 +294,33 @@
             var note = $("[name='txtNote']").val();
             var src = $("[name='txtSrc']").val();
 
+            if (recipientNo.length != 10) {
+                $("[name='txtRecipientNo']").focus();
+                alertify.error('Mobile number must be of 10 digits');
+                return;
+            }
+
+            if (recipientNo.substring(0,2)!="98") {
+                $("[name='txtRecipientNo']").focus();
+                alertify.error('Mobile number must start with 98');
+                return;
+            }
+            if (amount.trim() == "")
+            {
+                $("[name='txtAmount']").focus();
+                alertify.error('Amount cannot be empty');
+                return;
+            }
+            if (amount.trim() == "0") {
+                $("[name='txtAmount']").focus();
+                alertify.error('Amount cannot be 0');
+                return;
+            }
+            if (pin.trim() == "") {
+                $("[name='txtPin']").val()
+                alertify.error('Pin cannot be empty');
+                return;
+            }
             if ((recipientNo != "") && (amount != "") && (pin != "") && (note != "")) {
 
                 var dataToPost = {
@@ -271,22 +335,29 @@
                 };
 
                 e.preventDefault(); //prevent the default action
-
                 $.ajax({
                     url: '@Url.Action("FundTransferTran", "FundTransfer")',
                     type: "POST",
                     data: dataToPost,
                     async: false,
-                    success: function (data, textStatus) {
+                    success: function (data) {
                         //alert('success');
                         //alert(data.responseCode);
                         //alert(data.responseText);
-
-                        if ((textStatus == "success")&& (data.responseCode == "200")) { //
+                        debugger;
+                        if (data.responseCode == "200") { //
+                            debugger;
                             $("#ajaxResponse").html("");
-                            $("#ajaxResponse").append("<div class='alert alert-success'><h4>Success</h4>"
-                                + data.responseText + "<br/></div>");
+                            var resp = JSON.parse(data.responseText);
+                            var AppendText = "<div class='alert alert-success'><h4>Success</h4>";
+                            AppendText = AppendText + resp.message;
+                            AppendText = AppendText + "<br/>Available Balance:" + resp.availableBalance;
+                            AppendText = AppendText + "<br/></div>";
+                            $("#ajaxResponse").append(AppendText);
                             $("#ajaxResponse").show();
+                            $('#btnNew').show();
+                            $('#btnSubmit').hide();
+
                         }
                         //display error message
                         else {

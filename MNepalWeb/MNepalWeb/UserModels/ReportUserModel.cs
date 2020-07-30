@@ -63,6 +63,7 @@ namespace MNepalWeb.UserModels
                         cuss.SMSSenderReply = dr["SMSSenderReply"].ToString();
                         cuss.ErrorMessage = dr["ErrorMessage"].ToString();
                         cuss.SMSTimeStamp = dr["SMSTimeStamp"].ToString();
+                        cuss.Name = dr["Name"].ToString();
                         //cuss.Credit = decimal.Parse(dr["Credit"].ToString().Trim() == "" ? "0" : dr["Credit"].ToString().Trim());
                         //cuss.Debit = decimal.Parse(dr["Debit"].ToString().Trim() == "" ? "0" : dr["Debit"].ToString().Trim());
                         
@@ -279,7 +280,7 @@ namespace MNepalWeb.UserModels
         }
         
         //CustomerDetails
-        public List<CustomerData> CustomerDetails(CustReport Cus,string Approved)
+        public List<CustomerData> CustomerDetails(CustReport Cus,string Approved, string Register)
         {
             DataSet dataset = new DataSet();
             SqlConnection conn = null;
@@ -299,6 +300,7 @@ namespace MNepalWeb.UserModels
                         cmd.Parameters.AddWithValue("@UserName", Cus.UserName);
                         cmd.Parameters.AddWithValue("@Status", Cus.Status);
                         cmd.Parameters.AddWithValue("@Approved", Approved);
+                        cmd.Parameters.AddWithValue("@RegisteredBy", Register);
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {
@@ -330,6 +332,8 @@ namespace MNepalWeb.UserModels
                             CusData.ExpiryDate = dr["ExpiryDate"].ToString();
                             CusData.Status = dr["Status"].ToString();
                             CusData.Approved = dr["Approved"].ToString();
+                            CusData.CreatedBy = dr["CreatedBy"].ToString();
+                            CusData.ApprovedBy = dr["ApprovedBy"].ToString();
                             ListRec.Add(CusData);
                         }
                        
@@ -410,6 +414,7 @@ namespace MNepalWeb.UserModels
                             TpInfo.ServiceType = dr["ServiceType"].ToString();
                             TpInfo.Status = dr["Status"].ToString();
                             TpInfo.Message = dr["Message"].ToString();
+                            TpInfo.ReferenceNo = dr["ReferenceNo"].ToString();
                             ListRec.Add(TpInfo);
                         }
                         }
@@ -574,10 +579,96 @@ namespace MNepalWeb.UserModels
                                 FT.Amount = decimal.Parse(dr["Amount"].ToString().Trim() == "" ? "0" : dr["Amount"].ToString().Trim());
                                 FT.Status = dr["Status"].ToString();
                                 FT.Message = dr["Message"].ToString();
+                                FT.ReferenceNo = dr["ReferenceNo"].ToString();
                                 ListRec.Add(FT);
                             }
                             }
                   
+                        }
+
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+                dataset.Dispose();
+            }
+
+            return ListRec;
+        }
+
+        public List<FundTransfer> FundTxnEBankingDetails(TopUp Tp)
+        {
+            DataSet dataset = new DataSet();
+            SqlConnection conn = null;
+            List<FundTransfer> ListRec = new List<FundTransfer>();
+
+            try
+            {
+                using (conn = new SqlConnection(DatabaseConnection.ConnectionStr()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("dbo.s_MNRptFundTransferEBanking", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@TranId", Tp.TranID);
+                        cmd.Parameters.AddWithValue("@StartDate", Tp.StartDate);
+                        cmd.Parameters.AddWithValue("@EndDate", Tp.EndDate);
+                        cmd.Parameters.AddWithValue("@SourceMobileNo", Tp.SourceMobileNo);
+                        cmd.Parameters.AddWithValue("@DestMobileNo", Tp.DestMobileNo);
+                        cmd.Parameters.AddWithValue("@FTType", Tp.FTType);
+                        cmd.Parameters.AddWithValue("@Status", Tp.Status);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            //set the CommandTimeout
+                            da.SelectCommand.CommandTimeout = 0;  // seconds
+                            da.Fill(dataset);
+                        }
+                    }
+                }
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+
+                if (dataset.Tables.Count > 0)
+                {
+                    DataTable TpData = dataset.Tables[0];
+
+                    if (dataset.Tables.Count > 0)
+                    {
+                        if (TpData.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in TpData.Rows)
+                            {
+
+                                if (dr["TranDate"].ToString() != "~")
+                                {
+                                    FundTransfer FT = new FundTransfer();
+                                    FT.DatenTime = DateTime.ParseExact(dr["TranDate"].ToString(), "dd/MM/yyyy hh:mm:ss.fff tt", CultureInfo.InvariantCulture);
+                                    FT.TxnID = dr["TranID"].ToString();
+                                    //FT.FTType = dr["FTType"].ToString();
+                                    FT.FTType = "Bank to Wallet(e-Banking)";
+                                    //FT.SourceMobileNo = dr["Source Mobile No"].ToString();
+                                    FT.SourceMobileNo = "NIBL";
+                                    FT.DestMobileNo = dr["Destination Mobile No"].ToString();
+                                    FT.Amount = decimal.Parse(dr["Amount"].ToString().Trim() == "" ? "0" : dr["Amount"].ToString().Trim());
+                                    FT.Status = dr["Status"].ToString();
+                                    FT.Message = dr["Message"].ToString();
+                                    FT.PaymentReferenceNumber = dr["PaymentReferenceNumber"].ToString();
+                                    ListRec.Add(FT);
+                                }
+                            }
+
                         }
 
 
@@ -656,6 +747,7 @@ namespace MNepalWeb.UserModels
                             MI.Message = dr["Message"].ToString();
                             MI.TranType = dr["TransactionType"].ToString();
                             MI.Name = dr["Name"].ToString();
+                            MI.ReferenceNo = dr["ReferenceNo"].ToString();
                             ListRec.Add(MI);
                         }
                         }
@@ -1083,6 +1175,87 @@ namespace MNepalWeb.UserModels
             return ListRec;
         }
 
+        public List<BankLinkInfo> BankLinkDetails(BankLink bankLink)
+        {
+            DataSet dataset = new DataSet();
+            SqlConnection conn = null;
+            List<BankLinkInfo> ListRec = new List<BankLinkInfo>();
+
+            try
+            {
+                using (conn = new SqlConnection(DatabaseConnection.ConnectionStr()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("dbo.s_MNBankLinkSummary", conn))
+                    {
+
+                        cmd.Parameters.AddWithValue("@StartDate", bankLink.StartDate);
+                        cmd.Parameters.AddWithValue("@EndDate", bankLink.EndDate);
+                        cmd.Parameters.AddWithValue("@MobileNo", bankLink.MobileNo);
+                        cmd.Parameters.AddWithValue("@Status", bankLink.Status);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            // set the CommandTimeout
+                            da.SelectCommand.CommandTimeout = 0;  // seconds
+                            da.Fill(dataset);
+                        }
+                    }
+                }
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+
+
+
+                if (dataset.Tables.Count > 0)
+                {
+                    DataTable TpData = dataset.Tables[0];
+                    if (TpData.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in TpData.Rows)
+                        {
+                            BankLinkInfo MI = new BankLinkInfo();
+
+                            //MI.RequestedDate = DateTime.ParseExact(dr["RequestedDate"].ToString(), "dd/MM/yyyy hh:mm:ss.fff tt", CultureInfo.InvariantCulture); //hh:mm:ss.fff tt
+                            MI.RequestedDate = dr["RequestedDate"].ToString();
+                            MI.MobileNo = dr["MobileNumber"].ToString();
+                            MI.CustomerName = dr["Name"].ToString();
+                            MI.BankAccNo = dr["AccountNumber"].ToString();
+                            MI.Status = dr["Status"].ToString();
+                            MI.VerifiedBy = dr["VerifiedBy"].ToString();
+                            MI.VerifiedDate = dr["VerifiedDate"].ToString();
+                            //DateTime.ParseExact(dr["VerifiedDate"].ToString(), "dd/MM/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture); //hh:mm:ss.fff tt
+                            MI.ApprovedBy = dr["ApprovedBy"].ToString();
+                            MI.ApprovedDate = dr["ApprovedDate"].ToString();
+                            //DateTime.ParseExact(dr["ApprovedDate"].ToString(), "dd/MM/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture); //hh:mm:ss.fff tt
+
+                            ListRec.Add(MI);
+                        }
+
+                        HttpContext.Current.Session["BankLinkInfo"] = TpData;
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+                dataset.Dispose();
+            }
+
+            return ListRec;
+        }
+
         //Get BranchCode
         public Dictionary<string, string> GetBranchCode()
         {
@@ -1095,7 +1268,7 @@ namespace MNepalWeb.UserModels
                 {
                     using (SqlCommand cmd = new SqlCommand())
                     {
-                        cmd.CommandText = "SELECT BranchCode,BranchName FROM MNBranchTable (NOLOCK)";
+                        cmd.CommandText = "SELECT BranchCode,BranchName FROM MNBranchTable (NOLOCK) where BankCode='0004'";
                         cmd.Connection = conn;
                         if (conn.State != ConnectionState.Open)
                         {

@@ -13,6 +13,7 @@ using System.Web.Script.Serialization;
 using CustApp.App_Start;
 using CustApp.Models;
 using CustApp.Utilities;
+using System.Net.Mail;
 
 namespace CustApp.Controllers
 {
@@ -87,7 +88,7 @@ namespace CustApp.Controllers
         {
             string MobileNumber, Name, Email, Remarks, Category;
             HttpPostedFileBase Image= customerSupport.Image;
-            //HttpPostedFileBase Image= uploadedfile;
+
             MobileNumber = (string)Session["LOGGED_USERNAME"];
             Name = (string)Session["LOGGEDUSER_NAME"];
             Email = customerSupport.Email;
@@ -102,8 +103,17 @@ namespace CustApp.Controllers
             {
                 ImageName = null;
             }
-            
-            
+
+            UserInfo userInfo = new UserInfo();
+            DataTable dtableGetUserInfo = ProfileUtils.GetCustomerName(MobileNumber);
+            if (dtableGetUserInfo != null && dtableGetUserInfo.Rows.Count > 0)
+            {
+                userInfo.FName = dtableGetUserInfo.Rows[0]["FName"].ToString();
+                userInfo.MName = dtableGetUserInfo.Rows[0]["MName"].ToString();
+                userInfo.LName = dtableGetUserInfo.Rows[0]["LName"].ToString();
+
+            }
+
             HttpResponseMessage _res = new HttpResponseMessage();
             using (HttpClient client = new HttpClient())
             {
@@ -151,11 +161,54 @@ namespace CustApp.Controllers
                                 responseCode = code;
                             }
                         }
-                        if(responseCode == 200)
+                        if (responseCode == 200)
                         {
                             this.TempData["message_class"] = "success_info";
-                            this.TempData["user_message"] = "Your request has been received.";
+                            this.TempData["user_message"] = "Your feedback has been submitted.";
+
+                            //SMS
+                            //SMSUtils SMS = new SMSUtils();
+
+                            //string Message = string.Format("Dear " + userInfo.FName + ",\n Your Feedback for Thaili Wallet has been submitted. \n Thank You -MNepal");
+
+                            //SMSLog Log = new SMSLog();
+                            //Log.UserName = MobileNumber;
+                            //Log.Purpose = "Customer Support"; //New Registration
+                            //Log.SentBy = "Self";
+                            //Log.Message = ("Your Feedback for Thaili Wallet has been taken."); //encrypted when logging
+
+                            //CustomerUtils.LogSMS(Log); //Log SMS
+                            //SMS.SendSMS(Message, MobileNumber);
+                            //END-SMS
+
+
+
+                            //EMAIL
+                            //if (Email != "" && Email != string.Empty)
+                            //{
+                            //    string Subject = "Customer Support";
+                            //    string MailSubject = "<span style='font-size:15px;'><h4>Dear " + userInfo.FName + ",</h4>";
+                            //    MailSubject += "Your Feedback for Thaili Wallet has been submitted. ";
+                            //    MailSubject += "We will try to work on it as soon as possible.<br/>";
+                            //    MailSubject += "<br/>Thank You!";
+                            //    MailSubject += "<br/>-MNepal </span><br/>";
+                            //    MailSubject += "<hr/>";
+                            //    EMailUtil SendMail = new EMailUtil();
+                            //    try
+                            //    {
+                            //        SendMail.SendMail(Email, Subject, MailSubject);
+                            //    }
+                            //    catch
+                            //    {
+
+                            //    }
+
+                            //}
+
+
                             return RedirectToAction("Index", "UserDashboard");
+
+
                         }
                         else
                         {
@@ -163,7 +216,7 @@ namespace CustApp.Controllers
                             this.TempData["user_message"] = "Your request has not been received.";
                             return RedirectToAction("Index", "UserDashboard");
                         }
-                        
+
                         return Json(new { responseCode = responseCode, responseText = respmsg },
                         JsonRequestBehavior.AllowGet);
                     }
@@ -199,9 +252,12 @@ namespace CustApp.Controllers
                     return Json(new { responseCode = "400", responseText = ex.Message },
                         JsonRequestBehavior.AllowGet);
                 }
-                
+
             }
+
+
         }
+
         #region For image encode and resize
         public static Image resizeImage(Image imgToResize, Size size)
         {
@@ -226,7 +282,7 @@ namespace CustApp.Controllers
                 return base64String;
             }
 
-            
+
         }
 
         public string ReturnFileName(HttpPostedFileBase file, string mobile)
@@ -255,4 +311,59 @@ namespace CustApp.Controllers
         }
         #endregion
     }
+
+    #region To send mail
+    //To send mail
+    public class EMailUtil
+    {
+        public void SendMail(string DestinationAddress, string Subject, string Message) //Single Mail
+    {
+        try
+        {
+
+
+            if (string.IsNullOrEmpty(DestinationAddress))
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(Subject))
+            {
+                return;
+            }
+            if (string.IsNullOrEmpty(Message))
+            {
+                return;
+            }
+            using (SmtpClient client = new SmtpClient())
+            {
+                MailMessage mail = new MailMessage("donotreply@mnepal.com", DestinationAddress);
+                client.Port = 25;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Host = "smtp.mos.com.np";
+                mail.Subject = Subject;
+                mail.Body = Message;
+                mail.IsBodyHtml = true;
+                try
+                {
+                    client.Send(mail);
+                }
+                catch (SmtpException exception)
+                {
+                    // throw new Exception(exception.Message);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+
+
+    }
+    }
+#endregion
+
 }

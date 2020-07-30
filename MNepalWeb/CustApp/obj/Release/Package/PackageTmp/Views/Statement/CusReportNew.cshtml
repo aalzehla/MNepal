@@ -19,14 +19,14 @@
         .active, .btn:hover {
             background-color: #00A651;
             color: white;
-        } 
+        }
+
     a.disabled {
         pointer-events: none;
         cursor: default;
     }
 </style>
 <!-- Main content -->
-
 <!-- Main row -->
 
 <div class="main-content">
@@ -54,15 +54,15 @@
                     </div>
                     <!-- /form-group -->
                     @*<div class="form-group">
-            <div class="switch-field">
-                <input type="radio" id="switch_left" name="searchSource" value="Bank Account" checked />
-                <label class="form-control" for="switch_left">Bank Account</label>
-                <input type="radio" id="switch_right" name="searchSource" value="Digital Wallet" />
-            <label class="form-control" for="switch_right">Digital Wallet</label>
-            </div>
+                            <div class="switch-field">
+                                <input type="radio" id="switch_left" name="searchSource" value="Bank Account" checked />
+                                <label class="form-control" for="switch_left">Bank Account</label>
+                                <input type="radio" id="switch_right" name="searchSource" value="Digital Wallet" />
+                            <label class="form-control" for="switch_right">Digital Wallet</label>
+                            </div>
 
-        </div>*@
-                  
+                        </div>*@
+
                     <div id="myDIV" class="mt-2">
                         @if (ViewBag.HasBankKYC == "T")
                         {
@@ -91,7 +91,7 @@
 
                             <div class="form-group daterange-wrapper">
                                 @*<label class="mt-2">From</label>*@
-                               
+
                                 <div class="input-group input-daterange">
                                     <div class="input-group-append">
                                         <span class="input-group-text">From</span>
@@ -258,21 +258,25 @@
 <!-- =============================================== -->
 @section scripts{
 
-    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="~/Content/ui_1.11.4/jquery-ui.js"></script>
+<link href="~/Content/ui_1.11.4/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/ui_1.11.4/font-awesome.min.css" rel="stylesheet" />
+
+    <!--<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <link href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <script type="text/javascript">
 
-        $(document).ready(function () { 
+        $(document).ready(function () {
             var changed = "F";
-            $('#UserName, #StartDate, #EndDate').on('input propertychange paste', function () {
+            $('#StartDate, #EndDate').on('input propertychange paste', function () {
                 changed = "T";
             });
 
 
 
             var table;
-            $('#ToExcel').click(function () { 
+            $('#ToExcel').click(function () {
                 var UserName = $('#UserName').val();
                 var StartDate = $('#StartDate').val();
                 var EndDate = $('#EndDate').val();
@@ -280,7 +284,7 @@
                 $.ajax({
                     url: "@Url.Action("CusReportTableNew", "Statement")",
                     data: {
-                        UserName: UserName,
+                        //UserName: UserName,
                         StartDate: StartDate,
                         EndDate: EndDate,
                         change: Parachanged,
@@ -309,7 +313,6 @@
 
             });
 
-            /////
             var header = document.getElementById("myDIV");
             var btns = header.getElementsByClassName("btn");
             for (var i = 0; i < btns.length; i++) {
@@ -351,7 +354,7 @@
                     "aaSorting": [],
                     "ajax": {
                         data: function (d) {
-                            d.UserName = UserName;
+                            //d.UserName = UserName;
                             d.StartDate = StartDate;
                             d.EndDate = EndDate;
                             d.change = Parachanged;
@@ -360,7 +363,7 @@
                         type: 'POST',
                     },
                     "drawCallback": function (settings) {
-                        debugger;
+                        //debugger;
                         changed = "F";
                         Parachanged = changed;
                         $('#SearchResultTable').show();
@@ -384,7 +387,7 @@
 
                         //{ "data": "Status" }
 
-                        ///start milayako
+
                         { data: "Status", render: function ( data, type, row ) {
                                   if (data == 'Successful') {
 
@@ -396,7 +399,7 @@
                                        }
                         }
                         },
-                        //end milayako
+
                     ],
                     "columnDefs": [{
                         "targets": [0,1,2,3,4,5,6,7], /* column index */
@@ -408,9 +411,8 @@
             });
 
 
-            ///start milayako 03
              $('#btnSearch1').click(function () {
-                debugger;
+                //debugger;
                 changed = "T";
                 var UserName = $('#UserName').val();
                 if (UserName.trim().length <= 0)
@@ -428,14 +430,14 @@
                 $('#loading').show();
                 $('#btnSearch1').prop("disabled", true);
                  table = $('#SearchResultTable').DataTable({
-                    
+
                     searching: false,
                     "proccessing": true,
                     "serverSide": true,
                     "aaSorting": [],
                     "ajax": {
                         data: function (d) {
-                            d.UserName = UserName;
+                            //d.UserName = UserName;
                             d.StartDate = StartDate;
                             d.EndDate = EndDate;
                             d.change = Parachanged;
@@ -444,7 +446,7 @@
                         type: 'POST',
                     },
                     "drawCallback": function (settings) {
-                        debugger;
+                        //debugger;
                         changed = "F";
                         Parachanged = changed;
                         $('#SearchResultTable').show();
@@ -466,7 +468,7 @@
                         { "data": "Type" },
                         //{ "data": "Status" }
 
-                        ///start milayako
+
                         {
                             data: "Status", render: function (data, type, row) {
                                 if (data == 'Successful') {
@@ -479,7 +481,7 @@
                                 }
                             }
                         },
-                        //end milayako
+
                     ],
                     "columnDefs": [{
                         "targets": [5, 6], /* column index */
@@ -490,12 +492,10 @@
                //table.columns.adjust();
             });
 
-            //end milayako 03
 
-            ///start milayako 02
             $('#btnSearchBnkAcc').click(function () {
                 dispBankBal();
-                debugger;
+                //debugger;
                 changed = "T";
                 var UserName = $('#UserName').val();
                 if (UserName.trim().length <= 0)
@@ -522,7 +522,7 @@
                     "aaSorting": [],
                     "ajax": {
                         data: function (d) {
-                            d.UserName = UserName;
+                            //d.UserName = UserName;
                             d.StartDate = StartDate;
                             d.EndDate = EndDate;
                             d.change = Parachanged;
@@ -531,7 +531,7 @@
                         type: 'POST',
                     },
                     "drawCallback": function (settings) {
-                        debugger;
+                        //debugger;
                         changed = "F";
                         Parachanged = changed;
                         $('#SearchResultTable').show();
@@ -553,7 +553,7 @@
                         { "data": "Type" },
                         //{ "data": "Status" }
 
-                        ///start milayako
+
                         {
                             data: "Status", render: function (data, type, row) {
                                 if (data == 'Successful') {
@@ -566,7 +566,7 @@
                                 }
                             }
                         },
-                        //end milayako
+
                     ],
                     "columnDefs": [{
                         "targets": [5, 6], /* column index */
@@ -577,7 +577,7 @@
                //table.columns.adjust();
             });
 
-            //end milayako 02
+
             $('#grid').on("DOMSubtreeModified", function () {
                 changed = "F";
             });
@@ -640,7 +640,7 @@
                          var to = dateText.split("/");
                          var EDate = new Date(to[2], to[1] - 1, to[0]);;
                          if (EDate < SDate) {
-                             debugger;
+                             //debugger;
                              $('#EndDate').val("");
                              $('#message').text('End Date cannot be less than Start Date');
                          }

@@ -1,0 +1,371 @@
+﻿
+@model MNSuperadmin.Models.TopUpManualTran
+
+@{
+    ViewBag.Title = "ViewTopUpVerifyDetails";
+}
+
+<style>
+    tr.spaceUnder > td {
+        padding-bottom: 1.5em;
+    }
+</style>
+<!-- Content Header (Page header) -->
+
+<section class="content-header">
+    <h1>
+        Top Up Verify
+        @*<small>View Customer Support</small>*@
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i>Top Up Verify</a></li>
+        <li class="active"> View Top Up Verify Details</li> 
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            <!-- Start Data Show in Table -->
+            <div class="box box-primary" id="CustomerModify">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Top Up Verify  Details</h3>
+                </div>
+                <!-- /.box-header -->
+
+                <div class="box box-danger">
+                    <div class="box-body">
+                        @using (Html.BeginForm("VerifyTopUpTransaction", "ManualTransaction", FormMethod.Post, new { @id = "ViewCustomerSupport", @class = "ViewCustomerSupport", @enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+
+                            <!--ClientCode-->
+                            @*@Html.HiddenFor(x => x.ClientCode)*@
+                            <!--Name-->
+                            @*@Html.HiddenFor(x => x.Name)*@
+
+                            if (this.TempData["custmodify_messsage"] != null)
+                            {
+                                if (this.TempData["message_class"].ToString() == "success_info")
+                                {
+                                    <div class="alert alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Success</h4> @this.TempData["custmodify_messsage"]
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Error</h4> @this.TempData["custmodify_messsage"]
+                                    </div>
+                                }
+                            }
+
+                            <!-- Start -->
+
+                            <!-- /.box -->
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4"> Date and Time:@*<b style="color:red;">*</b>*@</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="Date" name="Date" value="@Model.Date" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Mobile Number:</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="MobNumber" name="MobNumber" value="@Model.MobNumber" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Payment Medium:@*<b style="color:red;">*</b>*@</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="PayMedium" name="PayMedium" value="@Model.PayMedium" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Amount:@*<b style="color:red;">*</b>*@</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="Amount" name="Amount" value="@Model.Amount" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Top Up Type:@*<b style="color:red;">*</b>*@</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="MerchantName" name="MerchantName" value="@Model.MerchantName" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" hidden>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Top Up Type:@*<b style="color:red;">*</b>*@</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="MerchantID" name="MerchantID" value="@Model.MerchantID" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Transaction Type:@*<b style="color:red;">*</b>*@</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="PayMode" name="PayMode" value="@Model.PayMode" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Reference Number:@*<b style="color:red;">*</b>*@</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="RetrievalRef" name="RetrievalRef" value="@Model.RetrievalRef" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Name:@*<b style="color:red;">*</b>*@</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="UserName" name="UserName" value="@Model.UserName" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Destination Number:@*<b style="color:red;">*</b>*@</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="DestNumber" name="DestNumber" value="@Model.DestNumber" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+                            <div id="TranStatus" class="box box-primary">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Response From Bank API</h3>
+                                </div>
+                                <div class="box box-danger">
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Response Code:@*<b style="color:red;">*</b>*@</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="RespDescription" name="RespDescription" value="@Model.RespCode" readonly />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Response Description:@*<b style="color:red;">*</b>*@</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="RespDescription" name="RespDescription" value="@Model.RespDescription" readonly />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Response Status:@*<b style="color:red;">*</b>*@</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="RespDescription" name="RespDescription" value="@Model.RespStatus" readonly />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                </div>
+
+                            </div>
+
+                            <br />
+                            <div id="BalanceStatus" class="box box-primary">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Balance</h3>
+                                </div>
+                                <div class="box box-danger">
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Balance Status:@*<b style="color:red;">*</b>*@</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="BalStatus" name="BalStatus" readonly />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                            
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+
+                                            <input type="button" class="btn btn-primary" id="GetDetails" name="btnCommand" value="Get Details" />
+                                            <input type="button" class="btn btn-primary" id="CheckBalance" name="btnCommand" value="Check Balance" />
+                                            <br/><br/>
+                                            <button class="btn btn-primary" id="Verify" name="btnCommand" value="Verify">Verify</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        }
+
+                    </div>
+                        <!-- /.box -->
+
+                </div>
+
+             </div>
+
+        </div>
+
+    </div>
+</section>
+<!-- /.content -->
+@section scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#TranStatus').hide();
+            $('#Verify').hide();
+            $('#CheckBalance').hide();
+            $('#BalanceStatus').hide();
+            
+        });
+
+        $('#GetDetails').click(function (e) {
+            $('#TranStatus').show();
+            $('#CheckBalance').show();
+        });
+        $('#CheckBalance').click(function (e) {
+            debugger;
+            var merchantID = $("[name='MerchantID']").val();
+            var amount = $("[name='Amount']").val();
+
+            if (merchantID != "") {
+                
+                e.preventDefault(); //prevent the default action
+                $.ajax({
+                cache: false,
+                async: true,
+                type: "GET",
+                    url: '@Url.Action("BankQuery", "ManualTransaction")',
+                    data: { "merchantID": merchantID, "Amount": amount },
+                success: function (data, textStatus, jqXHR) {
+
+                    if (data.responseCode == "200") { 
+                        debugger;
+                        var resp = data.responseText;
+                        $("#BalStatus").val(resp);
+                        $('#BalanceStatus').show();
+                        $('#Verify').show();
+                                           
+                    }
+
+                },
+                error: function () {
+                    alert("Data Not Found");
+
+                }
+                });
+
+            }
+
+        });
+        
+
+    </script>
+}

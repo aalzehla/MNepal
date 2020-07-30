@@ -1,6 +1,6 @@
 ﻿@model ThailiMerchantApp.ViewModel.CustomerAccountActivityVM
 @{
-    ViewBag.Title = "Report Agent Activities";
+    ViewBag.Title = "Report Merchant Activities";
 }
 
 <!-- =============================================== -->
@@ -266,7 +266,7 @@
 
         $(document).ready(function () {
             var changed = "F";
-            $('#UserName, #StartDate, #EndDate').on('input propertychange paste', function () {
+            $('#StartDate, #EndDate').on('input propertychange paste', function () {
                 changed = "T";
             });
 
@@ -281,7 +281,7 @@
                 $.ajax({
                     url: "@Url.Action("CusReportTableNew", "Statement")",
                     data: {
-                        UserName: UserName,
+                        //UserName: UserName,
                         StartDate: StartDate,
                         EndDate: EndDate,
                         change: Parachanged,
@@ -352,7 +352,7 @@
                     "aaSorting": [],
                     "ajax": {
                         data: function (d) {
-                            d.UserName = UserName;
+                            //d.UserName = UserName;
                             d.StartDate = StartDate;
                             d.EndDate = EndDate;
                             d.change = Parachanged;
@@ -361,7 +361,7 @@
                         type: 'POST',
                     },
                     "drawCallback": function (settings) {
-                        debugger;
+                        //debugger;
                         changed = "F";
                         Parachanged = changed;
                         $('#SearchResultTable').show();
@@ -385,7 +385,6 @@
 
                         //{ "data": "Status" }
 
-                        ///start milayako
                         { data: "Status", render: function ( data, type, row ) {
                                   if (data == 'Successful') {
 
@@ -410,7 +409,7 @@
 
 
              $('#btnSearch1').click(function () {
-                debugger;
+                //debugger;
                 changed = "T";
                 var UserName = $('#UserName').val();
                 if (UserName.trim().length <= 0)
@@ -437,7 +436,7 @@
                     "aaSorting": [],
                     "ajax": {
                         data: function (d) {
-                            d.UserName = UserName;
+                            //d.UserName = UserName;
                             d.StartDate = StartDate;
                             d.EndDate = EndDate;
                             d.change = Parachanged;
@@ -446,7 +445,7 @@
                         type: 'POST',
                     },
                     "drawCallback": function (settings) {
-                        debugger;
+                        //debugger;
                         changed = "F";
                         Parachanged = changed;
                         $('#SearchResultTable').show();
@@ -493,7 +492,7 @@
 
             $('#btnSearchBnkAcc').click(function () {
                 dispBankBal();
-                debugger;
+                //debugger;
                 changed = "T";
                 var UserName = $('#UserName').val();
                 if (UserName.trim().length <= 0)
@@ -520,7 +519,7 @@
                     "aaSorting": [],
                     "ajax": {
                         data: function (d) {
-                            d.UserName = UserName;
+                            //d.UserName = UserName;
                             d.StartDate = StartDate;
                             d.EndDate = EndDate;
                             d.change = Parachanged;
@@ -529,7 +528,7 @@
                         type: 'POST',
                     },
                     "drawCallback": function (settings) {
-                        debugger;
+                        //debugger;
                         changed = "F";
                         Parachanged = changed;
                         $('#SearchResultTable').show();
@@ -635,7 +634,7 @@
                          var to = dateText.split("/");
                          var EDate = new Date(to[2], to[1] - 1, to[0]);;
                          if (EDate < SDate) {
-                             debugger;
+                             //debugger;
                              $('#EndDate').val("");
                              $('#message').text('End Date cannot be less than Start Date');
                          }

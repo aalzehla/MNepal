@@ -1,5 +1,6 @@
 ﻿
 @{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
     ViewBag.Title = "Customer Support";
 }
 
@@ -20,32 +21,32 @@
                     <div class="top-section">
                         <br /><br />
                         <h2 class="title">Customer Support</h2>
-                    </div>    
+                    </div>
 
                     <section class="instant-transactions">
                         @using (Html.BeginForm("CustomerSupportInsert", "CustomerSupport", FormMethod.Post, new { @id = "registerForm", @class = "form-horizontal", enctype = "multipart/form-data" }))
                         {
                             @*@using (Html.BeginForm(new { @id = "registerForm", @name = "registerForm", @class = "form-horizontal", enctype = "multipart/form-data" }))
                                 {*@
-                        if (this.ViewData["registration_message"] != null)
-                        {
-                            if (this.ViewData["message_class"].ToString() == "success_info")
+                            if (this.ViewData["agent_message"] != null)
                             {
-                                <div class="alert alert-success">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <h4>Success</h4> @this.ViewData["registration_message"]
-                                </div>
+                                if (this.ViewData["message_class"].ToString() == "success_info")
+                                {
+                                    <div class="alert alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Success</h4> @this.ViewData["agent_message"]
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Error</h4> @this.ViewData["agent_message"]
+                                    </div>
+                                }
                             }
-                            else
-                            {
-                                <div class="alert alert-danger">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <h4>Error</h4> @this.ViewData["registration_message"]
-                                </div>
-                            }
-                        }
 
-                        @Html.AntiForgeryToken()
+                            @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)
                             @*<form id="registerForm">*@
                             <div class="form-group">
@@ -53,33 +54,33 @@
                                 <input type="text" class="form-control" id="Email" name="Email" placeholder="Email" maxlength="50" @*onkeypress="return isNumber(event)"*@ />
                                 <div style="color:red; padding-top:3px;"></div>
                             </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Category (<span style="color:red">*</span>)</label>
-                                            <select class="form-control" name="Category">
-                                                <option value="Problem Reporting">Problem Reporting</option>
-                                                <option value="Suggestion">Suggestion</option>
-                                                <option value="Complaint">Complaint</option>
-                                                <option value="Other">Other</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Remarks (<span style="color:red">*</span>)</label>
-                                            <textarea class="form-control" rows="3" id="Remarks" name="Remarks" placeholder="Remarks" pattern=".{0}|.{,40}" required title="Please insert Remarks" onchange="checkValidation()"></textarea>
-                                        </div>
+                            <div class="form-group">
+                                <label class="control-label">Category (<span style="color:red">*</span>)</label>
+                                <select class="form-control" name="Category">
+                                    <option value="Problem Reporting">Problem Reporting</option>
+                                    <option value="Suggestion">Suggestion</option>
+                                    <option value="Complaint">Complaint</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Remarks (<span style="color:red">*</span>)</label>
+                                <textarea class="form-control" rows="3" id="Remarks" name="Remarks" placeholder="Remarks" pattern=".{0}|.{,40}" required title="Please insert Remarks" onchange="checkValidation()"></textarea>
+                            </div>
 
-                                        <div class="form-group">
-                                            <label class="control-label">Screenshot </label>
-                                            <br />
-                                            <input type="file" id="Screenshot" name="Image" />
-                                            <label id="image"></label>
-                                        </div>
+                            <div class="form-group">
+                                <label class="control-label">Screenshot </label>
+                                <br />
+                                <input type="file" id="Screenshot" name="Image" />
+                                <label id="image"></label>
+                            </div>
 
-                                        <div class="btn-wrapper">
+                            <div class="btn-wrapper">
 
-                                            <input type="submit" class="btn btn-blue btn-big col-md-5 " id="btnSubmit" name="txtSubmit" value="Submit" />
-                                            <br /><br /><br />
-                                        </div>
-                                        @*</form>*@
+                                <input type="submit" class="btn btn-blue btn-big col-md-5 " id="btnSubmit" name="txtSubmit" value="Submit" />
+                                <br /><br /><br />
+                            </div>
+                            @*</form>*@
                         }
 
 
@@ -130,7 +131,7 @@
                 <p class="msg">@*Success!*@</p>
                 <span class="msg">Feedback Sent Successfully!</span>
                 <br /> <br />
-                <a href="~/AgentDashboard" role="button" class="btn btn-blue" style="width:80%">OK</a>
+                <a href="~/MerchantDashboard" role="button" class="btn btn-blue" style="width:80%">OK</a>
             </div>
         </div>
     </div>
@@ -155,7 +156,7 @@
 </div>
 
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
 <script type="text/javascript">
@@ -164,7 +165,7 @@
         $.ajax({
             cache: false,
             type: "GET",
-            url: '@Url.Action("GetHasKYC", "AgentDashboard")',
+            url: '@Url.Action("GetHasKYC", "MerchantDashboard")',
                     success: function (data, textStatus) {
                         if (data != "T") {
                             $("#messageTitle").html("");
@@ -184,7 +185,7 @@
          $.ajax({
             cache: false,
             type: "GET",
-            url: '@Url.Action("GetLnkBankAcc", "AgentDashboard")',
+            url: '@Url.Action("GetLnkBankAcc", "MerchantDashboard")',
             success: function (data, textStatus) {
                 if (data != "T") {
                     $("#messageTitle").html("");

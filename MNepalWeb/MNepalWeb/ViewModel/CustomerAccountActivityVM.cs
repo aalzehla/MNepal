@@ -30,6 +30,7 @@ namespace MNepalWeb.ViewModel
         public string UserName { get; set; }
 
         public string Remarks { get; set; }
+        public string Name { get; set; }
 
         public string ErrorMessage { get; set; }
 

@@ -44,12 +44,16 @@ namespace MNepalWeb.Models
         //result kept in datatable and send back to the controller.    
         public DataTable MyMethod(string Query)
         {
-            ds = new DataSet();
             DataTable dt = new DataTable();
-            da = new SqlDataAdapter(Query, DAL.MNepalDBConnectionString());
-
-            da.Fill(dt);
-            List<SelectListItem> list = new List<SelectListItem>();
+            try
+            {
+                ds = new DataSet();
+                da = new SqlDataAdapter(Query, DAL.MNepalDBConnectionString());
+                da.Fill(dt);
+            }
+            catch (Exception e) {
+                throw e;
+            }
             return dt;
 
         }

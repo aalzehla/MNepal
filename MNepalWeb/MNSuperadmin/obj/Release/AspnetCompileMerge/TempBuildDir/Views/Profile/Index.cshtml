@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Profile
+        <small> Personal Information</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">Profile</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <div class="col-md-3">
+
+            <!-- Profile Image -->
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" src="~/Images/default_icon.png" alt="User profile picture">
+                    <h3 class="profile-username text-center">@ViewBag.Name</h3>
+                    <p class="text-muted text-center">@ViewBag.UserType</p>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+
+        <div class="col-md-9">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#activity" data-toggle="tab">Super Admin Information</a></li>
+                    @*<li><a href="#location" data-toggle="tab">Location</a></li>*@
+                    @*<li><a href="#settings" data-toggle="tab">Account Information</a></li>*@
+                </ul>
+                <div class="tab-content">
+                    <div class="active tab-pane" id="activity">
+                        <strong><i class="fa fa-user margin-r-5"></i>Super Admin information</strong>
+                        <p class="text-muted"><b>Super Admin Name : &nbsp; </b>  @ViewBag.Name</p>
+                        <p class="text-muted"><b>User Name : &nbsp; </b>  @ViewBag.UserName</p>
+                        @*<p class="text-muted"><b>Branch Name : &nbsp; </b>  @ViewBag.UserBranchName</p>*@
+                        <p class="text-muted"><b>Email Address: &nbsp; </b>  @ViewBag.EmailAddress</p>
+                        <p class="text-muted"><b>User Role: &nbsp; </b>  @ViewBag.AProfileName</p>
+                        <p class="text-muted"><b>COC : &nbsp; </b>  @ViewBag.COC</p>
+
+
+                        @*<p class="text-muted"><b>Contact Number1 : &nbsp; </b>  @ViewBag.ContactNumber1</p>
+                            <p class="text-muted"><b>Contact Number2 : &nbsp; </b>  @ViewBag.ContactNumber2</p>*@
+
+
+                        @if (@ViewBag.Status == "Active")
+                        {
+                            <p class="text-muted text-green"><b>Status : &nbsp; </b>  @ViewBag.Status </p>
+                        }
+                        else
+                        {
+                            <p class="text-muted text-red"><b>Status : &nbsp; </b>  @ViewBag.Status </p>
+                        }
+
+                        <hr>
+
+                        <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
+                        <p> Description </p>
+                    </div>
+                    <!-- /.tab-pane -->
+                    @*<div class="tab-pane" id="location">
+                            <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+                            <p class="text-muted"><b>Address : &nbsp; </b>  @ViewBag.Address</p>
+                            <hr>
+                        </div>*@
+                    <!-- /.tab-pane -->
+                    @*<div class="tab-pane" id="settings">
+                        <strong><i class="fa fa-info margin-r-5"></i> Account Information</strong>
+                       
+                        @if (ViewBag.BankNo == "0004")
+                        {
+                            <p class="text-muted"><b>Bank Name : &nbsp; </b> Nepal Investment Bank - @ViewBag.BranchCode </p>
+                        }
+                        else
+                        {
+                            <p class="text-muted"><b>Bank Name : &nbsp; </b> Pumori Bank - @ViewBag.BranchCode </p>
+                        }
+                        </p>
+                        <hr />
+
+                    </div>*@
+                    <!-- /.tab-pane -->
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->

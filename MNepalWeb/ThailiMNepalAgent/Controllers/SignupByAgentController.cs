@@ -35,7 +35,28 @@ namespace ThailiMNepalAgent.Controllers
                 this.ViewData["forget_message"] = this.TempData["forget_message"];
                 this.ViewData["message_class"] = this.TempData["message_class"];
             }
-            return View();
+
+            if (this.TempData["login_message"] != null)
+            {
+                this.ViewData["login_message"] = this.TempData["login_message"];
+                this.ViewData["message_class"] = this.TempData["message_class"];
+            }
+
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -176,7 +197,22 @@ namespace ThailiMNepalAgent.Controllers
             }
             string userName = (string)Session["Mobile"];
             string code = (string)Session["Code"];
-            return View("Verify");
+
+            string userName1 = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                return View("Verify");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
 
@@ -669,8 +705,23 @@ namespace ThailiMNepalAgent.Controllers
                 this.TempData["changepwd_message"] = this.TempData["changepwd_message"];
                 this.TempData["message_class"] = this.TempData["message_class"];
             }
-            CustomerSRInfo srobj = new CustomerSRInfo();
-            return View(srobj);
+
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                CustomerSRInfo srobj = new CustomerSRInfo();
+                return View(srobj);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
 
         }
 
@@ -768,22 +819,37 @@ namespace ThailiMNepalAgent.Controllers
         [HttpGet]
         public ActionResult CustomerKYC2()
         {
-            if (TempData["CustomerKYC"]==null) {
-                return RedirectToAction("CustomerKYC1");
-            }
-            string mobile = (string)Session["Mobile"];
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
 
-            //string username = (string)Session["UserName"];
-            //string fname = (string)Session["FName"];
-          
-            if (this.TempData["registration_message"] != null)
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
             {
-                this.TempData["changepwd_message"] = this.TempData["changepwd_message"];
-                this.TempData["message_class"] = this.TempData["message_class"];
+                if (TempData["CustomerKYC"] == null)
+                {
+                    return RedirectToAction("CustomerKYC1");
+                }
+                string mobile = (string)Session["Mobile"];
+
+                //string username = (string)Session["UserName"];
+                //string fname = (string)Session["FName"];
+
+                if (this.TempData["registration_message"] != null)
+                {
+                    this.TempData["changepwd_message"] = this.TempData["changepwd_message"];
+                    this.TempData["message_class"] = this.TempData["message_class"];
+                }
+
+                return View(TempData["CustomerKYC"]);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
             }
             
-            return View(TempData["CustomerKYC"]);
-
         }
 
 
@@ -897,36 +963,49 @@ namespace ThailiMNepalAgent.Controllers
         [HttpGet]
         public ActionResult CustomerKYC3()
         {
-            if (TempData["CustomerKYC"] == null)
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
             {
-                return RedirectToAction("CustomerKYC1");
-            }
-            //string mobile = (string)Session["Mobile"];
-            string provincestring = "select * from MNProvince";
-            DataTable dt = new DataTable();
-            dt = objdal.MyMethod(provincestring);
-            List<SelectListItem> list = new List<SelectListItem>();
-            foreach (DataRow row in dt.Rows)
-            {
-                list.Add(new SelectListItem
+                if (TempData["CustomerKYC"] == null)
                 {
-                    Text = Convert.ToString(row.ItemArray[1]),
-                    Value = Convert.ToString(row.ItemArray[0])
-                });
+                    return RedirectToAction("CustomerKYC1");
+                }
+                //string mobile = (string)Session["Mobile"];
+                string provincestring = "select * from MNProvince";
+                DataTable dt = new DataTable();
+                dt = objdal.MyMethod(provincestring);
+                List<SelectListItem> list = new List<SelectListItem>();
+                foreach (DataRow row in dt.Rows)
+                {
+                    list.Add(new SelectListItem
+                    {
+                        Text = Convert.ToString(row.ItemArray[1]),
+                        Value = Convert.ToString(row.ItemArray[0])
+                    });
 
+                }
+                ViewBag.PProvince = list;
+                ViewBag.CProvince = list;
+                if (this.TempData["registration_message"] != null)
+                {
+                    this.TempData["changepwd_message"] = this.TempData["changepwd_message"];
+                    this.TempData["message_class"] = this.TempData["message_class"];
+                }
+
+                return View(TempData["CustomerKYC"]);
             }
-             ViewBag.PProvince = list;
-            ViewBag.CProvince = list;
-            if (this.TempData["registration_message"] != null)
+            else
             {
-                this.TempData["changepwd_message"] = this.TempData["changepwd_message"];
-                this.TempData["message_class"] = this.TempData["message_class"];
+                return RedirectToAction("Index", "Login");
             }
-
-            return View(TempData["CustomerKYC"]);
-
+            
         }
-
 
         
         [AcceptVerbs(HttpVerbs.Post)]
@@ -1559,14 +1638,28 @@ namespace ThailiMNepalAgent.Controllers
         public ActionResult CustomerKYCFinish()
         {
             
-
             if (this.TempData["registration_message"] != null)
             {
                 this.TempData["changepwd_message"] = this.TempData["changepwd_message"];
                 this.TempData["message_class"] = this.TempData["message_class"];
             }
-           
-            return View();
+
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
 
         }
         #endregion

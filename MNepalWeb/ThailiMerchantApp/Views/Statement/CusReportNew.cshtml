@@ -256,440 +256,444 @@
 <!-- =============================================== -->
 @section scripts{
 
-    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <link href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="~/Content/ui_1.11.4/jquery-ui.js"></script>
+    <link href="~/Content/ui_1.11.4/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/ui_1.11.4/font-awesome.min.css" rel="stylesheet" />
+
+
+    <!--<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <link href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 
 
 
-    <script type="text/javascript">
+        <script type="text/javascript">
 
-        $(document).ready(function () {
-            var changed = "F";
-            $('#UserName, #StartDate, #EndDate').on('input propertychange paste', function () {
-                changed = "T";
-            });
-
-
-
-            var table;
-            $('#ToExcel').click(function () {
-                var UserName = $('#UserName').val();
-                var StartDate = $('#StartDate').val();
-                var EndDate = $('#EndDate').val();
-                var Parachanged = changed;
-                $.ajax({
-                    url: "@Url.Action("CusReportTableNew", "Statement")",
-                    data: {
-                        UserName: UserName,
-                        StartDate: StartDate,
-                        EndDate: EndDate,
-                        change: Parachanged,
-                        ToExcel: 'T'
-                    },
-                    type: 'POST',
-                    success: function (data) {
-                        var url = "@Url.Action("Download", "Statement")";
-                        window.location = url + '?fileGuid=' + data.FileGuid
-                           + '&filename=' + data.FileName;
-                        /*window.open(url + '?fileGuid=' + data.FileGuid
-                           + '&filename=' + data.FileName, '_blank');*/
-                    },
-                    error: function (data) {
-
-                    }
-
-
+            $(document).ready(function () {
+                var changed = "F";
+                $('#StartDate, #EndDate').on('input propertychange paste', function () {
+                    changed = "T";
                 });
-            });
-
-            $("#clearButton").click(function () {
-                $("#UserName").val("");
-                $("#StartDate").val("");
-                $("#EndDate").val("");
-
-            });
-
-            /////
-            var header = document.getElementById("myDIV");
-            var btns = header.getElementsByClassName("btn");
-            for (var i = 0; i < btns.length; i++) {
-                btns[i].addEventListener("click", function () {
-                    var current = document.getElementsByClassName("active");
-                    current[0].className = current[0].className.replace(" active", "");
-                    this.className += " active";
-                });
-            }
-                ////
-            $('#btnSearch').click(function () {
 
 
 
-
-                changed = "T";
-                var UserName = $('#UserName').val();
-                if (UserName.trim().length <= 0)
-                {
-                    $('#UserName').focus();
-                    alertify.error('Please enter mobile number');
-                    return;
-                }
-                var StartDate = $('#StartDate').val();
-                var EndDate = $('#EndDate').val();
-                var Parachanged = changed;
-                if ($.fn.DataTable.isDataTable('#SearchResultTable')) {
-                    table.destroy();
-                }
-                $('#loading').show();
-                $('#btnSearch').prop("disabled", true);
-                table = $('#SearchResultTable').DataTable({
-                    "language": {
-                        "emptyTable": "Oops! No Record Found."
-                    },
-                    searching: false,
-                    "proccessing": true,
-                    "serverSide": true,
-                    "aaSorting": [],
-                    "ajax": {
-                        data: function (d) {
-                            d.UserName = UserName;
-                            d.StartDate = StartDate;
-                            d.EndDate = EndDate;
-                            d.change = Parachanged;
-                        },
+                var table;
+                $('#ToExcel').click(function () {
+                    var UserName = $('#UserName').val();
+                    var StartDate = $('#StartDate').val();
+                    var EndDate = $('#EndDate').val();
+                    var Parachanged = changed;
+                    $.ajax({
                         url: "@Url.Action("CusReportTableNew", "Statement")",
+                        data: {
+                            //UserName: UserName,
+                            StartDate: StartDate,
+                            EndDate: EndDate,
+                            change: Parachanged,
+                            ToExcel: 'T'
+                        },
                         type: 'POST',
-                    },
-                    "drawCallback": function (settings) {
-                        debugger;
-                        changed = "F";
-                        Parachanged = changed;
-                        $('#SearchResultTable').show();
-                        if (settings.json.recordsTotal > 0)
-                            $('#ToExcel').show();
-                        else
-                            $('#ToExcel').hide();
-                        $('#loading').hide();
-                        $('#btnSearch').prop("disabled", false);
-                    },
-                    "columns": [
-                        { "data": "TranId" },
-                        { "data": "TimeStamp" },
-                        { "data": "Desc1" },
-                        { "data": "Debit", "sClass": "text-right" },
-                        { "data": "Credit", "sClass": "text-right" },
-                        { "data": "Balance", render: $.fn.dataTable.render.number(',', '.', 2, ''), "sClass": "text-right" },
+                        success: function (data) {
+                            var url = "@Url.Action("Download", "Statement")";
+                            window.location = url + '?fileGuid=' + data.FileGuid
+                               + '&filename=' + data.FileName;
+                            /*window.open(url + '?fileGuid=' + data.FileGuid
+                               + '&filename=' + data.FileName, '_blank');*/
+                        },
+                        error: function (data) {
 
-
-                        { "data": "Type", sorting: false },
-
-                        //{ "data": "Status" }
-
-                        ///start milayako
-                        { data: "Status", render: function ( data, type, row ) {
-                                  if (data == 'Successful') {
-
-                                      return '<a href=' + data + ' class="disabled"><i class="fa fa-check-circle fa-lg"  style="color: #00A651; margin-left:30px;"></i></a>';
-
-                                           }
-                                  else {
-                                      return '<a href=' + data + ' class="disabled"><i class="fa fa-times-circle fa-lg"  style="color: red; margin-left:30px; "></i></a>';
-                                       }
                         }
-                        },
-                        //end milayako
-                    ],
-                    "columnDefs": [{
-                        "targets": [0, 1, 2, 3, 4, 5, 6, 7], /* column index */
-                        "orderable": false, /* true or false */
-                    }]
+
+
+                    });
+                });
+
+                $("#clearButton").click(function () {
+                    $("#UserName").val("");
+                    $("#StartDate").val("");
+                    $("#EndDate").val("");
 
                 });
-               //table.columns.adjust();
-            });
+
+                /////
+                var header = document.getElementById("myDIV");
+                var btns = header.getElementsByClassName("btn");
+                for (var i = 0; i < btns.length; i++) {
+                    btns[i].addEventListener("click", function () {
+                        var current = document.getElementsByClassName("active");
+                        current[0].className = current[0].className.replace(" active", "");
+                        this.className += " active";
+                    });
+                }
+                    ////
+                $('#btnSearch').click(function () {
 
 
-             $('#btnSearch1').click(function () {
-                debugger;
-                changed = "T";
-                var UserName = $('#UserName').val();
-                if (UserName.trim().length <= 0)
-                {
-                    $('#UserName').focus();
-                    alertify.error('Please enter mobile number');
-                    return;
-                }
-                var StartDate = $('#StartDate').val();
-                var EndDate = $('#EndDate').val();
-                var Parachanged = changed;
-                if ($.fn.DataTable.isDataTable('#SearchResultTable')) {
-                    table.destroy();
-                }
-                $('#loading').show();
-                $('#btnSearch1').prop("disabled", true);
-                 table = $('#SearchResultTable').DataTable({
-                     "language": {
-                         "emptyTable": "Oops! No Record Found."
+
+
+                    changed = "T";
+                    var UserName = $('#UserName').val();
+                    if (UserName.trim().length <= 0)
+                    {
+                        $('#UserName').focus();
+                        alertify.error('Please enter mobile number');
+                        return;
+                    }
+                    var StartDate = $('#StartDate').val();
+                    var EndDate = $('#EndDate').val();
+                    var Parachanged = changed;
+                    if ($.fn.DataTable.isDataTable('#SearchResultTable')) {
+                        table.destroy();
+                    }
+                    $('#loading').show();
+                    $('#btnSearch').prop("disabled", true);
+                    table = $('#SearchResultTable').DataTable({
+                        "language": {
+                            "emptyTable": "Oops! No Record Found."
+                        },
+                        searching: false,
+                        "proccessing": true,
+                        "serverSide": true,
+                        "aaSorting": [],
+                        "ajax": {
+                            data: function (d) {
+                                //d.UserName = UserName;
+                                d.StartDate = StartDate;
+                                d.EndDate = EndDate;
+                                d.change = Parachanged;
+                            },
+                            url: "@Url.Action("CusReportTableNew", "Statement")",
+                            type: 'POST',
+                        },
+                        "drawCallback": function (settings) {
+                            //debugger;
+                            changed = "F";
+                            Parachanged = changed;
+                            $('#SearchResultTable').show();
+                            if (settings.json.recordsTotal > 0)
+                                $('#ToExcel').show();
+                            else
+                                $('#ToExcel').hide();
+                            $('#loading').hide();
+                            $('#btnSearch').prop("disabled", false);
+                        },
+                        "columns": [
+                            { "data": "TranId" },
+                            { "data": "TimeStamp" },
+                            { "data": "Desc1" },
+                            { "data": "Debit", "sClass": "text-right" },
+                            { "data": "Credit", "sClass": "text-right" },
+                            { "data": "Balance", render: $.fn.dataTable.render.number(',', '.', 2, ''), "sClass": "text-right" },
+
+
+                            { "data": "Type", sorting: false },
+
+                            //{ "data": "Status" }
+
+                            { data: "Status", render: function ( data, type, row ) {
+                                      if (data == 'Successful') {
+
+                                          return '<a href=' + data + ' class="disabled"><i class="fa fa-check-circle fa-lg"  style="color: #00A651; margin-left:30px;"></i></a>';
+
+                                               }
+                                      else {
+                                          return '<a href=' + data + ' class="disabled"><i class="fa fa-times-circle fa-lg"  style="color: red; margin-left:30px; "></i></a>';
+                                           }
+                            }
+                            },
+                            //end milayako
+                        ],
+                        "columnDefs": [{
+                            "targets": [0, 1, 2, 3, 4, 5, 6, 7], /* column index */
+                            "orderable": false, /* true or false */
+                        }]
+
+                    });
+                   //table.columns.adjust();
+                });
+
+
+                 $('#btnSearch1').click(function () {
+                    //debugger;
+                    changed = "T";
+                    var UserName = $('#UserName').val();
+                    if (UserName.trim().length <= 0)
+                    {
+                        $('#UserName').focus();
+                        alertify.error('Please enter mobile number');
+                        return;
+                    }
+                    var StartDate = $('#StartDate').val();
+                    var EndDate = $('#EndDate').val();
+                    var Parachanged = changed;
+                    if ($.fn.DataTable.isDataTable('#SearchResultTable')) {
+                        table.destroy();
+                    }
+                    $('#loading').show();
+                    $('#btnSearch1').prop("disabled", true);
+                     table = $('#SearchResultTable').DataTable({
+                         "language": {
+                             "emptyTable": "Oops! No Record Found."
+                         },
+                        searching: false,
+                        "proccessing": true,
+                        "serverSide": true,
+                        "aaSorting": [],
+                        "ajax": {
+                            data: function (d) {
+                                //d.UserName = UserName;
+                                d.StartDate = StartDate;
+                                d.EndDate = EndDate;
+                                d.change = Parachanged;
+                            },
+                            url: "@Url.Action("CusReportTableNew", "Statement")",
+                            type: 'POST',
+                        },
+                        "drawCallback": function (settings) {
+                            //debugger;
+                            changed = "F";
+                            Parachanged = changed;
+                            $('#SearchResultTable').show();
+                            if (settings.json.recordsTotal > 0)
+                                $('#ToExcel').show();
+                            else
+                                $('#ToExcel').hide();
+                            $('#loading').hide();
+                            $('#btnSearch1').prop("disabled", false);
+                        },
+                        "columns": [
+                           { "data": "TranId" },
+                           { "data": "TimeStamp" },
+                            { "data": "Desc1" },
+                            { "data": "Debit" },
+                            { "data": "Credit"},
+                            { "data": "Balance" },
+                            //{ "data": "Digital Wallet" },
+                            { "data": "Type"},
+                            //{ "data": "Status" }
+
+                            {
+                                data: "Status", render: function (data, type, row) {
+                                    if (data == 'Successful') {
+
+                                        return '<a href=' + data + ' class="disabled"><i class="fa fa-check-circle fa-lg"  style="color: #00A651; margin-left:30px; "></i></a>';
+
+                                    }
+                                    else {
+                                        return '<a href=' + data + ' class="disabled"><i class="fa fa-times-circle fa-lg"  style="color: red; margin-left:30px; "></i></a>';
+                                    }
+                                }
+                            },
+                        ],
+                        "columnDefs": [{
+                            "targets": [5, 6], /* column index */
+                            "orderable": false, /* true or false */
+                        }]
+
+                    });
+                   //table.columns.adjust();
+                });
+
+
+                $('#btnSearchBnkAcc').click(function () {
+                    dispBankBal();
+                    //debugger;
+                    changed = "T";
+                    var UserName = $('#UserName').val();
+                    if (UserName.trim().length <= 0)
+                    {
+                        $('#UserName').focus();
+                        alertify.error('Please enter mobile number');
+                        return;
+                    }
+                    var StartDate = $('#StartDate').val();
+                    var EndDate = $('#EndDate').val();
+                    var Parachanged = changed;
+                    if ($.fn.DataTable.isDataTable('#SearchResultTable')) {
+                        table.destroy();
+                    }
+                    $('#loading').show();
+                    $('#btnSearchBnkAcc').prop("disabled", true);
+                    table = $('#SearchResultTable').DataTable({
+                        "language": {
+                            "emptyTable": "Oops! No Record Found."
+                        },
+                        searching: false,
+                        "proccessing": true,
+                        "serverSide": true,
+                        "aaSorting": [],
+                        "ajax": {
+                            data: function (d) {
+                                //d.UserName = UserName;
+                                d.StartDate = StartDate;
+                                d.EndDate = EndDate;
+                                d.change = Parachanged;
+                            },
+                            url: "@Url.Action("CusReportTableNewBnkAcc", "Statement")",
+                            type: 'POST',
+                        },
+                        "drawCallback": function (settings) {
+                            //debugger;
+                            changed = "F";
+                            Parachanged = changed;
+                            $('#SearchResultTable').show();
+                            if (settings.json.recordsTotal > 0)
+                                $('#ToExcel').show();
+                            else
+                                $('#ToExcel').hide();
+                            $('#loading').hide();
+                            $('#btnSearchBnkAcc').prop("disabled", false);
+                        },
+                        "columns": [
+                           { "data": "TranId" },
+                           { "data": "TimeStamp" },
+                            { "data": "Desc1" },
+                            { "data": "Debit", "sClass": "text-right"},
+                            { "data": "Credit", "sClass": "text-right" },
+                            { "data": "Balnc", render: $.fn.dataTable.render.number(',', '.', 2, ''), "sClass": "text-right"},
+                          //  { "data": "Digital Wallet" },
+                            { "data": "Type"},
+                            //{ "data": "Status" }
+
+                            {
+                                data: "Status", render: function (data, type, row) {
+                                    if (data == 'Successful') {
+
+                                        return '<a href=' + data + ' class="disabled"><i class="fa fa-check-circle fa-lg"  style="color: #00A651; margin-left:30px;" ></i></a>';
+
+                                    }
+                                    else {
+                                        return '<a href=' + data + ' class="disabled"><i class="fa fa-times-circle fa-lg"  style="color: red; margin-left:30px; "></i></a>';
+                                    }
+                                }
+                            },
+                        ],
+                        "columnDefs": [{
+                            "targets": [5, 6], /* column index */
+                            "orderable": false, /* true or false */
+                        }]
+
+                    });
+                   //table.columns.adjust();
+                });
+
+                $('#grid').on("DOMSubtreeModified", function () {
+                    changed = "F";
+                });
+
+                $('input[name=StartDate]').change(function(dateText, instance) {
+
+                        enddate = $.datepicker.parseDate(instance.settings.dateFormat, dateText, instance.settings);
+                        enddate.setMonth(enddate.getMonth() + 1);
+                        $('#EndDate').datepicker('setDate', enddate);
+                });
+
+                $("#StartDate").css("z-index", "1000");
+                $("#EndDate").css("z-index", "1000");
+
+                $("#StartDate").datepicker(
+                    {
+                        dateFormat: 'dd/mm/yy',
+                        // maxDate: new Date,
+                        maxDate: new Date()
+                        ,
+                        changeMonth: true,
+                        changeYear: true,
+                        onSelect: function (dateText, instance) {
+                            $("#EndDate").datepicker("option", "minDate", dateText),
+                           changed = "T";
+
+                          enddate = $.datepicker.parseDate(instance.settings.dateFormat, dateText, instance.settings);
+                           enddate.setMonth(enddate.getMonth() + 1);
+                          $('#EndDate').datepicker('setDate', enddate);
+
+                          var from = $('#EndDate').val().split("/");
+                          if (from != "") {
+                              var EDate = new Date(from[2], from[1] - 1, from[0]);
+                              var to = dateText.split("/");
+                              var SDate = new Date(to[2], to[1] - 1, to[0]);;
+                              if (SDate > EDate) {
+                                  $('#EndDate').val("");
+                                  $('#message').text('End Date cannot be less than Start Date');
+                              }
+                              else {
+                                  $('#message').text("");
+                              }
+                          }
+                      },
+                        showAnim: "slideDown"
+                  });
+                $("#EndDate").datepicker(
+                 {
+                     dateFormat: 'dd/mm/yy',
+                     minDate: $("#StartDate").val(),
+                        //maxDate: '-1D',
+                      maxDate: new Date() ,
+                     changeMonth: true,
+                     changeYear: true,
+                     onSelect: function (dateText) {
+                         changed = "T";
+                         var from = $('#StartDate').val().split("/");
+                         if (from != "") {
+                             var SDate = new Date(from[2], from[1] - 1, from[0]);
+                             var to = dateText.split("/");
+                             var EDate = new Date(to[2], to[1] - 1, to[0]);;
+                             if (EDate < SDate) {
+                                 //debugger;
+                                 $('#EndDate').val("");
+                                 $('#message').text('End Date cannot be less than Start Date');
+                             }
+                             else {
+                                 $('#message').text("");
+                             }
+                         }
                      },
-                    searching: false,
-                    "proccessing": true,
-                    "serverSide": true,
-                    "aaSorting": [],
-                    "ajax": {
-                        data: function (d) {
-                            d.UserName = UserName;
-                            d.StartDate = StartDate;
-                            d.EndDate = EndDate;
-                            d.change = Parachanged;
-                        },
-                        url: "@Url.Action("CusReportTableNew", "Statement")",
-                        type: 'POST',
-                    },
-                    "drawCallback": function (settings) {
-                        debugger;
-                        changed = "F";
-                        Parachanged = changed;
-                        $('#SearchResultTable').show();
-                        if (settings.json.recordsTotal > 0)
-                            $('#ToExcel').show();
-                        else
-                            $('#ToExcel').hide();
-                        $('#loading').hide();
-                        $('#btnSearch1').prop("disabled", false);
-                    },
-                    "columns": [
-                       { "data": "TranId" },
-                       { "data": "TimeStamp" },
-                        { "data": "Desc1" },
-                        { "data": "Debit" },
-                        { "data": "Credit"},
-                        { "data": "Balance" },
-                        //{ "data": "Digital Wallet" },
-                        { "data": "Type"},
-                        //{ "data": "Status" }
+                     showAnim: "slideDown"
 
-                        {
-                            data: "Status", render: function (data, type, row) {
-                                if (data == 'Successful') {
+                 });
+                $("#EndDate").datepicker('setDate', new Date());
 
-                                    return '<a href=' + data + ' class="disabled"><i class="fa fa-check-circle fa-lg"  style="color: #00A651; margin-left:30px; "></i></a>';
 
-                                }
-                                else {
-                                    return '<a href=' + data + ' class="disabled"><i class="fa fa-times-circle fa-lg"  style="color: red; margin-left:30px; "></i></a>';
-                                }
-                            }
-                        },
-                    ],
-                    "columnDefs": [{
-                        "targets": [5, 6], /* column index */
-                        "orderable": false, /* true or false */
-                    }]
 
-                });
-               //table.columns.adjust();
+              ///**Validation Check */
+              //  $('#CusReportNew').bootstrapValidator({
+              //  feedbackIcons: {
+              //      valid: 'glyphicon glyphicon-ok',
+              //      invalid: 'glyphicon glyphicon-remove',
+              //      validating: 'glyphicon glyphicon-refresh'
+              //  }
+              //  //fields: {
+              //  //    UserName: {
+              //  //        validators: {
+              //  //            stringlength: {
+              //  //                min: 10,
+              //  //                max: 10,
+              //  //                message: 'Please enter valid Mobile No'
+
+              //  //            },
+              //  //            regexp: {
+              //  //                regexp: //,
+              //  //                message: 'Mobile no must start with 98 and should be 10 digits'
+
+              //  //            }
+              //  //        }
+              //  //    }
+
+
+              //  //}
+
+              //  });
             });
 
-
-            $('#btnSearchBnkAcc').click(function () {
-                dispBankBal();
-                debugger;
-                changed = "T";
-                var UserName = $('#UserName').val();
-                if (UserName.trim().length <= 0)
-                {
-                    $('#UserName').focus();
-                    alertify.error('Please enter mobile number');
-                    return;
-                }
-                var StartDate = $('#StartDate').val();
-                var EndDate = $('#EndDate').val();
-                var Parachanged = changed;
-                if ($.fn.DataTable.isDataTable('#SearchResultTable')) {
-                    table.destroy();
-                }
-                $('#loading').show();
-                $('#btnSearchBnkAcc').prop("disabled", true);
-                table = $('#SearchResultTable').DataTable({  
-                    "language": {
-                        "emptyTable": "Oops! No Record Found."
-                    },
-                    searching: false,
-                    "proccessing": true,
-                    "serverSide": true,
-                    "aaSorting": [],
-                    "ajax": {
-                        data: function (d) {
-                            d.UserName = UserName;
-                            d.StartDate = StartDate;
-                            d.EndDate = EndDate;
-                            d.change = Parachanged;
-                        },
-                        url: "@Url.Action("CusReportTableNewBnkAcc", "Statement")",
-                        type: 'POST',
-                    },
-                    "drawCallback": function (settings) {
-                        debugger;
-                        changed = "F";
-                        Parachanged = changed;
-                        $('#SearchResultTable').show();
-                        if (settings.json.recordsTotal > 0)
-                            $('#ToExcel').show();
-                        else
-                            $('#ToExcel').hide();
-                        $('#loading').hide();
-                        $('#btnSearchBnkAcc').prop("disabled", false);
-                    },
-                    "columns": [
-                       { "data": "TranId" },
-                       { "data": "TimeStamp" },
-                        { "data": "Desc1" },
-                        { "data": "Debit", "sClass": "text-right"},
-                        { "data": "Credit", "sClass": "text-right" },
-                        { "data": "Balnc", render: $.fn.dataTable.render.number(',', '.', 2, ''), "sClass": "text-right"},
-                      //  { "data": "Digital Wallet" },
-                        { "data": "Type"},
-                        //{ "data": "Status" }
-
-                        {
-                            data: "Status", render: function (data, type, row) {
-                                if (data == 'Successful') {
-
-                                    return '<a href=' + data + ' class="disabled"><i class="fa fa-check-circle fa-lg"  style="color: #00A651; margin-left:30px;" ></i></a>';
-
-                                }
-                                else {
-                                    return '<a href=' + data + ' class="disabled"><i class="fa fa-times-circle fa-lg"  style="color: red; margin-left:30px; "></i></a>';
-                                }
-                            }
-                        },
-                    ],
-                    "columnDefs": [{
-                        "targets": [5, 6], /* column index */
-                        "orderable": false, /* true or false */
-                    }]
-
-                });
-               //table.columns.adjust();
-            });
-
-            $('#grid').on("DOMSubtreeModified", function () {
-                changed = "F";
-            });
-
-            $('input[name=StartDate]').change(function(dateText, instance) {
-
-                    enddate = $.datepicker.parseDate(instance.settings.dateFormat, dateText, instance.settings);
-                    enddate.setMonth(enddate.getMonth() + 1);
-                    $('#EndDate').datepicker('setDate', enddate);
-            });
-
-            $("#StartDate").css("z-index", "1000");
-            $("#EndDate").css("z-index", "1000");
-
-            $("#StartDate").datepicker(
-                {
-                    dateFormat: 'dd/mm/yy',
-                    // maxDate: new Date,
-                    maxDate: new Date()
-                    ,
-                    changeMonth: true,
-                    changeYear: true,
-                    onSelect: function (dateText, instance) {
-                        $("#EndDate").datepicker("option", "minDate", dateText),
-                       changed = "T";
-
-                      enddate = $.datepicker.parseDate(instance.settings.dateFormat, dateText, instance.settings);
-                       enddate.setMonth(enddate.getMonth() + 1);
-                      $('#EndDate').datepicker('setDate', enddate);
-
-                      var from = $('#EndDate').val().split("/");
-                      if (from != "") {
-                          var EDate = new Date(from[2], from[1] - 1, from[0]);
-                          var to = dateText.split("/");
-                          var SDate = new Date(to[2], to[1] - 1, to[0]);;
-                          if (SDate > EDate) {
-                              $('#EndDate').val("");
-                              $('#message').text('End Date cannot be less than Start Date');
-                          }
-                          else {
-                              $('#message').text("");
-                          }
-                      }
-                  },
-                    showAnim: "slideDown"
-              });
-            $("#EndDate").datepicker(
-             {
-                 dateFormat: 'dd/mm/yy',
-                 minDate: $("#StartDate").val(),
-                    //maxDate: '-1D',
-                  maxDate: new Date() ,
-                 changeMonth: true,
-                 changeYear: true,
-                 onSelect: function (dateText) {
-                     changed = "T";
-                     var from = $('#StartDate').val().split("/");
-                     if (from != "") {
-                         var SDate = new Date(from[2], from[1] - 1, from[0]);
-                         var to = dateText.split("/");
-                         var EDate = new Date(to[2], to[1] - 1, to[0]);;
-                         if (EDate < SDate) {
-                             debugger;
-                             $('#EndDate').val("");
-                             $('#message').text('End Date cannot be less than Start Date');
-                         }
-                         else {
-                             $('#message').text("");
-                         }
-                     }
-                 },
-                 showAnim: "slideDown"
-
-             });
-            $("#EndDate").datepicker('setDate', new Date());
-
-
-
-          ///**Validation Check */
-          //  $('#CusReportNew').bootstrapValidator({
-          //  feedbackIcons: {
-          //      valid: 'glyphicon glyphicon-ok',
-          //      invalid: 'glyphicon glyphicon-remove',
-          //      validating: 'glyphicon glyphicon-refresh'
-          //  }
-          //  //fields: {
-          //  //    UserName: {
-          //  //        validators: {
-          //  //            stringlength: {
-          //  //                min: 10,
-          //  //                max: 10,
-          //  //                message: 'Please enter valid Mobile No'
-
-          //  //            },
-          //  //            regexp: {
-          //  //                regexp: //,
-          //  //                message: 'Mobile no must start with 98 and should be 10 digits'
-
-          //  //            }
-          //  //        }
-          //  //    }
-
-
-          //  //}
-
-          //  });
-        });
-
-    function isNumber(evt) {
-        evt = (evt) ? evt : window.event;
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
         }
-        return true;
-    }
 
-    </script>
-}
+        </script>
+    }
 

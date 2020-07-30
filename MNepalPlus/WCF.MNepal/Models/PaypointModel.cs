@@ -185,8 +185,9 @@ namespace WCF.MNepal.Models
         public string special2 { get; set; }
 
 
-        public string PackageId { get; set; }
+ 		public string PackageId { get; set; }
         public string Bonus { get; set; }
+
 
         public string transactionDate { get; set; }
         public string transactionId { get; set; }
@@ -219,6 +220,31 @@ namespace WCF.MNepal.Models
         public string commissionAmount { get; set; }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //for check payment
         public string companyCodeCP { get; set; }
         public string serviceCodeCP { get; set; }
@@ -240,6 +266,7 @@ namespace WCF.MNepal.Models
         public string userIdCP { get; set; }
         public string userPasswordCP { get; set; }
         public string salePointTypeCP { get; set; }
+
         public string retrievalReferenceCP { get; set; }
 
 
@@ -318,9 +345,170 @@ namespace WCF.MNepal.Models
         public string billDateFromP { get; set; }
 
         public string billDateToP { get; set; }
-        public string fioP { get; set; } 
+        public string fioP { get; set; }
+
+
+        #endregion
+
+
+
+
+//START EGTP
+        #region"nepal water get transaction response all
+
+
+        public string ResultResGTPAll { get; set; }
+        public string ResponseKeyResGTPAll { get; set; }
+        public string RequestKeyResGTPAll { get; set; } 
+        public string ResultKeyResGTPAll { get; set; }// not imp
+        public string StanResGTPAll { get; set; }
+        public string RefStanResGTPAll { get; set; }
+
+
+
+        public string ExternalStanResGTPAll { get; set; }
+        public string CompanyIDResGTPAll { get; set; }
+        public string CompanyNameResGTPAll { get; set; }
+        public string ServiceCodeResGTPAll { get; set; }
+        public string ServiceNameResGTPAll { get; set; }
+
+
+
+
+        public string AccountResGTPAll { get; set; }
+        public string CurrencyResGTPAll { get; set; }
+        public string CurrencyCodeResGTPAll { get; set; }
+        public string AmountResGTPAll { get; set; }
+        public string CommissionAmountResGTPAll { get; set; }
+
+
+
+        public string BillNumberResGTPAll { get; set; }
+        public string UserLoginResGTPAll { get; set; }
+        public string SalesPointTypeResGTPAll { get; set; }
+        public string StatusResGTPAll { get; set; }
+        public string RegDateResGTPAll { get; set; }
+
+
+
+
+
+        public string PaymentIdResGTPAll { get; set; }
+        public string DealerIdResGTPAll { get; set; }
+        public string DealerNameResGTPAll { get; set; }
+        public string ResponseCodeResGTPAll { get; set; }
+        public string PaySourceTypeResGTPAll { get; set; }
+
+
+
+
+        public string CityResGTPAll { get; set; }
+        public string AddressResGTPAll { get; set; }
+        public string CloseDateResGTPAll { get; set; }
+        public string ProblemResGTPAll { get; set; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public string Result { get; set; }
+        public string ResponseKey { get; set; }
+        public string RequestKey { get; set; }
+        public string ResultKey { get; set; }//not imp
+        public string Stan { get; set; }
+        public string RefStan { get; set; }
+
+
+
+        public string ExternalStan { get; set; }
+        public string CompanyID { get; set; }
+        public string CompanyName { get; set; }
+        public string ServiceCode { get; set; }
+        public string ServiceName { get; set; }
+
+
+
+
+        public string Account { get; set; }
+        public string Currency { get; set; }
+        public string CurrencyCode { get; set; }
+        public string Amount { get; set; }
+        public string CommissionAmount { get; set; }
+
+
+        
+        public string BillNumber { get; set; }
+        public string UserLogin { get; set; }
+        public string SalesPointType { get; set; }
+        public string Status { get; set; }
+        public string RegDate { get; set; }
+
+
+        
+
+
+        public string PaymentId { get; set; }
+        public string DealerId { get; set; }
+        public string DealerName { get; set; }
+        public string ResponseCode { get; set; }
+        public string PaySourceType { get; set; }
+
 
          
+
+        public string City { get; set; }
+        public string Address { get; set; }
+        public string CloseDate { get; set; }
+        public string Problem { get; set; }
+         
+         
+
+
         #endregion
+
+ 
+ #region"Nea Execute payement details (for eg. 013.01.002)
+
+        public string ResultResEPAll { get; set; }
+        public string ResponseKeyResEPAll { get; set; }
+        public string ResultMessageResEPAll { get; set; }
+        public string AccountResEPAll { get; set; }
+        public string CompanyResEPAll { get; set; }
+
+
+
+
+        public string SumAmountResEPAll { get; set; }
+        public string CommissionResEPAll { get; set; }
+        public string OfficeNameResEPAll { get; set; }
+        public string CustsomerIDResEPAll { get; set; }
+        public string CustomerNameResEPAll { get; set; }
+
+
+
+
+
+
+        public string DueBillOfResEPAll { get; set; }
+        public string BillDateResEPAll { get; set; }
+        public string InvoiceAmountResEPAll { get; set; }
+        public string PenaltyStatusResEPAll { get; set; }
+        public string PenaltyAmountResEPAll { get; set; }
+
+        #endregion
+
+         //END EGTP
+
+
     }
 }

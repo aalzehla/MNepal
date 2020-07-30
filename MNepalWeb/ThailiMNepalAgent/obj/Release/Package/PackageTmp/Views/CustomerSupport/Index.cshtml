@@ -1,0 +1,418 @@
+﻿
+@{
+    ViewBag.Title = "Customer Support";
+}
+
+
+<!-- Main content -->
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />
+<style>
+    .image_icon {
+        width: 50px;
+    }
+</style>
+<div class="main-content">
+    <div class="two-colbg">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-5 match-height">
+                    <div class="top-section">
+                        <br /><br />
+                        <h2 class="title">Customer Support</h2>
+                    </div>    
+
+                    <section class="instant-transactions">
+                        @using (Html.BeginForm("CustomerSupportInsert", "CustomerSupport", FormMethod.Post, new { @id = "registerForm", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                        {
+                            @*@using (Html.BeginForm(new { @id = "registerForm", @name = "registerForm", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                                {*@
+                        if (this.ViewData["registration_message"] != null)
+                        {
+                            if (this.ViewData["message_class"].ToString() == "success_info")
+                            {
+                                <div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <h4>Success</h4> @this.ViewData["registration_message"]
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-danger">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <h4>Error</h4> @this.ViewData["registration_message"]
+                                </div>
+                            }
+                        }
+
+                        @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            @*<form id="registerForm">*@
+                            <div class="form-group">
+                                <label class="control-label">Email </label>
+                                <input type="text" class="form-control" id="Email" name="Email" placeholder="Email" maxlength="50" @*onkeypress="return isNumber(event)"*@ />
+                                <div style="color:red; padding-top:3px;"></div>
+                            </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Category (<span style="color:red">*</span>)</label>
+                                            <select class="form-control" name="Category">
+                                                <option value="Problem Reporting">Problem Reporting</option>
+                                                <option value="Suggestion">Suggestion</option>
+                                                <option value="Complaint">Complaint</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Remarks (<span style="color:red">*</span>)</label>
+                                            <textarea class="form-control" rows="3" id="Remarks" name="Remarks" placeholder="Remarks" pattern=".{0}|.{,40}" required title="Please insert Remarks" onchange="checkValidation()"></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label">Screenshot </label>
+                                            <br />
+                                            <input type="file" id="Screenshot" name="Image" />
+                                            <label id="image"></label>
+                                        </div>
+
+                                        <div class="btn-wrapper">
+
+                                            <input type="submit" class="btn btn-blue btn-big col-md-5 " id="btnSubmit" name="txtSubmit" value="Submit" />
+                                            <br /><br /><br />
+                                        </div>
+                                        @*</form>*@
+                        }
+
+
+                    </section>
+
+                </div>
+                <div class="col-md-1"></div>
+                @*<div class="col-md-6">*@
+                <div class="thaili-slider-wrapper, col-md-6 match-height" style="padding-top:100px; padding-left:50px;">
+                    <div class="thaili-slider">
+                        <div class="item">
+                            <img src="~/Content/assets/img/slider/554_335Pixel-NIBL_Education-Loan_Slide.jpg" alt="slider-image1" style="border-radius: 10px;">
+                        </div>
+
+                        <div class="item">
+                            <img src="~/Content/assets/img/slider/554_335Pixel-NIBL_KETA-KETI_Slide.jpg" alt="slider-image2" style="border-radius: 10px;">
+                        </div>
+
+                        <div class="item">
+                            <img src="~/Content/assets/img/slider/554_335Pixel-NIBL_Re1-Account_Slide.jpg" alt="slider-image3" style="border-radius: 10px;">
+                        </div>
+
+                        <div class="item">
+                            <img src="~/Content/assets/img/slider/554_335Pixel-NIBL_Recurring_Slide.jpg" alt="slider-image4" style="border-radius: 10px;">
+                        </div>
+                    </div>
+                    <!-- /thaili-slider -->
+                </div>
+                <!-- /thaili-slider-wrapper -->
+                @*</div>*@
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+<!-- Success modal -->
+<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/success-tick.svg" alt="success-tick">
+                </div>
+                <p class="msg">@*Success!*@</p>
+                <span class="msg">Feedback Sent Successfully!</span>
+                <br /> <br />
+                <a href="~/AgentDashboard" role="button" class="btn btn-blue" style="width:80%">OK</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Failure modal -->
+<div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="success-icon">
+                    <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
+                </div>
+                <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
+                <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
+                <br /> <br />
+                <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    function checkKYC() {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetHasKYC", "AgentDashboard")',
+                    success: function (data, textStatus) {
+                        if (data != "T") {
+                            $("#messageTitle").html("");
+                            $("#messageTitle").append("");
+                            $("#message").html("");
+                            $("#message").append("Please fill Customer KYC form to avoid restriction");
+                            $('#failureModal').modal("show");
+                        }
+                    },
+                    error: function () {
+                        alert("Data Not Found");
+                    }
+                });
+    }
+
+    function checkBankLink() {
+         $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetLnkBankAcc", "AgentDashboard")',
+            success: function (data, textStatus) {
+                if (data != "T") {
+                    $("#messageTitle").html("");
+                    $("#messageTitle").append("");
+                    $("#message").html("");
+                    $("#message").append("Please link your bank account to get rid of restriction");
+                    $('#failureModal').modal("show");
+                }
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+
+
+
+    $(document).ready(function () {
+
+        //var validator = $('#registerForm').validate({
+
+        //    highlight: function (label) {
+        //        $(label).closest('.form-group').addClass('has-error');
+        //        //tab - pane
+        //        var tab_content = $(label).closest('.tab-pane');//parent().parent().parent().parent().parent().parent().parent();
+        //        if ($(tab_content).find(".active:has(div.has-error)").length == 0) {  //fieldset.tab-pane.active:has
+        //            var id = $(tab_content).attr('id');
+        //            $('a[href="#' + id + '"]').tab('show');
+
+        //        }
+
+        //    },
+        //    unhighlight: function (label) {
+        //        $(label).closest('.form-group').removeClass('has-error');
+        //    },
+        //    ignore: [],
+        //    rules: {
+        //        txtEmail: {
+        //            required: false,
+        //            pattern: /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/
+        //        },
+        //        messages: {
+        //            Email: {
+        //                required: "Please Enter Email",
+
+        //                pattern: "Please enter correct patterm"
+        //            },
+        //        },
+        //        submitHandler: function (registerForm) {
+        //            registerForm.submit();
+        //        }
+
+        //    }
+        //});
+
+        /**Validation Check */
+        $('#registerForm').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                Email: {
+                    validators: {
+                        //notEmpty: {
+                        //    message: 'The Email Address is required and cannot be empty'
+                        //},
+                        regexp: {
+                            regexp: /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+                            message: "Please enter a valid email address"
+                        }
+
+                    }
+                },
+
+                Remarks: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Remarks is required and cannot be empty'
+                        },
+                        //regexp: {
+                        //    regexp: /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+                        //    message: "Please enter a valid email address"
+                        //}
+
+                    }
+                }
+            }
+        });
+
+        $('#Screenshot').bind('change', function () {
+
+            //converts the file size from bytes to MB
+            var fileSize = this.files[0].size / 1024 / 1024;
+
+            //gets the full file name including the extension
+            var fileName = this.files[0].name;
+
+            //finds where the extension starts
+            var dotPosition = fileName.lastIndexOf(".");
+
+            //gets only the extension
+            var fileExt = fileName.substring(dotPosition);
+            debugger;
+            //checks whether the file is .png and less than 1 MB
+            if ((fileSize <= 1 && fileExt == ".png") || (fileSize <= 1 && fileExt == ".PNG") || (fileSize <= 1 && fileExt == ".jpg") || (fileSize <= 1 && fileExt == ".JPG")) {
+
+                $("#image").html("Valid Image");
+                $("#image").css("color", "green");
+
+
+                //successfully validated
+
+            }
+            else {
+                $("#image").html("Invalid Image. Image must not exceed more than 2MB");
+                $("#image").css("color", "red");
+            }
+        });
+
+
+        event.preventDefault();
+
+
+    @*$('#btnSubmit').click(function (e) {
+            e.preventDefault();
+
+         var Email = $("[name='Email']").val();
+         var Category = $("[name='Category']").val();
+         var Remarks = $("[name='Remarks']").val();
+         var Image = $("[name='Image']").val();
+
+
+
+        if ((Email != "") && (Category != "") && (Remarks != "") && (Image != "")) {
+
+                var dataToPost = {
+                    Email: Email,
+                    Category: Category,
+                    Remarks: Remarks,
+                    Name: "",
+                    MobileNumber: "",
+                    Image: $('#Screenshot')[0].files[0]
+                };
+
+                e.preventDefault(); //prevent the default action
+                $.ajax({
+                    url: '@Url.Action("CustomerSupportInsert", "CustomerSupport")',
+                    type: "POST", enctype: 'multipart/form-data', processData: false,
+                    data: dataToPost,
+                    async: false,
+                    success: function (data) {
+                        if (data.responseCode == "200") {
+                            $("#ajaxResponse").html("");
+                            //var resp = JSON.parse(data.responseText);
+                            $('#successModal').modal("show");
+
+                            $("#check").hide();
+                            $("#ajaxResponse").show();
+
+
+                        }
+                        //display error message
+                        else {
+                            $("#ajaxResponse").html("");
+                            $("#message").html("");
+                            $("#message").append(data.responseText);
+                            $('#failureModal').modal("show");
+
+                        }
+                    },
+                    xhr: function () {  // Custom XMLHttpRequest
+                        var myXhr = $.ajaxSettings.xhr();
+                        if (myXhr.upload) { // Check if upload property exists
+                            // Progress code if you want
+                        }
+                        return myXhr;
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Failed to retrieve.');
+                        $("#message").html("");
+                        $("#message").append(jqXHR.responseText);
+                        $('#failureModal').modal("show");
+
+                    },
+                    //capture the request before it was sent to server
+                    beforeSend: function (jqXHR, settings) {
+                        //adding some Dummy data to the request
+                        settings.data += "&dummyData=whatever";
+                        //disable the button until we get the response
+                        $('#btnSubmit').attr("disabled", true);
+                    },
+                    complete: function (jqXHR, textStatus) {
+                        //enable the button
+                        $('#btnSubmit').attr("disabled", false);
+                    }
+                });
+
+            }
+            else {
+                checkValidation();
+                $("#message").html("");
+                $("#message").append("Please Enter the required fields.");
+                $('#failureModal').modal("show");
+
+        }
+
+
+
+        });*@
+
+    });
+
+    //function checkValidation() {
+    //    var Email = $("[name='txtEmail']").val();
+    //    var Category = $("[name='Category']").val();
+    //    var Remarks = $("[name='txtRemarks']").val();
+
+    //    if (Email == "") {
+    //        $("#Email").html("");
+    //        $("#Email").append("<small>" + "Please Enter the Remarks" + "</small>");
+    //        $("#Email").show();
+    //    }
+    //    else {
+    //        $("#Email").hide();
+    //    }
+    //}
+
+</script>
+

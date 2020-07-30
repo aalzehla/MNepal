@@ -85,6 +85,10 @@ namespace WCF.MNepal
                 sourcechannel = src
             };
 
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
+
             //SC: Remit Token: 40 - Wallet
             string totalAmount = string.Empty;
             string totalCount = string.Empty;
@@ -503,16 +507,22 @@ namespace WCF.MNepal
                             if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
                             {
                                 //FOR NCELL
+                                //var content = client.DownloadString(
+                                //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                //    + "977" + mobile + "&Text=" + messagereply + "");
                                 var content = client.DownloadString(
-                                    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                    SMSNCELL
                                     + "977" + mobile + "&Text=" + messagereply + "");
                             }
                             else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
                                      || (mobile.Substring(0, 3) == "986"))
                             {
                                 //FOR NTC
+                                //var content = client.DownloadString(
+                                //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                //    + "977" + mobile + "&Text=" + messagereply + "");
                                 var content = client.DownloadString(
-                                    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                    SMSNTC
                                     + "977" + mobile + "&Text=" + messagereply + "");
                             }
 
@@ -528,16 +538,22 @@ namespace WCF.MNepal
                                 if ((da.Substring(0, 3) == "980") || (ftremit.da.Substring(0, 3) == "981")) //FOR NCELL
                                 {
                                     //FOR NCELL
+                                    //var content = client.DownloadString(
+                                    //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                    //    + "977" + da + "&Text=" + messagereplyDestMobile + "");
                                     var content = client.DownloadString(
-                                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                        SMSNCELL
                                         + "977" + da + "&Text=" + messagereplyDestMobile + "");
                                 }
                                 else if ((ftremit.da.Substring(0, 3) == "985") || (ftremit.da.Substring(0, 3) == "984")
                                          || (da.Substring(0, 3) == "986"))
                                 {
                                     //FOR NTC
+                                    //var content = client.DownloadString(
+                                    //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                    //    + "977" + da + "&Text=" + messagereplyDestMobile + "");
                                     var content = client.DownloadString(
-                                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                        SMSNTC
                                         + "977" + da + "&Text=" + messagereplyDestMobile + "");
                                 }
                             }
@@ -623,6 +639,10 @@ namespace WCF.MNepal
             string remitCustSender = qs["remitCustSender"];
             string remitReceiver = qs["remitReceiver"];
             string amountReceived = qs["amount"];
+
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
 
             string destinationMobile = remitReceiver;
 
@@ -1170,16 +1190,22 @@ namespace WCF.MNepal
                         if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
                         {
                             //FOR NCELL
+                            //var content = client.DownloadString(
+                            //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                            //    + "977" + mobile + "&Text=" + messagereply + "");
                             var content = client.DownloadString(
-                                "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                SMSNCELL
                                 + "977" + mobile + "&Text=" + messagereply + "");
                         }
                         else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
                                     || (mobile.Substring(0, 3) == "986"))
                         {
                             //FOR NTC
+                            //var content = client.DownloadString(
+                            //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                            //    + "977" + mobile + "&Text=" + messagereply + "");
                             var content = client.DownloadString(
-                                "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                SMSNTC
                                 + "977" + mobile + "&Text=" + messagereply + "");
                         }
 
@@ -1194,16 +1220,22 @@ namespace WCF.MNepal
                         if ((mobileCustomer.Substring(0, 3) == "980") || (mobileCustomer.Substring(0, 3) == "981")) //FOR NCELL
                         {
                             //FOR NCELL
+                            //var content = client.DownloadString(
+                            //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                            //    + "977" + mobileCustomer + "&Text=" + messagereplyCust + "");
                             var content = client.DownloadString(
-                                "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                SMSNCELL
                                 + "977" + mobileCustomer + "&Text=" + messagereplyCust + "");
                         }
                         else if ((mobileCustomer.Substring(0, 3) == "985") || (mobileCustomer.Substring(0, 3) == "984")
                                     || (mobileCustomer.Substring(0, 3) == "986"))
                         {
                             //FOR NTC
+                            //var content = client.DownloadString(
+                            //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                            //    + "977" + mobileCustomer + "&Text=" + messagereplyCust + "");
                             var content = client.DownloadString(
-                                "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                SMSNTC
                                 + "977" + mobileCustomer + "&Text=" + messagereplyCust + "");
                         }
 
@@ -1218,16 +1250,22 @@ namespace WCF.MNepal
                         if ((mobileRemitReceiver.Substring(0, 3) == "980") || (mobileRemitReceiver.Substring(0, 3) == "981")) //FOR NCELL
                         {
                             //FOR NCELL
+                            //var content = client.DownloadString(
+                            //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                            //    + "977" + mobileRemitReceiver + "&Text=" + messagereplyRemitReceiver + "");
                             var content = client.DownloadString(
-                                "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                SMSNCELL
                                 + "977" + mobileRemitReceiver + "&Text=" + messagereplyRemitReceiver + "");
                         }
                         else if ((mobileCustomer.Substring(0, 3) == "985") || (mobileCustomer.Substring(0, 3) == "984")
                                     || (mobileCustomer.Substring(0, 3) == "986"))
                         {
                             //FOR NTC
+                            //var content = client.DownloadString(
+                            //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                            //    + "977" + mobileRemitReceiver + "&Text=" + messagereplyRemitReceiver + "");
                             var content = client.DownloadString(
-                                "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                SMSNTC
                                 + "977" + mobileRemitReceiver + "&Text=" + messagereplyRemitReceiver + "");
                         }
 

@@ -1,0 +1,105 @@
+﻿@model MNSuperadmin.Models.UserInfo
+@{
+    ViewBag.Title = "ViewRegistration";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Admin
+        <small>View Registration</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">View Registration</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <div class="col-md-3">
+
+            <!-- Profile Image -->
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" src="~/Images/default_icon.png" alt="User profile picture">
+                    <h3 class="profile-username text-center">@ViewBag.CName</h3>
+                    <p class="text-muted text-center">@ViewBag.CUserType</p>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+
+        <!-- Start Form -->
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">View Registration</h3>
+                </div>
+                <!-- /.box-header -->
+
+                @using (Html.BeginForm())
+                {
+                    <div class="box-body">
+
+                        <div class="form-horizontal">
+                            <div class="form-group" style="display:none;">
+                                @Html.LabelFor(model => model.ClientCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @ViewBag.ADClientCode
+                                    @Html.EditorFor(model => model.ClientCode, new { htmlAttributes = new { @class = "form-control",
+                                   @readonly = "readonly" } })
+                                </div>
+                            </div>
+                        </div>
+
+                        <strong><i class="fa fa-user margin-r-5"></i> User information</strong>
+                        <p></p>
+                        <p class="text-muted"><b>Name : &nbsp; </b>  @ViewBag.CName</p>
+                        <p class="text-muted"><b>User Name : &nbsp; </b>  @ViewBag.UserName</p>
+                        <p class="text-muted"><b>User Type : &nbsp; </b>  @ViewBag.CUserType</p>
+                        <p class="text-muted"><b>User Role : &nbsp; </b>  @Model.AProfileName</p>
+                        <p class="text-muted"><b>Branch : &nbsp; </b>  @Model.BranchName</p>
+                        <p class="text-muted" style="display:none;"><b>Address : &nbsp; </b>  @ViewBag.Address</p>
+                        <p class="text-muted" style="display:none;"><b>PIN : &nbsp; </b>  @ViewBag.PIN</p>
+                        <hr />
+
+                        <strong><i class="fa fa-user margin-r-5"></i> Status Information</strong>
+                        <p></p>
+                        <p class="text-muted"><b>Status : &nbsp; </b>  @ViewBag.Status</p>
+                        <p class="text-muted"><b>IsApproved : &nbsp; </b>  @ViewBag.IsApproved</p>
+                        <p class="text-muted"><b>IsRejected : &nbsp; </b>  @ViewBag.IsRejected</p>
+                        <hr />
+
+                        <strong><i class="fa fa-user margin-r-5"></i> Contact information</strong>
+                        <p></p>
+                        <p class="text-muted"><b>ContactNumber1 : &nbsp; </b>  @ViewBag.ContactNumber1</p>
+                        <p class="text-muted" style="display:none;"><b>ContactNumber2 : &nbsp; </b>  @ViewBag.ContactNumber2</p>
+                        <hr />
+
+                        <strong><i class="fa fa-user margin-r-5"></i> Account information</strong>
+                        <p></p>
+                        <p class="text-muted"><b>Wallet Number : &nbsp; </b>  @ViewBag.WalletNumber</p>
+                        <p class="text-muted"><b>Bank Account Number : &nbsp; </b>  @ViewBag.BankAccountNumber</p>
+                                                
+                    </div>
+                    <!-- /. box-body-->
+
+                    <div class="box-footer">
+
+                    </div>
+                }
+
+            </div>
+        </div>
+        <!--End Form -->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->

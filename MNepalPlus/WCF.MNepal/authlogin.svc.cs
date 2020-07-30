@@ -1,5 +1,4 @@
-﻿using MNepalProject.Controllers;
-using MNepalProject.Helper;
+﻿using MNepalProject.Helper;
 using MNepalProject.Models;
 using Newtonsoft.Json;
 using System;
@@ -22,7 +21,6 @@ using WCF.MNepal.Utilities;
 namespace WCF.MNepal
 {
     [ServiceContract(Namespace = "")]
-    [ServiceBehavior]
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class authlogin
     {
@@ -42,7 +40,11 @@ namespace WCF.MNepal
             string deviceId = qs["deviceId"];
             string mcode = qs["code"];
             string src = qs["src"];
-           
+            password = HashAlgo.Hash(password);
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
+
 
             ReplyMessage replyMessage = new ReplyMessage();
             string result = "";
@@ -86,6 +88,7 @@ namespace WCF.MNepal
                             mobile = userName;
                             Random random = new Random();
                             int pwd = random.Next(1000, 9999);
+                            code = pwd.ToString();
                             SaveLoginInfo(mobile, deviceId, pwd,"","","","");
 
                             bool success = false;
@@ -245,7 +248,9 @@ namespace WCF.MNepal
                     if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
                     {
                         //FOR NCELL
-                        var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
+                        //"http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
+                        var contents = client.DownloadString( 
+                            SMSNCELL
                         + "977" + mobile + "&Text=" + messagereply + "");
 
                         statusCode = "200";
@@ -255,7 +260,9 @@ namespace WCF.MNepal
                         || (mobile.Substring(0, 3) == "986"))
                     {
                         //FOR NTC
-                        var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
+                        //"http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
+                        var contents = client.DownloadString( 
+                            SMSNTC
                             + "977" + mobile + "&Text=" + messagereply + "");
 
                         statusCode = "200";
@@ -367,6 +374,7 @@ namespace WCF.MNepal
                 {
                     obj.Status = 400;
                     obj.Message = "Please enter a valid mobile Number. ";
+                    //obj.Message = " ";
                     Name = "";
                     UserType = "";
                     obj.VerificationCode = 0;
@@ -441,6 +449,7 @@ namespace WCF.MNepal
                         mobile = userName;
                         Random random = new Random();
                         int pwd = random.Next(1000, 9999);
+                        code = pwd.ToString();
                         token = SaveLoginInfo(mobile, deviceId, pwd,ipaddress,"LOGIN",macAddress,publicIPaddress);
                          
                         //Login userInfo = new Login()
@@ -490,38 +499,38 @@ namespace WCF.MNepal
 
 
 
-                        //code = TraceIdGenerator.GetUniqueKey();
+                       // code = TraceIdGenerator.GetUniqueKey();
 
-                        //string messagereply = "Dear Customer," + "\n";
-                        //messagereply += " Your Verification Code is " + code
-                        //    + "." + "\n" + "Close this message and enter code to recover account.";
-                        //messagereply += "-MNepal";
+                        string messagereply = "Dear Customer," + "\n";
+                        messagereply += " Your Verification Code is " + code
+                            + "." + "\n" + "Close this message and enter code to recover account.";
+                        messagereply += "-MNepal";
 
-                        //var client = new WebClient();
+                        var client = new WebClient();
 
-                        //mobile = userName;
-                        ////var content = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
-                        ////    + "977" + mobile + "&Text=" + messagereply + "");
-
-                        //if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
-                        //{
-                        //    //FOR NCELL
-                        //    var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
+                        mobile = userName;
+                        //var content = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
                         //    + "977" + mobile + "&Text=" + messagereply + "");
-                        //}
-                        //else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
-                        //    || (mobile.Substring(0, 3) == "986"))
-                        //{
-                        //    //FOR NTC
-                        //    var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
-                        //        + "977" + mobile + "&Text=" + messagereply + "");
-                        //}
+
+                        if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
+                        {
+                            //FOR NCELL
+                            var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
+                            + "977" + mobile + "&Text=" + messagereply + "");
+                        }
+                        else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
+                            || (mobile.Substring(0, 3) == "986"))
+                        {
+                            //FOR NTC
+                            var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
+                                + "977" + mobile + "&Text=" + messagereply + "");
+                        }
 
                     }
                     else
                     {
                         obj.Status = 901;
-                        obj.Message = "Enter valid mobile number and Password";
+                        obj.Message = "Enter valid mobile number and password";
                         Name = "";
                         UserType = "";
                         obj.VerificationCode = 0;
@@ -571,6 +580,7 @@ namespace WCF.MNepal
                 {
                     obj.Status = 400;
                     obj.Message = "Please enter a valid mobile Number. ";
+                    //obj.Message = "";
                     Name = "";
                     UserType = "";
                     obj.VerificationCode = 0;
@@ -679,7 +689,7 @@ namespace WCF.MNepal
                     else
                     {
                         obj.Status = 901;
-                        obj.Message = "Enter valid mobile number and Password";
+                        obj.Message = "Enter valid mobile number and password";
                         Name = "";
                         UserType = "";
                         obj.VerificationCode = 0;
@@ -723,6 +733,135 @@ namespace WCF.MNepal
                 });
 
             }
+
+            return result;
+        }
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+                  ResponseFormat = WebMessageFormat.Json
+                  )]
+        public IEnumerable<LoginAuth> Logout(Stream input) //List<LoginAuth>
+        {
+            //SHOW DATA IN JSON
+            StreamReader sr = new StreamReader(input);
+            string s = sr.ReadToEnd();
+            sr.Dispose();
+            NameValueCollection qs = HttpUtility.ParseQueryString(s);
+
+            string userName = qs["userName"];
+            string password = qs["password"];
+            string deviceId = qs["deviceId"];
+            string code = qs["code"];
+            string src = qs["src"];
+            string macAddress = qs["macaddress"];
+            string publicIPaddress = qs["publicipaddress"];
+            string ipaddress = qs["ipaddress"];
+            string ClientCode = string.Empty;
+            string Name = string.Empty;
+            string UserType = string.Empty;
+            string TPin = string.Empty;
+            string IsFirstLogin = string.Empty;
+            string PinChanged = string.Empty;
+            string PassChanged = string.Empty;
+            string HasKYC = string.Empty;
+            string HasBankKYC = string.Empty;
+            string BankAccountNo = string.Empty;
+            string IsRejected = string.Empty;
+            string Remarks = string.Empty;
+            string token = string.Empty;
+
+            string catid = string.Empty;
+            string Name1 = string.Empty;
+            string mid = string.Empty;
+            string mname = string.Empty;
+
+            List<LoginAuth> result = new List<LoginAuth>();
+            if ((userName == "") || (password == "") || (deviceId == "")
+                || (password == null) || (userName == null) || (deviceId == null))
+            {
+                result.Add(new LoginAuth()
+                {
+                    Status = 901,
+                    UserName = "",
+                    UserType = ""
+                });
+            }
+            if ((userName != null) && (password != null) && (deviceId != null) && (code == null) || (code == ""))//
+            {
+                Models.ResponseParams obj = new Models.ResponseParams();
+
+                DataTable dtableMobileNo = LoginUtils.GetCheckUserName(userName);//RegisterUtils.GetCheckMobileNo(userName);
+
+                password = HashAlgo.Hash(password);
+                DataTable dtableUser = LoginUtils.GetLoginInfo(userName, password);
+                if (dtableUser != null && dtableUser.Rows.Count > 0)
+                {
+                    LoginUtils.SetPasswordTries(userName, "RPT"); // Insert Wrong Password count  
+                    ClientCode = dtableUser.Rows[0]["ClientCode"].ToString();
+                    Name = dtableUser.Rows[0]["Name"].ToString();
+                    UserType = dtableUser.Rows[0]["UserType"].ToString();
+                    TPin = dtableUser.Rows[0]["PIN"].ToString();
+                    IsFirstLogin = dtableUser.Rows[0]["IsFirstLogin"].ToString();
+                    PinChanged = dtableUser.Rows[0]["PinChanged"].ToString();
+                    PassChanged = dtableUser.Rows[0]["PassChanged"].ToString();
+                    HasKYC = dtableUser.Rows[0]["HasKYC"].ToString();
+                    BankAccountNo = dtableUser.Rows[0]["BankAccountNumber"].ToString();
+                    HasBankKYC = dtableUser.Rows[0]["HasBankKYC"].ToString();
+                    IsRejected = dtableUser.Rows[0]["IsRejected"].ToString();
+                    Remarks = dtableUser.Rows[0]["Remarks"].ToString();
+
+                    string mobile = string.Empty;
+                    mobile = userName;
+                    Random random = new Random();
+                    int pwd = random.Next(1000, 9999);
+                    token = SaveLoginInfo(mobile, deviceId, pwd, ipaddress, "LOGOUT", macAddress, publicIPaddress);
+
+
+                }
+                else
+                {
+                    obj.Status = 901;
+                    obj.Message = "Enter valid mobile number and password";
+                    Name = "";
+                    UserType = "";
+                    obj.VerificationCode = 0;
+                    IsFirstLogin = "";
+                    PinChanged = "";
+                    PassChanged = "";
+                    ClientCode = "";
+                    TPin = "";
+                    HasKYC = "";
+                    BankAccountNo = "";
+                    HasBankKYC = "";
+                    IsRejected = "";
+                    Remarks = "";
+                    LoginUtils.SetPasswordTries(userName, "BUWP"); // Insert Wrong Password count  
+                    SaveLoginInfo(userName, deviceId, 0, ipaddress, "LOGIN_ERROR", macAddress, publicIPaddress); // Store Invalid Login 
+                }
+
+                result.Add(new LoginAuth()
+                {
+                    Status = obj.Status,
+                    Message = "Log saved successful",
+                    VerificationCode = obj.VerificationCode,
+                    UserName = Name,
+                    UserType = UserType,
+                    ClientCode = ClientCode,
+                    TPin = TPin,
+                    IsFirstLogin = IsFirstLogin,
+                    PinChanged = PinChanged,
+                    PassChanged = PassChanged,
+                    HasKYC = HasKYC,
+                    BankAccountNo = BankAccountNo,
+                    HasBankKYC = HasBankKYC,
+                    IsRejected = IsRejected,
+                    Remarks = Remarks,
+                    Token = token
+                });
+
+            }
+
 
             return result;
         }
@@ -804,6 +943,7 @@ namespace WCF.MNepal
             }
             return logInfo.Token;
         }
+
 
     }
 }

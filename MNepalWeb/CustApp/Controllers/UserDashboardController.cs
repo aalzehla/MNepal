@@ -19,6 +19,7 @@ namespace CustApp.Controllers
     public class UserDashboardController : Controller
     {
         // GET: UserDashboardContent
+        [HttpGet]
         public ActionResult Index()
         {
             string userName = (string)Session["LOGGED_USERNAME"];
@@ -34,70 +35,92 @@ namespace CustApp.Controllers
             }
 
             TempData["userType"] = userType;
-            if (TempData["userType"] != null)
+
+            //Check all three variables Session1, Session2, Cookie. If all the three are not null then procces futher
+            if (Session["LOGGED_USERNAME"] != null && Session["AuthToken"] != null && Request.Cookies["AuthToken"] != null)
             {
-                DataTable dtableUserCheckFirstLogin = ProfileUtils.IsFirstLogin(clientCode);
-                if (dtableUserCheckFirstLogin != null && dtableUserCheckFirstLogin.Rows.Count > 0)
+                //Second Check, if Cookies we created has the same value as second session we've created
+                //if (Request.Cookies["AuthToken"].Value == Session["AuthToken"].ToString())
+                if (Session["AuthToken"].ToString().Equals(
+                           Request.Cookies["AuthToken"].Value))
                 {
-                    ViewBag.IsFirstLogin = dtableUserCheckFirstLogin.Rows[0]["IsFirstLogin"].ToString();
-                    ViewBag.PinChanged = dtableUserCheckFirstLogin.Rows[0]["PinChanged"].ToString();
-                    ViewBag.PassChanged = dtableUserCheckFirstLogin.Rows[0]["PassChanged"].ToString();
-                }
 
-                if (TempData["userType"] != null && ViewBag.IsFirstLogin == "F" && ViewBag.PinChanged == "T" && ViewBag.PassChanged == "T")
-                {
-                    this.ViewData["userType"] = this.TempData["userType"];
-                    ViewBag.UserType = this.TempData["userType"];
-                    ViewBag.Name = name;
-                    Session["bankbalance"] = "";
-                    ViewBag.BankBal = Session["bankbalance"];
-
-                    MNBalance availBaln = new MNBalance();
-                    DataTable dtableUser = AvailBalnUtils.GetAvailBaln(clientCode);
-                    if (dtableUser != null && dtableUser.Rows.Count > 0)
+                    if (TempData["userType"] != null)
                     {
-                        availBaln.amount = dtableUser.Rows[0]["AvailBaln"].ToString();
+                        DataTable dtableUserCheckFirstLogin = ProfileUtils.IsFirstLogin(clientCode);
+                        if (dtableUserCheckFirstLogin != null && dtableUserCheckFirstLogin.Rows.Count > 0)
+                        {
+                            ViewBag.IsFirstLogin = dtableUserCheckFirstLogin.Rows[0]["IsFirstLogin"].ToString();
+                            ViewBag.PinChanged = dtableUserCheckFirstLogin.Rows[0]["PinChanged"].ToString();
+                            ViewBag.PassChanged = dtableUserCheckFirstLogin.Rows[0]["PassChanged"].ToString();
+                        }
 
-                        ViewBag.AvailBalnAmount = availBaln.amount;
+                        if (TempData["userType"] != null && ViewBag.IsFirstLogin == "F" && ViewBag.PinChanged == "T" && ViewBag.PassChanged == "T")
+                        {
+                            this.ViewData["userType"] = this.TempData["userType"];
+                            ViewBag.UserType = this.TempData["userType"];
+                            ViewBag.Name = name;
+                            Session["bankbalance"] = "";
+                            ViewBag.BankBal = Session["bankbalance"];
+
+                            MNBalance availBaln = new MNBalance();
+                            DataTable dtableUser = AvailBalnUtils.GetAvailBaln(clientCode);
+                            if (dtableUser != null && dtableUser.Rows.Count > 0)
+                            {
+                                availBaln.amount = dtableUser.Rows[0]["AvailBaln"].ToString();
+
+                                ViewBag.AvailBalnAmount = availBaln.amount;
+                            }
+
+                            UserInfo userInfo = new UserInfo();
+
+                            //Check KYC
+                            DataTable dtableUserCheckKYC = ProfileUtils.CheckKYC(userName);
+                            if (dtableUserCheckKYC != null && dtableUserCheckKYC.Rows.Count > 0)
+                            {
+                                userInfo.hasKYC = dtableUserCheckKYC.Rows[0]["hasKYC"].ToString();
+                                userInfo.IsRejected = dtableUserCheckKYC.Rows[0]["IsRejected"].ToString();
+
+                                ViewBag.hasKYC = userInfo.hasKYC;
+                                ViewBag.IsRejected = userInfo.IsRejected;
+                            }
+
+                            //Check Link Bank Account
+                            DataTable dtableUserCheckLinkBankAcc = ProfileUtils.CheckLinkBankAcc(userName);
+                            if (dtableUserCheckLinkBankAcc != null && dtableUserCheckLinkBankAcc.Rows.Count > 0)
+                            {
+                                userInfo.BankAccountNumber = dtableUserCheckLinkBankAcc.Rows[0]["HasBankKYC"].ToString();
+
+                                ViewBag.HasBankKYC = userInfo.BankAccountNumber;
+                            }
+
+                            DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
+                            DataTable dKYC = DSet.Tables["dtKycDetail"];
+                            DataTable dDoc = DSet.Tables["dtKycDoc"];
+                            if (dKYC != null && dKYC.Rows.Count > 0)
+                            {
+                                userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
+                                ViewBag.CustStatus = userInfo.CustStatus;
+                            }
+                            if (dDoc != null && dDoc.Rows.Count > 0)
+                            {
+                                userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
+                                ViewBag.PassportImage = userInfo.PassportImage;
+                            }
+
+                            return View();
+                        }
+                        else
+                        {
+                            Session["LOGGED_USERNAME"] = null;
+                            return RedirectToAction("Index", "Login");
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Login");
                     }
 
-                    UserInfo userInfo = new UserInfo();
-
-                    //Check KYC
-                    DataTable dtableUserCheckKYC = ProfileUtils.CheckKYC(userName);
-                    if (dtableUserCheckKYC != null && dtableUserCheckKYC.Rows.Count > 0)
-                    {
-                        userInfo.hasKYC = dtableUserCheckKYC.Rows[0]["hasKYC"].ToString();
-                        userInfo.IsRejected = dtableUserCheckKYC.Rows[0]["IsRejected"].ToString();
-
-                        ViewBag.hasKYC = userInfo.hasKYC;
-                        ViewBag.IsRejected = userInfo.IsRejected;
-                    }
-
-                    //Check Link Bank Account
-                    DataTable dtableUserCheckLinkBankAcc = ProfileUtils.CheckLinkBankAcc(userName);
-                    if (dtableUserCheckLinkBankAcc != null && dtableUserCheckLinkBankAcc.Rows.Count > 0)
-                    {
-                        userInfo.BankAccountNumber = dtableUserCheckLinkBankAcc.Rows[0]["HasBankKYC"].ToString();
-
-                        ViewBag.HasBankKYC = userInfo.BankAccountNumber;
-                    }
-
-                    DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
-                    DataTable dKYC = DSet.Tables["dtKycDetail"];
-                    DataTable dDoc = DSet.Tables["dtKycDoc"];
-                    if (dKYC != null && dKYC.Rows.Count > 0)
-                    {
-                        userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
-                        ViewBag.CustStatus = userInfo.CustStatus;
-                    }
-                    if (dDoc != null && dDoc.Rows.Count > 0)
-                    {
-                        userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
-                        ViewBag.PassportImage = userInfo.PassportImage;
-                    }
-
-                    return View();
                 }
                 else
                 {
@@ -107,11 +130,13 @@ namespace CustApp.Controllers
             }
             else
             {
+                Session["LOGGED_USERNAME"] = null;
                 return RedirectToAction("Index", "Login");
             }
 
         }
 
+        [HttpGet]
         public ActionResult GetHasKYC()
         {
             string userName = (string)Session["LOGGED_USERNAME"];
@@ -265,6 +290,7 @@ namespace CustApp.Controllers
         }
         //end milayako
 
+        [HttpGet]
         public ActionResult WalletQuery()
         {
             string clientCode = (string)Session["LOGGEDUSER_ID"];
@@ -288,6 +314,7 @@ namespace CustApp.Controllers
             return null;
         }
 
+        [HttpGet]
         public ActionResult CheckKYCRejected()
         {
             string userName = (string)Session["LOGGED_USERNAME"];
@@ -330,6 +357,7 @@ namespace CustApp.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult GetLnkBankAcc()
         {
             string userName = (string)Session["LOGGED_USERNAME"];

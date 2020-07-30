@@ -65,16 +65,20 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h1 class="text-center">
+
+                    @*<h1 class="text-center">
                         <a href="#"><b>MNepal</b>MB</a>
-                    </h1>
+                    </h1>*@
+
+                    <img src="~/Content/image/nibl.png" alt="NIBL LOGO" style="margin-left:50px">
+
                     <h2 class="text-center"><b>Forgot your Password?</b></h2>
                 </div>
                 
                 <div class="modal-body">
 
                     <div class="form-group has-feedback">
-                        <input type="text" id="userName" name="txtUserName" class="form-control" placeholder="UserName" required>
+                        <input type="text" id="userName" name="txtUserName" class="form-control" placeholder="UserName" required >
                         <label id="check">
                         </label>
                         <input type="text" id="verify" name="txtVerify" class="form-control" style="display:none;" />
@@ -113,7 +117,7 @@
     <!-- jQuery Form Validation code -->
         <script type="text/javascript">
 
-            $("#userName").change(function (event) {
+            @*$("#userName").change(function (event) {
             event.preventDefault();
 
             var id = $("#userName").val();
@@ -140,7 +144,7 @@
                         alert("Data Not Found");
                     }
                 });
-            });
+            });*@
 
         $(document).ready(function () {
 
@@ -156,6 +160,14 @@
                             notEmpty: {
                                 message: 'The UserName is required and cannot be empty'
                             }
+                            //,
+                            //integer: {
+                            //        message: 'Only number allowed'
+                            //},
+                            //regexp:{
+                            //    regexp:/[9][8][0-9]{8}/,
+                            //    message:'Mobile number should start from 98 and be 10 digits long'
+                            //}
                         }
                     }
                 }

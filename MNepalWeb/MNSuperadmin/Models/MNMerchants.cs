@@ -508,6 +508,39 @@ namespace MNSuperadmin.Models
     
     public class MNClientKYC
     {
+
+        public string Gender { get; set; }
+        public string DateOfBirth { get; set; }
+        public string BSDateOfBirth { get; set; }
+        public string Nationality { get; set; }
+        public string Country { get; set; }
+        public string Occupation { get; set; }
+        public string MaritalStatus { get; set; }
+        public string SpouseName { get; set; }
+        public string FatherInLaw { get; set; }
+        public string FathersName { get; set; }
+        public string MothersName { get; set; }
+        public string GFathersName { get; set; }
+        public string PProvince { get; set; }
+        public string PDistrict { get; set; }
+        public string PMunicipalityVDC { get; set; }
+        public string PHouseNo { get; set; }
+        public string PWardNo { get; set; }
+        public string PStreet { get; set; }
+        public string CProvince { get; set; }
+        public string CDistrict { get; set; }
+        public string CMunicipalityVDC { get; set; }
+        public string CHouseNo { get; set; }
+        public string CWardNo { get; set; }
+        public string CStreet { get; set; }
+        public string LicenseExpiryDate { get; set; }
+        public string BSLicenseExpiryDate { get; set; }
+        public string PassportExpiryDate { get; set; }
+
+
+
+
+
         [Display(Name = "CitizenshipIssueDate")]
         public string CitizenIssueDate { get; set; }
         public string CitizenshipIssueDate { get; set; }
@@ -517,6 +550,22 @@ namespace MNSuperadmin.Models
         public string CitizenshipNo { get; set; }
         public string Citizenship { get; set; }
         public string CitizenPlaceOfIssue { get; set; }
+
+
+        public string LicenseNo { get; set; }
+        public string LicensePlaceOfIssue { get; set; }
+        public string LicenseIssueDate { get; set; }
+        public string LicenseExpireDate { get; set; }
+        public string BSLicenseIssueDate { get; set; }
+        public string BSLicenseExpireDate { get; set; }
+
+        public string PassportNo { get; set; }
+        public string PassportPlaceOfIssue { get; set; }
+        public string PassportIssueDate { get; set; }
+        public string PassportExpireDate { get; set; }
+
+
+
         public string CitizenshipPlaceOfIssue { get; set; }
         public string PANNumber { get; set; }
         public string PanNo { get; set; }

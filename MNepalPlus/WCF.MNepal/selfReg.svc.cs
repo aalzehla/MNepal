@@ -39,6 +39,10 @@ namespace WCF.MNepal
             string userName = qs["mobile"];
             string src = qs["src"];
 
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
+
             ReplyMessage replyMessage = new ReplyMessage();
             string result = "";
             string code = string.Empty;
@@ -66,9 +70,15 @@ namespace WCF.MNepal
                     else
                     {
 
+                        //statusCode = "400";
+                        //result = "The number is registered !!";
+                        //replyMessage.Response = "The number is registered !!";
+                        //replyMessage.ResponseStatus(HttpStatusCode.BadRequest, replyMessage.Response);
+                        //message = result;
+
                         statusCode = "400";
-                        result = "The number is registered !!";
-                        replyMessage.Response = "The number is registered !!";
+                        result = "A OTP code will be sent to your phone if the account exists in our system.";
+                        replyMessage.Response = "A OTP code will be sent to your phone if the account exists in our system.";
                         replyMessage.ResponseStatus(HttpStatusCode.BadRequest, replyMessage.Response);
                         message = result;
                     }
@@ -103,8 +113,11 @@ namespace WCF.MNepal
                     if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
                     {
                         //FOR NCELL
-                        var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
-                        + "977" + mobile + "&Text=" + messagereply + "");
+                        //var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
+                        //+ "977" + mobile + "&Text=" + messagereply + "");
+
+                        var contents = client.DownloadString(
+                            SMSNCELL + "977" + mobile + "&Text=" + messagereply + "");
 
                         statusCode = "200";
                         message = code;
@@ -113,8 +126,11 @@ namespace WCF.MNepal
                         || (mobile.Substring(0, 3) == "986"))
                     {
                         //FOR NTC
-                        var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
-                            + "977" + mobile + "&Text=" + messagereply + "");
+                        //var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
+                        //    + "977" + mobile + "&Text=" + messagereply + "");
+
+                        var contents = client.DownloadString(
+                            SMSNTC + "977" + mobile + "&Text=" + messagereply + "");
 
                         statusCode = "200";
                         message = code;
@@ -143,9 +159,16 @@ namespace WCF.MNepal
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
+                //statusCode = "400";
+                //result = "The number is registered !!";
+                //replyMessage.Response = "The number is registered !!";
+                //replyMessage.ResponseStatus(HttpStatusCode.BadRequest, replyMessage.Response);
+                //message = result;
+
+
                 statusCode = "400";
-                result = "The number is registered !!";
-                replyMessage.Response = "The number is registered !!";
+                result = "A OTP code will be sent to your phone if the account exists in our system";
+                replyMessage.Response = "A OTP code will be sent to your phone if the account exists in our system";
                 replyMessage.ResponseStatus(HttpStatusCode.BadRequest, replyMessage.Response);
                 message = result;
             }
@@ -208,6 +231,10 @@ namespace WCF.MNepal
             string result = "";
             string statusCode = string.Empty;
             string message = string.Empty;
+
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
 
             string UserName = qs["UserName"];
             string FName = qs["fName"];
@@ -275,7 +302,9 @@ namespace WCF.MNepal
 
             if ((string.IsNullOrEmpty(UserName)) || (string.IsNullOrEmpty(FName)) || (string.IsNullOrEmpty(LName)) ||
                 (string.IsNullOrEmpty(Gender)) || (string.IsNullOrEmpty(DateOfBirth)) || (string.IsNullOrEmpty(CountryCode)) || (string.IsNullOrEmpty(Nationality)) ||
-                (string.IsNullOrEmpty(FathersName)) || (string.IsNullOrEmpty(MothersName)) || (string.IsNullOrEmpty(MaritalStatus)) ||
+                (string.IsNullOrEmpty(FathersName)) 
+                //|| (string.IsNullOrEmpty(MothersName)) 
+                || (string.IsNullOrEmpty(MaritalStatus)) ||
                 (string.IsNullOrEmpty(GrandFathersName)) || (string.IsNullOrEmpty(Occupation)) || (string.IsNullOrEmpty(EmailAddress)) ||
                 (string.IsNullOrEmpty(PProvince)) || (string.IsNullOrEmpty(PDistrict)) || (string.IsNullOrEmpty(PMunicipalityVDC)) ||
                 (string.IsNullOrEmpty(PWardNo)) ||
@@ -548,7 +577,9 @@ namespace WCF.MNepal
 
                                         if ((string.IsNullOrEmpty(UserName)) || (string.IsNullOrEmpty(FName)) || (LName == null) ||
                                             (Gender == null) || (DateOfBirth == null) || (CountryCode == null) || (Nationality == null) ||
-                                            (FathersName == null) || (MothersName == null) || (MaritalStatus == null) || (GrandFathersName == null) || (Occupation == null) ||
+                                            (FathersName == null) 
+                                            //|| (MothersName == null) 
+                                            || (MaritalStatus == null) || (GrandFathersName == null) || (Occupation == null) ||
                                             (PProvince == null) || (PDistrict == null) || (PProvinceID == null) || (PDistrictID == null) ||
                                             (PMunicipalityVDC == null) || (PHouseNo == null) || (PWardNo == null) || (PStreet == null) ||
                                             (CProvinceID == null) || (CDistrictID == null) || (CMunicipalityVDC == null) || (CHouseNo == null) ||
@@ -633,17 +664,22 @@ namespace WCF.MNepal
                                                 if ((UserName.Substring(0, 3) == "980") || (UserName.Substring(0, 3) == "981")) //FOR NCELL
                                                 {
                                                     //FOR NCELL
-                                                    var content = client.DownloadString(
-                                                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
-                                                        + "977" + UserName + "&Text=" + messagereply + "");
+                                                    //var content = client.DownloadString(
+                                                    //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                                    //    + "977" + UserName + "&Text=" + messagereply + "");
+                                                    var contents = client.DownloadString(
+                                                                    SMSNCELL + "977" + UserName + "&Text=" + messagereply + "");
                                                 }
                                                 else if ((UserName.Substring(0, 3) == "985") || (UserName.Substring(0, 3) == "984")
                                                             || (UserName.Substring(0, 3) == "986"))
                                                 {
                                                     //FOR NTC
-                                                    var content = client.DownloadString(
-                                                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
-                                                        + "977" + UserName + "&Text=" + messagereply + "");
+                                                    //var content = client.DownloadString(
+                                                    //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                                    //    + "977" + UserName + "&Text=" + messagereply + "");
+
+                                                    var contents = client.DownloadString(
+                                                                    SMSNTC + "977" + UserName + "&Text=" + messagereply + "");
                                                 }
 
                                                 var v = new
@@ -853,8 +889,16 @@ namespace WCF.MNepal
             WebImage img = new WebImage(file.InputStream);
             img.Resize(440, 300, true, true);
             var fileName = System.IO.Path.GetFileName(file.FileName);
+            //string randomFileName = mobile + "_" + imagetype + "_" + imageside +
+            //                    "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".jpg";//Path.GetExtension(fileName);
+
+            TraceIdGenerator traceid = new TraceIdGenerator();
+            string uchar = traceid.GetUniqueChar();
+
             string randomFileName = mobile + "_" + imagetype + "_" + imageside +
-                                "_" + Guid.NewGuid().ToString().Substring(0, 4) + ".jpg";//Path.GetExtension(fileName);
+                                "_" + uchar + ".jpg";//Path.GetExtension(fileName);
+
+
             //var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), randomFileName + ".jpg");
 
             //if (!Directory.Exists(HttpContext.Current.Server.MapPath("~/Content/Upload")))
@@ -941,6 +985,11 @@ namespace WCF.MNepal
             string Name = FName + " " + MName + " " + LName;
             string Source = qs["src"];
             string OTPCode = qs["OTPCode"];
+
+
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
 
 
             ReplyMessage replyMessage = new ReplyMessage();
@@ -1041,17 +1090,21 @@ namespace WCF.MNepal
                                 if ((UserName.Substring(0, 3) == "980") || (UserName.Substring(0, 3) == "981")) //FOR NCELL
                                 {
                                     //FOR NCELL
-                                    var content = client.DownloadString(
-                                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
-                                        + "977" + UserName + "&Text=" + messagereply + "");
+                                    //var content = client.DownloadString(
+                                    //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                    //    + "977" + UserName + "&Text=" + messagereply + "");
+                                    var contents = client.DownloadString(
+                                              SMSNCELL + "977" + UserName + "&Text=" + messagereply + "");
                                 }
                                 else if ((UserName.Substring(0, 3) == "985") || (UserName.Substring(0, 3) == "984")
                                             || (UserName.Substring(0, 3) == "986"))
                                 {
                                     //FOR NTC
-                                    var content = client.DownloadString(
-                                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
-                                        + "977" + UserName + "&Text=" + messagereply + "");
+                                    //var content = client.DownloadString(
+                                    //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                    //    + "977" + UserName + "&Text=" + messagereply + "");
+                                    var contents = client.DownloadString(
+                                              SMSNTC + "977" + UserName + "&Text=" + messagereply + "");
                                 }
 
                                 var v = new
@@ -1420,6 +1473,10 @@ namespace WCF.MNepal
             string AccountNumber = qs["AccountNumber"];
             string DateOfBirth = qs["DateOfBirth"];
 
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
+
             ReplyMessage replyMessage = new ReplyMessage();
 
             if ((string.IsNullOrEmpty(Name)) || (string.IsNullOrEmpty(MobileNumber)) || (string.IsNullOrEmpty(AccountNumber) || (AccountNumber.Length != 14) || (string.IsNullOrEmpty(DateOfBirth))))
@@ -1503,7 +1560,8 @@ namespace WCF.MNepal
                         {
                             //Sender
 
-                            string messagereply = "Dear " + Name.Substring(0, Name.IndexOf(" ")) + ", \n";
+                            //string messagereply = "Dear " + Name.Substring(0, Name.IndexOf(" ")) + ", \n";
+                            string messagereply = "Dear " + CustCheckUtils.GetName(UserName) + "," + "\n"; ;
                             //messagereply += "Your Link Bank request has been queued for the approval. You'll be notified shortly \n";
                             messagereply += "Your Bank Link request has been queued for approval. Please visit your nearest NIBL branch for approval with ID copy and photo \n";
                             messagereply += "Thank you. MNepal";
@@ -1513,16 +1571,22 @@ namespace WCF.MNepal
                             if ((UserName.Substring(0, 3) == "980") || (UserName.Substring(0, 3) == "981")) //FOR NCELL
                             {
                                 //FOR NCELL
+                                //var content = client.DownloadString(
+                                //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                //    + "977" + UserName + "&Text=" + messagereply + "");
                                 var content = client.DownloadString(
-                                    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                    SMSNCELL
                                     + "977" + UserName + "&Text=" + messagereply + "");
                             }
                             else if ((UserName.Substring(0, 3) == "985") || (UserName.Substring(0, 3) == "984")
                                         || (UserName.Substring(0, 3) == "986"))
                             {
                                 //FOR NTC
+                                //var content = client.DownloadString(
+                                //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                //    + "977" + UserName + "&Text=" + messagereply + "");
                                 var content = client.DownloadString(
-                                    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                    SMSNTC
                                     + "977" + UserName + "&Text=" + messagereply + "");
                             }
 
@@ -2189,6 +2253,10 @@ namespace WCF.MNepal
             string s = sr.ReadToEnd();
             sr.Dispose();
 
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
+
             TraceIdGenerator traceid = new TraceIdGenerator();
             string tid = traceid.GenerateUniqueTraceID();
 
@@ -2276,8 +2344,12 @@ namespace WCF.MNepal
             {
                 if (IsValidUserName(UserName))
                 {
+                    //statusCode = "400";
+                    //message = "Number Already Registered!!";
+                    //replyMessage.ResponseStatus(HttpStatusCode.BadRequest, message);
+
                     statusCode = "400";
-                    message = "Number Already Registered!!";
+                    message = "A OTP code will be sent to your phone if the account exists in our system.";
                     replyMessage.ResponseStatus(HttpStatusCode.BadRequest, message);
                 }
                 else
@@ -2285,7 +2357,9 @@ namespace WCF.MNepal
                     //  (string.IsNullOrEmpty(PStreet)) || (string.IsNullOrEmpty(CStreet)) ||
                     if ((string.IsNullOrEmpty(UserName)) || (string.IsNullOrEmpty(FName)) || (string.IsNullOrEmpty(LName)) ||
                     (string.IsNullOrEmpty(Gender)) || (string.IsNullOrEmpty(DateOfBirth)) || (string.IsNullOrEmpty(CountryCode)) || (string.IsNullOrEmpty(Nationality)) ||
-                    (string.IsNullOrEmpty(FathersName)) || (string.IsNullOrEmpty(MothersName)) || (string.IsNullOrEmpty(MaritalStatus)) ||
+                    (string.IsNullOrEmpty(FathersName)) 
+                    //|| (string.IsNullOrEmpty(MothersName)) 
+                    || (string.IsNullOrEmpty(MaritalStatus)) ||
                     (string.IsNullOrEmpty(GrandFathersName)) || (string.IsNullOrEmpty(Occupation)) || (string.IsNullOrEmpty(EmailAddress)) ||
                     (string.IsNullOrEmpty(PProvince)) || (string.IsNullOrEmpty(PDistrict)) || (string.IsNullOrEmpty(PMunicipalityVDC)) ||
                     (string.IsNullOrEmpty(PWardNo)) ||
@@ -2503,7 +2577,9 @@ namespace WCF.MNepal
                                         if (dtableUserCheck.Rows.Count > 0)
                                         {
                                             statusCode = "400";
-                                            message = "Customer already Registered !";
+                                           // message = "Customer already Registered !";
+
+                                            message = "A OTP code will be sent to your phone if the account exists in our system.";
                                             replyMessage.ResponseStatus(HttpStatusCode.BadRequest, message);
                                         }
                                         else if (dtableUserCheck.Rows.Count == 0)
@@ -2557,7 +2633,9 @@ namespace WCF.MNepal
 
                                                 if ((string.IsNullOrEmpty(UserName)) || (string.IsNullOrEmpty(FName)) || (LName == null) ||
                                                     (Gender == null) || (DateOfBirth == null) || (CountryCode == null) || (Nationality == null) ||
-                                                    (FathersName == null) || (MothersName == null) || (MaritalStatus == null) || (GrandFathersName == null) || (Occupation == null) ||
+                                                    (FathersName == null) 
+                                                    //|| (MothersName == null) 
+                                                    || (MaritalStatus == null) || (GrandFathersName == null) || (Occupation == null) ||
                                                     (PProvince == null) || (PDistrict == null) || (PProvinceID == null) || (PDistrictID == null) ||
                                                     (PMunicipalityVDC == null) || (PHouseNo == null) || (PWardNo == null) || (PStreet == null) ||
                                                     (CProvinceID == null) || (CDistrictID == null) || (CMunicipalityVDC == null) || (CHouseNo == null) ||
@@ -2647,17 +2725,23 @@ namespace WCF.MNepal
                                                         if ((UserName.Substring(0, 3) == "980") || (UserName.Substring(0, 3) == "981")) //FOR NCELL
                                                         {
                                                             //FOR NCELL
+                                                            //var content = client.DownloadString(
+                                                            //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                                            //    + "977" + UserName + "&Text=" + messagereply + "");
                                                             var content = client.DownloadString(
-                                                                "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                                                SMSNCELL
                                                                 + "977" + UserName + "&Text=" + messagereply + "");
                                                         }
                                                         else if ((UserName.Substring(0, 3) == "985") || (UserName.Substring(0, 3) == "984")
                                                                     || (UserName.Substring(0, 3) == "986"))
                                                         {
                                                             //FOR NTC
+                                                            //var content = client.DownloadString(
+                                                            //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                                            //    + "977" + UserName + "&Text=" + messagereply + "");
                                                             var content = client.DownloadString(
-                                                                "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
-                                                                + "977" + UserName + "&Text=" + messagereply + "");
+                                                               SMSNTC
+                                                               + "977" + UserName + "&Text=" + messagereply + "");
                                                         }
 
                                                         var v = new
@@ -2685,17 +2769,21 @@ namespace WCF.MNepal
                                                         if ((UserName.Substring(0, 3) == "980") || (UserName.Substring(0, 3) == "981")) //FOR NCELL
                                                         {
                                                             //FOR NCELL
+                                                            //var content = client.DownloadString(
+                                                            //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                                            //    + "977" + UserName + "&Text=" + messagereply + "");
                                                             var content = client.DownloadString(
-                                                                "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
-                                                                + "977" + UserName + "&Text=" + messagereply + "");
+                                                                SMSNCELL + "977" + UserName + "&Text=" + messagereply + "");
                                                         }
                                                         else if ((UserName.Substring(0, 3) == "985") || (UserName.Substring(0, 3) == "984")
                                                                     || (UserName.Substring(0, 3) == "986"))
                                                         {
                                                             //FOR NTC
+                                                            //var content = client.DownloadString(
+                                                            //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                                            //    + "977" + UserName + "&Text=" + messagereply + "");
                                                             var content = client.DownloadString(
-                                                                "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
-                                                                + "977" + UserName + "&Text=" + messagereply + "");
+                                                                SMSNTC + "977" + UserName + "&Text=" + messagereply + "");
                                                         }
 
                                                         var v = new

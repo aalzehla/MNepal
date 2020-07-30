@@ -632,22 +632,8 @@
         var amount = $("[name='Amount']").val();
         var billNumber = $("[name='BillNumber']").val();
         var remarks = $("[name='Remarks']").val();
-            //if (amount.trim() == "")
-            //{
-            //    $("[name='Amount']").focus();
-            //    alertify.error('Amount cannot be empty');
-            //    return;
-            //}
-            //if (amount.trim() == "0") {
-            //    $("[name='Amount']").focus();
-            //    alertify.error('Amount cannot be 0');
-            //    return;
-            //}
-            //if (pin.trim() == "") {
-            //    $("[name='TPin']").val()
-            //    alertify.error('Pin cannot be empty');
-            //    return;
-            //}
+
+        var token = $('input[name="__RequestVerificationToken"]').val();
 
         if ((servicecode != "") && (restaurantname != "") && (amount != "") && (amount != 0) && (amount.length != 1) && (pin != "") && (billNumber != "") && (remarks !="")) {
 
@@ -657,14 +643,19 @@
                     amount: amount,
                     TPin: pin,
                     BillNumber: billNumber,
-                    Remarks: remarks
+                    Remarks: remarks,
+                    TokenUnique: token
                 };
 
                 e.preventDefault(); //prevent the default action
                 $.ajax({
                     url: '@Url.Action("MerchantRestaurant", "MerchantPayment")',
                     type: "POST",
-                    data: dataToPost,
+                    //data: dataToPost,
+                    data: {
+                        __RequestVerificationToken: token,
+                        merchantrest: dataToPost
+                    },
                     async: false,
                     success: function (data) {
                         if (data.responseCode == "200") {

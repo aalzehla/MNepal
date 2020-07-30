@@ -372,7 +372,7 @@
                                     </label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="password" class="form-control" id="OldPassword" name="OldPassword" placeholder="Old Password" maxlength="12" required>
+                                    <input type="password" class="form-control" id="OldPassword" name="OldPassword" placeholder="Old Password" maxlength="12" oncopy="return false" onpaste="return false" required>
                                     @Html.ValidationMessageFor(d => d.OldPassword, null, new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -385,7 +385,7 @@
                                     </label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="password" class="form-control" id="Password" name="Password" placeholder="Password" maxlength="12" required>
+                                    <input type="password" class="form-control" id="Password" name="Password" placeholder="Password" maxlength="12" oncopy="return false" onpaste="return false" required>
                                     @Html.ValidationMessageFor(d => d.Password, null, new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -398,7 +398,7 @@
                                     </label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="password" class="form-control" id="retypePassword" name="RetypePassword" placeholder="Retype Password" maxlength="12" required>
+                                    <input type="password" class="form-control" id="retypePassword" name="RetypePassword" placeholder="Retype Password" maxlength="12" oncopy="return false" onpaste="return false" required>
                                 </div>
                             </div>
                         </fieldset>

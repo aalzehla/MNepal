@@ -171,17 +171,32 @@ namespace ThailiMNepalAgent.Controllers
 
         //test//
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public async Task<ActionResult> NTTopUp (TopUpPay topup)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> NTTopUp(TopUpPay topup)
         {
 
-            //start 01
-           // bool result = false;
-            //string errorMessage = string.Empty;
-            //string message = string.Empty;
-            
-          //  try
-           // {
+            string retoken = topup.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
+            {
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
+            }
+            else if (dtableVToken.Rows.Count == 0)
+            {
+                reqToken = "0";
+            }
+            if (reqToken == "0")
+            {
+                ReqTokenUtils.InsertReqToken(retoken);
+
+                //start 01
+                // bool result = false;
+                //string errorMessage = string.Empty;
+                //string message = string.Empty;
+
+                //  try
+                // {
                 //end 01
                 string userName = (string)Session["LOGGED_USERNAME"];
                 string clientCode = (string)Session["LOGGEDUSER_ID"];
@@ -217,56 +232,56 @@ namespace ThailiMNepalAgent.Controllers
                     userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
                     ViewBag.PassportImage = userInfo.PassportImage;
                 }
-            ///start 01
-            //int responseCode = 0;
-            // string responsetext = string.Empty;
-            //end 01
+                ///start 01
+                //int responseCode = 0;
+                // string responsetext = string.Empty;
+                //end 01
 
-            //end milayako
+                //end milayako
 
-            ////validation
-            //if (topup.MobileNumber.Length != 10)
-            //{
-            //    ModelState.AddModelError("MobileNumber", "Mobile Number should be 10 digits long.");
-            //}
-            //if (!topup.MobileNumber.Substring(0, 3).IsInCollection(ApplicationInitilize.NTCStarters))
-            //{
-            //    ModelState.AddModelError("MobileNumber", "Invalid NTC Number.");
-            //}
-            //if (topup.Amount < 10 || topup.Amount > 5000)
-            //{
-            //    ModelState.AddModelError("Amount", "Amount is not valid.");
-            //}
-            //if (topup.Amount % 10 != 0)
-            //{
-            //    ModelState.AddModelError("Amount", "Amount is not valid.");
-            //}
+                ////validation
+                //if (topup.MobileNumber.Length != 10)
+                //{
+                //    ModelState.AddModelError("MobileNumber", "Mobile Number should be 10 digits long.");
+                //}
+                //if (!topup.MobileNumber.Substring(0, 3).IsInCollection(ApplicationInitilize.NTCStarters))
+                //{
+                //    ModelState.AddModelError("MobileNumber", "Invalid NTC Number.");
+                //}
+                //if (topup.Amount < 10 || topup.Amount > 5000)
+                //{
+                //    ModelState.AddModelError("Amount", "Amount is not valid.");
+                //}
+                //if (topup.Amount % 10 != 0)
+                //{
+                //    ModelState.AddModelError("Amount", "Amount is not valid.");
+                //}
 
-            //start 01
-            //  if (ModelState.IsValid)
-            // {
+                //start 01
+                //  if (ModelState.IsValid)
+                // {
 
-            //end 01
-            //api call here
-            HttpResponseMessage _res = new HttpResponseMessage();
-                    TraceIdGenerator _tig = new TraceIdGenerator();
-                    var tid = _tig.GenerateTraceID();
-            //string mobile = topup.MobileNumber; //mobile is username
-            string mobile = userName; //mobile is username
+                //end 01
+                //api call here
+                HttpResponseMessage _res = new HttpResponseMessage();
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
+                //string mobile = topup.MobileNumber; //mobile is username
+                string mobile = userName; //mobile is username
 
-                    using (HttpClient client = new HttpClient())
-                    {
-                       
-                        var action = "topup.svc/payment";
-                        var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                        var content = new FormUrlEncodedContent(new[]
-                       {
+                using (HttpClient client = new HttpClient())
+                {
+
+                    var action = "topup.svc/payment";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                    var content = new FormUrlEncodedContent(new[]
+                   {
                          new KeyValuePair<string, string>("sc",topup.TransactionMedium),
                          new KeyValuePair<string, string>("vid","2"),
                          new KeyValuePair<string, string>("mobile",mobile),
 
                          new KeyValuePair<string, string>("destmobile",topup.MobileNumber),
-                        
+
                          new KeyValuePair<string, string>("amount",topup.Amount.ToString()),
                          new KeyValuePair<string, string>("tid",tid),
                          new KeyValuePair<string, string>("pin",topup.Pin),
@@ -275,25 +290,27 @@ namespace ThailiMNepalAgent.Controllers
                          new KeyValuePair<string,string>("tokenID",Session["TokenID"].ToString())
 
                        });
-                        _res = await client.PostAsync(new Uri(uri), content);
+                    _res = await client.PostAsync(new Uri(uri), content);
 
-                        string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                          _res.ReasonPhrase = responseBody;
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
 
-                        /// start 01
-                        string errorMessage = string.Empty;
-                        int responseCode = 0;
-                        string message = string.Empty;
-                        string responsetext = string.Empty;
-                        bool result = false;
-                        string ava = string.Empty;
-                        string avatra = string.Empty;
-                        string avamsg = string.Empty;
-                        //end 01
+                    /// start 01
+                    string errorMessage = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
+                    //end 01
 
-                        try { 
-                        
-                        if (_res.IsSuccessStatusCode){
+                    try
+                    {
+
+                        if (_res.IsSuccessStatusCode)
+                        {
                             result = true;
                             responseCode = (int)_res.StatusCode;
                             responsetext = await _res.Content.ReadAsStringAsync();
@@ -303,25 +320,25 @@ namespace ThailiMNepalAgent.Controllers
                             //message = json.d;
 
                             message = _res.Content.ReadAsStringAsync().Result;
-                                string respmsg = "";
-                                if (!string.IsNullOrEmpty(message))
-                                {
-                                    JavaScriptSerializer ser = new JavaScriptSerializer();
-//start 01
-                            //string respmsg = "";
-                            //end 01
-                            var jsonresp = ser.Deserialize<JsonParse>(responsetext);
-                            message = jsonresp.d;
-                            JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
-                            }
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+                                //start 01
+                                //string respmsg = "";
+                                //end 01
+                                var jsonresp = ser.Deserialize<JsonParse>(responsetext);
+                                message = jsonresp.d;
+                                JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
                                 }
-                                return Json(new { responseCode = responseCode, responseText = respmsg },
-                        JsonRequestBehavior.AllowGet);
+                            }
+                            return Json(new { responseCode = responseCode, responseText = respmsg },
+                    JsonRequestBehavior.AllowGet);
 
                             //JsonParse msg = ser.Deserialize<JsonParse>(message);
                             //if (msg.StatusCode == "200")
@@ -370,9 +387,9 @@ namespace ThailiMNepalAgent.Controllers
                             else
                             {
                                 dynamic item = JValue.Parse(message);
-                                    //start 01
-                              //  message = (string)item["StatusMessage"];
-                                    //end 01
+                                //start 01
+                                //  message = (string)item["StatusMessage"];
+                                //end 01
                                 return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
                                 JsonRequestBehavior.AllowGet);
                             }
@@ -394,28 +411,34 @@ namespace ThailiMNepalAgent.Controllers
                             //    JsonParse msg = ser.Deserialize<JsonParse>(message);
                             //    StatusMessage = msg.StatusMessage;
 
-                             
+
                             //}
                             //this.ViewData["topup_messsage"] = StatusMessage;
                             //this.ViewData["message_class"] = "failed_info";
                             //return View(topup);
                         }
 
-                        }
-                        catch (Exception ex)
-                        {
-                            return Json(new { responseCode = "400", responseText = ex.Message },
-                            JsonRequestBehavior.AllowGet);
-                        }
-
-                        this.TempData["topup_messsage"] = result
-                                                ? "Topup successfully." + message
-                                                : "ERROR :: " + message;
-                        this.TempData["message_class"] = result ? "success_info" : "failed_info";
-                        return RedirectToAction("NTTopUp", "UtilityPay");
-
                     }
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                        JsonRequestBehavior.AllowGet);
+                    }
+
+                    this.TempData["topup_messsage"] = result
+                                            ? "Topup successfully." + message
+                                            : "ERROR :: " + message;
+                    this.TempData["message_class"] = result ? "success_info" : "failed_info";
+                    return RedirectToAction("NTTopUp", "UtilityPay");
+
                 }
+            }
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                            JsonRequestBehavior.AllowGet);
+            }
+        }
 
                 //start01
         //        else
@@ -522,22 +545,37 @@ namespace ThailiMNepalAgent.Controllers
         }
 
         [HttpPost]
-       // [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> NCELLTopUp(TopUpPay topup)
-        {
-            
-                string userName = (string)Session["LOGGED_USERNAME"];
-                string clientCode = (string)Session["LOGGEDUSER_ID"];
-                string name = (string)Session["LOGGEDUSER_NAME"];
-                string userType = (string)Session["LOGGED_USERTYPE"];
+        {   
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
 
-                TempData["userType"] = userType;
-
+            TempData["userType"] = userType;
 
 
-                this.ViewData["userType"] = this.TempData["userType"];
-                ViewBag.UserType = this.TempData["userType"];
-                ViewBag.Name = name;
+
+            this.ViewData["userType"] = this.TempData["userType"];
+            ViewBag.UserType = this.TempData["userType"];
+            ViewBag.Name = name;
+
+
+            string retoken = topup.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
+            {
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
+            }
+            else if (dtableVToken.Rows.Count == 0)
+            {
+                reqToken = "0";
+            }
+            if (reqToken == "0")
+            {
+                ReqTokenUtils.InsertReqToken(retoken);
 
                 ///start milayako
                 MNBalance availBaln = new MNBalance();
@@ -571,20 +609,20 @@ namespace ThailiMNepalAgent.Controllers
                 //{
                 //    ModelState.AddModelError("Amount", "Amount is not valid.");
                 //}
-               
-                    //api call here
-                    HttpResponseMessage _res = new HttpResponseMessage();
-                    TraceIdGenerator _tig = new TraceIdGenerator();
-                    var tid = _tig.GenerateTraceID();
 
-                    string mobile = userName; //mobile is username
-                    using (HttpClient client = new HttpClient())
-                    {
+                //api call here
+                HttpResponseMessage _res = new HttpResponseMessage();
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
 
-                        var action = "topup.svc/payment";
-                        var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                        var content = new FormUrlEncodedContent(new[]
-                       {
+                string mobile = userName; //mobile is username
+                using (HttpClient client = new HttpClient())
+                {
+
+                    var action = "topup.svc/payment";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                    var content = new FormUrlEncodedContent(new[]
+                   {
                          new KeyValuePair<string, string>("sc",topup.TransactionMedium),
                          new KeyValuePair<string, string>("vid","10"),
                          new KeyValuePair<string, string>("mobile",mobile),
@@ -599,27 +637,27 @@ namespace ThailiMNepalAgent.Controllers
                          new KeyValuePair<string,string>("tokenID",Session["TokenID"].ToString())
 
                        });
-                        _res = await client.PostAsync(new Uri(uri), content);
+                    _res = await client.PostAsync(new Uri(uri), content);
 
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
 
-                string  errorMessage = string.Empty;
+                    string errorMessage = string.Empty;
 
-                        int responseCode = 0;
-                        string message = string.Empty;
-                        string responsetext = string.Empty;
-                bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
-                try
-                {
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
+                    try
+                    {
 
-                    if (_res.IsSuccessStatusCode)
+                        if (_res.IsSuccessStatusCode)
                         {
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
                             responsetext = await _res.Content.ReadAsStringAsync();
 
                             //  dynamic json = JValue.Parse(responsetext);
@@ -627,23 +665,23 @@ namespace ThailiMNepalAgent.Controllers
                             // message = json.d;
 
                             message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        if (!string.IsNullOrEmpty(message))
-                        {
-
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-
-                            var jsonresp = ser.Deserialize<JsonParse>(responsetext);
-                            message = jsonresp.d;
-
-                            JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
+
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+
+                                var jsonresp = ser.Deserialize<JsonParse>(responsetext);
+                                message = jsonresp.d;
+
+                                JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                        }
                             return Json(new { responseCode = responseCode, responseText = respmsg },
                         JsonRequestBehavior.AllowGet);
 
@@ -678,42 +716,49 @@ namespace ThailiMNepalAgent.Controllers
                         }
                         else
                         {
-                        result = false;
-                     
+                            result = false;
+
                             responseCode = (int)_res.StatusCode;
                             responsetext = await _res.Content.ReadAsStringAsync();
-                        dynamic json = JValue.Parse(responsetext);
-                        message = json.d;
-                        if (message == null)
-                        {
-                            return Json(new { responseCode = responseCode, responseText = responsetext },
-                        JsonRequestBehavior.AllowGet);
-                        }
-
-                        else
-                        {
-                            dynamic item = JValue.Parse(message);
-                            return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
-                             JsonRequestBehavior.AllowGet);
-                             
+                            dynamic json = JValue.Parse(responsetext);
+                            message = json.d;
+                            if (message == null)
+                            {
+                                return Json(new { responseCode = responseCode, responseText = responsetext },
+                            JsonRequestBehavior.AllowGet);
                             }
-                             
+
+                            else
+                            {
+                                dynamic item = JValue.Parse(message);
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                                 JsonRequestBehavior.AllowGet);
+
+                            }
+
                         }
 
                     }
 
-                catch (Exception ex)
-                {
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                    JsonRequestBehavior.AllowGet);
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                        JsonRequestBehavior.AllowGet);
+                    }
+
+                    this.TempData["topup_messsage"] = result
+                                            ? "Topup successfully." + message
+                                            : "ERROR :: " + message;
+                    this.TempData["message_class"] = result ? "success_info" : "failed_info";
+                    return RedirectToAction("NCELLTopUp", "UtilityPay");
+
                 }
 
-                this.TempData["topup_messsage"] = result
-                                        ? "Topup successfully." + message
-                                        : "ERROR :: " + message;
-                this.TempData["message_class"] = result ? "success_info" : "failed_info";
-                return RedirectToAction("NCELLTopUp", "UtilityPay");
-
+            }
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                            JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
@@ -791,23 +836,39 @@ namespace ThailiMNepalAgent.Controllers
         }
 
         [HttpPost]
-       // [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ADSLTopUp(TopUpPay topup)
         {
              
              
-                string userName = (string)Session["LOGGED_USERNAME"];
-                string clientCode = (string)Session["LOGGEDUSER_ID"];
-                string name = (string)Session["LOGGEDUSER_NAME"];
-                string userType = (string)Session["LOGGED_USERTYPE"];
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
 
-                TempData["userType"] = userType;
+            TempData["userType"] = userType;
 
 
 
-                this.ViewData["userType"] = this.TempData["userType"];
-                ViewBag.UserType = this.TempData["userType"];
-                ViewBag.Name = name;
+            this.ViewData["userType"] = this.TempData["userType"];
+            ViewBag.UserType = this.TempData["userType"];
+            ViewBag.Name = name;
+
+
+            string retoken = topup.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
+            {
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
+            }
+            else if (dtableVToken.Rows.Count == 0)
+            {
+                reqToken = "0";
+            }
+            if (reqToken == "0")
+            {
+                ReqTokenUtils.InsertReqToken(retoken);
 
                 ///start milayako
                 MNBalance availBaln = new MNBalance();
@@ -838,20 +899,20 @@ namespace ThailiMNepalAgent.Controllers
                 //{
                 //    ModelState.AddModelError("Amount", "Amount is not valid.");
                 //}
-               
-                    //api call here
-                    HttpResponseMessage _res = new HttpResponseMessage();
-                    TraceIdGenerator _tig = new TraceIdGenerator();
-                    var tid = _tig.GenerateTraceID();
 
-                    string mobile = userName; //mobile is username
-                    using (HttpClient client = new HttpClient())
-                    {
+                //api call here
+                HttpResponseMessage _res = new HttpResponseMessage();
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
 
-                        var action = "topup.svc/payment";
-                        var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                        var content = new FormUrlEncodedContent(new[]
-                       {
+                string mobile = userName; //mobile is username
+                using (HttpClient client = new HttpClient())
+                {
+
+                    var action = "topup.svc/payment";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                    var content = new FormUrlEncodedContent(new[]
+                   {
                          new KeyValuePair<string, string>("sc",topup.TransactionMedium),
                          new KeyValuePair<string, string>("vid","1"),
                          new KeyValuePair<string, string>("mobile",mobile),
@@ -867,50 +928,50 @@ namespace ThailiMNepalAgent.Controllers
                         new KeyValuePair<string,string>("tokenID",Session["TokenID"].ToString())
 
                        });
-                        _res = await client.PostAsync(new Uri(uri), content);
+                    _res = await client.PostAsync(new Uri(uri), content);
 
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
 
-                string errorMessage = string.Empty;
+                    string errorMessage = string.Empty;
 
-                        int responseCode = 0;
-                        string message = string.Empty;
-                        string responsetext = string.Empty;
-                        bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
 
-                try
-                {
+                    try
+                    {
 
-                    if (_res.IsSuccessStatusCode)
+                        if (_res.IsSuccessStatusCode)
                         {
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
                             responsetext = await _res.Content.ReadAsStringAsync();
                             //message = _res.Content.ReadAsStringAsync().Result;
                             //dynamic json = JValue.Parse(responsetext);
                             // values require casting
                             // message = json.d;
                             message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        if (!string.IsNullOrEmpty(message))
-                        {
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-
-
-                            var jsonresp = ser.Deserialize<JsonParse>(responsetext);
-                            message = jsonresp.d;
-                            JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+
+
+                                var jsonresp = ser.Deserialize<JsonParse>(responsetext);
+                                message = jsonresp.d;
+                                JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                        }
                             return Json(new { responseCode = responseCode, responseText = respmsg },
                         JsonRequestBehavior.AllowGet);
                             //JsonParse msg = ser.Deserialize<JsonParse>(message);
@@ -970,18 +1031,25 @@ namespace ThailiMNepalAgent.Controllers
                         }
 
                     }
-                        catch (Exception ex)
-                {
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                    JsonRequestBehavior.AllowGet);
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                        JsonRequestBehavior.AllowGet);
+                    }
+
+                    this.TempData["topup_messsage"] = result
+                                            ? "Topup successfully." + message
+                                            : "ERROR :: " + message;
+                    this.TempData["message_class"] = result ? "success_info" : "failed_info";
+                    return RedirectToAction("ADSLTopUp", "UtilityPay");
+
                 }
 
-                this.TempData["topup_messsage"] = result
-                                        ? "Topup successfully." + message
-                                        : "ERROR :: " + message;
-                this.TempData["message_class"] = result ? "success_info" : "failed_info";
-                return RedirectToAction("ADSLTopUp", "UtilityPay");
-
+            }
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                            JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
@@ -1058,23 +1126,38 @@ namespace ThailiMNepalAgent.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> NTLandline(TopUpPay topup)
         {
              
-                string userName = (string)Session["LOGGED_USERNAME"];
-                string clientCode = (string)Session["LOGGEDUSER_ID"];
-                string name = (string)Session["LOGGEDUSER_NAME"];
-                string userType = (string)Session["LOGGED_USERTYPE"];
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
 
-                TempData["userType"] = userType;
+            TempData["userType"] = userType;
 
 
 
-                this.ViewData["userType"] = this.TempData["userType"];
-                ViewBag.UserType = this.TempData["userType"];
-                ViewBag.Name = name;
+            this.ViewData["userType"] = this.TempData["userType"];
+            ViewBag.UserType = this.TempData["userType"];
+            ViewBag.Name = name;
+
+
+            string retoken = topup.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
+            {
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
+            }
+            else if (dtableVToken.Rows.Count == 0)
+            {
+                reqToken = "0";
+            }
+            if (reqToken == "0")
+            {
+                ReqTokenUtils.InsertReqToken(retoken);
 
                 ///start milayako
                 MNBalance availBaln = new MNBalance();
@@ -1105,20 +1188,20 @@ namespace ThailiMNepalAgent.Controllers
                 //{
                 //    ModelState.AddModelError("Amount", "Amount is not valid.");
                 //}
-                
-                    //api call here
-                    HttpResponseMessage _res = new HttpResponseMessage();
-                    TraceIdGenerator _tig = new TraceIdGenerator();
-                    var tid = _tig.GenerateTraceID();
 
-                    string mobile = userName; //mobile is username
-                    using (HttpClient client = new HttpClient())
-                    {
+                //api call here
+                HttpResponseMessage _res = new HttpResponseMessage();
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
 
-                        var action = "topup.svc/payment";
-                        var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                        var content = new FormUrlEncodedContent(new[]
-                       {
+                string mobile = userName; //mobile is username
+                using (HttpClient client = new HttpClient())
+                {
+
+                    var action = "topup.svc/payment";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                    var content = new FormUrlEncodedContent(new[]
+                   {
                          new KeyValuePair<string, string>("sc",topup.TransactionMedium),
                          new KeyValuePair<string, string>("vid","7"),
                          new KeyValuePair<string, string>("mobile",mobile),
@@ -1133,92 +1216,99 @@ namespace ThailiMNepalAgent.Controllers
                         new KeyValuePair<string,string>("tokenID",Session["TokenID"].ToString())
 
                        });
-                        _res = await client.PostAsync(new Uri(uri), content);
+                    _res = await client.PostAsync(new Uri(uri), content);
 
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
 
-                string errorMessage = string.Empty;
+                    string errorMessage = string.Empty;
 
-                int responseCode = 0;
-                        string message = string.Empty;
-                        string responsetext = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
 
-                bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
 
-                try
-                {
-
-                    if (_res.IsSuccessStatusCode)
+                    try
                     {
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
 
-
-
-                        message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        if (!string.IsNullOrEmpty(message))
+                        if (_res.IsSuccessStatusCode)
                         {
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
 
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-                            var jsonresp = ser.Deserialize<JsonParse>(responsetext);
-                            message = jsonresp.d;
 
-                            JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+
+                            message = _res.Content.ReadAsStringAsync().Result;
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
+
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+                                var jsonresp = ser.Deserialize<JsonParse>(responsetext);
+                                message = jsonresp.d;
+
+                                JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                        }
-                        return Json(new { responseCode = responseCode, responseText = respmsg },
-                JsonRequestBehavior.AllowGet);
+                            return Json(new { responseCode = responseCode, responseText = respmsg },
+                    JsonRequestBehavior.AllowGet);
 
 
-                    }
-                    else
-                    {
-                        result = false;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        dynamic json = JValue.Parse(responsetext);
-                        message = json.d;
-                        if (message == null)
-                        {
-                            return Json(new { responseCode = responseCode, responseText = responsetext },
-                        JsonRequestBehavior.AllowGet);
                         }
                         else
                         {
-                            dynamic item = JValue.Parse(message);
-                            //start 01
-                            //  message = (string)item["StatusMessage"];
-                            //end 01
-                            return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                            result = false;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            dynamic json = JValue.Parse(responsetext);
+                            message = json.d;
+                            if (message == null)
+                            {
+                                return Json(new { responseCode = responseCode, responseText = responsetext },
                             JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                dynamic item = JValue.Parse(message);
+                                //start 01
+                                //  message = (string)item["StatusMessage"];
+                                //end 01
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                                JsonRequestBehavior.AllowGet);
+                            }
+
+
                         }
 
-
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                        JsonRequestBehavior.AllowGet);
                     }
 
-            }
-                catch (Exception ex)
-                {
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                    JsonRequestBehavior.AllowGet);
+                    this.TempData["topup_messsage"] = result
+                                            ? "Topup successfully." + message
+                                            : "ERROR :: " + message;
+                    this.TempData["message_class"] = result ? "success_info" : "failed_info";
+                    return RedirectToAction("NTLandline", "UtilityPay");
                 }
 
-                this.TempData["topup_messsage"] = result
-                                        ? "Topup successfully." + message
-                                        : "ERROR :: " + message;
-                this.TempData["message_class"] = result ? "success_info" : "failed_info";
-                return RedirectToAction("NTLandline", "UtilityPay");
+            }
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                            JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -2239,6 +2329,7 @@ namespace ThailiMNepalAgent.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> NewRecharge(TopUpPay topup)
         {
 
@@ -2255,30 +2346,46 @@ namespace ThailiMNepalAgent.Controllers
             ViewBag.UserType = this.TempData["userType"];
             ViewBag.Name = name;
 
-            ///start milayako
-            MNBalance availBaln = new MNBalance();
-            DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
-            if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
-            {
-                availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
 
-                ViewBag.AvailBalnAmount = availBaln.amount;
+            string retoken = topup.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
+            {
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
             }
-
-
-            //api call here
-            HttpResponseMessage _res = new HttpResponseMessage();
-            TraceIdGenerator _tig = new TraceIdGenerator();
-            var tid = _tig.GenerateTraceID();
-
-            string mobile = userName; //mobile is username
-            using (HttpClient client = new HttpClient())
+            else if (dtableVToken.Rows.Count == 0)
             {
+                reqToken = "0";
+            }
+            if (reqToken == "0")
+            {
+                ReqTokenUtils.InsertReqToken(retoken);
 
-                var action = "coupon.svc/telco";
-                var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                var content = new FormUrlEncodedContent(new[]
-               {
+                ///start milayako
+                MNBalance availBaln = new MNBalance();
+                DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
+                if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+                {
+                    availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
+
+                    ViewBag.AvailBalnAmount = availBaln.amount;
+                }
+
+
+                //api call here
+                HttpResponseMessage _res = new HttpResponseMessage();
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
+
+                string mobile = userName; //mobile is username
+                using (HttpClient client = new HttpClient())
+                {
+
+                    var action = "coupon.svc/telco";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                    var content = new FormUrlEncodedContent(new[]
+                   {
                          new KeyValuePair<string, string>("sc",topup.TransactionMedium),
                          new KeyValuePair<string, string>("vid",topup.SelectRecharge),
                          new KeyValuePair<string, string>("mobile",mobile),
@@ -2292,104 +2399,111 @@ namespace ThailiMNepalAgent.Controllers
                         new KeyValuePair<string,string>("tokenID",Session["TokenID"].ToString())
 
                        });
-                _res = await client.PostAsync(new Uri(uri), content);
+                    _res = await client.PostAsync(new Uri(uri), content);
 
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                //string responseBody = _res.StatusCode.ToString() + " ," + _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    //string responseBody = _res.StatusCode.ToString() + " ," + _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
 
-                string errorMessage = string.Empty;
+                    string errorMessage = string.Empty;
 
-                int responseCode = 0;
-                string message = string.Empty;
-                string responsetext = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
 
-                bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
-                try
-                {
-
-                    if (_res.IsSuccessStatusCode)
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
+                    try
                     {
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        int rechargePin = 0;
-                        //message = _res.Content.ReadAsStringAsync().Result;
-                        // dynamic json = JValue.Parse(responsetext);
-                        // values require casting
-                        //  message = json.d;
 
-                        message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        string couponNo = "";
-
-                        if (!string.IsNullOrEmpty(message))
+                        if (_res.IsSuccessStatusCode)
                         {
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            int rechargePin = 0;
+                            //message = _res.Content.ReadAsStringAsync().Result;
+                            // dynamic json = JValue.Parse(responsetext);
+                            // values require casting
+                            //  message = json.d;
 
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
+                            message = _res.Content.ReadAsStringAsync().Result;
+                            string respmsg = "";
+                            string couponNo = "";
 
-                            var jsonresp = ser.Deserialize<JsonParse>(responsetext);
-                            message = jsonresp.d;
-
-                            JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code == 200)
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                var details = JObject.Parse(respmsg);
-                                couponNo = details["couponnumber"].ToString();
-                                ViewBag.couponNo = couponNo;
+
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+
+                                var jsonresp = ser.Deserialize<JsonParse>(responsetext);
+                                message = jsonresp.d;
+
+                                JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code == 200)
+                                {
+                                    var details = JObject.Parse(respmsg);
+                                    couponNo = details["couponnumber"].ToString();
+                                    ViewBag.couponNo = couponNo;
+                                }
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                            if (code != responseCode)
-                            {
-                                responseCode = code;
-                            }
+                            return Json(new { responseCode = responseCode, responseText = respmsg, rechargePin = couponNo },
+                            JsonRequestBehavior.AllowGet);
+
                         }
-                        return Json(new { responseCode = responseCode, responseText = respmsg, rechargePin = couponNo },
-                        JsonRequestBehavior.AllowGet);
-
-                    }
-                    else
-                    {
-                        result = false;
-
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        dynamic json = JValue.Parse(responsetext);
-                        message = json.d;
-                        if (message == null)
-                        {
-                            return Json(new { responseCode = responseCode, responseText = responsetext },
-                        JsonRequestBehavior.AllowGet);
-                        }
-
                         else
                         {
-                            dynamic item = JValue.Parse(message);
-                            return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
-                             JsonRequestBehavior.AllowGet);
+                            result = false;
+
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            dynamic json = JValue.Parse(responsetext);
+                            message = json.d;
+                            if (message == null)
+                            {
+                                return Json(new { responseCode = responseCode, responseText = responsetext },
+                            JsonRequestBehavior.AllowGet);
+                            }
+
+                            else
+                            {
+                                dynamic item = JValue.Parse(message);
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                                 JsonRequestBehavior.AllowGet);
+
+                            }
 
                         }
 
                     }
 
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                        JsonRequestBehavior.AllowGet);
+                    }
+
+                    this.TempData["recharge_message"] = result
+                                            ? "Recharge successfully." + message
+                                            : "ERROR :: " + message;
+                    this.TempData["message_class"] = result ? "success_info" : "failed_info";
+                    return RedirectToAction("NewRecharge", "UtilityPay");
+
                 }
 
-                catch (Exception ex)
-                {
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                    JsonRequestBehavior.AllowGet);
-                }
-
-                this.TempData["recharge_message"] = result
-                                        ? "Recharge successfully." + message
-                                        : "ERROR :: " + message;
-                this.TempData["message_class"] = result ? "success_info" : "failed_info";
-                return RedirectToAction("NewRecharge", "UtilityPay");
-
+            }
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                            JsonRequestBehavior.AllowGet);
             }
         }
 

@@ -73,6 +73,7 @@ namespace CustApp.Controllers
         }
 
         #region College
+
         // GET: MerchantCollege
         [HttpGet]
         public ActionResult MerchantCollege()
@@ -157,6 +158,7 @@ namespace CustApp.Controllers
 
         // POST: MerchantPayment/MerchantCollege
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> MerchantCollege(MerchantCollege merchantcollege)
         {
 
@@ -167,71 +169,85 @@ namespace CustApp.Controllers
 
             TempData["userType"] = userType;
 
-
-
             this.ViewData["userType"] = this.TempData["userType"];
             ViewBag.UserType = this.TempData["userType"];
             ViewBag.Name = name;
-            
-            MNBalance availBaln = new MNBalance();
-            DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
-            if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
-            {
-                availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
 
-                ViewBag.AvailBalnAmount = availBaln.amount;
+
+            string retoken = merchantcollege.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
+            {
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
             }
-            //For Profile Pic//
-            UserInfo userInfo = new UserInfo();
-            DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
-            DataTable dKYC = DSet.Tables["dtKycDetail"];
-            DataTable dDoc = DSet.Tables["dtKycDoc"];
-            if (dKYC != null && dKYC.Rows.Count > 0)
+            else if (dtableVToken.Rows.Count == 0)
             {
-                userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
-                ViewBag.CustStatus = userInfo.CustStatus;
+                reqToken = "0";
             }
-            if (dDoc != null && dDoc.Rows.Count > 0)
+            if (reqToken == "0")
             {
-                userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
-                ViewBag.PassportImage = userInfo.PassportImage;
-            }
+                ReqTokenUtils.InsertReqToken(retoken);
 
-            ReportUserModel rep = new ReportUserModel();
-            ViewBag.College = rep.GetMerchantListbyCategory("4").Select(x =>
-                              new SelectListItem()
-                              {
-                                  Text = x.MName,
-                                  Value = x.MId
-                              });
+                MNBalance availBaln = new MNBalance();
+                DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
+                if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+                {
+                    availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
 
-            //validation
-            if (merchantcollege.TPin.Length != 4)
-            {
-                ModelState.AddModelError("TPin", "T-Pin should be 4 digits long.");
-            }
-            //if (merchantcollege.Amount < 10 || merchantcollege.Amount > 9999)
-            //{
-            //    ModelState.AddModelError("Amount", "Amount is not valid.");
-            //}
-            //if (merchantcollege.Amount % 10 != 0)
-            //{
-            //    ModelState.AddModelError("Amount", "Amount is not valid.");
-            //}
+                    ViewBag.AvailBalnAmount = availBaln.amount;
+                }
+                //For Profile Pic//
+                UserInfo userInfo = new UserInfo();
+                DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
+                DataTable dKYC = DSet.Tables["dtKycDetail"];
+                DataTable dDoc = DSet.Tables["dtKycDoc"];
+                if (dKYC != null && dKYC.Rows.Count > 0)
+                {
+                    userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
+                    ViewBag.CustStatus = userInfo.CustStatus;
+                }
+                if (dDoc != null && dDoc.Rows.Count > 0)
+                {
+                    userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
+                    ViewBag.PassportImage = userInfo.PassportImage;
+                }
 
-            //api call here
-            HttpResponseMessage _res = new HttpResponseMessage();
-            TraceIdGenerator _tig = new TraceIdGenerator();
-            var tid = _tig.GenerateTraceID();
+                ReportUserModel rep = new ReportUserModel();
+                ViewBag.College = rep.GetMerchantListbyCategory("4").Select(x =>
+                                  new SelectListItem()
+                                  {
+                                      Text = x.MName,
+                                      Value = x.MId
+                                  });
 
-            string mobile = userName; //mobile is username
-            using (HttpClient client = new HttpClient())
-            {
+                //validation
+                if (merchantcollege.TPin.Length != 4)
+                {
+                    ModelState.AddModelError("TPin", "T-Pin should be 4 digits long.");
+                }
+                //if (merchantcollege.Amount < 10 || merchantcollege.Amount > 9999)
+                //{
+                //    ModelState.AddModelError("Amount", "Amount is not valid.");
+                //}
+                //if (merchantcollege.Amount % 10 != 0)
+                //{
+                //    ModelState.AddModelError("Amount", "Amount is not valid.");
+                //}
 
-                var action = "merchant.svc/payment";
-                var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                var content = new FormUrlEncodedContent(new[]
-               {
+                //api call here
+                HttpResponseMessage _res = new HttpResponseMessage();
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
+
+                string mobile = userName; //mobile is username
+                using (HttpClient client = new HttpClient())
+                {
+
+                    var action = "merchant.svc/payment";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                    var content = new FormUrlEncodedContent(new[]
+                   {
                          new KeyValuePair<string, string>("sc",merchantcollege.TransactionMedium),
                          new KeyValuePair<string, string>("vid",merchantcollege.CollegeName),
                          new KeyValuePair<string, string>("mobile",mobile),
@@ -239,7 +255,7 @@ namespace CustApp.Controllers
                          new KeyValuePair<string, string>("billNo",merchantcollege.BillNumber.ToString()),
                          new KeyValuePair<string, string>("studName",merchantcollege.StudentName.ToString()),
                          new KeyValuePair<string, string>("merchantType","college"),
-                         
+
                          new KeyValuePair<string, string>("class",merchantcollege.Class),
                          new KeyValuePair<string, string>("year",merchantcollege.Year.ToString()),
                          new KeyValuePair<string, string>("month",merchantcollege.Month),
@@ -256,118 +272,127 @@ namespace CustApp.Controllers
                         new KeyValuePair<string,string>("tokenID",Session["TokenID"].ToString())
 
                        });
-                _res = await client.PostAsync(new Uri(uri), content);
+                    _res = await client.PostAsync(new Uri(uri), content);
 
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
 
-                string errorMessage = string.Empty;
+                    string errorMessage = string.Empty;
 
-                int responseCode = 0;
-                string message = string.Empty;
-                string responsetext = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
 
-                bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
 
-                try
-                {
-                    if (_res.IsSuccessStatusCode)
+                    try
                     {
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        if (!string.IsNullOrEmpty(message))
+                        if (_res.IsSuccessStatusCode)
                         {
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-                            var jsonresp = ser.Deserialize<JsonParse>(responsetext);
-                            message = jsonresp.d;
-
-
-                            JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            message = _res.Content.ReadAsStringAsync().Result;
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+                                var jsonresp = ser.Deserialize<JsonParse>(responsetext);
+                                message = jsonresp.d;
+
+
+                                JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                        }
 
 
-                        return Json(new { responseCode = responseCode, responseText = respmsg },
-                    JsonRequestBehavior.AllowGet);
-                    }
-
-                    else
-                    {
-                        result = false;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        dynamic json = JValue.Parse(responsetext);
-                        message = json.d;
-                        if (message == null)
-                        {
-                            return Json(new { responseCode = responseCode, responseText = responsetext },
+                            return Json(new { responseCode = responseCode, responseText = respmsg },
                         JsonRequestBehavior.AllowGet);
                         }
 
                         else
                         {
-                            dynamic item = JValue.Parse(message);
-                            //start 01
-                            //  message = (string)item["StatusMessage"];
-                            //end 01
-                            return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                            result = false;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            dynamic json = JValue.Parse(responsetext);
+                            message = json.d;
+                            if (message == null)
+                            {
+                                return Json(new { responseCode = responseCode, responseText = responsetext },
                             JsonRequestBehavior.AllowGet);
+                            }
+
+                            else
+                            {
+                                dynamic item = JValue.Parse(message);
+                                //start 01
+                                //  message = (string)item["StatusMessage"];
+                                //end 01
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                                JsonRequestBehavior.AllowGet);
+                            }
+
+                            //    string StatusMessage = "";
+                            //responseCode = (int)_res.StatusCode;
+                            //responsetext = await _res.Content.ReadAsStringAsync();
+                            //if (responseCode == 404)
+                            //{
+                            //    StatusMessage = "Could not connect to the server";
+                            //}
+                            //else
+                            //{
+                            //    dynamic json = JValue.Parse(responsetext);
+                            //    // values require casting
+                            //    message = json.d;
+                            //    result = false;
+                            //    JavaScriptSerializer ser = new JavaScriptSerializer();
+                            //    JsonParse msg = ser.Deserialize<JsonParse>(message);
+                            //    StatusMessage = msg.StatusMessage;
+
+
+                            //}
+                            //this.ViewData["topup_messsage"] = StatusMessage;
+                            //this.ViewData["message_class"] = "failed_info";
+                            //return View(topup);
                         }
 
-                        //    string StatusMessage = "";
-                        //responseCode = (int)_res.StatusCode;
-                        //responsetext = await _res.Content.ReadAsStringAsync();
-                        //if (responseCode == 404)
-                        //{
-                        //    StatusMessage = "Could not connect to the server";
-                        //}
-                        //else
-                        //{
-                        //    dynamic json = JValue.Parse(responsetext);
-                        //    // values require casting
-                        //    message = json.d;
-                        //    result = false;
-                        //    JavaScriptSerializer ser = new JavaScriptSerializer();
-                        //    JsonParse msg = ser.Deserialize<JsonParse>(message);
-                        //    StatusMessage = msg.StatusMessage;
-
-
-                        //}
-                        //this.ViewData["topup_messsage"] = StatusMessage;
-                        //this.ViewData["message_class"] = "failed_info";
-                        //return View(topup);
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                        JsonRequestBehavior.AllowGet);
                     }
 
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                    JsonRequestBehavior.AllowGet);
+                    this.TempData["merchantpay_messsage"] = result
+                                            ? "Payment successfully." + message
+                                            : "ERROR :: " + message;
+                    this.TempData["message_class"] = result ? "success_info" : "failed_info";
+                    return RedirectToAction("MerchantCollege", "MerchantPayment");
+
                 }
 
-                this.TempData["merchantpay_messsage"] = result
-                                        ? "Payment successfully." + message
-                                        : "ERROR :: " + message;
-                this.TempData["message_class"] = result ? "success_info" : "failed_info";
-                return RedirectToAction("MerchantCollege", "MerchantPayment");
-
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
             }
         }
 
+
         #endregion
 
+
         #region Restaurant
+
         [HttpGet]
         public ActionResult MerchantRestaurant()
         {
@@ -450,6 +475,7 @@ namespace CustApp.Controllers
 
         // POST: MerchantPayment/MerchantRestaurant
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> MerchantRestaurant(MerchantRestaurant merchantrest)
         {
             //bool result = false;
@@ -463,49 +489,63 @@ namespace CustApp.Controllers
 
             TempData["userType"] = userType;
 
-
-
             this.ViewData["userType"] = this.TempData["userType"];
             ViewBag.UserType = this.TempData["userType"];
             ViewBag.Name = name;
 
-            ///start milayako
-            MNBalance availBaln = new MNBalance();
-            DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
-            if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
-            {
-                availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
 
-                ViewBag.AvailBalnAmount = availBaln.amount;
-            }
-            //For Profile Pic//
-            UserInfo userInfo = new UserInfo();
-            DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
-            DataTable dKYC = DSet.Tables["dtKycDetail"];
-            DataTable dDoc = DSet.Tables["dtKycDoc"];
-            if (dKYC != null && dKYC.Rows.Count > 0)
+            string retoken = merchantrest.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
             {
-                userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
-                ViewBag.CustStatus = userInfo.CustStatus;
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
             }
-            if (dDoc != null && dDoc.Rows.Count > 0)
+            else if (dtableVToken.Rows.Count == 0)
             {
-                userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
-                ViewBag.PassportImage = userInfo.PassportImage;
+                reqToken = "0";
             }
-            //api call here
-            HttpResponseMessage _res = new HttpResponseMessage();
-            TraceIdGenerator _tig = new TraceIdGenerator();
-            var tid = _tig.GenerateTraceID();
+            if (reqToken == "0")
+            {
+                ReqTokenUtils.InsertReqToken(retoken);
 
-            string mobile = userName; //mobile is username
-            using (HttpClient client = new HttpClient())
-            {
+                ///start milayako
+                MNBalance availBaln = new MNBalance();
+                DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
+                if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+                {
+                    availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
 
-                var action = "merchant.svc/payment";
-                var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                var content = new FormUrlEncodedContent(new[]
-               {
+                    ViewBag.AvailBalnAmount = availBaln.amount;
+                }
+                //For Profile Pic//
+                UserInfo userInfo = new UserInfo();
+                DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
+                DataTable dKYC = DSet.Tables["dtKycDetail"];
+                DataTable dDoc = DSet.Tables["dtKycDoc"];
+                if (dKYC != null && dKYC.Rows.Count > 0)
+                {
+                    userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
+                    ViewBag.CustStatus = userInfo.CustStatus;
+                }
+                if (dDoc != null && dDoc.Rows.Count > 0)
+                {
+                    userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
+                    ViewBag.PassportImage = userInfo.PassportImage;
+                }
+                //api call here
+                HttpResponseMessage _res = new HttpResponseMessage();
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
+
+                string mobile = userName; //mobile is username
+                using (HttpClient client = new HttpClient())
+                {
+
+                    var action = "merchant.svc/payment";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                    var content = new FormUrlEncodedContent(new[]
+                   {
                          new KeyValuePair<string, string>("sc",merchantrest.TransactionMedium),
                          new KeyValuePair<string, string>("vid",merchantrest.RestaurantName),
                          new KeyValuePair<string, string>("mobile",mobile),
@@ -513,7 +553,7 @@ namespace CustApp.Controllers
                          new KeyValuePair<string, string>("billNo",merchantrest.BillNumber.ToString()),
                          new KeyValuePair<string, string>("merchantType","restaurant"),
                          new KeyValuePair<string, string>("remarks",merchantrest.Remarks),
-                         
+
                          new KeyValuePair<string, string>("sa",""),
                          new KeyValuePair<string, string>("prod","1"),
                          new KeyValuePair<string, string>("amount",merchantrest.Amount),
@@ -524,118 +564,124 @@ namespace CustApp.Controllers
                         new KeyValuePair<string,string>("tokenID",Session["TokenID"].ToString())
 
                        });
-                _res = await client.PostAsync(new Uri(uri), content);
+                    _res = await client.PostAsync(new Uri(uri), content);
 
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
 
-                string errorMessage = string.Empty;
+                    string errorMessage = string.Empty;
 
-                int responseCode = 0;
-                string message = string.Empty;
-                string responsetext = string.Empty;
-                bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
 
-                try
-                {
-
-                    if (_res.IsSuccessStatusCode)
+                    try
                     {
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        if (!string.IsNullOrEmpty(message))
+
+                        if (_res.IsSuccessStatusCode)
                         {
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-                            var jsonresp = ser.Deserialize<JsonParse>(responsetext);
-                            message = jsonresp.d;
-                            JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            message = _res.Content.ReadAsStringAsync().Result;
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+                                var jsonresp = ser.Deserialize<JsonParse>(responsetext);
+                                message = jsonresp.d;
+                                JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                        }
 
 
-                        return Json(new { responseCode = responseCode, responseText = respmsg },
-                    JsonRequestBehavior.AllowGet);
-                    }
-
-                    else
-                    {
-                        result = false;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        dynamic json = JValue.Parse(responsetext);
-                        message = json.d;
-                        if (message == null)
-                        {
-                            return Json(new { responseCode = responseCode, responseText = responsetext },
+                            return Json(new { responseCode = responseCode, responseText = respmsg },
                         JsonRequestBehavior.AllowGet);
                         }
 
                         else
                         {
-                            dynamic item = JValue.Parse(message);
-                            //start 01
-                            //  message = (string)item["StatusMessage"];
-                            //end 01
-                            return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                            result = false;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            dynamic json = JValue.Parse(responsetext);
+                            message = json.d;
+                            if (message == null)
+                            {
+                                return Json(new { responseCode = responseCode, responseText = responsetext },
                             JsonRequestBehavior.AllowGet);
+                            }
+
+                            else
+                            {
+                                dynamic item = JValue.Parse(message);
+                                //start 01
+                                //  message = (string)item["StatusMessage"];
+                                //end 01
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                                JsonRequestBehavior.AllowGet);
+                            }
+
+                            //    string StatusMessage = "";
+                            //responseCode = (int)_res.StatusCode;
+                            //responsetext = await _res.Content.ReadAsStringAsync();
+                            //if (responseCode == 404)
+                            //{
+                            //    StatusMessage = "Could not connect to the server";
+                            //}
+                            //else
+                            //{
+                            //    dynamic json = JValue.Parse(responsetext);
+                            //    // values require casting
+                            //    message = json.d;
+                            //    result = false;
+                            //    JavaScriptSerializer ser = new JavaScriptSerializer();
+                            //    JsonParse msg = ser.Deserialize<JsonParse>(message);
+                            //    StatusMessage = msg.StatusMessage;
+
+
+                            //}
+                            //this.ViewData["topup_messsage"] = StatusMessage;
+                            //this.ViewData["message_class"] = "failed_info";
+                            //return View(topup);
                         }
 
-                        //    string StatusMessage = "";
-                        //responseCode = (int)_res.StatusCode;
-                        //responsetext = await _res.Content.ReadAsStringAsync();
-                        //if (responseCode == 404)
-                        //{
-                        //    StatusMessage = "Could not connect to the server";
-                        //}
-                        //else
-                        //{
-                        //    dynamic json = JValue.Parse(responsetext);
-                        //    // values require casting
-                        //    message = json.d;
-                        //    result = false;
-                        //    JavaScriptSerializer ser = new JavaScriptSerializer();
-                        //    JsonParse msg = ser.Deserialize<JsonParse>(message);
-                        //    StatusMessage = msg.StatusMessage;
-
-
-                        //}
-                        //this.ViewData["topup_messsage"] = StatusMessage;
-                        //this.ViewData["message_class"] = "failed_info";
-                        //return View(topup);
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                        JsonRequestBehavior.AllowGet);
                     }
 
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                    JsonRequestBehavior.AllowGet);
-                }
+                    this.TempData["merchantpay_messsage"] = result
+                                            ? "Payment successfully." + message
+                                            : "ERROR :: " + message;
+                    this.TempData["message_class"] = result ? "success_info" : "failed_info";
+                    return RedirectToAction("MerchantRestaurant", "MerchantPayment");
 
-                this.TempData["merchantpay_messsage"] = result
-                                        ? "Payment successfully." + message
-                                        : "ERROR :: " + message;
-                this.TempData["message_class"] = result ? "success_info" : "failed_info";
-                return RedirectToAction("MerchantRestaurant", "MerchantPayment");
+                }
 
             }
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                            JsonRequestBehavior.AllowGet);
+            }
+
         }
 
 
-
-
-
         #endregion
+
 
         #region School
 
@@ -723,6 +769,7 @@ namespace CustApp.Controllers
         }
 
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> MerchantSchool(MerchantSchool merchantschool)
         {
@@ -738,68 +785,84 @@ namespace CustApp.Controllers
             ViewBag.UserType = this.TempData["userType"];
             ViewBag.Name = name;
 
-            MNBalance availBaln = new MNBalance();
-            DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
-            if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
-            {
-                availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
 
-                ViewBag.AvailBalnAmount = availBaln.amount;
+            string retoken = merchantschool.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
+            {
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
             }
-
-            //For Profile Pic//
-            UserInfo userInfo = new UserInfo();
-            DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
-            DataTable dKYC = DSet.Tables["dtKycDetail"];
-            DataTable dDoc = DSet.Tables["dtKycDoc"];
-            if (dKYC != null && dKYC.Rows.Count > 0)
+            else if (dtableVToken.Rows.Count == 0)
             {
-                userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
-                ViewBag.CustStatus = userInfo.CustStatus;
+                reqToken = "0";
             }
-            if (dDoc != null && dDoc.Rows.Count > 0)
+            if (reqToken == "0")
             {
-                userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
-                ViewBag.PassportImage = userInfo.PassportImage;
-            }
+                ReqTokenUtils.InsertReqToken(retoken);
 
-            ReportUserModel rep = new ReportUserModel();
-            ViewBag.School = rep.GetMerchantListbyCategory("3").Select(x =>
-                              new SelectListItem()
-                              {
-                                  Text = x.MName,
-                                  Value = x.MId
-                              });
+                MNBalance availBaln = new MNBalance();
+                DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
+                if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+                {
+                    availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
 
-            //validation
-            if (merchantschool.TPin.Length != 4)
-            {
-                ModelState.AddModelError("TPin", "T-Pin should be 4 digits long.");
-            }
-            //if (merchantschool.Amount < 10 || merchantschool.Amount > 9999)
-            //{
-            //    ModelState.AddModelError("Amount", "Amount is not valid.");
-            //}
-            //if (merchantcollege.Amount % 10 != 0)
-            //{
-            //    ModelState.AddModelError("Amount", "Amount is not valid.");
-            //}
+                    ViewBag.AvailBalnAmount = availBaln.amount;
+                }
+
+                //For Profile Pic//
+                UserInfo userInfo = new UserInfo();
+                DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
+                DataTable dKYC = DSet.Tables["dtKycDetail"];
+                DataTable dDoc = DSet.Tables["dtKycDoc"];
+                if (dKYC != null && dKYC.Rows.Count > 0)
+                {
+                    userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
+                    ViewBag.CustStatus = userInfo.CustStatus;
+                }
+                if (dDoc != null && dDoc.Rows.Count > 0)
+                {
+                    userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
+                    ViewBag.PassportImage = userInfo.PassportImage;
+                }
+
+                ReportUserModel rep = new ReportUserModel();
+                ViewBag.School = rep.GetMerchantListbyCategory("3").Select(x =>
+                                  new SelectListItem()
+                                  {
+                                      Text = x.MName,
+                                      Value = x.MId
+                                  });
+
+                //validation
+                if (merchantschool.TPin.Length != 4)
+                {
+                    ModelState.AddModelError("TPin", "T-Pin should be 4 digits long.");
+                }
+                //if (merchantschool.Amount < 10 || merchantschool.Amount > 9999)
+                //{
+                //    ModelState.AddModelError("Amount", "Amount is not valid.");
+                //}
+                //if (merchantcollege.Amount % 10 != 0)
+                //{
+                //    ModelState.AddModelError("Amount", "Amount is not valid.");
+                //}
 
 
 
-            //api call here
-            HttpResponseMessage _res = new HttpResponseMessage();
-            TraceIdGenerator _tig = new TraceIdGenerator();
-            var tid = _tig.GenerateTraceID();
+                //api call here
+                HttpResponseMessage _res = new HttpResponseMessage();
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
 
-            string mobile = userName; //mobile is username
-            using (HttpClient client = new HttpClient())
-            {
+                string mobile = userName; //mobile is username
+                using (HttpClient client = new HttpClient())
+                {
 
-                var action = "merchant.svc/payment";
-                var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                var content = new FormUrlEncodedContent(new[]
-               {
+                    var action = "merchant.svc/payment";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                    var content = new FormUrlEncodedContent(new[]
+                   {
                          new KeyValuePair<string, string>("sc",merchantschool.TransactionMedium),
                          new KeyValuePair<string, string>("vid",merchantschool.SchoolName),
                          new KeyValuePair<string, string>("mobile",mobile),
@@ -824,92 +887,102 @@ namespace CustApp.Controllers
                          new KeyValuePair<string,string>("tokenID",Session["TokenID"].ToString())
 
                        });
-                _res = await client.PostAsync(new Uri(uri), content);
+                    _res = await client.PostAsync(new Uri(uri), content);
 
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
 
-                string errorMessage = string.Empty;
+                    string errorMessage = string.Empty;
 
-                int responseCode = 0;
-                string message = string.Empty;
-                string responsetext = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
 
-                bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
 
-                try
-                {
-                    if (_res.IsSuccessStatusCode)
+                    try
                     {
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        if (!string.IsNullOrEmpty(message))
+                        if (_res.IsSuccessStatusCode)
                         {
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-                            var jsonresp = ser.Deserialize<JsonParse>(responsetext);
-                            message = jsonresp.d;
-                            JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            message = _res.Content.ReadAsStringAsync().Result;
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+                                var jsonresp = ser.Deserialize<JsonParse>(responsetext);
+                                message = jsonresp.d;
+                                JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                        }
 
 
-                        return Json(new { responseCode = responseCode, responseText = respmsg },
-                    JsonRequestBehavior.AllowGet);
-                    }
-
-                    else
-                    {
-                        result = false;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        dynamic json = JValue.Parse(responsetext);
-                        message = json.d;
-                        if (message == null)
-                        {
-                            return Json(new { responseCode = responseCode, responseText = responsetext },
+                            return Json(new { responseCode = responseCode, responseText = respmsg },
                         JsonRequestBehavior.AllowGet);
                         }
 
                         else
                         {
-                            dynamic item = JValue.Parse(message);
-                            //start 01
-                            //  message = (string)item["StatusMessage"];
-                            //end 01
-                            return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                            result = false;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            dynamic json = JValue.Parse(responsetext);
+                            message = json.d;
+                            if (message == null)
+                            {
+                                return Json(new { responseCode = responseCode, responseText = responsetext },
                             JsonRequestBehavior.AllowGet);
+                            }
+
+                            else
+                            {
+                                dynamic item = JValue.Parse(message);
+                                //start 01
+                                //  message = (string)item["StatusMessage"];
+                                //end 01
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                                JsonRequestBehavior.AllowGet);
+                            }
+
+
                         }
 
-
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                        JsonRequestBehavior.AllowGet);
                     }
 
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                    JsonRequestBehavior.AllowGet);
-                }
+                    this.TempData["merchantpay_messsage"] = result
+                                            ? "Payment successfully." + message
+                                            : "ERROR :: " + message;
+                    this.TempData["message_class"] = result ? "success_info" : "failed_info";
+                    return RedirectToAction("MerchantSchool", "MerchantPayment");
 
-                this.TempData["merchantpay_messsage"] = result
-                                        ? "Payment successfully." + message
-                                        : "ERROR :: " + message;
-                this.TempData["message_class"] = result ? "success_info" : "failed_info";
-                return RedirectToAction("MerchantSchool", "MerchantPayment");
+                }
 
             }
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                             JsonRequestBehavior.AllowGet);
+            }
         }
+        
+        
         #endregion
+
 
         #region Insurance
 
@@ -997,6 +1070,7 @@ namespace CustApp.Controllers
         }
 
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> MerchantInsurance(MerchantInsurance merchantInsurance)
         {
@@ -1012,68 +1086,84 @@ namespace CustApp.Controllers
             ViewBag.UserType = this.TempData["userType"];
             ViewBag.Name = name;
 
-            MNBalance availBaln = new MNBalance();
-            DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
-            if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
-            {
-                availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
 
-                ViewBag.AvailBalnAmount = availBaln.amount;
+            string retoken = merchantInsurance.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
+            {
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
             }
-
-            //For Profile Pic//
-            UserInfo userInfo = new UserInfo();
-            DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
-            DataTable dKYC = DSet.Tables["dtKycDetail"];
-            DataTable dDoc = DSet.Tables["dtKycDoc"];
-            if (dKYC != null && dKYC.Rows.Count > 0)
+            else if (dtableVToken.Rows.Count == 0)
             {
-                userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
-                ViewBag.CustStatus = userInfo.CustStatus;
+                reqToken = "0";
             }
-            if (dDoc != null && dDoc.Rows.Count > 0)
+            if (reqToken == "0")
             {
-                userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
-                ViewBag.PassportImage = userInfo.PassportImage;
-            }
+                ReqTokenUtils.InsertReqToken(retoken);
 
-            ReportUserModel rep = new ReportUserModel();
-            ViewBag.School = rep.GetMerchantListbyCategory("3").Select(x =>
-                              new SelectListItem()
-                              {
-                                  Text = x.MName,
-                                  Value = x.MId
-                              });
+                MNBalance availBaln = new MNBalance();
+                DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
+                if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+                {
+                    availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
 
-            //validation
-            if (merchantInsurance.TPin.Length != 4)
-            {
-                ModelState.AddModelError("TPin", "T-Pin should be 4 digits long.");
-            }
-            //if (merchantschool.Amount < 10 || merchantschool.Amount > 9999)
-            //{
-            //    ModelState.AddModelError("Amount", "Amount is not valid.");
-            //}
-            //if (merchantcollege.Amount % 10 != 0)
-            //{
-            //    ModelState.AddModelError("Amount", "Amount is not valid.");
-            //}
+                    ViewBag.AvailBalnAmount = availBaln.amount;
+                }
+
+                //For Profile Pic//
+                UserInfo userInfo = new UserInfo();
+                DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
+                DataTable dKYC = DSet.Tables["dtKycDetail"];
+                DataTable dDoc = DSet.Tables["dtKycDoc"];
+                if (dKYC != null && dKYC.Rows.Count > 0)
+                {
+                    userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
+                    ViewBag.CustStatus = userInfo.CustStatus;
+                }
+                if (dDoc != null && dDoc.Rows.Count > 0)
+                {
+                    userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
+                    ViewBag.PassportImage = userInfo.PassportImage;
+                }
+
+                ReportUserModel rep = new ReportUserModel();
+                ViewBag.School = rep.GetMerchantListbyCategory("3").Select(x =>
+                                  new SelectListItem()
+                                  {
+                                      Text = x.MName,
+                                      Value = x.MId
+                                  });
+
+                //validation
+                if (merchantInsurance.TPin.Length != 4)
+                {
+                    ModelState.AddModelError("TPin", "T-Pin should be 4 digits long.");
+                }
+                //if (merchantschool.Amount < 10 || merchantschool.Amount > 9999)
+                //{
+                //    ModelState.AddModelError("Amount", "Amount is not valid.");
+                //}
+                //if (merchantcollege.Amount % 10 != 0)
+                //{
+                //    ModelState.AddModelError("Amount", "Amount is not valid.");
+                //}
 
 
 
-            //api call here
-            HttpResponseMessage _res = new HttpResponseMessage();
-            TraceIdGenerator _tig = new TraceIdGenerator();
-            var tid = _tig.GenerateTraceID();
+                //api call here
+                HttpResponseMessage _res = new HttpResponseMessage();
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
 
-            string mobile = userName; //mobile is username
-            using (HttpClient client = new HttpClient())
-            {
+                string mobile = userName; //mobile is username
+                using (HttpClient client = new HttpClient())
+                {
 
-                var action = "merchant.svc/payment";
-                var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                var content = new FormUrlEncodedContent(new[]
-               {
+                    var action = "merchant.svc/payment";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                    var content = new FormUrlEncodedContent(new[]
+                   {
                          new KeyValuePair<string, string>("sc",merchantInsurance.TransactionMedium),
                          new KeyValuePair<string, string>("vid",merchantInsurance.InsuranceName),
                          new KeyValuePair<string, string>("mobile",mobile),
@@ -1100,91 +1190,101 @@ namespace CustApp.Controllers
                          new KeyValuePair<string,string>("tokenID",Session["TokenID"].ToString())
 
                        });
-                _res = await client.PostAsync(new Uri(uri), content);
+                    _res = await client.PostAsync(new Uri(uri), content);
 
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
 
-                string errorMessage = string.Empty;
+                    string errorMessage = string.Empty;
 
-                int responseCode = 0;
-                string message = string.Empty;
-                string responsetext = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
 
-                bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
 
-                try
-                {
-                    if (_res.IsSuccessStatusCode)
+                    try
                     {
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        if (!string.IsNullOrEmpty(message))
+                        if (_res.IsSuccessStatusCode)
                         {
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-                            var jsonresp = ser.Deserialize<JsonParse>(responsetext);
-                            message = jsonresp.d;
-                            JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            message = _res.Content.ReadAsStringAsync().Result;
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+                                var jsonresp = ser.Deserialize<JsonParse>(responsetext);
+                                message = jsonresp.d;
+                                JsonParse myNames = ser.Deserialize<JsonParse>(jsonresp.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                        }
 
 
-                        return Json(new { responseCode = responseCode, responseText = respmsg },
-                    JsonRequestBehavior.AllowGet);
-                    }
-
-                    else
-                    {
-                        result = false;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        dynamic json = JValue.Parse(responsetext);
-                        message = json.d;
-                        if (message == null)
-                        {
-                            return Json(new { responseCode = responseCode, responseText = responsetext },
+                            return Json(new { responseCode = responseCode, responseText = respmsg },
                         JsonRequestBehavior.AllowGet);
                         }
 
                         else
                         {
-                            dynamic item = JValue.Parse(message);
-                            //start 01
-                            //  message = (string)item["StatusMessage"];
-                            //end 01
-                            return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                            result = false;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            dynamic json = JValue.Parse(responsetext);
+                            message = json.d;
+                            if (message == null)
+                            {
+                                return Json(new { responseCode = responseCode, responseText = responsetext },
                             JsonRequestBehavior.AllowGet);
+                            }
+
+                            else
+                            {
+                                dynamic item = JValue.Parse(message);
+                                //start 01
+                                //  message = (string)item["StatusMessage"];
+                                //end 01
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                                JsonRequestBehavior.AllowGet);
+                            }
+
+
                         }
 
-
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                        JsonRequestBehavior.AllowGet);
                     }
 
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                    JsonRequestBehavior.AllowGet);
-                }
+                    this.TempData["merchantpay_messsage"] = result
+                                            ? "Payment successfully." + message
+                                            : "ERROR :: " + message;
+                    this.TempData["message_class"] = result ? "success_info" : "failed_info";
+                    return RedirectToAction("MerchantSchool", "MerchantPayment");
 
-                this.TempData["merchantpay_messsage"] = result
-                                        ? "Payment successfully." + message
-                                        : "ERROR :: " + message;
-                this.TempData["message_class"] = result ? "success_info" : "failed_info";
-                return RedirectToAction("MerchantSchool", "MerchantPayment");
+                }
 
             }
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                            JsonRequestBehavior.AllowGet);
+            }
+
         }
+        
+
         #endregion
 
     }

@@ -55,5 +55,6 @@ namespace CustApp.Models
         public string billDateFrom { get; set; }
         public string billDateTo { get; set; }
         public string bonus { get; set; }
+        public string TokenUnique { get; set; }
     }
 }

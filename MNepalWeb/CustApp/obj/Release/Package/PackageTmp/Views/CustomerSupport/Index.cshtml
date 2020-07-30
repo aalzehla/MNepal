@@ -25,29 +25,28 @@
                     <section class="instant-transactions">
                         @using (Html.BeginForm("CustomerSupportInsert", "CustomerSupport", FormMethod.Post, new { @id = "registerForm", @class = "form-horizontal", enctype = "multipart/form-data" }))
                         {
-                            @*@using (Html.BeginForm(new { @id = "registerForm", @name = "registerForm", @class = "form-horizontal", enctype = "multipart/form-data" }))
-                                {*@
-                        if (this.ViewData["registration_message"] != null)
-                        {
-                            if (this.ViewData["message_class"].ToString() == "success_info")
-                            {
-                                <div class="alert alert-success">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <h4>Success</h4> @this.ViewData["registration_message"]
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="alert alert-danger">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <h4>Error</h4> @this.ViewData["registration_message"]
-                                </div>
-                            }
-                        }
 
-                        @Html.AntiForgeryToken()
+                            if (this.ViewData["registration_message"] != null)
+                            {
+                                if (this.ViewData["message_class"].ToString() == "success_info")
+                                {
+                                    <div class="alert alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Success</h4> @this.ViewData["registration_message"]
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Error</h4> @this.ViewData["registration_message"]
+                                    </div>
+                                }
+                            }
+
+                            @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)
-                            @*<form id="registerForm">*@
+
                             <div class="form-group">
                                 <label class="control-label">Email </label>
                                 <input type="text" class="form-control" id="Email" name="Email" placeholder="Email" maxlength="50" @*onkeypress="return isNumber(event)"*@ />
@@ -79,7 +78,7 @@
                                             <input type="submit" class="btn btn-blue btn-big col-md-5 " id="btnSubmit" name="txtSubmit" value="Submit" />
                                             <br /><br /><br />
                                         </div>
-                                        @*</form>*@
+
                         }
 
 

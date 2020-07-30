@@ -12,7 +12,6 @@ using System.Globalization;
 using System.IO;
 using System.Web.Helpers;
 using System.Web.SessionState;
-using ThailiMNepalAgent.Utilities;
 
 namespace ThailiMNepalAgent.Controllers
 {

@@ -43,12 +43,63 @@ namespace MNepalProject.Models
             this.Description = fundtransfer.note; //+ fundtransfer.sa + " - " + fundtransfer.da;
             this.RequestChannel = fundtransfer.sourcechannel;
             this.CreatedDate = DateTime.Now;
-			this.billNo = fundtransfer.billNo;
+            this.billNo = fundtransfer.billNo;
             this.studName = fundtransfer.studName;
             this.merchantType = fundtransfer.merchantType;
             this.ReverseStatus = fundtransfer.reverseStatus;
         }
 
+        //added
+        public MNTransactionMaster(MNFundTransfer fundtransfer1, string vid, string description1)
+        {
+            this.TraceId = fundtransfer1.tid.ToString();//.PadLeft(6, '0');
+            this.FeatureCode = fundtransfer1.sc;
+
+            this.SourceMobile = fundtransfer1.mobile;
+
+            //to be changed from business logic
+            this.SourceAccount = fundtransfer1.sa;
+
+            //to be changed from business logic
+            this.DestinationMobile = fundtransfer1.da;
+            this.DestinationAccount = fundtransfer1.da;
+            // this.PIN = fundtransfer.pin;
+            this.Amount = float.Parse(fundtransfer1.amount);
+            this.Description = fundtransfer1.note; //+ fundtransfer.sa + " - " + fundtransfer.da;
+            this.RequestChannel = fundtransfer1.sourcechannel;
+            this.CreatedDate = DateTime.Now;
+            this.billNo = fundtransfer1.billNo;
+            this.studName = fundtransfer1.studName;
+            this.vid = vid;
+            this.description1 = description1;
+        }
+
+         
+
+        public MNTransactionMaster(MNFundTransfer fundtransfer1, string vid, string description1,string ReverseStatus)
+        {
+            this.TraceId = fundtransfer1.tid.ToString();//.PadLeft(6, '0');
+            this.FeatureCode = fundtransfer1.sc;
+
+            this.SourceMobile = fundtransfer1.mobile;
+
+            //to be changed from business logic
+            this.SourceAccount = fundtransfer1.sa;
+
+            //to be changed from business logic
+            this.DestinationMobile = fundtransfer1.da;
+            this.DestinationAccount = fundtransfer1.da;
+            // this.PIN = fundtransfer.pin;
+            this.Amount = float.Parse(fundtransfer1.amount);
+            this.Description = fundtransfer1.note; //+ fundtransfer.sa + " - " + fundtransfer.da;
+            this.RequestChannel = fundtransfer1.sourcechannel;
+            this.CreatedDate = DateTime.Now;
+            this.billNo = fundtransfer1.billNo;
+            this.studName = fundtransfer1.studName;
+            this.vid = vid;
+            this.description1 = description1;
+            this.ReverseStatus = ReverseStatus;
+        }
         public MNTransactionMaster(MNTransactionMaster transactionm)
         {
 
@@ -66,7 +117,7 @@ namespace MNepalProject.Models
             this.DestinationBranchCode = transactionm.DestinationBranchCode;
 
             this.RequestChannel = transactionm.RequestChannel;
-            
+
 
             this.CreatedDate = DateTime.Now;
             this.Amount = transactionm.Amount;
@@ -76,7 +127,7 @@ namespace MNepalProject.Models
             this.FeeId = transactionm.FeeId;
         }
 
-        public MNTransactionMaster(string traceId, string fc, string amobile, string sourceaccount, string sourceBIN,string SourceBranchCode,string RequestChannel,DateTime CreatedDate,float Amount,string Description,int StatusId,int PumoriId,string FeeId )
+        public MNTransactionMaster(string traceId, string fc, string amobile, string sourceaccount, string sourceBIN, string SourceBranchCode, string RequestChannel, DateTime CreatedDate, float Amount, string Description, int StatusId, int PumoriId, string FeeId)
         {
             this.TraceId = traceId.ToString();
             this.FeatureCode = fc;
@@ -86,12 +137,12 @@ namespace MNepalProject.Models
             this.SourceBranchCode = SourceBranchCode;
             this.RequestChannel = RequestChannel;
             this.CreatedDate = CreatedDate;
-            this.Amount =Amount ;
+            this.Amount = Amount;
             this.Description = Description;
             this.StatusId = StatusId;
             this.PumoriId = PumoriId;
             this.FeeId = FeeId;
-            
+
         }
 
         [Key]
@@ -173,12 +224,14 @@ namespace MNepalProject.Models
         public string BranchName { get; set; }
 
         public string createdTimeDate { get; set; }
-		//add for merchant
+        //add for merchant
         public string studName { get; set; }
         public string billNo { get; set; }
         public string merchantType { get; set; }
 
         public string ReverseStatus { get; set; }
+        public string vid { get; set; }
+        public string description1 { get; set; }
 
 
     }

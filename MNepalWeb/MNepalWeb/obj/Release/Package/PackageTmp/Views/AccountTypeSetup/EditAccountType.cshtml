@@ -1,20 +1,18 @@
 ﻿@model MNepalWeb.Models.AcTypeInfo
 
 @{
-    ViewBag.Title = "CreateAccountType";
+    ViewBag.Title = "EditAccountType";
 }
-
-
 <!-- =============================================== -->
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Create Account Type
+        Edit Account Type
         <small>AccountType</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-user"></i>AccountType</a></li>
-        <li class="active"> Create</li>
+        <li class="active">Modify</li>
     </ol>
 </section>
 <!-- Main content -->
@@ -22,35 +20,35 @@
     <!-- Main row -->
     <div class="row">
 
-        @using (Html.BeginForm("CreateAccountType", "AccountTypeSetup", FormMethod.Post, new { @id = "AcTypeForm", @class = "form-horizontal" }))
+
+        @using (Html.BeginForm("EditAccountType", "AccountTypeSetup", FormMethod.Post, new { @id = "AcTypeForm", @class = "form-horizontal" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
-
             if (this.ViewData["actype_message"] != null)
+            {
+                if (this.ViewData["message_class"].ToString() == "success_info")
                 {
-                    if (this.ViewData["message_class"].ToString() == "success_info")
-                    {
-                        <div class="alert alert-success">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <h4>Success</h4> @this.ViewData["actype_message"]
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-danger">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <h4>Error</h4> @this.ViewData["registration_message"]
-                        </div>
-                    }
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Success</h4> @this.ViewData["actype_message"]
+                    </div>
                 }
+                else
+                {
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Error</h4> @this.ViewData["registration_message"]
+                    </div>
+                }
+            }
 
          <!-- Start -->
             <div class="col-xs-10">
 
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Create Account Type</h3>
+                        <h3 class="box-title">Update Account Type</h3>
                     </div>
                     <!-- /.box-header -->
 
@@ -58,10 +56,10 @@
                         <div class="row">
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-4">AcType :<b style="color:red;">*</b></label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="AcType" name="txtAcType" pattern=".{0,3}" required title="Please use Account Type" placeholder="Account Type" />
-                                        <label id="check"> Please use valid AcType </label>
+                                    <label class="control-label col-sm-3">AcType :<b style="color:red;">*</b></label>
+                                    <div class="col-sm-9">
+                                        @*<input type="text" class="form-control" id="AcType" name="txtAcType"  pattern=".{0,3}" required title="Please use Account Type" value="@Model.AcType" readonly = "readonly" />*@
+                                        @Html.EditorFor(model => model.AcType, new { htmlAttributes = new { @class = "form-control", pattern = ".{0,3}", title = "Please use Account Type", @readonly = "readonly" } })
                                     </div>
                                 </div>
                             </div>
@@ -70,9 +68,10 @@
                         <div class="row">
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-4">Account Type Name:<b style="color:red;">*</b></label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="AcTypeName" name="txtAcTypeName" pattern=".{4,14}" required title="Please use Account Type Name" placeholder="Account Type Name" />
+                                    <label class="control-label col-sm-3">Account Type Name:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-9">
+                                        @*<input type="text" class="form-control" id="AcTypeName" name="txtAcTypeName" pattern=".{4,14}" required title="Please use Account Type Name" value="@Model.AcTypeName"  />*@
+                                        @Html.EditorFor(model => model.AcTypeName, new { htmlAttributes = new { @class = "form-control", title = "Please use Account Type Name", @maxlength="30", @readonly = "readonly" } })
                                     </div>
                                 </div>
                             </div>
@@ -81,13 +80,13 @@
                         <div class="row">
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-4">Allow Enquiry:<b style="color:red;">*</b></label>
-                                    <div class="col-sm-8">
-                                        <select class="form-control select2" id="AllowEnquiry" name="txtAllowEnquiry"  required title="Please select one" style="width: 100%;">
-                                            <option value="">Select</option>
-                                            <option value="T">T</option>
-                                            <option value="F">F</option>
-                                        </select>
+                                    <label class="control-label col-sm-3">Allow Enquiry:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-9">
+                                        @*<input type="text" class="form-control" id="AllowEnquiry" name="txtAllowEnquiry" pattern=".{0,4}" placeholder="Allow Enquiry" value="@Model.AllowEnquiry"  />*@
+                                        @Html.DropDownListFor(model => model.AllowEnquiry, new SelectList(new[] {
+                                            new { Value = "T", Text = "T"},
+                                            new { Value="F",Text="F" } },
+                                            "Value", "Text"), new { required = "required", @class = "form-control", title = "Please select one" })
                                     </div>
                                 </div>
                             </div>
@@ -96,13 +95,13 @@
                         <div class="row">
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-4">Allow Transaction:<b style="color:red;">*</b></label>
-                                    <div class="col-sm-8">
-                                        <select class="form-control select2" id="AllowTransaction" name="txtAllowTransaction"  required title="Please select one" style="width: 100%;">
-                                            <option value="">Select</option>
-                                            <option value="T">T</option>
-                                            <option value="F">F</option>
-                                        </select>
+                                    <label class="control-label col-sm-3">Allow Transaction:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-9">
+                                        @*<input type="text" class="form-control" id="AllowTransaction" name="txtAllowTransaction" pattern=".{0,4}" placeholder="Allow Transaction" value="@Model.AllowTransaction"  />*@
+                                        @Html.DropDownListFor(model => model.AllowTransaction, new SelectList(new[] {
+                                            new { Value = "T", Text = "T"},
+                                            new { Value="F",Text="F" } },
+                                            "Value", "Text"), new { required = "required", @class = "form-control", title = "Please select one" })
                                     </div>
                                 </div>
                             </div>
@@ -111,13 +110,13 @@
                         <div class="row">
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-4">Allow Alert:<b style="color:red;">*</b></label>
-                                    <div class="col-sm-8">
-                                        <select class="form-control select2" id="AllowAlert" name="txtAllowAlert"  required title="Please select one" style="width: 100%;">
-                                            <option value="">Select</option>
-                                            <option value="T">T</option>
-                                            <option value="F">F</option>
-                                        </select>
+                                    <label class="control-label col-sm-3">Allow Alert:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-9">
+                                        @*<input type="text" class="form-control" id="AllowAlert" name="txtAllowAlert" pattern=".{0,4}" placeholder="Allow Alert" value="@Model.AllowAlert" />*@
+                                        @Html.DropDownListFor(model => model.AllowAlert, new SelectList(new[] {
+                                            new { Value = "T", Text = "T"},
+                                            new { Value="F",Text="F" } },
+                                            "Value", "Text"), new { required = "required", @class = "form-control", title = "Please select one" })
                                     </div>
                                 </div>
                             </div>
@@ -126,28 +125,35 @@
                         <div class="row">
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-4">Active:<b style="color:red;">*</b></label>
-                                    <div class="col-sm-8">
-                                        <select class="form-control select2" id="Active" name="txtActive"  required title="Please select one" style="width: 100%;">
-                                            <option value="">Select</option>
-                                            <option value="T">T</option>
-                                            <option value="F">F</option>
-                                        </select>
+                                    <label class="control-label col-sm-3">Active:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-9">
+                                        @*<input type="text" class="form-control" id="Active" name="txtActive" pattern=".{0,4}" placeholder="Active" value="@Model.Active"  />*@
+                                        @Html.DropDownListFor(model => model.Active, new SelectList(new[] {
+                                            new { Value = "T", Text = "T"},
+                                            new { Value="F",Text="F" } },
+                                            "Value", "Text"), new { required = "required", @class = "form-control", title = "Please select one" })
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" class="btn btn-primary" name="btnCommand" value="Create" />
+                                <input type="submit" class="btn btn-primary" name="btnCommand" id="btnCommand" value="Submit" />
                             </div>
                         </div>
 
+
+
+
                     </div>
+
 
                 </div>
             </div>
+
         }
 
     </div>
@@ -169,38 +175,6 @@
     <script src="~/Content/dist/js/jquery.validate.js"></script>
     <script type="text/javascript">
 
-
-            $("#AcType").change(function (event) {
-                event.preventDefault();
-                var id = $('#AcType').val();                       
-                $.ajax({
-                    cache: false,
-                    type: "GET",
-                    url: '@Url.Action("GetCheckingAcType", "AccountTypeSetup")',
-                    data: { "AcType": id },
-                    success: function (data, textStatus) {
-                       
-                        //alert(data);
-                        if (data == "True") {
-                            
-                            $("#check").html("");
-                            $("#check").css("color", "green");
-                            $("#check").html("Success").show();
-                        }
-                        else {
-                            $("#check").html("");
-                            $("#check").css("color", "red");
-                            $("#check").html("AcType Already Exists!").show();
-                        }
-                    },
-                    error: function () {
-                        alert("Data Not Found");
-                    }
-                });
-            });
-
-
-        /**Validation Check */
         $('#AcTypeForm').bootstrapValidator({
             feedbackIcons: {
                 valid: 'glyphicon glyphicon-ok',
@@ -208,69 +182,56 @@
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
-                txtAcType: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The AcType is required and cannot be empty'
-                        }
-                    }
-                },
+
                 txtAcTypeName: {
                     validators: {
                         notEmpty: {
                             message: 'The AcTypeName is required and cannot be empty'
                         }
-                
+
                     }
                 },
-                 txtAllowEnquiry: {
+                txtAllowEnquiry: {
                     validators: {
                         notEmpty: {
                             message: 'Please select one'
                         }
 
                     }
-                 }, 
-                 txtAllowTransaction: {
-                     validators: {
-                         notEmpty: {
-                             message: 'Please select one'
-                         }
+                },
+                txtAllowTransaction: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select one'
+                        }
 
-                     }
-                 },
-                 txtAllowAlert: {
-                     validators: {
-                         notEmpty: {
-                             message: 'Please select one'
-                         }
+                    }
+                },
+                txtAllowAlert: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select one'
+                        }
 
-                     }
-                 },
-                 txtActive: {
-                     validators: {
-                         notEmpty: {
-                             message: 'Please select one'
-                         }
+                    }
+                },
+                txtActive: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select one'
+                        }
 
-                     }
-                 }
+                    }
+                }
 
 
-               
+
             }
         });
 
 
 
 
+    </script>
 
-
-
-
-
-   </script>
-   }
-
-<!-- =============================================== -->
-
+}

@@ -10,7 +10,7 @@ namespace MNepalWeb.Models
     {
         private int _FewUpperCaseCharacter = 1,
             _FewDigitAllowed = 1,
-            _MinLength = 8,
+            _MinLength = 5,
             _MaxLength = 12;
         public bool IsValid(string password)
         {

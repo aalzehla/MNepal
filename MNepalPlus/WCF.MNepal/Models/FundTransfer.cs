@@ -7,7 +7,7 @@ namespace WCF.MNepal
 {
     public class FundTransfer
     {
-       // public FundTransfer fundtransfer;
+        // public FundTransfer fundtransfer;
         /*
         public FundTransfer(FundTransfer fundtransfer)
         {
@@ -21,6 +21,7 @@ namespace WCF.MNepal
         public string sa { get; set; }
 
         public string da { get; set; }
+        public string vid { get; set; }
 
         public string amount { get; set; }
 
@@ -30,7 +31,7 @@ namespace WCF.MNepal
 
         public string transactioncode { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// ///////////////////addition for merchant
         /// </summary>
         public string billNo { get; set; }

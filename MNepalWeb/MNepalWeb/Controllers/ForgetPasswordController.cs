@@ -131,11 +131,9 @@ namespace MNepalWeb.Controllers
                 //        return Json(result, JsonRequestBehavior.AllowGet); 
                 //    }
                 //}
-
-                //DataTable dtCheckUserName = RegisterUtils.GetCheckUserName(username);
-                
-            DataTable dtCheckUserName = RegisterUtils.GetCheckAdminUserName(username);
-                if (dtCheckUserName.Rows.Count == 0)
+               
+                    DataTable dtCheckUserName = RegisterUtils.GetCheckAdminUserName(username);
+                    if (dtCheckUserName.Rows.Count == 0)
                     {
                         result = "Not Registered";
                         return Json(result, JsonRequestBehavior.AllowGet);
@@ -240,7 +238,7 @@ namespace MNepalWeb.Controllers
                         PasswordValidator validate = new PasswordValidator();
                         if (!validate.IsValid(password))
                         {
-                            displayMessage = "New Password must be of  8-12 characters long which should include 1 uppercase & 1 number";
+                            displayMessage = "New Password must be of  5-12 characters long which should include 1 uppercase & 1 number";
                             messageClass = CssSetting.FailedMessageClass;
                         }
                         else

@@ -220,8 +220,8 @@
                         </div>
                         <br />
                         <div class="box-footer">
-                            <input type="submit" class="btn btn-blue btn-big col-md-5" name="btnCommand" value="Confirm" id="btnSubmit" />
-                            <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
+                          <input type="submit" class="btn btn-blue btn-big col-md-5" name="btnCommand" value="Confirm" id="btnSubmit" />
+                               <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
                         </div>
 
                     </section>
@@ -390,35 +390,55 @@
         });
 
         $('#btnSubmit').click(function (e) {
+            debugger;
+            $('#btnSubmit').attr("disabled", true);
             e.preventDefault();
 
             var SCNo = $("[name='txtSCNo']").val();
             var CustomerID = $("[name='txtCustomerID']").val();
+         var CustomerID = CustomerID.replace(/^0+(\d)|(\d)$/gm, '$1$2')// for triming zero 
+ 
             var NEABranchName = $("[name='NEA']").val();
+
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
             if ((CustomerID != "") && (SCNo != "") &&(NEABranchName != null)) {
 
                 var dataToPost = {
                     SCNo: SCNo,
                     CustomerID: CustomerID,
-                    NEABranchName: NEABranchName
+                    NEABranchName: NEABranchName,
+                    TokenUnique: token
                 };
-
+                debugger;
                 e.preventDefault(); //prevent the default action
-                $.ajax({
+                $.ajax({ 
                     url: '@Url.Action("NEAPayment", "NEA")',
                     type: "POST",
-                    data: dataToPost,
-                    async: false,
+                    //data: dataToPost,
+                    data: {
+                        __RequestVerificationToken: token,
+                        _NEAft: dataToPost
+                    },
+                    async: false,                    
                     success: function (data) {
 
                         if (data.responseCode == "200") {
+                            debugger;
                             //$("#ajaxResponse").html("");
                             //var resp = JSON.parse(data.responseText);
                             //$('#successModal').modal("show");
+
+                            //var delayInMilliseconds = 30000; //30 second
+
+                            //setTimeout(function () {
+                                
                             var url = '@Url.Action("Details", "NEA")';
                             window.location.href = url;
+                            //}, delayInMilliseconds);
+
                             //$("#SCNo").val("");
-                            //$("#CustomerID").val("");
+                            //$("#CustomerID").val(""); 
 
                         }
                         else {
@@ -431,39 +451,53 @@
                             }
                             else {
                                 $('#failureModal').modal("show");
-                            }
-                        }
+                            }  
+                       }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         alert('Failed to retrieve.');
                         $("#message").html("");
                         $("#message").append(jqXHR.responseText);
                         $('#failureModal').modal("show");
-
-                    },
+                      
+                            },
                     //capture the request before it was sent to server
                     beforeSend: function (jqXHR, settings) {
                         //adding some Dummy data to the request
                         settings.data += "&dummyData=whatever";
                         //disable the button until we get the response
-                        $('#btnSubmit').attr("disabled", true);
-                    },
-                    complete: function (jqXHR, textStatus) {
-                        //enable the button
-                        $('#btnSubmit').attr("disabled", false);
-                    }
+                             },
+                    //complete: function (jqXHR, textStatus) {
+                    //    //enable the button
+                    //    $('#btnSubmit').attr("disabled", false);
+                    //}
+
+                     
+                    complete: function (data) { 
+                        debugger; 
+
+                       
+                        if (data.responseJSON.responseCode != "200") {
+                            $('#btnSubmit').attr("disabled", false); //enable button if responsecode not equal to 200
+                            
+                        }
+
+
+
+                    } 
                 });
 
             }
             else {
                 checkValidation();
+               
                 $("#message").html("");
                 $("#message").append("Please Enter the required fields.");
-                $('#failureModal').modal("show");
-
+                $('#failureModal').modal("show"); 
+                 $('#btnSubmit').attr("disabled", false);
             }
         });
-
+         
     </script>
 
 }

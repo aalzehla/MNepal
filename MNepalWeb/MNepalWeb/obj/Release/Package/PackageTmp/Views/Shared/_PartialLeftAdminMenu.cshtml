@@ -17,13 +17,7 @@
 <!-- ADMIN MENU -->
 <!-- SIDE BAR MENU -->
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#btnclick').click(function() {
-            location.reload();
-        });
-    });     
-</script>
+
 
 <fieldset>
 
@@ -132,21 +126,24 @@
                     <li><a href="~/ProfileSetup/CreateCustomer"><i class="fa fa-user-plus"></i> Create Customer Profile</a></li>
                     <li><a href="~/ProfileSetup/ModifyCustomer"><i class="fa fa-pencil-square-o"></i> Modify Customer Profile</a></li>
                 </ul>
-            </li>
-        <li class="treeview">
+            </li>*@
+        @*<li class="treeview">
             <a href="#">
-                <i class="fa fa-user"></i> <span>User Setup</span>
+                <i class="fa fa-user"></i> <span>UserRoleSetup</span>
                 <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
             <ul class="treeview-menu">
-                <li><a href="~/UserSetup/CreateAdminProfile"><i class="fa fa-user-plus"></i> Create Admin Profile</a></li>
-                <li><a href="~/UserSetup/Index"><i class="fa fa-pencil-square-o"></i> Modify Admin Profile</a></li>
+                <li><a href="~/UserRoleSetup/CreateAdminProfile"><i class="fa fa-user-plus"></i> Create Staff/Admin Role</a></li>
+                <li><a href="~/UserRoleSetup/Index"><i class="fa fa-pencil-square-o"></i> Modify Staff/Admin Role</a></li>
+                <li><a href="~/CustomerSetup/CreateCustomerProfile"><i class="fa fa-user-plus"></i> Create Customer Role</a></li>
+                <li><a href="~/CustomerSetup/ModifyCustomer"><i class="fa fa-pencil-square-o"></i> Modify Customer Role</a></li>
+               
             </ul>
-        </li>
+        </li>*@
 
-        <li class="treeview">
+       @*<li class="treeview">
             <a href="#">
                 <i class="fa fa-user"></i> <span>Customer Setup</span>
                 <span class="pull-right-container">
@@ -184,7 +181,7 @@
                 <li><a href="~/ChangePassword"><i class="fa fa-key text-red"></i> Change Password</a></li>
             </ul>
         </li>
-    </ul> *@
+    </ul>*@ 
 
 
 @*</section>*@

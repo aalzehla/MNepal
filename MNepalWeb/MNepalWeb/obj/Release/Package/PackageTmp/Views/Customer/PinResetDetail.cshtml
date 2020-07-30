@@ -21,11 +21,12 @@
             <table class="table table-condensed">
                 <thead>
                     <tr>
-                        <th>UserName</th>
+                        <th>User Name</th>
                         <th>Name</th>
-                        <th>ContactNumber</th>
-                        <th>Status</th>
-                        <th>IsApproved</th>
+                        <th>Account Number</th>
+                        <th>Created Branch</th>
+                        <th>Created By</th>
+                        <th>Approved By</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -35,11 +36,12 @@
                         <tr>
                             <td> @dr["UserName"] </td>
                             <td> @dr["Name"] </td>
-                            <td> @dr["ContactNumber1"] </td>
-                            <td> @dr["Status"] </td>
-                            <td> <span class="badge bg-green-active"> @dr["IsApproved"] </span> </td>
+                            <td> @dr["BankAccountNumber"] </td>
+                            <td> @dr["UserBranchName"] </td>
+                            <td> @dr["CreatedBy"] </td>
+                            <td> @dr["ApprovedBy"] </td>
                             <td>
-                                <a href="@Url.Action("PinReset","Customer", new { id = @dr["ClientCode"] } )">Update</a>
+                                <a href="@Url.Action("PinReset","Customer", new { id = @dr["ClientCode"] } )">Reset</a>
                             </td>
                         </tr>
                     } <!-- for each end-->

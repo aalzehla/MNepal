@@ -73,7 +73,7 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    <div class="col-md-6">
                         @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                     </div>
@@ -81,17 +81,18 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @maxlength ="30"} })
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    <div class="col-md-6">
                         @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                        <label id="check"> Please use valid Email Address </label>
                     </div>
                 </div>
 
@@ -261,6 +262,29 @@
                             min: 10,
                             message: 'Please Use Your Valid Mobile Number'
                         }
+                    }
+                },
+                EmailAddress: {
+                    validators: {
+                        emailAddress: {
+                            message: 'The email address is not valid.'
+                        },
+                        notEmpty: {
+                            message: 'Email Address is required and cannot be empty'
+                        }
+                    }
+                },
+                Name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Name is required and cannot be empty'
+                        },
+        //
+        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'Your Full name cannot have numbers or symbols'
+                        }
+        //
                     }
                 },
                 BankAccountNumber: {

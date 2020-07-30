@@ -1,0 +1,263 @@
+  .instant-transactions {
+      .top-section {
+          margin: 8px 0 22px;
+
+          .title {
+              float: left;
+              font-size: 1.111rem;
+              font-weight: $font-normal;
+              margin-bottom: 0;
+          }
+
+          .customize {
+              color: $color-text-lite;
+              float: right;
+              font-size: 14px;
+          }
+      }
+
+      .item {
+          &.load-wallet {
+              color: $color-yellow;
+          }
+
+          &.transfer-fund {
+              color: $color-red;
+          }
+
+          &.top-up {
+              color: $color-lite-green;
+          }
+
+          &.recharge {
+              color: $color-pink;
+          }
+
+          &.withdraw {
+              color: $color-lite-blue;
+          }
+
+          &.internet {
+              color: $color-dark-blue;
+          }
+      }
+  }
+
+  .thaili-slider-wrapper {
+      height: 100%;
+      display: flex;
+      align-items: center;
+  }
+
+  /** Thaili slider **/
+  .bx-wrapper {
+    box-shadow: none;
+    border: none;
+    background-color: transparent;
+    margin-bottom: 0;
+
+    .bx-pager {
+        bottom: 18px;
+
+        &.bx-default-pager a {
+            background-color: $color-white;
+            border: 3px solid $color-white;
+            border-radius: 50%;
+            height: 13px;
+            width: 13px;
+
+            &.active, &:hover, &:active {
+                background-color: $color-yellow;
+            }
+        }
+    }
+  }
+
+  /** Section services **/
+  .section-services {
+      .transactions-grid {
+          .item {
+              height: 168px;
+              width: 20%;
+          }
+      }
+
+      .title-wrapper {
+          margin-bottom: 18px;
+
+          .title {
+              font-size: 1.222rem;
+              font-weight: $font-normal;
+              float: left;
+          }
+
+          .show-all {
+              float: right;
+          }
+      }
+
+      &.featured-merchant {
+          .item-inner {
+              background-color: $color-lite-blue;
+              color: $color-white;
+          }
+      }
+
+      &.internet-payment {
+          .item-inner {
+              background-color: $color-green2;
+              color: $color-white;
+          }
+      }
+
+      &.food-hospitality {
+          .item-inner {
+              background-color: $color-yellow2;
+              color: $color-white;
+          }
+      }
+  }
+
+
+/** Download App section **/
+.download-app {
+    margin: 95px 0;
+
+    .app-demo-img {
+        position: absolute;
+        left: 0;
+        top: -95px;
+        z-index: 1;
+    }
+
+    .title {
+        color: $color-dark-blue;
+        font-size: 1.889rem;
+        margin-top: 8px;
+        margin-bottom: 10px;
+    }
+
+    .content-inner {
+        padding: 60px 0 50px;
+
+        p {
+            font-size: 1.222rem;
+        }
+    }
+
+    .download-link {
+        font-size: 0.889rem;
+    }
+}
+
+/** Section Partners **/
+.section-partners {
+    .title {
+        font-size: 1.222rem;
+        margin-bottom: 30px;
+    }
+
+    .partner-list {
+        .item {
+            display: flex;
+            float: left;
+            align-items: center;
+            margin-bottom: 45px;
+            padding: 0 15px;
+            justify-content: center;
+            width: 20%;
+        }
+    }
+}
+
+
+/** Responsive  CSS **/
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 767.98px) {
+    .instant-transactions {
+        margin-bottom: 30px;
+    }
+
+    /** Section services **/
+    .section-services {
+        .title-wrapper {
+            .title {
+                padding-right: 15px;
+            }
+        }
+
+        .transactions-grid {
+            .item {
+                height: 150px;
+                width: 50%;
+            }
+        }
+    }
+
+    /** Downalod app **/
+    .download-app {
+        margin: 50px 0 0;
+
+        .title {
+            font-size: 1.5rem;
+        }
+
+        .app-demo-img {
+            position: static;
+            margin-top: -50px;
+        }
+
+        .content-inner {
+            padding: 30px 0;
+        }
+    }
+
+    /** Section partners **/
+    .section-partners {
+        .partner-list {
+            .item {
+                padding: 0 8px;
+                width: 50%;
+            }
+        }
+    }
+}
+
+@media (max-width: 575.98px) {
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) and (max-width: 767.98px) {  }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .download-app {
+        margin: 0;
+
+        .title {
+            font-size: 1.7rem;
+        }
+
+        .app-demo-img {
+            top: -20px;
+        }
+    }
+
+    /** Section Partners **/
+    .section-partners {
+        .partner-list {
+            .item {
+                width: 25%;
+            }
+        }
+    }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+}

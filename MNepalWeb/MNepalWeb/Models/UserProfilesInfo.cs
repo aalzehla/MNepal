@@ -110,6 +110,8 @@ namespace MNepalWeb.Models
             get;
             set;
         }
+        
+        
         //EDTI start
         public string CanAARegistration
         {

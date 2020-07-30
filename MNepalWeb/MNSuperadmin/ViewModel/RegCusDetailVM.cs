@@ -37,7 +37,7 @@ namespace MNSuperadmin.ViewModel
         public string Status { get; set; }
         public string Approved { get; set; }
 
-
+        public string ApprovedBy { get; set; }
         public string MobileNumber { get; set; }
 
         public string HasKYC { get; set; }

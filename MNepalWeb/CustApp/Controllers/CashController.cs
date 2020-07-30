@@ -260,29 +260,45 @@ namespace CustApp.Controllers
 
 
         // POST: Cash/Out
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> Out(MNFundTransfer _ft)
         {
             try
             {
-                HttpResponseMessage _res = new HttpResponseMessage();
-                //string tid = _ft.tid;
-                string mobile = _ft.mobile; //mobile is username
-                string cashoutsc = "51"; //Cash out SC: 51
-
-                TraceIdGenerator _tig = new TraceIdGenerator();
-                var tid = _tig.GenerateTraceID();
-
-                using (HttpClient client = new HttpClient())
+                string retoken = _ft.TokenUnique;
+                string reqToken = "";
+                DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+                if (dtableVToken != null && dtableVToken.Rows.Count > 0)
                 {
-                    //var uri = "http://27.111.30.126/MNepal.WCF/cash/Out";
-                    //var action = "cash/Out";
-                    //start milayako 03
-                    var action = "cash.svc/CustOut";
-                    //end milayako 03
-                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                    var content = new FormUrlEncodedContent(new[]
-                            {
+                    reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
+                }
+                else if (dtableVToken.Rows.Count == 0)
+                {
+                    reqToken = "0";
+                }
+                if (reqToken == "0")
+                {
+                    ReqTokenUtils.InsertReqToken(retoken);
+
+                    HttpResponseMessage _res = new HttpResponseMessage();
+                    //string tid = _ft.tid;
+                    string mobile = _ft.mobile; //mobile is username
+                    string cashoutsc = "51"; //Cash out SC: 51
+
+                    TraceIdGenerator _tig = new TraceIdGenerator();
+                    var tid = _tig.GenerateTraceID();
+
+                    using (HttpClient client = new HttpClient())
+                    {
+                        //var uri = "http://27.111.30.126/MNepal.WCF/cash/Out";
+                        //var action = "cash/Out";
+                        //start milayako 03
+                        var action = "cash.svc/CustOut";
+                        //end milayako 03
+                        var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                        var content = new FormUrlEncodedContent(new[]
+                                {
                     new KeyValuePair<string, string>("tid", tid),
                     new KeyValuePair<string,string>("sc",cashoutsc),
                     //new KeyValuePair<string, string>("amobile",_ft.da),
@@ -294,54 +310,61 @@ namespace CustApp.Controllers
                     new KeyValuePair<string,string>("tokenID",Session["TokenID"].ToString())
                 });
 
-                    _res = await client.PostAsync(new Uri(uri), content);
+                        _res = await client.PostAsync(new Uri(uri), content);
 
-                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                    _res.ReasonPhrase = responseBody;
+                        string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                        _res.ReasonPhrase = responseBody;
 
-                    string errorMessage = string.Empty;
+                        string errorMessage = string.Empty;
 
-                    int responseCode = 0;
-                    string message = string.Empty;
-                    string responsetext = string.Empty;
+                        int responseCode = 0;
+                        string message = string.Empty;
+                        string responsetext = string.Empty;
 
-                    string ava = string.Empty;
-                    string avatra = string.Empty;
-                    string avamsg = string.Empty;
+                        string ava = string.Empty;
+                        string avatra = string.Empty;
+                        string avamsg = string.Empty;
 
-                    if (_res.IsSuccessStatusCode)
-                    {
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        //message = _res.Content.ReadAsStringAsync().Result;
-                        dynamic json = JValue.Parse(responsetext);
-                        // values require casting
-                        string message1 = json.d;
-                        dynamic item = JValue.Parse(message1);
-                        message = (string)item["StatusMessage"];
-                        responseCode = item["StatusCode"];
+                        if (_res.IsSuccessStatusCode)
+                        {
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            //message = _res.Content.ReadAsStringAsync().Result;
+                            dynamic json = JValue.Parse(responsetext);
+                            // values require casting
+                            string message1 = json.d;
+                            dynamic item = JValue.Parse(message1);
+                            message = (string)item["StatusMessage"];
+                            responseCode = item["StatusCode"];
 
-                        //JavaScriptSerializer ser = new JavaScriptSerializer();
-                        //ResponseMessage myNames = ser.Deserialize<ResponseMessage>((string)item["StatusMessage"]);
-                        //ser.Serialize(myNames);
-                        //ava = myNames.AvailableBalance.ToString();
-                        //avatra = myNames.AmountTransferredBalance.ToString();
-                        //avamsg = myNames.Message.ToString();
+                            //JavaScriptSerializer ser = new JavaScriptSerializer();
+                            //ResponseMessage myNames = ser.Deserialize<ResponseMessage>((string)item["StatusMessage"]);
+                            //ser.Serialize(myNames);
+                            //ava = myNames.AvailableBalance.ToString();
+                            //avatra = myNames.AmountTransferredBalance.ToString();
+                            //avamsg = myNames.Message.ToString();
+                        }
+                        else
+                        {
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+
+                            dynamic json = JValue.Parse(responsetext);
+                            // values require casting
+                            string message1 = json.d;
+                            dynamic item = JValue.Parse(message1);
+                            message = (string)item["StatusMessage"];
+                        }
+
+                        return Json(new { responseCode = responseCode, responseText = message },
+                            JsonRequestBehavior.AllowGet);
                     }
-                    else
-                    {
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
 
-                        dynamic json = JValue.Parse(responsetext);
-                        // values require casting
-                        string message1 = json.d;
-                        dynamic item = JValue.Parse(message1);
-                        message = (string)item["StatusMessage"];
-                    }
-
-                    return Json(new { responseCode = responseCode, responseText = message },
-                        JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                            JsonRequestBehavior.AllowGet);
                 }
             }
             catch

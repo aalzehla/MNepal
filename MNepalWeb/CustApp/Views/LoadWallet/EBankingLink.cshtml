@@ -49,17 +49,15 @@
 
 <body>
 
+    @*@using (Html.BeginForm(null, null, FormMethod.Post, new { @action = "http://202.63.245.70/BankAwayRetail/sgonHttpHandler.aspx?Action.ShoppingMall.Login.Init=Y", @id = "EBankingLink", @class = "form-horizontal", @name = "EBankingLink" }))*@
+    
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @action = "https://www.nibl.com.np/BankAwayRetail/sgonHttpHandler.aspx?Action.ShoppingMall.Login.Init=Y", @id = "EBankingLink", @class = "form-horizontal", @name = "EBankingLink" }))
 
-    @*@using (Html.BeginForm(null, null, FormMethod.Post, new { @action = "https://www.nibl.com.np/BankAwayRetail/sgonHttpHandler.aspx?Action.ShoppingMall.Login.Init=Y", @id = "EBankingLink", @class = "form-horizontal", @name = "EBankingLink" }))*@
-
-
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { @action = "http://202.63.245.70/BankAwayRetail/sgonHttpHandler.aspx?Action.ShoppingMall.Login.Init=Y", @id = "EBankingLink", @class = "form-horizontal", @name = "EBankingLink" }))
-
-    {
+    { 
         <INPUT TYPE=hidden NAME="BankId" VALUE="004">
         <INPUT TYPE=hidden NAME="MD" VALUE="P">
-        <INPUT TYPE=hidden NAME="PID" VALUE="000000000286">
-        @*<INPUT TYPE=hidden NAME="PID" VALUE="000000003161">*@
+        @*<INPUT TYPE=hidden NAME="PID" VALUE="000000000286">*@
+        <INPUT TYPE=hidden NAME="PID" VALUE="000000003161">
         <INPUT TYPE=hidden NAME="CRN" VALUE="NPR">
         <INPUT TYPE=hidden NAME="RU" VALUE="@_ApiEbankingUrl">
         <INPUT TYPE=hidden NAME="CG" VALUE="N">

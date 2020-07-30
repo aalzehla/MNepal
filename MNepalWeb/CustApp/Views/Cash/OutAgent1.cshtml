@@ -33,6 +33,7 @@
 
                 @using (Html.BeginForm("OutAgent1", "Cash", FormMethod.Post, new { @id = "frmCashOutAgent1" }))
                 {
+                    @Html.AntiForgeryToken()
                     <div id="ajaxResponse">
                     </div>
 

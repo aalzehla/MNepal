@@ -152,7 +152,7 @@ namespace CustApp.Models
         public string LName { get; set; }
 
         public string Gender { get; set; }
-
+        
         public List<SelectListItem> Profiles { get; set; }
 
         public List<SelectListItem> BranchCodes { get; set; }

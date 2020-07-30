@@ -169,12 +169,8 @@ namespace WCF.MNepal.UserModels
             }
             return ret;
         }
-
         #endregion
-
-
-
-
+        
         #region response paymentS
         public int ResponsePaypointPaymentInfo(PaypointModel objresPaypointPaymentInfo)
         {
@@ -255,9 +251,7 @@ namespace WCF.MNepal.UserModels
         }
 
         #endregion
-
-
-
+        
         #region response nepal waterpaymentS
         public int ResponsePaypointNepalWaterPaymentInfo(PaypointModel objresPaypointNepalWaterPaymentInfo)
         {
@@ -347,7 +341,7 @@ namespace WCF.MNepal.UserModels
 
         #endregion
 
-        #region response Wlink paymentS
+		#region response Wlink paymentS
         public int ResponsePaypointWlinkPaymentInfo(PaypointModel objresPaypointWlinkPaymentInfo)
         {
             SqlConnection sqlCon = null;
@@ -409,6 +403,9 @@ namespace WCF.MNepal.UserModels
 
         #endregion
 
+        
+        
+        
         #region response Subisu paymentS
         public int ResponsePaypointSubisuPaymentInfo(PaypointModel objresPaypointSubisuPaymentInfo)
         {
@@ -470,7 +467,7 @@ namespace WCF.MNepal.UserModels
         }
 
         #endregion
-
+        
         #region response vianet/simtv/merotv/simtv/websurfer/arrownet/khalti
         public int ResponsePaypointVianetPaymentInfo(PaypointModel objresPaypointVianetPaymentInfo)
         {
@@ -560,7 +557,6 @@ namespace WCF.MNepal.UserModels
                         sqlCmd.Parameters.AddWithValue("@packageAmount", objresPaypointDishHomeOnlinePaymentInfo.amountP);
                         sqlCmd.Parameters.AddWithValue("@bonus", objresPaypointDishHomeOnlinePaymentInfo.Bonus);
                         sqlCmd.Parameters.AddWithValue("@Mode", objresPaypointDishHomeOnlinePaymentInfo.Mode);
-
 
 
                         sqlCmd.Parameters.Add("@RegIDOut", SqlDbType.Char, 500);
@@ -660,7 +656,181 @@ namespace WCF.MNepal.UserModels
 
         #endregion
 
+        
+//START EGTP
+#region nea executepayment response response details ( for eg.account=013.01.002)
+        public int ResponseEPAllPaypointInfo(PaypointModel objresPaypointInfo)
+        {
+            SqlConnection sqlCon = null;
+            int ret;
+            try
+            {
+                using (sqlCon = new SqlConnection(DatabaseConnection.ConnectionString()))
+                {
+                    sqlCon.Open();
+                    using (SqlCommand sqlCmd = new SqlCommand("[s_MNPaypointEPRes]", sqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
 
+                        sqlCmd.Parameters.Add(new SqlParameter("@Result", objresPaypointInfo.ResultResEPAll));
+                        sqlCmd.Parameters.AddWithValue("@ResponseKey", objresPaypointInfo.ResponseKeyResEPAll);
+                        sqlCmd.Parameters.AddWithValue("@ResultMessage", objresPaypointInfo.ResultMessageResEPAll);
+                        sqlCmd.Parameters.AddWithValue("@Account", objresPaypointInfo.AccountResEPAll);
+                        sqlCmd.Parameters.AddWithValue("@Company", objresPaypointInfo.CompanyResEPAll);
+
+                         
+
+                        sqlCmd.Parameters.AddWithValue("@SumAmount", objresPaypointInfo.SumAmountResEPAll);
+                        sqlCmd.Parameters.AddWithValue("@Commission", objresPaypointInfo.CommissionResEPAll);
+                        sqlCmd.Parameters.AddWithValue("@OfficeName", objresPaypointInfo.OfficeNameResEPAll);
+                        sqlCmd.Parameters.AddWithValue("@CustsomerID", objresPaypointInfo.CustsomerIDResEPAll);
+                        sqlCmd.Parameters.AddWithValue("@CustomerName", objresPaypointInfo.CustomerNameResEPAll);
+
+                         
+
+
+                        sqlCmd.Parameters.AddWithValue("@DueBillOf", objresPaypointInfo.DueBillOfResEPAll);
+                        sqlCmd.Parameters.AddWithValue("@BillDate", objresPaypointInfo.BillDateResEPAll);
+                        sqlCmd.Parameters.AddWithValue("@InvoiceAmount", objresPaypointInfo.InvoiceAmountResEPAll);
+                        sqlCmd.Parameters.AddWithValue("@PenaltyStatus", objresPaypointInfo.PenaltyStatusResEPAll);
+                        sqlCmd.Parameters.AddWithValue("@PenaltyAmount", objresPaypointInfo.PenaltyAmountResEPAll);
+
+                        
+                        sqlCmd.Parameters.AddWithValue("@ClientCode", objresPaypointInfo.ClientCode);
+                        sqlCmd.Parameters.AddWithValue("@UserName", objresPaypointInfo.UserName);
+
+                         
+                                            
+
+                                          
+                         
+
+                        //sqlCmd.Parameters.AddWithValue("@ErrorMessage", objreqPaypointInfo.ErrorMessage);
+                        sqlCmd.Parameters.AddWithValue("@Mode", objresPaypointInfo.Mode);
+
+                        sqlCmd.Parameters.Add("@RegIDOut", SqlDbType.Char, 500);
+                        sqlCmd.Parameters["@RegIDOut"].Direction = ParameterDirection.Output;
+
+                        sqlCmd.Parameters.Add("@MsgStr", SqlDbType.VarChar, 500);
+                        sqlCmd.Parameters["@MsgStr"].Direction = ParameterDirection.Output;
+
+                        ret = sqlCmd.ExecuteNonQuery();
+                        if (objresPaypointInfo.Mode.Equals("SCA", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            ret = Convert.ToInt32(sqlCmd.Parameters["@RegIDOut"].Value);
+
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                if (sqlCon != null)
+                {
+                    sqlCon.Close();
+                }
+            }
+            return ret;
+        }
+
+        #endregion
+        #region paypoint nepal water get transactionResponse all
+        public int PaypointGTResInfo(PaypointModel objresPaypointInfo)
+        {
+            SqlConnection sqlCon = null;
+            int ret;
+            try
+            {
+                using (sqlCon = new SqlConnection(DatabaseConnection.ConnectionString()))
+                {
+                    sqlCon.Open();
+                    using (SqlCommand sqlCmd = new SqlCommand("[s_MNPaypointGTRes]", sqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        sqlCmd.Parameters.Add(new SqlParameter("@Result", objresPaypointInfo.ResultResGTPAll));
+                        sqlCmd.Parameters.AddWithValue("@ResponseKey", objresPaypointInfo.ResponseKeyResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@RequestKey", objresPaypointInfo.RequestKeyResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@Stan", objresPaypointInfo.StanResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@RefStan", objresPaypointInfo.RefStanResGTPAll);
+
+                        sqlCmd.Parameters.AddWithValue("@ExternalStan", objresPaypointInfo.ExternalStanResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@CompanyID", objresPaypointInfo.CompanyIDResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@CompanyName", objresPaypointInfo.CompanyNameResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@ServiceCode", objresPaypointInfo.ServiceCodeResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@ServiceName", objresPaypointInfo.ServiceNameResGTPAll);
+
+                        sqlCmd.Parameters.AddWithValue("@Account", objresPaypointInfo.AccountResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@Currency", objresPaypointInfo.CurrencyResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@CurrencyCode", objresPaypointInfo.CurrencyCodeResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@Amount", objresPaypointInfo.AmountResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@CommissionAmount", objresPaypointInfo.CommissionAmountResGTPAll);
+
+                        sqlCmd.Parameters.AddWithValue("@BillNumber", objresPaypointInfo.BillNumberResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@UserLogin", objresPaypointInfo.UserLoginResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@SalesPointType", objresPaypointInfo.SalesPointTypeResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@Status", objresPaypointInfo.StatusResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@RegDate", objresPaypointInfo.RegDateResGTPAll);
+
+
+                        sqlCmd.Parameters.AddWithValue("@PaymentId", objresPaypointInfo.PaymentIdResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@DealerId", objresPaypointInfo.DealerIdResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@DealerName", objresPaypointInfo.DealerNameResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@ResponseCode", objresPaypointInfo.ResponseCodeResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@PaySourceType", objresPaypointInfo.PaySourceTypeResGTPAll);
+
+                        sqlCmd.Parameters.AddWithValue("@City", objresPaypointInfo.CityResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@Address", objresPaypointInfo.AddressResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@CloseDate", objresPaypointInfo.CloseDateResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@Problem", objresPaypointInfo.ProblemResGTPAll);
+                        sqlCmd.Parameters.AddWithValue("@UserName", objresPaypointInfo.UserName);
+
+
+                        sqlCmd.Parameters.AddWithValue("@ClientCode", objresPaypointInfo.ClientCode);
+                         
+
+                        //sqlCmd.Parameters.AddWithValue("@ErrorMessage", objreqPaypointInfo.ErrorMessage);
+                        sqlCmd.Parameters.AddWithValue("@Mode", objresPaypointInfo.Mode);
+
+                        sqlCmd.Parameters.Add("@RegIDOut", SqlDbType.Char, 500);
+                        sqlCmd.Parameters["@RegIDOut"].Direction = ParameterDirection.Output;
+
+                        sqlCmd.Parameters.Add("@MsgStr", SqlDbType.VarChar, 500);
+                        sqlCmd.Parameters["@MsgStr"].Direction = ParameterDirection.Output;
+
+                        ret = sqlCmd.ExecuteNonQuery();
+                        if (objresPaypointInfo.Mode.Equals("SCA", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            ret = Convert.ToInt32(sqlCmd.Parameters["@RegIDOut"].Value);
+
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                if (sqlCon != null)
+                {
+                    sqlCon.Close();
+                }
+            }
+            return ret;
+        }
+
+        #endregion
+//END EGTP
 
 
         #region Response Checkpayment for khanepani invoice
@@ -811,7 +981,7 @@ namespace WCF.MNepal.UserModels
                 {
                     sqlCon.Open();
 
-                    string queryPayment = "SELECT TOP 1 * FROM MNPaypointPayments " +
+                    string queryPayment = "SELECT * FROM MNPaypointPayments " +
                         "WHERE ClientCode = '" + objUserInfo.ClientCode + "' AND UserName = '" + objUserInfo.UserName + "' AND requestId = '" + objUserInfo.refStan + "'";
                     //ClientCode = @ClientCode AND UserName = @UserName AND requestId = @refStan 
 
@@ -1185,7 +1355,7 @@ namespace WCF.MNepal.UserModels
         }
 
         #endregion
-
+        
         #region response paypoint payment (CP,EP,GP)
         public int ResponsePaypointDHPinInfo(PaypointModel objresPaypointInfo)
         {
@@ -1267,6 +1437,11 @@ namespace WCF.MNepal.UserModels
         }
 
         #endregion
+
+
+
+        
+
 
     }
 }

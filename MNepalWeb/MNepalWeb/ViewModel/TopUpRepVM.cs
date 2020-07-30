@@ -31,5 +31,6 @@ namespace MNepalWeb.ViewModel
         public string ServiceType { get; set; }
 
         public string DestMobileNo { get; set; }
+        public string ReferenceNo { get; set; }
     }
 }

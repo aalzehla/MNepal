@@ -1,0 +1,113 @@
+﻿@model MNepalWeb.ViewModel.RemitViewModel
+@{
+    ViewBag.Title = "RemitComplete";
+}
+<section class="content-header">
+    <h1>
+        
+    </h1>
+</section>
+
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <div class="col-md-8">
+
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Successful</h3>
+                </div>
+                <!-- /.box-header -->
+                @if (Model.Method == "TRQ") //token Request
+                {
+                    <div class="box-body ">
+                        <!-- /.form-group -->
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="alert alert-success">
+                                    @Model.Message
+                                </div>
+                                </div>
+                            </div>
+                       
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    Sender
+                                </div>
+                                <div class="col-md-8">
+                                    @Model.Sender
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    Sent Amount
+                                </div>
+                                <div class="col-md-8">
+                                    @Model.TokenAmount
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    Reciever
+                                </div>
+                                <div class="col-md-8">
+                                    @Model.Reciever
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    TokenNumber
+                                </div>
+                                <div class="col-md-8">
+                                    @Model.Token
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <!-- /.form-group -->
+                    </div>
+                }
+                else if (Model.Method == "TRD") //Token Reedem
+                {
+                    <div class="box-body ">
+                        <!-- /.form-group -->
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="alert alert-success">
+                                    @Model.Message
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    Sent Amount
+                                </div>
+                                <div class="col-md-8">
+                                    @Model.TokenAmount
+                                </div>
+                            </div>
+                        </div>
+                      
+                        <br />
+                        <!-- /.form-group -->
+                    </div>
+                }
+
+
+
+            </div>
+        </div>
+
+        <div class="col-md-2"> &nbsp; </div>
+
+    </div>
+    <!-- /.row -->
+</section>

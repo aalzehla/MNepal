@@ -525,10 +525,10 @@ namespace MNepalWeb.Controllers
                 {
                     ModelState.AddModelError("txtFatherName", "Please enter YourFatherName");
                 }
-                if (string.IsNullOrEmpty(collection["txtMotherName"]))
-                {
-                    ModelState.AddModelError("txtMotherName", "Please enter Your MotherName");
-                }
+                //if (string.IsNullOrEmpty(collection["txtMotherName"]))
+                //{
+                //    ModelState.AddModelError("txtMotherName", "Please enter Your MotherName");
+                //}
                 if (string.IsNullOrEmpty(collection["txtGrandFatherName"]))
                 {
                     ModelState.AddModelError("txtGrandFatherName", "Please enter Your GrandFatherName");
@@ -1053,17 +1053,20 @@ namespace MNepalWeb.Controllers
                         regobj.IsRejected = dtableCustomerStatusByMobileNo.Rows[0]["IsRejected"].ToString();
                         regobj.IsApproved = dtableCustomerStatusByMobileNo.Rows[0]["IsApproved"].ToString();
 
-                        string Message = "";
-                        bool isActive = IsActive(regobj, out Message);
-                        if (isActive)
-                        {
-                            CustomerStatus.Add(regobj);
-                            ViewData["dtableCustomerStatus"] = dtableCustomerStatusByMobileNo;
-                        }
-                        else
-                        {
-                            ViewBag.Message = Message;
-                        }
+                        CustomerStatus.Add(regobj);
+                        ViewData["dtableCustomerStatus"] = dtableCustomerStatusByMobileNo;
+
+                        //string Message = "";
+                        //bool isActive = IsActive(regobj, out Message);
+                        //if (isActive)
+                        //{
+                        //    CustomerStatus.Add(regobj);
+                        //    ViewData["dtableCustomerStatus"] = dtableCustomerStatusByMobileNo;
+                        //}
+                        //else
+                        //{
+                        //    ViewBag.Message = Message;
+                        //}
                     }
                 }
                 if ((userInfo.Name != "") && (SearchCol == "Full Name"))
@@ -1815,7 +1818,7 @@ namespace MNepalWeb.Controllers
                             txnfo.AcNumber = collection[String.Format("txtAcNumber{0}", Account)].ToString().Trim();
                             txnfo.Alias = collection[String.Format("txtAllias{0}", Account)].ToString().Trim();
                             txnfo.AcOwner = collection[String.Format("txtAcOwner{0}", Account)].ToString().Trim();
-                            txnfo.AcType = collection[String.Format("txtAcType{0}", Account)].ToString().Trim();
+                            //txnfo.AcType = collection[String.Format("txtAcType{0}", Account)].ToString().Trim();
                             txnfo.TBranchCode = collection[String.Format("txtBranchCode{0}", Account)].ToString().Trim();
                             if (collection.AllKeys.Contains(String.Format("chkPrimary{0}", Account)))
                             {
@@ -2741,14 +2744,15 @@ namespace MNepalWeb.Controllers
                     regobj.SelfRegistered = dtableUserInfo.Rows[0]["SelfRegistered"].ToString();
 
                 }
-                DataSet dsBranch = BranchUtils.GetDataSetPopulateBranchName(bankCode);
-                DataTable bank = dsBranch.Tables[0];
-                var BranchDictnary = bank.AsEnumerable().ToDictionary<DataRow, string, string>(row => row.Field<string>(0),
-                                                                                row => row.Field<string>(1));
-                BranchDictnary.Add("", "");
+                //DataSet dsBranch = ProfileUtils.GetUserProfileInfoDS(clientCodeID);
+                ////DataSet dsBranch = BranchUtils.GetDataSetPopulateBranchName(bankCode);
+                //DataTable bank = dsBranch.Tables[0];
+                //var BranchDictionary = bank.AsEnumerable().ToDictionary<DataRow, string, string>(row => row.Field<string>(0), row => row.Field<string>(1));
+                
+                //BranchDictionary.Add("", "");
 
                 /*Testimg for customer status*/
-                string Message = string.Empty;
+
                 //if (regobj.IsModified == "T")
                 //{
                 //    regobj.Status = "Modified";
@@ -2758,22 +2762,17 @@ namespace MNepalWeb.Controllers
                 //    regobj.Status = "Rejected";
                 //}
 
+                string Message = string.Empty;
+
 
                 if (regobj.Status == "Active" && regobj.IsApproved == "Approve")
                 {
                     Message = "Active";
                 }
-                else if (regobj.Status == "Active" && regobj.IsApproved == "UnApprove")
-                {
-                    if (regobj.IsRejected == "T")
-                    {
-                        Message = "Rejected in :" + BranchDictnary[regobj.UserBranchCode];
-                    }
-                    else
-                    {
-                        Message = "Waiting for approval: " + BranchDictnary[regobj.UserBranchCode];
-                    }
-                }
+                //else if (regobj.Status == "Active" && regobj.IsApproved == "UnApprove" && regobj.IsRejected == "T")
+                //{
+                //        Message = "Waiting for Registration Approval ";
+                //}
                 else if (regobj.Status == "Blocked" && regobj.IsApproved == "Approve")
                 {
                     Message = "Blocked";
@@ -2782,38 +2781,101 @@ namespace MNepalWeb.Controllers
                 {
                     if (regobj.IsRejected == "T")
                     {
-                        Message = "Rejected in :" + BranchDictnary[regobj.ModifyingBranch];
+                        Message = "Modification Rejected";
                     }
                     else
                     {
-                        Message = "Pending approval in :" + BranchDictnary[regobj.ModifyingBranch];
+                        Message = "Pending in Modification  Approval ";
                     }
                 }
-                else if (regobj.Status == "Active" && regobj.IsApproved == "UnApprove" && regobj.IsModified != "T" && regobj.IsRejected == "T")
-                {
-                    Message = "Rejected in :" + BranchDictnary[regobj.UserBranchCode];
-                }
+                //else if (regobj.Status == "Active" && regobj.IsApproved == "UnApprove" && regobj.IsModified != "T" && regobj.IsRejected == "T")
+                //{
+                //    Message = "Rejected in :" + BranchDictionary[regobj.UserBranchCode];
+                //}
                 else if (regobj.Status == "PASR" && regobj.IsApproved == "UnApprove")
                 {
-                    Message = "Customer is pending password reset approval in :" + BranchDictnary[regobj.ModifyingBranch];
+                    Message = "Pending in Password Reset";
                 }
                 else if (regobj.Status == "PINR" && regobj.IsApproved == "UnApprove")
                 {
-                    Message = " Pin reset in progress : " + BranchDictnary[regobj.ModifyingBranch];
+                    Message = " Pin reset in progress ";
                 }
                 else if (regobj.Status == "PPR" && regobj.IsApproved == "UnApprove")
                 {
-                    Message = "Pending PIN/password reset approval in :" + BranchDictnary[regobj.ModifyingBranch];
+                    Message = "Pending PIN/password reset approval";
                 }
                 else if (regobj.Status == "Blocked" && regobj.IsApproved == "Blocked")
                 {
-                    Message = "Customer block in progress: " + BranchDictnary[regobj.ModifyingBranch];
+                    Message = "Customer block in progress: ";
                 }
                 else if (regobj.Status == "Active" && regobj.IsApproved == "Blocked")
                 {
                     //customer unblock in progress: branch_name
-                    Message = "Customer unblock in progress: " + BranchDictnary[regobj.ModifyingBranch];
+                    Message = "Customer unblock in progress: ";
                 }
+
+
+
+
+
+
+
+
+                //if (regobj.Status == "Active" && regobj.IsApproved == "Approve")
+                //{
+                //    Message = "Active";
+                //}
+                //else if (regobj.Status == "Active" && regobj.IsApproved == "UnApprove")
+                //{
+                //    if (regobj.IsRejected == "T")
+                //    {
+                //        Message = "Rejected in :" + BranchDictionary[regobj.UserBranchCode];
+                //    }
+                //    else
+                //    {
+                //        Message = "Waiting for approval: " + BranchDictionary[regobj.BranchCode];
+                //    }
+                //}
+                //else if (regobj.Status == "Blocked" && regobj.IsApproved == "Approve")
+                //{
+                //    Message = "Blocked";
+                //}
+                //else if (regobj.Status == "Active" && regobj.IsApproved == "UnApprove" && regobj.IsModified == "T")
+                //{
+                //    if (regobj.IsRejected == "T")
+                //    {
+                //        Message = "Rejected in :" + BranchDictionary[regobj.ModifyingBranch];
+                //    }
+                //    else
+                //    {
+                //        Message = "Pending approval in :" + BranchDictionary[regobj.ModifyingBranch];
+                //    }
+                //}
+                //else if (regobj.Status == "Active" && regobj.IsApproved == "UnApprove" && regobj.IsModified != "T" && regobj.IsRejected == "T")
+                //{
+                //    Message = "Rejected in :" + BranchDictionary[regobj.UserBranchCode];
+                //}
+                //else if (regobj.Status == "PASR" && regobj.IsApproved == "UnApprove")
+                //{
+                //    Message = "Customer is pending password reset approval in :" + BranchDictionary[regobj.ModifyingBranch];
+                //}
+                //else if (regobj.Status == "PINR" && regobj.IsApproved == "UnApprove")
+                //{
+                //    Message = " Pin reset in progress : " + BranchDictionary[regobj.ModifyingBranch];
+                //}
+                //else if (regobj.Status == "PPR" && regobj.IsApproved == "UnApprove")
+                //{
+                //    Message = "Pending PIN/password reset approval in :" + BranchDictionary[regobj.ModifyingBranch];
+                //}
+                //else if (regobj.Status == "Blocked" && regobj.IsApproved == "Blocked")
+                //{
+                //    Message = "Customer block in progress: " + BranchDictionary[regobj.ModifyingBranch];
+                //}
+                //else if (regobj.Status == "Active" && regobj.IsApproved == "Blocked")
+                //{
+                //    //customer unblock in progress: branch_name
+                //    Message = "Customer unblock in progress: " + BranchDictionary[regobj.ModifyingBranch];
+                //}
 
                 ViewBag.StatusMessage = Message;
 
@@ -5190,6 +5252,8 @@ namespace MNepalWeb.Controllers
             string clientCode = (string)Session["LOGGEDUSER_ID"];
             string name = (string)Session["LOGGEDUSER_NAME"];
             string userType = (string)Session["LOGGED_USERTYPE"];
+            string bankBranch = (string)Session["UserBranch"];
+            string BankCode = (string)Session["BankCode"];
 
             //Check Role link start    
             RoleChecker roleChecker = new RoleChecker();
@@ -5202,7 +5266,7 @@ namespace MNepalWeb.Controllers
             }
 
             TempData["userType"] = userType;
-            if (TempData["userType"] != null&& checkRole)
+            if (TempData["userType"] != null && checkRole)
             {
                 this.ViewData["userType"] = this.TempData["userType"];
                 ViewBag.UserType = this.TempData["userType"];
@@ -5211,10 +5275,11 @@ namespace MNepalWeb.Controllers
                 List<UserInfo> custUnApproveObj = new List<UserInfo>();
                 UserInfo userInfo = new UserInfo();
                 DataTable dtblUnapproveCus = new DataTable();
-                DataTable dtblCus = CustomerUtils.GetModifiedCustomer("user");
+                DataTable dtblCus = CustomerUtils.GetModifiedCustomer("user", BankCode);
                 ViewBag.Value = Value;
                 bool COC = Session["COC"] == null ? false : (bool)Session["COC"];
                 string UserBranchCode = (string)Session["UserBranch"];
+
                 if (Key == "Mobile")
                 {
                     if (!string.IsNullOrEmpty(Value))
@@ -5223,10 +5288,14 @@ namespace MNepalWeb.Controllers
                         if (COC)
                         {
                             row = dtblCus.AsEnumerable().Where(r => r.Field<string>("UserName") == Value);
+                            //row = dtblCus.AsEnumerable().Where(r => r.Field<string>("UserName") == Value).Where(r => r.Field<string>("BankCode") == "0004").Where(r => r.Field<string>("ModifyingBranch") == UserBranchCode);
+                            //row = dtblCus.AsEnumerable().Where(r => r.Field<string>("ModifyingBranch") == UserBranchCode);
+                            //row = dtblCus.AsEnumerable().Where(r => r.Field<string>("UserName") == Value).Where(r => r.Field<string>("ModifyingBranch") == UserBranchCode).Where(r => r.Field<string>("BankCode") == '0004');
+                            //row = dtblCus.AsEnumerable().Where(r => r.Field<string>("UserName") == Value).Where(r => r.Field<string>("ModifyingBranch") == UserBranchCode);
                         }
                         else
                         {
-                            row = dtblCus.AsEnumerable().Where(r => r.Field<string>("UserName") == Value).Where(r => r.Field<string>("ModifyingBranch") == UserBranchCode);
+                            row = dtblCus.AsEnumerable().Where(r => r.Field<string>("ModifyingBranch") == UserBranchCode);                            
                         }
 
                         if (row.Any())
@@ -5239,6 +5308,7 @@ namespace MNepalWeb.Controllers
                     EnumerableRowCollection<DataRow> row;
                     if (!COC)
                     {
+                        //row = dtblCus.AsEnumerable().Where(r => r.Field<string>("ModifyingBranch") == bankCode);
                         row = dtblCus.AsEnumerable().Where(r => r.Field<string>("ModifyingBranch") == UserBranchCode);
                         if (row.Any())
                             dtblUnapproveCus = row.CopyToDataTable();
@@ -7361,7 +7431,9 @@ namespace MNepalWeb.Controllers
                     string VerifiedDate = dtblUnapproveCus.Rows[0]["VerifiedDate"].ToString();
                     if (VerifiedDate == null || VerifiedDate == "")
                     {
-                        userInfo.VerifiedDate = "";
+                        DateTime VerifyDate = new DateTime(2006, 01, 01);
+                        userInfo.VerifiedDate = VerifyDate.ToString("dd/MM/yyyy");
+                        //userInfo.VerifiedDate = "";
                     }
                     else
                     {
@@ -7376,7 +7448,8 @@ namespace MNepalWeb.Controllers
                     ViewBag.DOB = userInfo.DOB;
                     ViewBag.SearchValue = Value;
                     ViewBag.COC = COC; //test
-                    ViewBag.VerifiedBy = userInfo.VerifiedBy; 
+                    ViewBag.VerifiedBy = userInfo.VerifiedBy;
+                    ViewBag.VerifiedDate = userInfo.VerifiedDate;
                     custUnApproveObj.Add(userInfo);
 
 
@@ -7409,6 +7482,7 @@ namespace MNepalWeb.Controllers
             string name = (string)Session["LOGGEDUSER_NAME"];
             string userType = (string)Session["LOGGED_USERTYPE"];
             string bankCode = (string)Session["BankCode"];
+            //string branchCode = (string)Session["UserBranch"];
 
             bool COC = (bool)Session["COC"];
             TempData["COC"] = COC;
@@ -7461,6 +7535,11 @@ namespace MNepalWeb.Controllers
                     ViewBag.DOB = userInfoBankLinkApproval.DOB;
                     ViewBag.COC = COC; //test
                     custUnApproveObj.Add(userInfoBankLinkApproval);
+
+                    DataTable dtableGetUserInfo = ProfileUtils.GetCustomerName(ViewBag.ContactNumber1);
+                    userInfoBankLinkApproval.FName = dtableGetUserInfo.Rows[0]["FName"].ToString();
+                    userInfoBankLinkApproval.MName = dtableGetUserInfo.Rows[0]["MName"].ToString();
+                    userInfoBankLinkApproval.LName = dtableGetUserInfo.Rows[0]["LName"].ToString();
                 }
 
                 //UserInfo userInfoBankLinkApproval = new UserInfo();
@@ -7490,7 +7569,8 @@ namespace MNepalWeb.Controllers
                         //SMS
                         SMSUtils SMS = new SMSUtils();
 
-                        string Message = string.Format("Dear {0},\n Your Bank Link is rejected.\n Thank You -MNepal", userInfoBankLinkApproval.Name.Split()[0]);
+                        //string Message = string.Format("Dear {0},\n Your Bank Link has been rejected. "+userInfoBankLinkApproval.Remarks+".\n Thank You -MNepal", userInfoBankLinkApproval.Name.Split()[0]);
+                        string Message = string.Format("Dear " + userInfoBankLinkApproval.FName + ",\n Your Bank Link has been rejected. " + userInfoBankLinkApproval.Remarks + ". \n Thank You -MNepal");
 
                         SMSLog Log = new SMSLog();
 
@@ -7521,9 +7601,10 @@ namespace MNepalWeb.Controllers
                     userInfoBankLinkApproval.ApprovedBy = userName;
                     ///for date
                     userInfoBankLinkApproval.ApprovedDate = DateTime.Now.ToString("yyyy-MM-dd");
-
+                    
                     String branchCode = accNo.Substring(0, 3);
                     userInfoBankLinkApproval.BranchCode = branchCode;
+                    userInfoBankLinkApproval.UserBranchCode = UserBranchCode;
                     int ret = CustomerUtils.BankLinkApprove(userInfoBankLinkApproval,bankCode);
                     if (ret == 100)
                     {
@@ -7532,7 +7613,8 @@ namespace MNepalWeb.Controllers
                         //SMS
                         SMSUtils SMS = new SMSUtils();
 
-                        string Message = string.Format("Dear {0},\n Your Bank Link is approved. Please logout and re-login your thaili wallet. \n Thank You -MNepal", userInfoBankLinkApproval.Name.Split()[0]);
+                        //string Message = string.Format("Dear {0},\n Your Bank Link is approved. Please logout and re-login your thaili wallet. \n Thank You -MNepal", userInfoBankLinkApproval.Name.Split()[0]);
+                        string Message = string.Format("Dear " + userInfoBankLinkApproval.FName + ",\n Your Bank Link is approved. Please logout and re-login your thaili wallet. \n Thank You -MNepal");
 
                         SMSLog Log = new SMSLog();
 
@@ -7867,7 +7949,7 @@ namespace MNepalWeb.Controllers
                         }
                         //row = dtblCus.AsEnumerable().Where(r => r.Field<string>("MobileNumber") == Value).Where(r => r.Field<string>("UserBranchCode") == UserBranchCode);
                         if (row.Any())
-                            dtblUnapproveCus = row.CopyToDataTable();
+                        dtblUnapproveCus = row.CopyToDataTable();
                     }
 
                 }
@@ -7885,7 +7967,10 @@ namespace MNepalWeb.Controllers
                     {
                         dtblUnapproveCus = dtblCus;
                     }
+
                 }
+
+
 
                 if (dtblUnapproveCus.Rows.Count > 0)
                 {
@@ -7911,18 +7996,19 @@ namespace MNepalWeb.Controllers
                     userInfo.DOB = dob.ToString("dd/MM/yyyy");
 
                     string RequestedDate = dtblUnapproveCus.Rows[0]["ReqDate"].ToString();
-                    DateTime requestedDate = DateTime.Parse(RequestedDate);
-                    userInfo.requestedDate = requestedDate.ToString("dd/MM/yyyy");
+                    //DateTime requestedDate = DateTime.Parse(RequestedDate);
+                    //userInfo.requestedDate = requestedDate.ToString("dd/MM/yyyy");
 
-                    //if (RequestedDate == null || RequestedDate == "")
-                    //{
-                    //    userInfo.requestedDate = "";
-                    //}
-                    //else
-                    //{
-                    //    DateTime requestedDate = DateTime.Parse(RequestedDate);
-                    //    userInfo.requestedDate = requestedDate.ToString("dd/MM/yyyy");
-                    //}
+                    if (RequestedDate == null || RequestedDate == "")
+                    {
+                        DateTime RequestDate = new DateTime(2006, 01, 01);
+                        userInfo.requestedDate = RequestDate.ToString("dd/MM/yyyy");
+                    }
+                    else
+                    {
+                        DateTime requestedDate = DateTime.Parse(RequestedDate);
+                        userInfo.requestedDate = requestedDate.ToString("dd/MM/yyyy");
+                    }
 
                     ViewBag.CustClientCode = userInfo.ClientCode;
                     ViewBag.ContactNumber1 = userInfo.ContactNumber1;
@@ -7989,7 +8075,7 @@ namespace MNepalWeb.Controllers
                 userInfoBankLinkApproval.ClientCode = model.ClientCode;
                 DataTable dtblUnapproveCus = new DataTable();
                 DataTable dtblCus = CustomerUtils.GetVerifyAccNo(userInfoBankLinkApproval);
-
+                
                 bool COC = Session["COC"] == null ? false : (bool)Session["COC"];
                 string UserBranchCode = (string)Session["UserBranch"];
 
@@ -8021,6 +8107,12 @@ namespace MNepalWeb.Controllers
                     ViewBag.DOB = userInfoBankLinkApproval.DOB;
                     //ViewBag.COC = COC; //test
                     custUnApproveObj.Add(userInfoBankLinkApproval);
+
+
+                    DataTable dtableGetUserInfo = ProfileUtils.GetCustomerName(ViewBag.ContactNumber1);
+                    userInfoBankLinkApproval.FName = dtableGetUserInfo.Rows[0]["FName"].ToString();
+                    userInfoBankLinkApproval.MName = dtableGetUserInfo.Rows[0]["MName"].ToString();
+                    userInfoBankLinkApproval.LName = dtableGetUserInfo.Rows[0]["LName"].ToString();
                 }
 
                 //UserInfo userInfoBankLinkApproval = new UserInfo();
@@ -8052,7 +8144,11 @@ namespace MNepalWeb.Controllers
                         //SMS
                         SMSUtils SMS = new SMSUtils();
 
-                        string Message = string.Format("Dear {0},\n Your Bank Link is rejected.\n Thank You -MNepal", userInfoBankLinkApproval.Name.Split()[0]);
+                        //string Message = string.Format("Dear {0},\n Your Bank Link has been rejected. " + userInfoBankLinkApproval.Remarks + ". \n Thank You -MNepal", userInfoBankLinkApproval.Name.Split()[1]);
+
+                        string Message = string.Format("Dear " + userInfoBankLinkApproval.FName + ",\n Your Bank Link has been rejected. " + userInfoBankLinkApproval.Remarks + ". \n Thank You -MNepal");
+
+
 
                         SMSLog Log = new SMSLog();
 

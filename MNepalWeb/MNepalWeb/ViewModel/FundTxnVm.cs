@@ -31,5 +31,7 @@ namespace MNepalWeb.ViewModel
         public string FTType { get; set; }
 
         public string DestMobileNo { get; set; }
+        public string PaymentReferenceNumber { get; set; }
+        public string ReferenceNo { get; set; }
     }
 }

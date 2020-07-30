@@ -69,7 +69,8 @@ namespace CustApp.Models
         public string totalAmount { get; set; }
         public string status { get; set; }
         public string destination { get; set; }
-        
+
+        public string TokenUnique { get; set; }
 
     }
 }

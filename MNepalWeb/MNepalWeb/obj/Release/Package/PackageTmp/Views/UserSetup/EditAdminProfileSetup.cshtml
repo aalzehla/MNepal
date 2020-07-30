@@ -1,6 +1,10 @@
 ﻿
 @{
     ViewBag.Title = "EditAdminProfileSetup";
+    List<SelectListItem> Status = new List<SelectListItem>();
+    Status.Add(new SelectListItem { Text = "Active", Value = "Active" });
+    Status.Add(new SelectListItem { Text = "Inactive", Value = "Inactive" });
+
 }
 
 @model MNepalWeb.Models.UserProfilesInfo
@@ -66,8 +70,8 @@
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ProfileName, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.ProfileName, new { htmlAttributes = new { @class = "form-control", @name = "txtProfileName" } })
+                                    <div class="col-md-6">
+                                        @Html.EditorFor(model => model.ProfileName, new { htmlAttributes = new { @class = "form-control", @name = "txtProfileName", @maxlength = "20" } })
                                         <input type="hidden" value="@Model.ProfileName" id="hidProfile" />
                                         <span id="check"></span>
                                     </div>
@@ -75,8 +79,15 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ProfileDesc, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
+                                    <div class="col-md-6">
                                         @Html.EditorFor(model => model.ProfileDesc, new { htmlAttributes = new { @class = "form-control", @name = "txtProfileDesc" } })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="UserProfileStatus" class="control-label col-md-2">Status</label>
+                                    <div class="col-md-6">
+                                        @Html.DropDownListFor(model => model.UserProfileStatus, new SelectList(Status, "Value", "Text", Model.UserProfileStatus), new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -725,22 +736,22 @@
                                                 <br />
                                                 @if (ViewBag.PComPartnerModify == "JD")
                                                 {
-                                                    <input type="checkbox" class="chkPayee" id="chkComPartnerModify" name="chkComPartnerModify" value="JD" checked="checked" />
+                                                    <input type="checkbox" class="hide" id="chkComPartnerModify" name="chkComPartnerModify" value="JD" checked="checked" />
                                                 }
                                                 else
                                                 {
-                                                    <input type="checkbox" class="chkPayee" id="chkComPartnerModify" name="chkComPartnerModify" value="JD" />
+                                                    <input type="checkbox" class="hide" id="chkComPartnerModify" name="chkComPartnerModify" value="JD" />
                                                 } Commision Partner Modification
-                                                <br />
+                                                <br /> @*chkPayee*@
                                                 @if (ViewBag.PModifyComSlab == "JG")
                                                 {
-                                                    <input type="checkbox" class="chkPayee" id="chkMComSlab" name="chkMComSlab" value="JG" checked="checked" />
+                                                    <input type="checkbox" class="hide" id="chkMComSlab" name="chkMComSlab" value="JG" checked="checked" />
                                                 }
                                                 else
                                                 {
-                                                    <input type="checkbox" class="chkPayee" id="chkMComSlab" name="chkMComSlab" value="JG" />
+                                                    <input type="checkbox" class="hide" id="chkMComSlab" name="chkMComSlab" value="JG" />
                                                 } Modify Commision Slab
-                                            </td>
+                                            </td>  @*chkPayee*@
                                             <td>
                                                 @if (ViewBag.PMerchantModification == "JB")
                                                 {
@@ -762,32 +773,32 @@
                                                 <br />
                                                 @if (ViewBag.PCommissionSlabDetail == "JH")
                                                 {
-                                                    <input type="checkbox" class="chkPayee" id="chkComSlabDetail" name="chkComSlabDetail" value="JH" checked="checked" />
+                                                    <input type="checkbox" class="hide" id="chkComSlabDetail" name="chkComSlabDetail" value="JH" checked="checked" />
                                                 }
                                                 else
                                                 {
-                                                    <input type="checkbox" class="chkPayee" id="chkComSlabDetail" name="chkComSlabDetail" value="JH" />
-                                                } Commission Slab Details
-                                            </td>
+                                                    <input type="checkbox" class="hide" id="chkComSlabDetail" name="chkComSlabDetail" value="JH" />
+                                                } Commission Slab Detail
+                                            </td>@*chkPayee*@
                                             <td>
                                                 @if (ViewBag.PCommisionPartnerRegistration == "JC")
                                                 {
-                                                    <input type="checkbox" class="chkPayee" id="chkComPartRegister" name="chkComPartRegister" value="JC" checked="checked" />
+                                                    <input type="checkbox" class="hide" id="chkComPartRegister" name="chkComPartRegister" value="JC" checked="checked" />
                                                 }
                                                 else
                                                 {
-                                                    <input type="checkbox" class="chkPayee" id="chkComPartRegister" name="chkComPartRegister" value="JC" />
+                                                    <input type="checkbox" class="hide" id="chkComPartRegister" name="chkComPartRegister" value="JC" />
                                                 } Commission Partner Registration
-                                                <br />
+                                                <br />@*chkPayee*@
                                                 @if (ViewBag.PAddComSlab == "JF")
                                                 {
-                                                    <input type="checkbox" class="chkPayee" id="chkAComSlab" name="chkAComSlab" value="JF" checked="checked" />
+                                                    <input type="checkbox" class="hide" id="chkAComSlab" name="chkAComSlab" value="JF" checked="checked" />
                                                 }
                                                 else
                                                 {
-                                                    <input type="checkbox" class="chkPayee" id="chkAComSlab" name="chkAComSlab" value="JF" />
+                                                    <input type="checkbox" class="hide" id="chkAComSlab" name="chkAComSlab" value="JF" />
                                                 } Add Commission Slab
-                                            </td>
+                                            </td>@*chkPayee*@
                                         </tr>
 
                                         <tr>
@@ -882,6 +893,23 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
+            $('#tadmin01 tbody tr td:not(:first-child) input[type="checkbox"]').change(function () {
+                debugger;
+                var id = $(this).closest('tr').find('td:first input[type="checkbox"]').attr('id');
+                if ($('#' + id).is(':checked')) {
+                    if ($(this).closest('tr').find('td:not(:first-child) input[type="checkbox"]').is(':checked')) {
+                        return false;
+                    }
+                    $('#' + id).prop('checked', false);
+                }
+                else {
+                    $('#' + id).prop('checked', true);
+                }
+            });
+
+
+
+
             $("#checkall").change(function() { //"select all" change
                 var status = this.checked; // "select all" checked status
                 $('input:checkbox').each(function() { //iterate all listed checkbox items
@@ -947,9 +975,9 @@
 
         });
     </script>
-    
-    <!-- Load jQuery and the validate plugin -->  
-    <script type = "text/javascript" src = "http://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <!-- Load jQuery and the validate plugin -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
 
@@ -1017,7 +1045,11 @@
                         stringLength: {
                             max: 20,
                             min: 4,
-                            message: 'Please Use Profile Name'
+                            message: 'Profile number must be of 4 to 20 digits'
+                        },
+                        regexp: {
+                            regexp: /^[\w\-\s]+$/,
+                            message:'Only Alphanumeric accepted'
                         }
                     }
                 },
@@ -1030,6 +1062,10 @@
                             max: 30,
                             min: 4,
                             message: 'Please Use the Profile Description'
+                        },
+                        regexp: {
+                            regexp: /^[\w\-\s]+$/,
+                            message: 'Only Alphanumeric accepted'
                         }
                     }
                 }
@@ -1037,4 +1073,4 @@
         });
     </script>
 }
-    <!-- =============================================== -->
+<!-- =============================================== -->

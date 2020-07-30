@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "AgentStatusChange";
+   
+
+}
+
+@model MNSuperadmin.Models.UserInfo
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Agent
+        <small>Deactivation/Reactivation</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Agent</a></li>
+        <li class="active"> Deactivation/Reactivation</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            <!-- Start Data Show in Table -->
+            <div class="box box-primary" id="AgentModify">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Deactivation/Reactivation</h3>
+                </div>
+                <!-- /.box-header -->
+
+                @using (Html.BeginForm("AgentStatusChange", "Agent", FormMethod.Post, new { @id = "AgentStatusChange", @class = "AgentStatusChange", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    if (this.ViewData["agenttmodify_messsage"] != null)
+                    {
+                        if (this.ViewData["message_class"].ToString() == "success_info")
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Success</h4> @this.ViewData["agenttmodify_messsage"]
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Error</h4> @this.ViewData["agenttmodify_messsage"]
+                            </div>
+                        }
+                    }
+                    <div id="validError">
+
+                    </div>
+
+                    <div class="box-body">
+
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label>ClientCode</label>
+                                @Html.EditorFor(model => model.ClientCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>UserName</label>
+                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label>Name</label>
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>Address</label>
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label>Email Address</label>
+                                @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                This customer is currently <b>@Model.Status</b>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label>Action</label>
+                                @Html.DropDownListFor(model => model.Status, new SelectList(new[] {
+                       new { Value = "Active", Text = "UnBlock"},
+                       new { Value="Blocked",Text="Block" } },
+                       "Value", "Text"), new { required = "required", @class = "form-control", @style = "width:380px;" })
+                            </div>
+
+
+                        </div>
+
+
+
+
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label>Remarks</label><b style="color:red">*</b>
+                                <textarea name="BlockRemarks" id="BlockRemarks" maxlength="200" rows="4" cols="50" style="min-
+                                                        height:50px;min-width:200px;max-height:100px;max-width:380px;" class="form-control"></textarea>
+                                <b style="color:red">*</b><b>Note Please fill out remarks </b>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="box-footer">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit">
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+            <!-- End Data Show in Table -->
+
+        </div>
+        <!-- /.col-xs--->
+        <!-- End-->
+        </div>
+        <!-- /.row -->
+    </section>
+
+

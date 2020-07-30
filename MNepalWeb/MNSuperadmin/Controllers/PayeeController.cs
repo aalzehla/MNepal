@@ -1073,7 +1073,7 @@ namespace MNSuperadmin.Controllers
                 /// <summary>
                 /// UNAPPROVE REJECTED LIST OF Merchant
                 /// 
-                userobj = ProfileUtils.GetMerchantRejectedList(IsModified);
+                //userobj = ProfileUtils.GetMerchantRejectedList(IsModified);
                 //DataTable dtableUNApproveReject = ProfileUtils.GetUnApproveRJCustomerProfile();
 
 
@@ -1360,7 +1360,7 @@ namespace MNSuperadmin.Controllers
                 /// <summary>
                 /// UNAPPROVE REJECTED LIST OF Merchant
                 /// 
-                userobj = ProfileUtils.GetMerchantApprovedList(IsModified);
+                //userobj = ProfileUtils.GetMerchantApprovedList(IsModified);
                 //DataTable dtableUNApproveReject = ProfileUtils.GetUnApproveRJCustomerProfile();
 
 
@@ -1404,7 +1404,7 @@ namespace MNSuperadmin.Controllers
                 /// <summary>
                 /// UNAPPROVE REJECTED LIST OF Merchant
                 /// 
-                userobj = ProfileUtils.GetRegisteredMerchantList(IsModified);
+                //userobj = ProfileUtils.GetRegisteredMerchantList(IsModified);
                 //DataTable dtableUNApproveReject = ProfileUtils.GetUnApproveRJCustomerProfile();
 
 

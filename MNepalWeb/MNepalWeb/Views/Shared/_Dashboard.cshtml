@@ -347,7 +347,7 @@
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-                <!-- Sidebar user panel -->
+                c
                 <div class="user-panel">
                     <div class="pull-left image">
                         <img src="~/Images/default_icon.png" class="img-circle" alt="User Image">
@@ -361,14 +361,14 @@
 
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 @*@if (ViewBag.UserType == "agent")
-                    {
-                        Html.Partial("_PartialLeftMenu");
-                    }*@
+                {
+                    Html.Partial("_PartialLeftMenu");
+                }*@
                 @if (ViewData["userType"].ToString() == "superadmin")
                 {
                     Html.RenderPartial("_PartialSuperAdminMenu");
                 }
-                @if (ViewData["userType"].ToString() == "admin")
+                @if (ViewData["userType"].ToString() == "admin") 
                 {
                     Html.RenderPartial("_PartialLeftAdminMenu");
                 }
@@ -385,7 +385,7 @@
                     Html.RenderPartial("_PartialLeftMerchantMenu");
                 }
 
-            </section>
+                </section>
             <!-- /.sidebar -->
         </aside>
 

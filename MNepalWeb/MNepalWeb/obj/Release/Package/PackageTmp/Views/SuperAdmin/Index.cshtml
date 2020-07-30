@@ -62,10 +62,10 @@
                                     @item.Status
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("EditRegistration","SuperAdmin", new {clientCodeID = @item.ClientCode } )"><i class="fa fa-edit"></i></a> @*Edit*@
+                                    <a href="@Url.Action("EditRegistration","SuperAdmin", new {clientCodeID = @item.ClientCode } )"><i class="fa fa-edit" title="Edit"></i></a> @*Edit*@
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("ViewRegistration","SuperAdmin", new {clientCodeID = @item.ClientCode } )"><i class="fa fa-eye"></i></a>
+                                    <a href="@Url.Action("ViewRegistration","SuperAdmin", new {clientCodeID = @item.ClientCode } )"><i class="fa fa-eye" title="View"></i></a>
                                 </td>
                             </tr>
 

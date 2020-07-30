@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "AgentDetails";
+    Layout = null;
+}
+
+<!-- Start Data Show in Table -->
+<div id="AgentDetails" class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Agent Details</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+
+        @if (ViewData["dtableAgentStatus"] == null)
+        {
+            <div class="panel-body"> <b>No Result Found !! </b> </div>
+        }
+        else if (ViewData["dtableAgentStatus"] != null)
+        {
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>UserName</th>
+                        <th>Name</th>
+                        <th>Email Address</th>
+                        @*<th>ContactNumber</th>*@
+                        <th>Status</th>
+                        <th>IsApproved</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (System.Data.DataRow dr in (ViewData["dtableAgentStatus"] as System.Data.DataTable).Rows)
+                {
+                        <tr>
+                            <td> @dr["UserName"] </td>
+                            <td> @dr["Name"] </td>
+                            <td> @dr["EmailAddress"]</td>
+                            @*<td> @dr["ContactNumber1"] </td>*@
+                            <td> @dr["Status"] </td>
+                            <td> <span class="badge bg-green-active"> @dr["IsApproved"] </span> </td>
+                            <td>
+                                <a href="@Url.Action("AgentModify","Agent", new { id = @dr["ClientCode"] } )">Update</a>
+                            </td>
+                        </tr>
+                    } <!-- for each end-->
+                </tbody>
+            </table>
+        }
+
+    </div>
+</div>
+<!-- End Data Show in Table -->
+

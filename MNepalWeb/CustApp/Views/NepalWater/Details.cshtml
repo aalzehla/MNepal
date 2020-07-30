@@ -155,7 +155,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>NepalWater Counter:</label>
+                                    <label>Nepal Water Counter:</label>
                                 </div>
                                 <div class="col-md-6">
                                     <label>@ViewBag.NWBranchName</label>
@@ -190,13 +190,13 @@
                             </div>
 
                             @*<div class="row">
-                                <div class="col-md-6">
-                                    <label>Status:</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label>@ViewBag.status</label>
-                                </div>
-                            </div>*@
+                                    <div class="col-md-6">
+                                        <label>Status:</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>@ViewBag.status</label>
+                                    </div>
+                                </div>*@
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -482,11 +482,14 @@
 
         $('#btnSubmit').click(function (e) {
             e.preventDefault();
-
+  $('#btnSubmit').attr("disabled", true);
             var amount = $("[name='amount']").val();
             var TPin = $("[name='TPin']").val();
             var Remarks = $("[name='Remarks']").val();
             var servicecode = $("[name='TransactionMedium']").val();
+
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
             if ((amount != "") && (Remarks != "") && (TPin != "") && (TPin.length == 4)) {
 
                 var dataToPost = {
@@ -494,13 +497,18 @@
                     amount: amount,
                     Remarks: Remarks,
                     TPin: TPin,
+                    TokenUnique: token
                 };
 
                 e.preventDefault(); //prevent the default action
                 $.ajax({
                     url: '@Url.Action("NWExecutePayment", "NepalWater")',
                     type: "POST",
-                    data: dataToPost,
+                    //data: dataToPost,
+                    data: {
+                        __RequestVerificationToken: token,
+                        NW: dataToPost
+                    },
                     async: false,
                     success: function (data) {
 
@@ -542,10 +550,34 @@
                         //disable the button until we get the response
                         $('#btnSubmit').attr("disabled", true);
                     },
-                    complete: function (jqXHR, textStatus) {
+                    //complete: function (jqXHR, textStatus) {
                         //enable the button
-                        $('#btnSubmit').attr("disabled", false);
+                      //  $('#btnSubmit').attr("disabled", false);
+                   /// }
+                        complete: function (data) {
+                        debugger;
+
+
+
+                        if (data.responseJSON.responseText == "Invalid PIN ") {
+                            $('#btnSubmit').attr("disabled", false);
+                        }
+
+
+                        //for sending to logout if 3 wrong t-pin attempt
+                        if (data.responseJSON.responseText == "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 1 hour") {
+                            $("#failureModal").click(function () {
+                                        debugger;
+                              location.href = '@Url.Action("Index", "LogOut")';
+                            });
+                        }
+
+                          
                     }
+
+
+
+
                 });
 
             }
@@ -554,6 +586,7 @@
                 $("#message").html("");
                 $("#message").append("Please Enter the required fields.");
                 $('#failureModal').modal("show");
+ $('#btnSubmit').attr("disabled", false);
 
             }
         });

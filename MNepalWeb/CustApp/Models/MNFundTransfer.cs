@@ -66,6 +66,7 @@ namespace CustApp.Models
 
         public string bankName { get; set; }
 
+        public string TokenUnique { get; set; }
     }
 }
 

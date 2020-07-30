@@ -62,6 +62,10 @@ namespace WCF.MNepal
             string src = qs["src"];
             string tokenID = qs["tokenID"];
 
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
+
             string result = "";
             string GetMerchantName = "";
 
@@ -105,27 +109,6 @@ namespace WCF.MNepal
                 fundtransfer.note = note + ":" + prod;
             }
 
-            //string remoteIP = GetUserIP();
-            //string externalIP = getIPFromAgent();
-            //string localIP = getInternalLANIpAddress();
-
-            //custsmsInfo = new CustActivityModel()
-            //{
-            //    LocalIP = localIP,
-            //    ExternalIP = externalIP,
-            //    RemoteIP = remoteIP,
-            //};
-
-            //int resultsIP = CustActivityUtils.InsertIPInfo(custsmsInfo);
-            //if (resultsIP > 0)
-            //{
-            //    message = result;
-            //}
-            //else
-            //{
-            //    message = result;
-            //}
-
 
             string totalCount = string.Empty;
             string totalBAmount = string.Empty;
@@ -166,6 +149,27 @@ namespace WCF.MNepal
                     message = jsonDataResult["StatusMessage"].ToString();
                     failedmessage = message;
 
+
+                    //start block msg 3 time pin attempt
+                    if (message == "Invalid PIN ")
+                    {
+                        LoginUtils.SetPINTries(mobile, "BUWP");//add +1 in trypwd
+
+                        if (LoginUtils.GetPINBlockTime(mobile)) //check if blocktime is greater than current time 
+                        {
+                            message = "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 1 hour";
+                            failedmessage = message;
+
+                        }
+
+
+                    }
+                    else
+                    {
+                        LoginUtils.SetPINTries(mobile, "RPT");
+
+                    }
+                    //end block msg 3 time pin attempt
                     if (sc == "30" || sc == "31")
                     {
                         GetMerchantName = "Merchant Wallet Check";
@@ -605,16 +609,18 @@ namespace WCF.MNepal
                                 if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
                                 {
                                     //FOR NCELL
+                                    ////"http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
                                     var content = client.DownloadString(
-                                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
-                                        + "977" + mobile + "&Text=" + messagereply + "");
+                                       SMSNCELL 
+                                       + "977" + mobile + "&Text=" + messagereply + "");
                                 }
                                 else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
                                             || (mobile.Substring(0, 3) == "986"))
                                 {
                                     //FOR NTC
+                                    // "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
                                     var content = client.DownloadString(
-                                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                       SMSNTC
                                         + "977" + mobile + "&Text=" + messagereply + "");
                                 }
 

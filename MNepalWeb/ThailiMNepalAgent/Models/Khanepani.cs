@@ -53,6 +53,8 @@ namespace ThailiMNepalAgent.Models
         public string current_month_discount { get; set; }
         public string current_month_fine { get; set; }
 
+        public string TokenUnique { get; set; }
+
     }
 
 

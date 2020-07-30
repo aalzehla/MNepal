@@ -44,10 +44,5 @@ namespace WCF.MNepal.Models
 
     }
 
-    public class JsonParse
-    {
-        public string d { get; set; }
-    }
-
 
 }

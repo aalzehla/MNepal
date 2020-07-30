@@ -70,6 +70,8 @@ namespace ThailiMNepalAgent.Models
 
         public string status { get; set; }
         public string bankName { get; set; }
+
+        public string TokenUnique { get; set; }
     }
 }
 

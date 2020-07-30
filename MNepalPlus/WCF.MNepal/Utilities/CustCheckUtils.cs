@@ -133,6 +133,28 @@ namespace WCF.MNepal.Utilities
 
         #endregion
 
+        #region GetEBankingResponseInfoFromPRN
+        public static DataTable GetEBankingResponse(string PRN)
+        {
+            var objModel = new CustCheckerUserModel();
+            string mode = "GERP";
+
+            return objModel.GetEBankingResponse(mode, PRN);
+        }
+
+        #endregion
+
+        #region InsertRetrievalReference
+        public static int InsertRetrievalReference(SoapTransaction soapTransaction, string retRef)
+        {
+            var objModel = new CustCheckerUserModel();
+
+            return objModel.InsertRetrievalReference(soapTransaction, retRef);
+        }
+
+        #endregion
+
+
         #region Agent Checker
         public static DataTable GetAgentInfo(string cmobile)
         {
@@ -193,11 +215,12 @@ namespace WCF.MNepal.Utilities
             try
             {
                 DataTable dataTable = GetCustInfo(MobileNumber);
-                name = dataTable.Rows[0]["Name"].ToString();
-                if (name.Contains(" "))
-                {
-                    name = name.Substring(0, name.IndexOf(" "));
-                }
+                //name = dataTable.Rows[0]["Name"].ToString();
+                name = dataTable.Rows[0]["FName"].ToString();// for FULL FIRST NAME
+                //if (name.Contains(" "))
+                //{
+                //    name = name.Substring(0, name.IndexOf(" "));
+                //}
                 if (name == "" || name == null)
                 {
                     name = "Customer";

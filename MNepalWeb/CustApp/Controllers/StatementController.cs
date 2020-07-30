@@ -419,6 +419,7 @@ namespace CustApp.Controllers
 
         #region Customer Detail Report
         // GET: Report
+        [HttpGet]
         public ActionResult CusReportNew()
         {
             string userName = (string)Session["LOGGED_USERNAME"];
@@ -509,8 +510,10 @@ namespace CustApp.Controllers
                 return RedirectToAction("Index", "Login");
             }
         }
-        public ContentResult CusReportTableNew(DataTableAjaxPostModel model, string UserName, string StartDate, string EndDate, string change, string ToExcel)
+        public ContentResult CusReportTableNew(DataTableAjaxPostModel model, string StartDate, string EndDate, string change, string ToExcel)
         {
+            string UserName = (string)Session["LOGGED_USERNAME"];
+
             if (!Request.IsAjaxRequest())
             {
                 Response.Write("Invalid Execution");
@@ -551,8 +554,8 @@ namespace CustApp.Controllers
                 return Content(convert, "application/json");
             }
 
-
-            ac.UserName = UserName;
+           
+            ac.UserName = UserName;        
             ac.StartDate = DateTime.ParseExact(StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
                                                     .ToString("yyyy-MM-dd", CultureInfo.InvariantCulture); ;
             ac.EndDate = DateTime.ParseExact(EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
@@ -621,8 +624,10 @@ namespace CustApp.Controllers
 
         #region Customer Detail Report bank account
         // GET: Report
-        public ContentResult CusReportTableNewBnkAcc(DataTableAjaxPostModel model, string UserName, string StartDate, string EndDate, string change, string ToExcel)
+        public ContentResult CusReportTableNewBnkAcc(DataTableAjaxPostModel model, string StartDate, string EndDate, string change, string ToExcel)
         {
+            string UserName = (string)Session["LOGGED_USERNAME"];
+
             decimal bankbal;
             if (Session["bankbal"] == null)
             {

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Web;
 
-namespace MerchantApp.Helper
+namespace ThailiMerchantApp.Helper
 {
     public class GetMacAddressFromIPAddress
     {

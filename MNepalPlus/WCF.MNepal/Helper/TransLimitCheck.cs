@@ -135,7 +135,7 @@ namespace WCF.MNepal.Helper
                             HasBankKYC = Convert.ToString(dtCheckBankKYC.Rows[0]["HasBankKYC"].ToString() == "" ? "0" : dtCheckBankKYC.Rows[0]["HasBankKYC"].ToString());
                         }
                         //Without KYC N WithOut Bank Link
-                        if ((hasKYC == "F") || (hasKYC == "P") && (HasBankKYC == "F") || (HasBankKYC == "P"))
+                        if ((hasKYC == "F") || ((hasKYC == "P") && (HasBankKYC == "F")) || ((hasKYC == "P") && (HasBankKYC == "P")) )
                         {
                             /*WithOut KYC W2W Only */
                             /// 00 - Wallet To Wallet
@@ -270,7 +270,7 @@ namespace WCF.MNepal.Helper
                             ////END CHECK LIMIT WALLET
                         }
                         //With KYC N WithOut Bank Link
-                        else if ((hasKYC == "T") && (HasBankKYC == "F") || (HasBankKYC == "P"))
+                        else if ((hasKYC == "T") && ((HasBankKYC == "F") || (HasBankKYC == "P")))
                         {
                             /*With KYC W2W N W2B*/
                             /// 00 - Wallet To Wallet

@@ -14,10 +14,11 @@ namespace CustApp.Models
         public string front { get; set; }
         public string back { get; set; }
         public Exception Exception { get; set; }
-        public string timeStamp { get; set; }
-        public string customer_nameKI { get; set; }
 
+        public string customer_nameKI { get; set; }
+        public string timeStamp { get; set; }
 
     }
+
 
 }

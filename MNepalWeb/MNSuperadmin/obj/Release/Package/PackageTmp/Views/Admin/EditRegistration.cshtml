@@ -1,0 +1,384 @@
+﻿@model MNSuperadmin.Models.UserInfo
+
+@{
+    ViewBag.Title = "EditRegistration";
+    List<SelectListItem> Status = new List<SelectListItem>();
+    Status.Add(new SelectListItem { Text = "Active", Value = "Active" });
+    Status.Add(new SelectListItem { Text = "Inactive", Value = "Inactive" });
+
+
+
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Admin
+        @*<small>Update Registration</small>*@
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Admin</a></li>
+        <li class="active">Modify</li>
+        <li class="active">Update Registration</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start Form -->
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Update Registration</h3>
+                </div>
+                <!-- /.box-header -->
+
+                @using (Html.BeginForm("EditRegistration", "Admin", FormMethod.Post, new { @id = "EditAdminForm", @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    if (this.TempData["editregister_messsage"] != null)
+                    {
+                        if (this.TempData["message_class"].ToString() == "success_info")
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Success</h4> @this.TempData["editregister_messsage"]
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Error</h4> @this.TempData["registration_message"]
+                            </div>
+                        }
+                    }
+                    <div class="box-body">
+                      
+                        <div class="form-horizontal">
+                            @if (Model.IsRejected == "T")
+                            {
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Remarks</label>
+                                            <div class="col-md-5">
+                                                <textarea name="Remarks" maxlength="200" rows="4" cols="50" style="min-height:50px;min-width:200px;max-height:100px;max-width:380px; border:1px solid blue" class="form-control" readonly>@Model.Remarks</textarea>
+                                            </div>
+                                        </div>
+                            }
+                            <div class="form-group" style="display:none;">
+                                @Html.LabelFor(model => model.ClientCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-5">
+                                    @Html.EditorFor(model => model.ClientCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.ClientCode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                @Html.LabelFor(model => model.UserType, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-5">
+                                    @Html.EditorFor(model => model.UserType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-5">
+                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Name <b style="color:red;">*</b></label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" id="Name" name="Name" placeholder="Name" maxlength="40" value="@Model.Name" required />
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Email Address<b style="color:red;">*</b>
+                                </label>
+                                <div class="col-md-5">
+                                    <input type="email" class="form-control" id="EmailAddress" name="EmailAddress" required placeholder="Please use Email address" value="@Model.EmailAddress" />
+                                    @*<label id="check"> Please use Email Address </label>*@
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Status:<b style="color:red;">*</b></label>
+                                <div class="col-md-5">
+
+                                    @Html.DropDownListFor(model => model.Status, new SelectList(Status, "Value", "Text", Model.Status), new { @class = "form-control", @required = "required" })
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Branch Name:<b style="color:red;">*</b></label>
+                                <div class="col-md-5">
+
+                                    @Html.DropDownListFor(x => x.BranchCode, new SelectList(ViewBag.BranchName, "Value", "Text"), "Select Branch", new
+                {
+                  @class = "form-control select2",
+                  @id = "branchName",
+                  @required = "required"
+              })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Role <b style="color:red;">*</b>
+                                </label>
+                                <div class="col-md-5">
+                                    @Html.DropDownListFor(x => x.ProfileName, new SelectList(ViewBag.AdminProfile, "Value", "Text"), "Choose  Profile Name", new
+                      {
+                          @class = "form-control select2",
+                          @id = "profileName",
+                          @required = "required"
+
+                      })
+                                    <br />
+                                    <input type="checkbox" id="COC" name="COC" value="T" @(Model.COC.ToString() == "T" ? "Checked" : string.Empty) /> <span>Centralized Operation Contol</span>
+
+                                </div>
+                                <div class="col-sm-2" style="display:none;">
+                                    <a href="#">Profile Details</a>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+                            @*<div class="form-group">
+
+                                    <div class="col-md-offset-1 col-md-5">
+                                        <input type="checkbox" id="COC" name="COC" value="T" />Centralized Operation Contol
+                                        <label class="control-label col-md-2" for="COC"></label>
+                                    </div>
+                                </div>*@
+
+
+
+
+
+
+                            @*<------------------------------------------------------------------------------------------------------></----------------------------------------------------------------------------------------------->*@
+                            <div class="form-group" style="display:none;">
+                                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                @Html.LabelFor(model => model.PIN, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.PIN, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.PIN, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group" style="display:none;">
+                                @Html.LabelFor(model => model.ContactNumber1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.ContactNumber1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.ContactNumber1, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                @Html.LabelFor(model => model.ContactNumber2, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.ContactNumber2, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.ContactNumber2, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                @Html.LabelFor(model => model.WalletNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.WalletNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.WalletNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            @*<div class="form-group" style="display:none;">
+                                    @Html.LabelFor(model => model.BranchCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.BranchCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.BranchCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
+
+                            <div class="form-group" style="display:none;">
+                                @Html.LabelFor(model => model.BankNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.BankNo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.BankNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                @Html.LabelFor(model => model.BankAccountNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.BankAccountNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.BankAccountNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                @Html.LabelFor(model => model.IsApproved, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+
+                                    @if (Model.IsApproved == "Approve")
+                                    {
+                                        <div class="radio radio-primary">
+                                            <label>
+                                                <input type="radio" name="IsApproved" id="IsApproved" value="Approve" class="btn btn-success" checked /> @Model.IsApproved
+                                            </label>&nbsp;
+                                            <label>
+                                                <input type="radio" name="IsApproved" id="IsApproved1" autocomplete="off" value="UnApprove" class="btn btn-default" /> UnApprove
+                                            </label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="radio radio-primary">
+                                            <label>
+                                                <input type="radio" name="IsApproved" id="IsApproved" value="Approve" class="btn btn-success" />
+                                                Approve
+                                            </label>&nbsp;
+                                            <label>
+                                                <input type="radio" name="IsApproved" id="IsApproved1" autocomplete="off" value="UnApprove" class="btn btn-default" checked />
+                                                UnApprove
+                                            </label>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                @Html.LabelFor(model => model.IsRejected, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.IsRejected, new SelectList(new[] {
+                       new { Value = "T", Text = "T"},
+                       new { Value="F",Text="F" } },
+        "Value", "Text"), "--Select --", new { required = "required", @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IsRejected, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+        <!-- /. box-body-->
+
+                    <div class="box-footer">
+                        <div class="form-group col-md-10">
+                            <input type="submit" class="btn btn-primary pull-right" id="btnCommand" name="btnCommand" value="Submit" />
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <!--End Form -->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+@section scripts {
+
+    <!-- Load jQuery and the validate plugin -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+    <!-- jQuery Form Validation code -->
+
+    <script type="text/javascript">
+        /**Validation Check */
+        $('#EditAdminForm').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                ContactNumber2: {
+                    validators: {
+                        integer: {
+                            message: 'The value is not an integer'
+                        },
+                        notEmpty: {
+                            message: 'The UserName is required and cannot be empty'
+                        },
+                        stringLength: {
+                            max: 10,
+                            min: 10,
+                            message: 'Please Use Your Valid Mobile Number'
+                        }
+                    }
+                },
+
+                Name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Full Name is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'Your Full name cannot have numbers or symbols'
+                        }
+                    }
+                },
+                EmailAddress: {
+                    validators: {
+                        regexp: {
+                            regexp: /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+                            message: 'Email Address is not valid'
+                        },
+                        notEmpty: {
+                            message: 'The Email is required and cannot be empty'
+                        }
+                    }
+                },
+                BankAccountNumber: {
+                    validators: {
+                        stringLength: {
+                            max: 14,
+                            min: 14,
+                            message: 'The BankAccountNumber must be 14 digit numeric'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}

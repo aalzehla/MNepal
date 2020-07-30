@@ -19,13 +19,15 @@
 
     @*///start milayako*@
     <!-- /Google font -->
-    <link href="https://fonts.googleapis.com/css?family=Chivo:300,400,700" rel="stylesheet">
+    @*<link href="https://fonts.googleapis.com/css?family=Chivo:300,400,700" rel="stylesheet">*@
     <!-- Custom style -->
     <link href="~/Content/ThaliStyle.css" rel="stylesheet" />
-    <link rel="icon" type="image/ico" href="~/favicon.ico">
+    @*<link rel="icon" type="image/ico" href="~/favicon.ico">*@
     @*//end milayako*@
 
-    <script src="~/Content/assets/js/jquery.js"></script>
+    @*<script src="~/Content/assets/js/jquery.js"></script>*@
+    <script src="~/Content/assets/js/jquery-3.5.0.js"></script>
+
     <script type="text/javascript" src="~/Content/assets/vendor/bootstrap/js/popper.min.js"></script>
     <script type="text/javascript" src="~/Content/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
     <!-- Bootstrap select -->
@@ -106,14 +108,20 @@
                                     <div id="verifyCode" style="color:red;"></div>
 
                                     <div class="button-wrapper">
-                                        <button type="submit" class="btn btn-blue" onclick="checkValidation()" id="btnSubmit">Verify</button>
+                                        <button type="submit" class="btn btn-blue" onclick="checkValidation()" id="btnSubmit" disabled>Verify</button>
 
                                     </div>
                                 </form>
 
                         <span class="info">Enter the code received via SMS</span>
-                        <div style="margin-top:5px;"> 
-                            <span class="account-info">Did not get your code? <a href="~/Signup/ResendCode">Resend Code</a></span>
+                        <div style="margin-top:5px;">
+                            @*<span class="account-info">Did not get your code? <a href="~/Signup/ResendCode">Resend Code</a></span>*@
+                            <span class="account-info">
+                                Did not get your code?
+                                <a style="color:#002d6a;" id="btnResendCodeNotImp">Resend Code</a>
+                                <a href="~/Signup/ResendCode" id="btnResendCode">Resend Code</a>
+                            </span>
+                            <h4 id="StopWatch" style="color:#002d6a;"><time>00:00:00</time></h4>
                         </div>
 
                     }
@@ -295,6 +303,49 @@
 
     <!-- jQuery Form Validation code -->
     <script type="text/javascript">
+          $("#btnResendCode").hide(0);
+
+        //for  showing stop watch
+
+
+        var h4 = document.getElementsByTagName('h4')[0],
+            seconds = 0, minutes = 0, hours = 0,
+            t;
+
+        function add() {
+            seconds++;
+            if (seconds >= 60) {
+                seconds = 0;
+                minutes++;
+                if (minutes >= 60) {
+                    minutes = 0;
+                    hours++;
+                }
+            }
+
+            h4.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+
+            timer();
+        }
+        function timer() {
+            t = setTimeout(add, 1000);
+        }
+        timer();
+
+
+
+
+
+
+
+        //for delay 2 min for verify button
+        setTimeout(function () {
+            document.getElementById("btnSubmit").disabled = false;
+            $("#btnResendCode").show(1);
+            $("#btnResendCodeNotImp").hide(1);
+            $("#StopWatch").hide(0);
+            // }, 10000);
+        }, 120000);
         function isNumber(evt) {
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;

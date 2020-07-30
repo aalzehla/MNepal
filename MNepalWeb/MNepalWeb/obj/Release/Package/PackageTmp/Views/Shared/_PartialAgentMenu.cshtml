@@ -3,15 +3,15 @@
 <ul class="sidebar-menu" data-widget="tree">
     <li class="header">MAIN NAVIGATION</li>
     <li class="active treeview menu-open">
-        <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            <span class="pull-right-container">
+        <a href="~/AgentDashboard">
+            @*<i class="fa fa-dashboard"></i>*@ <span>Dashboard</span>
+            @*<span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
-            </span>
+            </span>*@
         </a>
-        <ul class="treeview-menu">
+        @*<ul class="treeview-menu">
             <li><a href="~/AgentDashboard"><i class="fa fa-circle-o"></i> Dashboard</a></li>
-        </ul>
+        </ul>*@
     </li>
     <li class="treeview">
         <a href="#">
@@ -28,7 +28,7 @@
     <li class="treeview">
         <a href="#">
             <i class="fa fa-exchange"></i>
-            <span>Fund Transfer</span>
+            <span>Payment</span>
             <span class="pull-right-container">
                 <span class="label label-primary pull-right">@*3*@</span>
             </span>
@@ -36,8 +36,12 @@
         <ul class="treeview-menu">
             <li><a href="~/FundTransfer"><i class="fa fa-exchange"></i> Fund Transfer</a></li>
             <li><a href="~/Cash/In"><i class="fa fa-circle-o"></i> Cash In</a></li>
+            <li><a href="~/Cash/Out"><i class="fa fa-circle-o"></i> Cash Out</a></li>
             <li><a href="~/Remit/RequestToken"><i class="fa fa-circle-o"></i> Request Token</a></li>
             <li><a href="~/Remit/TokenRedeem"><i class="fa fa-circle-o"></i> Token Redeem</a></li>
+            <li><a href="~/UtilityPay/TopUp"><i class="fa fa-circle-o"></i> TopUp</a></li>
+            <li><a href="~/UtilityPay/Recharge"><i class="fa fa-circle-o"></i> Recharge Card</a></li>
+            <li><a href="~/MerchantPayment/MerchantIndex"><i class="fa fa-circle-o"></i> Merchant Payment</a></li>
         </ul>
     </li>
     <li class="treeview">
@@ -81,7 +85,7 @@
             <li><a href="~/ProfileSetup/ModifyCustomer"><i class="fa fa-pencil-square-o"></i> Modify Customer Profile</a></li>
         </ul>
     </li>*@
-    <li class="treeview">
+    <li class="treeview" style="display:none;">
         <a href="#">
             <i class="fa fa-money"></i> <span>Payee</span>
             <span class="pull-right-container">
@@ -95,7 +99,7 @@
     <li class="header">SETTINGS</li>
     <li class="treeview">
         <a href="#">
-            <i class="fa fa-gears"></i> <span>Setting</span>
+            <i class="fa fa-gears"></i> <span>Settings</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
             </span>

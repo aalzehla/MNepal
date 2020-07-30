@@ -33,6 +33,10 @@ namespace WCF.MNepal
             string deviceId = qs["deviceID"];
             string src = qs["src"];
 
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
+
             ReplyMessage replyMessage = new ReplyMessage();
             string result = "";
             string code = string.Empty;
@@ -66,15 +70,19 @@ namespace WCF.MNepal
                         if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
                         {
                             //FOR NCELL
-                            var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
-                            + "977" + mobile + "&Text=" + messagereply + "");
+                            //var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
+                            //+ "977" + mobile + "&Text=" + messagereply + "");
+                            var contents = client.DownloadString(
+                                SMSNCELL + "977" + mobile + "&Text=" + messagereply + "");
                         }
                         else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
                             || (mobile.Substring(0, 3) == "986"))
                         {
                             //FOR NTC
-                            var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
-                                + "977" + mobile + "&Text=" + messagereply + "");
+                            //var contents = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Parts=1&Password=mnepal120&From=37878&To="
+                            //    + "977" + mobile + "&Text=" + messagereply + "");
+                            var contents = client.DownloadString(
+                                SMSNTC + "977" + mobile + "&Text=" + messagereply + "");
                         }
 
                         SMSLog log = new SMSLog();

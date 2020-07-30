@@ -1,0 +1,231 @@
+﻿@model IEnumerable<MNepalWeb.Models.UserInfo>
+@{
+    ViewBag.Title = "Customer Approve Block/Unblock";
+}
+
+<section class="content-header">
+    <h1>
+        Customer
+        @*<small>Approve Block/UnBlock</small>*@
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i>@ViewContext.RouteData.Values["Controller"].ToString()</a></li>
+        <li class="active">@*@ViewContext.RouteData.Values["Action"].ToString()*@ Approve Block/UnBlock</li>
+    </ol>
+</section>
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Approve Block/Unblock</h3>
+                </div>
+                @using (Html.BeginForm("StatusChangedList", "Customer", FormMethod.Get, new { @id = "TEST" }))
+                {
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="MobileNumber" class="control-label">Mobile Number</label>
+                                <input type="text" class="form-control col-md-6" id="MobileNumber" name="MobileNumber" placeholder="Mobile Number" maxlength="10" onkeypress="return isNumberKey(event)" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <button type="submit" id="Search" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <hr />
+
+                <div class="box-body" id="grid">
+                    <table id="StatusApprove" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Customer Name</th>
+                                <th>User Name</th>
+                                <th>Modifying Branch</th>
+                                <th>Modifying User</th>
+                                <th>Account Number</th>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Count() > 0)
+                            {
+                                foreach (var item in Model)
+                                {
+                            <tr id="@item.ClientCode">
+                                <td>@item.Name</td>
+                                <td>@item.UserName</td>
+                                <td>@item.ModifyingBranch</td>
+                                <td>@item.ModifyingAdmin</td>
+                                <td>@item.BankAccountNumber</td>
+                                @*<td>@item.Status</td>*@
+
+
+                                <td>
+                                    @if (@item.BlockStatus.ToString() == "Blocked")
+                                    {
+                                        <span>Block pending</span> 
+                                    }
+                                   @if (@item.BlockStatus.ToString() == "Active")
+                                    {
+                                        <span>Active pending</span> 
+                                    }
+                                   @if (@item.BlockStatus.ToString() == "" && @item.Status.ToString()=="Active")
+                                   {
+                                        <span>Active </span> 
+                                    }
+
+
+                                    @if (@item.BlockStatus.ToString() == "" && @item.Status.ToString()=="Blocked")
+                                   {
+                                        <span>Blocked </span> 
+                                    }
+                                </td>
+
+
+
+                                <td>@item.BlockRemarks</td>
+
+                                <td>
+                                    <span class="fa fa-check" style="color:green" title="Approve Status" id="Status"></span>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <span class="fa fa-times" style="color:red" title="Reject Status" id="Revert"></span>
+                                </td>
+
+                            </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" style="text-align:center">No Records Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section scripts{
+
+    <script type="text/javascript">
+
+        function isNumberKey(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }          
+
+
+        $('#StatusApprove').DataTable({
+                "ordering": false,
+                "filter": false,
+                "sorting": false,
+                "info": false,
+                "lengthChange": false
+            });
+        $('.fa-check').on('click', function () {
+                var tr = $(this).parents('tr');
+                var ClientCode = tr.attr('id');
+                var Name = tr.find('td').eq(0).html();
+
+                $.ajax({
+                    url: '@Url.Action("StatusApprove", "Customer")',
+                    data: { ClientCode: ClientCode, Name: Name},
+                    type: 'GET',
+                    success: function (data) {
+                        if (data.StatusCode == 200) //success
+                        {
+                            alertify.success(data.StatusMessage);
+                            tr.remove();
+                        }
+                        else
+                        {
+                            alertify.error(data.StatusMessage);
+                        }
+                    },
+                    error:function(data)
+                    {
+                        alertify.error(data.StatusMessage);
+                    }
+                });
+        });
+
+        $('.fa-times').on('click', function () {
+                var tr = $(this).parents('tr');
+                var ClientCode = tr.attr('id');
+                var Name = tr.find('td').eq(0).html();
+
+                $.ajax({
+                    url: '@Url.Action("StatusReject", "Customer")',
+                    data: { ClientCode: ClientCode, Name: Name},
+                    type: 'GET',
+                    success: function (data) {
+                        if (data.StatusCode == 200) //success
+                        {
+                            alertify.success(data.StatusMessage);
+                            tr.remove();
+                        }
+                        else
+                        {
+                            alertify.error(data.StatusMessage);
+                        }
+                    },
+                    error:function(data)
+                    {
+                        alertify.error(data.StatusMessage);
+                    }
+                });
+        });
+
+
+
+        /**Validation Check */
+        $('#TEST').bootstrapValidator({
+            //feedbackIcons: {
+            //    valid: 'glyphicon glyphicon-ok',
+            //    invalid: 'glyphicon glyphicon-remove',
+            //    validating: 'glyphicon glyphicon-refresh'
+            //},
+            fields: {
+                MobileNumber: {
+                    validators: {
+                        stringlength: {
+                            min:10,
+                            max:10,
+                            message: 'Please enter valid Mobile No'
+
+                        },
+                        regexp: {
+                            regexp: '^[9][8][0-9]{8}$',
+                            message: 'Mobile no must start with 98 and should be 10 digits'
+
+                        }
+                    }
+                }
+
+
+            }
+
+        });
+
+
+    </script>
+}

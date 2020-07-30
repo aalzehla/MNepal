@@ -1,0 +1,214 @@
+﻿@{
+    ViewBag.Title = "NonFinancial Report";
+
+}
+<link href="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+<section class="content-header">
+    <h1>
+        Report
+        <small>NonFinancial Report</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i>Report</a></li>
+        <li class="active">NonFinancial Report</li>
+    </ol>
+</section>
+
+
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">NonFinancial Report</h3>
+                </div>
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div class="row">
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                @* <span style="color:red">@ViewBag.Error</span>*@
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div id="UserId" class="col-md-4 form-group">
+                                <label>Mobile Number</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="glyphicon glyphicon-phone" style="color:royalblue"></i>
+                                    </div>
+                                    @Html.TextBox("ContactNumber1", null, new
+                               {
+                                   @class = "form-control",
+                                   @Id = "ContactNumber1",
+                                   @maxlength = 50@*, @pattern = "^[9][8][0-9]{8}$", @data_bv_regexp_message = "Mobile Number is not in valid Format"*@ })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+              
+                </div>
+
+                <div class="box-footer">
+                    <input type="submit" class="btn btn-primary" id="Search" name="txtSearch" value="Search" />
+                </div>
+            </div>
+            <!--/.box -box-danger-->
+            <div id="data" class="box box-primary">
+                <div class="box-body" id="grid">
+                    <span class="fa fa-2x fa-file-excel-o pull-right" style="color:green;display:none;" title="To Excel" id="ToExcel"></span>
+                    <table id="SearchResultTable" class="table table-striped table-bordered" style="display:none;overflow-x:scroll">
+                        <thead>
+                            <tr>
+                             
+                                <th style="width:100px;">Date</th>
+                                <th style="width:100px;">CustomerName</th>
+                                <th style="width:100px;">MobileNumber</th>
+                                <th style="width:155px;">TransID</th>
+                                <th style="width:55px;">TransactionType</th>
+                                <th style="width:55px;">Status</th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="overlay" id="loading" style="display:none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+            <!-- /.col-xs--->
+            <!-- End-->
+
+        </div>
+    </div>
+    <!-- /.row -->
+</section>
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var changed = "F";
+            var table;
+             $('#ToExcel').click(function () {
+                 var ContactNumber1 = $('#ContactNumber1').val();
+                 var Parachanged = changed;
+                $.ajax({
+                    url: "@Url.Action("NonFinancialReportTable", "Report")",
+                    data: {
+                        ContactNumber1: ContactNumber1,
+                        ToExcel: 'T'
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        var url = "@Url.Action("Download", "Report")";
+                        window.location = url + '?fileGuid=' + data.FileGuid
+                           + '&filename=' + data.FileName;
+                        /*window.open(url + '?fileGuid=' + data.FileGuid
+                           + '&filename=' + data.FileName, '_blank');*/
+                    },
+                    error: function (data) {
+
+                    }
+
+
+                });
+            });
+            $('#Search').click(function (e) {
+                e.preventDefault();
+                changed = "T";
+                var ContactNumber1 = $('#ContactNumber1').val();
+              
+               var Parachanged = changed;
+                if ($.fn.DataTable.isDataTable('#SearchResultTable')) {
+                    table.destroy();
+                }
+                $('#loading').show();
+                $('#btnSearch').prop("disabled", true);
+                table = $('#SearchResultTable').DataTable({
+
+                    searching: false,
+                    "proccessing": true,
+                    "serverSide": true,
+                    "aaSorting": [],
+                    "ajax": {
+
+                        data: function (d) {
+                            d.ContactNumber1 = ContactNumber1;
+                           
+                        },
+                        url: "@Url.Action("NonFinancialReportTable", "Report")",
+                        type: 'POST',
+                    },
+                    "drawCallback": function (settings) {
+                        changed = "F";
+                        Parachanged = changed;
+                        $('#SearchResultTable').show();
+                        if (settings.json.recordsTotal > 0)
+                            $('#ToExcel').show();
+                        else
+                            $('#ToExcel').hide();
+                        $('#loading').hide();
+                        $('#btnSearch').prop("disabled", false);
+                    },
+                    "columns": [
+                           { "data": "Date" },
+                           { "data": "CustomerName" },
+                           { "data": "MobileNumber" },
+                           { "data": "TransID" },
+                           { "data": "TransactionType" },
+                           { "data": "Status" }
+                    ]
+                });
+            });
+
+
+
+       
+
+            /**Validation Check */
+               $('.content').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    ContactNumber1: {
+                        validators: {
+                            stringlength: {
+                                min: 10,
+                                max: 10,
+                                message: 'Please enter valid Mobile No'
+
+                            },
+                            notEmpty: {
+                                message: 'Please enter Mobile No'
+                            },
+                            regexp: {
+                                regexp:'^[9][8][0-9]{8}$' ,
+                                message: 'Mobile no must start with 98 and should be 10 digits'
+
+                            }
+                        }
+                    }
+
+
+                }
+
+            });
+        });
+
+
+    </script>
+}
+
+

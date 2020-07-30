@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewBag.Title = "Merchant";
+}
+<style>
+    .box-primary ul li a {
+        color: black;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Payment
+        <small> Merchant Payment</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Payment</a></li>
+        <li class="active"> Merchant Payment</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="box">
+        <div class="box-header with-border bg-aqua-gradient">
+            <h3 class="box-title">Merchant Payment</h3>
+            <div class="box-tools pull-right">
+                @*<button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>*@
+            </div>
+        </div>
+
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="box-primary">
+                        <div class="box-profile">
+                            <a href="@Url.Action("MerchantCollege", "MerchantPayment")">
+                                <img class="profile-user-img img-responsive bg-blue-white" src="~/Images/College1.png" alt="College">
+
+                                <h3 class="profile-username text-center">College</h3>
+                            </a>
+
+                            @*<ul class="list-group list-group-unbordered">
+                                    <li class="list-group-item">
+                                        <a href="#"> Prepaid Topup </a><a class="pull-right">1,322</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="#"> Postpaid Topup </a> <a class="pull-right">543</a>
+                                    </li>
+
+                                </ul>*@
+
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+
+
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="box-primary">
+                        <div class="box-profile">
+                            <a href="@Url.Action("MerchantRestaurant", "MerchantPayment")">
+                                <img class="profile-user-img img-responsive bg-white" src="~/Images/restaurant.png" alt="Restaurant">
+
+                                <h3 class="profile-username text-center">Restaurant</h3>
+                            </a>
+                            @*<ul class="list-group list-group-unbordered">
+                                    <li class="list-group-item">
+                                        <a href="#"> Prepaid Topup </a> <a class="pull-right">1,322</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="#"> Postpaid Topup </a> <a class="pull-right">543</a>
+                                    </li>
+
+                                </ul>*@
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-3">
+                    <div class="box-primary">
+                        <div class="box-profile">
+                            <a href="@Url.Action("MerchantSchool", "MerchantPayment")">
+                                <img class="profile-user-img img-responsive bg-white" src="~/Images/school.png" alt="School">
+
+                                <h3 class="profile-username text-center">School</h3>
+                            </a>
+                            @*<ul class="list-group list-group-unbordered">
+                                    <li class="list-group-item">
+                                        <a href="#">ADSL Unlimited </a><a class="pull-right">543</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="#"> ADSL Volume </a> <a class="pull-right">543</a>
+                                    </li>
+
+                                </ul>*@
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+
+
+                </div>
+
+               
+
+            </div>
+
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <!--leave blank if empty-->
+            </div>
+            <!-- /.box-footer-->
+        </div>
+        <!-- /.box -->
+    </div>
+    <script type="text/javascript">
+
+
+    </script>
+</section>
+
+

@@ -198,10 +198,9 @@
 
                         @using (Html.BeginForm(new { @id = "MerchantSchoolForm", @class = "form-horizontal", @autocomplete = "off" }))
                         {
-
-
-                            @*@Html.AntiForgeryToken()
-                                @Html.ValidationSummary(true)*@
+                            
+                            @Html.AntiForgeryToken()
+                            @*  @Html.ValidationSummary(true)*@
 
                             <div id="ajaxResponse">
                             </div>
@@ -211,8 +210,8 @@
 
                             <div class="box box-info">
                                 @*<div class="box-header with-border">
-                                        <h3 class="box-title">Personal Detail</h3>
-                                    </div>*@
+                    <h3 class="box-title">Personal Detail</h3>
+                </div>*@
                                 <!-- /.box-header -->
                                 <!--Message-->
                                 @if (this.ViewData["merchantpay_messsage"] != null)
@@ -248,31 +247,31 @@
                                 <div class="box-body">
 
                                     @*<div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="@Html.NameFor(x=>x.StudentName)" class="control-label col-md-12"> @Html.DisplayNameFor(x => x.StudentName)<span style="color:red">*</span></label>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="@Html.NameFor(x=>x.StudentName)" class="control-label col-md-12"> @Html.DisplayNameFor(x => x.StudentName)<span style="color:red">*</span></label>
 
-                                                    <div class="col-sm-12">
-                                                        @Html.TextBoxFor(x => x.StudentName, new { @class = "form-control ", @title = " Please enter Student Name", @placeholder = " Student Name", @maxlength = "50", @style = "text-transform: capitalize" })
-                                                        @Html.ValidationMessageFor(model => model.StudentName, "", new { @class = "text-danger" })
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(x => x.StudentName, new { @class = "form-control ", @title = " Please enter Student Name", @placeholder = " Student Name", @maxlength = "50", @style = "text-transform: capitalize" })
+                                    @Html.ValidationMessageFor(model => model.StudentName, "", new { @class = "text-danger" })
 
-                                                    </div>
-                                                </div>
-                                            </div>
+                                </div>
+                            </div>
+                        </div>
 
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="@Html.NameFor(x=>x.SchoolName)" class="control-label col-md-12"> @Html.DisplayNameFor(x => x.SchoolName)<span style="color:red">*</span></label>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="@Html.NameFor(x=>x.SchoolName)" class="control-label col-md-12"> @Html.DisplayNameFor(x => x.SchoolName)<span style="color:red">*</span></label>
 
-                                                    <div class="col-sm-12">
-                                                        @Html.DropDownListFor(model => model.SchoolName, new SelectList(ViewBag.School, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "SchoolName", @placeholder = "School Name" })
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(model => model.SchoolName, new SelectList(ViewBag.School, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "SchoolName", @placeholder = "School Name" })
+                                </div>
+                            </div>
+                        </div>
 
 
-                                        </div>
-                                        <br />*@
+                    </div>
+                    <br />*@
 
 
                                     <div class="row">
@@ -353,16 +352,16 @@
                                     @*<br />*@
 
                                     @*<div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="@Html.NameFor(x=>x.TransactionMedium)" class="control-label col-md-12"> @Html.DisplayNameFor(x => x.TransactionMedium)<span style="color:red">*</span></label>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="@Html.NameFor(x=>x.TransactionMedium)" class="control-label col-md-12"> @Html.DisplayNameFor(x => x.TransactionMedium)<span style="color:red">*</span></label>
 
-                                                    <div class="col-sm-12">
-                                                        @Html.DropDownListFor(model => model.TransactionMedium, new SelectList(TransactionMedium, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "TransactionMedium" })
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>*@
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(model => model.TransactionMedium, new SelectList(TransactionMedium, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "TransactionMedium" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
 
                                     @*<br />*@
 
@@ -378,13 +377,13 @@
                                             <div class="form-group" id="BillNo" style="color:red; margin-top:-11px;"></div>
                                         </div>
                                         @*<div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="@Html.NameFor(x=>x.Amount)"> @Html.DisplayNameFor(x => x.Amount)<span style="color:red">*</span></label>
-                                                        @Html.TextBoxFor(x => x.Amount, new { @class = "form-control", @title = "Please enter Amount", @placeholder = "Amount", @maxlength = "5", @onkeypress = "return isNumberKey(event)", @onchange = "checkValidation()" })
-                                                    <span class="Rs-icon" id="amountRs">NRs.</span>
-                                                    <div id="Amt" style="color:red;"></div>
-                                                </div>
-                                            </div>*@
+                            <div class="form-group">
+                                <label for="@Html.NameFor(x=>x.Amount)"> @Html.DisplayNameFor(x => x.Amount)<span style="color:red">*</span></label>
+                                    @Html.TextBoxFor(x => x.Amount, new { @class = "form-control", @title = "Please enter Amount", @placeholder = "Amount", @maxlength = "5", @onkeypress = "return isNumberKey(event)", @onchange = "checkValidation()" })
+                                <span class="Rs-icon" id="amountRs">NRs.</span>
+                                <div id="Amt" style="color:red;"></div>
+                            </div>
+                        </div>*@
 
                                         <div class="col-md-6">
                                             <label for="@Html.NameFor(x=>x.Amount)"> @Html.DisplayNameFor(x => x.Amount) (<span style="color:red">*</span>)</label>
@@ -770,47 +769,8 @@
         var month = $("[name='Month']").val();
         var clss = $("[name='Class']").val();
 
-            //if (studName.trim() == "") {
-            //    $("[name='StudentName']").focus();
-            //    alertify.error('Student Name cannot be empty');
-            //    return;
-            //}
+        var token = $('input[name="__RequestVerificationToken"]').val();
 
-            //if (year.trim() == "") {
-            //    $("[name='Year']").focus();
-            //    alertify.error('Year cannot be empty');
-            //    return;
-            //}
-
-            //if (rollNo.trim() == "") {
-            //    $("[name='RollNumber']").focus();
-            //    alertify.error('Roll Number cannot be empty');
-            //    return;
-            //}
-
-
-            //if (billNo.trim() == "") {
-            //    $("[name='BillNumber']").focus();
-            //    alertify.error('Bill Number cannot be empty');
-            //    return;
-            //}
-
-            //if (amount.trim() == "")
-            //{
-            //    $("[name='Amount']").focus();
-            //    alertify.error('Amount cannot be empty');
-            //    return;
-            //}
-            //if (amount.trim() == "0") {
-            //    $("[name='Amount']").focus();
-            //    alertify.error('Amount cannot be 0');
-            //    return;
-            //}
-            //if (pin.trim() == "") {
-            //    $("[name='TPin']").val()
-            //    alertify.error('Pin cannot be empty');
-            //    return;
-        //}
         if ((servicecode != "") && (schoolname != "") && (amount != "") && (amount != 0) && (amount.length != 2) && (pin != "") && (studName != "") && (year != "") && (rollNo != "") && (billNo != "") && (remarks != "")) {
 
                 var dataToPost = {
@@ -824,14 +784,19 @@
                     RollNumber: rollNo,
                     Remarks: remarks,
                     amount: amount,
-                    TPin: pin
+                    TPin: pin,
+                    TokenUnique: token
                 };
 
                 e.preventDefault(); //prevent the default action
                 $.ajax({
                     url: '@Url.Action("MerchantSchool", "MerchantPayment")',
                     type: "POST",
-                    data: dataToPost,
+                    //data: dataToPost,
+                    data: {
+                        __RequestVerificationToken: token,
+                        merchantschool: dataToPost
+                    },
                     async: false,
                     success: function (data) {
                         if (data.responseCode == "200") {
@@ -894,10 +859,33 @@
                         //disable the button until we get the response
                         $('#btnSubmit').attr("disabled", true);
                     },
-                    complete: function (jqXHR, textStatus) {
+                    //complete: function (jqXHR, textStatus) {
                         //enable the button
-                        $('#btnSubmit').attr("disabled", false);
+                     //   $('#btnSubmit').attr("disabled", false);
+                   // }
+
+                     complete: function (data) {
+                        debugger;
+
+
+
+                             $('#btnSubmit').attr("disabled", false);
+                        
+
+
+                        //for sending to logout if 3 wrong t-pin attempt
+                        if (data.responseJSON.responseText == "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 1 hour") {
+                            $("#failureModal").click(function () {
+                                        debugger;
+                              location.href = '@Url.Action("Index", "LogOut")';
+                            });
+                        }
+
+                          
                     }
+
+
+
                 });
 
             }

@@ -108,7 +108,7 @@ namespace MNSuperadmin.Controllers
                                 string userType = dtableUser.Rows[0]["UserType"].ToString();
                                //string UserName= dtableUser.Rows[0]["UserName"].ToString();
                                 string UserBranch = dtableUser.Rows[0]["UserBranchCode"].ToString();
-                                string BranchName = dtableUser.Rows[0]["BranchName"].ToString();
+                                string BranchName = dtableUser.Rows[0]["UserBranchName"].ToString();
  
                              string COC = dtableUser.Rows[0]["COC"].ToString();
                                  
@@ -134,13 +134,13 @@ namespace MNSuperadmin.Controllers
                                         return View("Reset",RVM);
                                         
                                     }
-                                    if(!IsPinChanged)
+                                    if (!IsPinChanged)
                                     {
                                         RVM.Message = "You are required to change your Pin";
                                         RVM.Mode = "PN"; //Short for Pin
                                         return View("Reset", RVM);
                                     }
-                                    if(!IsPassChanged)
+                                    if (!IsPassChanged)
                                     {
                                         RVM.Message = "You are required to change your Password.";
                                         RVM.Mode = "PW"; //Short for Password

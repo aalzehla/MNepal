@@ -1,0 +1,166 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "Payee Merchant Details";
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    if (this.ViewData["merchant_messsage"] != null)
+    {
+        if (this.ViewData["message_class"].ToString() == "success_info")
+        {
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4>Success</h4> @this.ViewData["merchant_messsage"]
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4>Error</h4> @this.ViewData["merchant_messsage"]
+            </div>
+        }
+    }
+
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Payee
+        <small>Merchant Details</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Payee</a></li>
+        <li class="active"> Merchant Details</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Search Merchant Details</h3>
+                </div>
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div class="row">
+                        <!-- radio -->
+                        <div class="form-group">
+                            <div class="radio col-md-12">
+                                <div class="col-md-12">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="Name" maxlength="60" />
+                                        <b>Name</b>
+                                    </label>
+                                    &nbsp;
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios5" value="All" checked>
+                                        <b>All</b>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <hr />
+                        </div>
+
+                        <div class="form-group">
+                            <div id="Name" class="col-md-6 form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" id="txtNameID" name="txtName" placeholder="Name">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <input type="submit" class="btn btn-primary" id="btnSearch" name="txtSearch" value="Search" />
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <!--/.box -box-danger-->
+
+            @Html.Action("MerchantDetail")
+
+        </div>
+        <!-- /.col-xs--->
+        <!-- End-->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts{
+
+    <script>
+        $("#Name").hide();
+        $("#MerchantDetail").hide();
+
+        $("input[type='radio']").change(function () {
+
+            if ($(this).val() == "Name") {
+                $("#Name").show();
+            } else {
+                $("#Name").hide();
+            }
+
+        });
+
+        $('#btnSearch').click(function (e) {
+
+            var name = $('#txtNameID').val();
+
+            var SearchCol;
+
+            var radios = document.getElementsByName('optionsRadios');
+            for (var j = 0; j < radios.length; j++) {
+                if (radios[j].checked) {
+                    //debugger;
+                    SearchCol = radios[j].value;
+                    break;
+                }
+            }
+
+            e.preventDefault();
+
+            $.ajax({
+                url: '@Url.Action("MerchantDetail", "Payee")',
+                type: 'GET',
+                data: {
+                    SearchCol: SearchCol,
+                    txtName: name
+                },
+                success: function (results) {
+                    //debugger;
+                    $('#MerchantDetail').html(results);
+                    $("#MerchantDetail").show();
+                },
+                error: function () {
+                    //debugger;
+                    alert('Error Occured!!');
+                }
+            });
+
+        });
+
+    </script>
+}
+
+
+

@@ -8,13 +8,23 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
+        Payment
+        <small>Cash Out</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Payment</a></li>
+        <li class="active"> Cash Out</li>
+    </ol>
+</section>
+@*<section class="content-header">
+    <h1>
         Cash Out
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
         <li class="active">Cash Out</li>
     </ol>
-</section>
+</section>*@
 
 <!-- Main content -->
 <section class="content">
@@ -53,18 +63,19 @@
 
                         <div class="form-group">
                             <label>Agent Mobile Number</label>
-                            <input type="text" id="recipient" name="txtRecipientNo" class="form-control" placeholder="Agent Mobile No" pattern=".{10,13}" required title="Please use Recipient Mobile number" />
+                            <input type="text" id="recipient" name="txtRecipientNo" class="form-control" placeholder="Agent Mobile No"  required title="Please use Recipient Mobile number" maxlength="10" onkeypress="return isNumber(event)"/>
+                            <label id="check">  </label>
                         </div>
 
                         <div class="form-group">
                             <label>Amount</label>
                             <input type="text" id="amount" name="txtAmount" class="form-control" placeholder="Amount"
-                                   pattern=".{2,4}" required title="Please use 4 digit amount" />
+                                   required  maxlength="6" />
                         </div>
 
                         <div class="form-group">
                             <label>T-PIN</label>
-                            <input type="password" id="pin" name="txtPin" class="form-control" placeholder="T-PIN" pattern=".{4,4}" required title="Please use the T-Pin number" />
+                            <input type="password" id="pin" name="txtPin" class="form-control" placeholder="T-PIN" pattern=".{4,4}" required title="Please use the T-Pin number" maxlength="4" onkeypress="return isNumber(event)" />
                         </div>
 
                         <div class="form-group">
@@ -105,7 +116,47 @@
 
     <!--jQuery Form Validation code -->
     <script>
-        $(document).ready(function () {
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        $("#recipient").change(function (event) {
+            event.preventDefault();
+
+            var id = $("#recipient").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetCheckingUserName", "Customer")',
+                data: { "Username": id },
+                success: function (data, textStatus) {
+                    var markup = data;
+                    if (data == "Success") {
+                        $("#check").html("");
+                        $("#check").css("color", "red");
+                        $("#check").html("Number Not Registered").show();
+                    }
+                    else {
+                        $("#check").html("");
+                        $("#check").css("color", "green");
+                        $("#check").html("Valid Number").show();
+                    }
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+        });
+
+
+
+      $(document).ready(function () {
 
             @*if ($("select[name='txtFundTransferType'] option:selected").val() == 'Wallet to Wallet') {
                 //alert(($("select[name='txtFundTransferType'] option:selected").val()))
@@ -146,6 +197,19 @@
                         }
                     }
                 },
+                txtRecipientNo: {
+                    validators: {
+
+                        regexp: {
+                            regexp: /^[9][8][0-9]{8}$/,
+                            message: 'Input value is not a valid mobile format'
+                        },
+                        notEmpty: {
+                            message: 'The mobile number is required and cannot be empty'
+                        }
+                    }
+
+                },
                 txtAmount: {
                     validators: {
                         notEmpty: {
@@ -174,9 +238,13 @@
         });
 
 
-        $("#ajaxResponse").hide();
+         $("#ajaxResponse").hide();
 
-        $('#btnSubmit').click(function (e) {
+
+
+      });
+
+         $('#btnSubmit').click(function (e) {
 
             var tid = $("[name='txtTraceID']").val();
             var servicecode = $("[name='txtServiceCode']").val();
@@ -200,7 +268,44 @@
                     sourcechannel: src
                 };
 
+                var y = $('#recipient').val();
+
                 e.preventDefault(); //prevent the default action
+
+                if (!(y.charAt(0) == "9" && y.charAt(1) == "8")) {
+                    $("#check").html("");
+                    $("#check").css("color", "red");
+                    $("#check").html("Mobile Number must start with 98").show();
+                    $('#recipient').focus();
+
+                }
+                else {
+                    $("#check").html("");
+                    $("#check").css("color", "green");
+                    $("#check").html("Valid Number").show();
+                }
+
+                  var id = $("#recipient").val();
+                 $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetCheckingUserName", "Customer")',
+                    data: { "Username": id },
+                    success: function (data, textStatus) {
+                    var markup = data;
+                    if (data == "Success") {
+                        $("#check").html("");
+                        $("#check").css("color", "red");
+                        $("#check").html("Number Not Registered").show();
+                        $('#recipient').focus();
+                        return;
+
+                    }
+
+                 }
+             });
+
+
 
                 $.ajax({
                     url: '@Url.Action("Out", "Cash")',
@@ -252,8 +357,6 @@
                 $("#ajaxResponse").show();
             }
         });
-
-    });
 
     </script>
 }

@@ -17,6 +17,7 @@ using WCF.MNepal.Utilities;
 using MNepalProject.Helper;
 using WCF.MNepal.ErrorMsg;
 using System.Data;
+using System.Net.Http;
 
 namespace WCF.MNepal
 {
@@ -38,6 +39,10 @@ namespace WCF.MNepal
 
             NameValueCollection qs = HttpUtility.ParseQueryString(s);
 
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
+
             string sc = qs["sc"];
             string vid = qs["vid"];
             string sa = qs["sa"];
@@ -56,7 +61,6 @@ namespace WCF.MNepal
             qty = "1";
             var couponNumber = "";
             string failedmessage = string.Empty;
-
 
 
             ReplyMessage replyMessage = new ReplyMessage();
@@ -120,6 +124,27 @@ namespace WCF.MNepal
                     string statusMsg = jsonDataResult["StatusMessage"].ToString();
                     message = jsonDataResult["StatusMessage"].ToString();
                     failedmessage = message;
+
+                    //start block msg 3 time pin attempt
+                    if (message == "Invalid PIN ")
+                    {
+                        LoginUtils.SetPINTries(mobile, "BUWP");//add +1 in trypwd
+
+                        if (LoginUtils.GetPINBlockTime(mobile)) //check if blocktime is greater than current time 
+                        {
+                            message = "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 1 hour";
+                            failedmessage = message;
+
+                        }
+
+
+                    }
+                    else
+                    {
+                        LoginUtils.SetPINTries(mobile, "RPT");
+
+                    }
+                    //end block msg 3 time pin attempt
 
                     if (sc == "32")
                     {
@@ -208,6 +233,7 @@ namespace WCF.MNepal
                                 //string cnote = GetMerchantName + ":" + c.note;//
 
                                 string cnote = "Recharge Card for " + GetMerchantName;
+                                string description1 = "";
 
                                 MNFundTransfer mnftForCoupon = new MNFundTransfer(tid, c.sc, c.mobile, c.sa, c.amount, c.da, cnote, c.pin, c.sourcechannel);//c.note
 
@@ -216,7 +242,7 @@ namespace WCF.MNepal
                                 //start:insert into transaction master//
                                 if (mnft.valid() && mnftForCoupon.valid())
                                 {
-                                    var transaction = new MNTransactionMaster(mnftForCoupon);
+                                    var transaction = new MNTransactionMaster(mnftForCoupon, vid, description1);
                                     var mntransaction = new MNTransactionsController();
 
                                     validTransactionData = mntransaction.Validate(transaction, mnftForCoupon.pin);
@@ -572,19 +598,19 @@ namespace WCF.MNepal
 
                         var client = new WebClient();
 
-                        //var content = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To=" + "977" + mobile + "&Text=" + messagereply + "");
-
                         if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
                         {
                             //FOR NCELL
-                            var content = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                            //"http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                            var content = client.DownloadString( SMSNCELL
                             + "977" + mobile + "&Text=" + messagereply + "");
                         }
                         else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
                             || (mobile.Substring(0, 3) == "986"))
                         {
                             //FOR NTC
-                            var content = client.DownloadString("http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                            //"http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                            var content = client.DownloadString( SMSNTC
                                 + "977" + mobile + "&Text=" + messagereply + "");
                         }
 
@@ -637,7 +663,9 @@ namespace WCF.MNepal
                     message = result;
                 }
                 /*END SMS Register*/
+
             }
+
             if (statusCode == "")
             {
                 result = result.ToString();

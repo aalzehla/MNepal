@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "CustomerStatus";
+    ViewBag.Title = "Customer Status";
 }
 
 <!-- =============================================== -->
@@ -8,7 +8,7 @@
 <section class="content-header">
     <h1>
         Customer
-        <small>Status</small>
+        @*<small>Status</small>*@
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-user"></i> Customer</a></li>
@@ -30,15 +30,81 @@
                     <h3 class="box-title">Customer Status</h3>
                 </div>
                 <!-- /.box-header -->
+                @*@Html.Partial("_PartialSearch")*@
+                <!--start-->
 
-                @Html.Partial("_PartialSearch")
-                
+
+
+                <div class="box-body">
+                    <div class="row">
+                        <!-- radio -->
+                        <div class="form-group">
+                            <div class="radio col-md-12">
+                                <div class="col-md-12">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="Mobile Number" checked />
+                                        <b>Mobile Number</b>
+                                    </label>
+                                    &nbsp;
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="Full Name" />
+                                        <b>Name</b>
+                                    </label>
+                                    &nbsp;
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="Account Number">
+                                        <b>Account Number</b>
+                                    </label>
+                                    &nbsp;
+                                    <label style="display:none">
+                                        <input type="radio" name="optionsRadios" id="optionsRadios4" value="Name/Account">
+                                        <b>Name/Account</b>
+                                    </label>
+                                    @*&nbsp;
+                                        <label>
+                                            <input type="radio" name="optionsRadios" id="optionsRadios5" value="All" checked>
+                                            <b>All</b>
+                                        </label>*@
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <hr />
+                        </div>
+
+                        <div class="form-group" id="form">
+                            <div id="MobileNo" class="col-md-6 form-group">
+                                @*<label>Mobile Number</label>*@
+                                <input type="text" class="form-control" id="txtMobileNoID" name="txtMobileNo" placeholder="Mobile Number" maxlength="10" onkeypress="return isNumberKey(event)">
+                            </div>
+                            <div id="AccountNo" class="col-md-6 form-group">
+                                @*<label>AccountNumber</label>*@
+                                <input type="text" class="form-control" id="txtAccountNoID" name="txtAccountNo" placeholder="Account Number" maxlength="14">
+                            </div>
+                            <div id="FullName" class="col-md-6 form-group">
+                                @*<label>Name</label>*@
+                                <input type="text" class="form-control" id="txtNameID" name="txtName" placeholder="Name" maxlength="50">
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <input type="submit" class="btn btn-primary" id="btnSearch" name="txtSearch" value="Search" />
+                </div>
+                <!-- /.box-footer -->
+                <!--end-->
             </div>
             <!--/.box -box-danger-->
-
             <!-- Start Data Show in Table -->
+            <div id="data" class="box box-primary">
 
-            @Html.Action("CustomerDetail")
+                @*@Html.Action("CustomerDetail")*@
+            </div>
 
             <!-- End Data Show in Table -->
 
@@ -56,39 +122,59 @@
 
     <script type="text/javascript">
 
-        $("#MobileNo").hide();
-        $("#Name").hide();
+        //$("#MobileNo").hide();
+        $("#FullName").hide();
         $("#AccountNo").hide();
-        $("#CustomerStatus").hide();
+        //$("#CustomerStatus").hide();
 
         $("input[type='radio']").change(function () {
 
             if ($(this).val() == "Mobile Number") {
                 $("#MobileNo").show();
-                $("#Name").hide();
+                $("#MobileNo input").val("");
+                $("#FullName").hide();
+                $("#FullName input").val("");
                 $("#AccountNo").hide();
+                $("#AccountNo input").val("");
+
+
             }
-            else if ($(this).val() == "Name") {
-                $("#Name").show();
+            else if ($(this).val() == "Full Name") {
+                $("#FullName").show();
                 $("#AccountNo").hide();
                 $("#MobileNo").hide();
+                $("#MobileNo input").val("");
+                $("#FullName input").val("");
+                $("#AccountNo input").val("");
             }
             else if ($(this).val() == "Account Number") {
                 $("#AccountNo").show();
                 $("#MobileNo").hide();
-                $("#Name").hide();
+                $("#FullName").hide();
+                $("#MobileNo input").val("");
+                $("#FullName input").val("");
+                $("#AccountNo input").val("");
             }
-            else if ($(this).val() == "Name/Account") {
-                $("#Name").show();
-                $("#AccountNo").show();
-                $("#MobileNo").hide();
-            } else {
+            else {
                 $("#MobileNo").hide();
                 $("#Name").hide();
                 $("#AccountNo").hide();
+                $("#MobileNo input").val("");
+                $("#FullName input").val("");
+                $("#AccountNo input").val("");
             }
 
         });
+
+        function isNumberKey(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
 
 
         $('#btnSearch').click(function (e) {
@@ -116,13 +202,14 @@
                 data: {
                     SearchCol: SearchCol,
                     txtMobileNo: mobileNo,
-                    txtName: name, 
+                    txtName: name,
                     txtAccountNo: accountNo
                 },
                 success: function (results) {
-                    //debugger;
-                    $('#CustomerStatus').html(results);
-                    $("#CustomerStatus").show();
+                    debugger;
+                    //$('#CustomerStatus').html(results);
+                    //$("#CustomerStatus").show();
+                    $('#data').html(results);
                 },
                 error: function () {
                     //debugger;
@@ -130,6 +217,37 @@
                 }
             });
 
+
+
+        });
+
+        /**Validation Check */
+        $('#MobileNo').bootstrapValidator({
+            //feedbackIcons: {
+            //    valid: 'glyphicon glyphicon-ok',
+            //    invalid: 'glyphicon glyphicon-remove',
+            //    validating: 'glyphicon glyphicon-refresh'
+            //},
+            fields: {
+                txtMobileNo: {
+                    validators: {
+                        stringlength: {
+                            min: 2,
+
+                            message: 'Please enter valid Mobile No'
+
+                        },
+                        regexp: {
+                            regexp: '^[9][8][0-9]{8}$',
+                            message: 'Mobile no must start with 98'
+
+                        }
+                    }
+                }
+
+
+            }
+
         });
     </script>
-}
+    }

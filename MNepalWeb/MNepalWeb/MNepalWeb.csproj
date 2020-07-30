@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" />
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -27,16 +27,12 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <Use64BitIISExpress />
-    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
     <TargetFrameworkProfile />
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -73,42 +69,32 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="KellermanSoftware.Compare-NET-Objects, Version=4.63.0.0, Culture=neutral, PublicKeyToken=d970ace04cc85217, processorArchitecture=MSIL">
-      <HintPath>..\packages\CompareNETObjects.4.63.0\lib\net452\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
-    </Reference>
-    <Reference Include="KellermanSoftware.Serialization">
-      <HintPath>..\packages\KellermanSoftware.Serialization.3.12.0\lib\net45\KellermanSoftware.Serialization.dll</HintPath>
+    <Reference Include="KellermanSoftware.Compare-NET-Objects, Version=4.55.0.0, Culture=neutral, PublicKeyToken=d970ace04cc85217, processorArchitecture=MSIL">
+      <HintPath>..\packages\CompareNETObjects.4.55.0.0\lib\net452\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.11.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.11.2\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.7.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.7.2\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.11.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.11.2\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.7.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.7.2\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.11.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.11.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    <Reference Include="Microsoft.AI.Web, Version=2.7.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.7.2\lib\net45\Microsoft.AI.Web.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AI.Web, Version=2.11.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.11.2\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.7.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.7.2\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AI.WindowsServer, Version=2.11.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.11.2\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.7.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.7.2\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights, Version=2.11.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.2.11.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.7\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -120,34 +106,19 @@
     <Reference Include="Microsoft.Practices.ObjectBuilder, Version=1.0.51206.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Practices.ObjectBuilder.dll.3.1.0\lib\2.0\Microsoft.Practices.ObjectBuilder.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="ObjectsComparer, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ObjectsComparer.1.3.1\lib\net45\ObjectsComparer.dll</HintPath>
-    </Reference>
-    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+    <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.6.0\lib\net45\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard1.1\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Caching" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.6.0\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -155,27 +126,30 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    <Reference Include="System.Web.Mvc, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.6\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc.Extensions, Version=1.0.9.0, Culture=neutral, PublicKeyToken=17e35335fc9f8fc8, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Web.Mvc.Extensions.Mvc.4.1.0.9\lib\net40\System.Web.Mvc.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.6\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -214,8 +188,12 @@
     <Compile Include="Controllers\CustomerSetupController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MerchantController.cs" />
+    <Compile Include="Controllers\MerchantPaymentController.cs" />
     <Compile Include="Controllers\NavigationController.cs" />
+    <Compile Include="Controllers\RechargeController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ResReportController.cs" />
+    <Compile Include="Controllers\SignupController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\SuperAdminDashboardController.cs" />
     <Compile Include="Controllers\AgentController.cs" />
@@ -238,7 +216,7 @@
     <Compile Include="Controllers\TopUpController.cs" />
     <Compile Include="Controllers\UserDashboardController.cs" />
     <Compile Include="Controllers\UserRoleSetupController.cs" />
-    <Compile Include="Controllers\UserSetupController.cs" />
+    <Compile Include="Controllers\UtilityPayController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -250,6 +228,7 @@
     <Compile Include="Models\AccountInfo.cs" />
     <Compile Include="Models\AcTypeInfo.cs" />
     <Compile Include="Models\BalanceQuery.cs" />
+    <Compile Include="Models\BankLink.cs" />
     <Compile Include="Models\BranchRep.cs" />
     <Compile Include="Models\CustApproveInfo.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -269,6 +248,7 @@
     <Compile Include="Models\MenuItem.cs" />
     <Compile Include="Models\MerchantList.cs" />
     <Compile Include="Models\MerchantPay.cs" />
+    <Compile Include="Models\MerchantPayment.cs" />
     <Compile Include="Models\MerStatement.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\MetaData.cs" />
@@ -319,6 +299,7 @@
     <Compile Include="Models\MNTransactionMasterDB.cs" />
     <Compile Include="Models\MNTxnLimitClass.cs" />
     <Compile Include="Models\MNUsers.cs" />
+    <Compile Include="Models\MNZone.cs" />
     <Compile Include="Models\NTResponses.cs" />
     <Compile Include="Models\NTTopUp.cs" />
     <Compile Include="Models\PasswordValidator.cs" />
@@ -327,6 +308,7 @@
     <Compile Include="Models\SMSLog.cs" />
     <Compile Include="Models\StatementInfo.cs" />
     <Compile Include="Models\TopUp.cs" />
+    <Compile Include="Models\TopUpPay.cs" />
     <Compile Include="Models\TransactionInfo.cs" />
     <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Models\UserProfilesInfo.cs" />
@@ -347,6 +329,7 @@
     <Compile Include="UserModels\CustomerUserModel.cs" />
     <Compile Include="UserModels\DeleteUserModel.cs" />
     <Compile Include="UserModels\LoginUserModels.cs" />
+    <Compile Include="UserModels\LogUserModel.cs" />
     <Compile Include="UserModels\MerchantUserModels.cs" />
     <Compile Include="UserModels\PasswordUserModel.cs" />
     <Compile Include="UserModels\PinUserModel.cs" />
@@ -382,16 +365,20 @@
     <Compile Include="Utilities\SqlHelper.cs" />
     <Compile Include="Utilities\StmtUtils.cs" />
     <Compile Include="Utilities\UserProfileUtils.cs" />
+    <Compile Include="Utilities\ZoneDistrictUtils.cs" />
     <Compile Include="ViewModel\AdminProfileVM.cs" />
     <Compile Include="ViewModel\ApproveRJViewModel.cs" />
+    <Compile Include="ViewModel\BankLinkVM.cs" />
     <Compile Include="ViewModel\BranchVM.cs" />
     <Compile Include="ViewModel\ChargeVM.cs" />
     <Compile Include="ViewModel\CusProfileViewModel.cs" />
     <Compile Include="ViewModel\CustomerAccountActivityVM.cs" />
     <Compile Include="ViewModel\FundTxnVm.cs" />
+    <Compile Include="ViewModel\MerchantPaymentVM.cs" />
     <Compile Include="ViewModel\MerchantSmtVM.cs" />
     <Compile Include="ViewModel\MerchantVM.cs" />
     <Compile Include="ViewModel\MiniStatementVM.cs" />
+    <Compile Include="ViewModel\MNCustomerVM.cs" />
     <Compile Include="ViewModel\MNFeatureMasterVM.cs" />
     <Compile Include="ViewModel\NTTopUpVM.cs" />
     <Compile Include="ViewModel\RegCusDetailVM.cs" />
@@ -399,10 +386,10 @@
     <Compile Include="ViewModel\ResetVM.cs" />
     <Compile Include="ViewModel\TopUpRepVM.cs" />
     <Compile Include="ViewModel\TopUpVM.cs" />
+    <Compile Include="ViewModel\UtilityViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\MNepalWeb.dll" />
-    <Content Include="bin\MNepalWeb.pdb" />
+    <Content Include="Content\alertify.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -5825,118 +5812,6 @@
     <Content Include="Content\bower_components\jquery-ui\ui\tabs.js" />
     <Content Include="Content\bower_components\jquery-ui\ui\tooltip.js" />
     <Content Include="Content\bower_components\jquery-ui\ui\widget.js" />
-    <Content Include="Content\bower_components\jquery\AUTHORS.txt" />
-    <Content Include="Content\bower_components\jquery\dist\core.js" />
-    <Content Include="Content\bower_components\jquery\dist\jquery.js" />
-    <Content Include="Content\bower_components\jquery\dist\jquery.min.js" />
-    <Content Include="Content\bower_components\jquery\dist\jquery.slim.js" />
-    <Content Include="Content\bower_components\jquery\dist\jquery.slim.min.js" />
-    <Content Include="Content\bower_components\jquery\external\sizzle\dist\sizzle.js" />
-    <Content Include="Content\bower_components\jquery\external\sizzle\dist\sizzle.min.js" />
-    <Content Include="Content\bower_components\jquery\external\sizzle\LICENSE.txt" />
-    <Content Include="Content\bower_components\jquery\LICENSE.txt" />
-    <Content Include="Content\bower_components\jquery\src\ajax.js" />
-    <Content Include="Content\bower_components\jquery\src\ajax\jsonp.js" />
-    <Content Include="Content\bower_components\jquery\src\ajax\load.js" />
-    <Content Include="Content\bower_components\jquery\src\ajax\parseXML.js" />
-    <Content Include="Content\bower_components\jquery\src\ajax\script.js" />
-    <Content Include="Content\bower_components\jquery\src\ajax\var\location.js" />
-    <Content Include="Content\bower_components\jquery\src\ajax\var\nonce.js" />
-    <Content Include="Content\bower_components\jquery\src\ajax\var\rquery.js" />
-    <Content Include="Content\bower_components\jquery\src\ajax\xhr.js" />
-    <Content Include="Content\bower_components\jquery\src\attributes.js" />
-    <Content Include="Content\bower_components\jquery\src\attributes\attr.js" />
-    <Content Include="Content\bower_components\jquery\src\attributes\classes.js" />
-    <Content Include="Content\bower_components\jquery\src\attributes\prop.js" />
-    <Content Include="Content\bower_components\jquery\src\attributes\support.js" />
-    <Content Include="Content\bower_components\jquery\src\attributes\val.js" />
-    <Content Include="Content\bower_components\jquery\src\callbacks.js" />
-    <Content Include="Content\bower_components\jquery\src\core.js" />
-    <Content Include="Content\bower_components\jquery\src\core\access.js" />
-    <Content Include="Content\bower_components\jquery\src\core\DOMEval.js" />
-    <Content Include="Content\bower_components\jquery\src\core\init.js" />
-    <Content Include="Content\bower_components\jquery\src\core\nodeName.js" />
-    <Content Include="Content\bower_components\jquery\src\core\parseHTML.js" />
-    <Content Include="Content\bower_components\jquery\src\core\ready-no-deferred.js" />
-    <Content Include="Content\bower_components\jquery\src\core\ready.js" />
-    <Content Include="Content\bower_components\jquery\src\core\readyException.js" />
-    <Content Include="Content\bower_components\jquery\src\core\stripAndCollapse.js" />
-    <Content Include="Content\bower_components\jquery\src\core\support.js" />
-    <Content Include="Content\bower_components\jquery\src\core\var\rsingleTag.js" />
-    <Content Include="Content\bower_components\jquery\src\css.js" />
-    <Content Include="Content\bower_components\jquery\src\css\addGetHookIf.js" />
-    <Content Include="Content\bower_components\jquery\src\css\adjustCSS.js" />
-    <Content Include="Content\bower_components\jquery\src\css\curCSS.js" />
-    <Content Include="Content\bower_components\jquery\src\css\hiddenVisibleSelectors.js" />
-    <Content Include="Content\bower_components\jquery\src\css\showHide.js" />
-    <Content Include="Content\bower_components\jquery\src\css\support.js" />
-    <Content Include="Content\bower_components\jquery\src\css\var\cssExpand.js" />
-    <Content Include="Content\bower_components\jquery\src\css\var\getStyles.js" />
-    <Content Include="Content\bower_components\jquery\src\css\var\isHiddenWithinTree.js" />
-    <Content Include="Content\bower_components\jquery\src\css\var\rmargin.js" />
-    <Content Include="Content\bower_components\jquery\src\css\var\rnumnonpx.js" />
-    <Content Include="Content\bower_components\jquery\src\css\var\swap.js" />
-    <Content Include="Content\bower_components\jquery\src\data.js" />
-    <Content Include="Content\bower_components\jquery\src\data\Data.js" />
-    <Content Include="Content\bower_components\jquery\src\data\var\acceptData.js" />
-    <Content Include="Content\bower_components\jquery\src\data\var\dataPriv.js" />
-    <Content Include="Content\bower_components\jquery\src\data\var\dataUser.js" />
-    <Content Include="Content\bower_components\jquery\src\deferred.js" />
-    <Content Include="Content\bower_components\jquery\src\deferred\exceptionHook.js" />
-    <Content Include="Content\bower_components\jquery\src\deprecated.js" />
-    <Content Include="Content\bower_components\jquery\src\dimensions.js" />
-    <Content Include="Content\bower_components\jquery\src\effects.js" />
-    <Content Include="Content\bower_components\jquery\src\effects\animatedSelector.js" />
-    <Content Include="Content\bower_components\jquery\src\effects\Tween.js" />
-    <Content Include="Content\bower_components\jquery\src\event.js" />
-    <Content Include="Content\bower_components\jquery\src\event\ajax.js" />
-    <Content Include="Content\bower_components\jquery\src\event\alias.js" />
-    <Content Include="Content\bower_components\jquery\src\event\focusin.js" />
-    <Content Include="Content\bower_components\jquery\src\event\support.js" />
-    <Content Include="Content\bower_components\jquery\src\event\trigger.js" />
-    <Content Include="Content\bower_components\jquery\src\exports\amd.js" />
-    <Content Include="Content\bower_components\jquery\src\exports\global.js" />
-    <Content Include="Content\bower_components\jquery\src\jquery.js" />
-    <Content Include="Content\bower_components\jquery\src\manipulation.js" />
-    <Content Include="Content\bower_components\jquery\src\manipulation\buildFragment.js" />
-    <Content Include="Content\bower_components\jquery\src\manipulation\getAll.js" />
-    <Content Include="Content\bower_components\jquery\src\manipulation\setGlobalEval.js" />
-    <Content Include="Content\bower_components\jquery\src\manipulation\support.js" />
-    <Content Include="Content\bower_components\jquery\src\manipulation\var\rcheckableType.js" />
-    <Content Include="Content\bower_components\jquery\src\manipulation\var\rscriptType.js" />
-    <Content Include="Content\bower_components\jquery\src\manipulation\var\rtagName.js" />
-    <Content Include="Content\bower_components\jquery\src\manipulation\wrapMap.js" />
-    <Content Include="Content\bower_components\jquery\src\manipulation\_evalUrl.js" />
-    <Content Include="Content\bower_components\jquery\src\offset.js" />
-    <Content Include="Content\bower_components\jquery\src\queue.js" />
-    <Content Include="Content\bower_components\jquery\src\queue\delay.js" />
-    <Content Include="Content\bower_components\jquery\src\selector-native.js" />
-    <Content Include="Content\bower_components\jquery\src\selector-sizzle.js" />
-    <Content Include="Content\bower_components\jquery\src\selector.js" />
-    <Content Include="Content\bower_components\jquery\src\serialize.js" />
-    <Content Include="Content\bower_components\jquery\src\traversing.js" />
-    <Content Include="Content\bower_components\jquery\src\traversing\findFilter.js" />
-    <Content Include="Content\bower_components\jquery\src\traversing\var\dir.js" />
-    <Content Include="Content\bower_components\jquery\src\traversing\var\rneedsContext.js" />
-    <Content Include="Content\bower_components\jquery\src\traversing\var\siblings.js" />
-    <Content Include="Content\bower_components\jquery\src\var\arr.js" />
-    <Content Include="Content\bower_components\jquery\src\var\class2type.js" />
-    <Content Include="Content\bower_components\jquery\src\var\concat.js" />
-    <Content Include="Content\bower_components\jquery\src\var\document.js" />
-    <Content Include="Content\bower_components\jquery\src\var\documentElement.js" />
-    <Content Include="Content\bower_components\jquery\src\var\fnToString.js" />
-    <Content Include="Content\bower_components\jquery\src\var\getProto.js" />
-    <Content Include="Content\bower_components\jquery\src\var\hasOwn.js" />
-    <Content Include="Content\bower_components\jquery\src\var\indexOf.js" />
-    <Content Include="Content\bower_components\jquery\src\var\ObjectFunctionString.js" />
-    <Content Include="Content\bower_components\jquery\src\var\pnum.js" />
-    <Content Include="Content\bower_components\jquery\src\var\push.js" />
-    <Content Include="Content\bower_components\jquery\src\var\rcssNum.js" />
-    <Content Include="Content\bower_components\jquery\src\var\rnothtmlwhite.js" />
-    <Content Include="Content\bower_components\jquery\src\var\slice.js" />
-    <Content Include="Content\bower_components\jquery\src\var\support.js" />
-    <Content Include="Content\bower_components\jquery\src\var\toString.js" />
-    <Content Include="Content\bower_components\jquery\src\wrap.js" />
     <Content Include="Content\bower_components\jvectormap\jquery-jvectormap.css" />
     <Content Include="Content\bower_components\jvectormap\jquery-jvectormap.js" />
     <Content Include="Content\bower_components\jvectormap\lib\jquery-mousewheel.js" />
@@ -6916,6 +6791,33 @@
     <Content Include="Content\bower_components\select2\tests\vendor\qunit-1.23.1.css" />
     <Content Include="Content\bower_components\select2\tests\vendor\qunit-1.23.1.js" />
     <Content Include="Content\bower_components\select2\vendor\jquery-2.1.0.js" />
+    <Content Include="Content\date_components\css\bootstrap-theme.css" />
+    <Content Include="Content\date_components\css\bootstrap-theme.min.css" />
+    <Content Include="Content\date_components\css\bootstrap.css" />
+    <Content Include="Content\date_components\css\bootstrap.min.css" />
+    <Content Include="Content\date_components\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\date_components\images\ndp_bg_wave.png" />
+    <Content Include="Content\date_components\images\ndp_buttons.png" />
+    <Content Include="Content\date_components\images\ndp_date_bg.png" />
+    <Content Include="Content\date_components\js\bootstrap.js" />
+    <Content Include="Content\date_components\js\bootstrap.min.js" />
+    <Content Include="Content\date_components\js\jquery-2.1.0.min.js" />
+    <Content Include="Content\date_components\js\jquery.js" />
+    <Content Include="Content\date_components\nepali.datepicker.v2.2.min.css" />
+    <Content Include="Content\date_components\nepali.datepicker.v2.2.min.js" />
+    <Content Include="Content\date_comp\bootstrap-theme.css" />
+    <Content Include="Content\date_comp\bootstrap-theme.min.css" />
+    <Content Include="Content\date_comp\bootstrap.css" />
+    <Content Include="Content\date_comp\bootstrap.js" />
+    <Content Include="Content\date_comp\bootstrap.min.css" />
+    <Content Include="Content\date_comp\bootstrap.min.js" />
+    <Content Include="Content\date_comp\images\ndp_bg_wave.png" />
+    <Content Include="Content\date_comp\images\ndp_buttons.png" />
+    <Content Include="Content\date_comp\images\ndp_date_bg.png" />
+    <Content Include="Content\date_comp\jquery-2.1.0.min.js" />
+    <Content Include="Content\date_comp\jquery.js" />
+    <Content Include="Content\date_comp\nepali.datepicker.v2.2.min.css" />
+    <Content Include="Content\date_comp\nepali.datepicker.v2.2.min.js" />
     <Content Include="Content\dist\css\AdminLTE.css" />
     <Content Include="Content\dist\css\AdminLTE.min.css" />
     <Content Include="Content\dist\css\alt\AdminLTE-bootstrap-social.css" />
@@ -6987,6 +6889,8 @@
     <Content Include="Content\dist\js\demo.js" />
     <Content Include="Content\dist\js\pages\dashboard.js" />
     <Content Include="Content\dist\js\pages\dashboard2.js" />
+    <Content Include="Content\image\nibl.png" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\plugins\bootstrap-slider\bootstrap-slider.js" />
     <Content Include="Content\plugins\bootstrap-slider\slider.css" />
     <Content Include="Content\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.js" />
@@ -7213,403 +7117,96 @@
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.js" />
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.js" />
-    <Content Include="Content\Upload\9803558692_adventure-air-aircraft-36487_7351.jpg" />
-    <Content Include="Content\Upload\9803558692_adventure-air-aircraft-36487_f21c.jpg" />
-    <Content Include="Content\Upload\9803558692_document_32f5.jpg" />
-    <Content Include="Content\Upload\9803558692_document_b67c.jpg" />
-    <Content Include="Content\Upload\9803558692_document_f53e.jpg" />
-    <Content Include="Content\Upload\9803558692_passportPicture_4c94.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_1415.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_2a5a.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_4ca2.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_4e80.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_5e9d.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_769a.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_7eaa.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_982e.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_9bc6.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_9f06.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_9fe0.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_a72f.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_b199.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_b846.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_c5ba.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_e155.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_f2b7.jpg" />
-    <Content Include="Content\Upload\9808231910_adventure-air-aircraft-36487_fb66.jpg" />
-    <Content Include="Content\Upload\9808231910_document_0ec3.jpg" />
-    <Content Include="Content\Upload\9808231910_document_1bca.jpg" />
-    <Content Include="Content\Upload\9808231910_document_2196.jpg" />
-    <Content Include="Content\Upload\9808231910_document_2351.jpg" />
-    <Content Include="Content\Upload\9808231910_document_2aef.jpg" />
-    <Content Include="Content\Upload\9808231910_document_348f.jpg" />
-    <Content Include="Content\Upload\9808231910_document_4445.jpg" />
-    <Content Include="Content\Upload\9808231910_document_49d0.jpg" />
-    <Content Include="Content\Upload\9808231910_document_4f26.jpg" />
-    <Content Include="Content\Upload\9808231910_document_53d9.jpg" />
-    <Content Include="Content\Upload\9808231910_document_566c.jpg" />
-    <Content Include="Content\Upload\9808231910_document_5a1b.jpg" />
-    <Content Include="Content\Upload\9808231910_document_5cc7.jpg" />
-    <Content Include="Content\Upload\9808231910_document_736a.jpg" />
-    <Content Include="Content\Upload\9808231910_document_765e.jpg" />
-    <Content Include="Content\Upload\9808231910_document_7c85.jpg" />
-    <Content Include="Content\Upload\9808231910_document_8f5a.jpg" />
-    <Content Include="Content\Upload\9808231910_document_8fb8.jpg" />
-    <Content Include="Content\Upload\9808231910_document_911d.jpg" />
-    <Content Include="Content\Upload\9808231910_document_9285.jpg" />
-    <Content Include="Content\Upload\9808231910_document_a2b4.jpg" />
-    <Content Include="Content\Upload\9808231910_document_cc54.jpg" />
-    <Content Include="Content\Upload\9808231910_document_d6ae.jpg" />
-    <Content Include="Content\Upload\9808231910_document_f6c5.jpg" />
-    <Content Include="Content\Upload\9808231910_passportPicture_248e.jpg" />
-    <Content Include="Content\Upload\9808231910_profile_234332_07e7.jpg" />
-    <Content Include="Content\Upload\9808231910_profile_234332_2424.jpg" />
-    <Content Include="Content\Upload\9808231910_profile_234332_3a7b.jpg" />
-    <Content Include="Content\Upload\9808231910_profile_234332_51ce.jpg" />
-    <Content Include="Content\Upload\9808231910_profile_234332_cbaa.jpg" />
-    <Content Include="Content\Upload\9808231910_shangrila_deposit_voucher_517e.jpg" />
-    <Content Include="Content\Upload\9808231910_shangrila_deposit_voucher_5f9d.jpg" />
-    <Content Include="Content\Upload\9808231910_shangrila_deposit_voucher_7690.jpg" />
-    <Content Include="Content\Upload\9808231910_shangrila_deposit_voucher_8156.jpg" />
-    <Content Include="Content\Upload\9808231910_shangrila_deposit_voucher_95e1.jpg" />
-    <Content Include="Content\Upload\9808231910_shangrila_deposit_voucher_9bb3.jpg" />
-    <Content Include="Content\Upload\9808231910_shangrila_deposit_voucher_a269.jpg" />
-    <Content Include="Content\Upload\9808231910_shangrila_deposit_voucher_a4fd.jpg" />
-    <Content Include="Content\Upload\9808231910_shangrila_deposit_voucher_e024.jpg" />
-    <Content Include="Content\Upload\9808231910_shangrila_deposit_voucher_f3aa.jpg" />
-    <Content Include="Content\Upload\9808231910_shangrila_deposit_voucher_fb3c.jpg" />
-    <Content Include="Content\Upload\9810122715_document_1bc5.jpg" />
-    <Content Include="Content\Upload\9810122715_document_3fe2.jpg" />
-    <Content Include="Content\Upload\9810122715_document_60a9.jpg" />
-    <Content Include="Content\Upload\9810122715_document_64da.jpg" />
-    <Content Include="Content\Upload\9810122715_document_81f2.jpg" />
-    <Content Include="Content\Upload\9810122715_document_9d21.jpg" />
-    <Content Include="Content\Upload\9810122715_document_ae49.jpg" />
-    <Content Include="Content\Upload\9810122715_document_ce58.jpg" />
-    <Content Include="Content\Upload\9810122715_document_edac.jpg" />
-    <Content Include="Content\Upload\9818389970_document_5611.jpg" />
-    <Content Include="Content\Upload\9818389970_document_61ed.jpg" />
-    <Content Include="Content\Upload\9818389970_document_e4aa.jpg" />
-    <Content Include="Content\Upload\9818456398_adventure-air-aircraft-36487_c5c6.jpg" />
-    <Content Include="Content\Upload\9818456398_document_185d.jpg" />
-    <Content Include="Content\Upload\9818456398_document_2ee0.jpg" />
-    <Content Include="Content\Upload\9818456398_document_4388.jpg" />
-    <Content Include="Content\Upload\9818456398_document_93e6.jpg" />
-    <Content Include="Content\Upload\9818456398_profile_234332_7ea7.jpg" />
-    <Content Include="Content\Upload\9840066836_9841931920_Lighthouse_420d_f939.jpg" />
-    <Content Include="Content\Upload\9840066836_9841931920_Pooja_3a04_559a.jpg" />
-    <Content Include="Content\Upload\9840066836_fddffddggf_396b.png" />
-    <Content Include="Content\Upload\9840066836_fddffddggf_e99b.png" />
-    <Content Include="Content\Upload\9840066836_fddffddggf_f3f3.png" />
-    <Content Include="Content\Upload\9840066836_fddffddggf_fd39.png" />
-    <Content Include="Content\Upload\9841675004_adventure-air-aircraft-36487_28b5.jpg" />
-    <Content Include="Content\Upload\9841675004_document_1e3c.jpg" />
-    <Content Include="Content\Upload\9841675004_document_b3e2.jpg" />
-    <Content Include="Content\Upload\9841803214_adventure-air-aircraft-36487_3a78.jpg" />
-    <Content Include="Content\Upload\9841803214_adventure-air-aircraft-36487_9a6f.jpg" />
-    <Content Include="Content\Upload\9841803214_adventure-air-aircraft-36487_ec47.jpg" />
-    <Content Include="Content\Upload\9841803214_adventure-air-aircraft-36487_eca4.jpg" />
-    <Content Include="Content\Upload\9841803214_document_3fca.jpg" />
-    <Content Include="Content\Upload\9841803214_document_b976.jpg" />
-    <Content Include="Content\Upload\9841803214_document_f456.jpg" />
-    <Content Include="Content\Upload\9841931920_citizenhipBack_be98.jpg" />
-    <Content Include="Content\Upload\9841931920_citizenshipFront_4546.jpg" />
-    <Content Include="Content\Upload\9841931920_citizenshipFront_95bb.jpg" />
-    <Content Include="Content\Upload\9841931920_Desert_0ccb.jpg" />
-    <Content Include="Content\Upload\9841931920_Desert_f7a4.jpg" />
-    <Content Include="Content\Upload\9841931920_female_user_4779.png" />
-    <Content Include="Content\Upload\9841931920_Hydrangeas_a3bb.jpg" />
-    <Content Include="Content\Upload\9841931920_Jellyfish_095a.jpg" />
-    <Content Include="Content\Upload\9841931920_Koala_3d07.jpg" />
-    <Content Include="Content\Upload\9841931920_Lighthouse_420d.jpg" />
-    <Content Include="Content\Upload\9841931920_Pooja_3a04.jpg" />
-    <Content Include="Content\Upload\9841931920_profile photo_9b5e.jpg" />
-    <Content Include="Content\Upload\9841931920_Raj_2272.png" />
-    <Content Include="Content\Upload\9841931920_Raj_d32f.png" />
-    <Content Include="Content\Upload\9841931920_sample citizenship_3f76.jpg" />
-    <Content Include="Content\Upload\9841931920_sample citizenship_b51f.jpg" />
-    <Content Include="Content\Upload\9841931920_sample-front-passport_ca34.png" />
-    <Content Include="Content\Upload\9841931920_Tulips_5b15.jpg" />
-    <Content Include="Content\Upload\9841931920_Tulips_6a98.jpg" />
-    <Content Include="Content\Upload\9841931920_UserImage_d076.png" />
-    <Content Include="Content\Upload\9843087611_adventure-air-aircraft-36487_a48a.jpg" />
-    <Content Include="Content\Upload\9843087611_adventure-air-aircraft-36487_a4dd.jpg" />
-    <Content Include="Content\Upload\9843087611_adventure-air-aircraft-36487_c898.jpg" />
-    <Content Include="Content\Upload\9843087611_adventure-air-aircraft-36487_f160.jpg" />
-    <Content Include="Content\Upload\9843087611_adventure-air-aircraft-36487_fe97.jpg" />
-    <Content Include="Content\Upload\9843087611_document_17d2.jpg" />
-    <Content Include="Content\Upload\9843087611_document_19f2.jpg" />
-    <Content Include="Content\Upload\9843087611_document_5ae9.jpg" />
-    <Content Include="Content\Upload\9843087611_document_7a7a.jpg" />
-    <Content Include="Content\Upload\9843087611_document_923f.jpg" />
-    <Content Include="Content\Upload\9843087611_document_9334.jpg" />
-    <Content Include="Content\Upload\9843087611_document_b180.jpg" />
-    <Content Include="Content\Upload\9843087611_document_d8aa.jpg" />
-    <Content Include="Content\Upload\9843087611_document_f2cd.jpg" />
-    <Content Include="Content\Upload\9843087611_shangrila_deposit_voucher_0e0e.jpg" />
-    <Content Include="Content\Upload\9843087611_shangrila_deposit_voucher_2a32.jpg" />
-    <Content Include="Content\Upload\9843087611_shangrila_deposit_voucher_56b8.jpg" />
-    <Content Include="Content\Upload\9843087611_shangrila_deposit_voucher_57fe.jpg" />
-    <Content Include="Content\Upload\9843087611_shangrila_deposit_voucher_7b84.jpg" />
-    <Content Include="Content\Upload\9843087611_shangrila_deposit_voucher_e0e0.jpg" />
-    <Content Include="Content\Upload\9843087612_adventure-air-aircraft-36487_1427.jpg" />
-    <Content Include="Content\Upload\9843087612_adventure-air-aircraft-36487_1a5e.jpg" />
-    <Content Include="Content\Upload\9843087612_adventure-air-aircraft-36487_4ec8.jpg" />
-    <Content Include="Content\Upload\9843087612_adventure-air-aircraft-36487_930d.jpg" />
-    <Content Include="Content\Upload\9843087612_adventure-air-aircraft-36487_97f4.jpg" />
-    <Content Include="Content\Upload\9843087612_adventure-air-aircraft-36487_b4d7.jpg" />
-    <Content Include="Content\Upload\9843087612_adventure-air-aircraft-36487_bd03.jpg" />
-    <Content Include="Content\Upload\9843087612_adventure-air-aircraft-36487_c008.jpg" />
-    <Content Include="Content\Upload\9843087612_adventure-air-aircraft-36487_d2ff.jpg" />
-    <Content Include="Content\Upload\9843087612_adventure-air-aircraft-36487_dcb9.jpg" />
-    <Content Include="Content\Upload\9843087612_adventure-air-aircraft-36487_ec41.jpg" />
-    <Content Include="Content\Upload\9843087612_adventure-air-aircraft-36487_f05c.jpg" />
-    <Content Include="Content\Upload\9843087612_adventure-air-aircraft-36487_fb90.jpg" />
-    <Content Include="Content\Upload\9843087612_document_f5ff.jpg" />
-    <Content Include="Content\Upload\9843087612_profile_234332_cb90.jpg" />
-    <Content Include="Content\Upload\9843087612_shangrila_deposit_voucher_cb4f.jpg" />
-    <Content Include="Content\Upload\9843087614_adventure-air-aircraft-36487_74d4.jpg" />
-    <Content Include="Content\Upload\9843087614_document_127d.jpg" />
-    <Content Include="Content\Upload\9843087614_document_377f.jpg" />
-    <Content Include="Content\Upload\9843087614_document_4193.jpg" />
-    <Content Include="Content\Upload\9843087614_document_72ea.jpg" />
-    <Content Include="Content\Upload\9843087614_document_7884.jpg" />
-    <Content Include="Content\Upload\9843087614_document_abc7.jpg" />
-    <Content Include="Content\Upload\9843087614_document_f01c.jpg" />
-    <Content Include="Content\Upload\9843087615_adventure-air-aircraft-36487_4bad.jpg" />
-    <Content Include="Content\Upload\9843087615_document_d844.jpg" />
-    <Content Include="Content\Upload\9843087616_adventure-air-aircraft-36487_a666.jpg" />
-    <Content Include="Content\Upload\9843087680_adventure-air-aircraft-36487_61e0.jpg" />
-    <Content Include="Content\Upload\9843087680_document_8c9d.jpg" />
-    <Content Include="Content\Upload\9843087680_document_9b43.jpg" />
-    <Content Include="Content\Upload\9843087681_adventure-air-aircraft-36487_0179.jpg" />
-    <Content Include="Content\Upload\9843087681_passportPicture_285f.jpg" />
-    <Content Include="Content\Upload\9843087681_shangrila_deposit_voucher_6d02.jpg" />
-    <Content Include="Content\Upload\9843087682_adventure-air-aircraft-36487_8858.jpg" />
-    <Content Include="Content\Upload\9843087682_adventure-air-aircraft-36487_b07d.jpg" />
-    <Content Include="Content\Upload\9843087682_document_3918.jpg" />
-    <Content Include="Content\Upload\9843087683_adventure-air-aircraft-36487_0823.jpg" />
-    <Content Include="Content\Upload\9843087683_adventure-air-aircraft-36487_8378.jpg" />
-    <Content Include="Content\Upload\9843087683_adventure-air-aircraft-36487_ad41.jpg" />
-    <Content Include="Content\Upload\9843087683_document_1971.jpg" />
-    <Content Include="Content\Upload\9843087683_document_3a8d.jpg" />
-    <Content Include="Content\Upload\9843087683_document_461a.jpg" />
-    <Content Include="Content\Upload\9843087683_document_55fa.jpg" />
-    <Content Include="Content\Upload\9843087683_document_65c9.jpg" />
-    <Content Include="Content\Upload\9843087683_document_7c30.jpg" />
-    <Content Include="Content\Upload\9843087683_document_cdbe.jpg" />
-    <Content Include="Content\Upload\9843087683_document_d1ec.jpg" />
-    <Content Include="Content\Upload\9843087683_document_d73e.jpg" />
-    <Content Include="Content\Upload\9843087684_adventure-air-aircraft-36487_74d9.jpg" />
-    <Content Include="Content\Upload\9843087684_document_19fa.jpg" />
-    <Content Include="Content\Upload\9843087684_shangrila_deposit_voucher_008f.jpg" />
-    <Content Include="Content\Upload\9843087685_adventure-air-aircraft-36487_64c4.jpg" />
-    <Content Include="Content\Upload\9843087685_document_0d2a.jpg" />
-    <Content Include="Content\Upload\9843087685_document_6a58.jpg" />
-    <Content Include="Content\Upload\9843087686_adventure-air-aircraft-36487_c7cb.jpg" />
-    <Content Include="Content\Upload\9843087686_document_d755.jpg" />
-    <Content Include="Content\Upload\9843087686_document_e44e.jpg" />
-    <Content Include="Content\Upload\9843087687_document_26c4.jpg" />
-    <Content Include="Content\Upload\9843087687_document_2a71.jpg" />
-    <Content Include="Content\Upload\9843087687_document_7610.jpg" />
-    <Content Include="Content\Upload\9843087687_document_9db6.jpg" />
-    <Content Include="Content\Upload\9843087689_document_4936.jpg" />
-    <Content Include="Content\Upload\9843087689_document_5fc0.jpg" />
-    <Content Include="Content\Upload\9843087689_document_888e.jpg" />
-    <Content Include="Content\Upload\9843087689_document_a426.jpg" />
-    <Content Include="Content\Upload\9843087689_passportPicture_aa62.jpg" />
-    <Content Include="Content\Upload\9843087690_adventure-air-aircraft-36487_0c1f.jpg" />
-    <Content Include="Content\Upload\9843087690_adventure-air-aircraft-36487_2b98.jpg" />
-    <Content Include="Content\Upload\9843087690_adventure-air-aircraft-36487_3514.jpg" />
-    <Content Include="Content\Upload\9843087690_adventure-air-aircraft-36487_3a3b.jpg" />
-    <Content Include="Content\Upload\9843087690_adventure-air-aircraft-36487_6e20.jpg" />
-    <Content Include="Content\Upload\9843087690_adventure-air-aircraft-36487_71fa.jpg" />
-    <Content Include="Content\Upload\9843087690_adventure-air-aircraft-36487_a847.jpg" />
-    <Content Include="Content\Upload\9843087690_document_2e37.jpg" />
-    <Content Include="Content\Upload\9843087692_adventure-air-aircraft-36487_73f9.jpg" />
-    <Content Include="Content\Upload\9843087692_adventure-air-aircraft-36487_9b70.jpg" />
-    <Content Include="Content\Upload\9843087692_adventure-air-aircraft-36487_bf39.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_009d.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_0a4f.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_0dae.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_1ff7.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_2331.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_23a8.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_2444.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_2635.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_2673.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_3161.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_388c.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_3d32.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_45de.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_488b.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_4f83.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_524e.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_532b.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_54ef.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_59c3.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_649f.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_66c9.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_699d.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_6feb.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_71d8.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_77a3.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_8d32.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_97c5.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_a456.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_a524.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_ac25.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_bb4b.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_c15c.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_c242.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_c2c6.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_c367.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_c85c.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_d8fd.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_ddf4.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_f77e.jpg" />
-    <Content Include="Content\Upload\9843087693_adventure-air-aircraft-36487_f86e.jpg" />
-    <Content Include="Content\Upload\9843087693_document_0312.jpg" />
-    <Content Include="Content\Upload\9843087693_document_03fd.jpg" />
-    <Content Include="Content\Upload\9843087693_document_0965.jpg" />
-    <Content Include="Content\Upload\9843087693_document_0f8a.jpg" />
-    <Content Include="Content\Upload\9843087693_document_1bbe.jpg" />
-    <Content Include="Content\Upload\9843087693_document_2224.jpg" />
-    <Content Include="Content\Upload\9843087693_document_222b.jpg" />
-    <Content Include="Content\Upload\9843087693_document_2521.jpg" />
-    <Content Include="Content\Upload\9843087693_document_2577.jpg" />
-    <Content Include="Content\Upload\9843087693_document_3145.jpg" />
-    <Content Include="Content\Upload\9843087693_document_32f3.jpg" />
-    <Content Include="Content\Upload\9843087693_document_35c8.jpg" />
-    <Content Include="Content\Upload\9843087693_document_36e0.jpg" />
-    <Content Include="Content\Upload\9843087693_document_38cd.jpg" />
-    <Content Include="Content\Upload\9843087693_document_3a82.jpg" />
-    <Content Include="Content\Upload\9843087693_document_3d00.jpg" />
-    <Content Include="Content\Upload\9843087693_document_3e73.jpg" />
-    <Content Include="Content\Upload\9843087693_document_4201.jpg" />
-    <Content Include="Content\Upload\9843087693_document_4318.jpg" />
-    <Content Include="Content\Upload\9843087693_document_4649.jpg" />
-    <Content Include="Content\Upload\9843087693_document_4685.jpg" />
-    <Content Include="Content\Upload\9843087693_document_48f6.jpg" />
-    <Content Include="Content\Upload\9843087693_document_4fd0.jpg" />
-    <Content Include="Content\Upload\9843087693_document_5595.jpg" />
-    <Content Include="Content\Upload\9843087693_document_57ff.jpg" />
-    <Content Include="Content\Upload\9843087693_document_62d9.jpg" />
-    <Content Include="Content\Upload\9843087693_document_635d.jpg" />
-    <Content Include="Content\Upload\9843087693_document_65fd.jpg" />
-    <Content Include="Content\Upload\9843087693_document_668f.jpg" />
-    <Content Include="Content\Upload\9843087693_document_6a4c.jpg" />
-    <Content Include="Content\Upload\9843087693_document_6d8e.jpg" />
-    <Content Include="Content\Upload\9843087693_document_6fa6.jpg" />
-    <Content Include="Content\Upload\9843087693_document_7c0f.jpg" />
-    <Content Include="Content\Upload\9843087693_document_80dc.jpg" />
-    <Content Include="Content\Upload\9843087693_document_8bce.jpg" />
-    <Content Include="Content\Upload\9843087693_document_90dd.jpg" />
-    <Content Include="Content\Upload\9843087693_document_9209.jpg" />
-    <Content Include="Content\Upload\9843087693_document_92d4.jpg" />
-    <Content Include="Content\Upload\9843087693_document_9bd7.jpg" />
-    <Content Include="Content\Upload\9843087693_document_9d0e.jpg" />
-    <Content Include="Content\Upload\9843087693_document_b0e5.jpg" />
-    <Content Include="Content\Upload\9843087693_document_b8b4.jpg" />
-    <Content Include="Content\Upload\9843087693_document_c32d.jpg" />
-    <Content Include="Content\Upload\9843087693_document_e3ab.jpg" />
-    <Content Include="Content\Upload\9843087693_document_e644.jpg" />
-    <Content Include="Content\Upload\9843087693_document_e826.jpg" />
-    <Content Include="Content\Upload\9843087693_document_ec2a.jpg" />
-    <Content Include="Content\Upload\9843087693_document_ed80.jpg" />
-    <Content Include="Content\Upload\9843087693_document_eefe.jpg" />
-    <Content Include="Content\Upload\9843087693_document_f2d8.jpg" />
-    <Content Include="Content\Upload\9843087693_document_f891.jpg" />
-    <Content Include="Content\Upload\9843087693_document_fad8.jpg" />
-    <Content Include="Content\Upload\9843087693_profile_234332_05b6.jpg" />
-    <Content Include="Content\Upload\9843087693_profile_234332_8201.jpg" />
-    <Content Include="Content\Upload\9843087693_profile_234332_d6b0.jpg" />
-    <Content Include="Content\Upload\9843087693_shangrila_deposit_voucher_00e4.jpg" />
-    <Content Include="Content\Upload\9843087693_shangrila_deposit_voucher_6aa9.jpg" />
-    <Content Include="Content\Upload\9843087693_shangrila_deposit_voucher_7900.jpg" />
-    <Content Include="Content\Upload\9843087693_shangrila_deposit_voucher_bbbe.jpg" />
-    <Content Include="Content\Upload\9843087693_shangrila_deposit_voucher_d776.jpg" />
-    <Content Include="Content\Upload\9843087693_shangrila_deposit_voucher_ed8f.jpg" />
-    <Content Include="Content\Upload\9843087696_adventure-air-aircraft-36487_21a0.jpg" />
-    <Content Include="Content\Upload\9843087696_adventure-air-aircraft-36487_a95c.jpg" />
-    <Content Include="Content\Upload\9843087696_adventure-air-aircraft-36487_ad4c.jpg" />
-    <Content Include="Content\Upload\9843087696_adventure-air-aircraft-36487_c097.jpg" />
-    <Content Include="Content\Upload\9843087696_document_05e6.jpg" />
-    <Content Include="Content\Upload\9843087696_document_2f71.jpg" />
-    <Content Include="Content\Upload\9843087696_document_4dab.jpg" />
-    <Content Include="Content\Upload\9843087696_document_5e0b.jpg" />
-    <Content Include="Content\Upload\9843087697_adventure-air-aircraft-36487_2ffa.jpg" />
-    <Content Include="Content\Upload\9843087697_document_49bb.jpg" />
-    <Content Include="Content\Upload\9843087697_document_f2a3.jpg" />
-    <Content Include="Content\Upload\9843087698_adventure-air-aircraft-36487_1637.jpg" />
-    <Content Include="Content\Upload\9843087698_document_120b.jpg" />
-    <Content Include="Content\Upload\9843087698_document_9842.jpg" />
-    <Content Include="Content\Upload\9843087698_document_dce3.jpg" />
-    <Content Include="Content\Upload\9843087698_document_e647.jpg" />
-    <Content Include="Content\Upload\9843087699_adventure-air-aircraft-36487_a5af.jpg" />
-    <Content Include="Content\Upload\9843087699_document_045b.jpg" />
-    <Content Include="Content\Upload\9843087699_document_05f8.jpg" />
-    <Content Include="Content\Upload\9843229149_adventure-air-aircraft-36487_05fe.jpg" />
-    <Content Include="Content\Upload\9843229149_adventure-air-aircraft-36487_7d97.jpg" />
-    <Content Include="Content\Upload\9843229149_adventure-air-aircraft-36487_ce6d.jpg" />
-    <Content Include="Content\Upload\9843229149_document_3ff6.jpg" />
-    <Content Include="Content\Upload\9843229149_document_8825.jpg" />
-    <Content Include="Content\Upload\9843229149_document_ae17.jpg" />
-    <Content Include="Content\Upload\9843229149_document_bec6.jpg" />
-    <Content Include="Content\Upload\9849292496_adventure-air-aircraft-36487_a320.jpg" />
-    <Content Include="Content\Upload\9849292496_adventure-air-aircraft-36487_cc97.jpg" />
-    <Content Include="Content\Upload\9849292496_document_0054.jpg" />
-    <Content Include="Content\Upload\9849292496_document_2b20.jpg" />
-    <Content Include="Content\Upload\9849292496_document_92f0.jpg" />
-    <Content Include="Content\Upload\9849292496_document_ea3b.jpg" />
-    <Content Include="Content\Upload\9849791836_adventure-air-aircraft-36487_48a6.jpg" />
-    <Content Include="Content\Upload\9849791836_adventure-air-aircraft-36487_48c9.jpg" />
-    <Content Include="Content\Upload\9849791836_adventure-air-aircraft-36487_58b5.jpg" />
-    <Content Include="Content\Upload\9849791836_adventure-air-aircraft-36487_9cb0.jpg" />
-    <Content Include="Content\Upload\9849791836_adventure-air-aircraft-36487_bb11.jpg" />
-    <Content Include="Content\Upload\9849791836_adventure-air-aircraft-36487_e28d.jpg" />
-    <Content Include="Content\Upload\9849791836_document_0827.jpg" />
-    <Content Include="Content\Upload\9849791836_document_0893.jpg" />
-    <Content Include="Content\Upload\9849791836_document_428a.jpg" />
-    <Content Include="Content\Upload\9849791836_document_50f2.jpg" />
-    <Content Include="Content\Upload\9849791836_document_7ec8.jpg" />
-    <Content Include="Content\Upload\9849791836_document_904a.jpg" />
-    <Content Include="Content\Upload\9849791836_document_9ccd.jpg" />
-    <Content Include="Content\Upload\9860906045_adventure-air-aircraft-36487_08dc.jpg" />
-    <Content Include="Content\Upload\9860906045_adventure-air-aircraft-36487_2971.jpg" />
-    <Content Include="Content\Upload\9860906045_adventure-air-aircraft-36487_ad3c.jpg" />
-    <Content Include="Content\Upload\9860906045_adventure-air-aircraft-36487_c11f.jpg" />
-    <Content Include="Content\Upload\9860906045_document_1248.jpg" />
-    <Content Include="Content\Upload\9860906045_document_8085.jpg" />
-    <Content Include="Content\Upload\9869862840_adventure-air-aircraft-36487_0238.jpg" />
-    <Content Include="Content\Upload\9869862840_adventure-air-aircraft-36487_11ea.jpg" />
-    <Content Include="Content\Upload\9869862840_adventure-air-aircraft-36487_21a0.jpg" />
-    <Content Include="Content\Upload\9869862840_adventure-air-aircraft-36487_2bb9.jpg" />
-    <Content Include="Content\Upload\9869862840_adventure-air-aircraft-36487_2d8e.jpg" />
-    <Content Include="Content\Upload\9869862840_adventure-air-aircraft-36487_4dde.jpg" />
-    <Content Include="Content\Upload\9869862840_adventure-air-aircraft-36487_6fdf.jpg" />
-    <Content Include="Content\Upload\9869862840_adventure-air-aircraft-36487_7cee.jpg" />
-    <Content Include="Content\Upload\9869862840_adventure-air-aircraft-36487_9816.jpg" />
-    <Content Include="Content\Upload\9869862840_document_07a5.jpg" />
-    <Content Include="Content\Upload\9869862840_document_0fe2.jpg" />
-    <Content Include="Content\Upload\9869862840_document_2d7a.jpg" />
-    <Content Include="Content\Upload\9869862840_document_2e02.jpg" />
-    <Content Include="Content\Upload\9869862840_document_3c31.jpg" />
-    <Content Include="Content\Upload\9869862840_document_59a5.jpg" />
-    <Content Include="Content\Upload\9869862840_document_5be1.jpg" />
-    <Content Include="Content\Upload\9869862840_document_5c9d.jpg" />
-    <Content Include="Content\Upload\9869862840_document_6b2c.jpg" />
-    <Content Include="Content\Upload\9869862840_document_a505.jpg" />
-    <Content Include="Content\Upload\9869862840_document_b5ca.jpg" />
-    <Content Include="Content\Upload\9869862840_document_bdb2.jpg" />
+    <Content Include="Content\themes\base\images\ui-bg_diagonal-maze_20_6e4f1c_10x10.png" />
+    <Content Include="Content\themes\base\images\ui-bg_diagonal-maze_40_000000_10x10.png" />
+    <Content Include="Content\themes\base\images\ui-bg_diagonals-thick_90_eeeeee_40x40.png" />
+    <Content Include="Content\themes\base\images\ui-bg_fine-grain_10_eceadf_60x60.png" />
+    <Content Include="Content\themes\base\images\ui-bg_fine-grain_10_f8f7f6_60x60.png" />
+    <Content Include="Content\themes\base\images\ui-bg_fine-grain_15_eceadf_60x60.png" />
+    <Content Include="Content\themes\base\images\ui-bg_fine-grain_15_f7f3de_60x60.png" />
+    <Content Include="Content\themes\base\images\ui-bg_fine-grain_15_ffffff_60x60.png" />
+    <Content Include="Content\themes\base\images\ui-bg_fine-grain_65_654b24_60x60.png" />
+    <Content Include="Content\themes\base\images\ui-bg_fine-grain_68_b83400_60x60.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_15_cd0a0a_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_55_fbec88_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_100_e4f1fb_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_50_3baae3_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_d0e5f5_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_80_d7ebf9_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_85_dfeffc_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_gloss-wave_55_5c9ccc_500x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-hard_100_f2f5f7_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-hard_70_000000_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_100_deedf7_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_25_ffef8f_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_inset-hard_100_f5f8f9_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_217bc0_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2694e8_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_3572ac_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_3d80b3_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_469bdd_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_6da8d5_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_72a7cf_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_8c291d_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_b83400_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_d8e7f3_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_f9bd01_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_fbdb93_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-cupper-ui.css" />
+    <Content Include="Content\themes\base\jquery-custom-ui.css" />
+    <Content Include="Content\themes\base\jquery-overcast-ui.css" />
+    <Content Include="Content\themes\base\jquery-pepper-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\broadlink.png" />
+    <Content Include="Images\College1.jpg" />
+    <Content Include="Images\College1.png" />
     <Content Include="Images\default_icon.png" />
+    <Content Include="Images\DishHome.png" />
+    <Content Include="Images\Dish_home.png" />
+    <Content Include="Images\ncell-2.png" />
+    <Content Include="Images\NCELL.png" />
     <Content Include="Images\ntc.png" />
     <Content Include="Images\ntc_cdma.png" />
+    <Content Include="Images\nt_adsl-2.png" />
+    <Content Include="Images\NT_ADSL.png" />
+    <Content Include="Images\nt_all.png" />
     <Content Include="Images\restaurant.png" />
+    <Content Include="Images\Restaurant1.png" />
     <Content Include="Images\school.png" />
+    <Content Include="Images\School1.jpg" />
+    <Content Include="Scripts\alertify.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -7993,13 +7590,6 @@
     <Content Include="Content\bower_components\jquery-ui\package.json" />
     <Content Include="Content\bower_components\jquery-ui\README.md" />
     <Content Include="Content\bower_components\jquery-ui\ui\.jshintrc" />
-    <Content Include="Content\bower_components\jquery\.bower.json" />
-    <Content Include="Content\bower_components\jquery\bower.json" />
-    <Content Include="Content\bower_components\jquery\dist\jquery.min.map" />
-    <Content Include="Content\bower_components\jquery\dist\jquery.slim.min.map" />
-    <Content Include="Content\bower_components\jquery\external\sizzle\dist\sizzle.min.map" />
-    <Content Include="Content\bower_components\jquery\README.md" />
-    <Content Include="Content\bower_components\jquery\src\.eslintrc.json" />
     <Content Include="Content\bower_components\jvectormap\.bower.json" />
     <Content Include="Content\bower_components\jvectormap\.gitignore" />
     <Content Include="Content\bower_components\jvectormap\build.sh" />
@@ -8214,42 +7804,61 @@
     <Content Include="Content\plugins\jquery-ui\jquery-ui-1.12.1.custom\package.json" />
     <Content Include="Content\plugins\DataTables\Buttons-1.5.1\css\common.scss" />
     <Content Include="Content\plugins\DataTables\Buttons-1.5.1\css\mixins.scss" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\bootstrap-reboot.css.map" />
-    <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\date_components\css\bootstrap-theme.css.map" />
+    <Content Include="Content\date_components\css\bootstrap.css.map" />
+    <Content Include="Content\date_components\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\date_components\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\date_components\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\date_comp\bootstrap-theme.css.map" />
+    <Content Include="Content\date_comp\bootstrap.css.map" />
+    <Content Include="Content\date_comp\glyphicons-halflings-regular.ttf" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <Content Include="Scripts\bootstrap.min.js.map" />
-    <Content Include="Scripts\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\CRNepaliCalender.js" />
+    <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Scripts\esm\popper-utils.min.js.map" />
+    <Content Include="Scripts\esm\popper.js.map" />
+    <Content Include="Scripts\esm\popper.min.js.map" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
-    <Content Include="Scripts\esm\popper.min.js.map" />
-    <Content Include="Scripts\esm\popper.js.map" />
-    <Content Include="Scripts\esm\popper-utils.min.js.map" />
-    <Content Include="Scripts\esm\popper-utils.js.map" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\FileSaver.min.js" />
-    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.js" />
+    <Content Include="Scripts\jquery-3.0.0.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.0.0.min.map" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\jquery.floatThead.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\popper-utils.js" />
-    <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\respond.js" />
@@ -8280,17 +7889,12 @@
     <Content Include="Service References\NTServices\MNepalWeb.NTServices.HelloWorldResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.4.1.min.map" />
-    <Content Include="Scripts\umd\popper.min.js.map" />
-    <Content Include="Scripts\umd\popper.js.map" />
-    <Content Include="Scripts\umd\popper-utils.min.js.map" />
-    <Content Include="Scripts\umd\popper-utils.js.map" />
-    <Content Include="Scripts\README.md" />
-    <Content Include="Scripts\popper.min.js.map" />
     <Content Include="Scripts\popper.js.map" />
-    <Content Include="Scripts\popper-utils.min.js.map" />
-    <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\umd\popper-utils.js.map" />
+    <Content Include="Scripts\umd\popper-utils.min.js.map" />
+    <Content Include="Scripts\umd\popper.js.map" />
+    <Content Include="Scripts\umd\popper.min.js.map" />
     <None Include="Service References\NTServices\NTSoap.disco" />
     <None Include="Service References\NTServices\configuration91.svcinfo" />
     <None Include="Service References\NTServices\configuration.svcinfo" />
@@ -8405,7 +8009,6 @@
     <Content Include="Views\AccountTypeSetup\CreateAccountType.cshtml" />
     <Content Include="Views\AccountTypeSetup\EditAccountType.cshtml" />
     <Content Include="Views\Menu\MenuLayout.cshtml" />
-    <Content Include="tsconfig.json" />
     <Content Include="Views\Shared\SideMenuPartial.cshtml" />
     <Content Include="Views\CustomerSetup\CreateCusProfile.cshtml" />
     <Content Include="Views\CustomerSetup\ListCostumerProfile.cshtml" />
@@ -8439,32 +8042,74 @@
     <Content Include="Views\Report\Summary.cshtml" />
     <Content Include="Views\Report\SummaryDetails.cshtml" />
     <Content Include="Views\Report\BranchRep.cshtml" />
-    <Content Include="Views\Customer\BankLinkApproveList.cshtml" />
-    <Content Include="Views\Customer\ViewBankLinkDetail.cshtml" />
-    <Content Include="Views\Customer\ViewSelfRegDetail.cshtml" />
-    <Content Include="Views\Customer\CustomerRejectedUnApproved.cshtml" />
-    <Content Include="Views\Customer\CustomerRejectedApproved.cshtml" />
     <Content Include="Views\UserRoleSetup\CreateAdminProfile.cshtml" />
-    <Content Include="Views\UserRoleSetup\CreateAdminProfileOLD.cshtml" />
     <Content Include="Views\UserRoleSetup\EditAdminProfileSetup.cshtml" />
-    <Content Include="Views\UserRoleSetup\EditAdminProfileSetupOLD.cshtml" />
     <Content Include="Views\UserRoleSetup\Index.cshtml" />
     <Content Include="Views\UserRoleSetup\ViewAdminProfileSetup.cshtml" />
+    <Content Include="Views\Admin\ApproveAdminList.cshtml" />
+    <Content Include="Views\Admin\ModifiedApprove.cshtml" />
+    <Content Include="Views\Admin\ViewApproveAdmin.cshtml" />
+    <Content Include="Views\Admin\ApprovePasswordReset.cshtml" />
+    <Content Include="Views\Admin\EditModified.cshtml" />
+    <Content Include="Views\Customer\StatusChangedList.cshtml" />
+    <Content Include="Views\Customer\ApprovePin.cshtml" />
+    <Content Include="Views\Admin\RejectedList.cshtml" />
+    <Content Include="Views\Admin\RegRejectedList.cshtml" />
+    <Content Include="Views\Admin\ViewAdminRegRej.cshtml" />
+    <Content Include="Views\Admin\ViewAdminRejected.cshtml" />
+    <Content Include="Views\Report\AdminDetails.cshtml" />
+    <Content Include="Views\UtilityPay\ADSLTopUp.cshtml" />
+    <Content Include="Views\UtilityPay\BroadLink.cshtml" />
+    <Content Include="Views\UtilityPay\DishHome.cshtml" />
+    <Content Include="Views\UtilityPay\NCELLTopUp.cshtml" />
+    <Content Include="Views\UtilityPay\NTCCDMA.cshtml" />
+    <Content Include="Views\UtilityPay\NTCGSM.cshtml" />
+    <Content Include="Views\UtilityPay\NTLandline.cshtml" />
+    <Content Include="Views\UtilityPay\NTTopUp.cshtml" />
+    <Content Include="Views\UtilityPay\Recharge.cshtml" />
+    <Content Include="Views\UtilityPay\TopUp.cshtml" />
+    <Content Include="Views\UtilityPay\UtilityComplete.cshtml" />
+    <Content Include="Views\Profile\AdminProfile.cshtml" />
+    <Content Include="Views\MerchantPayment\MechantPaymentComplete.cshtml" />
+    <Content Include="Views\MerchantPayment\MerchantCollege.cshtml" />
+    <Content Include="Views\MerchantPayment\MerchantIndex.cshtml" />
+    <Content Include="Views\MerchantPayment\MerchantPaymentComplete.cshtml" />
+    <Content Include="Views\MerchantPayment\MerchantRestaurant.cshtml" />
+    <Content Include="Views\MerchantPayment\MerchantSchool.cshtml" />
+    <Content Include="Views\UserRoleSetup\CreateAdminProfileOLD.cshtml" />
+    <Content Include="Views\UserRoleSetup\EditAdminProfileSetupOLD.cshtml" />
     <Content Include="Views\UserRoleSetup\ViewAdminProfileSetupOLD.cshtml" />
-    <Content Include="Views\Merchant\BankLinkApproveList.cshtml" />
-    <Content Include="Views\Merchant\MerchantBankLink.cshtml" />
-    <Content Include="Views\Merchant\MerchantDetail.cshtml" />
-    <Content Include="Views\Merchant\MerchantStatus.cshtml" />
-    <Content Include="Views\Merchant\Statement.cshtml" />
-    <Content Include="Views\Merchant\ViewBankLinkDetail.cshtml" />
-    <Content Include="Views\Merchant\ViewMerchantDetails.cshtml" />
+    <Content Include="Views\Report\CustomerExpiryList.cshtml" />
+    <Content Include="Views\Customer\Renew.cshtml" />
+    <Content Include="Views\Customer\RenewCust.cshtml" />
+    <Content Include="Views\Signup\CustomerKYC.cshtml" />
+    <Content Include="Views\Signup\Index.cshtml" />
+    <Content Include="Views\Signup\Verify.cshtml" />
+    <Content Include="Views\Customer\ViewSelfRegDetail.cshtml" />
+    <Content Include="Views\Customer\CusRejApproved.cshtml" />
+    <Content Include="Views\Customer\CusRejUnApproved.cshtml" />
+    <Content Include="Views\Customer\DeductCharge.cshtml" />
+    <Content Include="Views\Customer\CustomerRejectedApproved.cshtml" />
+    <Content Include="Views\Customer\CustomerRejectedUnApproved.cshtml" />
+    <Content Include="Views\Customer\CustomerKyc.cshtml" />
+    <Content Include="Views\Report\AdminActivity.cshtml" />
+    <Content Include="Views\Report\GetTransactionStatusSummary.cshtml" />
+    <Content Include="Views\Report\QueryExecutor.cshtml" />
+    <Content Include="Views\BranchAdminDashboard\Index.cshtml" />
+    <Content Include="Views\ResReport\ResponseReport.cshtml" />
+    <Content Include="Views\Customer\BankLinkApproveList.cshtml" />
+    <Content Include="Views\Customer\ViewBankLinkDetail.cshtml" />
     <Content Include="Views\Customer\BankLinkVerifyList.cshtml" />
     <Content Include="Views\Customer\ViewBankLinkVerifyDetail.cshtml" />
+    <Content Include="Views\Report\BankLink.cshtml" />
+    <Content Include="Views\Report\FundTranEBankingRep.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Upload\" />
     <Folder Include="Views\FileDownload\" />
     <Folder Include="Views\LogOut\" />
+    <Folder Include="Views\Merchant\" />
     <Folder Include="Views\Navigation\" />
   </ItemGroup>
   <ItemGroup>
@@ -8474,7 +8119,6 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Content\bower_components\moment\moment.d.ts" />
-    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -8518,19 +8162,9 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.11.2\build\Microsoft.ApplicationInsights.DependencyCollector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.11.2\build\Microsoft.ApplicationInsights.DependencyCollector.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.11.2\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.11.2\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.11.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.11.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.2.11.2\build\Microsoft.ApplicationInsights.WindowsServer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.WindowsServer.2.11.2\build\Microsoft.ApplicationInsights.WindowsServer.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.Web.2.11.2\build\Microsoft.ApplicationInsights.Web.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.Web.2.11.2\build\Microsoft.ApplicationInsights.Web.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
-  <Import Project="..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.11.2\build\Microsoft.ApplicationInsights.DependencyCollector.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.11.2\build\Microsoft.ApplicationInsights.DependencyCollector.targets')" />
-  <Import Project="..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.11.2\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.11.2\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets')" />
-  <Import Project="..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.11.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.11.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets')" />
-  <Import Project="..\packages\Microsoft.ApplicationInsights.WindowsServer.2.11.2\build\Microsoft.ApplicationInsights.WindowsServer.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.2.11.2\build\Microsoft.ApplicationInsights.WindowsServer.targets')" />
-  <Import Project="..\packages\Microsoft.ApplicationInsights.Web.2.11.2\build\Microsoft.ApplicationInsights.Web.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.Web.2.11.2\build\Microsoft.ApplicationInsights.Web.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -145,8 +145,6 @@
                                     @Html.AntiForgeryToken()
                                     @Html.ValidationSummary(true)
 
-
-
                                     <div class="box-body">
 
                                         <div class="form-group">
@@ -317,7 +315,7 @@
                                  message: 'This field is required and cannot be empty'
                              },
                              stringLength: {
-                                 min: 8,
+                                 min: 5,
                                  max: 12,
                                  message: 'The password must be of 5-12 characters'
                              },

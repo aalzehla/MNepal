@@ -1,0 +1,519 @@
+﻿@model ThailiMNepalAgent.Models.ISP
+
+@{
+    ViewBag.Title = "Worldlink Payment";
+    string hasBankKYC = ViewBag.HasBankKYC;
+    //float TotalAmountDue = parseFloat(@ViewBag.TotalAmountDue);
+
+}
+
+<!-- Main content -->
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />
+<style>
+    .image_icon {
+        width: 100px;
+    }
+
+    .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        margin-right: 13px;
+        position: relative;
+        z-index: 2;
+    }
+</style>
+
+@using (Html.BeginForm("WlinkExecutePayment", "Wlink", FormMethod.Post, new { @id = "WlinkExecutePayment", @name = "WlinkExecutePayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
+{
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="main-content">
+        <div class="two-colbg">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <section class="internet-payment pad-50">
+                            <div class="top-section">
+                                <h2 class="title">Worldlink Bill Payment</h2>
+                                <p>Please fill the required field.</p>
+                            </div>
+                            <div class="instant-transactions">
+                                <h3 class="title">Other Merchant Payment</h3>
+                                <div class="transactions-grid clearfix">
+                                    <div class="item load-wallet">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("MerchantRestaurant", "MerchantPayment")">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-restaurant"></i>
+                                                    <span>Restaurant</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+
+                                    <div class="item transfer-fund">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("MerchantCollege", "MerchantPayment")">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-college"></i>
+                                                    <span>College</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+
+                                    <div class="item top-up">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("MerchantSchool", "MerchantPayment")">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-school"></i>
+                                                    <span>School</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+
+                                    <div class="item top-up">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("MerchantInsurance", "MerchantPayment")">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-school"></i>
+                                                    <span>Insurance</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+                                    <div class="item top-up">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("Index", "NEA" )">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-electricity"></i>
+                                                    <span>NEA</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+                                    <div class="item top-up">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("Index", "Khanepani" )">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-khanepani"></i>
+                                                    <span>Khanepani</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+                                    <div class="item top-up">
+                                        <div class="item-inner">
+                                            <a href="@Url.Action("Index", "NepalWater" )">
+                                                <div class="content-inner">
+                                                    <i class="thaili-icon-khanepani"></i>
+                                                    <span>Nepal Water</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- /item -->
+                                </div>
+                            </div>
+                        </section>
+
+                    </div>
+
+                    <div class="col-lg-6 right-form">
+                        <section class="content-inner pad-50">
+                            @if (this.ViewData["NepalWater_messsage"] != null)
+                            {
+                                if (this.ViewData["message_class"].ToString() == "success_info")
+                                {
+                                    <div class="alert alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Success</h4> @this.ViewData["NepalWater_messsage"]
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Error</h4> @this.ViewData["NepalWater_messsage"]
+                                    </div>
+                                }
+                            }
+
+                            <div class="box-header with-border">
+                                <h2 class="title">Confirm Payment</h2>
+                            </div>
+                            @*<div class="row">
+                                    <div class="col-md-6">
+                                        <label>NepalWater Counter:</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>@ViewBag.NWBranchName</label>
+                                    </div>
+                                </div>*@
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Service Name:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>@ViewBag.paypointType</label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Customer Name:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>@ViewBag.CustomerID</label>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Total Dues:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>RS.@ViewBag.TotalAmountDue</label>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="transfer-order clearfix">
+                                <h3 class="title">Pay from</h3>
+
+                                <select class="form-control selectpicker transaction-select from col-md-9" id="TransactionMedium" name="TransactionMedium" onmousedown="this.value='';">
+                                    <option data-icon="thaili-icon-load-wallet" value="00">Wallet</option>
+                                    @if (hasBankKYC.Equals("T"))
+                                    {
+                                        <option data-icon="thaili-icon-bank" value="10">Bank</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="col-sm-12" for="@Html.NameFor(x=>x.amount)">
+                                        Amount
+                                        (<span style="color:red">*</span>)
+                                    </label>
+                                    <div class="form-group  input-group">
+                                        <div class="form-control col-4">NPR.</div>
+                                        @Html.TextBox("amount", (string)ViewBag.TotalAmountDue, new
+                                       {
+                                           @class = "form-control",
+                                           @title = "Please use Amount",
+                                           @placeholder = "Amount",
+                                           @maxlength = "9",
+                                           @oninput = "checkValidation()",
+                                           @onkeypress = "return NumberDot(event)",
+                                           @autocomplete = "off",
+                                           @readonly = "readonly"
+                                       })
+
+                                    </div>
+                                    <div class="form-group" id="AmtErr" style="color:red; margin-top:-11px;"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-12" for="@Html.NameFor(x=>x.TPin)"> Tpin (<span style="color:red">*</span>)</label>
+
+                                        @Html.PasswordFor(x => x.TPin, new { @class = "form-control pwd1", @title = "Please use T-Pin number", @placeholder = "T-Pin", @maxlength = "4", @onkeypress = "return isNumber(event)", @oninput = "checkValidation()", @autocomplete = "new-password", @onpaste = "return false" })
+                                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                                    </div>
+                                    <div class="form-group" id="PinErr" style="color:red; margin-top:-11px;"></div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-12" for="@Html.NameFor(x=>x.Remarks)"> Remarks (<span style="color:red">*</span>)</label>
+
+                                        @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control", @title = "Please insert Remarks", @placeholder = "Remarks", @maxlength = "30", @oninput = "checkValidation()" })
+
+                                    </div>
+                                    <div class="form-group" id="RemarkErr" style="color:red; margin-top:-11px;"></div>
+                                </div>
+                            </div>
+
+                            <br />
+
+
+
+                            <div class="box-footer">
+                                <input type="submit" class="btn btn-blue btn-big col-md-5" name="btnCommand" value="Pay" id="btnSubmit" />
+                                <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
+                            </div>
+
+                        </section>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Success modal -->
+    <div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="success-icon">
+                        <img src="~/Content/assets/img/success-tick.svg" alt="success-tick">
+                    </div>
+                    <p class="msg"></p>
+                    <span class="msg">Your payment has been confirmed.</span>
+                    <br /> <br />
+                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Failure modal -->
+    <div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="success-icon">
+                        <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
+                    </div>
+                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;"></p>
+                    <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
+                    <br /> <br />
+                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Failure modal session expired -->
+    <div class="modal fade common-modal" id="failureModalSessionExpired" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="success-icon">
+                        <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
+                    </div>
+                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;"></p>
+                    <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;">Session expired. Please login again</span>
+                    <br /> <br />
+                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+
+    <script type="text/javascript">
+
+        $(".btnShow1").mousedown(function () {
+            $(".pwd1").attr("type", "text");
+        });
+        $(".btnShow1").on("mouseleave", function () {
+            $(".pwd1").attr("type", "password");
+        });
+
+
+        document.getElementById("successModal").onclick = function () {
+         var url = '@Url.Action("Index", "UserDashboard")';
+         window.location.href = url;
+        };
+        document.getElementById("failureModalSessionExpired").onclick = function () {
+         var url = '@Url.Action("Index", "LogOut")';
+         window.location.href = url;
+        };
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        function noCharacter(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 32 && charCode < 48) || (charCode > 57 && charCode < 65) || (charCode > 90 && charCode < 97) || (charCode > 122 && charCode < 127)) {
+                return false;
+            }
+            return true;
+        }
+        ///for amount input number and dot only
+        function NumberDot(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+        $(".placeholder_Month").prepend("<option value='0' disabled selected>---Select Month---</option>");
+
+        function checkValidation() {
+            var remarks = $("[name='Remarks']").val();
+            var amount = $("[name='amount']").val();
+            var amount1 = parseFloat($("[name='amount']").val());
+            var pin = $("[name='TPin']").val();
+            var TotaldueAmount = parseFloat(@ViewBag.TotalAmountDue);
+            //var Months = $('select[name=Months] option:selected').val();
+            //Restrict input field to two decimals with jQuery
+            $("[name='amount']").on('input', function () {
+                this.value = this.value.match(/^\d+\.?\d{0,2}/);
+            });
+            if ((amount.trim() == "") || (amount.trim() == "0.00") || (amount.trim() == "0") || (amount1 < TotaldueAmount)) {
+                $("#AmtErr").html("");
+                $("#AmtErr").append("<small>" + "Please Enter valid Amount" + "</small>");
+                $("#AmtErr").show();
+            }
+            else {
+                $("#AmtErr").hide();
+            }
+
+            if (pin.trim() == "") {
+                $("#PinErr").html("");
+                $("#PinErr").append("<small>" + "Please Enter the T-Pin" + "</small>");
+                $("#PinErr").show();
+            }
+            else if (pin.length != 4) {
+                $("#PinErr").html("");
+                $("#PinErr").append("<small>" + "T-Pin must be 4 character long." + "</small>");
+                $("#PinErr").show();
+            }
+            else {
+                $("#PinErr").hide();
+            }
+
+            if (remarks.trim() == "") {
+                $("#RemarkErr").html("");
+                $("#RemarkErr").append("<small>" + "Please Enter Remarks" + "</small>");
+                $("#RemarkErr").show();
+            }
+            else {
+                $("#RemarkErr").hide();
+            }
+
+            //if ($('select[name=Months] option:selected').val() == '0') {
+            //    $("#MonthsErr").html("");
+            //    $("#MonthsErr").append("<small>" + "Please Select Specific Month" + "</small>");
+            //    $("#MonthsErr").show();
+            //}
+            //else {
+            //    $("#MonthsErr").hide();
+            //}
+        }
+
+
+
+        $("#clearButton").click(function () {
+            //$("[name='txtCustomerID']").val("");
+            //$("[name='amount']").val("");
+            $("[name='Remarks']").val("");
+            $("[name='TPin']").val("");
+            $("[name='Months']").val('0');
+        });
+
+
+
+
+        $('#btnSubmit').click(function (e) {
+            e.preventDefault();
+            debugger;
+            var amount = $("[name='amount']").val();
+            var TPin = $("[name='TPin']").val();
+            var Remarks = $("[name='Remarks']").val();
+            var servicecode = $("[name='TransactionMedium']").val();
+            if ((amount != "") && (Remarks != "") && (TPin != "") && (TPin.length == 4)) {
+
+                var dataToPost = {
+                    TransactionMedium: servicecode,
+                    amount: amount,
+                    Remarks: Remarks,
+                    TPin: TPin,
+                };
+
+                e.preventDefault(); //prevent the default action
+                $.ajax({
+                    url: '@Url.Action("WlinkExecutePayment", "Wlink")',
+                    type: "POST",
+                    data: dataToPost,
+                    async: false,
+                    success: function (data) {
+
+                        if (data.responseCode == "200") {
+                            $("#ajaxResponse").html("");
+                            var resp = JSON.parse(data.responseText);
+                            $('#successModal').modal("show");
+
+                            $("#TPin").val("");
+                            $("#Remarks").val("");
+                            $("#amount").val("");
+
+                        }
+                        //display error message
+                        else {
+                            $("#ajaxResponse").html("");
+                            $("#message").html("");
+                            $("#message").append(data.responseText);
+                            if (data.responseText == "Session expired. Please login again") {
+                                $('#failureModalSessionExpired').modal("show");
+                            }
+                            else {
+                                $('#failureModal').modal("show");
+                            }
+
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Failed to retrieve.');
+                        $("#message").html("");
+                        $("#message").append(jqXHR.responseText);
+                        $('#failureModal').modal("show");
+
+                    },
+                    //capture the request before it was sent to server
+                    beforeSend: function (jqXHR, settings) {
+                        //adding some Dummy data to the request
+                        settings.data += "&dummyData=whatever";
+                        //disable the button until we get the response
+                        $('#btnSubmit').attr("disabled", true);
+                    },
+                    complete: function (jqXHR, textStatus) {
+                        //enable the button
+                        $('#btnSubmit').attr("disabled", false);
+                    }
+                });
+
+            }
+            else {
+                checkValidation();
+                $("#message").html("");
+                $("#message").append("Please Enter the required fields.");
+                $('#failureModal').modal("show");
+
+            }
+        });
+    </script>
+
+}

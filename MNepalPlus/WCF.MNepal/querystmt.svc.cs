@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
@@ -247,6 +248,10 @@ namespace WCF.MNepal
             ReplyMessage replyMessage = new ReplyMessage();
             HttpPostedFileBase PassportPhoto = null;
 
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
+
             try
             {
 
@@ -332,6 +337,75 @@ namespace WCF.MNepal
                             result = "User Not Requested ";
                             replyMessage.ResponseStatus(HttpStatusCode.Unauthorized, replyMessage.Response);
                         }
+
+
+                        //for sms
+
+
+                        try
+                        {
+
+                            string messagereply = "Dear " + CustCheckUtils.GetName(MobileNumber) + "," + "\n";
+
+                            messagereply += " Your Feedback for Thaili Wallet has been submitted. \n";
+
+                            messagereply += "Thank you. MNepal";
+
+                            string mobile = MobileNumber;
+                            var client = new WebClient();
+
+                            if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
+                            {
+                                //FOR NCELL
+                                //var content = client.DownloadString(
+                                //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                //    + "977" + mobile + "&Text=" + messagereply + "");
+                                var content = client.DownloadString(
+                                    SMSNCELL
+                                    + "977" + mobile + "&Text=" + messagereply + "");
+                            }
+                            else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
+                                        || (mobile.Substring(0, 3) == "986"))
+                            {
+                                //FOR NTC
+                                //var content = client.DownloadString(
+                                //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                //    + "977" + mobile + "&Text=" + messagereply + "");
+                                var content = client.DownloadString(
+                                    SMSNTC
+                                    + "977" + mobile + "&Text=" + messagereply + "");
+                            }
+
+
+
+
+
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
+
+
+                        //for email
+
+                        string Subject = "Customer Support";
+                        string MailSubject = "<span style='font-size:15px;'><h4>Dear " + CustCheckUtils.GetName(MobileNumber) + ",</h4>";
+                        MailSubject += "Your Feedback for Thaili Wallet has been submitted. ";
+                        MailSubject += "We will try to work on it as soon as possible.<br/>";
+                        MailSubject += "<br/>Thank You!";
+                        MailSubject += "<br/>-MNepal </span><br/>";
+                        MailSubject += "<hr/>";
+                        EMailUtil SendMail = new EMailUtil();
+                        try
+                        {
+                            SendMail.SendMail(Email, Subject, MailSubject);
+                        }
+                        catch
+                        {
+
+                        }
+
 
                     }
                     string UserName = MobileNumber;
@@ -458,7 +532,7 @@ namespace WCF.MNepal
         }
 
         #endregion
-        
+
         public class MemoryPostedFile : HttpPostedFileBase
         {
             private readonly byte[] FileBytes;
@@ -542,5 +616,62 @@ namespace WCF.MNepal
             img.Save(path);
             return randomFileName;
         }
+
+
+        #region To send mail
+        //To send mail
+        public class EMailUtil
+        {
+            public void SendMail(string DestinationAddress, string Subject, string Message) //Single Mail
+            {
+                try
+                {
+
+
+                    if (string.IsNullOrEmpty(DestinationAddress))
+                    {
+                        return;
+                    }
+
+                    if (string.IsNullOrEmpty(Subject))
+                    {
+                        return;
+                    }
+                    if (string.IsNullOrEmpty(Message))
+                    {
+                        return;
+                    }
+                    using (SmtpClient client = new SmtpClient())
+                    {
+                        MailMessage mail = new MailMessage("donotreply@mnepal.com", DestinationAddress);
+                        client.Port = 25;
+                        client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        client.UseDefaultCredentials = false;
+                        client.Host = "smtp.mos.com.np";
+                        mail.Subject = Subject;
+                        mail.Body = Message;
+                        mail.IsBodyHtml = true;
+                        try
+                        {
+                            client.Send(mail);
+                        }
+                        catch (SmtpException exception)
+                        {
+                            // throw new Exception(exception.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
+
+            }
+        }
+        #endregion
+
+
     }
 }

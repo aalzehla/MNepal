@@ -46,10 +46,7 @@
                 
         <div class="col-md-12">
             <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#activity" data-toggle="tab">Manage</a></li>
-                </ul>
-                <div class="tab-content">
+                 <div class="tab-content">
                     <div class="active tab-pane" id="activity">
 
                         <div class="box box-primary">
@@ -94,6 +91,7 @@
                                                 @item.AllowAlert
                                             </td>
                                             <td>
+                                                @item.Active
                                                 @*@if (item.UserProfileStatus == "Active")
                                                     {
                                                         <span class="badge bg-green-active"> @item.UserProfileStatus </span>
@@ -105,7 +103,7 @@
                                             </td>
                                           
                                             <td>
-                                                <a href="@Url.Action("EditAccountType","AccountTypeSetup", new {AcTypeID = @item.AcType } )"><i class="fa fa-pencil fa-fw"></i></a>
+                                                <a href="@Url.Action("EditAccountType","AccountTypeSetup", new {AcTypeID = @item.AcType } )"><i class="fa fa-pencil fa-fw" tile="Edit"></i></a>
                                             </td>
                                         </tr>
 

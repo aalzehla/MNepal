@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<doc>
+<doc xml:lang="en">
     <assembly>
         <name>Microsoft.AI.DependencyCollector</name>
     </assembly>
@@ -22,16 +22,6 @@
         <member name="P:Microsoft.ApplicationInsights.DependencyCollector.DependencyTrackingTelemetryModule.EnableLegacyCorrelationHeadersInjection">
             <summary>
             Gets or sets a value indicating whether to enable legacy (x-ms*) correlation headers injection.
-            </summary>
-        </member>
-        <member name="P:Microsoft.ApplicationInsights.DependencyCollector.DependencyTrackingTelemetryModule.EnableW3CHeadersInjection">
-            <summary>
-            Gets or sets a value indicating whether to enable W3C distributed tracing headers injection.
-            </summary>
-        </member>
-        <member name="P:Microsoft.ApplicationInsights.DependencyCollector.DependencyTrackingTelemetryModule.EnableRequestIdHeaderInjectionInW3CMode">
-            <summary>
-            Gets or sets a value indicating whether to enable Request-Id correlation headers injection.
             </summary>
         </member>
         <member name="P:Microsoft.ApplicationInsights.DependencyCollector.DependencyTrackingTelemetryModule.ExcludeComponentCorrelationHttpHeadersOnDomains">
@@ -70,13 +60,6 @@
             </summary>
             <param name="disposing">The method has been called directly or indirectly by a user's code.</param>
         </member>
-        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.DependencyTrackingTelemetryModule.PrepareFirstActivity">
-            <summary>
-            When the first Activity is created in the process (on .NET Framework), it synchronizes DateTime.UtcNow 
-            in order to make it's StartTime and duration precise, it may take up to 16ms. 
-            Let's create the first Activity ever here, so we will not miss those 16ms on the first dependency tracking.
-            </summary>
-        </member>
         <member name="M:Microsoft.ApplicationInsights.DependencyCollector.DependencyTrackingTelemetryModule.InitializeForDiagnosticAndFrameworkEventSource">
             <summary>
             Initialize for framework event source (not supported for Net40).
@@ -100,31 +83,6 @@
         <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.EventHandlers.ServiceBusDiagnosticsEventHandler">
             <summary>
             Implements ServiceBus DiagnosticSource events handling.
-            </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.HttpInstrumentationVersion">
-            <summary>
-            Version of the HttpClient instrumentation.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.DependencyCollector.Implementation.HttpInstrumentationVersion.Unknown">
-            <summary>
-            Version is not identified.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.DependencyCollector.Implementation.HttpInstrumentationVersion.V1">
-            <summary>
-            NET Core 1.* - deprecated events
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.DependencyCollector.Implementation.HttpInstrumentationVersion.V2">
-            <summary>
-            .NET Core 2.* - Activity and new events
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.DependencyCollector.Implementation.HttpInstrumentationVersion.V3">
-            <summary>
-            .NET Core 3.* - W3C
             </summary>
         </member>
         <member name="P:Microsoft.ApplicationInsights.DependencyCollector.Implementation.HttpCoreDiagnosticSourceListener.PendingDependencyTelemetry">
@@ -306,16 +264,16 @@
             <summary>
             Base implementation of DiagnosticSource listener. 
             Takes care of managing subscriptions to multiple sources and their events.
-            </summary>
             <typeparamref name="TContext">The type of processing context for given diagnostic source.</typeparamref>
+            </summary>
         </member>
         <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.DiagnosticSourceListenerBase`1.#ctor(Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration)">
             <summary>
             Creates DiagnosticSourceListenerBase. To finish the initialization and subscribe to all enabled sources,
-            call <see cref="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.DiagnosticSourceListenerBase`1.Subscribe"/>.
+            call <see cref="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.DiagnosticSourceListenerBase`1.Subscribe"/>
             </summary>
             <param name="configuration"><see cref="T:Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration"/> instance.
-            The listener tracks dependency calls and uses configuration to construct <see cref="T:Microsoft.ApplicationInsights.TelemetryClient"/>.</param>
+            The listener tracks dependency calls and uses configuration to construct <see cref="T:Microsoft.ApplicationInsights.TelemetryClient"/></param>
         </member>
         <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.DiagnosticSourceListenerBase`1.Subscribe">
             <summary>
@@ -467,13 +425,6 @@
             <param name="httpDependency">Dependency item to parse. It is expected to be of HTTP type.</param>
             <returns><code>true</code> if successfully parsed dependency.</returns>
         </member>
-        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.HttpParsers.AzureSearchHttpParser.TryParse(Microsoft.ApplicationInsights.DataContracts.DependencyTelemetry@)">
-            <summary>
-            Tries parsing given dependency telemetry item. 
-            </summary>
-            <param name="httpDependency">Dependency item to parse. It is expected to be of HTTP type.</param>
-            <returns><code>true</code> if successfully parsed dependency.</returns>
-        </member>
         <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.HttpParsers.AzureServiceBusHttpParser">
             <summary>
             HTTP Dependency parser that attempts to parse dependency as Azure Service Bus call.
@@ -540,7 +491,7 @@
         <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.HttpParsers.HttpParsingHelper.TokenizeRequestPath(System.String)">
             <summary>
             Tokenizes request path.
-            E.g. the string "/a/b/c/d?e=f" will be tokenized into [ "a", "b", "c", "d" ].
+            E.g. the string <code>"/a/b/c/d?e=f"</code> will be tokenized into <code>[ "a", "b", "c", "d" ]</code>.
             </summary>
             <param name="requestPath">The request path.</param>
             <returns>List of tokens.</returns>
@@ -560,7 +511,7 @@
             Extracts the HTTP verb from dependency name.
             </summary>
             <param name="name">The dependency name.</param>
-            <param name="verb">The extracted verb (or NULL if not matched).</param>
+            <param name="verb">The extracted verb (<code>null</code> if not matched).</param>
             <param name="nameWithoutVerb">The dependency name sans the extracted verb.</param>
             <param name="supportedVerbs">List of supported verbs to extract.</param>
         </member>
@@ -686,58 +637,16 @@
             <summary> Fetchers for connection open/close error events. </summary>
         </member>
         <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionCommitBefore">
-            <summary> Fetchers for transaction commit before events. </summary>
+            <summary> Fetchers for transaction commit/rollback before events. </summary>
         </member>
         <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionRollbackBefore">
-            <summary> Fetchers for transaction rollback before events. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionRollbackAfter">
-            <summary> Fetchers for transaction rollback after events. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionCommitAfter">
-            <summary> Fetchers for transaction commit after events. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionRollbackError">
-            <summary> Fetchers for transaction rollback error events. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionCommitError">
-            <summary> Fetchers for transaction commit error events. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.CommandBeforeMicrosoft">
-            <summary> Fetchers for execute command before event. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.CommandAfterMicrosoft">
-            <summary> Fetchers for execute command after event. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.CommandErrorMicrosoft">
-            <summary> Fetchers for execute command error event. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.ConnectionBeforeMicrosoft">
-            <summary> Fetchers for connection open/close before events. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.ConnectionAfterMicrosoft">
-            <summary> Fetchers for connection open/close after events. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.ConnectionErrorMicrosoft">
-            <summary> Fetchers for connection open/close error events. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionCommitBeforeMicrosoft">
             <summary> Fetchers for transaction commit before events. </summary>
         </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionRollbackBeforeMicrosoft">
-            <summary> Fetchers for transaction rollback before events. </summary>
+        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionAfter">
+            <summary> Fetchers for transaction commit/rollback after events. </summary>
         </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionRollbackAfterMicrosoft">
-            <summary> Fetchers for transaction rollback after events. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionCommitAfterMicrosoft">
-            <summary> Fetchers for transaction commit after events. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionRollbackErrorMicrosoft">
-            <summary> Fetchers for transaction rollback error events. </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionCommitErrorMicrosoft">
-            <summary> Fetchers for transaction commit error events. </summary>
+        <member name="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.SqlClientDiagnostics.SqlClientDiagnosticFetcherTypes.TransactionError">
+            <summary> Fetchers for transaction commit/rollback error events. </summary>
         </member>
         <member name="P:Microsoft.ApplicationInsights.DependencyCollector.Implementation.ClientServerDependencyTracker.PretendProfilerIsAttached">
             <summary>
@@ -871,11 +780,13 @@
             <param name="id">This object.</param>
             <param name="resourceName">URI of the web request.</param>
         </member>
-        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.FrameworkHttpProcessing.OnEndHttpCallback(System.Int64,System.Nullable{System.Int32})">
+        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.FrameworkHttpProcessing.OnEndHttpCallback(System.Int64,System.Nullable{System.Boolean},System.Boolean,System.Nullable{System.Int32})">
             <summary>
             On end callback from Framework event source.
             </summary>
             <param name="id">The id.</param>
+            <param name="success">The success to indicate if the dependency call completed successfully or not.</param>
+            <param name="synchronous">The synchronous flag to indicate if the dependency call was synchronous or not.</param>
             <param name="statusCode">The HTTP status code of the response.</param>
         </member>
         <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.FrameworkHttpProcessing.AddTupleForWebDependencies(System.Net.WebRequest,Microsoft.ApplicationInsights.DataContracts.DependencyTelemetry,System.Boolean)">
@@ -962,12 +873,13 @@
             <param name="database">Database name.</param>
             <param name="commandText">Command text.</param>
         </member>
-        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.FrameworkSqlProcessing.OnEndExecuteCallback(System.Int64,System.Boolean,System.Int32)">
+        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.FrameworkSqlProcessing.OnEndExecuteCallback(System.Int64,System.Boolean,System.Boolean,System.Int32)">
             <summary>
             On end callback from Framework event source.
             </summary>        
             <param name="id">Identifier of SQL connection object.</param>
             <param name="success">Indicate whether operation completed successfully.</param>
+            <param name="synchronous">Indicates whether operation was called synchronously or asynchronously.</param>
             <param name="sqlExceptionNumber">SQL exception number.</param>
         </member>
         <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.FrameworkSqlProcessing.GetResourceName(System.String,System.String,System.String)">
@@ -1028,7 +940,7 @@
             received from Profiler instrumentation for HTTP or HTTP EventSource/DiagnosticSource events.   
             </summary>
         </member>
-        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.HttpProcessing.#ctor(Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration,System.String,System.String,System.Boolean,System.Collections.Generic.ICollection{System.String},System.Boolean,System.Boolean)">
+        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.HttpProcessing.#ctor(Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration,System.String,System.String,System.Boolean,System.Collections.Generic.ICollection{System.String},System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.HttpProcessing"/> class.
             </summary>
@@ -1098,7 +1010,7 @@
             received from Profiler instrumentation for HTTP .   
             </summary>
         </member>
-        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.ProfilerHttpProcessing.#ctor(Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration,System.String,Microsoft.ApplicationInsights.DependencyCollector.Implementation.Operation.ObjectInstanceBasedOperationHolder,System.Boolean,System.Collections.Generic.ICollection{System.String},System.Boolean,System.Boolean)">
+        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.ProfilerHttpProcessing.#ctor(Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration,System.String,Microsoft.ApplicationInsights.DependencyCollector.Implementation.Operation.ObjectInstanceBasedOperationHolder,System.Boolean,System.Collections.Generic.ICollection{System.String},System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:Microsoft.ApplicationInsights.DependencyCollector.Implementation.ProfilerHttpProcessing"/> class.
             </summary>
@@ -1321,12 +1233,12 @@
             On end callback for methods with 1 parameter. Doesn't track the telemetry item, just stops activity and removes object from the table.
             </summary>
         </member>
-        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.ProfilerSqlProcessingBase.OnEndAsyncForOneParameter(System.Object,System.Object)">
+        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.ProfilerSqlProcessingBase.OnEndAsyncForOneParameter(System.Object,System.Object,System.Object)">
             <summary>
             On end async callback for methods with 1 parameter.
             </summary>
         </member>
-        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.ProfilerSqlProcessingBase.OnEndExceptionAsyncForOneParameter(System.Object,System.Object)">
+        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.ProfilerSqlProcessingBase.OnEndExceptionAsyncForOneParameter(System.Object,System.Object,System.Object)">
             <summary>
             On end async callback for methods with 1 parameter. Sends data only if returned task (returnValue) is faulted.
             </summary>
@@ -1336,7 +1248,7 @@
             On end callback for methods with 2 parameter.
             </summary>
         </member>
-        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.ProfilerSqlProcessingBase.OnEndAsyncForTwoParameters(System.Object,System.Object)">
+        <member name="M:Microsoft.ApplicationInsights.DependencyCollector.Implementation.ProfilerSqlProcessingBase.OnEndAsyncForTwoParameters(System.Object,System.Object,System.Object,System.Object)">
             <summary>
             On end async callback for methods with 2 parameter.
             </summary>
@@ -1471,29 +1383,6 @@
             <param name="sqlRequest">SQL request object which is used as a key to store in the tables.</param>
             <returns>Dependency telemetry item with an associated dependency telemetry item.</returns>
         </member>
-        <member name="T:Microsoft.ApplicationInsights.Common.ActiveSubsciptionManager">
-            <summary>
-            Keeps one active subscription to specific DiagnosticSource per process.
-            Helps manage subsciptions in scenarios where multiple apps hosted in the same process.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.ActiveSubsciptionManager.Attach(System.Object)">
-            <summary>
-            Adds listener and makes it active if there is no active listener.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.ActiveSubsciptionManager.Detach(System.Object)">
-            <summary>
-            Removes listener and assigns new active listener if necessary.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.ActiveSubsciptionManager.IsActive(System.Object)">
-            <summary>
-            Checks whether given subscriber is an active one.
-            </summary>
-            <param name="subscriber">Subscriber to check.</param>
-            <returns>True is it is an active subscriber, false otherwise.</returns>
-        </member>
         <member name="T:Microsoft.ApplicationInsights.Common.AppMapCorrelationEventSource">
             <summary>
             ETW EventSource tracing class.
@@ -1517,24 +1406,6 @@
             Key word for diagnostics events.
             </summary>
         </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.ArrayExtensions.Empty``1">
-            <summary>
-            Returns an empty array.
-            </summary>
-            <remarks>
-            Array.Empty() was added to Net Framework in 4.6
-            This adds support for Net45.
-            </remarks>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.Common.ArrayExtensions.EmptyArray`1">
-            <summary>
-            [Net45 Only] Copied from Net Framework (https://referencesource.microsoft.com/#mscorlib/system/array.cs,bc9fd1be0e4f4e70,references).
-            </summary>
-            <remarks>
-            Array.Empty() was added to Net Framework in 4.6
-            This adds support for Net45.
-            </remarks>
-        </member>
         <member name="T:Microsoft.ApplicationInsights.Common.ConditionalWeakTableExtensions">
             <summary>
             Extension methods for the ConditionalWeakTable class.
@@ -1556,14 +1427,6 @@
             </summary>
             <param name="ex">The exception to convert to a string.</param>
             <returns>The detailed string version of the provided exception.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.GuidExtensions.ToStringInvariant(System.Guid,System.String)">
-            <summary>
-            Overload for Guid.ToString(). 
-            </summary>
-            <remarks>
-            This method encapsulates the language switch for NetStandard and NetFramework and resolves the error "The behavior of guid.ToStrinc() could vary based on the current user's locale settings".
-            </remarks>
         </member>
         <member name="T:Microsoft.ApplicationInsights.Common.HeadersUtilities">
             <summary>
@@ -1597,20 +1460,6 @@
             Remove all other characters.
             </summary>
         </member>
-        <member name="T:Microsoft.ApplicationInsights.Common.ExperimentalConstants">
-            <summary>
-            These values are listed to guard against malicious injections by limiting the max size allowed in an HTTP Response.
-            These max limits are intentionally exaggerated to allow for unexpected responses, while still guarding against unreasonably large responses.
-            Example: While a 32 character response may be expected, 50 characters may be permitted while a 10,000 character response would be unreasonable and malicious.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.ExperimentalConstants.DeferRequestTrackingProperties">
-            <summary>
-            This is used to defer setting properties on RequestTelemetry until after Sampling.
-            QuickPulse expects these properties so we have to set them here as well.
-            Used to set QuickPulseTelemetryProcessor.EvaluateDisabledTrackingProperties and RequestTrackingTelemetryModule.DisableTrackingProperties.
-            </summary>
-        </member>
         <member name="T:Microsoft.ApplicationInsights.Common.InjectionGuardConstants">
             <summary>
             These values are listed to guard against malicious injections by limiting the max size allowed in an HTTP Response.
@@ -1618,7 +1467,7 @@
             Example: While a 32 character response may be expected, 50 characters may be permitted while a 10,000 character response would be unreasonable and malicious.
             </summary>
         </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.InjectionGuardConstants.AppIdMaxLength">
+        <member name="F:Microsoft.ApplicationInsights.Common.InjectionGuardConstants.AppIdMaxLengeth">
             <summary>
             Max length of AppId allowed in response from Breeze.
             </summary>
@@ -1626,36 +1475,6 @@
         <member name="F:Microsoft.ApplicationInsights.Common.InjectionGuardConstants.RequestHeaderMaxLength">
             <summary>
             Max length of incoming Request Header value allowed.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.InjectionGuardConstants.ContextHeaderKeyMaxLength">
-            <summary>
-            Max length of context header key.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.InjectionGuardConstants.ContextHeaderValueMaxLength">
-            <summary>
-            Max length of context header value.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.InjectionGuardConstants.TraceParentHeaderMaxLength">
-            <summary>
-            Max length of traceparent header value.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.InjectionGuardConstants.TraceStateHeaderMaxLength">
-            <summary>
-            Max length of tracestate header value string.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.InjectionGuardConstants.TraceStateMaxPairs">
-            <summary>
-            Max number of key value pairs in the tracestate header.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.InjectionGuardConstants.QuickPulseResponseHeaderMaxLength">
-            <summary>
-            Max length of incoming Response Header value allowed.
             </summary>
         </member>
         <member name="T:Microsoft.ApplicationInsights.Common.PropertyFetcher">
@@ -1733,24 +1552,9 @@
         <member name="M:Microsoft.ApplicationInsights.Common.StringUtilities.GenerateTraceId">
             <summary>
             Generates random trace Id as per W3C Distributed tracing specification.
-            https://github.com/w3c/distributed-tracing/blob/master/trace_context/HTTP_HEADER_FORMAT.md#trace-id .
+            https://github.com/w3c/distributed-tracing/blob/master/trace_context/HTTP_HEADER_FORMAT.md#trace-id
             </summary>
-            <returns>Random 16 bytes array encoded as hex string.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.StringUtilities.GenerateSpanId">
-            <summary>
-            Generates random span Id as per W3C Distributed tracing specification.
-            https://github.com/w3c/distributed-tracing/blob/master/trace_context/HTTP_HEADER_FORMAT.md#span-id .
-            </summary>
-            <returns>Random 8 bytes array encoded as hex string.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.StringUtilities.FormatRequestId(System.String,System.String)">
-            <summary>
-            Formats trace Id and span Id into valid Request-Id: |trace.span.
-            </summary>
-            <param name="traceId">Trace Id.</param>
-            <param name="spanId">Span id.</param>
-            <returns>valid Request-Id.</returns>
+            <returns>Random 16 bytes array encoded as hex string</returns>
         </member>
         <member name="T:Microsoft.ApplicationInsights.Common.WebHeaderCollectionExtensions">
             <summary>
@@ -1790,143 +1594,6 @@
             <param name="headers">Header collection.</param>
             <param name="headerName">Name of the header that is to contain the name-value pair.</param>
             <param name="keyValuePairs">List of KeyValuePairs to format into header.</param>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.WebHeaderCollectionExtensions.GetHeaderValue(System.Collections.Specialized.NameValueCollection,System.String,System.Int32,System.Int32)">
-            <summary>
-            For the given header collection, for a given header name, returns collection of header values.
-            </summary>
-            <param name="headers">Header collection.</param>
-            <param name="headerName">Name of the header in the collection.</param>
-            <param name="maxStringLength">Maximum allowed header length.</param>
-            <param name="maxItems">Maximum allowed number comma separated values in the header.</param>
-            <returns>List of comma separated values in the given header.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.WebHeaderCollectionExtensions.ReadActivityBaggage(System.Collections.Specialized.NameValueCollection,System.Diagnostics.Activity)">
-            <summary>
-            Reads Correlation-Context and populates it on Activity.Baggage following https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.DiagnosticSource/src/HttpCorrelationProtocol.md#correlation-context.
-            Use this method when you want force parsing Correlation-Context is absence of Request-Id or traceparent. 
-            </summary>
-            <param name="headers">Header collection.</param>
-            <param name="activity">Activity to populate baggage on.</param>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.W3C.W3CActivityExtensions">
-            <summary>
-            Extends Activity to support W3C distributed tracing standard.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.W3C.W3CActivityExtensions.GenerateW3CContext(System.Diagnostics.Activity)">
-            <summary>
-            Generate new W3C context.
-            </summary>
-            <param name="activity">Activity to generate W3C context on.</param>
-            <returns>The same Activity for chaining.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.W3C.W3CActivityExtensions.IsW3CActivity(System.Diagnostics.Activity)">
-            <summary>
-            Checks if current Activity has W3C properties on it.
-            </summary>
-            <param name="activity">Activity to check.</param>
-            <returns>True if Activity has W3C properties, false otherwise.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.W3C.W3CActivityExtensions.UpdateContextOnActivity(System.Diagnostics.Activity)">
-            <summary>
-            Updates context on the Activity based on the W3C Context in the parent Activity tree.
-            </summary>
-            <param name="activity">Activity to update W3C context on.</param>
-            <returns>The same Activity for chaining.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.W3C.W3CActivityExtensions.GetTraceparent(System.Diagnostics.Activity)">
-            <summary>
-            Gets traceparent header value for the Activity or null if there is no W3C context on it.
-            </summary>
-            <param name="activity">Activity to read W3C context from.</param>
-            <returns>traceparent header value.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.W3C.W3CActivityExtensions.SetTraceparent(System.Diagnostics.Activity,System.String)">
-            <summary>
-            Initializes W3C context on the Activity from traceparent header value.
-            </summary>
-            <param name="activity">Activity to set W3C context on.</param>
-            <param name="value">Valid traceparent header like 00-0af7651916cd43dd8448eb211c80319c-b9c7c989f97918e1-01.</param>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.W3C.W3CActivityExtensions.GetTracestate(System.Diagnostics.Activity)">
-            <summary>
-            Gets tracestate header value from the Activity.
-            </summary>
-            <param name="activity">Activity to get tracestate from.</param>
-            <returns>tracestate header value.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.W3C.W3CActivityExtensions.SetTracestate(System.Diagnostics.Activity,System.String)">
-            <summary>
-            Sets tracestate header value on the Activity.
-            </summary>
-            <param name="activity">Activity to set tracestate on.</param>
-            <param name="value">tracestate header value.</param>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.W3C.W3CActivityExtensions.GetTraceId(System.Diagnostics.Activity)">
-            <summary>
-            Gets TraceId from the Activity.
-            Use carefully: if may cause iteration over all tags!.
-            </summary>
-            <param name="activity">Activity to get traceId from.</param>
-            <returns>TraceId value or null if it does not exist.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.W3C.W3CActivityExtensions.GetSpanId(System.Diagnostics.Activity)">
-            <summary>
-            Gets SpanId from the Activity.
-            Use carefully: if may cause iteration over all tags!.
-            </summary>
-            <param name="activity">Activity to get spanId from.</param>
-            <returns>SpanId value or null if it does not exist.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.W3C.W3CActivityExtensions.GetParentSpanId(System.Diagnostics.Activity)">
-            <summary>
-            Gets ParentSpanId from the Activity.
-            Use carefully: if may cause iteration over all tags!.
-            </summary>
-            <param name="activity">Activity to get ParentSpanId from.</param>
-            <returns>ParentSpanId value or null if it does not exist.</returns>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.W3C.W3CConstants">
-            <summary>
-            W3C constants.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.W3C.W3CConstants.TraceParentHeader">
-            <summary>
-            W3C traceparent header name.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.W3C.W3CConstants.TraceStateHeader">
-            <summary>
-            W3C tracestate header name.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.W3C.W3CConstants.ApplicationIdTraceStateField">
-            <summary>
-            Name of the field that carry ApplicationInsights application Id in the tracestate header under az key.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.W3C.W3CConstants.AzureTracestateNamespace">
-            <summary>
-            Name of the field that carry Azure-specific states in the tracestate header.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.W3C.W3CConstants.TracestateAzureSeparator">
-            <summary>
-            Separator between Azure namespace values.
-            </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.W3C.W3COperationCorrelationTelemetryInitializer">
-            <summary>
-            Telemetry Initializer that sets correlation ids for W3C.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.W3C.W3COperationCorrelationTelemetryInitializer.Initialize(Microsoft.ApplicationInsights.Channel.ITelemetry)">
-            <summary>
-            Initializes telemetry item.
-            </summary>
-            <param name="telemetry">Telemetry item.</param>
         </member>
     </members>
 </doc>

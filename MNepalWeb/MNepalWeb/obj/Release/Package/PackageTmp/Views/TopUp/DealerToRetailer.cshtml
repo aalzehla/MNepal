@@ -1,0 +1,80 @@
+﻿@model MNepalWeb.ViewModel.NTTopUpVM
+@{
+    ViewBag.Title = "NTPrepaid";
+}
+
+<section class="content-header">
+    <!--Leave Blank if no content-->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="box">
+        <div class="box-header with-border bg-aqua-gradient">
+            <h3 class="box-title">TopUp</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="box-body">
+            <div class="row">
+                @using (Html.BeginForm("NTPrepaid", "TopUp", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+
+
+
+                    <ul class="timeline timeline-inverse">
+                        <!-- timeline time label -->
+                        <!-- /.timeline-label -->
+                        <!-- timeline item -->
+                        <li>
+                            <div class="timeline-item">
+
+                                <h3 class="timeline-header">Dealer To Retailer</h3>
+
+                                <div class="timeline-body">
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.PhoneNumber, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(x => x.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        @Html.LabelFor(x => x.Amount, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(x => x.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="timeline-footer">
+
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="reset" class="btn btn-danger">Reset</button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                }
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <!--leave blank if empty-->
+                </div>
+                <!-- /.box-footer-->
+            </div>
+            <!-- /.box -->
+        </div>
+        <script type="text/javascript">
+
+
+        </script>
+</section>

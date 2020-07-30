@@ -166,7 +166,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label">Mother's Name (<b style="color:red;">*</b>)</label>
+                                        <label class="control-label">Mother's Name</label>
                                         <input type="text" class="form-control" id="MotherName" name="txtMotherName" maxlength="30" placeholder="Mother's Name"  onkeypress="return isAlphabateDot(event)" style="margin-bottom:3px;"  onpaste="return false" />
 
                                     </div>
@@ -612,17 +612,17 @@
                     },
 
 
-                    txtMotherName: {
-                        validators: {
-                            notEmpty: {
-                                message: 'The Mother Name is required and cannot be empty'
-                            },
-                            regexp: {
-                                regexp: /^[a-zA-Z. ]+$/,
-                                message: 'Your Mother Name cannot have numbers or symbols'
-                            }
-                        }
-                    },
+                    //txtMotherName: {
+                    //    validators: {
+                    //        notEmpty: {
+                    //            message: 'The Mother Name is required and cannot be empty'
+                    //        },
+                    //        regexp: {
+                    //            regexp: /^[a-zA-Z. ]+$/,
+                    //            message: 'Your Mother Name cannot have numbers or symbols'
+                    //        }
+                    //    }
+                    //},
 
                     txtGrandFatherName: {
                         validators: {

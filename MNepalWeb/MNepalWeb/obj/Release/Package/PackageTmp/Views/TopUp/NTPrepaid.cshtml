@@ -1,0 +1,157 @@
+﻿@model MNepalWeb.ViewModel.NTTopUpVM
+@{
+    ViewBag.Title = "NTTopup";
+
+    List<SelectListItem> Amount = new List<SelectListItem>();
+    Amount.Add(new SelectListItem { Text=  "100", Value=  "100" });
+    Amount.Add(new SelectListItem { Text = "150", Value = "150" });
+    Amount.Add(new SelectListItem { Text = "200", Value = "200" });
+    Amount.Add(new SelectListItem { Text = "300", Value = "300" });
+    Amount.Add(new SelectListItem { Text = "500", Value = "500" });
+    Amount.Add(new SelectListItem { Text = "1000", Value = "1000" });
+    Amount.Add(new SelectListItem { Text = "1500", Value = "1500" });
+    Amount.Add(new SelectListItem { Text = "2000", Value = "2000" });
+    Amount.Add(new SelectListItem { Text = "2500", Value = "2500" });
+    Amount.Add(new SelectListItem { Text = "3000", Value = "3000" });
+    Amount.Add(new SelectListItem { Text = "3500", Value = "3500" });
+    Amount.Add(new SelectListItem { Text = "4000", Value = "4000" });
+    Amount.Add(new SelectListItem { Text = "4500", Value = "4500" });
+    Amount.Add(new SelectListItem { Text = "5000", Value = "5000" });
+
+
+}
+
+<section class="content-header">
+    <!--Leave Blank if no content-->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="box">
+        <div class="box-header with-border bg-aqua-gradient">
+            <h3 class="box-title">TopUp</h3>
+            <div class="box-tools pull-right">
+                @*<button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>*@
+            </div>
+        </div>
+
+        <div class="box-body">
+           
+            <div class="row">
+                <div class="col-md-6">
+                    @using (Html.BeginForm("NTPrepaid", "TopUp", FormMethod.Post, new { @class = "form-horizontal" }))
+                        {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary();
+
+
+                        <ul class="timeline timeline-inverse">
+                            <!-- timeline time label -->
+                            <!-- /.timeline-label -->
+                            <!-- timeline item -->
+                            <li>
+                                <div class="timeline-item">
+
+                                    <h3 class="timeline-header">NT Mobile TopUp</h3>
+
+                                    <div class="timeline-body">
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(x => x.PhoneNumber, new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control", @required = "required", @maxlength = "10",@id="Phone"})
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group">
+
+                                            @Html.LabelFor(x => x.Amount, new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(x => x.Amount, Amount, "Select Amount", new { @class = "form-control", @required = "required",@id="Amount" })
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="timeline-footer">
+
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                        <button type="reset" class="btn btn-danger">Reset</button>
+                                    </div>
+                                </div>
+
+                            </li>
+                        </ul>
+
+
+                        }
+                </div>
+
+                <div class="col-md-6">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            @*<h3 class="box-title">Progress bars</h3>*@
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <p>
+                                Please enter the NT Prepaid phone number.NT Prepaid.
+                            </p>
+                         <hr />
+                            <div class="attachment-block clearfix ">
+                                <div class="attachment-text" id="summary" style="display:none">
+                                   <p></p>
+                                </div>
+                               <!-- /.attachment-text -->
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+
+            </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <!--leave blank if empty-->
+                </div>
+                <!-- /.box-footer-->
+            
+           
+            <!-- /.box -->
+        </div>
+    </div>
+
+</section>
+@section scripts{
+    
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+        $('#Amount').change(function () {
+            if ($('#Phone').val().length<10) {
+                return;
+            }
+            debugger;
+            var Phone = $('#Phone').val();
+            var Amount = $('#Amount').val();
+
+           
+            $('#summary').append(p);
+            $('#summary').show();
+
+
+
+
+        });
+
+</script>
+}

@@ -333,7 +333,30 @@
 
 @section scripts{
     <script type="text/javascript">
+
+      
+
         $(document).ready(function () {
+
+            $('#tadmin01 tbody tr td:not(:first-child) input[type="checkbox"]').change(function () {
+                debugger;
+                var id = $(this).closest('tr').find('td:first input[type="checkbox"]').attr('id');
+                if ($('#' + id).is(':checked')) {
+                    if($(this).closest('tr').find('td:not(:first-child) input[type="checkbox"]').is(':checked'))
+                    {
+                        return false;
+                    }
+                    $('#' + id).prop('checked',false);
+                }
+                else {
+                    $('#' + id).prop('checked', true);
+                }
+            });
+
+
+
+
+
             $("#checkall").change(function () {  //"select all" change 
                 var status = this.checked; // "select all" checked status
                 $('input:checkbox').each(function () { //iterate all listed checkbox items
@@ -408,6 +431,8 @@
 
     <script type="text/javascript">
 
+        
+
 
         $('#ProfileName').change(function () {
 
@@ -422,7 +447,7 @@
                             $('#check').html("");
                             $('#check').css("color", "green");
                             $('#check').html("Valid").show();
-                            $('#Submit').hide();
+                            $('#Submit').show();
 
                         }
                         else {
@@ -461,6 +486,10 @@
                             max: 20,
                             min: 4,
                             message: 'Please Use Profile Name, min 4 character, Max 20 character'
+                        },
+                        regexp: {
+                            regexp: /^[\w\-\s]+$/,
+                            message: 'Only Alphanumeric accepted'
                         }
                     }
                 },
@@ -472,7 +501,11 @@
                         stringLength: {
                             max: 30,
                             min: 4,
-                            message: 'Please Use the Profile Description'
+                            message: 'Please Use Profile Name, min 4 character, Max 20 character'
+                        },
+                        regexp: {
+                            regexp: /^[\w\-\s]+$/,
+                            message: 'Only Alphanumeric accepted'
                         }
                     }
                 }

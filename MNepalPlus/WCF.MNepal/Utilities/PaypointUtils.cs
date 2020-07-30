@@ -10,6 +10,10 @@ namespace WCF.MNepal.Utilities
 {
     public class PaypointUtils
     {
+
+
+
+
         #region Request check payment
         public static int RequestCPPaypointInfo(PaypointModel reqCPPaypointInfo)
         {
@@ -165,6 +169,46 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
+
+//START EGTP
+#region Response excute payment details of nea (for eg. account=013.01.002)
+
+        public static int ResponseEPAllPaypointInfo(PaypointModel resEPAllPaypointInfo)
+        {
+            var objresEPAllPaypointModel = new PaypointUserModel();
+            var objresEPAllPaypointInfo = new PaypointModel
+            { 
+                ResultResEPAll = resEPAllPaypointInfo.ResultResEPAll,
+                ResponseKeyResEPAll = resEPAllPaypointInfo.ResponseKeyResEPAll,
+                ResultMessageResEPAll = resEPAllPaypointInfo.ResultMessageResEPAll,
+                AccountResEPAll = resEPAllPaypointInfo.AccountResEPAll,
+                CompanyResEPAll = resEPAllPaypointInfo.CompanyResEPAll,
+
+                SumAmountResEPAll = resEPAllPaypointInfo.SumAmountResEPAll,
+                CommissionResEPAll = resEPAllPaypointInfo.CommissionResEPAll,
+                OfficeNameResEPAll = resEPAllPaypointInfo.OfficeNameResEPAll,
+                CustsomerIDResEPAll = resEPAllPaypointInfo.CustsomerIDResEPAll,
+                CustomerNameResEPAll = resEPAllPaypointInfo.CustomerNameResEPAll,
+
+                DueBillOfResEPAll = resEPAllPaypointInfo.DueBillOfResEPAll,
+                BillDateResEPAll = resEPAllPaypointInfo.BillDateResEPAll,
+                InvoiceAmountResEPAll = resEPAllPaypointInfo.InvoiceAmountResEPAll,
+                PenaltyStatusResEPAll = resEPAllPaypointInfo.PenaltyStatusResEPAll,
+                PenaltyAmountResEPAll = resEPAllPaypointInfo.PenaltyAmountResEPAll,
+                UserName = resEPAllPaypointInfo.UserName,
+                ClientCode = resEPAllPaypointInfo.ClientCode,
+                //ErrorMessage = reqPaypointInfo.ErrorMessage,
+                Mode = "NEAEPRes"
+
+
+
+
+            };
+            return objresEPAllPaypointModel.ResponseEPAllPaypointInfo(objresEPAllPaypointInfo);
+        }
+        #endregion
+		
+		//END EGTP
         #region Request get transaction payment
         public static int RequestGTPaypointInfo(PaypointModel reqGTPaypointInfo)
         {
@@ -238,6 +282,73 @@ namespace WCF.MNepal.Utilities
             return objresGTPaypointModel.ResponsePaypointInfo(objresGTPaypointInfo);
         }
         #endregion
+//START EGTP
+        #region Response Get Transaction payment of nepalwater all
+
+        public static int ResponseGTAllPaypointInfo(PaypointModel resGTAllPaypointInfo)
+        {
+            var objresGTAllPaypointModel = new PaypointUserModel();
+            var objresGTAllPaypointInfo = new PaypointModel
+            {
+                ResultResGTPAll = resGTAllPaypointInfo.ResultResGTPAll,
+                ResponseKeyResGTPAll = resGTAllPaypointInfo.ResponseKeyResGTPAll,
+                RequestKeyResGTPAll = resGTAllPaypointInfo.RequestKeyResGTPAll,
+                StanResGTPAll = resGTAllPaypointInfo.StanResGTPAll,
+                RefStanResGTPAll = resGTAllPaypointInfo.RefStanResGTPAll,
+
+
+                ExternalStanResGTPAll = resGTAllPaypointInfo.ExternalStanResGTPAll,
+                CompanyIDResGTPAll = resGTAllPaypointInfo.CompanyIDResGTPAll,
+                CompanyNameResGTPAll = resGTAllPaypointInfo.CompanyNameResGTPAll,
+                ServiceCodeResGTPAll = resGTAllPaypointInfo.ServiceCodeResGTPAll,
+                ServiceNameResGTPAll = resGTAllPaypointInfo.ServiceNameResGTPAll,
+
+
+
+                AccountResGTPAll = resGTAllPaypointInfo.AccountResGTPAll,
+                CurrencyResGTPAll = resGTAllPaypointInfo.CurrencyResGTPAll,
+                CurrencyCodeResGTPAll = resGTAllPaypointInfo.CurrencyCodeResGTPAll,
+                AmountResGTPAll = resGTAllPaypointInfo.AmountResGTPAll,
+                CommissionAmountResGTPAll = resGTAllPaypointInfo.CommissionAmountResGTPAll,
+
+
+                BillNumberResGTPAll = resGTAllPaypointInfo.BillNumberResGTPAll,
+                UserLoginResGTPAll = resGTAllPaypointInfo.UserLoginResGTPAll,
+                SalesPointTypeResGTPAll = resGTAllPaypointInfo.SalesPointTypeResGTPAll,
+                StatusResGTPAll = resGTAllPaypointInfo.StatusResGTPAll,
+                RegDateResGTPAll = resGTAllPaypointInfo.RegDateResGTPAll,
+
+
+
+
+                PaymentIdResGTPAll = resGTAllPaypointInfo.PaymentIdResGTPAll,
+                DealerIdResGTPAll = resGTAllPaypointInfo.DealerIdResGTPAll,
+                DealerNameResGTPAll = resGTAllPaypointInfo.DealerNameResGTPAll,
+                ResponseCodeResGTPAll = resGTAllPaypointInfo.ResponseCodeResGTPAll,
+                PaySourceTypeResGTPAll = resGTAllPaypointInfo.PaySourceTypeResGTPAll,
+
+                CityResGTPAll = resGTAllPaypointInfo.CityResGTPAll,
+                AddressResGTPAll = resGTAllPaypointInfo.AddressResGTPAll,
+                CloseDateResGTPAll = resGTAllPaypointInfo.CloseDateResGTPAll,
+                ProblemResGTPAll = resGTAllPaypointInfo.ProblemResGTPAll,
+                UserName  = resGTAllPaypointInfo.UserName,
+
+                ClientCode  = resGTAllPaypointInfo.ClientCode,
+                Mode  = resGTAllPaypointInfo.Mode,
+
+                //Mode = "NWGTRes"
+                 
+            };
+            return objresGTAllPaypointModel.PaypointGTResInfo(objresGTAllPaypointInfo);
+        }
+        #endregion
+
+
+         //END EGTP
+
+
+
+
 
 
 
@@ -248,7 +359,7 @@ namespace WCF.MNepal.Utilities
             var objresPaypointPaymentModel = new PaypointUserModel();
             var objresPaypointPaymentInfo = new PaypointModel
             {
-
+                
 
                 descriptionP = resPaypointPaymentInfo.descriptionP,
                 billDateP = resPaypointPaymentInfo.billDateP,
@@ -369,12 +480,12 @@ namespace WCF.MNepal.Utilities
                 refStan = resPaypointKhanepaniInvoiceInfo.refStan,
                 UserName = resPaypointKhanepaniInvoiceInfo.UserName,
                 ClientCode = resPaypointKhanepaniInvoiceInfo.ClientCode,
-
+                 
                 Mode = "RSKI"
 
 
 
-            };
+        };
             return objresPaypointKhanepaniInvoiceModel.ResponsePaypointKhanepaniInvoiceInfo(objresPaypointKhanepaniInvoiceInfo);
         }
         #endregion
@@ -499,13 +610,14 @@ namespace WCF.MNepal.Utilities
         }
         #endregion
 
+
         #region"Response CP Wlink payments"
         public static int PaypointWlinkInfo(PaypointModel resPaypointWlinkPaymentInfo)
         {
             var objresPaypointWlinkModel = new PaypointUserModel();
             var objresPaypointWlinkPaymentInfo = new PaypointModel
             {
-                description = resPaypointWlinkPaymentInfo.description,
+				description = resPaypointWlinkPaymentInfo.description,
                 amountP = resPaypointWlinkPaymentInfo.amountP,
                 PackageId = resPaypointWlinkPaymentInfo.PackageId,
                 billDateP = resPaypointWlinkPaymentInfo.transactionDate,
@@ -516,12 +628,13 @@ namespace WCF.MNepal.Utilities
                 companyCodeCP = resPaypointWlinkPaymentInfo.companyCode,
                 userId = resPaypointWlinkPaymentInfo.UserName,
                 customer_codeKI = resPaypointWlinkPaymentInfo.ClientCode,
-                RemainingDays = resPaypointWlinkPaymentInfo.RemainingDays,
+				RemainingDays = resPaypointWlinkPaymentInfo.RemainingDays,
                 Mode = "RSWlinkP" //Response wlink payment from Checkpayment
             };
             return objresPaypointWlinkModel.ResponsePaypointWlinkPaymentInfo(objresPaypointWlinkPaymentInfo);
         }
         #endregion
+
 
         #region Request excute payment
         public static int RequestEPPaypointWlinkInfo(PaypointModel reqEPPaypointInfo)
@@ -575,7 +688,7 @@ namespace WCF.MNepal.Utilities
                 Mode = "RSSubisu" //Response subisu payment from Checkpayment
             };
             return objresPaypointWlinkModel.ResponsePaypointSubisuPaymentInfo(objresPaypointWlinkPaymentInfo);
-        }
+            }
         #endregion
 
         #region"Response CP Vianet payments"
@@ -1044,6 +1157,7 @@ namespace WCF.MNepal.Utilities
                 amountP = "",
                 Bonus = "",
                 PackageId = "",
+                commissionAmount = "",
                 billNumber = resPaypointVianetPaymentInfo.billNumber,
                 refStan = resPaypointVianetPaymentInfo.refStan,
                 amount = resPaypointVianetPaymentInfo.amount,

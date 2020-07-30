@@ -48,5 +48,18 @@ namespace WCF.MNepal.Utilities
             };
             return objUserModel.GetRegisterOTPInformation(objUserInfo);
         }
+
+
+        #region Check Link Bank
+        public static DataTable CheckLinkBankAcc(string UserName)
+        {
+            var objUserModel = new CheckerUserModels();
+            var objUserInfo = new UserInfo
+            {
+                UserName = UserName
+            };
+            return objUserModel.CheckLinkBankAcc(objUserInfo);
+        }
+        #endregion
     }
 }

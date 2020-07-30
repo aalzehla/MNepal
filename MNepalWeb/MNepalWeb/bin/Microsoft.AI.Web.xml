@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<doc>
+<doc xml:lang="en">
     <assembly>
         <name>Microsoft.AI.Web</name>
     </assembly>
@@ -40,11 +40,6 @@
         <member name="M:Microsoft.ApplicationInsights.Web.AspNetDiagnosticTelemetryModule.OnCompleted">
             <summary>
             IObserver OnCompleted callback.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Web.AspNetDiagnosticTelemetryModule.Dispose(System.Boolean)">
-            <summary>
-            Implements IDisposable pattern. Dispose() should call Dispose(true), and the finalizer should call Dispose(false).
             </summary>
         </member>
         <member name="T:Microsoft.ApplicationInsights.Web.Implementation.HttpRequestExtensions">
@@ -222,6 +217,12 @@
             Name of the HttpContext item containing RequestTelemetry object.
             </summary>
         </member>
+        <member name="F:Microsoft.ApplicationInsights.Web.Implementation.RequestTrackingConstants.TransferHandlerType">
+            <summary>
+            Type name for the transfer handler. This handler is used to enable extension(less) URI 
+            and it produces extra request, which should not be counted.
+            </summary>
+        </member>
         <member name="F:Microsoft.ApplicationInsights.Web.Implementation.RequestTrackingConstants.WebAuthenticatedUserCookieName">
             <summary>
             The name of the cookie which holds authenticated user context information.
@@ -379,17 +380,17 @@
             Required IDisposable implementation.
             </summary>
         </member>
+        <member name="M:Microsoft.ApplicationInsights.Web.ApplicationInsightsHttpModule.AddCorreleationHeaderOnSendRequestHeaders(System.Web.HttpApplication)">
+            <summary>
+            When sending the response headers, allow request module to add the IKey's target hash.
+            </summary>
+            <param name="httpApplication">HttpApplication instance.</param>
+        </member>
         <member name="M:Microsoft.ApplicationInsights.Web.ApplicationInsightsHttpModule.CreateOpenDelegate(System.Reflection.MethodInfo)">
             <summary>
             Creates open delegate for faster invocation than regular Invoke.        
             </summary>
             <param name="mi">MethodInfo for which open delegate is to be created.</param>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Web.ApplicationInsightsHttpModule.AddCorrelationHeaderOnSendRequestHeaders(System.Web.HttpApplication)">
-            <summary>
-            When sending the response headers, allow request module to add the IKey's target hash.
-            </summary>
-            <param name="httpApplication">HttpApplication instance.</param>
         </member>
         <member name="T:Microsoft.ApplicationInsights.Web.AuthenticatedUserIdTelemetryInitializer">
             <summary>
@@ -432,24 +433,6 @@
             <param name="platformContext">Http context.</param>
             <param name="requestTelemetry">Request telemetry object associated with the current request.</param>
             <param name="telemetry">Telemetry item to initialize.</param>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.Web.Extensibility.Implementation.PostSamplingTelemetryProcessor">
-            <summary>
-            PostSamplingTelemetryProcessor evaluates deferred properties.
-            It is intended to be used with <see cref="P:Microsoft.ApplicationInsights.Web.RequestTrackingTelemetryModule.DisableTrackingProperties"/> after Sampling.
-            </summary>
-            <remarks>
-            This feature is still being evaluated and not recommended for end users.
-            </remarks>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Web.Extensibility.Implementation.PostSamplingTelemetryProcessor.#ctor(Microsoft.ApplicationInsights.Extensibility.ITelemetryProcessor)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Microsoft.ApplicationInsights.Web.Extensibility.Implementation.PostSamplingTelemetryProcessor"/> class.
-            </summary>
-            <param name="nextProcessorInPipeline">The next TelemetryProcessor in the chain.</param>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Web.Extensibility.Implementation.PostSamplingTelemetryProcessor.Process(Microsoft.ApplicationInsights.Channel.ITelemetry)">
-            <inheritdoc />
         </member>
         <member name="T:Microsoft.ApplicationInsights.Web.ClientIpHeaderTelemetryInitializer">
             <summary>
@@ -536,9 +519,6 @@
             Telemetry module tracking requests using http module.
             </summary>
         </member>
-        <member name="F:Microsoft.ApplicationInsights.Web.RequestTrackingTelemetryModule.includedHttpHandlerTypes">
-            <summary>Tracks if given type should be included in telemetry. ConcurrentDictionary is used as a concurrent hashset.</summary>
-        </member>
         <member name="P:Microsoft.ApplicationInsights.Web.RequestTrackingTelemetryModule.EnableChildRequestTrackingSuppression">
             <summary>
             Gets or sets a value indicating whether child request suppression is enabled or disabled. 
@@ -577,25 +557,10 @@
             Gets or sets a value indicating whether the component correlation headers would be set on http responses.
             </summary>
         </member>
-        <member name="P:Microsoft.ApplicationInsights.Web.RequestTrackingTelemetryModule.EnableW3CHeadersExtraction">
-            <summary>
-            Gets or sets a value indicating whether to enable W3C distributed tracing headers support.
-            </summary>
-        </member>
         <member name="P:Microsoft.ApplicationInsights.Web.RequestTrackingTelemetryModule.ProfileQueryEndpoint">
             <summary>
             Gets or sets the endpoint that is to be used to get the application insights resource's profile (appId etc.).
             </summary>
-        </member>
-        <member name="P:Microsoft.ApplicationInsights.Web.RequestTrackingTelemetryModule.DisableTrackingProperties">
-            <summary>
-            Gets or sets a value indicating whether requestTelemetry.Url and requestTelemetry.Source are disabled.
-            Customers would need to use the <see cref="T:Microsoft.ApplicationInsights.Web.Extensibility.Implementation.PostSamplingTelemetryProcessor" /> to defer setting these properties.
-            </summary>
-            <remarks>
-            This feature is still being evaluated and not recommended for end users.
-            This setting is not browsable at this time.
-            </remarks>
         </member>
         <member name="M:Microsoft.ApplicationInsights.Web.RequestTrackingTelemetryModule.OnBeginRequest(System.Web.HttpContext)">
             <summary>
@@ -617,6 +582,15 @@
             Initializes the telemetry module.
             </summary>
             <param name="configuration">Telemetry configuration to use for initialization.</param>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.Web.RequestTrackingTelemetryModule.TrackIntermediateRequest(System.Web.HttpContext,System.Diagnostics.Activity)">
+            <summary>
+            Tracks intermediate request if Activity was lost on the way to ASP.NET.
+            This request ensures we can correlate high-level request and dependency call.
+            This method should be removed with DiagnosticSource released along with .NET Core 2.2.
+            </summary>
+            <param name="context">Current HttpContext.</param>
+            <param name="activity">Restored activity.</param>
         </member>
         <member name="M:Microsoft.ApplicationInsights.Web.RequestTrackingTelemetryModule.NeedProcessRequest(System.Web.HttpContext)">
             <summary>
@@ -762,14 +736,6 @@
             <param name="requestTelemetry">Request telemetry object associated with the current request.</param>
             <param name="telemetry">Telemetry item to initialize.</param>
         </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.ActivityHelpers.RequestActivityItemName">
-            <summary>
-            Name of the item under which Activity created by request tracking (if any) will be stored
-            It's exactly the same as one Microsoft.AspNet.TelemetryCorrelation uses
-            https://github.com/aspnet/Microsoft.AspNet.TelemetryCorrelation/blob/6ccf0729050be4fac6797fa85af0200883db1c83/src/Microsoft.AspNet.TelemetryCorrelation/ActivityHelper.cs#L33
-            so that TelemetryCorrelation will restore and treat 'our' Activity as it's own.
-            </summary>
-        </member>
         <member name="M:Microsoft.ApplicationInsights.Common.ActivityHelpers.IsHierarchicalRequestId(System.String)">
             <summary> 
             Checks if given RequestId is hierarchical.
@@ -800,24 +766,6 @@
             Key word for diagnostics events.
             </summary>
         </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.ArrayExtensions.Empty``1">
-            <summary>
-            Returns an empty array.
-            </summary>
-            <remarks>
-            Array.Empty() was added to Net Framework in 4.6
-            This adds support for Net45.
-            </remarks>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.Common.ArrayExtensions.EmptyArray`1">
-            <summary>
-            [Net45 Only] Copied from Net Framework (https://referencesource.microsoft.com/#mscorlib/system/array.cs,bc9fd1be0e4f4e70,references).
-            </summary>
-            <remarks>
-            Array.Empty() was added to Net Framework in 4.6
-            This adds support for Net45.
-            </remarks>
-        </member>
         <member name="T:Microsoft.ApplicationInsights.Common.ConditionalWeakTableExtensions">
             <summary>
             Extension methods for the ConditionalWeakTable class.
@@ -839,14 +787,6 @@
             </summary>
             <param name="ex">The exception to convert to a string.</param>
             <returns>The detailed string version of the provided exception.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.GuidExtensions.ToStringInvariant(System.Guid,System.String)">
-            <summary>
-            Overload for Guid.ToString(). 
-            </summary>
-            <remarks>
-            This method encapsulates the language switch for NetStandard and NetFramework and resolves the error "The behavior of guid.ToStrinc() could vary based on the current user's locale settings".
-            </remarks>
         </member>
         <member name="T:Microsoft.ApplicationInsights.Common.HeadersUtilities">
             <summary>
@@ -880,98 +820,22 @@
             Remove all other characters.
             </summary>
         </member>
-        <member name="T:Microsoft.ApplicationInsights.Common.Internal.ExperimentalConstants">
+        <member name="T:Microsoft.ApplicationInsights.Common.InjectionGuardConstants">
             <summary>
             These values are listed to guard against malicious injections by limiting the max size allowed in an HTTP Response.
             These max limits are intentionally exaggerated to allow for unexpected responses, while still guarding against unreasonably large responses.
             Example: While a 32 character response may be expected, 50 characters may be permitted while a 10,000 character response would be unreasonable and malicious.
             </summary>
         </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.Internal.ExperimentalConstants.DeferRequestTrackingProperties">
-            <summary>
-            This is used to defer setting properties on RequestTelemetry until after Sampling.
-            QuickPulse expects these properties so we have to set them here as well.
-            Used to set QuickPulseTelemetryProcessor.EvaluateDisabledTrackingProperties and RequestTrackingTelemetryModule.DisableTrackingProperties.
-            </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.Common.Internal.InjectionGuardConstants">
-            <summary>
-            These values are listed to guard against malicious injections by limiting the max size allowed in an HTTP Response.
-            These max limits are intentionally exaggerated to allow for unexpected responses, while still guarding against unreasonably large responses.
-            Example: While a 32 character response may be expected, 50 characters may be permitted while a 10,000 character response would be unreasonable and malicious.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.Internal.InjectionGuardConstants.AppIdMaxLength">
+        <member name="F:Microsoft.ApplicationInsights.Common.InjectionGuardConstants.AppIdMaxLengeth">
             <summary>
             Max length of AppId allowed in response from Breeze.
             </summary>
         </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.Internal.InjectionGuardConstants.RequestHeaderMaxLength">
+        <member name="F:Microsoft.ApplicationInsights.Common.InjectionGuardConstants.RequestHeaderMaxLength">
             <summary>
             Max length of incoming Request Header value allowed.
             </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.Internal.InjectionGuardConstants.ContextHeaderKeyMaxLength">
-            <summary>
-            Max length of context header key.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.Internal.InjectionGuardConstants.ContextHeaderValueMaxLength">
-            <summary>
-            Max length of context header value.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.Internal.InjectionGuardConstants.TraceParentHeaderMaxLength">
-            <summary>
-            Max length of traceparent header value.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.Internal.InjectionGuardConstants.TraceStateHeaderMaxLength">
-            <summary>
-            Max length of tracestate header value string.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.Internal.InjectionGuardConstants.TraceStateMaxPairs">
-            <summary>
-            Max number of key value pairs in the tracestate header.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.Common.Internal.InjectionGuardConstants.QuickPulseResponseHeaderMaxLength">
-            <summary>
-            Max length of incoming Response Header value allowed.
-            </summary>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.Common.Internal.StringUtilities">
-            <summary>
-            Generic functions to perform common operations on a string.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.Internal.StringUtilities.EnforceMaxLength(System.String,System.Int32)">
-            <summary>
-            Check a strings length and trim to a max length if needed.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.Internal.StringUtilities.GenerateTraceId">
-            <summary>
-            Generates random trace Id as per W3C Distributed tracing specification.
-            https://github.com/w3c/distributed-tracing/blob/master/trace_context/HTTP_HEADER_FORMAT.md#trace-id .
-            </summary>
-            <returns>Random 16 bytes array encoded as hex string.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.Internal.StringUtilities.GenerateSpanId">
-            <summary>
-            Generates random span Id as per W3C Distributed tracing specification.
-            https://github.com/w3c/distributed-tracing/blob/master/trace_context/HTTP_HEADER_FORMAT.md#span-id .
-            </summary>
-            <returns>Random 8 bytes array encoded as hex string.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.Internal.StringUtilities.FormatRequestId(System.String,System.String)">
-            <summary>
-            Formats trace Id and span Id into valid Request-Id: |trace.span.
-            </summary>
-            <param name="traceId">Trace Id.</param>
-            <param name="spanId">Span id.</param>
-            <returns>valid Request-Id.</returns>
         </member>
         <member name="T:Microsoft.ApplicationInsights.Common.PropertyFetcher">
             <summary>
@@ -1035,6 +899,23 @@
             Should contain Request-Context value that will allow reading Request-Context in JavaScript SDK on Browser side.
             </summary>
         </member>
+        <member name="T:Microsoft.ApplicationInsights.Common.StringUtilities">
+            <summary>
+            Generic functions to perform common operations on a string.
+            </summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.Common.StringUtilities.EnforceMaxLength(System.String,System.Int32)">
+            <summary>
+            Check a strings length and trim to a max length if needed.
+            </summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.Common.StringUtilities.GenerateTraceId">
+            <summary>
+            Generates random trace Id as per W3C Distributed tracing specification.
+            https://github.com/w3c/distributed-tracing/blob/master/trace_context/HTTP_HEADER_FORMAT.md#trace-id
+            </summary>
+            <returns>Random 16 bytes array encoded as hex string</returns>
+        </member>
         <member name="T:Microsoft.ApplicationInsights.Common.WebHeaderCollectionExtensions">
             <summary>
             WebHeaderCollection extension methods.
@@ -1073,66 +954,6 @@
             <param name="headers">Header collection.</param>
             <param name="headerName">Name of the header that is to contain the name-value pair.</param>
             <param name="keyValuePairs">List of KeyValuePairs to format into header.</param>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.WebHeaderCollectionExtensions.GetHeaderValue(System.Collections.Specialized.NameValueCollection,System.String,System.Int32,System.Int32)">
-            <summary>
-            For the given header collection, for a given header name, returns collection of header values.
-            </summary>
-            <param name="headers">Header collection.</param>
-            <param name="headerName">Name of the header in the collection.</param>
-            <param name="maxStringLength">Maximum allowed header length.</param>
-            <param name="maxItems">Maximum allowed number comma separated values in the header.</param>
-            <returns>List of comma separated values in the given header.</returns>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.WebHeaderCollectionExtensions.ReadActivityBaggage(System.Collections.Specialized.NameValueCollection,System.Diagnostics.Activity)">
-            <summary>
-            Reads Correlation-Context and populates it on Activity.Baggage following https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.DiagnosticSource/src/HttpCorrelationProtocol.md#correlation-context.
-            Use this method when you want force parsing Correlation-Context is absence of Request-Id or traceparent. 
-            </summary>
-            <param name="headers">Header collection.</param>
-            <param name="activity">Activity to populate baggage on.</param>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.Common.RequestTrackingUtilities">
-            <summary>
-            This class encapsulates setting tracking properties on RequestTelemetry.
-            This is used by both PostSamplingTelemetryProcessor and RequestTrackingTelemetryModule.
-            </summary>
-        </member>
-        <member name="M:Microsoft.ApplicationInsights.Common.RequestTrackingUtilities.UpdateRequestTelemetryFromRequest(Microsoft.ApplicationInsights.DataContracts.RequestTelemetry,System.Web.HttpRequest,Microsoft.ApplicationInsights.Extensibility.IApplicationIdProvider)">
-            <summary>Updates requestTelemetry from request with properties, which could be deferred till after sampling.</summary>
-            <param name="requestTelemetry">RequestTelemetry to be updated.</param>
-            <param name="request">HttpRequest containing Url and headers.</param>
-            <param name="applicationIdProvider">Provider for current applicationId.</param>
-        </member>
-        <member name="T:Microsoft.ApplicationInsights.W3C.Internal.W3CConstants">
-            <summary>
-            W3C constants.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.W3C.Internal.W3CConstants.TraceParentHeader">
-            <summary>
-            W3C traceparent header name.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.W3C.Internal.W3CConstants.TraceStateHeader">
-            <summary>
-            W3C tracestate header name.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.W3C.Internal.W3CConstants.ApplicationIdTraceStateField">
-            <summary>
-            Name of the field that carry ApplicationInsights application Id in the tracestate header under az key.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.W3C.Internal.W3CConstants.AzureTracestateNamespace">
-            <summary>
-            Name of the field that carry Azure-specific states in the tracestate header.
-            </summary>
-        </member>
-        <member name="F:Microsoft.ApplicationInsights.W3C.Internal.W3CConstants.TracestateAzureSeparator">
-            <summary>
-            Separator between Azure namespace values.
-            </summary>
         </member>
         <member name="T:System.Web.HttpContextBaseExtension">
             <summary>

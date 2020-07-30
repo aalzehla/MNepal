@@ -29,7 +29,7 @@
     var srcTaxClearFront = "";
     var srcTaxClearBack = "";
     var QRCodeImg = "";
-    QRCodeImg = "../Images/" + "QRCode_" + ViewBag.userName + ".jpg";
+    QRCodeImg = "~/Images/" + "QRCode_" + ViewBag.userName + ".jpg";
     string _ImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["ImageAddress"];
     string _ApiImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["WCFImageAddress"];
     string _SuperAdminImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["SuperAdmin"];
@@ -145,16 +145,16 @@
 
                             <!--Self Registration fields-->
                             @*<div class="col-md-6 item match-height">
-                                    <label for="">Father's Name:</label>
-                                    <span>@ViewBag.FatherName</span>
-                                </div>*@
+                <label for="">Father's Name:</label>
+                <span>@ViewBag.FatherName</span>
+            </div>*@
 
 
                         </div>
 
 
                         @*@if (ViewBag.SelfReg == "T")
-                            {*@
+        {*@
                         <h2 class="title bordered-title-below">Document Identification Details</h2>
 
                         <div class="identity-detail content-wrapper">
@@ -198,13 +198,13 @@
                                 <div class="col-md-4 item">
                                     <label>Tax Clearance Certificate</label>
                                     @*<a href="#TaxClearanceCertificate">
-                                        <img src="@srcTaxClearFront" class="thumbnail" style="border-radius:8px; height:100%; height:120px; width:100%; width:120px;" alt="Tax Clearance Image"/>
-                                    </a>
+                        <img src="@srcTaxClearFront" class="thumbnail" style="border-radius:8px; height:100%; height:120px; width:100%; width:120px;" alt="Tax Clearance Image"/>
+                    </a>
 
-                                    <!-- lightbox container hidden with CSS -->
-                                    <a href="#_" class="lightbox" id="TaxClearanceCertificate">
-                                        <img src="@srcTaxClearFront"/>
-                                    </a>*@
+                    <!-- lightbox container hidden with CSS -->
+                    <a href="#_" class="lightbox" id="TaxClearanceCertificate">
+                        <img src="@srcTaxClearFront"/>
+                    </a>*@
                                     <div class="img-holder">
                                         <a id="" href="@srcTaxClearFront" class="with-caption image-link" title="Tax Clearance Certificate"> <img id="srcTaxClearFront" class="myImg" src="@srcTaxClearFront" style="border-radius:8px; height:100%; height:120px; width:100%; width:120px;" alt="Tax Clearance Image" /></a>
                                     </div>
@@ -212,46 +212,51 @@
                             </div>
                         </div>
                         <br />
-                        <h2 class="title bordered-title-below">QR Code Image</h2>
-                            <div class="row">
-                                <div class="col-md-8 item">
-                                    @*<label class="control-label col-md-8">QRCode Image</label>*@
-                                    <div class="img-holder">
-                                        <a href="@QRCodeImg" class="with-caption image-link" title="@ViewBag.Name"><img src="@QRCodeImg" alt="QR Code" style="height:200px; width:200px;" /></a>
-                                    </div>
-                                </div>
-                            </div>
+                        @*<h2 class="title bordered-title-below">QR Code Image</h2>
+        <div class="row">
+            <div class="col-md-8 item">
+                <div class="img-holder">
+                    <a href="@Url.Content(QRCodeImg)" class="with-caption image-link" title="@ViewBag.Name"><img src="@Url.Content(QRCodeImg)" alt="QR Code" style="height:200px; width:200px;" /></a>
+                </div>
+            </div>
+        </div>*@
+                        @*@if (@ViewBag.QRCodeImagePath != "")
+        {
+            <div class="img-holder">
+                <a href="@Url.Content(QRCodeImg)" class="with-caption image-link" title="@ViewBag.Name"><img src="@Url.Content(QRCodeImg)" alt="QR Code" style="height:200px; width:200px;" /></a>
+            </div>
+        }*@
                         @* } *@
                         @*else
-                            {
-                                <h2 class="title bordered-title-below">Identity Details</h2>
+        {
+            <h2 class="title bordered-title-below">Identity Details</h2>
 
-                                <div class="identity-detail content-wrapper">
-                                    <div class="row">
-                                        <div class="col-md-6 item">
-                                            <label>Citizenship</label>
+            <div class="identity-detail content-wrapper">
+                <div class="row">
+                    <div class="col-md-6 item">
+                        <label>Citizenship</label>
 
-                                            <div class="img-wrapper">
-                                                <div class="img-holder">
-                                                    <img src="@srcfront" style="height:120px; width:250px;" alt="Front Citizenship Photo">
-                                                </div>
+                        <div class="img-wrapper">
+                            <div class="img-holder">
+                                <img src="@srcfront" style="height:120px; width:250px;" alt="Front Citizenship Photo">
+                            </div>
 
-                                                <div class="img-holder">
-                                                    <img src="@srcback" width="133" height="93" style="height:120px; width:250px;" alt="Back Citizenship Photo">
-                                                </div>
-                                            </div>
+                            <div class="img-holder">
+                                <img src="@srcback" width="133" height="93" style="height:120px; width:250px;" alt="Back Citizenship Photo">
+                            </div>
+                        </div>
 
-                                        </div>
-                                        <div class="col-md-6 item">
-                                            <label>Profile Image</label>
+                    </div>
+                    <div class="col-md-6 item">
+                        <label>Profile Image</label>
 
-                                            <dib class="img-holder profile-img">
-                                                <img src="@srcPP" height="120" width="120" alt="Profile Photo">
-                                            </dib>
-                                        </div>
-                                    </div>
-                                </div>
-                            }*@
+                        <dib class="img-holder profile-img">
+                            <img src="@srcPP" height="120" width="120" alt="Profile Photo">
+                        </dib>
+                    </div>
+                </div>
+            </div>
+        }*@
 
 
                         @*///for bank details*@
@@ -329,7 +334,7 @@
     <script src="~/Scripts/jquery.magnific-popup-1.1.0.min.js"></script>
     <script>
 
-             $.ajax({
+             @*$.ajax({
                         cache: false,
                         async: true,
                         type: "GET",
@@ -349,7 +354,7 @@
                             alert("Data Not Found");
 
                         }
-                        });
+                        });*@
 
         $(".image-link").magnificPopup({
             type: 'image',

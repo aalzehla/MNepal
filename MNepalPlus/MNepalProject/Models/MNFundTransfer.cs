@@ -1,13 +1,13 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace MNepalProject.Models
 {
-    public class MNFundTransfer:ReplyMessage
+    public class MNFundTransfer : ReplyMessage
     {
-		public MNFundTransfer(string tid, string sc, string mobile, string sa, string amount, string da, string note, string pin, string sourcechannel, string billNo, string studName, string merchantType)
+        public MNFundTransfer(string tid, string sc, string mobile, string sa, string amount, string da, string note, string pin, string sourcechannel, string billNo, string studName, string merchantType)
         {
             this.tid = tid;
             this.sc = sc;
@@ -63,9 +63,9 @@ namespace MNepalProject.Models
             this.note = note;
             this.pin = pin;
             this.sourcechannel = sourcechannel;
-        } 
-        
-      
+        }
+
+
 
         public MNFundTransfer()
         {
@@ -79,6 +79,8 @@ namespace MNepalProject.Models
         public string sa { get; set; }
 
         public string da { get; set; }
+        public string vid { get; set; }
+        public string description1 { get; set; }
 
         public string amount { get; set; }
 
@@ -86,8 +88,8 @@ namespace MNepalProject.Models
         public string note { get; set; }
         public string sourcechannel { get; set; }
         public string prod { get; set; }
-       
-		//add for merchant
+
+        //add for merchant
         public string studName { get; set; }
         public string billNo { get; set; }
         public string merchantType { get; set; }

@@ -255,62 +255,63 @@ F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\WCF.MNepal\bi
 F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.OAuth.xml
 F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\WCF.MNepal\bin\System.Net.Http.Formatting.xml
 F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\WCF.MNepal\obj\Release\WCF.MNepal.csproj.CoreCompileInputs.cache
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\WCF.MNepal.dll.config
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\WCF.MNepal.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\WCF.MNepal.pdb
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\EntityFramework.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\EntityFramework.SqlServer.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\FluentValidation.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\FluentValidation.Mvc.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.Web.Infrastructure.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\MNepalProject.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Newtonsoft.Json.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.IO.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.IO.FileSystem.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.IO.FileSystem.Primitives.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.Helpers.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.Mvc.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.Razor.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.WebPages.Deployment.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.WebPages.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.WebPages.Razor.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.Optimization.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.AspNet.Identity.Core.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Owin.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.Http.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.Cookies.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\WebGrease.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.OAuth.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Net.Http.Formatting.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\EntityFramework.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\EntityFramework.SqlServer.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\FluentValidation.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\FluentValidation.Mvc.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\MNepalProject.pdb
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\MNepalProject.dll.config
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Newtonsoft.Json.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.Helpers.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.Mvc.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.Razor.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.WebPages.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.WebPages.Deployment.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.WebPages.Razor.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.Optimization.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.AspNet.Identity.Core.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Web.Http.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.Cookies.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.OAuth.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\bin\System.Net.Http.Formatting.xml
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\obj\Release\WCF.MNepal.csprojAssemblyReference.cache
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\obj\Release\WCF.MNepal.csproj.CoreCompileInputs.cache
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\obj\Release\WCF.MNepal.csproj.CopyComplete
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\obj\Release\WCF.MNepal.dll
+F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\40\MNepalPlus\WCF.MNepal\obj\Release\WCF.MNepal.pdb
 F:\MNepal Mobile Banking\Nov16_MNepalMobileApi_2ndPhase\MNepalPlus\WCF.MNepal\obj\Release\WCF.MNepal.csprojAssemblyReference.cache
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\WCF.MNepal.dll.config
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\WCF.MNepal.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\WCF.MNepal.pdb
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\EntityFramework.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\EntityFramework.SqlServer.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\FluentValidation.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\FluentValidation.Mvc.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.Web.Infrastructure.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Newtonsoft.Json.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.IO.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.IO.FileSystem.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.IO.FileSystem.Primitives.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Net.Http.Formatting.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.Helpers.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.Mvc.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.Razor.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.WebPages.Deployment.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.WebPages.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.WebPages.Razor.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\EntityFramework.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\EntityFramework.SqlServer.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\FluentValidation.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\FluentValidation.Mvc.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Newtonsoft.Json.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Net.Http.Formatting.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.Helpers.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.Mvc.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.Razor.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.WebPages.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.WebPages.Deployment.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.WebPages.Razor.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\obj\Release\WCF.MNepal.csprojAssemblyReference.cache
-D:\MNepal\MNepalPlus\WCF.MNepal\obj\Release\WCF.MNepal.csproj.CopyComplete
-D:\MNepal\MNepalPlus\WCF.MNepal\obj\Release\WCF.MNepal.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\obj\Release\WCF.MNepal.pdb
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\MNepalProject.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.Optimization.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.AspNet.Identity.Core.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.AspNet.Identity.Owin.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Owin.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.Http.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.AspNet.Identity.EntityFramework.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.Cookies.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\WebGrease.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.OAuth.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\MNepalProject.pdb
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\MNepalProject.dll.config
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.Optimization.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.AspNet.Identity.Core.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.AspNet.Identity.Owin.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Web.Http.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.AspNet.Identity.EntityFramework.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.Cookies.xml
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.Owin.Security.OAuth.xml

@@ -14,6 +14,7 @@ namespace CustApp.Controllers
     public class ForgetPasswordController : Controller
     {
         // GET: ForgetPassword
+        [HttpGet]
         public ActionResult Index()
         {
             if (this.TempData["forget_message"] != null)
@@ -26,6 +27,7 @@ namespace CustApp.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateAntiForgeryToken]
         public ActionResult Index(FormCollection collection)
         {
             string userName = collection["txtUserName"] ?? string.Empty;
@@ -110,6 +112,7 @@ namespace CustApp.Controllers
             return View("Index");
         }
 
+        [HttpGet]
         public bool IsValidUserName(string username)
         {
             if (!string.IsNullOrEmpty(username))
@@ -127,6 +130,8 @@ namespace CustApp.Controllers
             }
             return false;
         }
+
+        [HttpGet]
         public ActionResult GetCheckingUserName(string username)
         {
             //if ((username != "") || (username != null))
@@ -187,6 +192,7 @@ namespace CustApp.Controllers
 
 
         // GET: ForgetPassword/Recover
+        [HttpGet]
         public ActionResult Recover()
         {
             if (this.TempData["recover_message"] != null)
@@ -200,6 +206,7 @@ namespace CustApp.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateAntiForgeryToken]
         public ActionResult Recover(FormCollection collection)
         {
             string verificationCode = collection["txtVerificationCode"] ?? string.Empty;
@@ -238,6 +245,7 @@ namespace CustApp.Controllers
         }
 
         // GET: ForgetPassword/ChangePassword
+        [HttpGet]
         public ActionResult ChangePassword()
         {
             if (this.TempData["changepwd_message"] != null)
@@ -249,6 +257,7 @@ namespace CustApp.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(FormCollection collection)
         {
             string password = collection["txtNewPassword"] ?? string.Empty;
@@ -318,6 +327,7 @@ namespace CustApp.Controllers
             return RedirectToAction("ChangePassword");
         }
 
+        
         public ActionResult ResendCode(FormCollection collection){
             if (this.TempData["forget_message"] != null)
             {

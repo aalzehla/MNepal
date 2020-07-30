@@ -3,15 +3,30 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MNSuperadmin", "MNSuperadmin\MNSuperadmin.csproj", "{122AA866-09B6-4CF4-838F-0C899F505C9B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MNepalWeb", "MNepalWeb\MNepalWeb.csproj", "{BEBB9122-D9C9-41CB-A093-54B5884E42A5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AD5A66A9-08AF-4912-BABD-E876EA44D274} = {AD5A66A9-08AF-4912-BABD-E876EA44D274}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustApp", "CustApp\CustApp.csproj", "{73DA3D1D-CEF6-4C72-87A7-D7E4B6F3C320}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTSoap", "NTSOAP\NTSoap.csproj", "{AD5A66A9-08AF-4912-BABD-E876EA44D274}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThailiMerchantApp", "ThailiMerchantApp\ThailiMerchantApp.csproj", "{987342F3-EDEA-434F-B432-E82727E35403}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MNSubisu", "MNSubisu\MNSubisu.csproj", "{6EE11911-2EA3-4A4E-8EAC-DA61FB101A0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MNWLink", "MNWLink\MNWLink.csproj", "{101DCDD6-978A-4746-8579-83DA4DEE460D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MNepalApp", "MNepalApp\MNepalApp.csproj", "{92994372-C30D-4DF6-AB6F-5AA657E8F845}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThailiMNepalApp", "ThailiMNepalApp\ThailiMNepalApp.csproj", "{0076BF01-5C9C-43EF-8CFB-8123628B2C87}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThailiMNepalAgent", "ThailiMNepalAgent\ThailiMNepalAgent.csproj", "{148E4E47-1FEB-4219-9821-8E76A4B07257}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThailiMerchantApp", "ThailiMerchantApp\ThailiMerchantApp.csproj", "{05276CE5-D7DC-49F1-8FF8-71506FE1E7A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MNSuperadmin", "MNSuperadmin\MNSuperadmin.csproj", "{91BE9E1C-B2FF-40C6-8D8B-07550097896D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMSEncrypter", "SMSEncrypter\SMSEncrypter.csproj", "{11173FF6-E31A-44DF-A951-5F9C0124BCDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustApp", "CustApp\CustApp.csproj", "{73DA3D1D-CEF6-4C72-87A7-D7E4B6F3C320}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,31 +34,75 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{122AA866-09B6-4CF4-838F-0C899F505C9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{122AA866-09B6-4CF4-838F-0C899F505C9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{122AA866-09B6-4CF4-838F-0C899F505C9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{122AA866-09B6-4CF4-838F-0C899F505C9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BEBB9122-D9C9-41CB-A093-54B5884E42A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BEBB9122-D9C9-41CB-A093-54B5884E42A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEBB9122-D9C9-41CB-A093-54B5884E42A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEBB9122-D9C9-41CB-A093-54B5884E42A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73DA3D1D-CEF6-4C72-87A7-D7E4B6F3C320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73DA3D1D-CEF6-4C72-87A7-D7E4B6F3C320}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73DA3D1D-CEF6-4C72-87A7-D7E4B6F3C320}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73DA3D1D-CEF6-4C72-87A7-D7E4B6F3C320}.Release|Any CPU.Build.0 = Release|Any CPU
-		{987342F3-EDEA-434F-B432-E82727E35403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{987342F3-EDEA-434F-B432-E82727E35403}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{987342F3-EDEA-434F-B432-E82727E35403}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{987342F3-EDEA-434F-B432-E82727E35403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD5A66A9-08AF-4912-BABD-E876EA44D274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD5A66A9-08AF-4912-BABD-E876EA44D274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD5A66A9-08AF-4912-BABD-E876EA44D274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD5A66A9-08AF-4912-BABD-E876EA44D274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EE11911-2EA3-4A4E-8EAC-DA61FB101A0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EE11911-2EA3-4A4E-8EAC-DA61FB101A0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EE11911-2EA3-4A4E-8EAC-DA61FB101A0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EE11911-2EA3-4A4E-8EAC-DA61FB101A0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{101DCDD6-978A-4746-8579-83DA4DEE460D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{101DCDD6-978A-4746-8579-83DA4DEE460D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{101DCDD6-978A-4746-8579-83DA4DEE460D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{101DCDD6-978A-4746-8579-83DA4DEE460D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92994372-C30D-4DF6-AB6F-5AA657E8F845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92994372-C30D-4DF6-AB6F-5AA657E8F845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92994372-C30D-4DF6-AB6F-5AA657E8F845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92994372-C30D-4DF6-AB6F-5AA657E8F845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0076BF01-5C9C-43EF-8CFB-8123628B2C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0076BF01-5C9C-43EF-8CFB-8123628B2C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0076BF01-5C9C-43EF-8CFB-8123628B2C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0076BF01-5C9C-43EF-8CFB-8123628B2C87}.Release|Any CPU.Build.0 = Release|Any CPU
 		{148E4E47-1FEB-4219-9821-8E76A4B07257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{148E4E47-1FEB-4219-9821-8E76A4B07257}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{148E4E47-1FEB-4219-9821-8E76A4B07257}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{148E4E47-1FEB-4219-9821-8E76A4B07257}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05276CE5-D7DC-49F1-8FF8-71506FE1E7A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05276CE5-D7DC-49F1-8FF8-71506FE1E7A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05276CE5-D7DC-49F1-8FF8-71506FE1E7A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05276CE5-D7DC-49F1-8FF8-71506FE1E7A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91BE9E1C-B2FF-40C6-8D8B-07550097896D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91BE9E1C-B2FF-40C6-8D8B-07550097896D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91BE9E1C-B2FF-40C6-8D8B-07550097896D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91BE9E1C-B2FF-40C6-8D8B-07550097896D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11173FF6-E31A-44DF-A951-5F9C0124BCDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11173FF6-E31A-44DF-A951-5F9C0124BCDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11173FF6-E31A-44DF-A951-5F9C0124BCDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11173FF6-E31A-44DF-A951-5F9C0124BCDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73DA3D1D-CEF6-4C72-87A7-D7E4B6F3C320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73DA3D1D-CEF6-4C72-87A7-D7E4B6F3C320}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73DA3D1D-CEF6-4C72-87A7-D7E4B6F3C320}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73DA3D1D-CEF6-4C72-87A7-D7E4B6F3C320}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33AC9FBF-0747-456A-AA17-54D57F337B35}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://mnepalproject.visualstudio.com/
+		SccProjectUniqueName0 = MNepalWeb\\MNepalWeb.csproj
+		SccProjectName0 = MNepalWeb
+		SccAuxPath0 = https://mnepalproject.visualstudio.com
+		SccLocalPath0 = MNepalWeb
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName1 = NTSOAP\\NTSoap.csproj
+		SccProjectName1 = NTSOAP
+		SccAuxPath1 = https://mnepalproject.visualstudio.com
+		SccLocalPath1 = NTSOAP
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName2 = MNSubisu\\MNSubisu.csproj
+		SccProjectName2 = MNSubisu
+		SccAuxPath2 = https://mnepalproject.visualstudio.com
+		SccLocalPath2 = MNSubisu
+		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 	EndGlobalSection
 EndGlobal

@@ -19,6 +19,7 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.SessionState;
+using KellermanSoftware.CompareNetObjects;
 
 namespace MNSuperadmin.Controllers
 {
@@ -757,7 +758,16 @@ namespace MNSuperadmin.Controllers
             RoleChecker roleChecker = new RoleChecker();
             bool checkRole = roleChecker.checkIndexRole(System.Reflection.MethodBase.GetCurrentMethod().Name, clientCode, this.ControllerContext.RouteData.Values["controller"].ToString());
             //Check Role link end
-            if (TempData["userType"] != null&& checkRole)
+
+            if (this.TempData["agentmodify_messsage"] != null)
+            {
+                this.ViewData["agentmodify_messsage"] = this.TempData["agentmodify_messsage"];
+                this.ViewData["message_class"] = this.TempData["message_class"];
+            }
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null && checkRole)
             {
                 this.ViewData["userType"] = this.TempData["userType"];
                 ViewBag.UserType = this.TempData["userType"];
@@ -929,8 +939,6 @@ namespace MNSuperadmin.Controllers
             string name = (string)Session["LOGGEDUSER_NAME"];
             string userType = (string)Session["LOGGED_USERTYPE"];
 
-            //start milayako 02
-
             string provincestring = "select * from MNProvince";
             DataTable dt = new DataTable();
             dt = objdal.MyMethod(provincestring);
@@ -945,8 +953,7 @@ namespace MNSuperadmin.Controllers
             }
             ViewBag.PProvince = list;
             ViewBag.CProvince = list;
-            //end milayako 02 
-
+            
             if (this.TempData["agenttmodify_messsage"] != null)
             {
                 this.ViewData["agenttmodify_messsage"] = this.TempData["agenttmodify_messsage"];
@@ -1195,10 +1202,8 @@ namespace MNSuperadmin.Controllers
                         string cMotherName = collection["txtMotherName"].ToString();
                         string cMaritalStatus = collection["MaritalStatus"].ToString();
                         string cSpouseName = collection["SpouseName"].ToString();
-                        //start father
                         string cFatherInLaw = collection["FatherInLaw"].ToString();
 
-                        //end father
                         string cGrandFatherName = collection["txtGrandFatherName"].ToString();
                         string cOccupation = collection["Occupation"].ToString();
                         string cPanNo = collection["txtPanNo"].ToString();
@@ -1225,10 +1230,8 @@ namespace MNSuperadmin.Controllers
 
 
                         string cLicense = collection["txtLicense"].ToString();
-                        // string cLicenseIssueDate = collection["txtLicenseIssueDate"].ToString();
                         string cLicenseIssueDate = collection["LicenseIssueDate"].ToString();
                         string cBSLicenseIssueDate = collection["BSLicenseIssueDate"].ToString();
-                        // string cLicenseExpireDate = collection["txtLicenseExpireDate"].ToString();
                         string cLicenseExpireDate = collection["LicenseExpireDate"].ToString();
                         string cBSLicenseExpireDate = collection["BSLicenseExpireDate"].ToString();
                         string cLicensePlaceOfIssue = collection["txtLicensePlaceOfIssue"].ToString();
@@ -1242,24 +1245,8 @@ namespace MNSuperadmin.Controllers
                         string cPassportPhoto = collection["txtOldPP"].ToString();
                         string cFrontPhoto = collection["txtOldfront"].ToString();
                         string cBackPhoto = collection["txtOldback"].ToString();
-
-
-
-                        //string cStatus = collection["Status"].ToString();
-                        //string cContactNumber1 = collection["ContactNumber1"].ToString();
-                        //string cContactNumber2 = collection["ContactNumber2"].ToString();
-                        //string cBankNo = collection["BankNoBin"].ToString();
-                        //string cBranchCode = collection["BranchCode"].ToString();
-                        //string cBankAccountNumber = collection["BankAccountNumber"].ToString();
-                        //string Emaill = collection["EmailAddress"].ToString();
-                        //string cIsRejected = collection["IsRejected"].ToString();
-                        //string cPIN = collection["PIN"].ToString();
-
-
-
                         userInfoModify.ClientCode = cClientCode;
-
-                        //userInfoModify.Name = userInfoModify.FName + "" + userInfoModify.MName + "" + userInfoModify.LName ;   
+  
                         userInfoModify.Name = cFName + " " + cMName + " " + cLName;
                         userInfoModify.WalletNumber = cWalletNumber;
                         userInfoModify.UserType = "agent";
@@ -1281,9 +1268,7 @@ namespace MNSuperadmin.Controllers
                         userInfoModify.Occupation = cOccupation;
                         userInfoModify.MaritalStatus = cMaritalStatus;
                         userInfoModify.SpouseName = cSpouseName;
-                        //start father
                         userInfoModify.FatherInLaw = cFatherInLaw;
-                        //end
                         userInfoModify.PanNo = cPanNo;
                         userInfoModify.FatherName = cFatherName;
                         userInfoModify.MotherName = cMotherName;
@@ -1323,9 +1308,6 @@ namespace MNSuperadmin.Controllers
                         userInfoModify.PassportExpireDate = cPassportExpireDate;
                         userInfoModify.PassportPlaceOfIssue = cPassportPlaceOfIssue;
 
-                        //userInfoModify.PassportImage = cPassportPhoto;
-                        
-                        //var location = Server.MapPath("~/Content/Upload");
                         if (model.PassportPhoto != null)
                         {
                             if (!string.IsNullOrEmpty(cPassportPhoto))
@@ -1337,16 +1319,13 @@ namespace MNSuperadmin.Controllers
                                     System.IO.File.Delete(existingFile);
                                 }
                             }
-                            //userInfoModify.PassportImage = string.Format("{0}", SaveAndReturnFileName(model.PassportPhoto, userInfoModify.UserName));
                             var PP = ReturnFileName(model.PassportPhoto, userInfoModify.UserName);
                             userInfoModify.PassportImage = ParseCv(model.PassportPhoto);
                             userInfoModify.PassportImageName = string.Format(PP);
-                            //    userInfoModify.PassportImage = string.Format("~/Content/Upload/{0}", SaveAndReturnFileName(model.PassportPhoto, userInfoModify.UserName));
                         }
                         else
                         { 
                             userInfoModify.PassportImageName = "";
-                            //userInfoModify.PassportImage = cPassportPhoto;
                         }
 
 
@@ -1364,13 +1343,9 @@ namespace MNSuperadmin.Controllers
                             var front = ReturnFileName(model.Front, userInfoModify.UserName);
                             userInfoModify.FrontImage = ParseCv(model.Front);
                             userInfoModify.FrontImageName = string.Format(front);
-                            //userInfoModify.FrontImage = string.Format("{0}", SaveAndReturnFileName(model.Front, userInfoModify.UserName));
-
-                            // userInfoModify.FrontImage = string.Format("~/Content/Upload/{0}", SaveAndReturnFileName(model.Front, userInfoModify.UserName));
                         }
                         else
                         {
-                            //userInfoModify.FrontImage = cFrontPhoto;
                             userInfoModify.FrontImageName = "";
                         }
 
@@ -1389,12 +1364,9 @@ namespace MNSuperadmin.Controllers
                             var back = ReturnFileName(model.Back, userInfoModify.UserName);
                             userInfoModify.BackImage = ParseCv(model.Back);
                             userInfoModify.BackImageName = string.Format(back);
-                            //userInfoModify.BackImage = string.Format("{0}", SaveAndReturnFileName(model.Back, userInfoModify.UserName));
-
-                            // userInfoModify.BackImage = string.Format("~/Content/Upload/{0}", SaveAndReturnFileName(model.Back, userInfoModify.UserName));
+                            
                         }
                         else { 
-                            //userInfoModify.BackImage = cBackPhoto;
                             userInfoModify.BackImageName = "";
                         }
 
@@ -1428,36 +1400,311 @@ namespace MNSuperadmin.Controllers
                             userInfoModify.BackImageName = cBackPhoto;
                         }
 
+                        /*map new data to Agent*/
+                        AgentTable NewAgent = new AgentTable();
+                        MNClient NewMNClient = new MNClient();
+                        MNClientContact NewMNClientContact = new MNClientContact();
+                        MNClientKYC NewMNClientKYC = new MNClientKYC();
+                        MNClientKYCDoc NewMNClientKYCDoc = new MNClientKYCDoc();
+                        
+                        NewMNClient.Address = userInfoModify.Address;
+                        NewMNClient.Name = userInfoModify.Name;
 
-                        // userInfoModify.IsRejected = cIsRejected;
-                        // userInfoModify.PIN = cPIN;
-                        //userInfoModify.Status = cStatus;
-                        //userInfoModify.ContactNumber1 = cContactNumber1;
-                        //userInfoModify.ContactNumber2 = cContactNumber2;
-                        //userInfoModify.EmailAddress = Emaill;
-                        //userInfoModify.BankNo = cBankNo;
-                        //userInfoModify.BranchCode = cBranchCode;
-                        //userInfoModify.BankAccountNumber = cBankAccountNumber;
+                        NewMNClientContact.EmailAddress = userInfoModify.EmailAddress;
+                        NewMNClientContact.ContactNumber1 = userInfoModify.ContactNumber1;
+                        
+                        NewMNClientKYC.FName = userInfoModify.FName;
+                        NewMNClientKYC.MName = userInfoModify.MName;
+                        NewMNClientKYC.LName = userInfoModify.LName;
+                        NewMNClientKYC.Gender = userInfoModify.Gender;
+                        NewMNClientKYC.BSDateOfBirth = userInfoModify.BSDateOfBirth;
+                        NewMNClientKYC.Nationality = userInfoModify.Nationality;
+                        NewMNClientKYC.Country = userInfoModify.Country;
+                        NewMNClientKYC.Occupation = userInfoModify.Occupation;
+                        NewMNClientKYC.MaritalStatus = userInfoModify.MaritalStatus;
+                        NewMNClientKYC.SpouseName = userInfoModify.SpouseName;
+                        NewMNClientKYC.FatherInLaw = userInfoModify.FatherInLaw;
+                        NewMNClientKYC.FathersName = userInfoModify.FatherName;
+                        NewMNClientKYC.MothersName = userInfoModify.MotherName;
+                        NewMNClientKYC.GFathersName = userInfoModify.GrandFatherName;
+                        NewMNClientKYC.PANNumber = userInfoModify.PanNo;
+
+                        NewMNClientKYC.PProvince = userInfoModify.PProvince;
+                        NewMNClientKYC.PDistrict = userInfoModify.PDistrict;
+                        NewMNClientKYC.PMunicipalityVDC = userInfoModify.PVDC;
+                        NewMNClientKYC.PHouseNo = userInfoModify.PHouseNo;
+                        NewMNClientKYC.PWardNo = userInfoModify.PWardNo;
+                        NewMNClientKYC.PStreet = userInfoModify.PStreet;
+
+                        NewMNClientKYC.CProvince = userInfoModify.CProvince;
+                        NewMNClientKYC.CDistrict = userInfoModify.CDistrict;
+                        NewMNClientKYC.CMunicipalityVDC = userInfoModify.CVDC;
+                        NewMNClientKYC.CHouseNo = userInfoModify.CHouseNo;
+                        NewMNClientKYC.CWardNo = userInfoModify.CWardNo;
+                        NewMNClientKYC.CStreet = userInfoModify.CStreet;
+
+                        NewMNClientKYC.DateOfBirth = DateTime.ParseExact(userInfoModify.DOB, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        NewMNClientKYC.CitizenIssueDate = DateTime.ParseExact(userInfoModify.CitizenshipIssueDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        NewMNClientKYC.LicenseIssueDate = DateTime.ParseExact(userInfoModify.LicenseIssueDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        NewMNClientKYC.LicenseExpiryDate = DateTime.ParseExact(userInfoModify.LicenseExpireDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        NewMNClientKYC.PassportIssueDate = DateTime.ParseExact(userInfoModify.PassportIssueDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        NewMNClientKYC.PassportExpiryDate = DateTime.ParseExact(userInfoModify.PassportExpireDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                        NewMNClientKYC.CitizenshipNo = userInfoModify.Citizenship;
+                        NewMNClientKYC.CitizenPlaceOfIssue = userInfoModify.CitizenshipPlaceOfIssue;
+                        NewMNClientKYC.BSCitizenIssueDate = userInfoModify.BSCitizenshipIssueDate;
+
+                        NewMNClientKYC.LicenseNo = userInfoModify.License;
+                        NewMNClientKYC.LicensePlaceOfIssue = userInfoModify.LicensePlaceOfIssue;
+                        NewMNClientKYC.BSLicenseIssueDate = userInfoModify.BSLicenseIssueDate;
+                        NewMNClientKYC.BSLicenseExpiryDate = userInfoModify.BSLicenseExpireDate;
+
+                        NewMNClientKYC.PassportNo = userInfoModify.Passport;
+                        NewMNClientKYC.PassportPlaceOfIssue = userInfoModify.PassportPlaceOfIssue;
+                        
+                        NewMNClientKYCDoc.DocType = userInfoModify.Document;
+                        NewMNClientKYCDoc.PassportImage = userInfoModify.PassportImageName;
+                        NewMNClientKYCDoc.FrontImage = userInfoModify.FrontImageName;
+                        NewMNClientKYCDoc.BackImage = userInfoModify.BackImageName;
+                        
+                        /*map NEW data to Agent--END*/
+
+                        NewAgent.MNClient = NewMNClient;
+                        NewAgent.MNClientContact = NewMNClientContact;
+                        NewAgent.MNClientKYC = NewMNClientKYC;
+                        NewAgent.MNClientKYCDoc = NewMNClientKYCDoc;
+                        
+                        //For Province
+                        string provincestring = "select * from MNProvince";
+                        DataTable dt = new DataTable();
+                        dt = objdal.MyMethod(provincestring);
+                        List<SelectListItem> list = new List<SelectListItem>();
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            list.Add(new SelectListItem
+                            {
+                                Text = Convert.ToString(row.ItemArray[1]),
+                                Value = Convert.ToString(row.ItemArray[0])
+                            });
+                        }
+                        ViewBag.PProvince = list;
+                        //end Province
+
+                        UserInfo regobj = new UserInfo();
+                       
+                        DataSet DSet = ProfileUtils.GetAgentProfileInfoDS(id);
+                        DataTable dtableUserInfo = DSet.Tables["dtUserInfo"];
+                        DataTable dKycInfo = DSet.Tables["dtKycInfo"];
+                        DataTable dKycDoc = DSet.Tables["dtKycDoc"];
 
 
-                        if ((cWalletNumber != "") && (cUserName != "") && (cFName != ""))
+                        if (dtableUserInfo != null && dtableUserInfo.Rows.Count > 0)
+                        {
+                            regobj.ClientCode = dtableUserInfo.Rows[0]["ClientCode"].ToString();
+                            regobj.Name = dtableUserInfo.Rows[0]["Name"].ToString();
+                            regobj.Address = dtableUserInfo.Rows[0]["Address"].ToString();
+
+                            regobj.PProvince = dtableUserInfo.Rows[0]["PProvince"].ToString();
+                            regobj.PDistrict = dtableUserInfo.Rows[0]["PDistrict"].ToString();
+                            regobj.PMunicipalityVDC = dtableUserInfo.Rows[0]["PMunicipalityVDC"].ToString();
+                            regobj.PWardNo = dtableUserInfo.Rows[0]["PWardNo"].ToString();
+                            regobj.PHouseNo = dtableUserInfo.Rows[0]["PHouseNo"].ToString();
+                            regobj.PStreet = dtableUserInfo.Rows[0]["PStreet"].ToString();
+
+                            regobj.CProvince = dtableUserInfo.Rows[0]["CProvince"].ToString();
+                            regobj.CDistrict = dtableUserInfo.Rows[0]["CDistrict"].ToString();
+                            regobj.CMunicipalityVDC = dtableUserInfo.Rows[0]["CMunicipalityVDC"].ToString();
+                            regobj.CWardNo = dtableUserInfo.Rows[0]["CWardNo"].ToString();
+                            regobj.CHouseNo = dtableUserInfo.Rows[0]["CHouseNo"].ToString();
+                            regobj.CStreet = dtableUserInfo.Rows[0]["CStreet"].ToString();
+
+
+
+                            regobj.IsApproved = dtableUserInfo.Rows[0]["IsApproved"].ToString();
+                            regobj.IsRejected = dtableUserInfo.Rows[0]["IsRejected"].ToString();
+                            regobj.IsModified = dtableUserInfo.Rows[0]["IsModified"].ToString();
+
+                            regobj.Status = dtableUserInfo.Rows[0]["Status"].ToString();
+                            regobj.UserName = dtableUserInfo.Rows[0]["UserName"].ToString();
+                            regobj.UserType = dtableUserInfo.Rows[0]["UserType"].ToString();
+                            regobj.PIN = dtableUserInfo.Rows[0]["PIN"].ToString();
+                            regobj.WalletNumber = dtableUserInfo.Rows[0]["WalletNumber"].ToString();
+
+                            regobj.FName = dtableUserInfo.Rows[0]["FName"].ToString();
+                            regobj.MName = dtableUserInfo.Rows[0]["MName"].ToString();
+                            regobj.LName = dtableUserInfo.Rows[0]["LName"].ToString();
+                            regobj.Gender = dtableUserInfo.Rows[0]["Gender"].ToString();
+                            regobj.DOB = dtableUserInfo.Rows[0]["DateOfBirth"].ToString().Split()[0];;
+                            regobj.BSDateOfBirth = dtableUserInfo.Rows[0]["BSDateOfBirth"].ToString();
+
+                            regobj.EmailAddress = dtableUserInfo.Rows[0]["EmailAddress"].ToString();
+                            regobj.Nationality = dtableUserInfo.Rows[0]["Nationality"].ToString();
+                            regobj.Country = dtableUserInfo.Rows[0]["Country"].ToString();
+                            regobj.Occupation = dtableUserInfo.Rows[0]["Occupation"].ToString();
+                            regobj.MaritalStatus = dtableUserInfo.Rows[0]["MaritalStatus"].ToString();
+                            regobj.SpouseName = dtableUserInfo.Rows[0]["SpouseName"].ToString();
+
+                            regobj.FatherInLaw = dtableUserInfo.Rows[0]["FatherInLaw"].ToString();
+
+                            regobj.FatherName = dtableUserInfo.Rows[0]["FathersName"].ToString();
+                            regobj.MotherName = dtableUserInfo.Rows[0]["MothersName"].ToString();
+                            regobj.GrandFatherName = dtableUserInfo.Rows[0]["GFathersName"].ToString();
+                            regobj.PanNo = dtableUserInfo.Rows[0]["PANNumber"].ToString();
+
+
+                            regobj.Document = dtableUserInfo.Rows[0]["DocType"].ToString();
+                            regobj.Citizenship = dtableUserInfo.Rows[0]["CitizenshipNo"].ToString();
+                            regobj.CitizenshipIssueDate = dtableUserInfo.Rows[0]["CitizenIssueDate"].ToString().Split()[0];
+                            regobj.BSCitizenshipIssueDate = dtableUserInfo.Rows[0]["BSCitizenIssueDate"].ToString().Split()[0];
+                            regobj.CitizenshipPlaceOfIssue = dtableUserInfo.Rows[0]["CitizenPlaceOfIssue"].ToString();
+
+                            regobj.License = dtableUserInfo.Rows[0]["LicenseNo"].ToString();
+                            regobj.LicenseIssueDate = dtableUserInfo.Rows[0]["LicenseIssueDate"].ToString().Split()[0];
+                            regobj.BSLicenseIssueDate = dtableUserInfo.Rows[0]["BSLicenseIssueDate"].ToString().Split()[0];
+                            regobj.LicenseExpireDate = dtableUserInfo.Rows[0]["LicenseExpiryDate"].ToString().Split()[0];
+                            regobj.BSLicenseExpireDate = dtableUserInfo.Rows[0]["BSLicenseExpiryDate"].ToString().Split()[0];
+                            regobj.LicensePlaceOfIssue = dtableUserInfo.Rows[0]["LicensePlaceOfIssue"].ToString();
+
+                            regobj.Passport = dtableUserInfo.Rows[0]["PassportNo"].ToString();
+                            regobj.PassportPlaceOfIssue = dtableUserInfo.Rows[0]["PassportPlaceOfIssue"].ToString();
+                            regobj.PassportIssueDate = dtableUserInfo.Rows[0]["PassportIssueDate"].ToString().Split()[0];
+                            regobj.PassportExpireDate = dtableUserInfo.Rows[0]["PassportExpiryDate"].ToString().Split()[0];
+                            
+                            regobj.PassportImage = dtableUserInfo.Rows[0]["PassportImage"].ToString();
+                            regobj.FrontImage = dtableUserInfo.Rows[0]["FrontImage"].ToString();
+                            regobj.BackImage = dtableUserInfo.Rows[0]["BackImage"].ToString();
+
+                        }
+
+
+                        /*map old data to Agent*/
+                        AgentTable OldAgent = new AgentTable();
+                        MNClient OldMNClient = new MNClient();
+                        MNClientContact OldMNClientContact = new MNClientContact();
+                        MNClientKYC OldMNClientKYC = new MNClientKYC();
+                        MNClientKYCDoc OldMNClientKYCDoc = new MNClientKYCDoc();
+                        
+                        OldMNClient.Address = regobj.Address;
+                        OldMNClient.Name = regobj.Name;
+
+                        OldMNClientContact.EmailAddress = regobj.EmailAddress;
+                        OldMNClientContact.ContactNumber1 = regobj.ContactNumber1;
+
+                        OldMNClientKYC.FName = regobj.FName;
+                        OldMNClientKYC.MName = regobj.MName;
+                        OldMNClientKYC.LName = regobj.LName;
+                        OldMNClientKYC.Gender = regobj.Gender;
+                        OldMNClientKYC.BSDateOfBirth = regobj.BSDateOfBirth;
+                        OldMNClientKYC.Nationality = regobj.Nationality;
+                        OldMNClientKYC.Country = regobj.Country;
+                        OldMNClientKYC.Occupation = regobj.Occupation;
+                        OldMNClientKYC.MaritalStatus = regobj.MaritalStatus;
+                        OldMNClientKYC.SpouseName = regobj.SpouseName;
+                        OldMNClientKYC.FatherInLaw = regobj.FatherInLaw;
+                        OldMNClientKYC.FathersName = regobj.FatherName;
+                        OldMNClientKYC.MothersName = regobj.MotherName;
+                        OldMNClientKYC.GFathersName = regobj.GrandFatherName;
+                        OldMNClientKYC.PANNumber = regobj.PanNo;
+
+                        OldMNClientKYC.PProvince = regobj.PProvince;
+                        OldMNClientKYC.PDistrict = regobj.PDistrict;
+                        OldMNClientKYC.PMunicipalityVDC = regobj.PMunicipalityVDC;
+                        OldMNClientKYC.PHouseNo = regobj.PHouseNo;
+                        OldMNClientKYC.PWardNo = regobj.PWardNo;
+                        OldMNClientKYC.PStreet = regobj.PStreet;
+
+                        OldMNClientKYC.CProvince = regobj.CProvince;
+                        OldMNClientKYC.CDistrict = regobj.CDistrict;
+                        OldMNClientKYC.CMunicipalityVDC = regobj.CMunicipalityVDC;
+                        OldMNClientKYC.CHouseNo = regobj.CHouseNo;
+                        OldMNClientKYC.CWardNo = regobj.CWardNo;
+                        OldMNClientKYC.CStreet = regobj.CStreet;
+
+                        OldMNClientKYC.DateOfBirth = DateTime.Parse(regobj.DOB.Trim()).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        OldMNClientKYC.CitizenIssueDate = DateTime.Parse(regobj.CitizenshipIssueDate.Trim()).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        OldMNClientKYC.LicenseIssueDate = DateTime.Parse(regobj.LicenseIssueDate.Trim()).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        OldMNClientKYC.LicenseExpiryDate = DateTime.Parse(regobj.LicenseExpireDate.Trim()).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        OldMNClientKYC.PassportIssueDate = DateTime.Parse(regobj.PassportIssueDate.Trim()).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        OldMNClientKYC.PassportExpiryDate = DateTime.Parse(regobj.PassportExpireDate.Trim()).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        
+                        OldMNClientKYC.CitizenshipNo = regobj.Citizenship;
+                        OldMNClientKYC.CitizenPlaceOfIssue = regobj.CitizenshipPlaceOfIssue;
+                        OldMNClientKYC.BSCitizenIssueDate = regobj.BSCitizenshipIssueDate;
+
+                        OldMNClientKYC.LicenseNo = regobj.License;
+                        OldMNClientKYC.LicensePlaceOfIssue = regobj.LicensePlaceOfIssue;
+                        OldMNClientKYC.BSLicenseIssueDate = regobj.BSLicenseIssueDate;
+                        OldMNClientKYC.BSLicenseExpiryDate = regobj.BSLicenseExpireDate;
+
+                        OldMNClientKYC.PassportNo = regobj.Passport;
+                        OldMNClientKYC.PassportPlaceOfIssue = regobj.PassportPlaceOfIssue;
+                        
+                        OldMNClientKYCDoc.DocType = regobj.Document;
+                        OldMNClientKYCDoc.PassportImage = regobj.PassportImage;
+                        OldMNClientKYCDoc.FrontImage = regobj.FrontImage;
+                        OldMNClientKYCDoc.BackImage = regobj.BackImage;
+                        
+                        /*map old data to Agent--END*/
+
+                        
+                        OldAgent.MNClient = OldMNClient;
+                        OldAgent.MNClientContact = OldMNClientContact;
+                        OldAgent.MNClientKYC = OldMNClientKYC;
+                        OldAgent.MNClientKYCDoc = OldMNClientKYCDoc;
+                       
+                        /*Difference compare*/
+                        bool isUpdated = false;
+                        CompareLogic compareLogic = new CompareLogic();
+                        ComparisonConfig config = new ComparisonConfig();
+                        config.MaxDifferences = int.MaxValue;
+                        config.IgnoreCollectionOrder = false;
+                        compareLogic.Config = config;
+                        ComparisonResult result = compareLogic.Compare(OldAgent, NewAgent); //  firstparameter orginal,second parameter modified
+                        List<MNMakerChecker> makerCheckers = new List<MNMakerChecker>();
+                        if (!result.AreEqual)
+                        {
+                            isUpdated = true;
+                            foreach (Difference diff in result.Differences)
+                            {
+                                MNMakerChecker makerchecker = new MNMakerChecker();
+                                int index = diff.PropertyName.IndexOf('.');
+                                makerchecker.ColumnName = diff.PropertyName.Substring(index + 1);
+                                makerchecker.TableName = diff.ParentPropertyName;
+                                makerchecker.OldValue = diff.Object1Value;
+                                makerchecker.NewValue = diff.Object2Value;
+                                makerchecker.Module = "AGENT";
+                                makerCheckers.Add(makerchecker);
+                            }
+                        }
+
+
+                        if (isUpdated)
                         {
 
-                            bool isUpdated = CustomerUtils.UpdateAgentInfo(userInfoModify);
-                            displayMessage = isUpdated
-                                                     ? "Changes will take effect after approval."
-                                                     : "Error while updating Agent Information";
-                            messageClass = isUpdated ? CssSetting.SuccessMessageClass : CssSetting.FailedMessageClass;
+                            string modifyingAdmin = (string)Session["UserName"];
+                            string modifyingBranch = (string)Session["UserBranch"];
+                            CusProfileUtils cUtil = new CusProfileUtils();
+                            string ModifiedFieldXML = cUtil.GetMakerCheckerXMLStr(makerCheckers);
+                            bool inserted = AgentUtils.InsertAgentMakerChecker(cClientCode, modifyingAdmin, modifyingBranch, ModifiedFieldXML);
+
+                            displayMessage = inserted
+                                                    ? "Agent Information for " + userInfoModify.FName + " has successfully been updated. Please go to Approve Modification and perform accordingly."
+                                                    : "Error while updating Agent Information";
+                            messageClass = inserted ? CssSetting.SuccessMessageClass : CssSetting.FailedMessageClass;
+
                         }
                         else
                         {
-                            displayMessage = "Required Field is Empty";
-                            messageClass = CssSetting.FailedMessageClass;
+                            displayMessage = "Nothing Changed";
+                            messageClass = CssSetting.SuccessMessageClass;
                         }
+
+
+
 
                         this.TempData["agenttmodify_messsage"] = displayMessage;
                         this.TempData["message_class"] = messageClass;
-                        return RedirectToAction("AgentModify");
+                        return RedirectToAction("Index");
                     }
                     ViewBag.Bank = new SelectList(item, "Value", "Text", userInfoModify.BankNo);
                     return View();
@@ -1477,7 +1724,7 @@ namespace MNSuperadmin.Controllers
             }
             finally
             {
-                this.TempData["agenttmodify_messsage"] = displayMessage;
+                this.TempData["agentmodify_messsage"] = displayMessage;
                 this.TempData["message_class"] = messageClass;
             }
         }
@@ -1503,179 +1750,7 @@ namespace MNSuperadmin.Controllers
                 return View();
         }
         #endregion
-
-
-        #region "Agent Status"
-
-
-        // GET: Agent/AgentStatus
-        public ActionResult AgentStatus()
-        {
-            string userName = (string)Session["LOGGED_USERNAME"];
-            string clientCode = (string)Session["LOGGEDUSER_ID"];
-            string name = (string)Session["LOGGEDUSER_NAME"];
-            string userType = (string)Session["LOGGED_USERTYPE"];
-
-            TempData["userType"] = userType;
-
-            if (TempData["userType"] != null)
-            {
-                this.ViewData["userType"] = this.TempData["userType"];
-                ViewBag.UserType = this.TempData["userType"];
-                ViewBag.Name = name;
-
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login");
-            }
-        }
-
-
-        // GET: Agent/AgentDetailView
-        [HttpGet]
-        public ActionResult AgentDetailView(string txtMobileNo, string txtName, string txtAccountNo)
-        {
-            string userName = (string)Session["LOGGED_USERNAME"];
-            string clientCode = (string)Session["LOGGEDUSER_ID"];
-            string name = (string)Session["LOGGEDUSER_NAME"];
-            string userType = (string)Session["LOGGED_USERTYPE"];
-
-            TempData["userType"] = userType;
-
-            if (TempData["userType"] != null)
-            {
-                this.ViewData["userType"] = this.TempData["userType"];
-                ViewBag.UserType = this.TempData["userType"];
-                ViewBag.Name = name;
-
-                UserInfo userInfo = new UserInfo
-                {
-                    ContactNumber1 = txtMobileNo,
-                    Name = txtName,
-                    WalletNumber = txtAccountNo
-                };
-
-                List<UserInfo> customerStatus = new List<UserInfo>();
-
-                if ((userInfo.Name != "") && (userInfo.WalletNumber != "") && (userInfo.ContactNumber1 != ""))
-                {
-                    DataTable dtableCustomerStatusByAll = AgentUtils.GetAgentProfileByALL(userInfo.Name, userInfo.WalletNumber, userInfo.ContactNumber1);
-                    if (dtableCustomerStatusByAll != null && dtableCustomerStatusByAll.Rows.Count > 0)
-                    {
-                        UserInfo regobj = new UserInfo();
-                        regobj.ClientCode = dtableCustomerStatusByAll.Rows[0]["ClientCode"].ToString();
-                        regobj.Name = dtableCustomerStatusByAll.Rows[0]["Name"].ToString();
-                        regobj.Address = dtableCustomerStatusByAll.Rows[0]["Address"].ToString();
-                        regobj.PIN = dtableCustomerStatusByAll.Rows[0]["PIN"].ToString();
-                        regobj.Status = dtableCustomerStatusByAll.Rows[0]["Status"].ToString();
-                        regobj.ContactNumber1 = dtableCustomerStatusByAll.Rows[0]["ContactNumber1"].ToString();
-                        regobj.ContactNumber2 = dtableCustomerStatusByAll.Rows[0]["ContactNumber2"].ToString();
-                        regobj.UserName = dtableCustomerStatusByAll.Rows[0]["UserName"].ToString();
-                        regobj.UserType = dtableCustomerStatusByAll.Rows[0]["userType"].ToString();
-
-                        customerStatus.Add(regobj);
-                        ViewData["dtableAgentStatus"] = dtableCustomerStatusByAll;
-                    }
-                }
-                if ((userInfo.Name != "") && (userInfo.WalletNumber != ""))
-                {
-                    DataTable dtableCustomerStatusByAc = AgentUtils.GetAgentProfileByNameAC(userInfo.Name, userInfo.WalletNumber);
-                    if (dtableCustomerStatusByAc != null && dtableCustomerStatusByAc.Rows.Count > 0)
-                    {
-                        UserInfo regobj = new UserInfo();
-                        regobj.ClientCode = dtableCustomerStatusByAc.Rows[0]["ClientCode"].ToString();
-                        regobj.Name = dtableCustomerStatusByAc.Rows[0]["Name"].ToString();
-                        regobj.Address = dtableCustomerStatusByAc.Rows[0]["Address"].ToString();
-                        regobj.PIN = dtableCustomerStatusByAc.Rows[0]["PIN"].ToString();
-                        regobj.Status = dtableCustomerStatusByAc.Rows[0]["Status"].ToString();
-                        regobj.ContactNumber1 = dtableCustomerStatusByAc.Rows[0]["ContactNumber1"].ToString();
-                        regobj.ContactNumber2 = dtableCustomerStatusByAc.Rows[0]["ContactNumber2"].ToString();
-                        regobj.UserName = dtableCustomerStatusByAc.Rows[0]["UserName"].ToString();
-                        regobj.UserType = dtableCustomerStatusByAc.Rows[0]["userType"].ToString();
-
-                        customerStatus.Add(regobj);
-                        ViewData["dtableAgentStatus"] = dtableCustomerStatusByAc;
-                    }
-                }
-                if (userInfo.ContactNumber1 != "")
-                {
-                    DataTable dtableCustomerStatusByMobileNo = AgentUtils.GetAgentProfileByMobileNo(userInfo.ContactNumber1);
-                    if (dtableCustomerStatusByMobileNo != null && dtableCustomerStatusByMobileNo.Rows.Count > 0)
-                    {
-                        UserInfo regobj = new UserInfo
-                        {
-                            ClientCode = dtableCustomerStatusByMobileNo.Rows[0]["ClientCode"].ToString(),
-                            Name = dtableCustomerStatusByMobileNo.Rows[0]["Name"].ToString(),
-                            Address = dtableCustomerStatusByMobileNo.Rows[0]["Address"].ToString(),
-                            PIN = dtableCustomerStatusByMobileNo.Rows[0]["PIN"].ToString(),
-                            Status = dtableCustomerStatusByMobileNo.Rows[0]["Status"].ToString(),
-                            ContactNumber1 = dtableCustomerStatusByMobileNo.Rows[0]["ContactNumber1"].ToString(),
-                            ContactNumber2 = dtableCustomerStatusByMobileNo.Rows[0]["ContactNumber2"].ToString(),
-                            UserName = dtableCustomerStatusByMobileNo.Rows[0]["UserName"].ToString(),
-                            UserType = dtableCustomerStatusByMobileNo.Rows[0]["userType"].ToString()
-                        };
-
-                        customerStatus.Add(regobj);
-                        ViewData["dtableAgentStatus"] = dtableCustomerStatusByMobileNo;
-                    }
-                }
-                if (userInfo.Name != "")
-                {
-                    DataTable dtableCustomerStatusByName = AgentUtils.GetAgentProfileByName(userInfo.Name);
-                    if (dtableCustomerStatusByName != null && dtableCustomerStatusByName.Rows.Count > 0)
-                    {
-                        UserInfo regobj = new UserInfo
-                        {
-                            ClientCode = dtableCustomerStatusByName.Rows[0]["ClientCode"].ToString(),
-                            Name = dtableCustomerStatusByName.Rows[0]["Name"].ToString(),
-                            Address = dtableCustomerStatusByName.Rows[0]["Address"].ToString(),
-                            PIN = dtableCustomerStatusByName.Rows[0]["PIN"].ToString(),
-                            Status = dtableCustomerStatusByName.Rows[0]["Status"].ToString(),
-                            ContactNumber1 = dtableCustomerStatusByName.Rows[0]["ContactNumber1"].ToString(),
-                            ContactNumber2 = dtableCustomerStatusByName.Rows[0]["ContactNumber2"].ToString(),
-                            UserName = dtableCustomerStatusByName.Rows[0]["UserName"].ToString(),
-                            UserType = dtableCustomerStatusByName.Rows[0]["userType"].ToString()
-                        };
-
-                        customerStatus.Add(regobj);
-                        ViewData["dtableAgentStatus"] = dtableCustomerStatusByName;
-                    }
-                }
-                if (userInfo.WalletNumber != "")
-                {
-                    DataTable dtableCustomerStatusByAc = AgentUtils.GetAgentProfileByAC(userInfo.WalletNumber);
-                    if (dtableCustomerStatusByAc != null && dtableCustomerStatusByAc.Rows.Count > 0)
-                    {
-                        UserInfo regobj = new UserInfo
-                        {
-                            ClientCode = dtableCustomerStatusByAc.Rows[0]["ClientCode"].ToString(),
-                            Name = dtableCustomerStatusByAc.Rows[0]["Name"].ToString(),
-                            Address = dtableCustomerStatusByAc.Rows[0]["Address"].ToString(),
-                            PIN = dtableCustomerStatusByAc.Rows[0]["PIN"].ToString(),
-                            Status = dtableCustomerStatusByAc.Rows[0]["Status"].ToString(),
-                            ContactNumber1 = dtableCustomerStatusByAc.Rows[0]["ContactNumber1"].ToString(),
-                            ContactNumber2 = dtableCustomerStatusByAc.Rows[0]["ContactNumber2"].ToString(),
-                            UserName = dtableCustomerStatusByAc.Rows[0]["UserName"].ToString(),
-                            UserType = dtableCustomerStatusByAc.Rows[0]["userType"].ToString()
-                        };
-
-                        customerStatus.Add(regobj);
-                        ViewData["dtableAgentStatus"] = dtableCustomerStatusByAc;
-                    }
-                }
-
-                return View(customerStatus);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login");
-            }
-        }
-
-
-        #endregion
+        
 
         #region Agent Registration Approval list
         [HttpGet]
@@ -1902,6 +1977,20 @@ namespace MNSuperadmin.Controllers
 
         }
 
+        public string getProvinceName(string id)
+        {
+            string provincestring = "select * from MNProvince where ProvinceID='" + id + "'";
+            
+            DataTable dt = new DataTable();
+            dt = objdal.MyMethod(provincestring);
+            string name = string.Empty;
+            foreach (DataRow row in dt.Rows)
+            {
+                name = row["Name"].ToString();
+            }
+            return name;
+        }
+
         [HttpPost]
         public ActionResult ApproveRegisterAgent(UserInfo model, string btnApprove)
         {
@@ -1928,36 +2017,46 @@ namespace MNSuperadmin.Controllers
                 userInfoApproval.ClientCode = model.ClientCode;
                 userInfoApproval.UserName = userName;
 
-                //if (btnApprove.ToUpper() == "REJECT")
-                //{
-                //    userInfoApproval.AdminUserName = Session["UserName"].ToString();
-                //    userInfoApproval.AdminBranch = "";
-                //    userInfoApproval.Remarks = model.Remarks;
+
+                
+                if (btnApprove.ToUpper() == "REJECT")
+                {
+                    userInfoApproval.AdminUserName = Session["UserName"].ToString();
+                    userInfoApproval.AdminBranch = "";
+                    userInfoApproval.Remarks = model.Remarks;
+                    userInfoApproval.RejectedBy = userName;
 
 
-                //    string Rejected = "T";
-                //    //string Approve = "UnApprove";
+                    string Rejected = "T";
+                    //string Approve = "UnApprove";
 
-                //    userInfoApproval.Remarks = model.Remarks;
+                    userInfoApproval.Remarks = model.Remarks;
 
-                //    int ret = CustomerUtils.AdminRegisterReject(userInfoApproval, Rejected);
+                    int ret = AgentUtils.AgentRegReject(userInfoApproval, Rejected);
+                    
+                    if (ret == 1)
+                    {
+                        displayMessage = "Agent" + model.Name + " has been Rejected. Please Check Rejectlist and perform accordingly";
+                        messageClass = CssSetting.SuccessMessageClass;
+                    }
+                    else if (ret == -1 || ret != 100)
+                    {
+                        displayMessage = "Error while rejecting Admin " + model.Name;
+                        messageClass = CssSetting.FailedMessageClass;
+                    }
+                   
+                    this.TempData["agentapprove_messsage"] = displayMessage;
+                    this.TempData["message_class"] = messageClass;
+                    return RedirectToAction("ApproveAgentList");
 
-                //    if (ret == 1)
-                //    {
-                //        displayMessage = "Admin" + model.Name + " has been Rejected. Please Check Rejectlist and perform accordingly";
-                //        messageClass = CssSetting.SuccessMessageClass;
-                //    }
-                //    else if (ret == -1 || ret != 100)
-                //    {
-                //        displayMessage = "Error while rejecting Admin " + model.Name;
-                //        messageClass = CssSetting.FailedMessageClass;
-                //    }
+                }
 
-                //    this.TempData["custapprove_messsage"] = displayMessage;
-                //    this.TempData["message_class"] = messageClass;
-                //    return RedirectToAction("ApproveAdminList");
 
-                //}
+
+
+
+
+
                 if (btnApprove.ToUpper() == "APPROVE")
                 {
                     userInfoApproval.SuperAdminUserName = "";
@@ -1979,13 +2078,14 @@ namespace MNSuperadmin.Controllers
                             userInfo.Password = dtblRegistration.Rows[0]["Password"].ToString();
                             userInfo.PIN = dtblRegistration.Rows[0]["PIN"].ToString();
                             userInfo.ClientCode = dtblRegistration.Rows[0]["ClientCode"].ToString();
+                            userInfo.FName = dtblRegistration.Rows[0]["FName"].ToString();
                         }
                         userInfo.Password = CustomerUtils.GeneratePassword();
                         bool passChange = PasswordUtils.ResetPassword(userInfo);
                         if (userInfo.EmailAddress != "" && userInfo.EmailAddress != string.Empty)
                         {
                             string Subject = "New Agent Registration";
-                            string MailSubject = "<span style='font-size:15px;'><h4>Dear " + userInfo.Name + ",</h4>";
+                            string MailSubject = "<span style='font-size:15px;'><h4>Dear " + userInfo.FName + ",</h4>";
                             MailSubject += "A new Account has been created  for you at Nepal Investment Bank Ltd. Mobile Banking,";
                             MailSubject += "and you have been issued with a new temporary password.<br/>";
                             MailSubject += "<br/><b>Username: " + userInfo.UserName + "</b> <br/>";
@@ -2009,7 +2109,7 @@ namespace MNSuperadmin.Controllers
 
                             //for sms 
                             SMSUtils SMS = new SMSUtils();
-                            string Message = string.Format("Dear " + userInfo.Name.Split()[0] + ",\n Your new T-Pin is " + userInfo.PIN + "and Password is " + userInfo.Password + ".\n Thank You -MNepal");
+                            string Message = string.Format("Dear " + userInfo.FName + ",\n Your new T-Pin is " + userInfo.PIN + "and Password is " + userInfo.Password + ".\n Thank You -MNepal");
 
                             SMSLog Log = new SMSLog();
 
@@ -2134,37 +2234,6 @@ namespace MNSuperadmin.Controllers
                 ViewBag.UserType = this.TempData["userType"];
                 ViewBag.Name = name;
 
-                //For Branch
-                //List<SelectListItem> item = new List<SelectListItem>();
-                //DataSet dsBank = BranchUtils.GetDataSetPopulateBranchName();
-                //ViewBag.bank = dsBank.Tables[0];
-                //foreach (DataRow dr in ViewBag.bank.Rows)
-                //{
-                //    if (dr["IsBlocked"].ToString() == "F")
-                //    {
-                //        item.Add(new SelectListItem
-                //        {
-                //            Text = dr["BranchName"].ToString(),
-                //            Value = dr["BranchCode"].ToString()
-                //        });
-                //    }
-                //}
-                //ViewBag.BranchName = item;
-
-                //For ProfileName
-                //List<SelectListItem> itemProfile = new List<SelectListItem>();
-                //DataSet dsProfile = UserProfileUtils.GetDataSetPopulateProfileName();
-                //ViewBag.profile = dsProfile.Tables[0];
-                //foreach (DataRow dr in ViewBag.profile.Rows)
-                //{
-                //    itemProfile.Add(new SelectListItem
-                //    {
-                //        Text = @dr["ProfileName"].ToString(),
-                //        Value = @dr["ProfileCode"].ToString()
-                //    });
-                //}
-
-
                 UserInfo userInfo = new UserInfo();
                 DataTable dtblRegistration = ProfileUtils.GetAgentProfileInfo(clientCodeId);
                 if (dtblRegistration.Rows.Count == 1)
@@ -2178,7 +2247,8 @@ namespace MNSuperadmin.Controllers
                     userInfo.FName = dtblRegistration.Rows[0]["FName"].ToString();
                     userInfo.MName = dtblRegistration.Rows[0]["MName"].ToString();
                     userInfo.LName = dtblRegistration.Rows[0]["LName"].ToString();
-                    userInfo.DOB = dtblRegistration.Rows[0]["DateOfBirth"].ToString().Split()[0];
+
+                    userInfo.DOB = DateTime.Parse(dtblRegistration.Rows[0]["DateOfBirth"].ToString()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                     userInfo.BSDateOfBirth = dtblRegistration.Rows[0]["BSDateOfBirth"].ToString().Split()[0];
                     userInfo.EmailAddress = dtblRegistration.Rows[0]["EmailAddress"].ToString();
                     userInfo.Gender = dtblRegistration.Rows[0]["Gender"].ToString();
@@ -2195,14 +2265,14 @@ namespace MNSuperadmin.Controllers
                     userInfo.Occupation = dtblRegistration.Rows[0]["Occupation"].ToString();
                     userInfo.PanNo = dtblRegistration.Rows[0]["PanNumber"].ToString();
 
-                    userInfo.PProvince = dtblRegistration.Rows[0]["PProvince"].ToString();
+                    userInfo.PProvince = getProvinceName(dtblRegistration.Rows[0]["PProvince"].ToString());
                     userInfo.PDistrict = getDistrictName(dtblRegistration.Rows[0]["PDistrict"].ToString());
                     userInfo.PVDC = dtblRegistration.Rows[0]["PMunicipalityVDC"].ToString();
                     userInfo.PWardNo = dtblRegistration.Rows[0]["PWardNo"].ToString();
                     userInfo.PHouseNo = dtblRegistration.Rows[0]["PHouseNo"].ToString();
                     userInfo.PStreet = dtblRegistration.Rows[0]["PStreet"].ToString();
 
-                    userInfo.CProvince = dtblRegistration.Rows[0]["CProvince"].ToString();
+                    userInfo.CProvince = getProvinceName(dtblRegistration.Rows[0]["CProvince"].ToString());
                     userInfo.CDistrict = getDistrictName(dtblRegistration.Rows[0]["CDistrict"].ToString());
                     userInfo.CVDC = dtblRegistration.Rows[0]["CMunicipalityVDC"].ToString();
                     userInfo.CWardNo = dtblRegistration.Rows[0]["CWardNo"].ToString();
@@ -2212,50 +2282,33 @@ namespace MNSuperadmin.Controllers
                     userInfo.Document = dtblRegistration.Rows[0]["DocType"].ToString();
 
                     userInfo.Citizenship = dtblRegistration.Rows[0]["CitizenshipNo"].ToString();
-                    userInfo.CitizenshipIssueDate = dtblRegistration.Rows[0]["CitizenIssueDate"].ToString().Split()[0];
+                    userInfo.CitizenshipIssueDate = DateTime.Parse(dtblRegistration.Rows[0]["CitizenIssueDate"].ToString()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                     userInfo.BSCitizenshipIssueDate = dtblRegistration.Rows[0]["BSCitizenIssueDate"].ToString().Split()[0];
                     userInfo.CitizenshipPlaceOfIssue = dtblRegistration.Rows[0]["CitizenPlaceOfIssue"].ToString();
 
                     userInfo.License = dtblRegistration.Rows[0]["LicenseNo"].ToString();
-                    userInfo.LicenseIssueDate = dtblRegistration.Rows[0]["LicenseIssueDate"].ToString().Split()[0];
+                    userInfo.LicenseIssueDate = DateTime.Parse(dtblRegistration.Rows[0]["LicenseIssueDate"].ToString()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                     userInfo.BSLicenseIssueDate = dtblRegistration.Rows[0]["BSLicenseIssueDate"].ToString().Split()[0];
-                    userInfo.LicenseExpireDate = dtblRegistration.Rows[0]["LicenseExpiryDate"].ToString().Split()[0];
+                    userInfo.LicenseExpireDate = DateTime.Parse(dtblRegistration.Rows[0]["LicenseExpiryDate"].ToString()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                     userInfo.BSLicenseExpireDate = dtblRegistration.Rows[0]["BSLicenseExpiryDate"].ToString().Split()[0];
                     userInfo.LicensePlaceOfIssue = dtblRegistration.Rows[0]["LicensePlaceOfIssue"].ToString();
 
                     userInfo.Passport = dtblRegistration.Rows[0]["PassportNo"].ToString();
-                    userInfo.PassportIssueDate = dtblRegistration.Rows[0]["PassportIssueDate"].ToString().Split()[0];
-                    userInfo.PassportExpireDate = dtblRegistration.Rows[0]["PassportExpiryDate"].ToString().Split()[0];
+                    userInfo.PassportExpireDate = DateTime.Parse(dtblRegistration.Rows[0]["PassportExpiryDate"].ToString()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    userInfo.PassportIssueDate = DateTime.Parse(dtblRegistration.Rows[0]["PassportIssueDate"].ToString()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                     userInfo.PassportPlaceOfIssue = dtblRegistration.Rows[0]["PassportPlaceOfIssue"].ToString();
-
+                   
                     userInfo.PassportImage = dtblRegistration.Rows[0]["PassportImage"].ToString();
                     userInfo.FrontImage = dtblRegistration.Rows[0]["FrontImage"].ToString();
                     userInfo.BackImage = dtblRegistration.Rows[0]["BackImage"].ToString();
 
-                    userInfo.DOB = DateConvert(userInfo.DOB);
-
-                    userInfo.CitizenshipIssueDate = DateConvert(userInfo.CitizenshipIssueDate);
-                    userInfo.LicenseIssueDate = DateConvert(userInfo.LicenseIssueDate);
-                    userInfo.LicenseExpireDate = DateConvert(userInfo.LicenseExpireDate);
-
-                    userInfo.PassportIssueDate = DateConvert(userInfo.PassportIssueDate);
-                    userInfo.PassportExpireDate = DateConvert(userInfo.PassportExpireDate);
-
-                    //userInfo.UserType = dtblRegistration.Rows[0]["UserType"].ToString();
-                    //userInfo.IsApproved = dtblRegistration.Rows[0]["IsApproved"].ToString();
-                    //userInfo.IsRejected = dtblRegistration.Rows[0]["IsRejected"].ToString();
-                    //userInfo.PIN = dtblRegistration.Rows[0]["PIN"].ToString();
-                    //userInfo.Status = dtblRegistration.Rows[0]["Status"].ToString();
-                    //userInfo.ContactNumber1 = dtblRegistration.Rows[0]["ContactNumber1"].ToString();
-                    //userInfo.ContactNumber2 = dtblRegistration.Rows[0]["ContactNumber2"].ToString();
-                    //userInfo.ProfileName = dtblRegistration.Rows[0]["ProfileName"].ToString();
-                    //userInfo.BankNo = dtblRegistration.Rows[0]["BankNo"].ToString();
-                    //userInfo.BranchCode = dtblRegistration.Rows[0]["UserBranchCode"].ToString();
-                    //userInfo.BankAccountNumber = dtblRegistration.Rows[0]["BankAccountNumber"].ToString();
-                    //userInfo.COC = dtblRegistration.Rows[0]["COC"].ToString();
+                    
                 }
-                //ViewBag.AdminProfile = new SelectList(itemProfile, "Value", "Text", userInfo.ProfileName).OrderBy(x => x.Text);
-                //ViewBag.BranchName = new SelectList(item, "Value", "Text", userInfo.BranchCode).OrderBy(x => x.Text);//,selectedValue:userInfo.BranchCode
+                //Get chanegd Values
+                DataSet DSetMakerchecker = AgentUtils.GetAgentModifiedValue(clientCodeId);
+                List<MNMakerChecker> ModifiedValues = ExtraUtility.DatatableToListClass<MNMakerChecker>(DSetMakerchecker.Tables["MNMakerChecker"]);
+                userInfo.MakerChecker = ModifiedValues;
+
 
                 return View(userInfo);
             }
@@ -2292,59 +2345,42 @@ namespace MNSuperadmin.Controllers
                 userInfoApproval.ClientCode = model.ClientCode;
                 userInfoApproval.UserName = userName;
 
-                //if (btnApprove.ToUpper() == "REJECT")
-                //{
-                //    userInfoApproval.AdminUserName = Session["UserName"].ToString();
-                //    userInfoApproval.AdminBranch = "";
-                //    userInfoApproval.Remarks = model.Remarks;
+                if (btnApprove.ToUpper() == "REJECT")
+                {
+                    userInfoApproval.AdminUserName = Session["UserName"].ToString();
+                    userInfoApproval.AdminBranch = "";
+                    userInfoApproval.Remarks = model.Remarks;
+                    userInfoApproval.RejectedBy = userName;
+                    userInfoApproval.Remarks = model.Remarks;
 
+                    bool ret = AgentUtils.AgentModReject(userInfoApproval);
 
-                //    string Rejected = "T";
-                //    //string Approve = "UnApprove";
+                    if (ret)
+                    {
+                        displayMessage = "Agent" + model.Name + " has been Rejected. Please Check Rejectlist and perform accordingly";
+                        messageClass = CssSetting.SuccessMessageClass;
+                    }
+                    else
+                    {
+                        displayMessage = "Error while rejecting Agent " + model.Name;
+                        messageClass = CssSetting.FailedMessageClass;
+                    }
 
-                //    userInfoApproval.Remarks = model.Remarks;
-
-                //    int ret = CustomerUtils.AdminRegisterReject(userInfoApproval, Rejected);
-
-                //    if (ret == 1)
-                //    {
-                //        displayMessage = "Admin" + model.Name + " has been Rejected. Please Check Rejectlist and perform accordingly";
-                //        messageClass = CssSetting.SuccessMessageClass;
-                //    }
-                //    else if (ret == -1 || ret != 100)
-                //    {
-                //        displayMessage = "Error while rejecting Admin " + model.Name;
-                //        messageClass = CssSetting.FailedMessageClass;
-                //    }
-
-                //    this.TempData["custapprove_messsage"] = displayMessage;
-                //    this.TempData["message_class"] = messageClass;
-                //    return RedirectToAction("ApproveAdminList");
-
-                //}
+                    this.TempData["agentapprove_messsage"] = displayMessage;
+                    this.TempData["message_class"] = messageClass;
+                    return RedirectToAction("ApproveAgentModList");
+                }
                 if (btnApprove.ToUpper() == "APPROVE")
                 {
-                    userInfoApproval.SuperAdminUserName = "";
-                    //userInfoApproval.AdminBranch = "";
-
-                    // string Rejected = "F";
-                    string Approve = "Approve";
                     userInfoApproval.ApprovedBy = userName;
-                    //string CurDate = DateTime.Now.ToString("dd/MM/yyyy");
-                    //userInfoApproval.ApprovedDate = DateTime.ParseExact(CurDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
-                    //                            .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
-                    string CurDate = DateTime.Now.ToString("yyyy/MM/dd");
-                    userInfoApproval.ApprovedDate =CurDate;
-
-
-                    int ret = AgentUtils.AgentModApprove(userInfoApproval, Approve);
-                    if (ret == 1)
+                    bool ret = AgentUtils.AgentModApprove(userInfoApproval);
+                    if (ret)
                     {
 
                         displayMessage = "Modification Information for  Agent " + model.Name + " has successfully been approved.";
                         messageClass = CssSetting.SuccessMessageClass;
                     }
-                    else if (ret == -1 || ret != 100)
+                    else
                     {
                         displayMessage = "Error while approving Agent Information";
                         messageClass = CssSetting.FailedMessageClass;
@@ -2761,7 +2797,7 @@ namespace MNSuperadmin.Controllers
                     info.Address = dtableUserInfo.Rows[0]["Address"].ToString();
                     info.Status = dtableUserInfo.Rows[0]["Status"].ToString();
                     info.UserName = dtableUserInfo.Rows[0]["UserName"].ToString();
-
+                    info.FName = dtableUserInfo.Rows[0]["FName"].ToString();
                     //for name only
                     string[] tokens = info.Name.Split(' ');
                     string FirstName = tokens[0];
@@ -2774,7 +2810,7 @@ namespace MNSuperadmin.Controllers
 
                         /*Sms Message for block msg */
 
-                        Message = "Dear" + " " + FirstName + ",\n";
+                        Message = "Dear" + " " + info.FName + ",\n";
                         Message += "Your account 98******** for agent has been unblocked, for detail please contact administrator"
                             + "." + "\n" + "Thank You";
                         Message += "-MNepal";
@@ -3256,10 +3292,13 @@ namespace MNSuperadmin.Controllers
 
                 UserInfo info = new UserInfo();
                 DataTable dtableUserInfo = ProfileUtils.GetUserProfileInfo(ClientCode);
-
+                DataSet DSet = ProfileUtils.GetAgentProfileInfoDS(ClientCode);
+                DataTable dtableInfo = DSet.Tables["dtUserInfo"];
+                
                 if (dtableUserInfo != null && dtableUserInfo.Rows.Count > 0)
                 {
                     info.ClientCode = dtableUserInfo.Rows[0]["ClientCode"].ToString();
+                    info.FName = dtableInfo.Rows[0]["FName"].ToString();
                     info.Name = dtableUserInfo.Rows[0]["Name"].ToString();
                     info.Address = dtableUserInfo.Rows[0]["Address"].ToString();
                     info.Status = dtableUserInfo.Rows[0]["Status"].ToString();
@@ -3289,14 +3328,14 @@ namespace MNSuperadmin.Controllers
                         info.PIN = CustomerUtils.GeneratePin();
 
                         Mode = "PIN";
-                        Message = string.Format("Dear {0},\n Your new T-Pin is {1}.\n Thank You -MNepal", info.Name.Split()[0], info.PIN);
+                        Message = string.Format("Dear {0},\n Your new T-Pin is {1}.\n Thank You -MNepal", info.FName, info.PIN);
                         resp = "T-Pin reset Successful for " + info.UserName;
 
                         //for email pin only
 
                         string Subject = "Agent T-Pin Reset";
 
-                        string MailSubject = "<span style='font-size:15px;'><h4>Dear " + info.Name + ",</h4>";
+                        string MailSubject = "<span style='font-size:15px;'><h4>Dear " + info.FName + ",</h4>";
                         MailSubject += "Your T-Pin reset request for agent " + info.UserName + " has been acknowledged and you have been issued with a new temporary T-Pin.<br/>";
 
                         MailSubject += "<br/><b>Username: " + info.UserName + "</b> <br/>";
@@ -3325,14 +3364,14 @@ namespace MNSuperadmin.Controllers
                     {
                         info.Password = CustomerUtils.GeneratePassword();
                         Mode = "PASS";
-                        Message = string.Format("Dear {0},\n Your new Password is {1}.\n Thank You -MNepal", info.Name.Split()[0], info.Password);
+                        Message = string.Format("Dear {0},\n Your new Password is {1}.\n Thank You -MNepal", info.FName, info.Password);
                         resp = "Password reset Successful for " + info.UserName;
 
                         //for email password only
 
                         string Subject = "Agent Password Reset";
 
-                        string MailSubject = "<span style='font-size:15px;'><h4>Dear " + info.Name + ",</h4>";
+                        string MailSubject = "<span style='font-size:15px;'><h4>Dear " + info.FName + ",</h4>";
                         MailSubject += "Your password reset request for agent " + info.UserName + " has been acknowledged and you have been issued with a new temporary password.<br/>";
 
                         MailSubject += "<br/><b>Username: " + info.UserName + "</b> <br/>";
@@ -3362,14 +3401,14 @@ namespace MNSuperadmin.Controllers
                         info.PIN = CustomerUtils.GeneratePin();
                         info.Password = CustomerUtils.GeneratePassword();
                         Mode = "BOTH";
-                        Message = string.Format("Dear {0},\n Your new T-Pin is {1} and Password is {2}.\n Thank You -MNepal", info.Name.Split()[0], info.PIN, info.Password);
+                        Message = string.Format("Dear {0},\n Your new T-Pin is {1} and Password is {2}.\n Thank You -MNepal", info.FName, info.PIN, info.Password);
                         resp = "T-Pin and Password reset Successful for " + info.UserName.Split()[0];
 
                         //for email both T-Pin and password
 
                         string Subject = "Agent Password/T-Pin Reset";
 
-                        string MailSubject = "<span style='font-size:15px;'><h4>Dear " + info.Name + ",</h4>";
+                        string MailSubject = "<span style='font-size:15px;'><h4>Dear " + info.FName + ",</h4>";
                         MailSubject += "Your password and T-Pin reset request for agent " + info.UserName + " has been acknowledged and you have been issued with a new temporary password and T-Pin.<br/>";
 
                         MailSubject += "<br/><b>Username: " + info.UserName + "</b> <br/>";
@@ -3687,6 +3726,1604 @@ namespace MNSuperadmin.Controllers
 
             return (DOB);
         }
+
+
+
+
+
+        #region Modification Rejected--- 
+
+        [HttpGet]
+        public ActionResult ModificationRejectedList(string Key, string Value)
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            string UserName = Value;
+
+            if (this.TempData["agentmodify_messsage"] != null)
+            {
+                this.ViewData["agentmodify_messsage"] = this.TempData["agentmodify_messsage"];
+                this.ViewData["message_class"] = this.TempData["message_class"];
+            }
+
+            //Check Role link start    
+            RoleChecker roleChecker = new RoleChecker();
+            bool checkRole = roleChecker.checkRole(System.Reflection.MethodBase.GetCurrentMethod().Name, clientCode);
+            //Check Role link end
+
+
+            TempData["userType"] = userType;
+            if (TempData["userType"] != null && checkRole)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+
+
+                List<UserInfo> agentRegApprove = new List<UserInfo>();
+                var agentInfo = AgentUtils.GetAgentModReject("agent", UserName);
+
+
+
+                ViewBag.Value = Value;
+                return View(agentInfo);
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+
+
+
+
+
+        // GET: Agent/AgentModify/5
+        public ActionResult AgentModifyRejected(string id)
+        {
+
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            //start milayako 02
+
+            string provincestring = "select * from MNProvince";
+            DataTable dt = new DataTable();
+            dt = objdal.MyMethod(provincestring);
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(new SelectListItem
+                {
+                    Text = Convert.ToString(row.ItemArray[1]),
+                    Value = Convert.ToString(row.ItemArray[0])
+                });
+            }
+            ViewBag.PProvince = list;
+            ViewBag.CProvince = list;
+            
+            if (this.TempData["agentmodify_messsage"] != null)
+            {
+                this.ViewData["agentmodify_messsage"] = this.TempData["agentmodify_messsage"];
+                this.ViewData["message_class"] = this.TempData["message_class"];
+            }
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+
+                UserInfo regobj = new UserInfo();
+                DataSet DSet = ProfileUtils.GetAgentProfileInfoDS(id);
+
+                DataTable dtableUserInfo = DSet.Tables["dtUserInfo"];
+                DataTable dKycInfo = DSet.Tables["dtKycInfo"];
+                DataTable dKycDoc = DSet.Tables["dtKycDoc"];
+
+               
+                if (dtableUserInfo != null && dtableUserInfo.Rows.Count > 0)
+                {
+                    regobj.ClientCode = dtableUserInfo.Rows[0]["ClientCode"].ToString();
+                    regobj.Name = dtableUserInfo.Rows[0]["Name"].ToString();
+                    regobj.Address = dtableUserInfo.Rows[0]["Address"].ToString();
+
+                    regobj.PProvince = dtableUserInfo.Rows[0]["PProvince"].ToString();
+                    regobj.PDistrict = dtableUserInfo.Rows[0]["PDistrict"].ToString();
+                    regobj.PMunicipalityVDC = dtableUserInfo.Rows[0]["PMunicipalityVDC"].ToString();
+                    regobj.PWardNo = dtableUserInfo.Rows[0]["PWardNo"].ToString();
+                    regobj.PHouseNo = dtableUserInfo.Rows[0]["PHouseNo"].ToString();
+                    regobj.PStreet = dtableUserInfo.Rows[0]["PStreet"].ToString();
+
+                    regobj.CProvince = dtableUserInfo.Rows[0]["CProvince"].ToString();
+                    regobj.CDistrict = dtableUserInfo.Rows[0]["CDistrict"].ToString();
+                    regobj.CMunicipalityVDC = dtableUserInfo.Rows[0]["CMunicipalityVDC"].ToString();
+                    regobj.CWardNo = dtableUserInfo.Rows[0]["CWardNo"].ToString();
+                    regobj.CHouseNo = dtableUserInfo.Rows[0]["CHouseNo"].ToString();
+                    regobj.CStreet = dtableUserInfo.Rows[0]["CStreet"].ToString();
+
+
+
+                    regobj.IsApproved = dtableUserInfo.Rows[0]["IsApproved"].ToString();
+                    regobj.IsRejected = dtableUserInfo.Rows[0]["IsRejected"].ToString();
+                    regobj.IsModified = dtableUserInfo.Rows[0]["IsModified"].ToString();
+
+                    regobj.Status = dtableUserInfo.Rows[0]["Status"].ToString();
+                    regobj.UserName = dtableUserInfo.Rows[0]["UserName"].ToString();
+                    regobj.UserType = dtableUserInfo.Rows[0]["UserType"].ToString();
+                    regobj.PIN = dtableUserInfo.Rows[0]["PIN"].ToString();
+                    regobj.WalletNumber = dtableUserInfo.Rows[0]["WalletNumber"].ToString();
+
+                    regobj.FName = dtableUserInfo.Rows[0]["FName"].ToString();
+                    regobj.MName = dtableUserInfo.Rows[0]["MName"].ToString();
+                    regobj.LName = dtableUserInfo.Rows[0]["LName"].ToString();
+                    regobj.Gender = dtableUserInfo.Rows[0]["Gender"].ToString();
+                    regobj.DOB = dtableUserInfo.Rows[0]["DateOfBirth"].ToString();
+                    //regobj.DOB = DateTime.Parse(regobj.DOB.Trim()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    regobj.DOB = DateTime.Parse(regobj.DOB.Trim()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    regobj.BSDateOfBirth = dtableUserInfo.Rows[0]["BSDateOfBirth"].ToString();
+
+                    regobj.EmailAddress = dtableUserInfo.Rows[0]["EmailAddress"].ToString();
+                    regobj.Nationality = dtableUserInfo.Rows[0]["Nationality"].ToString();
+                    regobj.Country = dtableUserInfo.Rows[0]["Country"].ToString();
+                    regobj.Occupation = dtableUserInfo.Rows[0]["Occupation"].ToString();
+                    regobj.MaritalStatus = dtableUserInfo.Rows[0]["MaritalStatus"].ToString();
+                    regobj.SpouseName = dtableUserInfo.Rows[0]["SpouseName"].ToString();
+
+                    regobj.FatherInLaw = dtableUserInfo.Rows[0]["FatherInLaw"].ToString();
+
+                    regobj.FatherName = dtableUserInfo.Rows[0]["FathersName"].ToString();
+                    regobj.MotherName = dtableUserInfo.Rows[0]["MothersName"].ToString();
+                    regobj.GrandFatherName = dtableUserInfo.Rows[0]["GFathersName"].ToString();
+                    regobj.PanNo = dtableUserInfo.Rows[0]["PANNumber"].ToString();
+
+
+                    regobj.Document = dtableUserInfo.Rows[0]["DocType"].ToString();
+                    regobj.Citizenship = dtableUserInfo.Rows[0]["CitizenshipNo"].ToString();
+                    regobj.CitizenshipIssueDate = dtableUserInfo.Rows[0]["CitizenIssueDate"].ToString().Split()[0];
+                    //regobj.CitizenshipIssueDate = DateTime.Parse(regobj.CitizenshipIssueDate.Trim()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    regobj.CitizenshipIssueDate = DateTime.Parse(regobj.CitizenshipIssueDate.Trim()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                    regobj.BSCitizenshipIssueDate = dtableUserInfo.Rows[0]["BSCitizenIssueDate"].ToString().Split()[0];
+                    regobj.CitizenshipPlaceOfIssue = dtableUserInfo.Rows[0]["CitizenPlaceOfIssue"].ToString();
+
+                    regobj.License = dtableUserInfo.Rows[0]["LicenseNo"].ToString();
+                    regobj.LicenseIssueDate = dtableUserInfo.Rows[0]["LicenseIssueDate"].ToString().Split()[0];
+                    //regobj.LicenseIssueDate = DateTime.Parse(regobj.LicenseIssueDate.Trim()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    regobj.LicenseIssueDate = DateTime.Parse(regobj.LicenseIssueDate.Trim()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                    regobj.BSLicenseIssueDate = dtableUserInfo.Rows[0]["BSLicenseIssueDate"].ToString().Split()[0];
+                    regobj.LicenseExpireDate = dtableUserInfo.Rows[0]["LicenseExpiryDate"].ToString().Split()[0];
+                    //regobj.LicenseExpireDate = DateTime.Parse(regobj.LicenseExpireDate.Trim()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    regobj.LicenseExpireDate = DateTime.Parse(regobj.LicenseExpireDate.Trim()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                    regobj.BSLicenseExpireDate = dtableUserInfo.Rows[0]["BSLicenseExpiryDate"].ToString().Split()[0];
+
+                    regobj.LicensePlaceOfIssue = dtableUserInfo.Rows[0]["LicensePlaceOfIssue"].ToString();
+
+                    regobj.Passport = dtableUserInfo.Rows[0]["PassportNo"].ToString();
+                    regobj.PassportPlaceOfIssue = dtableUserInfo.Rows[0]["PassportPlaceOfIssue"].ToString();
+                    regobj.PassportIssueDate = dtableUserInfo.Rows[0]["PassportIssueDate"].ToString().Split()[0];
+                    //  regobj.PassportIssueDate = DateTime.Parse(regobj.PassportIssueDate.Trim()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    regobj.PassportIssueDate = DateTime.Parse(regobj.PassportIssueDate.Trim()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                    regobj.PassportExpireDate = dtableUserInfo.Rows[0]["PassportExpiryDate"].ToString().Split()[0];
+                    //regobj.PassportExpireDate = DateTime.Parse(regobj.PassportExpireDate.Trim()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    regobj.PassportExpireDate = DateTime.Parse(regobj.PassportExpireDate.Trim()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                    regobj.PassportImage = dtableUserInfo.Rows[0]["PassportImage"].ToString();
+                    regobj.FrontImage = dtableUserInfo.Rows[0]["FrontImage"].ToString();
+                    regobj.BackImage = dtableUserInfo.Rows[0]["BackImage"].ToString();
+
+                }
+                else
+                {
+                    this.TempData["custmodify_messsage"] = "User not found";
+                    this.TempData["message_class"] = CssSetting.FailedMessageClass;
+                    return RedirectToAction("Index");
+
+                }
+
+                ViewBag.PProvince = new SelectList(list, "Value", "Text", regobj.PProvince);
+                ViewBag.CProvince = new SelectList(list, "Value", "Text", regobj.CProvince);
+
+                ViewBag.PDistrictID = new SelectList(ProvinceToDistrict(regobj.PProvince), "Value", "Text", regobj.PDistrict);
+                ViewBag.CDistrictID = new SelectList(ProvinceToDistrict(regobj.CProvince), "Value", "Text", regobj.CDistrict);
+
+                return View(regobj);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> AgentModifyRejected(string id, string btnCommand, FormCollection collection, UserInfo model)
+        {
+            string Id = "";
+            string displayMessage = "";
+            string messageClass = "";
+            UserInfo userInfo = new UserInfo();
+            try
+            {
+                string userName = (string)Session["LOGGED_USERNAME"];
+                string clientCode = (string)Session["LOGGEDUSER_ID"];
+                string name = (string)Session["LOGGEDUSER_NAME"];
+                string userType = (string)Session["LOGGED_USERTYPE"];
+
+                TempData["userType"] = userType;
+
+                if (TempData["userType"] != null)
+                {
+                    UserInfo userInfoModify = new UserInfo();
+                    this.ViewData["userType"] = this.TempData["userType"];
+                    ViewBag.UserType = this.TempData["userType"];
+                    ViewBag.Name = name;
+                    List<SelectListItem> item = new List<SelectListItem>();
+                    DataSet dsBank = BankUtils.GetDataSetPopulateBankCode();
+                    ViewBag.bank = dsBank.Tables[0];
+                    foreach (DataRow dr in ViewBag.bank.Rows)
+                    {
+                        item.Add(new SelectListItem
+                        {
+                            Text = @dr["BankName"].ToString(),
+                            Value = @dr["BankCode"].ToString()
+                        });
+                    }
+
+                    if (btnCommand == "Submit")
+                    {
+                        string cClientCode = collection["ClientCode"].ToString();
+                        Id = cClientCode;
+                        //string cAddress = collection["Address"].ToString();
+                        //string cName = collection["Name"].ToString();
+                        string cWalletNumber = collection["WalletNumber"].ToString();
+                        //string cIsApproved = collection["IsApproved"].ToString();
+                        string cUserName = collection["txtUserName"].ToString();
+                        string cFName = collection["txtFirstName"].ToString();
+                        string cMName = collection["txtMiddleName"].ToString();
+                        string cLName = collection["txtLastName"].ToString();
+                        string cGender = collection["Gender"].ToString();
+                        string cDOB = collection["DOB"].ToString();
+                        string cBSDateOfBirth = collection["BSDateOfBirth"].ToString();
+                        string cEmailAddress = collection["Email"].ToString();
+                        string cNationality = collection["Nationality"].ToString();
+                        string cCountry = collection["Country"].ToString();
+                        string cFatherName = collection["txtFatherName"].ToString();
+                        string cMotherName = collection["txtMotherName"].ToString();
+                        string cMaritalStatus = collection["MaritalStatus"].ToString();
+                        string cSpouseName = collection["SpouseName"].ToString();
+                        string cFatherInLaw = collection["FatherInLaw"].ToString();
+                        string cGrandFatherName = collection["txtGrandFatherName"].ToString();
+                        string cOccupation = collection["Occupation"].ToString();
+                        string cPanNo = collection["txtPanNo"].ToString();
+
+                        string cPProvince = collection["PProvinceText"].ToString();
+                        string cPDistrict = collection["PDistrictText"].ToString();
+                        string cPVDC = collection["txtPVDC"].ToString();
+                        string cPHouseNo = collection["txtPHouseNo"].ToString();
+                        string cPWardNo = collection["txtPWardNo"].ToString();
+                        string cPStreet = collection["PStreet"].ToString();
+
+                        string cCProvince = collection["CProvinceText"].ToString();
+                        string cCDistrict = collection["CDistrictText"].ToString();
+                        string cCVDC = collection["txtCVDC"].ToString();
+                        string cCHouseNo = collection["txtCHouseNo"].ToString();
+                        string cCWardNo = collection["txtCWardNo"].ToString();
+                        string cCStreet = collection["CStreet"].ToString();
+
+                        string cDocument = collection["Document"].ToString();
+                        string cCitizenship = collection["txtCitizenship"].ToString();
+                        string cCitizenshipIssueDate = collection["CitizenshipIssueDate"].ToString();
+                        string cBSCitizenshipIssueDate = collection["BSCitizenshipIssueDate"].ToString();
+                        string cCitizenshipPlaceOfIssue = collection["txtCitizenshipPlaceOfIssue"].ToString();
+
+
+                        string cLicense = collection["txtLicense"].ToString();
+                        string cLicenseIssueDate = collection["LicenseIssueDate"].ToString();
+                        string cBSLicenseIssueDate = collection["BSLicenseIssueDate"].ToString();
+                        string cLicenseExpireDate = collection["LicenseExpireDate"].ToString();
+                        string cBSLicenseExpireDate = collection["BSLicenseExpireDate"].ToString();
+                        string cLicensePlaceOfIssue = collection["txtLicensePlaceOfIssue"].ToString();
+
+                        string cPassport = collection["txtPassport"].ToString();
+                        string cPassportIssueDate = collection["txtPassportIssueDate"].ToString();
+                        string cPassportExpireDate = collection["txtPassportExpireDate"].ToString();
+                        string cPassportPlaceOfIssue = collection["txtPassportPlaceOfIssue"].ToString();
+
+                        //Images OLD Value//
+                        string cPassportPhoto = collection["txtOldPP"].ToString();
+                        string cFrontPhoto = collection["txtOldfront"].ToString();
+                        string cBackPhoto = collection["txtOldback"].ToString();
+                        userInfoModify.ClientCode = cClientCode;
+
+                        userInfoModify.Name = cFName + " " + cMName + " " + cLName;
+                        userInfoModify.WalletNumber = cWalletNumber;
+                        userInfoModify.UserType = "agent";
+                        userInfoModify.Status = "InActive";
+                        userInfoModify.IsApproved = "UnApprove";
+                        userInfoModify.IsRejected = "F";
+                        userInfoModify.IsModified = "T";
+                        userInfoModify.UserName = cUserName;
+                        userInfoModify.Address = cPVDC + "," + getDistrictName(cPDistrict) + ", Province " + cPProvince;   /*+ cPWardNo + "," + cPHouseNo + "," + cPStreet*/
+                        userInfoModify.FName = cFName;
+                        userInfoModify.MName = cMName;
+                        userInfoModify.LName = cLName;
+                        userInfoModify.Gender = cGender;
+                        userInfoModify.DOB = cDOB;
+                        userInfoModify.BSDateOfBirth = cBSDateOfBirth;
+                        userInfoModify.EmailAddress = cEmailAddress;
+                        userInfoModify.Nationality = cNationality;
+                        userInfoModify.Country = cCountry;
+                        userInfoModify.Occupation = cOccupation;
+                        userInfoModify.MaritalStatus = cMaritalStatus;
+                        userInfoModify.SpouseName = cSpouseName;
+                        userInfoModify.FatherInLaw = cFatherInLaw;
+                        userInfoModify.PanNo = cPanNo;
+                        userInfoModify.FatherName = cFatherName;
+                        userInfoModify.MotherName = cMotherName;
+                        userInfoModify.GrandFatherName = cGrandFatherName;
+
+                        userInfoModify.PProvince = cPProvince;
+                        userInfoModify.PDistrict = cPDistrict;
+                        userInfoModify.PVDC = cPVDC;
+                        userInfoModify.PWardNo = cPWardNo;
+                        userInfoModify.PHouseNo = cPHouseNo;
+                        userInfoModify.PStreet = cPStreet;
+
+                        userInfoModify.CProvince = cCProvince;
+                        userInfoModify.CDistrict = cCDistrict;
+                        userInfoModify.CVDC = cCVDC;
+                        userInfoModify.CWardNo = cCWardNo;
+                        userInfoModify.CHouseNo = cCHouseNo;
+                        userInfoModify.CStreet = cCStreet;
+
+                        userInfoModify.Document = cDocument;
+                        userInfoModify.Citizenship = cCitizenship;
+                        userInfoModify.CitizenshipIssueDate = cCitizenshipIssueDate;
+                        userInfoModify.BSCitizenshipIssueDate = cBSCitizenshipIssueDate;
+                        userInfoModify.CitizenshipPlaceOfIssue = cCitizenshipPlaceOfIssue;
+
+                        userInfoModify.License = cLicense;
+                        userInfoModify.LicenseIssueDate = cLicenseIssueDate;
+                        userInfoModify.LicenseExpireDate = cLicenseExpireDate;
+                        userInfoModify.BSLicenseIssueDate = cBSLicenseIssueDate;
+                        userInfoModify.BSLicenseExpireDate = cBSLicenseExpireDate;
+                        userInfoModify.LicensePlaceOfIssue = cLicensePlaceOfIssue;
+
+                        userInfoModify.Passport = cPassport;
+                        userInfoModify.PassportIssueDate = cPassportIssueDate;
+                        userInfoModify.PassportExpireDate = cPassportExpireDate;
+                        userInfoModify.PassportPlaceOfIssue = cPassportPlaceOfIssue;
+
+                        if (model.PassportPhoto != null)
+                        {
+                            if (!string.IsNullOrEmpty(cPassportPhoto))
+                            {
+                                var existingFile = Request.MapPath(cPassportPhoto);
+                                if (System.IO.File.Exists(existingFile))
+                                {
+                                    System.IO.File.Delete(existingFile);
+                                }
+                            }
+                            var PP = ReturnFileName(model.PassportPhoto, userInfoModify.UserName);
+                            userInfoModify.PassportImage = ParseCv(model.PassportPhoto);
+                            userInfoModify.PassportImageName = string.Format(PP);
+                        }
+                        else
+                        {
+                            userInfoModify.PassportImageName = "";
+                        }
+
+
+                        if (model.Front != null)
+                        {
+                            if (!string.IsNullOrEmpty(cFrontPhoto))
+                            {
+
+                                var existingFrontFile = Request.MapPath(cFrontPhoto);
+                                if (System.IO.File.Exists(existingFrontFile))
+                                {
+                                    System.IO.File.Delete(existingFrontFile);
+                                }
+                            }
+                            var front = ReturnFileName(model.Front, userInfoModify.UserName);
+                            userInfoModify.FrontImage = ParseCv(model.Front);
+                            userInfoModify.FrontImageName = string.Format(front);
+                        }
+                        else
+                        {
+                            userInfoModify.FrontImageName = "";
+                        }
+
+
+                        if (model.Back != null)
+                        {
+                            if (!string.IsNullOrEmpty(cBackPhoto))
+                            {
+
+                                var existingBackFile = Request.MapPath(cBackPhoto);
+                                if (System.IO.File.Exists(existingBackFile))
+                                {
+                                    System.IO.File.Delete(existingBackFile);
+                                }
+                            }
+                            var back = ReturnFileName(model.Back, userInfoModify.UserName);
+                            userInfoModify.BackImage = ParseCv(model.Back);
+                            userInfoModify.BackImageName = string.Format(back);
+
+                        }
+                        else
+                        {
+                            userInfoModify.BackImageName = "";
+                        }
+
+                        await SavePhoto(userInfoModify);
+                        string sPP = Session["PP"].ToString();
+                        string sFront = Session["Front"].ToString();
+                        string sBack = Session["Back"].ToString();
+
+                        if (sPP != null && sPP != "")
+                        {
+                            userInfoModify.PassportImageName = Session["PP"].ToString();
+                        }
+                        else
+                        {
+                            userInfoModify.PassportImageName = cPassportPhoto;
+                        }
+                        if (sFront != null && sFront != "")
+                        {
+                            userInfoModify.FrontImageName = Session["Front"].ToString();
+                        }
+                        else
+                        {
+                            userInfoModify.FrontImageName = cFrontPhoto;
+                        }
+                        if (sBack != null && sBack != "")
+                        {
+                            userInfoModify.BackImageName = Session["Back"].ToString();
+                        }
+                        else
+                        {
+                            userInfoModify.BackImageName = cBackPhoto;
+                        }
+
+                      
+                        /*map new data to Agent*/
+                        AgentTable NewAgent = new AgentTable();
+                        MNClient NewMNClient = new MNClient();
+                        MNClientContact NewMNClientContact = new MNClientContact();
+                        MNClientKYC NewMNClientKYC = new MNClientKYC();
+                        MNClientKYCDoc NewMNClientKYCDoc = new MNClientKYCDoc();
+
+                        NewMNClient.Address = userInfoModify.Address;
+                        NewMNClient.Name = userInfoModify.Name;
+
+                        NewMNClientContact.EmailAddress = userInfoModify.EmailAddress;
+                        NewMNClientContact.ContactNumber1 = userInfoModify.ContactNumber1;
+
+                        NewMNClientKYC.FName = userInfoModify.FName;
+                        NewMNClientKYC.MName = userInfoModify.MName;
+                        NewMNClientKYC.LName = userInfoModify.LName;
+                        NewMNClientKYC.Gender = userInfoModify.Gender;
+                        NewMNClientKYC.DateOfBirth = DateTime.ParseExact(userInfoModify.DOB, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        NewMNClientKYC.BSDateOfBirth = userInfoModify.BSDateOfBirth;
+                        NewMNClientKYC.Nationality = userInfoModify.Nationality;
+                        NewMNClientKYC.Country = userInfoModify.Country;
+                        NewMNClientKYC.Occupation = userInfoModify.Occupation;
+                        NewMNClientKYC.MaritalStatus = userInfoModify.MaritalStatus;
+                        NewMNClientKYC.SpouseName = userInfoModify.SpouseName;
+                        NewMNClientKYC.FatherInLaw = userInfoModify.FatherInLaw;
+                        NewMNClientKYC.FathersName = userInfoModify.FatherName;
+                        NewMNClientKYC.MothersName = userInfoModify.MotherName;
+                        NewMNClientKYC.GFathersName = userInfoModify.GrandFatherName;
+                        NewMNClientKYC.PANNumber = userInfoModify.PanNo;
+
+                        NewMNClientKYC.PProvince = userInfoModify.PProvince;
+                        NewMNClientKYC.PDistrict = userInfoModify.PDistrict;
+                        NewMNClientKYC.PMunicipalityVDC = userInfoModify.PVDC;
+                        NewMNClientKYC.PHouseNo = userInfoModify.PHouseNo;
+                        NewMNClientKYC.PWardNo = userInfoModify.PWardNo;
+                        NewMNClientKYC.PStreet = userInfoModify.PStreet;
+
+                        NewMNClientKYC.CProvince = userInfoModify.CProvince;
+                        NewMNClientKYC.CDistrict = userInfoModify.CDistrict;
+                        NewMNClientKYC.CMunicipalityVDC = userInfoModify.CVDC;
+                        NewMNClientKYC.CHouseNo = userInfoModify.CHouseNo;
+                        NewMNClientKYC.CWardNo = userInfoModify.CWardNo;
+                        NewMNClientKYC.CStreet = userInfoModify.CStreet;
+
+                        NewMNClientKYC.CitizenshipNo = userInfoModify.Citizenship;
+                        NewMNClientKYC.CitizenPlaceOfIssue = userInfoModify.CitizenshipPlaceOfIssue;
+                        NewMNClientKYC.CitizenIssueDate = DateTime.ParseExact(userInfoModify.CitizenshipIssueDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        NewMNClientKYC.BSCitizenIssueDate = userInfoModify.BSCitizenshipIssueDate;
+
+                        NewMNClientKYC.LicenseNo = userInfoModify.License;
+                        NewMNClientKYC.LicensePlaceOfIssue = userInfoModify.LicensePlaceOfIssue;
+                        NewMNClientKYC.LicenseIssueDate = DateTime.ParseExact(userInfoModify.LicenseIssueDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        NewMNClientKYC.BSLicenseIssueDate = userInfoModify.BSLicenseIssueDate;
+                        NewMNClientKYC.LicenseExpiryDate = DateTime.ParseExact(userInfoModify.LicenseExpireDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        NewMNClientKYC.BSLicenseExpiryDate = userInfoModify.BSLicenseExpireDate;
+
+                        NewMNClientKYC.PassportNo = userInfoModify.Passport;
+                        NewMNClientKYC.PassportPlaceOfIssue = userInfoModify.PassportPlaceOfIssue;
+                        NewMNClientKYC.PassportIssueDate = DateTime.ParseExact(userInfoModify.PassportIssueDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        NewMNClientKYC.PassportExpiryDate = DateTime.ParseExact(userInfoModify.PassportExpireDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                        NewMNClientKYCDoc.DocType = userInfoModify.Document;
+                        NewMNClientKYCDoc.PassportImage = userInfoModify.PassportImageName;
+                        NewMNClientKYCDoc.FrontImage = userInfoModify.FrontImageName;
+                        NewMNClientKYCDoc.BackImage = userInfoModify.BackImageName;
+
+                        /*map NEW data to Agent--END*/
+
+                        NewAgent.MNClient = NewMNClient;
+                        NewAgent.MNClientContact = NewMNClientContact;
+                        NewAgent.MNClientKYC = NewMNClientKYC;
+                        NewAgent.MNClientKYCDoc = NewMNClientKYCDoc;
+                        
+                        //For Province
+                        string provincestring = "select * from MNProvince";
+                        DataTable dt = new DataTable();
+                        dt = objdal.MyMethod(provincestring);
+                        List<SelectListItem> list = new List<SelectListItem>();
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            list.Add(new SelectListItem
+                            {
+                                Text = Convert.ToString(row.ItemArray[1]),
+                                Value = Convert.ToString(row.ItemArray[0])
+                            });
+                        }
+                        ViewBag.PProvince = list;
+                        //end Province
+
+                        UserInfo regobj = new UserInfo();
+                       
+                        DataSet DSet = ProfileUtils.GetAgentProfileInfoDS(id);
+
+                        DataTable dtableUserInfo = DSet.Tables["dtUserInfo"];
+                        DataTable dKycInfo = DSet.Tables["dtKycInfo"];
+                        DataTable dKycDoc = DSet.Tables["dtKycDoc"];
+
+
+                        if (dtableUserInfo != null && dtableUserInfo.Rows.Count > 0)
+                        {
+                            regobj.ClientCode = dtableUserInfo.Rows[0]["ClientCode"].ToString();
+                            regobj.Name = dtableUserInfo.Rows[0]["Name"].ToString();
+                            regobj.Address = dtableUserInfo.Rows[0]["Address"].ToString();
+
+                            regobj.PProvince = dtableUserInfo.Rows[0]["PProvince"].ToString();
+                            regobj.PDistrict = dtableUserInfo.Rows[0]["PDistrict"].ToString();
+                            regobj.PMunicipalityVDC = dtableUserInfo.Rows[0]["PMunicipalityVDC"].ToString();
+                            regobj.PWardNo = dtableUserInfo.Rows[0]["PWardNo"].ToString();
+                            regobj.PHouseNo = dtableUserInfo.Rows[0]["PHouseNo"].ToString();
+                            regobj.PStreet = dtableUserInfo.Rows[0]["PStreet"].ToString();
+
+                            regobj.CProvince = dtableUserInfo.Rows[0]["CProvince"].ToString();
+                            regobj.CDistrict = dtableUserInfo.Rows[0]["CDistrict"].ToString();
+                            regobj.CMunicipalityVDC = dtableUserInfo.Rows[0]["CMunicipalityVDC"].ToString();
+                            regobj.CWardNo = dtableUserInfo.Rows[0]["CWardNo"].ToString();
+                            regobj.CHouseNo = dtableUserInfo.Rows[0]["CHouseNo"].ToString();
+                            regobj.CStreet = dtableUserInfo.Rows[0]["CStreet"].ToString();
+
+
+
+                            regobj.IsApproved = dtableUserInfo.Rows[0]["IsApproved"].ToString();
+                            regobj.IsRejected = dtableUserInfo.Rows[0]["IsRejected"].ToString();
+                            regobj.IsModified = dtableUserInfo.Rows[0]["IsModified"].ToString();
+
+                            regobj.Status = dtableUserInfo.Rows[0]["Status"].ToString();
+                            regobj.UserName = dtableUserInfo.Rows[0]["UserName"].ToString();
+                            regobj.UserType = dtableUserInfo.Rows[0]["UserType"].ToString();
+                            regobj.PIN = dtableUserInfo.Rows[0]["PIN"].ToString();
+                            regobj.WalletNumber = dtableUserInfo.Rows[0]["WalletNumber"].ToString();
+
+                            regobj.FName = dtableUserInfo.Rows[0]["FName"].ToString();
+                            regobj.MName = dtableUserInfo.Rows[0]["MName"].ToString();
+                            regobj.LName = dtableUserInfo.Rows[0]["LName"].ToString();
+                            regobj.Gender = dtableUserInfo.Rows[0]["Gender"].ToString();
+                            regobj.DOB = dtableUserInfo.Rows[0]["DateOfBirth"].ToString().Split()[0];
+                            regobj.BSDateOfBirth = dtableUserInfo.Rows[0]["BSDateOfBirth"].ToString();
+
+                            regobj.EmailAddress = dtableUserInfo.Rows[0]["EmailAddress"].ToString();
+                            regobj.Nationality = dtableUserInfo.Rows[0]["Nationality"].ToString();
+                            regobj.Country = dtableUserInfo.Rows[0]["Country"].ToString();
+                            regobj.Occupation = dtableUserInfo.Rows[0]["Occupation"].ToString();
+                            regobj.MaritalStatus = dtableUserInfo.Rows[0]["MaritalStatus"].ToString();
+                            regobj.SpouseName = dtableUserInfo.Rows[0]["SpouseName"].ToString();
+                            regobj.FatherInLaw = dtableUserInfo.Rows[0]["FatherInLaw"].ToString();
+                            regobj.FatherName = dtableUserInfo.Rows[0]["FathersName"].ToString();
+                            regobj.MotherName = dtableUserInfo.Rows[0]["MothersName"].ToString();
+                            regobj.GrandFatherName = dtableUserInfo.Rows[0]["GFathersName"].ToString();
+                            regobj.PanNo = dtableUserInfo.Rows[0]["PANNumber"].ToString();
+
+                            regobj.Document = dtableUserInfo.Rows[0]["DocType"].ToString();
+                            regobj.Citizenship = dtableUserInfo.Rows[0]["CitizenshipNo"].ToString();
+                            regobj.CitizenshipIssueDate = dtableUserInfo.Rows[0]["CitizenIssueDate"].ToString().Split()[0];
+                            regobj.BSCitizenshipIssueDate = dtableUserInfo.Rows[0]["BSCitizenIssueDate"].ToString().Split()[0];
+                            regobj.CitizenshipPlaceOfIssue = dtableUserInfo.Rows[0]["CitizenPlaceOfIssue"].ToString();
+
+                            regobj.License = dtableUserInfo.Rows[0]["LicenseNo"].ToString();
+                            regobj.LicenseIssueDate = dtableUserInfo.Rows[0]["LicenseIssueDate"].ToString().Split()[0];
+                           
+                            regobj.BSLicenseIssueDate = dtableUserInfo.Rows[0]["BSLicenseIssueDate"].ToString().Split()[0];
+                            regobj.LicenseExpireDate = dtableUserInfo.Rows[0]["LicenseExpiryDate"].ToString().Split()[0];
+                            regobj.BSLicenseExpireDate = dtableUserInfo.Rows[0]["BSLicenseExpiryDate"].ToString().Split()[0];
+                            regobj.LicensePlaceOfIssue = dtableUserInfo.Rows[0]["LicensePlaceOfIssue"].ToString();
+
+                            regobj.Passport = dtableUserInfo.Rows[0]["PassportNo"].ToString();
+                            regobj.PassportPlaceOfIssue = dtableUserInfo.Rows[0]["PassportPlaceOfIssue"].ToString();
+                            regobj.PassportIssueDate = dtableUserInfo.Rows[0]["PassportIssueDate"].ToString().Split()[0];
+                            regobj.PassportExpireDate = dtableUserInfo.Rows[0]["PassportExpiryDate"].ToString().Split()[0];
+                            
+                            regobj.PassportImage = dtableUserInfo.Rows[0]["PassportImage"].ToString();
+                            regobj.FrontImage = dtableUserInfo.Rows[0]["FrontImage"].ToString();
+                            regobj.BackImage = dtableUserInfo.Rows[0]["BackImage"].ToString();
+
+                        }
+
+
+                        /*map old data to Agent*/
+                        AgentTable OldAgent = new AgentTable();
+                        MNClient OldMNClient = new MNClient();
+                        MNClientContact OldMNClientContact = new MNClientContact();
+                        MNClientKYC OldMNClientKYC = new MNClientKYC();
+                        MNClientKYCDoc OldMNClientKYCDoc = new MNClientKYCDoc();
+                       
+                        OldMNClient.Address = regobj.Address;
+                        OldMNClient.Name = regobj.Name;
+
+                        //OldMNClientContact.UserName = regobj.ContactNumber1;
+                        OldMNClientContact.EmailAddress = regobj.EmailAddress;
+                        OldMNClientContact.ContactNumber1 = regobj.ContactNumber1;
+
+
+
+                        OldMNClientKYC.FName = regobj.FName;
+                        OldMNClientKYC.MName = regobj.MName;
+                        OldMNClientKYC.LName = regobj.LName;
+                        OldMNClientKYC.Gender = regobj.Gender;
+                        OldMNClientKYC.DateOfBirth = DateTime.Parse(regobj.DOB.Trim()).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        OldMNClientKYC.BSDateOfBirth = regobj.BSDateOfBirth;
+                        OldMNClientKYC.Nationality = regobj.Nationality;
+                        OldMNClientKYC.Country = regobj.Country;
+                        OldMNClientKYC.Occupation = regobj.Occupation;
+                        OldMNClientKYC.MaritalStatus = regobj.MaritalStatus;
+                        OldMNClientKYC.SpouseName = regobj.SpouseName;
+                        OldMNClientKYC.FatherInLaw = regobj.FatherInLaw;
+                        OldMNClientKYC.FathersName = regobj.FatherName;
+                        OldMNClientKYC.MothersName = regobj.MotherName;
+                        OldMNClientKYC.GFathersName = regobj.GrandFatherName;
+                        OldMNClientKYC.PANNumber = regobj.PanNo;
+
+                        OldMNClientKYC.PProvince = regobj.PProvince;
+                        OldMNClientKYC.PDistrict = regobj.PDistrict;
+                        OldMNClientKYC.PMunicipalityVDC = regobj.PMunicipalityVDC;
+                        OldMNClientKYC.PHouseNo = regobj.PHouseNo;
+                        OldMNClientKYC.PWardNo = regobj.PWardNo;
+                        OldMNClientKYC.PStreet = regobj.PStreet;
+
+                        OldMNClientKYC.CProvince = regobj.CProvince;
+                        OldMNClientKYC.CDistrict = regobj.CDistrict;
+                        OldMNClientKYC.CMunicipalityVDC = regobj.CMunicipalityVDC;
+                        OldMNClientKYC.CHouseNo = regobj.CHouseNo;
+                        OldMNClientKYC.CWardNo = regobj.CWardNo;
+                        OldMNClientKYC.CStreet = regobj.CStreet;
+
+
+                        OldMNClientKYC.CitizenshipNo = regobj.Citizenship;
+                        OldMNClientKYC.CitizenPlaceOfIssue = regobj.CitizenshipPlaceOfIssue;
+                        OldMNClientKYC.CitizenIssueDate = DateTime.Parse(regobj.CitizenshipIssueDate.Trim()).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        OldMNClientKYC.BSCitizenIssueDate = regobj.BSCitizenshipIssueDate;
+
+                        OldMNClientKYC.LicenseNo = regobj.License;
+                        OldMNClientKYC.LicensePlaceOfIssue = regobj.LicensePlaceOfIssue;
+                        OldMNClientKYC.LicenseIssueDate = DateTime.Parse(regobj.LicenseIssueDate.Trim()).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        OldMNClientKYC.BSLicenseIssueDate = regobj.BSLicenseIssueDate;
+                        OldMNClientKYC.LicenseExpiryDate = DateTime.Parse(regobj.LicenseExpireDate.Trim()).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        OldMNClientKYC.BSLicenseExpiryDate = regobj.BSLicenseExpireDate;
+
+                        OldMNClientKYC.PassportNo = regobj.Passport;
+                        OldMNClientKYC.PassportPlaceOfIssue = regobj.PassportPlaceOfIssue;
+                        OldMNClientKYC.PassportIssueDate = DateTime.Parse(regobj.PassportIssueDate.Trim()).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        OldMNClientKYC.PassportExpiryDate = DateTime.Parse(regobj.PassportExpireDate.Trim()).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                        OldMNClientKYCDoc.DocType = regobj.Document;
+                        OldMNClientKYCDoc.PassportImage = regobj.PassportImage;
+                        OldMNClientKYCDoc.FrontImage = regobj.FrontImage;
+                        OldMNClientKYCDoc.BackImage = regobj.BackImage;
+
+                        /*map old data to Agent--END*/
+
+                        OldAgent.MNClient = OldMNClient;
+                        OldAgent.MNClientContact = OldMNClientContact;
+                        OldAgent.MNClientKYC = OldMNClientKYC;
+                        OldAgent.MNClientKYCDoc = OldMNClientKYCDoc;
+                        
+                        /*Difference compare*/
+                        bool isUpdated = false;
+                        CompareLogic compareLogic = new CompareLogic();
+                        ComparisonConfig config = new ComparisonConfig();
+                        config.MaxDifferences = int.MaxValue;
+                        config.IgnoreCollectionOrder = false;
+                        compareLogic.Config = config;
+                        ComparisonResult result = compareLogic.Compare(OldAgent, NewAgent); //  firstparameter orginal,second parameter modified
+                        List<MNMakerChecker> makerCheckers = new List<MNMakerChecker>();
+                        if (!result.AreEqual)
+                        {
+                            isUpdated = true;
+                            foreach (Difference diff in result.Differences)
+                            {
+                                MNMakerChecker makerchecker = new MNMakerChecker();
+                                int index = diff.PropertyName.IndexOf('.');
+                                makerchecker.ColumnName = diff.PropertyName.Substring(index + 1);
+                                makerchecker.TableName = diff.ParentPropertyName;
+                                makerchecker.OldValue = diff.Object1Value;
+                                makerchecker.NewValue = diff.Object2Value;
+                                makerchecker.Module = "AGENT";
+                                makerCheckers.Add(makerchecker);
+                            }
+                        }
+
+
+                        if (isUpdated)
+                        {
+
+                            string modifyingAdmin = (string)Session["UserName"];
+                            string modifyingBranch = (string)Session["UserBranch"];
+                            CusProfileUtils cUtil = new CusProfileUtils();
+                            string ModifiedFieldXML = cUtil.GetMakerCheckerXMLStr(makerCheckers);
+                            bool inserted = AgentUtils.InsertAgentMakerChecker(cClientCode, modifyingAdmin, modifyingBranch, ModifiedFieldXML);
+
+                            displayMessage = inserted
+                                                    ? "Agent Information for " + userInfoModify.FName + " has successfully been updated. Please go to Approve Modification and perform accordingly."
+                                                    : "Error while updating Agent Information";
+                            messageClass = inserted ? CssSetting.SuccessMessageClass : CssSetting.FailedMessageClass;
+
+                        }
+                        else
+                        {
+                            displayMessage = "Nothing Changed";
+                            messageClass = CssSetting.SuccessMessageClass;
+                        }
+
+
+
+
+                        this.TempData["agenttmodify_messsage"] = displayMessage;
+                        this.TempData["message_class"] = messageClass;
+                        return RedirectToAction("ModificationRejectedList");
+                    }
+                    ViewBag.Bank = new SelectList(item, "Value", "Text", userInfoModify.BankNo);
+                    return View();
+
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception ex)
+            {
+                displayMessage = "Error while updating Agent Information. Error cause::" + ex.Message;
+                messageClass = CssSetting.FailedMessageClass;
+                return RedirectToAction("ModificationRejectedList", new { id = Id });
+
+            }
+            finally
+            {
+                this.TempData["agentmodify_messsage"] = displayMessage;
+                this.TempData["message_class"] = messageClass;
+            }
+        }
+
+        #endregion
+
+
+
+        #region Registration Rejected---
+
+        [HttpGet]
+        public ActionResult RegistrationRejectedList(string Key, string Value)
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            string UserName = Value;
+
+            if (this.TempData["agenttmodify_messsage"] != null)
+            {
+                this.ViewData["agenttmodify_messsage"] = this.TempData["agenttmodify_messsage"];
+                this.ViewData["message_class"] = this.TempData["message_class"];
+            }
+
+            //Check Role link start    
+            RoleChecker roleChecker = new RoleChecker();
+            bool checkRole = roleChecker.checkRole(System.Reflection.MethodBase.GetCurrentMethod().Name, clientCode);
+            //Check Role link end
+
+
+            TempData["userType"] = userType;
+            if (TempData["userType"] != null && checkRole)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+
+
+                List<UserInfo> agentRegApprove = new List<UserInfo>();
+                var agentInfo = AgentUtils.GetAgentRegReject("agent", UserName);
+
+
+
+                ViewBag.Value = Value;
+                return View(agentInfo);
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+        
+        // GET: Agent/AgentRegistration/5
+        public ActionResult AgentRegistrationRejected(string id)
+        {
+
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            //start milayako 02
+
+            string provincestring = "select * from MNProvince";
+            DataTable dt = new DataTable();
+            dt = objdal.MyMethod(provincestring);
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(new SelectListItem
+                {
+                    Text = Convert.ToString(row.ItemArray[1]),
+                    Value = Convert.ToString(row.ItemArray[0])
+                });
+            }
+            ViewBag.PProvince = list;
+            ViewBag.CProvince = list;
+            //end milayako 02 
+
+            if (this.TempData["agenttmodify_messsage"] != null)
+            {
+                this.ViewData["agenttmodify_messsage"] = this.TempData["agenttmodify_messsage"];
+                this.ViewData["message_class"] = this.TempData["message_class"];
+            }
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+
+                UserInfo regobj = new UserInfo();
+                DataSet DSet = ProfileUtils.GetAgentProfileInfoDS(id);
+
+                DataTable dtableUserInfo = DSet.Tables["dtUserInfo"];
+                DataTable dKycInfo = DSet.Tables["dtKycInfo"];
+                DataTable dKycDoc = DSet.Tables["dtKycDoc"];
+
+                //List<SelectListItem> item = new List<SelectListItem>();
+                //DataSet dsBank = BankUtils.GetDataSetPopulateBankCode();
+                //ViewBag.bank = dsBank.Tables[0];
+                //foreach (DataRow dr in ViewBag.bank.Rows)
+                //{
+                //    item.Add(new SelectListItem
+                //    {
+                //        Text = @dr["BankName"].ToString(),
+                //        Value = @dr["BankCode"].ToString()
+                //    });
+                //}
+                //ViewBag.Wallet = item;
+                // ViewBag.Bank = item;
+
+
+                if (dtableUserInfo != null && dtableUserInfo.Rows.Count > 0)
+                {
+                    regobj.ClientCode = dtableUserInfo.Rows[0]["ClientCode"].ToString();
+                    regobj.Name = dtableUserInfo.Rows[0]["Name"].ToString();
+                    regobj.Address = dtableUserInfo.Rows[0]["Address"].ToString();
+
+                    regobj.PProvince = dtableUserInfo.Rows[0]["PProvince"].ToString();
+                    regobj.PDistrict = dtableUserInfo.Rows[0]["PDistrict"].ToString();
+                    regobj.PMunicipalityVDC = dtableUserInfo.Rows[0]["PMunicipalityVDC"].ToString();
+                    regobj.PWardNo = dtableUserInfo.Rows[0]["PWardNo"].ToString();
+                    regobj.PHouseNo = dtableUserInfo.Rows[0]["PHouseNo"].ToString();
+                    regobj.PStreet = dtableUserInfo.Rows[0]["PStreet"].ToString();
+
+                    regobj.CProvince = dtableUserInfo.Rows[0]["CProvince"].ToString();
+                    regobj.CDistrict = dtableUserInfo.Rows[0]["CDistrict"].ToString();
+                    regobj.CMunicipalityVDC = dtableUserInfo.Rows[0]["CMunicipalityVDC"].ToString();
+                    regobj.CWardNo = dtableUserInfo.Rows[0]["CWardNo"].ToString();
+                    regobj.CHouseNo = dtableUserInfo.Rows[0]["CHouseNo"].ToString();
+                    regobj.CStreet = dtableUserInfo.Rows[0]["CStreet"].ToString();
+
+
+
+                    regobj.IsApproved = dtableUserInfo.Rows[0]["IsApproved"].ToString();
+                    regobj.IsRejected = dtableUserInfo.Rows[0]["IsRejected"].ToString();
+                    regobj.IsModified = dtableUserInfo.Rows[0]["IsModified"].ToString();
+
+                    regobj.Status = dtableUserInfo.Rows[0]["Status"].ToString();
+                    regobj.UserName = dtableUserInfo.Rows[0]["UserName"].ToString();
+                    regobj.UserType = dtableUserInfo.Rows[0]["UserType"].ToString();
+                    regobj.PIN = dtableUserInfo.Rows[0]["PIN"].ToString();
+                    regobj.WalletNumber = dtableUserInfo.Rows[0]["WalletNumber"].ToString();
+
+                    regobj.FName = dtableUserInfo.Rows[0]["FName"].ToString();
+                    regobj.MName = dtableUserInfo.Rows[0]["MName"].ToString();
+                    regobj.LName = dtableUserInfo.Rows[0]["LName"].ToString();
+                    regobj.Gender = dtableUserInfo.Rows[0]["Gender"].ToString();
+                    regobj.DOB = dtableUserInfo.Rows[0]["DateOfBirth"].ToString();
+                    //regobj.DOB = DateTime.Parse(regobj.DOB.Trim()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    regobj.DOB = DateTime.Parse(regobj.DOB.Trim()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    regobj.BSDateOfBirth = dtableUserInfo.Rows[0]["BSDateOfBirth"].ToString();
+
+                    regobj.EmailAddress = dtableUserInfo.Rows[0]["EmailAddress"].ToString();
+                    regobj.Nationality = dtableUserInfo.Rows[0]["Nationality"].ToString();
+                    regobj.Country = dtableUserInfo.Rows[0]["Country"].ToString();
+                    regobj.Occupation = dtableUserInfo.Rows[0]["Occupation"].ToString();
+                    regobj.MaritalStatus = dtableUserInfo.Rows[0]["MaritalStatus"].ToString();
+                    regobj.SpouseName = dtableUserInfo.Rows[0]["SpouseName"].ToString();
+
+                    regobj.FatherInLaw = dtableUserInfo.Rows[0]["FatherInLaw"].ToString();
+
+                    regobj.FatherName = dtableUserInfo.Rows[0]["FathersName"].ToString();
+                    regobj.MotherName = dtableUserInfo.Rows[0]["MothersName"].ToString();
+                    regobj.GrandFatherName = dtableUserInfo.Rows[0]["GFathersName"].ToString();
+                    regobj.PanNo = dtableUserInfo.Rows[0]["PANNumber"].ToString();
+
+
+                    regobj.Document = dtableUserInfo.Rows[0]["DocType"].ToString();
+                    regobj.Citizenship = dtableUserInfo.Rows[0]["CitizenshipNo"].ToString();
+                    regobj.CitizenshipIssueDate = dtableUserInfo.Rows[0]["CitizenIssueDate"].ToString().Split()[0];
+                    //regobj.CitizenshipIssueDate = DateTime.Parse(regobj.CitizenshipIssueDate.Trim()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    regobj.CitizenshipIssueDate = DateTime.Parse(regobj.CitizenshipIssueDate.Trim()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                    regobj.BSCitizenshipIssueDate = dtableUserInfo.Rows[0]["BSCitizenIssueDate"].ToString().Split()[0];
+                    regobj.CitizenshipPlaceOfIssue = dtableUserInfo.Rows[0]["CitizenPlaceOfIssue"].ToString();
+
+                    regobj.License = dtableUserInfo.Rows[0]["LicenseNo"].ToString();
+                    regobj.LicenseIssueDate = dtableUserInfo.Rows[0]["LicenseIssueDate"].ToString().Split()[0];
+                    //regobj.LicenseIssueDate = DateTime.Parse(regobj.LicenseIssueDate.Trim()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    regobj.LicenseIssueDate = DateTime.Parse(regobj.LicenseIssueDate.Trim()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                    regobj.BSLicenseIssueDate = dtableUserInfo.Rows[0]["BSLicenseIssueDate"].ToString().Split()[0];
+                    regobj.LicenseExpireDate = dtableUserInfo.Rows[0]["LicenseExpiryDate"].ToString().Split()[0];
+                    //regobj.LicenseExpireDate = DateTime.Parse(regobj.LicenseExpireDate.Trim()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    regobj.LicenseExpireDate = DateTime.Parse(regobj.LicenseExpireDate.Trim()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                    regobj.BSLicenseExpireDate = dtableUserInfo.Rows[0]["BSLicenseExpiryDate"].ToString().Split()[0];
+
+                    regobj.LicensePlaceOfIssue = dtableUserInfo.Rows[0]["LicensePlaceOfIssue"].ToString();
+
+                    regobj.Passport = dtableUserInfo.Rows[0]["PassportNo"].ToString();
+                    regobj.PassportPlaceOfIssue = dtableUserInfo.Rows[0]["PassportPlaceOfIssue"].ToString();
+                    regobj.PassportIssueDate = dtableUserInfo.Rows[0]["PassportIssueDate"].ToString().Split()[0];
+                    //  regobj.PassportIssueDate = DateTime.Parse(regobj.PassportIssueDate.Trim()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    regobj.PassportIssueDate = DateTime.Parse(regobj.PassportIssueDate.Trim()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                    regobj.PassportExpireDate = dtableUserInfo.Rows[0]["PassportExpiryDate"].ToString().Split()[0];
+                    //regobj.PassportExpireDate = DateTime.Parse(regobj.PassportExpireDate.Trim()).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    regobj.PassportExpireDate = DateTime.Parse(regobj.PassportExpireDate.Trim()).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                    regobj.PassportImage = dtableUserInfo.Rows[0]["PassportImage"].ToString();
+                    regobj.FrontImage = dtableUserInfo.Rows[0]["FrontImage"].ToString();
+                    regobj.BackImage = dtableUserInfo.Rows[0]["BackImage"].ToString();
+
+
+
+
+                    //regobj.ContactNumber1 = dtableUserInfo.Rows[0]["ContactNumber1"].ToString();
+                    //regobj.ContactNumber2 = dtableUserInfo.Rows[0]["ContactNumber2"].ToString();                  
+                    //regobj.EmailAddress= dtableUserInfo.Rows[0]["EmailAddress"].ToString();                                        
+                    //regobj.BankNo = dtableUserInfo.Rows[0]["BankNo"].ToString();
+                    //regobj.BranchCode = dtableUserInfo.Rows[0]["BranchCode"].ToString();
+                    //regobj.BankAccountNumber = dtableUserInfo.Rows[0]["BankAccountNumber"].ToString();
+
+                }
+                else
+                {
+                    this.TempData["custmodify_messsage"] = "User not found";
+                    this.TempData["message_class"] = CssSetting.FailedMessageClass;
+                    return RedirectToAction("Index");
+
+                }
+
+                //ViewBag.Bank = new SelectList(item,"Value","Text" ,regobj.BankNo);
+
+                // start milayako 02
+                ViewBag.PProvince = new SelectList(list, "Value", "Text", regobj.PProvince);
+                ViewBag.CProvince = new SelectList(list, "Value", "Text", regobj.CProvince);
+
+
+                //end milayako 02
+
+                // start milayako 02
+                ViewBag.PDistrictID = new SelectList(ProvinceToDistrict(regobj.PProvince), "Value", "Text", regobj.PDistrict);
+                ViewBag.CDistrictID = new SelectList(ProvinceToDistrict(regobj.CProvince), "Value", "Text", regobj.CDistrict);
+
+                //  ViewBag.PDistrictID = new SelectList(ProvinceToDistrict(regobj.PProvince), "Value", "Text", regobj.PDistrictID);
+                //ViewBag.CDistrictID = new SelectList(ProvinceToDistrict(regobj.CProvince), "Value", "Text", regobj.CDistrictID);
+                // END milayako 02
+                return View(regobj);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> AgentRegistrationRejected(string id, string btnCommand, FormCollection collection, UserInfo model)
+        {
+            string Id = "";
+            string displayMessage = "";
+            string messageClass = "";
+            UserInfo userInfo = new UserInfo();
+            try
+            {
+                string userName = (string)Session["LOGGED_USERNAME"];
+                string clientCode = (string)Session["LOGGEDUSER_ID"];
+                string name = (string)Session["LOGGEDUSER_NAME"];
+                string userType = (string)Session["LOGGED_USERTYPE"];
+
+                TempData["userType"] = userType;
+
+                if (TempData["userType"] != null)
+                {
+                    UserInfo userInfoModify = new UserInfo();
+                    this.ViewData["userType"] = this.TempData["userType"];
+                    ViewBag.UserType = this.TempData["userType"];
+                    ViewBag.Name = name;
+                    List<SelectListItem> item = new List<SelectListItem>();
+                    DataSet dsBank = BankUtils.GetDataSetPopulateBankCode();
+                    ViewBag.bank = dsBank.Tables[0];
+                    foreach (DataRow dr in ViewBag.bank.Rows)
+                    {
+                        item.Add(new SelectListItem
+                        {
+                            Text = @dr["BankName"].ToString(),
+                            Value = @dr["BankCode"].ToString()
+                        });
+                    }
+                    //ViewBag.Wallet = item;
+
+                    if (btnCommand == "Submit")
+                    {
+                        string cClientCode = collection["ClientCode"].ToString();
+                        Id = cClientCode;
+                        //string cAddress = collection["Address"].ToString();
+                        //string cName = collection["Name"].ToString();
+                        string cWalletNumber = collection["WalletNumber"].ToString();
+                        //string cIsApproved = collection["IsApproved"].ToString();
+                        string cUserName = collection["txtUserName"].ToString();
+                        string cFName = collection["txtFirstName"].ToString();
+                        string cMName = collection["txtMiddleName"].ToString();
+                        string cLName = collection["txtLastName"].ToString();
+                        string cGender = collection["Gender"].ToString();
+                        string cDOB = collection["DOB"].ToString();
+                        string cBSDateOfBirth = collection["BSDateOfBirth"].ToString();
+                        string cEmailAddress = collection["Email"].ToString();
+                        string cNationality = collection["Nationality"].ToString();
+                        string cCountry = collection["Country"].ToString();
+                        string cFatherName = collection["txtFatherName"].ToString();
+                        string cMotherName = collection["txtMotherName"].ToString();
+                        string cMaritalStatus = collection["MaritalStatus"].ToString();
+                        string cSpouseName = collection["SpouseName"].ToString();
+                        //start father
+                        string cFatherInLaw = collection["FatherInLaw"].ToString();
+
+                        //end father
+                        string cGrandFatherName = collection["txtGrandFatherName"].ToString();
+                        string cOccupation = collection["Occupation"].ToString();
+                        string cPanNo = collection["txtPanNo"].ToString();
+
+                        string cPProvince = collection["PProvinceText"].ToString();
+                        string cPDistrict = collection["PDistrictText"].ToString();
+                        string cPVDC = collection["txtPVDC"].ToString();
+                        string cPHouseNo = collection["txtPHouseNo"].ToString();
+                        string cPWardNo = collection["txtPWardNo"].ToString();
+                        string cPStreet = collection["PStreet"].ToString();
+
+                        string cCProvince = collection["CProvinceText"].ToString();
+                        string cCDistrict = collection["CDistrictText"].ToString();
+                        string cCVDC = collection["txtCVDC"].ToString();
+                        string cCHouseNo = collection["txtCHouseNo"].ToString();
+                        string cCWardNo = collection["txtCWardNo"].ToString();
+                        string cCStreet = collection["CStreet"].ToString();
+
+                        string cDocument = collection["Document"].ToString();
+                        string cCitizenship = collection["txtCitizenship"].ToString();
+                        string cCitizenshipIssueDate = collection["CitizenshipIssueDate"].ToString();
+                        string cBSCitizenshipIssueDate = collection["BSCitizenshipIssueDate"].ToString();
+                        string cCitizenshipPlaceOfIssue = collection["txtCitizenshipPlaceOfIssue"].ToString();
+
+
+                        string cLicense = collection["txtLicense"].ToString();
+                        // string cLicenseIssueDate = collection["txtLicenseIssueDate"].ToString();
+                        string cLicenseIssueDate = collection["LicenseIssueDate"].ToString();
+                        string cBSLicenseIssueDate = collection["BSLicenseIssueDate"].ToString();
+                        // string cLicenseExpireDate = collection["txtLicenseExpireDate"].ToString();
+                        string cLicenseExpireDate = collection["LicenseExpireDate"].ToString();
+                        string cBSLicenseExpireDate = collection["BSLicenseExpireDate"].ToString();
+                        string cLicensePlaceOfIssue = collection["txtLicensePlaceOfIssue"].ToString();
+
+                        string cPassport = collection["txtPassport"].ToString();
+                        string cPassportIssueDate = collection["txtPassportIssueDate"].ToString();
+                        string cPassportExpireDate = collection["txtPassportExpireDate"].ToString();
+                        string cPassportPlaceOfIssue = collection["txtPassportPlaceOfIssue"].ToString();
+
+                        //Images OLD Value//
+                        string cPassportPhoto = collection["txtOldPP"].ToString();
+                        string cFrontPhoto = collection["txtOldfront"].ToString();
+                        string cBackPhoto = collection["txtOldback"].ToString();
+
+                        userInfoModify.ClientCode = cClientCode;
+
+                        //userInfoModify.Name = userInfoModify.FName + "" + userInfoModify.MName + "" + userInfoModify.LName ;   
+                        userInfoModify.Name = cFName + " " + cMName + " " + cLName;
+                        userInfoModify.WalletNumber = cWalletNumber;
+                        userInfoModify.UserType = "agent";
+                        userInfoModify.Status = "InActive";
+                        userInfoModify.IsApproved = "UnApprove";
+                        userInfoModify.IsRejected = "F";
+                        userInfoModify.IsModified = "T";
+                        userInfoModify.UserName = cUserName;
+                        userInfoModify.Address = cPVDC + "," + getDistrictName(cPDistrict) + ", Province " + cPProvince;   /*+ cPWardNo + "," + cPHouseNo + "," + cPStreet*/
+                        userInfoModify.FName = cFName;
+                        userInfoModify.MName = cMName;
+                        userInfoModify.LName = cLName;
+                        userInfoModify.Gender = cGender;
+                        userInfoModify.DOB = cDOB;
+                        userInfoModify.BSDateOfBirth = cBSDateOfBirth;
+                        userInfoModify.EmailAddress = cEmailAddress;
+                        userInfoModify.Nationality = cNationality;
+                        userInfoModify.Country = cCountry;
+                        userInfoModify.Occupation = cOccupation;
+                        userInfoModify.MaritalStatus = cMaritalStatus;
+                        userInfoModify.SpouseName = cSpouseName;
+                        //start father
+                        userInfoModify.FatherInLaw = cFatherInLaw;
+                        //end
+                        userInfoModify.PanNo = cPanNo;
+                        userInfoModify.FatherName = cFatherName;
+                        userInfoModify.MotherName = cMotherName;
+                        userInfoModify.GrandFatherName = cGrandFatherName;
+
+
+
+                        userInfoModify.PProvince = cPProvince;
+                        userInfoModify.PDistrict = cPDistrict;
+                        userInfoModify.PVDC = cPVDC;
+                        userInfoModify.PWardNo = cPWardNo;
+                        userInfoModify.PHouseNo = cPHouseNo;
+                        userInfoModify.PStreet = cPStreet;
+
+                        userInfoModify.CProvince = cCProvince;
+                        userInfoModify.CDistrict = cCDistrict;
+                        userInfoModify.CVDC = cCVDC;
+                        userInfoModify.CWardNo = cCWardNo;
+                        userInfoModify.CHouseNo = cCHouseNo;
+                        userInfoModify.CStreet = cCStreet;
+
+                        userInfoModify.Document = cDocument;
+                        userInfoModify.Citizenship = cCitizenship;
+                        userInfoModify.CitizenshipIssueDate = cCitizenshipIssueDate;
+                        userInfoModify.BSCitizenshipIssueDate = cBSCitizenshipIssueDate;
+                        userInfoModify.CitizenshipPlaceOfIssue = cCitizenshipPlaceOfIssue;
+
+                        userInfoModify.License = cLicense;
+                        userInfoModify.LicenseIssueDate = cLicenseIssueDate;
+                        userInfoModify.BSLicenseIssueDate = cBSLicenseIssueDate;
+                        userInfoModify.LicenseExpireDate = cLicenseExpireDate;
+                        userInfoModify.BSLicenseExpireDate = cBSLicenseExpireDate;
+                        userInfoModify.LicensePlaceOfIssue = cLicensePlaceOfIssue;
+
+                        userInfoModify.Passport = cPassport;
+                        userInfoModify.PassportIssueDate = cPassportIssueDate;
+                        userInfoModify.PassportExpireDate = cPassportExpireDate;
+                        userInfoModify.PassportPlaceOfIssue = cPassportPlaceOfIssue;
+
+                        //userInfoModify.PassportImage = cPassportPhoto;
+
+                        //var location = Server.MapPath("~/Content/Upload");
+                        if (model.PassportPhoto != null)
+                        {
+                            if (!string.IsNullOrEmpty(cPassportPhoto))
+                            {
+                                //var existingFile = Path.Combine(cPassportPhoto);
+                                var existingFile = Request.MapPath(cPassportPhoto);
+                                if (System.IO.File.Exists(existingFile))
+                                {
+                                    System.IO.File.Delete(existingFile);
+                                }
+                            }
+                            //userInfoModify.PassportImage = string.Format("{0}", SaveAndReturnFileName(model.PassportPhoto, userInfoModify.UserName));
+                            var PP = ReturnFileName(model.PassportPhoto, userInfoModify.UserName);
+                            userInfoModify.PassportImage = ParseCv(model.PassportPhoto);
+                            userInfoModify.PassportImageName = string.Format(PP);
+                            //    userInfoModify.PassportImage = string.Format("~/Content/Upload/{0}", SaveAndReturnFileName(model.PassportPhoto, userInfoModify.UserName));
+                        }
+                        else
+                        {
+                            userInfoModify.PassportImageName = "";
+                            //userInfoModify.PassportImage = cPassportPhoto;
+                        }
+
+
+                        if (model.Front != null)
+                        {
+                            if (!string.IsNullOrEmpty(cFrontPhoto))
+                            {
+
+                                var existingFrontFile = Request.MapPath(cFrontPhoto);
+                                if (System.IO.File.Exists(existingFrontFile))
+                                {
+                                    System.IO.File.Delete(existingFrontFile);
+                                }
+                            }
+                            var front = ReturnFileName(model.Front, userInfoModify.UserName);
+                            userInfoModify.FrontImage = ParseCv(model.Front);
+                            userInfoModify.FrontImageName = string.Format(front);
+                            //userInfoModify.FrontImage = string.Format("{0}", SaveAndReturnFileName(model.Front, userInfoModify.UserName));
+
+                            // userInfoModify.FrontImage = string.Format("~/Content/Upload/{0}", SaveAndReturnFileName(model.Front, userInfoModify.UserName));
+                        }
+                        else
+                        {
+                            //userInfoModify.FrontImage = cFrontPhoto;
+                            userInfoModify.FrontImageName = "";
+                        }
+
+
+                        if (model.Back != null)
+                        {
+                            if (!string.IsNullOrEmpty(cBackPhoto))
+                            {
+
+                                var existingBackFile = Request.MapPath(cBackPhoto);
+                                if (System.IO.File.Exists(existingBackFile))
+                                {
+                                    System.IO.File.Delete(existingBackFile);
+                                }
+                            }
+                            var back = ReturnFileName(model.Back, userInfoModify.UserName);
+                            userInfoModify.BackImage = ParseCv(model.Back);
+                            userInfoModify.BackImageName = string.Format(back);
+                            //userInfoModify.BackImage = string.Format("{0}", SaveAndReturnFileName(model.Back, userInfoModify.UserName));
+
+                            // userInfoModify.BackImage = string.Format("~/Content/Upload/{0}", SaveAndReturnFileName(model.Back, userInfoModify.UserName));
+                        }
+                        else
+                        {
+                            //userInfoModify.BackImage = cBackPhoto;
+                            userInfoModify.BackImageName = "";
+                        }
+
+                        await SavePhoto(userInfoModify);
+                        string sPP = Session["PP"].ToString();
+                        string sFront = Session["Front"].ToString();
+                        string sBack = Session["Back"].ToString();
+
+                        if (sPP != null && sPP != "")
+                        {
+                            userInfoModify.PassportImageName = Session["PP"].ToString();
+                        }
+                        else
+                        {
+                            userInfoModify.PassportImageName = cPassportPhoto;
+                        }
+                        if (sFront != null && sFront != "")
+                        {
+                            userInfoModify.FrontImageName = Session["Front"].ToString();
+                        }
+                        else
+                        {
+                            userInfoModify.FrontImageName = cFrontPhoto;
+                        }
+                        if (sBack != null && sBack != "")
+                        {
+                            userInfoModify.BackImageName = Session["Back"].ToString();
+                        }
+                        else
+                        {
+                            userInfoModify.BackImageName = cBackPhoto;
+                        }
+
+                        if ((cWalletNumber != "") && (cUserName != "") && (cFName != ""))
+                        {
+
+                            bool isUpdated = CustomerUtils.UpdateAgentInfo(userInfoModify);
+                            displayMessage = isUpdated
+                                                     ? "Changes will take effect after approval."
+                                                     : "Error while updating Agent Information";
+                            messageClass = isUpdated ? CssSetting.SuccessMessageClass : CssSetting.FailedMessageClass;
+                        }
+                        else
+                        {
+                            displayMessage = "Required Field is Empty";
+                            messageClass = CssSetting.FailedMessageClass;
+                        }
+
+                        this.TempData["agenttmodify_messsage"] = displayMessage;
+                        this.TempData["message_class"] = messageClass;
+                        return RedirectToAction("RegistrationRejectedList");
+                    }
+                    ViewBag.Bank = new SelectList(item, "Value", "Text", userInfoModify.BankNo);
+                    return View();
+
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception ex)
+            {
+                displayMessage = "Error while updating Agent Information. Error cause::" + ex.Message;
+                messageClass = CssSetting.FailedMessageClass;
+                return RedirectToAction("AgentModify", new { id = Id });
+
+            }
+            finally
+            {
+                this.TempData["agenttmodify_messsage"] = displayMessage;
+                this.TempData["message_class"] = messageClass;
+            }
+        }
+
+        #endregion
+
+       
+        #region "Agent Status" ---
+
+        // GET: Agent/AgentStatus
+        public ActionResult AgentStatus()
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+                if (this.TempData["agent_messsage"] != null)
+                {
+                    this.ViewData["agent_messsage"] = this.TempData["agent_messsage"];
+                    this.ViewData["message_class"] = this.TempData["message_class"];
+                }
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+
+        // GET: Agent/AgentDetailView
+        [HttpGet]
+        public ActionResult AgentDetailView(string txtMobileNo, string txtName, string txtAccountNo)
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+
+                UserInfo userInfo = new UserInfo
+                {
+                    ContactNumber1 = txtMobileNo,
+                    Name = txtName,
+                    WalletNumber = txtAccountNo
+                };
+
+                List<UserInfo> customerStatus = new List<UserInfo>();
+
+                if (userInfo.Name == "" || userInfo.Name == null)
+                {
+                    DataTable dtableCustomerStatusByAll = AgentUtils.GetAgentProfileByALL(userInfo.Name, userInfo.WalletNumber, userInfo.ContactNumber1);
+                    if (dtableCustomerStatusByAll != null && dtableCustomerStatusByAll.Rows.Count > 0)
+                    {
+                        UserInfo regobj = new UserInfo();
+                        regobj.ClientCode = dtableCustomerStatusByAll.Rows[0]["ClientCode"].ToString();
+                        regobj.Name = dtableCustomerStatusByAll.Rows[0]["Name"].ToString();
+                        regobj.Address = dtableCustomerStatusByAll.Rows[0]["Address"].ToString();
+                        regobj.PIN = dtableCustomerStatusByAll.Rows[0]["PIN"].ToString();
+                        regobj.Status = dtableCustomerStatusByAll.Rows[0]["Status"].ToString();
+                        regobj.ContactNumber1 = dtableCustomerStatusByAll.Rows[0]["ContactNumber1"].ToString();
+                        regobj.ContactNumber2 = dtableCustomerStatusByAll.Rows[0]["ContactNumber2"].ToString();
+                        regobj.UserName = dtableCustomerStatusByAll.Rows[0]["UserName"].ToString();
+                        regobj.UserType = dtableCustomerStatusByAll.Rows[0]["userType"].ToString();
+
+                        customerStatus.Add(regobj);
+                        ViewData["dtableAgentStatus"] = dtableCustomerStatusByAll;
+                    }
+                }
+                
+                if (userInfo.Name != "")
+                {
+                    DataTable dtableCustomerStatusByMobileNo = AgentUtils.GetAgentProfileByMobileNo(userInfo.Name);
+                    if (dtableCustomerStatusByMobileNo != null && dtableCustomerStatusByMobileNo.Rows.Count > 0)
+                    {
+                        UserInfo regobj = new UserInfo
+                        {
+                            ClientCode = dtableCustomerStatusByMobileNo.Rows[0]["ClientCode"].ToString(),
+                            Name = dtableCustomerStatusByMobileNo.Rows[0]["Name"].ToString(),
+                            Address = dtableCustomerStatusByMobileNo.Rows[0]["Address"].ToString(),
+                            PIN = dtableCustomerStatusByMobileNo.Rows[0]["PIN"].ToString(),
+                            Status = dtableCustomerStatusByMobileNo.Rows[0]["Status"].ToString(),
+                            ContactNumber1 = dtableCustomerStatusByMobileNo.Rows[0]["ContactNumber1"].ToString(),
+                            ContactNumber2 = dtableCustomerStatusByMobileNo.Rows[0]["ContactNumber2"].ToString(),
+                            UserName = dtableCustomerStatusByMobileNo.Rows[0]["UserName"].ToString(),
+                            UserType = dtableCustomerStatusByMobileNo.Rows[0]["userType"].ToString()
+                        };
+
+                        customerStatus.Add(regobj);
+                        ViewData["dtableAgentStatus"] = dtableCustomerStatusByMobileNo;
+                    }
+                }
+                
+                return View(customerStatus);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+
+        //View Agent Status
+        [HttpGet]
+        public ActionResult ViewAgentStatus(string clientCodeId)
+        {
+            if (string.IsNullOrEmpty(clientCodeId))
+            {
+                return RedirectToAction("Index", "Agent");
+            }
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (this.TempData["register_messsage"] != null)
+            {
+                this.ViewData["editregister_messsage"] = this.TempData["editregister_messsage"];
+                this.ViewData["message_class"] = this.TempData["message_class"];
+            }
+
+            if (TempData["userType"] != null)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+
+
+                UserInfo userInfo = new UserInfo();
+                DataTable dtblRegistration = ProfileUtils.GetAgentProfileInfo(clientCodeId);
+                if (dtblRegistration.Rows.Count == 1)
+                {
+                    userInfo.ClientCode = dtblRegistration.Rows[0]["ClientCode"].ToString();
+                    userInfo.Name = dtblRegistration.Rows[0]["Name"].ToString().Capitalize();
+                    userInfo.Address = dtblRegistration.Rows[0]["Address"].ToString();
+                    userInfo.UserName = dtblRegistration.Rows[0]["UserName"].ToString();
+                    userInfo.WalletNumber = dtblRegistration.Rows[0]["WalletNumber"].ToString();
+
+                    userInfo.FName = dtblRegistration.Rows[0]["FName"].ToString();
+                    userInfo.MName = dtblRegistration.Rows[0]["MName"].ToString();
+                    userInfo.LName = dtblRegistration.Rows[0]["LName"].ToString();
+                    userInfo.DOB = dtblRegistration.Rows[0]["DateOfBirth"].ToString().Split()[0];
+                    userInfo.BSDateOfBirth = dtblRegistration.Rows[0]["BSDateOfBirth"].ToString().Split()[0];
+                    userInfo.EmailAddress = dtblRegistration.Rows[0]["EmailAddress"].ToString();
+                    userInfo.Gender = dtblRegistration.Rows[0]["Gender"].ToString();
+                    userInfo.Nationality = dtblRegistration.Rows[0]["Nationality"].ToString();
+                    userInfo.Country = dtblRegistration.Rows[0]["Country"].ToString();
+                    userInfo.FatherName = dtblRegistration.Rows[0]["FathersName"].ToString();
+                    userInfo.MotherName = dtblRegistration.Rows[0]["MothersName"].ToString();
+                    userInfo.MaritalStatus = dtblRegistration.Rows[0]["MaritalStatus"].ToString();
+                    userInfo.SpouseName = dtblRegistration.Rows[0]["SpouseName"].ToString();
+
+                    userInfo.FatherInLaw = dtblRegistration.Rows[0]["FatherInLaw"].ToString();
+
+                    userInfo.GrandFatherName = dtblRegistration.Rows[0]["GFathersName"].ToString();
+                    userInfo.Occupation = dtblRegistration.Rows[0]["Occupation"].ToString();
+                    userInfo.PanNo = dtblRegistration.Rows[0]["PanNumber"].ToString();
+
+                    userInfo.PProvince = dtblRegistration.Rows[0]["PProvince"].ToString();
+                    userInfo.PDistrict = getDistrictName(dtblRegistration.Rows[0]["PDistrict"].ToString());
+                    userInfo.PVDC = dtblRegistration.Rows[0]["PMunicipalityVDC"].ToString();
+                    userInfo.PWardNo = dtblRegistration.Rows[0]["PWardNo"].ToString();
+                    userInfo.PHouseNo = dtblRegistration.Rows[0]["PHouseNo"].ToString();
+                    userInfo.PStreet = dtblRegistration.Rows[0]["PStreet"].ToString();
+
+                    userInfo.CProvince = dtblRegistration.Rows[0]["CProvince"].ToString();
+                    userInfo.CDistrict = getDistrictName(dtblRegistration.Rows[0]["CDistrict"].ToString());
+                    userInfo.CVDC = dtblRegistration.Rows[0]["CMunicipalityVDC"].ToString();
+                    userInfo.CWardNo = dtblRegistration.Rows[0]["CWardNo"].ToString();
+                    userInfo.CHouseNo = dtblRegistration.Rows[0]["CHouseNo"].ToString();
+                    userInfo.CStreet = dtblRegistration.Rows[0]["CStreet"].ToString();
+
+                    userInfo.Document = dtblRegistration.Rows[0]["DocType"].ToString();
+
+                    userInfo.Citizenship = dtblRegistration.Rows[0]["CitizenshipNo"].ToString();
+                    userInfo.CitizenshipIssueDate = dtblRegistration.Rows[0]["CitizenIssueDate"].ToString().Split()[0];
+                    userInfo.BSCitizenshipIssueDate = dtblRegistration.Rows[0]["BSCitizenIssueDate"].ToString().Split()[0];
+                    userInfo.CitizenshipPlaceOfIssue = dtblRegistration.Rows[0]["CitizenPlaceOfIssue"].ToString();
+
+                    userInfo.License = dtblRegistration.Rows[0]["LicenseNo"].ToString();
+                    userInfo.LicenseIssueDate = dtblRegistration.Rows[0]["LicenseIssueDate"].ToString().Split()[0];
+                    userInfo.BSLicenseIssueDate = dtblRegistration.Rows[0]["BSLicenseIssueDate"].ToString().Split()[0];
+                    userInfo.LicenseExpireDate = dtblRegistration.Rows[0]["LicenseExpiryDate"].ToString().Split()[0];
+                    userInfo.BSLicenseExpireDate = dtblRegistration.Rows[0]["BSLicenseExpiryDate"].ToString().Split()[0];
+                    userInfo.LicensePlaceOfIssue = dtblRegistration.Rows[0]["LicensePlaceOfIssue"].ToString();
+
+                    userInfo.Passport = dtblRegistration.Rows[0]["PassportNo"].ToString();
+                    userInfo.PassportIssueDate = dtblRegistration.Rows[0]["PassportIssueDate"].ToString().Split()[0];
+                    userInfo.PassportExpireDate = dtblRegistration.Rows[0]["PassportExpiryDate"].ToString().Split()[0];
+                    userInfo.PassportPlaceOfIssue = dtblRegistration.Rows[0]["PassportPlaceOfIssue"].ToString();
+
+                    userInfo.PassportImage = dtblRegistration.Rows[0]["PassportImage"].ToString();
+                    userInfo.FrontImage = dtblRegistration.Rows[0]["FrontImage"].ToString();
+                    userInfo.BackImage = dtblRegistration.Rows[0]["BackImage"].ToString();
+
+                    userInfo.DOB = DateConvert(userInfo.DOB);
+
+                    userInfo.CitizenshipIssueDate = DateConvert(userInfo.CitizenshipIssueDate);
+                    userInfo.LicenseIssueDate = DateConvert(userInfo.LicenseIssueDate);
+                    userInfo.LicenseExpireDate = DateConvert(userInfo.LicenseExpireDate);
+
+                    userInfo.PassportIssueDate = DateConvert(userInfo.PassportIssueDate);
+                    userInfo.PassportExpireDate = DateConvert(userInfo.PassportExpireDate);
+
+                }
+                return View(userInfo);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+
+        #endregion
+
     }
 }
 

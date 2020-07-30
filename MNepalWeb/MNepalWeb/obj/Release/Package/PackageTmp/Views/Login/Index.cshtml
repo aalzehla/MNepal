@@ -21,131 +21,121 @@
     <!-- Theme style -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     @*<link rel="stylesheet" href="~/Content/dist/css/AdminLTE.min.css">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="~/Content/plugins/iCheck/square/blue.css">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->*@
+        <!-- iCheck -->
+        <link rel="stylesheet" href="~/Content/plugins/iCheck/square/blue.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->*@
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body>
 
     <div class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
-        
-@using (Html.BeginForm("Index", "Login", FormMethod.Post, new
-{
-    @id = "loginForm",
-    @class = "form col-md-12 center-block"
-}))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
 
-    if (this.ViewData["login_message"] != null)
-    {
-        if (this.ViewData["message_class"].ToString() == "success_info")
+        @using (Html.BeginForm("Index", "Login", FormMethod.Post, new
         {
-            <div class="alert alert-success">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <h4>Success</h4> @this.ViewData["login_message"]
-            </div>
-        }
-        else
+            @id = "loginForm",
+            @class = "form col-md-12 center-block"
+        }))
         {
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <h4>Error</h4> @this.ViewData["login_message"]
-            </div>
-        }
-    }
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
 
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="text-center">
-                        <a href="#"><b>MNepal</b>MB</a></h1>
-                        <h2 class="text-center"><b>Login</b></h2>
+            if (this.TempData["login_message"] != null)
+            {
+                if (this.TempData["message_class"].ToString() == "success_info")
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Success</h4> @this.TempData["login_message"]
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Error</h4> @this.TempData["login_message"]
+                    </div>
+                }
+            }
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @*<h1 class="text-center">
+                            <a href="#"><b>MNepal</b>MB</a></h1>*@
+                        @*<h2 class="text-center"><b>Login</b></h2>*@
+                        <img src="~/Content/image/nibl.png" alt="NIBL LOGO" style="margin-left:50px">
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="form-group has-feedback">
+                            <input type="text" id="userName" name="txtUserName" class="form-control" placeholder="UserName" maxlength="20"required>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <input type="password" id="password" name="txtPassword" class="form-control" placeholder="Password" maxlength="12" required>
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                Sign In
+                            </button>
+                           
+                        </div>
+
+                    </div>
+
+                
+
                 </div>
+            </div>
+        }
+    </div>
 
-                <div class="modal-body">
+
+    @*<div class="login-box">
+            <div class="login-logo">
+                <a href="#"><b>MNepal</b>MB</a>
+            </div>
+            <!-- /.login-logo -->
+                <div class="login-box-body">
+                    <p class="login-box-msg"> <b> Login</b> </p>
 
                     <div class="form-group has-feedback">
                         <input type="text" id="userName" name="txtUserName" class="form-control" placeholder="UserName" required>
-                        <label id="checkmsg">          </label>
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
                         <input type="password" id="password" name="txtPassword" class="form-control" placeholder="Password" required>
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
-                        
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">
-                        Sign In</button>
-                        @*<span class="pull-right">
-                        <a href="~/ForgetPassword">Forget Password</a></span>*@
-                    </div>
-
-                </div>
-
-                <div class="modal-footer">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <span class="pull-right">
-                                <a href="~/ForgetPassword">Forget Password</a>
-                            </span>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="checkbox icheck">
+                                <label>
+                                    <input type="checkbox"> Remember Me
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-}
-    </div>
-
-
-    @*<div class="login-box">
-        <div class="login-logo">
-            <a href="#"><b>MNepal</b>MB</a>
-        </div>
-        <!-- /.login-logo -->
-            <div class="login-box-body">
-                <p class="login-box-msg"> <b> Login</b> </p>
-
-                <div class="form-group has-feedback">
-                    <input type="text" id="userName" name="txtUserName" class="form-control" placeholder="UserName" required>
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                </div>
-                <div class="form-group has-feedback">
-                    <input type="password" id="password" name="txtPassword" class="form-control" placeholder="Password" required>
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                </div>
-                <div class="row">
-                    <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox"> Remember Me
-                            </label>
+                        <!-- /.col -->
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
                         </div>
+                        <!-- /.col -->
                     </div>
-                    <!-- /.col -->
-                    <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
 
-                <a href="#">I forgot my password</a><br>
-            </div>
-        <!-- /.login-box-body -->
-    </div>*@
+                    <a href="#">I forgot my password</a><br>
+                </div>
+            <!-- /.login-box-body -->
+        </div>*@
     <!-- /.login-box -->
-
-
-
     <!-- jQuery 3 -->
     <script src="~/Content/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap 3.3.7 -->
@@ -173,7 +163,13 @@
         //    });
         //});
 
-        $("#userName").change(function (event) {
+        var activeTab = localStorage.getItem('activeTab');
+
+        if (activeTab)
+            localStorage.removeItem('activeTab');
+
+
+        @*$("#userName").change(function (event) {
             event.preventDefault();
 
             var id = $("#userName").val();
@@ -196,10 +192,32 @@
                     }
                 },
                 error: function () {
-                    alert("Data Not Found");
+                    console.log("Data Not Found");
                 }
             });
-        });
+        });*@
+
+        //$(document).ready(function () {
+
+        //    //var imageUrl = 'http://bing.com/az/hprichbg/rb/NCGSLShorelands_EN-US12239696326_1920x1080.jpg';
+        //    //$('body').css('background-image', 'url("' + imageUrl + '")');
+        //    //$('body').css('background-size', 'cover');
+        //    $.ajax({
+        //        crossDomain: true,
+        //        type: 'GET',
+        //        data:'jsonp',
+        //        url: 'http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US',
+        //        success: function (data) {
+        //            debugger;
+        //            var imgurl = 'http://bing.com';
+        //            $('body').css('background-image', 'url(img/1.jpg)');
+        //        },
+        //        error: function (data) {
+
+        //        }
+        //    });
+        //});
+
 
         //$(document).ready(function () {
 
@@ -233,6 +251,6 @@
         //    });
         //});
     </script>
-    
+
 </body>
 </html>

@@ -92,5 +92,38 @@ namespace ThailiMNepalAgent.Utilities
         }
         #endregion
 
+
+        #region Wlink Details
+        public static DataSet GetWlinkDetails(ISP KPObj)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = KPObj.ClientCode,
+                UserName = KPObj.UserName,
+                CustomerID = KPObj.CustomerName,
+                refStan = KPObj.refStan,
+                Mode = "Wlink" // GET Wlink Details
+            };
+            return objUserModel.GetWlinkPaymentDetails(objUserInfo);
+        }
+        #endregion
+
+        #region Subisu Details
+        public static DataSet GetSubisuDetails(ISP KPObj)
+        {
+            var objUserModel = new PaypointUserModel();
+            var objUserInfo = new ISP
+            {
+                ClientCode = KPObj.ClientCode,
+                UserName = KPObj.UserName,
+                CustomerID = KPObj.CustomerID,
+                refStan = KPObj.refStan,
+                Mode = "Subisu" // GET Subisu Details
+            };
+            return objUserModel.GetSubisuPaymentDetails(objUserInfo);
+        }
+        #endregion
+
     }
 }

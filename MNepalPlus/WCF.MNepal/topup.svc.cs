@@ -50,6 +50,10 @@ namespace WCF.MNepal
             string sessionID = qs["tokenID"];
             string selectADSL = qs["selectADSL"]; //Unlimited //VolumeBased
 
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
+
             string result = "";
             string getMerchantName = "";
 
@@ -64,6 +68,7 @@ namespace WCF.MNepal
                 mobile = mobile,
                 amount = amount,
                 pin = pin,
+                vid = vid,
                 sourcechannel = src
             };
 
@@ -73,6 +78,7 @@ namespace WCF.MNepal
             if (sc == "31" || sc == "34")
             {
                 fundtransfer.da = vid;
+
                 fundtransfer.note = note;// + ":" + prod;
             }
 
@@ -83,25 +89,26 @@ namespace WCF.MNepal
             string statusCode = "";
             string message = string.Empty;
             string failedmessage = string.Empty;
+            string merchantpin = string.Empty;
 
             MNTransactionMaster VerifyTopupMerchant = new MNTransactionMaster();
 
-            if (TokenGenerator.TokenChecker(sessionID, mobile, src) == false)
+            //if (TokenGenerator.TokenChecker(sessionID, mobile, src) == false)
+            //{
+            //    // throw ex
+            //    statusCode = "400";
+            //    message = "Session expired. Please login again";
+            //    failedmessage = message;
+            //}
+            //else
+            //{
+                if ((tid == null) || (sc == null) || (mobile == null) || (vid == null) || (amount == null) || (pin == null) ||
+                (src == null) || (double.Parse(amount) <= 0))
             {
                 // throw ex
                 statusCode = "400";
-                message = "Session expired. Please login again";
-                failedmessage = message;
+                message = "Parameters Missing/Invalid";
             }
-            else
-            {
-                if ((tid == null) || (sc == null) || (mobile == null) || (vid == null) || (amount == null) || (pin == null) ||
-                (src == null) || (double.Parse(amount) <= 0))
-                {
-                    // throw ex
-                    statusCode = "400";
-                    message = "Parameters Missing/Invalid";
-                }
                 else if ((vid == "1" || vid == "7") && !checkLandline(destmobile))
                 {
                     statusCode = "400";
@@ -118,6 +125,27 @@ namespace WCF.MNepal
                     message = jsonDataResult["StatusMessage"].ToString();
                     failedmessage = message;
 
+                    //start block msg 3 time pin attempt
+                    if (message == "Invalid PIN ")
+                    {
+                        LoginUtils.SetPINTries(mobile, "BUWP");//add +1 in trypwd
+
+                        if (LoginUtils.GetPINBlockTime(mobile)) //check if blocktime is greater than current time 
+                        {
+                            message = "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 1 hour";
+                            failedmessage = message;
+
+                        }
+
+
+                    }
+                    else
+                    {
+                        LoginUtils.SetPINTries(mobile, "RPT");
+
+                    }
+                    //end block msg 3 time pin attempt
+
                     //Utility Payment / TOPUP
                     if (sc == "31")
                     {
@@ -128,6 +156,7 @@ namespace WCF.MNepal
                         getMerchantName = " Topup Bank Check ";
                     }
 
+                    //start comment gareko
 
                     if ((statusCode == "200") && (statusMsg == "Success") && (statusCode != "400"))
                     {
@@ -176,6 +205,9 @@ namespace WCF.MNepal
                             if ((getMerchantMobile != "") || (getMerchantMobile != null))
                             {
                                 fundtransfer.da = getMerchantMobile; //Set Destination Merchant Mobile number
+                                                                     // fundtransfer.da = "9840062001";
+                                                                     //fundtransfer.da = "9803200158";
+                                string da2 = fundtransfer.da;
 
                                 getMerchantName = getMerchantDetails.PassVIdToGetMerchantName(vid);
                                 if (getMerchantName.Equals("NT Topup"))
@@ -207,16 +239,21 @@ namespace WCF.MNepal
                             //fundtransfer.note =
                             //string notedDestmobile = getMerchantName + ":" + destmobile;
                             string notedDestmobile = "Topup for " + getMerchantName + " - " + destmobile;
+                            string description1 = "";
+                            if (vid == "2")//NTTOPUP
+                            {
+                                description1 = "Thaili NT TopUp(" + destmobile + ")";
+                            }
                             MNFundTransfer mnftWithMerchant = new MNFundTransfer(fundtransfer.tid, fundtransfer.sc,
                                 fundtransfer.mobile, fundtransfer.sa, fundtransfer.amount, fundtransfer.da, notedDestmobile,
                                 fundtransfer.pin, fundtransfer.sourcechannel);
 
-
+                            merchantpin = mnftWithMerchant.pin;
 
                             //start:insert into transaction master//
                             if (mnft.valid() && mnftWithMerchant.valid())
                             {
-                                var transaction = new MNTransactionMaster(mnftWithMerchant);
+                                var transaction = new MNTransactionMaster(mnftWithMerchant, vid, description1);
                                 var mntransaction = new MNTransactionsController();
                                 validTransactionData = mntransaction.Validate(transaction, mnftWithMerchant.pin);
                                 result = validTransactionData.Response;
@@ -238,6 +275,7 @@ namespace WCF.MNepal
                                         || (result == "Invalid Source User") || (result == "Invalid Destination User")
                                         || (result == "Invalid Product Request") || (result == "Please try again") || (result == ""))
                                     {
+
                                         statusCode = "400";
                                         message = result;
                                         mnft.ResponseStatus(HttpStatusCode.BadRequest, "parameters missing/invalid");
@@ -516,7 +554,7 @@ namespace WCF.MNepal
                             failedmessage = result;
                         }
 
-
+                        //start sms comment gareko
                         OutgoingWebResponseContext response = WebOperationContext.Current.OutgoingResponse;
 
                         if (response.StatusCode == HttpStatusCode.OK)
@@ -535,8 +573,8 @@ namespace WCF.MNepal
                                 messagereply += "Thank you. MNepal";
 
                                 //Receiver
-                                // string messagereplyReceiver = "Dear " + CustCheckUtils.GetName(mobile) + "," + "\n";
-                                string messagereplyReceiver = "Dear Customer," + "\n";
+                                 string messagereplyReceiver = "Dear " + CustCheckUtils.GetName(destmobile) + "," + "\n";
+                                //string messagereplyReceiver = "Dear Customer," + "\n";
                                 messagereplyReceiver += getMerchantName + " was successfully transferred with amount NPR "
                                                 + validTransactionData.Amount
                                                 + "." + "\n";
@@ -549,20 +587,27 @@ namespace WCF.MNepal
                                 if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
                                 {
                                     //FOR NCELL
+                                    //var content = client.DownloadString(
+                                    //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                    //    + "977" + mobile + "&Text=" + messagereply + "");
+
                                     var content = client.DownloadString(
-                                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
-                                        + "977" + mobile + "&Text=" + messagereply + "");
+                                            SMSNCELL
+                                            + "977" + mobile + "&Text=" + messagereply + "");
                                 }
                                 else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
                                             || (mobile.Substring(0, 3) == "986"))
                                 {
                                     //FOR NTC
+                                    //var content = client.DownloadString(
+                                    //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                    //    + "977" + mobile + "&Text=" + messagereply + "");
                                     var content = client.DownloadString(
-                                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                        SMSNTC
                                         + "977" + mobile + "&Text=" + messagereply + "");
                                 }
 
-                                //For destmobile
+                                /*//For destmobile
                                 string mobileReceiver = destmobile;
                                 if ((mobileReceiver.Substring(0, 3) == "980") || (mobileReceiver.Substring(0, 3) == "981")) //FOR NCELL
                                 {
@@ -578,7 +623,7 @@ namespace WCF.MNepal
                                     var content = client.DownloadString(
                                         "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
                                         + "977" + mobileReceiver + "&Text=" + messagereplyReceiver + "");
-                                }
+                                }*/
 
 
                                 custsmsInfo = new CustActivityModel()
@@ -611,7 +656,7 @@ namespace WCF.MNepal
                                 ErrorMessage = failedmessage,
                             };
                         }
-
+                        ////end sms comment gareko
 
                     }
                     else
@@ -627,6 +672,9 @@ namespace WCF.MNepal
                             ErrorMessage = failedmessage,
                         };
                     }
+
+                    //end comment gareko
+
 
 
                     try
@@ -658,81 +706,226 @@ namespace WCF.MNepal
                     }
 
                 }
-            }
 
-            /*For Status Code*/
-            if (statusCode == "")
-            {
-                result = result.ToString();
-            }
-            else if (statusCode != "200")
-            {
-                if (message == "")
+
+                /*For Status Code*/
+                if (statusCode == "")
                 {
-                    message = "Insufficient Balance";
+                    result = result.ToString();
                 }
-                var v = new
+                else if (statusCode != "200")
                 {
-                    StatusCode = Convert.ToInt32(statusCode),
-                    StatusMessage = message
-                };
-                result = JsonConvert.SerializeObject(v);
-            }
-            //FOR NCELL
-            if (vid == "10" && statusCode == "200")
-            {
-                MerchantTransaction merchantTransaction = new MerchantTransaction(vid, "NCELL", destmobile, Convert.ToInt32(validTransactionData.Amount), validTransactionData.SourceMobile, validTransactionData.TraceId, "P", validTransactionData.CreatedDate, "", "", mobile, validTransactionData.createdTimeDate);
+                    if (message == "")
+                    {
+                        message = "Insufficient Balance";
+                    }
+                    var v = new
+                    {
+                        StatusCode = Convert.ToInt32(statusCode),
+                        StatusMessage = message
+                    };
+                    result = JsonConvert.SerializeObject(v);
+                }
 
-                PassDataToMerchantTransactionController(merchantTransaction); //insert merchantdetail to db and status to pending
-                                                                              // string topUpResult =TopupMerchantVerfication(merchantTransaction);
-                Task<string> topUpResult = TopupMerchantVerfication(merchantTransaction); // call soapRequest function
-                string responseCode = topUpResult.ToString();
-            }
+                string revStatus = string.Empty;
 
-            //FOR NTC
-            if (vid == "2" && statusCode == "200")
-            {
-                MerchantTransaction merchantTransaction = new MerchantTransaction(vid, "NTC", destmobile, Convert.ToInt32(validTransactionData.Amount), validTransactionData.SourceMobile, validTransactionData.TraceId, "P", validTransactionData.CreatedDate, "", "", mobile, validTransactionData.createdTimeDate);
+                //FOR NCELL
+                if (vid == "10" && statusCode == "200")
+                {
+                    MerchantTransaction merchantTransaction = new MerchantTransaction(vid, "NCELL", destmobile, Convert.ToInt32(validTransactionData.Amount), validTransactionData.SourceMobile, validTransactionData.TraceId, "P", validTransactionData.CreatedDate, "", "", mobile, validTransactionData.createdTimeDate);
 
-                PassDataToMerchantTransactionController(merchantTransaction); //insert merchantdetail to db and status to pending
-                                                                              // string topUpResult =TopupMerchantVerfication(merchantTransaction);
-                Task<string> topUpResult = NTCTopupMerchantVerfication(merchantTransaction); // call soapRequest function
-                string responseCode = topUpResult.ToString();
-            }
-            //FOR NT LANDLINE
-            if (vid == "7" && statusCode == "200")
-            {
-                MerchantTransaction merchantTransaction = new MerchantTransaction(vid, "PSTN", destmobile, Convert.ToInt32(validTransactionData.Amount), validTransactionData.SourceMobile, validTransactionData.TraceId, "P", validTransactionData.CreatedDate, "", "", mobile, validTransactionData.createdTimeDate);
+                    PassDataToMerchantTransactionController(merchantTransaction); //insert merchantdetail to db and status to pending
+                                                                                  // string topUpResult =TopupMerchantVerfication(merchantTransaction);
+                    Task<string> topUpResult = TopupMerchantVerfication(merchantTransaction); // call soapRequest function
 
-                PassDataToMerchantTransactionController(merchantTransaction); //insert merchantdetail to db and status to pending
-                                                                              // string topUpResult =TopupMerchantVerfication(merchantTransaction);
-                Task<string> topUpResult = NTCTopupMerchantVerfication(merchantTransaction); // call soapRequest function
-                string responseCode = topUpResult.ToString();
-            }
-            //FOR ADSL UNLIMITED
-            if (vid == "1" && statusCode == "200" && selectADSL == "Unlimited")
-            {
-                MerchantTransaction merchantTransaction = new MerchantTransaction(vid, "ADSL_UNLIMITED", destmobile, Convert.ToInt32(validTransactionData.Amount), validTransactionData.SourceMobile, validTransactionData.TraceId, "P", validTransactionData.CreatedDate, "", "", mobile, validTransactionData.createdTimeDate);
+                    string topupId = "";
+                    string topupStatus = "";
+                    string topupResult = "";
 
-                PassDataToMerchantTransactionController(merchantTransaction); //insert merchantdetail to db and status to pending
-                                                                              // string topUpResult =TopupMerchantVerfication(merchantTransaction);
-                Task<string> topUpResult = ADSLUnlimitedTopupMerchantVerfication(merchantTransaction); // call soapRequest function
-                string responseCode = topUpResult.ToString();
-            }
-            //FOR ADSL VOLUME BASED
-            if (vid == "1" && statusCode == "200" && selectADSL == "VolumeBased")
-            {
-                MerchantTransaction merchantTransaction = new MerchantTransaction(vid, "ADSL_VOLUMEBASED", destmobile, Convert.ToInt32(validTransactionData.Amount), validTransactionData.SourceMobile, validTransactionData.TraceId, "P", validTransactionData.CreatedDate, "", "", mobile, validTransactionData.createdTimeDate);
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Console.WriteLine("Sleep for 1 second!");
 
-                PassDataToMerchantTransactionController(merchantTransaction); //insert merchantdetail to db and status to pending
-                                                                              // string topUpResult =TopupMerchantVerfication(merchantTransaction);
-                Task<string> topUpResult = ADSLVolBasedTopupMerchantVerfication(merchantTransaction); // call soapRequest function
-                string responseCode = topUpResult.ToString();
-            }
+                        topupId = topUpResult.Id.ToString();
+                        topupStatus = topUpResult.Status.ToString();
+                        topupResult = topUpResult.Result.ToString();
+
+                        Thread.Sleep(1000);
+                    }
+
+                    if (topupResult == "000")
+                    {
+                        SMSSend(mobile, destmobile, Convert.ToInt32(validTransactionData.Amount), getMerchantName);//mobile,destmobile, amount
+                    }
+                    else if ((topupId != "00") && (topupResult != "000"))
+                    {
+                        string merchantmobile = fundtransfer.da;
+
+                    result = TopupPaymentReverse(sc, vid, mobile, destmobile, merchantmobile, amount, pin, tid);
+                    }
+
+                }
+
+                //FOR NTC
+                if (vid == "2" && statusCode == "200")
+                {
+                    MerchantTransaction merchantTransaction = new MerchantTransaction(vid, "NTC", destmobile, Convert.ToInt32(validTransactionData.Amount), validTransactionData.SourceMobile, validTransactionData.TraceId, "P", validTransactionData.CreatedDate, "", "", mobile, validTransactionData.createdTimeDate);
+
+                    PassDataToMerchantTransactionController(merchantTransaction); //insert merchantdetail to db and status to pending
+                                                                                  // string topUpResult =TopupMerchantVerfication(merchantTransaction);
+                    Task<string> topUpResult = NTCTopupMerchantVerfication(merchantTransaction); // call soapRequest function
+                    
+                    //string responseCode = topUpResult.ToString();
+
+                    string topupId = "";
+                    string topupStatus = "";
+                    string topupResult = "";
+
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Console.WriteLine("Sleep for 1 second!");
+
+                        topupId = topUpResult.Id.ToString();
+                        topupStatus = topUpResult.Status.ToString();
+                        topupResult = topUpResult.Result.ToString();
+
+                        Thread.Sleep(1000);
+                    }
+
+                    if (topupResult == "000")
+                    {
+                        SMSSend(mobile, destmobile, Convert.ToInt32(validTransactionData.Amount), getMerchantName);//mobile,destmobile, amount
+                    }
+                    else if ((topupId != "00") && (topupResult != "000"))
+                    {
+                        string merchantmobile = fundtransfer.da;
+
+                        TopupPaymentReverse(sc, vid, mobile, destmobile, merchantmobile, amount, pin, tid);
+                    }
+
+                }
+                //FOR NT LANDLINE
+                if (vid == "7" && statusCode == "200")
+                {
+                    MerchantTransaction merchantTransaction = new MerchantTransaction(vid, "PSTN", destmobile, Convert.ToInt32(validTransactionData.Amount), validTransactionData.SourceMobile, validTransactionData.TraceId, "P", validTransactionData.CreatedDate, "", "", mobile, validTransactionData.createdTimeDate);
+
+                    PassDataToMerchantTransactionController(merchantTransaction); //insert merchantdetail to db and status to pending
+                                                                                  // string topUpResult =TopupMerchantVerfication(merchantTransaction);
+                    Task<string> topUpResult = NTCTopupMerchantVerfication(merchantTransaction); // call soapRequest function
+
+                    //string responseCode = topUpResult.ToString();
+
+                    string topupId = "";
+                    string topupStatus = "";
+                    string topupResult = "";
+
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Console.WriteLine("Sleep for 1 second!");
+
+                        topupId = topUpResult.Id.ToString();
+                        topupStatus = topUpResult.Status.ToString();
+                        topupResult = topUpResult.Result.ToString();
+
+                        Thread.Sleep(1000);
+                    }
+
+                    if (topupResult == "000")
+                    {
+                        SMSSend(mobile, destmobile, Convert.ToInt32(validTransactionData.Amount), getMerchantName);//mobile,destmobile, amount
+                    }
+                    else if ((topupId != "00") && (topupResult != "000"))
+                    {
+                        string merchantmobile = fundtransfer.da;
+
+                        TopupPaymentReverse(sc, vid, mobile, destmobile, merchantmobile, amount, pin, tid);
+                    }
+
+                }
+                //FOR ADSL UNLIMITED
+                if (vid == "1" && statusCode == "200" && selectADSL == "Unlimited")
+                {
+                    MerchantTransaction merchantTransaction = new MerchantTransaction(vid, "ADSL_UNLIMITED", destmobile, Convert.ToInt32(validTransactionData.Amount), validTransactionData.SourceMobile, validTransactionData.TraceId, "P", validTransactionData.CreatedDate, "", "", mobile, validTransactionData.createdTimeDate);
+
+                    PassDataToMerchantTransactionController(merchantTransaction); //insert merchantdetail to db and status to pending
+                                                                                  // string topUpResult =TopupMerchantVerfication(merchantTransaction);
+                    Task<string> topUpResult = ADSLUnlimitedTopupMerchantVerfication(merchantTransaction); // call soapRequest function
+                    
+                    //string responseCode = topUpResult.ToString();
+
+                    string topupId = "";
+                    string topupStatus = "";
+                    string topupResult = "";
+
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Console.WriteLine("Sleep for 1 second!");
+
+                        topupId = topUpResult.Id.ToString();
+                        topupStatus = topUpResult.Status.ToString();
+                        topupResult = topUpResult.Result.ToString();
+
+                        Thread.Sleep(1000);
+                    }
+
+                    if (topupResult == "000")
+                    {
+                        SMSSend(mobile, destmobile, Convert.ToInt32(validTransactionData.Amount), getMerchantName);//mobile,destmobile, amount
+                    }
+                    else if ((topupId != "00") && (topupResult != "000"))
+                    {
+                        string merchantmobile = fundtransfer.da;
+
+                        TopupPaymentReverse(sc, vid, mobile, destmobile, merchantmobile, amount, pin, tid);
+                    }
+
+                }
+                //FOR ADSL VOLUME BASED
+                if (vid == "1" && statusCode == "200" && selectADSL == "VolumeBased")
+                {
+                    MerchantTransaction merchantTransaction = new MerchantTransaction(vid, "ADSL_VOLUMEBASED", destmobile, Convert.ToInt32(validTransactionData.Amount), validTransactionData.SourceMobile, validTransactionData.TraceId, "P", validTransactionData.CreatedDate, "", "", mobile, validTransactionData.createdTimeDate);
+
+                    PassDataToMerchantTransactionController(merchantTransaction); //insert merchantdetail to db and status to pending
+                                                                                  // string topUpResult =TopupMerchantVerfication(merchantTransaction);
+                    Task<string> topUpResult = ADSLVolBasedTopupMerchantVerfication(merchantTransaction); // call soapRequest function
+
+                    //string responseCode = topUpResult.ToString();
+
+                    string topupId = "";
+                    string topupStatus = "";
+                    string topupResult = "";
+
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Console.WriteLine("Sleep for 1 second!");
+
+                        topupId = topUpResult.Id.ToString();
+                        topupStatus = topUpResult.Status.ToString();
+                        topupResult = topUpResult.Result.ToString();
+
+                        Thread.Sleep(1000);
+                    }
+
+                    if (topupResult == "000")
+                    {
+                        SMSSend(mobile, destmobile, Convert.ToInt32(validTransactionData.Amount), getMerchantName);//mobile,destmobile, amount
+                    }
+                    else if ((topupId != "00") && (topupResult != "000"))
+                    {
+                        string merchantmobile = fundtransfer.da;
+
+                        TopupPaymentReverse(sc, vid, mobile, destmobile, merchantmobile, amount, pin, tid);
+                    }
+
+                }
+
+            //}
 
             return result;
 
         }
+
+
         public string PassDataToMerchantTransactionController(MerchantTransaction userInfo)
         {
             string results = "false";
@@ -832,6 +1025,7 @@ namespace WCF.MNepal
         #endregion
 
         #region Verify Merchant
+
         public async Task<string> TopupMerchantVerfication(MerchantTransaction mNTransaction)
         {
             MerchantReference.CommonInterfaceSoapClient commonInterfaceSoapClient = new MerchantReference.CommonInterfaceSoapClient();
@@ -840,10 +1034,12 @@ namespace WCF.MNepal
             MerchantReference.RequestData input = new MerchantReference.RequestData();
 
             MerchantReference.SubmitRequestResponse submitRequestResponse = new MerchantReference.SubmitRequestResponse();
+            //Testing Header NCELL
             //HeaderInfo.H1 = "1";
             //HeaderInfo.H2 = "98FE1564-1E60-4C58-9CB1-5E36E0094407";
             //HeaderInfo.H3 = "D546D65E-D8B9-4Ef8-9842-3C6d522cFCC3";
 
+            ////Live Header NCELL
             HeaderInfo.H1 = "5";
             HeaderInfo.H2 = "5C86A0ED-8542-43D3-8E08-64048F8EF104";
             HeaderInfo.H3 = "36484FA3-AD31-4C25-8617-56BC3205B3A5";
@@ -864,7 +1060,9 @@ namespace WCF.MNepal
 
             submitRequestResponse = await commonInterfaceSoapClient.SubmitRequestAsync(HeaderInfo, submitRequest.serviceId, submitRequest.serviceCode, input);
             string responseCode = submitRequestResponse.SubmitRequestResult.ResultCode;
+
             string resultDescription = submitRequestResponse.SubmitRequestResult.ResultDescription;
+
             if (responseCode != "")
             {
                 if (responseCode == "000") { mNTransaction.Status = "T"; } else { mNTransaction.Status = "F"; }
@@ -890,7 +1088,7 @@ namespace WCF.MNepal
             string serviceCode = "POSTPAID";
 
             //NT PREPAID Check
-            if (mobNumber.Substring(0,3) == "984" || mobNumber.Substring(0, 3) == "986")
+            if (mobNumber.Substring(0, 3) == "984" || mobNumber.Substring(0, 3) == "986")
             {
                 serviceCode = "PREPAID";
             }
@@ -1045,6 +1243,750 @@ namespace WCF.MNepal
                 return true;
             }
             return false;
+        }
+
+
+        public string TopupPaymentReverse(string sc, string vid, string mobile, string destmobile, string merchantmobile, string amount, string pin, string retRef)
+        {
+            //string sc = qs["sc"];sc, vid, mobile, destmobile, merchantmobile, amount, pin, merchantpin
+            //string vid = qs["vid"];
+            //string mobile = qs["mobile"];  // user's mobile number
+            //string destmobile = qs["destmobile"];  // destination's mobile number or topup no
+            //string amount = qs["amount"];
+            
+            string tid = "";// qs["tid"];
+            string note = "RetRef: " + retRef + " Rev.:" + destmobile + "-" + mobile;// qs["note"];
+            string src = "http";// qs["src"];
+            string sessionID = "";//qs["tokenID"];
+            string selectADSL = "";//qs["selectADSL"]; //Unlimited //VolumeBased
+
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
+
+            string result = "";
+            string getMerchantName = "";
+
+            ReplyMessage replyMessage = new ReplyMessage();
+
+            CustActivityModel custsmsInfo = new CustActivityModel();
+            //Utility Payment / TOPUP REVERSE
+            if (sc == "31") //" Topup Wallet Check ";
+            {
+                sc = "10"; 
+            }
+            else if (sc == "34") //" Topup Bank Check ";
+            {
+                sc = "11";
+            }
+
+            FundTransfer fundtransferRev = new FundTransfer
+            {
+                tid = tid,
+                sc = sc,
+                mobile = merchantmobile, //mobile, //
+                da = mobile,//da
+                amount = amount,
+                pin = pin,
+                vid = vid,
+                note = note,
+                sourcechannel = src
+            };
+
+            ThreadPool.QueueUserWorkItem(BackgroundTaskWithObject, fundtransferRev);
+
+            MNTransactionMaster validTransactionData = new MNTransactionMaster();
+            
+            string statusCode = "";
+            string message = string.Empty;
+            string failedmessage = string.Empty;
+
+            //if (TokenGenerator.TokenChecker(sessionID, mobile, src) == false)
+            //{
+            //    // throw ex
+            //    statusCode = "400";
+            //    message = "Session expired. Please login again";
+            //    failedmessage = message;
+            //}
+            //else
+            //{
+                if ((sc == null) || (mobile == null) || (vid == null) || (amount == null) || (pin == null) ||
+                (src == null) || (double.Parse(amount) <= 0))
+                {
+                    // throw ex
+                    statusCode = "400";
+                    message = "Parameters Missing/Invalid";
+                }
+                else if ((vid == "1" || vid == "7") && !checkLandline(destmobile))
+                {
+                    statusCode = "400";
+                    message = "Please enter valid Number";
+                }
+                else
+                {
+                //TransLimitCheck transLimitCheck = new TransLimitCheck();
+                //string resultTranLimit = transLimitCheck.LimitCheck(mobile, destmobile, amount, sc, pin, src);
+
+                //var jsonDataResult = JObject.Parse(resultTranLimit);
+                //statusCode = jsonDataResult["StatusCode"].ToString();
+                //string statusMsg = jsonDataResult["StatusMessage"].ToString();
+                //message = jsonDataResult["StatusMessage"].ToString();
+                //failedmessage = message;
+
+                TranIDCheck tranIDCheck = new TranIDCheck();
+                string resultTranID = tranIDCheck.GetTranIDCheck(retRef);
+
+                    string TopUpRev = "T";
+                    //start top reverse
+
+                    if (TopUpRev == "T")
+                    {
+                        
+                        //if ((statusCode == "200") && (statusMsg == "Success") && (statusCode != "400"))
+                        //{
+                            do
+                            {
+                                TraceIdGenerator traceid = new TraceIdGenerator();
+                                tid = traceid.GenerateUniqueTraceID();
+                                fundtransferRev.tid = tid;
+
+                                bool traceIdCheck = false;
+                                traceIdCheck = TraceIdCheck.IsValidTraceId(fundtransferRev.tid);
+                                if (traceIdCheck == true)
+                                {
+                                    result = "Trace ID Repeated";
+                                }
+                                else
+                                {
+                                    result = "false";
+                                }
+
+                            } while (result == "Trace ID Repeated");
+
+                            //// START MERCHANT DETAIL & REMARK ////
+                            ///<summary>
+                            /// GET MERCHANT DETAIL
+                            /// </summary>
+                            MNMerchantsController getMerchantDetails = new MNMerchantsController();
+
+                            string getMerchantMobile = getMerchantDetails.PassVidToGetMerchantDetail(vid);
+                            if ((getMerchantMobile != "") || (getMerchantMobile != null))
+                            {
+                                fundtransferRev.da = getMerchantMobile; //Set Destination Merchant Mobile number
+
+                                getMerchantName = getMerchantDetails.PassVIdToGetMerchantName(vid);
+                                if (getMerchantName.Equals("NT Topup"))
+                                {
+                                    getMerchantName = "NTC";
+                                }
+
+                                if (getMerchantName.Equals("NT ADSL"))
+                                {
+                                    getMerchantName = "ADSL";
+                                }
+
+                                if (getMerchantName.Equals("NT PSTN"))
+                                {
+                                    getMerchantName = "Landline";
+                                }
+
+                            }
+                            else
+                            {
+                                statusCode = "500";
+                                replyMessage.Response = "Destination Merchant Doesnot Exists";
+                                replyMessage.ResponseStatus(HttpStatusCode.BadRequest, replyMessage.Response);
+                                result = replyMessage.Response;
+                                message = replyMessage.Response;
+                                failedmessage = message;
+                            }
+
+                    //Reversal for service name to service no. for transaction ID:xxxxxxxxx & ref no.:xxxxxxxxxxx
+                    string remarkMerchant = string.Empty;
+                    if (sc == "11")
+                    {
+                        resultTranID = retRef.Substring(retRef.Length - 6, 6);
+                        remarkMerchant = "Reversal for " + getMerchantName + " to " + mobile + " for Trace No: " + resultTranID;
+                    }
+                    if (sc == "10")
+                    {
+                        remarkMerchant = "Reversal for " + getMerchantName + " to " + mobile + " for Tran ID: " + resultTranID;
+                    }
+                    
+
+                            //// END MERCHANT DETAIL & REMARK ////
+
+                            ////start:Com focus one log////
+
+                            MNFundTransfer mnft = new MNFundTransfer(fundtransferRev.tid, fundtransferRev.sc, fundtransferRev.mobile,
+                                fundtransferRev.sa, fundtransferRev.amount, mobile, fundtransferRev.note, fundtransferRev.pin,
+                                fundtransferRev.sourcechannel, "T", remarkMerchant);
+                            var comfocuslog = new MNComAndFocusOneLog(mnft, DateTime.Now);
+                            var mncomfocuslog = new MNComAndFocusOneLogsController();
+                            result = mncomfocuslog.InsertIntoComFocusOne(comfocuslog);
+                            ////end:Com focus one log//
+
+                            if (result == "Success")
+                            {
+                                //NOTE:- may be need to validate before insert into reply typpe
+                                //start:insert into reply type as HTTP//
+                                var replyType = new MNReplyType(fundtransferRev.tid, "HTTP");
+                                var mnreplyType = new MNReplyTypesController();
+                                mnreplyType.InsertIntoReplyType(replyType);
+                                //end:insert into reply type as HTTP//
+
+                                
+                                string notedDestmobile = "Topup for " + getMerchantName + " - " + destmobile;
+                                string description1 = "";
+                                if (vid == "2")//NTTOPUP
+                                {
+                                    description1 = "Thaili NT TopUp(" + destmobile + ")";
+                                }
+
+
+                        MNFundTransfer mnftWithMerchant = new MNFundTransfer(fundtransferRev.tid, fundtransferRev.sc,
+                                    fundtransferRev.mobile, fundtransferRev.sa, fundtransferRev.amount, fundtransferRev.da, notedDestmobile,
+                                    fundtransferRev.pin, fundtransferRev.sourcechannel, "T", "Rev. Topup"); //Revese & MerchantType
+                        
+
+                                //start:insert into transaction master//
+                                if (mnft.valid() && mnftWithMerchant.valid())
+                                {
+                                    var transaction = new MNTransactionMaster(mnft);
+                                    ////var transaction = new MNTransactionMaster(mnftWithMerchant, vid, description1, "T");
+                                    var mntransaction = new MNTransactionsController();
+                                    validTransactionData = mntransaction.Validate(transaction, mnftWithMerchant.pin);
+                                    result = validTransactionData.Response;
+
+                                    /********/
+                                    ErrorMessage em = new ErrorMessage();
+                                    if (validTransactionData.Response == "Error")
+                                    {
+                                        mnft.Response = "error";
+                                        mnft.ResponseStatus(HttpStatusCode.InternalServerError, "Internal server error - try again later, or contact support");
+                                        result = mnft.Response;
+                                        statusCode = "500";
+                                        message = "Internal server error - try again later, or contact support";
+                                        failedmessage = message;
+                                    }
+                                    else
+                                    {
+                                        if ((result == "Trace ID Repeated") || (result == "Limit Exceed")
+                                            || (result == "Invalid Source User") || (result == "Invalid Destination User")
+                                            || (result == "Invalid Product Request") || (result == "Please try again") || (result == ""))
+                                        {
+                                            statusCode = "400";
+                                            message = result;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, "parameters missing/invalid");
+                                            failedmessage = result;
+                                        }
+                                        if (result == "Invalid PIN")
+                                        {
+                                            statusCode = "400";
+                                            message = result + " " + pin;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, "Invalid Pin");
+                                            failedmessage = result + pin;
+                                        }
+                                        if (result == "111")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_111/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "114")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_114/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "115")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_115/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "116")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_116/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "119")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_119/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "121")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_121/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "163")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_163/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "180")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_180/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "181")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_181/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "182")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_182/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "183")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_183/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "184")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_184/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "185")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_185/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "186")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_186/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "187")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_187/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "188")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_188/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "189")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_189/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "190")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_190/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "800")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_800/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "902")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_902/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "904")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_904/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "906")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_906/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "907")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_907/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "909")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_909/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "911")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_911/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "913")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_913/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "90")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_90/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "91")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_91/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "92")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_92/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "94")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_94/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "95")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_95/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "98")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_98/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        if (result == "99")
+                                        {
+                                            statusCode = result;
+                                            message = em.Error_99/* + " " + result*/;
+                                            failedmessage = message;
+                                            mnft.ResponseStatus(HttpStatusCode.BadRequest, result);
+                                        }
+                                        else if (validTransactionData.ResponseCode == "OK")
+                                        {
+                                            statusCode = "200";
+                                            mnft.ResponseStatus(HttpStatusCode.OK, "Success");
+                                            var v = new
+                                            {
+                                                StatusCode = Convert.ToInt32(statusCode),
+                                                StatusMessage = result
+                                            };
+                                            result = JsonConvert.SerializeObject(v);
+                                        }
+
+                                    }
+                                }
+                                else
+                                {
+                                    mnft.Response = "error";
+                                    mnft.ResponseStatus(HttpStatusCode.BadRequest, "parameters missing/invalid");
+                                    result = mnft.Response;
+                                    statusCode = "400";
+                                    message = "parameters missing/invalid";
+                                    failedmessage = message;
+                                }
+
+                                //end:insert into transaction master//
+                            }
+
+                            else
+                            {
+                                mnft.Response = "Data Insertion Failed in Check DB Connection: TraceID limit might have exceeded";
+                                mnft.ResponseStatus(HttpStatusCode.InternalServerError, replyMessage.Response);
+                                result = mnft.Response;
+                                failedmessage = result;
+                            }
+
+                            //TopupReverse Msg
+                            OutgoingWebResponseContext response = WebOperationContext.Current.OutgoingResponse;
+
+                            if (response.StatusCode == HttpStatusCode.OK)
+                            {
+                                try
+                                {
+                                    var jsonData = JObject.Parse(result);
+                                    var amtTransfer = jsonData["AmounttransferredBalance"];
+
+                                    //Sender
+                                    string messagereply = "Dear " + CustCheckUtils.GetName(mobile) + "," + "\n";
+                                    messagereply += getMerchantName + " successfully reverse NPR "
+                                                    + validTransactionData.Amount + "." + "\n"; //destmobile
+                                    messagereply += "Thank you. MNepal";
+
+                                    //Receiver
+                                    //string messagereplyReceiver = "Dear Customer," + "\n";
+                                    string messagereplyReceiver = "Dear " + CustCheckUtils.GetName(destmobile) + "," + "\n";
+                            messagereplyReceiver += getMerchantName + " was successfully reeversed with amount NPR "
+                                                    + validTransactionData.Amount
+                                                    + "." + "\n";
+                                    messagereplyReceiver += "Thank you. MNepal";
+
+                                    var client = new WebClient();
+
+                                    if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
+                                    {
+                                        //FOR NCELL
+                                        //var content = client.DownloadString(
+                                        //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                        //    + "977" + mobile + "&Text=" + messagereply + "");
+
+                                        var content = client.DownloadString(
+                                            SMSNCELL + "977" + mobile + "&Text=" + messagereply + "");
+                                    }
+                                    else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
+                                                || (mobile.Substring(0, 3) == "986"))
+                                    {
+                                        //FOR NTC
+                                        //var content = client.DownloadString(
+                                        //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                        //    + "977" + mobile + "&Text=" + messagereply + "");
+
+                                        var content = client.DownloadString(
+                                                SMSNTC + "977" + mobile + "&Text=" + messagereply + "");
+                                    }
+
+                                    ////For destmobile
+                                    //string mobileReceiver = destmobile;
+                                    //if ((mobileReceiver.Substring(0, 3) == "980") || (mobileReceiver.Substring(0, 3) == "981")) //FOR NCELL
+                                    //{
+                                    //    //FOR NCELL
+                                    //    var content = client.DownloadString(
+                                    //        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                                    //        + "977" + mobileReceiver + "&Text=" + messagereplyReceiver + "");
+                                    //}
+                                    //else if ((mobileReceiver.Substring(0, 3) == "985") || (mobileReceiver.Substring(0, 3) == "984")
+                                    //            || (mobileReceiver.Substring(0, 3) == "986"))
+                                    //{
+                                    //    //FOR NTC
+                                    //    var content = client.DownloadString(
+                                    //        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                                    //        + "977" + mobileReceiver + "&Text=" + messagereplyReceiver + "");
+                                    //}
+
+
+                                    custsmsInfo = new CustActivityModel()
+                                    {
+                                        UserName = mobile,
+                                        RequestMerchant = getMerchantName,
+                                        DestinationNo = destmobile,
+                                        Amount = validTransactionData.Amount.ToString(),
+                                        SMSStatus = "Success",
+                                        SMSSenderReply = messagereply,
+                                        ErrorMessage = "",
+                                    };
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw ex;
+                                }
+                            }
+                            else if ((response.StatusCode == HttpStatusCode.BadRequest) || (response.StatusCode == HttpStatusCode.InternalServerError) || (statusCode != "200"))
+                            {
+                                custsmsInfo = new CustActivityModel()
+                                {
+                                    UserName = mobile,
+                                    RequestMerchant = getMerchantName,
+                                    DestinationNo = destmobile,
+                                    Amount = validTransactionData.Amount.ToString(),
+                                    SMSStatus = "Failed",
+                                    SMSSenderReply = "",
+                                    ErrorMessage = failedmessage,
+                                };
+                            }
+
+                    }
+                    //end topup reverse
+
+
+
+                    try
+                    {
+                        int results = CustActivityUtils.RegisterCustActivityInfo(custsmsInfo);
+                        if (results > 0)
+                        {
+                            if (statusCode != "200")
+                            {
+                                result = message;
+                                message = result;
+                            }
+                            else
+                            {
+                                message = result;
+                            }
+
+                        }
+                        else
+                        {
+                            message = result;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        string ss = ex.Message;
+                        message = result;
+                    }
+
+                }
+            //}
+
+
+            /*For Status Code*/
+            if (statusCode == "")
+            {
+                result = result.ToString();
+            }
+            else if (statusCode != "200")
+            {
+                if (message == "")
+                {
+                    message = "Insufficient Balance";
+                }
+                var v = new
+                {
+                    StatusCode = Convert.ToInt32(statusCode),
+                    StatusMessage = message
+                };
+                result = JsonConvert.SerializeObject(v);
+            }
+
+            return result;
+
+        }
+
+
+        public string SMSSend(string mobile, string destmobile, int amount, string getMerchantName)
+        {
+            CustActivityModel custsmsInfo = new CustActivityModel();
+            try
+            {
+                //Sender
+                string messagereply = "Dear " + CustCheckUtils.GetName(mobile) + "," + "\n";
+                messagereply += getMerchantName + " successful NPR "
+                                + amount
+                                + "." + "\n";
+                messagereply += "Thank you. MNepal";
+
+                //Receiver
+                string messagereplyReceiver = "Dear Customer," + "\n";
+                messagereplyReceiver += getMerchantName + " was successfully transferred with amount NPR "
+                                + amount
+                                + "." + "\n";
+                messagereplyReceiver += "Thank you. MNepal";
+
+                var client = new WebClient();
+
+                if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
+                {
+                    //FOR NCELL
+                    var content = client.DownloadString(
+                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                        + "977" + mobile + "&Text=" + messagereply + "");
+                }
+                else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
+                            || (mobile.Substring(0, 3) == "986"))
+                {
+                    //FOR NTC
+                    var content = client.DownloadString(
+                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                        + "977" + mobile + "&Text=" + messagereply + "");
+                }
+
+                //For destmobile
+                string mobileReceiver = destmobile;
+                if ((mobileReceiver.Substring(0, 3) == "980") || (mobileReceiver.Substring(0, 3) == "981")) //FOR NCELL
+                {
+                    //FOR NCELL
+                    var content = client.DownloadString(
+                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                        + "977" + mobileReceiver + "&Text=" + messagereplyReceiver + "");
+                }
+                else if ((mobileReceiver.Substring(0, 3) == "985") || (mobileReceiver.Substring(0, 3) == "984")
+                            || (mobileReceiver.Substring(0, 3) == "986"))
+                {
+                    //FOR NTC
+                    var content = client.DownloadString(
+                        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                        + "977" + mobileReceiver + "&Text=" + messagereplyReceiver + "");
+                }
+
+
+                custsmsInfo = new CustActivityModel()
+                {
+                    UserName = mobile,
+                    RequestMerchant = getMerchantName,
+                    DestinationNo = destmobile,
+                    Amount = amount.ToString(),
+                    SMSStatus = "Success",
+                    SMSSenderReply = messagereply,
+                    ErrorMessage = "",
+                };
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return "true";
+
         }
 
 

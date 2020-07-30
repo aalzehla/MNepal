@@ -1,0 +1,71 @@
+﻿@model IEnumerable<MNepalWeb.ViewModel.MerchantAcDetail>
+@{
+    Layout = null;
+}
+
+
+<div class="row">
+
+</div>
+
+
+@if (Model != null)
+{
+    if (Model.Count() > 0)
+    {
+        <a href="@Url.Action("GetReport", "Report",new {Key= "MerchantDetail",Format="xlx",FileName="Merchant_Account_Activity"})" target="_blank">
+            <span class="fa fa-2x fa-file-excel-o pull-right" style="color:green" title="To Excel"></span>
+        </a>
+    @*<span class="fa fa-2x fa-file-pdf-o pull-right" style="color:red" title="To PDF"></span>*@
+        <div id="table">
+            <table class="table table-bordered sticky-header">
+                <thead style="font-weight: bold;">
+                    <tr>
+                        <th>Transaction Date</th>
+                        <th>Transaction Type</th>
+                        <th>Source</th>
+                        <th>Amount</th>
+                        <th>TranId</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.TransactionDate</td>
+                            <td>@item.TransactionType</td>
+                            <td>@item.UserName</td>
+                            <td style="text-align:right;">@item.Amount</td>
+                            <td>@item.TranId</td>
+                        </tr>
+                    }
+
+                </tbody>
+
+
+
+
+
+
+            </table>
+        </div>
+    }
+    else
+    {
+        <h5>No Record(s) Found.</h5>
+    }
+}
+else
+{
+    <h5>No Record(s) Found.</h5>
+}
+
+<script type="text/javascript">
+    //$('#ToExcel').click(function () {
+    //    var fileName = $('#Merchant option:selected').text();
+    //    var d = new Date;
+    //    fileName = "Merchant_" + fileName + "_" + d.toLocaleDateString();
+    //    ToExcel('table', false, fileName);
+
+    //});
+</script>

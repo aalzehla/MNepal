@@ -15,6 +15,7 @@ namespace MNepalWeb.Models
         public string Role { get; set; }
 
         public string BranchCode { get; set; }
+        public string Updates { get; set; }
 
         public string Description { get; set; }
 

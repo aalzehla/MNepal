@@ -1,0 +1,2647 @@
+﻿@{
+    ViewBag.Title = "ViewMerchant";
+
+    var srcfront = "";
+    var srcback = "";
+    var srcPP = "";
+    var srcRegCerti = "";
+    var srcTaxClearFront = "";
+    var srcTaxClearBack = "";
+
+    string _ImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["ImageAddress"];
+    string _ApiImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["WCFImageAddress"];
+    string _SuperAdminImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["SuperAdmin"];
+
+    var PP = "";
+
+    
+    PP = _ApiImageSaveUrl + "Content/Upload";
+
+
+
+    if (Model.FrontImage == null && Model.BackImage == null && Model.PassportImage == null)
+    {
+        srcfront = _SuperAdminImageSaveUrl + "Content/assets/img/citizenship1.jpg";
+        srcback = _SuperAdminImageSaveUrl + "Content/assets/img/citizenship2.jpg";
+        srcPP = _SuperAdminImageSaveUrl + "Images/default_image.png";
+    }
+    else
+    {
+        srcfront = _ApiImageSaveUrl + "Content/Upload/" + Model.FrontImage;
+        srcback = _ApiImageSaveUrl + "Content/Upload/" + Model.BackImage;
+        srcPP = _ApiImageSaveUrl + "Content/Upload/" + Model.PassportImage;
+        srcRegCerti = _ApiImageSaveUrl + "Content/Upload/" + Model.RegCertificateImage;
+        srcTaxClearFront = _ApiImageSaveUrl + "Content/Upload/" + Model.TaxClearFrontImage;
+        srcTaxClearBack = _ApiImageSaveUrl + "Content/Upload/" + Model.TaxClearBackImage;
+
+    }
+}
+
+@model MNSuperadmin.Models.UserInfo
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Merchant
+        <small>View Merchant Details</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Merchant</a></li>
+        <li class="active"> Merchant Details</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+            
+
+        <!-- /.box-header -->
+
+        @using (Html.BeginForm("ApproveMerchantModify", "Merchant", FormMethod.Post, new { @id = "ApproveMerchantModify", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            if (this.ViewData["merchant_messsage"] != null)
+            {
+                if (this.ViewData["message_class"].ToString() == "success_info")
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Success</h4> @this.ViewData["merchant_messsage"]
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Error</h4> @this.ViewData["merchant_messsage"]
+                    </div>
+                }
+            }
+            <!-- Start -->
+
+            <div class="col-xs-10">               
+            </div>
+            <div class="box box-info" style="display:none;">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Information</h3>
+                </div>
+
+
+
+
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6" style="display:none">
+                            <div class="form-group">
+                                <label>ClientCode</label>
+                                @Html.EditorFor(model => model.ClientCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>                        
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Login Detail</h3>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">User Name:<b style="color:red;">*</b></label>
+                                <div class="col-sm-7">
+                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">User Type:<b style="color:red;">*</b></label>
+                                <div class="col-sm-7">
+                                    @Html.EditorFor(model => model.UserType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label col-sm-8">Current Status :<b style="color:red;"> @Model.IsApproved</b></label>
+
+                               
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+           
+            <!-- /.box -->
+
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Profile</h3>
+                </div><br/>
+                <div class="col-md-12">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-5" style="font-weight:bold; color:green">Before</div>
+                    <div class="col-md-5" style="font-weight:bold; color:red">After</div>
+                </div><br />
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">First Name:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "FName" && item.NewValue != Model.FName)
+                                            {
+                                                <input type="text" class="form-control" id="FName" name="FName" value="@Model.FName" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="FName" name="FName" value="@Model.FName" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "FName" && item.NewValue != Model.FName)
+                                            {
+                                                <input type="text" class="form-control" id="FName" name="FName" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="FName" name="FName" value="@Model.FName" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">Middle Name:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "MName" && item.NewValue != Model.MName)
+                                            {
+                                                <input type="text" class="form-control" id="MName" name="MName" value="@Model.MName" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="MName" name="MName" value="@Model.MName" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "MName" && item.NewValue != Model.MName)
+                                            {
+                                                <input type="text" class="form-control" id="MName" name="MName" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="MName" name="MName" value="@Model.MName" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">Last Name:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "LName" && item.NewValue != Model.LName)
+                                            {
+                                                <input type="text" class="form-control" id="LName" name="LName" value="@Model.LName" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="LName" name="LName" value="@Model.LName" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "LName" && item.NewValue != Model.LName)
+                                            {
+                                                <input type="text" class="form-control" id="LName" name="LName" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="LName" name="LName" value="@Model.LName" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">Business Name:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "BusinessName" && item.NewValue != Model.BusinessName)
+                                            {
+                                                <input type="text" class="form-control" id="BusinessName" name="BusinessName" value="@Model.BusinessName" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="BusinessName" name="BusinessName" value="@Model.BusinessName" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "BusinessName" && item.NewValue != Model.BusinessName)
+                                            {
+                                                <input type="text" class="form-control" id="BusinessName" name="BusinessName" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="BusinessName" name="BusinessName" value="@Model.BusinessName" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">Website Name:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "WebsiteName" && item.NewValue != Model.WebsiteName)
+                                            {
+                                                <input type="text" class="form-control" id="WebsiteName" name="WebsiteName" value="@Model.WebsiteName" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="WebsiteName" name="WebsiteName" value="@Model.WebsiteName" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "WebsiteName" && item.NewValue != Model.WebsiteName)
+                                            {
+                                                <input type="text" class="form-control" id="WebsiteName" name="WebsiteName" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="WebsiteName" name="WebsiteName" value="@Model.WebsiteName" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">Merchant Category:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "catid" && item.NewValue != Model.MerchantCategory)
+                                            {
+                                                <input type="text" class="form-control" id="MerchantCategory" name="MerchantCategory" value="@Model.MerchantCategory" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="MerchantCategory" name="MerchantCategory" value="@Model.MerchantCategory" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "catid" && item.NewValue != Model.MerchantCategory)
+                                            {
+                                                <input type="text" class="form-control" id="MerchantCategory" name="MerchantCategory" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="MerchantCategory" name="MerchantCategory" value="@Model.MerchantCategory" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">Status:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "Status" && item.NewValue != Model.Status)
+                                            {
+                                                <input type="text" class="form-control" id="Status" name="Status" value="@Model.Status" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="Status" name="Status" value="@Model.Status" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "Status" && item.NewValue != Model.Status)
+                                            {
+                                                <input type="text" class="form-control" id="Status" name="Status" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="Status" name="Status" value="@Model.Status" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                      
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" style="display:none">
+                                <label class="control-label col-sm-3">IsApproved:<b style="color:red;">*</b></label>
+                                <div class="col-sm-9">
+                                    <div class="radio radio-primary">
+                                        <label>
+                                            <input type="radio" name="txtIsApproved" id="IsApproved" value="UnApprove" class="btn btn-success" disabled /> UnApprove
+                                        </label>
+                                        &nbsp;
+                                        <label>
+                                            <input type="radio" name="txtIsApproved" id="IsApproved1" autocomplete="off" value="Approve" checked class="btn btn-default" /> Approve
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="display:none;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">IsRejected:<b style="color:red;">*</b></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control select2" id="IsRejected" name="txtIsRejected"
+                                            style="width: 100%;" disabled>
+                                        <option value="T" disabled>True</option>
+                                        <option value="F" selected="selected">False</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Address Information</h3>
+                </div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-5" style="font-weight:bold; color:green">Before</div>
+                    <div class="col-md-5" style="font-weight:bold; color:red">After</div>
+                </div><br />
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Street/Tole/Road:
+                                </label>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PStreet" && item.NewValue != Model.PStreet)
+                                            {
+                                                <input type="text" class="form-control" id="PStreet" name="PStreet" value="@Model.PStreet" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PStreet" name="PStreet" value="@Model.PStreet" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PStreet" && item.NewValue != Model.PStreet)
+                                            {
+                                                <input type="text" class="form-control" id="PStreet" name="PStreet" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PStreet" name="PStreet" value="@Model.PStreet" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    VDC/Municipality:
+                                </label>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PMunicipalityVDC" && item.NewValue != Model.PVDC)
+                                            {
+                                                <input type="text" class="form-control" id="PVDC" name="PVDC" value="@Model.PVDC" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PVDC" name="PVDC" value="@Model.PVDC" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PMunicipalityVDC" && item.NewValue != Model.PVDC)
+                                            {
+                                                <input type="text" class="form-control" id="PVDC" name="PVDC" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PVDC" name="PVDC" value="@Model.PVDC" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    House No:
+                                </label>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PHouseNo" && item.NewValue != Model.PHouseNo)
+                                            {
+                                                <input type="text" class="form-control" id="PHouseNo" name="PHouseNo" value="@Model.PHouseNo" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PHouseNo" name="PHouseNo" value="@Model.PHouseNo" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PHouseNo" && item.NewValue != Model.PHouseNo)
+                                            {
+                                                <input type="text" class="form-control" id="PHouseNo" name="PHouseNo" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PHouseNo" name="PHouseNo" value="@Model.PHouseNo" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Ward No:
+                                </label>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PWardNo" && item.NewValue != Model.PWardNo)
+                                            {
+                                                <input type="text" class="form-control" id="PWardNo" name="PWardNo" value="@Model.PWardNo" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PWardNo" name="PWardNo" value="@Model.PWardNo" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PWardNo" && item.NewValue != Model.PWardNo)
+                                            {
+                                                <input type="text" class="form-control" id="PWardNo" name="PWardNo" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PWardNo" name="PWardNo" value="@Model.PWardNo" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Province:
+                                </label>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PProvince" && item.NewValue != Model.PProvince)
+                                            {
+                                                <input type="text" class="form-control" id="PProvince" name="PProvince" value="@Model.PProvince" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PProvince" name="PProvince" value="@Model.PProvince" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PProvince" && item.NewValue != Model.PProvince)
+                                            {
+                                                <input type="text" class="form-control" id="PProvince" name="PProvince" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PProvince" name="PProvince" value="@Model.PProvince" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    District:
+                                </label>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PDistrictID" && item.NewValue != Model.PDistrictID)
+                                            {
+                                                <input type="text" class="form-control" id="PDistrictID" name="PDistrictID" value="@Model.PDistrictID" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PDistrictID" name="PDistrictID" value="@Model.PDistrictID" readonly />
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PDistrictID" && item.NewValue != Model.PDistrictID)
+                                            {
+                                                <input type="text" class="form-control" id="PDistrictID" name="PDistrictID" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PDistrictID" name="PDistrictID" value="@Model.PDistrictID" readonly />
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    
+                    <br />                
+                </div>
+            </div>
+
+            <!-- /.box -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Contact Information</h3>
+                </div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-5" style="font-weight:bold; color:green">Before</div>
+                    <div class="col-md-5" style="font-weight:bold; color:red">After</div>
+                </div><br />
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">ContactNumber1:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "ContactNumber1" && item.NewValue != Model.ContactNumber1)
+                                            {
+                                                <input type="text" class="form-control" id="ContactNumber1" name="ContactNumber1" value="@Model.ContactNumber1" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="ContactNumber1" name="ContactNumber1" value="@Model.ContactNumber1" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "ContactNumber1" && item.NewValue != Model.ContactNumber1)
+                                            {
+                                                <input type="text" class="form-control" id="ContactNumber1" name="ContactNumber1" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="ContactNumber1" name="ContactNumber1" value="@Model.ContactNumber1" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">ContactNumber2:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "ContactNumber2" && item.NewValue != Model.ContactNumber2)
+                                            {
+                                                <input type="text" class="form-control" id="ContactNumber2" name="ContactNumber2" value="@Model.ContactNumber2" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="ContactNumber2" name="ContactNumber2" value="@Model.ContactNumber2" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "ContactNumber2" && item.NewValue != Model.ContactNumber2)
+                                            {
+                                                <input type="text" class="form-control" id="ContactNumber2" name="ContactNumber2" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="ContactNumber2" name="ContactNumber2" value="@Model.ContactNumber2" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">Landline Number:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "LandlineNumber" && item.NewValue != Model.LandlineNumber)
+                                            {
+                                                <input type="text" class="form-control" id="LandlineNumber" name="LandlineNumber" value="@Model.LandlineNumber" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="LandlineNumber" name="LandlineNumber" value="@Model.LandlineNumber" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "LandlineNumber" && item.NewValue != Model.LandlineNumber)
+                                            {
+                                                <input type="text" class="form-control" id="LandlineNumber" name="LandlineNumber" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="LandlineNumber" name="LandlineNumber" value="@Model.LandlineNumber" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12"> Email Address:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "EmailAddress" && item.NewValue != Model.EmailAddress)
+                                            {
+                                                <input type="text" class="form-control" id="EmailAddress" name="EmailAddress" value="@Model.EmailAddress" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="EmailAddress" name="EmailAddress" value="@Model.EmailAddress" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "EmailAddress" && item.NewValue != Model.EmailAddress)
+                                            {
+                                                <input type="text" class="form-control" id="EmailAddress" name="EmailAddress" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="EmailAddress" name="EmailAddress" value="@Model.EmailAddress" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <br />                    
+                </div>
+                <!-- /.box-body -->
+            </div>
+
+            <!-- /.box -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Bank Information</h3>
+                </div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-5" style="font-weight:bold; color:green">Before</div>
+                    <div class="col-md-5" style="font-weight:bold; color:red">After</div>
+                </div><br />
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <label class="control-label col-sm-12">BankAccountNumber:</label>
+                            </div>
+                            <div class="col-md-5">
+                                @if (Model.MakerChecker.Count() > 0)
+                                {
+                                    int a = 1;
+                                    foreach (var item in Model.MakerChecker)
+                                    {
+                                        if (item.Code == Model.ClientCode && item.ColumnName == "BankAccountNumber" && item.NewValue != Model.BankAccountNumber)
+                                        {
+                                            <input type="text" class="form-control" id="BankAccountNumber" name="BankAccountNumber" value="@Model.BankAccountNumber" style="color:green; font-weight:bold;" readonly />
+                                            a++;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                    if (a == 1)
+                                    {
+                                        <input type="text" class="form-control" id="BankAccountNumber" name="BankAccountNumber" value="@Model.BankAccountNumber" readonly />
+
+                                    }
+                                }
+                            </div>
+
+                            <div class="col-md-5">
+                                @if (Model.MakerChecker.Count() > 0)
+                                {
+                                    int a = 1;
+                                    foreach (var item in Model.MakerChecker)
+                                    {
+                                        if (item.Code == Model.ClientCode && item.ColumnName == "BankAccountNumber" && item.NewValue != Model.BankAccountNumber)
+                                        {
+                                            <input type="text" class="form-control" id="BankAccountNumber" name="BankAccountNumber" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                            a++;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                    if (a == 1)
+                                    {
+                                        <input type="text" class="form-control" id="BankAccountNumber" name="BankAccountNumber" value="@Model.BankAccountNumber" readonly />
+
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <label class="control-label col-sm-12">BranchCode:</label>
+                            </div>
+                            <div class="col-md-5">
+                                @if (Model.MakerChecker.Count() > 0)
+                                {
+                                    int a = 1;
+                                    foreach (var item in Model.MakerChecker)
+                                    {
+                                        if (item.Code == Model.ClientCode && item.ColumnName == "BranchCode" && item.NewValue != Model.BranchCode)
+                                        {
+                                            <input type="text" class="form-control" id="BranchCode" name="BranchCode" value="@Model.BranchCode" style="color:green; font-weight:bold;" readonly />
+                                            a++;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                    if (a == 1)
+                                    {
+                                        <input type="text" class="form-control" id="BranchCode" name="BranchCode" value="@Model.BranchCode" readonly />
+
+                                    }
+                                }
+                            </div>
+
+                            <div class="col-md-5">
+                                @if (Model.MakerChecker.Count() > 0)
+                                {
+                                    int a = 1;
+                                    foreach (var item in Model.MakerChecker)
+                                    {
+                                        if (item.Code == Model.ClientCode && item.ColumnName == "BranchCode" && item.NewValue != Model.BranchCode)
+                                        {
+                                            <input type="text" class="form-control" id="BranchCode" name="BranchCode" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                            a++;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                    if (a == 1)
+                                    {
+                                        <input type="text" class="form-control" id="BranchCode" name="BranchCode" value="@Model.BranchCode" readonly />
+
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <label class="control-label col-sm-12">WalletNumber:</label>
+                            </div>
+                            <div class="col-md-5">
+                                @if (Model.MakerChecker.Count() > 0)
+                                {
+                                    int a = 1;
+                                    foreach (var item in Model.MakerChecker)
+                                    {
+                                        if (item.Code == Model.ClientCode && item.ColumnName == "WalletNumber" && item.NewValue != Model.WalletNumber)
+                                        {
+                                            <input type="text" class="form-control" id="WalletNumber" name="WalletNumber" value="@Model.WalletNumber" style="color:green; font-weight:bold;" readonly />
+                                            a++;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                    if (a == 1)
+                                    {
+                                        <input type="text" class="form-control" id="WalletNumber" name="WalletNumber" value="@Model.WalletNumber" readonly />
+
+                                    }
+                                }
+                            </div>
+
+                            <div class="col-md-5">
+                                @if (Model.MakerChecker.Count() > 0)
+                                {
+                                    int a = 1;
+                                    foreach (var item in Model.MakerChecker)
+                                    {
+                                        if (item.Code == Model.ClientCode && item.ColumnName == "WalletNumber" && item.NewValue != Model.WalletNumber)
+                                        {
+                                            <input type="text" class="form-control" id="WalletNumber" name="WalletNumber" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                            a++;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                    if (a == 1)
+                                    {
+                                        <input type="text" class="form-control" id="WalletNumber" name="WalletNumber" value="@Model.WalletNumber" readonly />
+
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <label class="control-label col-sm-12"> Bank Code:</label>
+                            </div>
+                            <div class="col-md-5">
+                                @if (Model.MakerChecker.Count() > 0)
+                                {
+                                    int a = 1;
+                                    foreach (var item in Model.MakerChecker)
+                                    {
+                                        if (item.Code == Model.ClientCode && item.ColumnName == "BankNo" && item.NewValue != Model.BankNo)
+                                        {
+                                            @*<input type="text" class="form-control" id="BankNo" name="BankNo" value="@Model.BankNo" style="color:green; font-weight:bold;" readonly />*@
+                                            @Html.DropDownListFor(x => x.BankNo, (IEnumerable<SelectListItem>)ViewBag.Bank, new { @class = "form-control select2", @id = "BankNoBin", @name = "txtBankNoBin", @readonly = "readonly" })
+                                            a++;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                    if (a == 1)
+                                    {
+                                        <input type="text" class="form-control" id="BankNo" name="BankNo" value="@Model.BankNo" readonly />
+
+                                    }
+                                }
+                            </div>
+
+                            <div class="col-md-5">
+                                @if (Model.MakerChecker.Count() > 0)
+                                {
+                                    int a = 1;
+                                    foreach (var item in Model.MakerChecker)
+                                    {
+                                        if (item.Code == Model.ClientCode && item.ColumnName == "BankNo" && item.NewValue != Model.BankNo)
+                                        {
+                                            <input type="text" class="form-control" id="BankNo" name="BankNo" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                            a++;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                    if (a == 1)
+                                    {
+                                        <input type="text" class="form-control" id="BankNo" name="BankNo" value="@Model.BankNo" readonly />
+
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
+
+
+                <div class="row">
+                    <div class="col-md-6" style="display:none;">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">IsDefault:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="IsDefault" name="txtIsDefault" value="1" readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                @*<div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Bank Code:</label>
+                            <div class="col-sm-7">
+                                @Html.DropDownListFor(x => x.BankNo, (IEnumerable<SelectListItem>)ViewBag.Bank, new { @class = "form-control select2", @id = "BankNoBin", @name = "txtBankNoBin", @readonly = "readonly" })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Wallet Ac:<b style="color:red;">*</b></label>
+                            <div class="col-sm-7">
+                                @Html.EditorFor(model => model.WalletNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+               
+            </div>
+
+            //checkbox
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div class="box-header">
+                        <h3 class="box-title">Document Identification</h3>
+                    </div>
+                </div>
+               <br/>
+                <div class="col-md-12">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-5" style="font-weight:bold; color:green">Before</div>
+                    <div class="col-md-5" style="font-weight:bold; color:red">After</div>
+                </div><br />
+
+                @*Checkbox---*@
+                <div class="box-body">
+                @if (@Model.PanNo != "" || @Model.VATNumber != "")
+                {
+                     <div class="row">
+        <div class="col-md-6">
+            <div class="col-sm-12">
+                <label class="control-label ">
+                    <input type="checkbox" value="checkbox" id="CertificateChecked" onclick="return false;" @if (@Model.PanNo != "" || @Model.VATNumber != "")
+                    { @: checked
+                                                                                                             } />
+                    PAN/VAT Information:
+                </label>
+            </div>
+        </div>
+    </div>
+                }
+                
+                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">Pan Number:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PANNumber" && item.NewValue != Model.PanNo)
+                                            {
+                                                <input type="text" class="form-control" id="PanNo" name="PanNo" value="@Model.PanNo" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PanNo" name="PanNo" value="@Model.PanNo" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PANNumber" && item.NewValue != Model.PanNo)
+                                            {
+                                                <input type="text" class="form-control" id="PanNo" name="PanNo" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="PanNo" name="PanNo" value="@Model.PanNo" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">VAT Number:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "VATNumber" && item.NewValue != Model.VATNumber)
+                                            {
+                                                <input type="text" class="form-control" id="VATNumber" name="VATNumber" value="@Model.VATNumber" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="VATNumber" name="VATNumber" value="@Model.VATNumber" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "VATNumber" && item.NewValue != Model.VATNumber)
+                                            {
+                                                <input type="text" class="form-control" id="VATNumber" name="VATNumber" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="VATNumber" name="VATNumber" value="@Model.VATNumber" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    PAN/VAT Certificate:
+                                </label>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "TaxClearBackImage" && item.NewValue != Model.TaxClearBackImage)
+                                            {
+                                                <img src="@srcTaxClearBack" style="width:250px;height:350px;" />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <img src="@srcTaxClearBack" style="width:250px;height:350px;"/>
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (@item.NewValue != "")
+                                            {
+                                                if (item.Code == Model.ClientCode && item.ColumnName == "TaxClearBackImage" && item.NewValue != Model.TaxClearBackImage)
+                                                {
+                                                    <img src="@PP/@item.NewValue" style="width:250px;height:350px;" />
+
+                                                    a++;
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <img src="@srcTaxClearBack" style="width:250px;height:350px;"/>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+        
+
+                
+                       <div class="row">
+        <div class="col-md-6">
+            <div class="col-sm-12">
+                <label class="control-label ">
+                    <input type="checkbox" value="checkbox" id="CertificateChecked" onclick="return false;" @if (@Model.RegistrationNumber != "")
+                    { @: checked
+                                                                                                             } />
+                    Business Registration Certificate.
+                </label>
+            </div>
+        </div>
+    </div>
+                
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">Registration Number:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "RegistrationNumber" && item.NewValue != Model.RegistrationNumber)
+                                            {
+                                                <input type="text" class="form-control" id="RegistrationNumber" name="RegistrationNumber" value="@Model.RegistrationNumber" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="RegistrationNumber" name="RegistrationNumber" value="@Model.RegistrationNumber" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "RegistrationNumber" && item.NewValue != Model.RegistrationNumber)
+                                            {
+                                                <input type="text" class="form-control" id="RegistrationNumber" name="RegistrationNumber" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="RegistrationNumber" name="RegistrationNumber" value="@Model.RegistrationNumber" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Registration Certificate:
+                                </label>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "RegCertImage" && item.NewValue != Model.RegCertificateImage)
+                                            {
+                                                <img src="@srcRegCerti" style="width:250px;height:350px;" />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <img src="@srcRegCerti" style="width:250px;height:350px;" />
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (@item.NewValue != "")
+                                            {
+                                                if (item.Code == Model.ClientCode && item.ColumnName == "RegCertImage" && item.NewValue != Model.RegCertificateImage)
+                                                {
+                                                    <img src="@PP/@item.NewValue" style="width:250px;height:350px;" />
+
+                                                    a++;
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <img src="@srcRegCerti" style="width:250px;height:350px;" />
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+        
+                         <div class="row">
+                <div class="col-md-6">
+                    <div class="col-sm-12">
+                        <label class="control-label ">
+                            <input type="checkbox" value="checkbox" id="CitizenshipChecked" onclick="return false;" @if (@Model.Citizenship != "") { @: checked
+                                                                                  } />
+                            Business owner’s Citizenship.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+                         <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">Citizenship No:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "CitizenshipNo" && item.NewValue != Model.Citizenship)
+                                            {
+                                                <input type="text" class="form-control" id="Citizenship" name="Citizenship" value="@Model.Citizenship" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="Citizenship" name="Citizenship" value="@Model.Citizenship" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "CitizenshipNo" && item.NewValue != Model.Citizenship)
+                                            {
+                                                <input type="text" class="form-control" id="Citizenship" name="Citizenship" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="Citizenship" name="Citizenship" value="@Model.Citizenship" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+                    
+                         <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">CitizenshipPlaceOfIssue:</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "CitizenPlaceOfIssue" && item.NewValue != Model.CitizenshipPlaceOfIssue)
+                                            {
+                                                <input type="text" class="form-control" id="CitizenshipPlaceOfIssue" name="CitizenshipPlaceOfIssue" value="@Model.CitizenshipPlaceOfIssue" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="CitizenshipPlaceOfIssue" name="CitizenshipPlaceOfIssue" value="@Model.CitizenshipPlaceOfIssue" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "CitizenPlaceOfIssue" && item.NewValue != Model.CitizenshipPlaceOfIssue)
+                                            {
+                                                <input type="text" class="form-control" id="CitizenshipPlaceOfIssue" name="CitizenshipPlaceOfIssue" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="CitizenshipPlaceOfIssue" name="CitizenshipPlaceOfIssue" value="@Model.CitizenshipPlaceOfIssue" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">CitizenshipIssueDate(AD):</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "CitizenIssueDate" && item.NewValue != Model.CitizenshipIssueDate)
+                                            {
+                                                <input type="text" class="form-control" id="CitizenshipIssueDate" name="CitizenshipIssueDate" value="@Model.CitizenshipIssueDate" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="CitizenshipIssueDate" name="CitizenshipIssueDate" value="@Model.CitizenshipIssueDate" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "CitizenIssueDate" && item.NewValue != Model.CitizenshipIssueDate)
+                                            {
+                                                string IssueDate = DateTime.ParseExact(item.NewValue, "yyyy-MM-dd", null).ToString("dd/MM/yyyy");
+                                                <input type="text" class="form-control" id="CitizenshipIssueDate" name="CitizenshipIssueDate" value="@IssueDate" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="CitizenshipIssueDate" name="CitizenshipIssueDate" value="@Model.CitizenshipIssueDate" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label col-sm-12">CitizenshipIssueDate (BS):</label>
+                                </div>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "BSCitizenIssueDate" && item.NewValue != Model.BSCitizenshipIssueDate)
+                                            {
+                                                <input type="text" class="form-control" id="BSCitizenshipIssueDate" name="BSCitizenshipIssueDate" value="@Model.BSCitizenshipIssueDate" style="color:green; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="BSCitizenshipIssueDate" name="BSCitizenshipIssueDate" value="@Model.BSCitizenshipIssueDate" readonly />
+
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "BSCitizenIssueDate" && item.NewValue != Model.BSCitizenshipIssueDate)
+                                            {
+                                                <input type="text" class="form-control" id="BSCitizenshipIssueDate" name="BSCitizenshipIssueDate" value="@item.NewValue" style="color:red; font-weight:bold;" readonly />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <input type="text" class="form-control" id="BSCitizenshipIssueDate" name="BSCitizenshipIssueDate" value="@Model.BSCitizenshipIssueDate" readonly />
+
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Citizenship (front):
+                                </label>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "FrontImage" && item.NewValue != Model.FrontImage)
+                                            {
+                                                <img src="@srcfront" style="width:435px;height:250px;" />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <img src="@srcfront" style="width:435px;height:250px;" />
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (@item.NewValue != "")
+                                            {
+                                                if (item.Code == Model.ClientCode && item.ColumnName == "FrontImage" && item.NewValue != Model.FrontImage)
+                                                {
+                                                    <img src="@PP/@item.NewValue" style="width:435px;height:250px;" />
+
+                                                    a++;
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <img src="@srcfront" style="width:435px;height:250px;" />
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Citizenship (back):
+                                </label>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "BackImage" && item.NewValue != Model.BackImage)
+                                            {
+                                                <img src="@srcback" style="width:435px;height:250px;" />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <img src="@srcback" style="width:435px;height:250px;" />
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (@item.NewValue != "")
+                                            {
+                                                if (item.Code == Model.ClientCode && item.ColumnName == "BackImage" && item.NewValue != Model.BackImage)
+                                                {
+                                                    <img src="@PP/@item.NewValue" style="width:435px;height:250px;" />
+
+                                                    a++;
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <img src="@srcback" style="width:435px;height:250px;" />
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+        
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-sm-12">
+                        <label class="control-label ">
+                            <input type="checkbox" value="checkbox" id="TaxChecked" onclick="return false;" @if (@Model.TaxClearFrontImage != "") { @: checked
+                                                                                  } />
+                            Recent Tax Clearance Certificate.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Tax Clearence Certificate:
+                                </label>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "TaxClearFrontImage" && item.NewValue != Model.TaxClearFrontImage)
+                                            {
+                                                <img src="@srcTaxClearFront" style="width:250px;height:350px;" />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <img src="@srcTaxClearFront" style="width:250px;height:350px;" />
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (@item.NewValue != "")
+                                            {
+                                                if (item.Code == Model.ClientCode && item.ColumnName == "TaxClearFrontImage" && item.NewValue != Model.TaxClearFrontImage)
+                                                {
+                                                    <img src="@PP/@item.NewValue" style="width:250px;height:350px;"/>
+
+                                                    a++;
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <img src="@srcTaxClearFront" style="width:250px;height:350px;" />
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+        
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-sm-12">
+                        <label class="control-label ">
+                            <input type="checkbox" value="checkbox" id="LogoChecked" onclick="return false;" @if (@Model.PassportImage != "") { @: checked
+                                                                                  } />
+                            Business Logo.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">
+                                    Business Logo:
+                                </label>
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (item.Code == Model.ClientCode && item.ColumnName == "PassportImage" && item.NewValue != Model.PassportImage)
+                                            {
+                                                <img src="@srcPP" style="width:300px;height:300px;" />
+                                                a++;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <img src="@srcPP" style="width:300px;height:300px;" />
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        int a = 1;
+
+                                        foreach (var item in Model.MakerChecker)
+                                        {
+                                            if (@item.NewValue != "")
+                                            {
+                                                if (item.Code == Model.ClientCode && item.ColumnName == "PassportImage" && item.NewValue != Model.PassportImage)
+                                                {
+                                                    <img src="@PP/@item.NewValue" style="width:300px;height:300px;" />
+
+                                                    a++;
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                        if (a == 1)
+                                        {
+                                            <img src="@srcPP" style="width:300px;height:300px;"/>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    </div>
+</div>
+ <!-- checkbox--end /.box-body -->
+
+            <div class="box box-info">
+                <br />
+                <div class="row text-left" style="margin-left:210px">
+                    <div class="col-md-10">
+
+                        <input type="submit" class="btn btn-primary" style="text-align: center;" id="btnApprove" name="btnApprove" value="Approve">
+
+                    </div>
+                </div>
+                <br />
+                    <div id="RejectRemarks">
+                        <br />
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Reject Remarks <b style="color:red;">*</b></label>
+
+                            <div class="col-md-5">
+                                <textarea name="Remarks" id="txtRemarks" maxlength="200" rows="4" cols="50" style="min-height:50px;min-width:200px;max-height:100px;max-width:380px;" class="form-control"></textarea>
+                                <b style="color:red">*</b><b> Note Please fill out remarks before rejecting </b>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <br />
+                    <div class="row text-left" style="margin-left:210px">
+                        <div class="col-md-10">
+
+                            <input type="submit" class="btn btn-danger" id="btnReject" name="btnApprove" value="Reject">
+
+                        </div>
+                    </div>
+                    <br />
+                </div>
+
+            <!-- /.box -->
+            <!-- /.box-body -->
+            <!-- End -->
+        }
+
+
+
+    </div>
+
+
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+@section scripts {
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+    <script type="text/javascript">
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+
+    function edValueKeyPress() {
+        var edValue = document.getElementById("BankAccountNumber");
+        var str = edValue.value;
+        var result = str.substr(0, 3);
+        $('#BranchCode').val(result);
+    }
+
+
+
+        @*//start
+             $("#PProvince").change(function () {
+                 $("#PDistrictID").empty();
+                 $(".placeholder_PDistrict").prepend("<option value='' disabled selected>--Select District---</option>");
+                 $('#PProvinceText').val($("#PProvince").val());
+                 $.ajax({
+                     type: 'POST',
+                     url: '@Url.Action("getdistrict")',
+
+                     dataType: 'json',
+
+                     data: { id: $("#PProvince").val() },
+
+
+                     success: function (districts) {
+
+
+                         $.each(districts, function (i, district) {
+                             $("#PDistrictID").append('<option value="' + district.Value + '">' +
+                                 district.Text + '</option>');
+
+                         });
+                     },
+                     error: function (ex) {
+                         alert('Failed to retrieve Province districts.' + ex);
+                     }
+                 });
+                 return false;
+             });
+        //End*@
+
+
+
+    $(document).ready(function () {
+
+        //Submit Button approve or reject START
+        $('#btnApprove').click(function (e) {
+            //e.preventDefault();
+            document.getElementById("txtRemarks").setCustomValidity("");
+        });
+
+
+        $('#btnReject').click(function (e) {
+            //e.preventDefault();
+
+            if ($.trim($('#RejectRemarks textarea').val()) == "") {
+                document.getElementById("txtRemarks").setCustomValidity("Reject Remarks is required");
+                $('#RejectRemarks textarea').focus();
+                return;
+            }
+            else {
+                document.getElementById("txtRemarks").setCustomValidity("");
+                $('#CustomerModification').submit();
+            }
+
+
+        });
+
+        $('#txtRemarks').on('keyup', function () {
+            document.getElementById("txtRemarks").setCustomValidity("");
+        });
+
+
+        $('#ViewMerchant').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+
+                Name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Name is required and cannot be empty'
+                        }
+                    }
+                },
+               Address: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Address is required and cannot be empty'
+                        }
+                    }
+                },
+
+                BankAccountNumber: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Bank Account number is required'
+                        },
+                        //integer: {
+                        //    message: 'Bank account number must be numeric value'
+                        //},
+                        stringLength: {
+                            max: 14,
+                            min: 12,
+                            message: 'The WalletNumber must be 12 to 14 digits long'
+                        }
+                    }
+                },
+
+                ContactNumber2: {
+                    validators: {
+                        regexp: {
+                            regexp: /^[9][8][0-9]{8}$/,
+                            message: 'Input value is not a valid mobile format'
+                            }
+                            //,
+                        //notEmpty: {
+                        //    message: 'The mobile number is required and cannot be empty'
+                        //}
+                    }
+                },
+                BankNoBin: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Bank is required and cannot be empty'
+                        }
+                    }
+                }
+
+
+
+            }
+        });
+
+    });
+
+    </script>
+}
+<!-- =============================================== -->

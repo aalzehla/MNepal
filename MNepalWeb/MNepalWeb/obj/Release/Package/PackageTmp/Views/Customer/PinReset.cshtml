@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "PinReset";
+    ViewBag.Title = "T-Pin/Password Reset";
 }
 
 @model MNepalWeb.Models.UserInfo
@@ -10,11 +10,11 @@
 <section class="content-header">
     <h1>
         Customer
-        <small>Pin Reset</small>
+        <small>T-Pin/Password Reset</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-user"></i> Customer</a></li>
-        <li class="active"> Pin Reset</li>
+        <li class="active">T-Pin Reset</li>
     </ol>
 </section>
 
@@ -56,18 +56,7 @@
                     }
                     <div class="box-body">
 
-                        <div class="row" style="display:none">
-                            <div class="col-md-4 form-group">
-                                <label>CClientCode</label>
-                                @Html.EditorFor(model => model.ClientCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            </div>
-                            <div class="col-md-4 form-group">
-                                <label>CUserName</label>
-                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            </div>
-                        </div>
-
-                        <div class="row">
+                         <div class="row">
                             <div class="col-md-4 form-group">
                                 <label>Name</label>
                                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -80,7 +69,7 @@
 
                         <div class="row">
                             <div class="col-md-4 form-group">
-                                <label>UserType</label>
+                                <label>User Type</label>
                                 @Html.EditorFor(model => model.UserType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             </div>
                             <div class="col-md-4 form-group">
@@ -88,7 +77,7 @@
                                 @Html.DropDownListFor(model => model.Status, new SelectList(new[] {
                     new { Value = "Active", Text = "Active"},
                     new { Value="InActive",Text="InActive" } },
-                    "Value", "Text"), "--Select --", new { required = "required", @class = "form-control", @readonly = "readonly" })
+                    "Value", "Text"), "--Select --", new { required = "required", @class = "form-control", @disabled = "disabled" })
                             </div>
                         </div>
 
@@ -100,17 +89,51 @@
                         </div>
 
                         <div class="row">
+                            <div class="col-md-4 form-group" style="display:none">
+                                <label>ClientCode</label>
+                                @Html.EditorFor(model => model.ClientCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>Mobile Number</label>
+                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+                        @*<div class="row">
                             <div class="col-md-8 form-group">
                                 <label>New Pin</label>
                                 <input type="number" class="form-control" id="newPin" name="txtNewPin" placeholder="New Pin Number" pattern=".{4,4}" required title="Please use T-Pin">
                             </div>
-                        </div>
+                        </div>*@
 
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="container">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="type" value="Pin" checked>
+                                  Reset Pin
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="type" value="Pass">
+                                Reset Password
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="type" value="Both">
+                                 Reset Both
+                                </label>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
                         <div class="form-group">
-                            <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit">
+                            <input type="submit" class="btn btn-primary" name="btnCommand" value="Reset">
+                           
                         </div>
                     </div>
                 }

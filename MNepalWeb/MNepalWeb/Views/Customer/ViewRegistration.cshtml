@@ -97,7 +97,7 @@
                                             <br />
                                             <label class="control-label col-sm-4">Status </label>
                                             <div class="col-sm-8">
-                                                <p>@ViewBag.StatusMessage</p>
+                                                <p style="font-weight:bold">@ViewBag.StatusMessage</p>
                                             </div>
                                         </div>
 
@@ -488,7 +488,31 @@
 
                             </div>
 
-                            @*---NISCHAL---*@
+
+                            @*Account Information*@
+                            <div class="box-body">
+                                <div class="box box-info">
+                                    <div class="box-header with-border">
+                                        <h2 class="box-title">Account Number</h2>
+                                    </div>
+
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">Account Number:<b style="color:red;">*</b></label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="txtAccountNo" name="txtAccountNo" value="@Model.BankAccountNumber" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            @*---Document---*@
                             <div class="box box-info">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Document Information</h3>
@@ -910,7 +934,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <br/>
 
                             @*//edit end*@
 

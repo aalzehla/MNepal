@@ -39,7 +39,7 @@
 <style>
     .image_icon {
         width: 50px;
-    }
+    } 
 </style>
 <div class="main-content">
     <div class="bg-grey pad-50">
@@ -326,6 +326,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -358,18 +359,6 @@
                         </a>
                     </div>
                 </div>
-
-                <div class="item load-wallet">
-                    <div class="item-inner">
-                        <a href="~/Vianet/Index">
-                            <div class="content-inner">
-                                <span class="icon-icon-share"></span>
-                                <span class="share-text">Vianet</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
@@ -510,10 +499,10 @@
     }
 }
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+@*<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>*@
 <script type="text/javascript">
-
+   
 
     function checkKYC() {
         $.ajax({
@@ -559,7 +548,6 @@
 
     $(document).ready(function () {
 
-        debugger;
         var checkMsg = $("[name='checkMsg']").val();
         if (checkMsg == "success_info") {
             $('#successModal').modal();

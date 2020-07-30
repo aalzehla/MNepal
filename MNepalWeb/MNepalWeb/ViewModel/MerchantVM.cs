@@ -37,6 +37,7 @@ namespace MNepalWeb.ViewModel
             public string Message { get; set; }
             public string TranType { get; set; }
             public string Name { get; set; }
+            public string ReferenceNo { get; set; }
 
         //For Summary///
 

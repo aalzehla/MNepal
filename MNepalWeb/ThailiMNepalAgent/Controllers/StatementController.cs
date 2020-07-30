@@ -455,8 +455,7 @@ namespace ThailiMNepalAgent.Controllers
                     userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
                     ViewBag.PassportImage = userInfo.PassportImage;
                 }
-                //end milayako
-
+                
                 //Check KYC
                 DataTable dtableUserCheckKYC = ProfileUtils.CheckKYC(userName);
                 if (dtableUserCheckKYC != null && dtableUserCheckKYC.Rows.Count > 0)
@@ -505,8 +504,10 @@ namespace ThailiMNepalAgent.Controllers
                 return RedirectToAction("Index", "Login");
             }
         }
-        public ContentResult CusReportTableNew(DataTableAjaxPostModel model, string UserName, string StartDate, string EndDate, string change, string ToExcel)
+        public ContentResult CusReportTableNew(DataTableAjaxPostModel model, string StartDate, string EndDate, string change, string ToExcel)
         {
+            string UserName = (string)Session["LOGGED_USERNAME"];
+
             if (!Request.IsAjaxRequest())
             {
                 Response.Write("Invalid Execution");
@@ -613,12 +614,14 @@ namespace ThailiMNepalAgent.Controllers
         #endregion
 
 
-        //start milayako 02
+        
 
         #region Customer Detail Report bank account
         // GET: Report
-        public ContentResult CusReportTableNewBnkAcc(DataTableAjaxPostModel model, string UserName, string StartDate, string EndDate, string change, string ToExcel)
+        public ContentResult CusReportTableNewBnkAcc(DataTableAjaxPostModel model, string StartDate, string EndDate, string change, string ToExcel)
         {
+            string UserName = (string)Session["LOGGED_USERNAME"];
+
             decimal bankbal;
             if (Session["bankbal"] == null)
             {
@@ -740,7 +743,7 @@ namespace ThailiMNepalAgent.Controllers
         }
 
         #endregion
-        /// end milayako 02
+        
 
         public DataTable ToDataTable<T>(List<T> items)
         {

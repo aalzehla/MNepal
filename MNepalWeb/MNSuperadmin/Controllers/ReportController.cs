@@ -260,7 +260,7 @@ namespace MNSuperadmin.Controllers
             {
                 dynamic resultset = new ExpandoObject();
 
-                resultset.UserName = item.UserName;                
+                resultset.UserName = item.UserName;
                 resultset.Description = item.Description;
                 resultset.SNo = item.SNo;
                 resultset.Status = item.Status;
@@ -296,8 +296,16 @@ namespace MNSuperadmin.Controllers
             bool checkRole = roleChecker.checkRole(System.Reflection.MethodBase.GetCurrentMethod().Name, clientCode);
             //Check Role link end
 
+            //string Parameter;
+            //Parameter.StartDate = DateTime.Now.ToString("dd/MM/yyyy");
+            //Parameter.EndDate = DateTime.Now.ToString("dd/MM/yyyy");
 
-            if (TempData["userType"] != null&& checkRole)
+            ViewBag.StartDate = DateTime.Now.ToString("dd/MM/yyyy");
+            ViewBag.EndDate = DateTime.Now.ToString("dd/MM/yyyy");
+
+
+
+            if (TempData["userType"] != null && checkRole)
             {
                 this.ViewData["userType"] = this.TempData["userType"];
                 ViewBag.UserType = this.TempData["userType"];
@@ -310,9 +318,10 @@ namespace MNSuperadmin.Controllers
                 return RedirectToAction("Index", "Login");
             }
         }
-        
+
+
         [HttpGet]
-        public ActionResult AgentViewDetail(string SearchCol, string txtMobileNo, string txtName)
+        public ActionResult AgentViewDetail(string StartDate, string EndDate, string MobileNo)
         {
             string userName = (string)Session["LOGGED_USERNAME"];
             string clientCode = (string)Session["LOGGEDUSER_ID"];
@@ -328,57 +337,49 @@ namespace MNSuperadmin.Controllers
                 ViewBag.Name = name;
                 ViewBag.Message = "No Result Found !!";
                 UserInfo userInfo = new UserInfo();
-                userInfo.ContactNumber1 = txtMobileNo; //= collection["txtMobileNo"].ToString();
-                userInfo.Name = txtName;// = collection["txtName"].ToString();
-               
+                userInfo.ContactNumber1 = MobileNo;
+                userInfo.StartDate = StartDate;
+                userInfo.EndDate = EndDate;
+
+                if (!string.IsNullOrEmpty(StartDate))
+                {
+
+                    userInfo.StartDate = DateTime.ParseExact(StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                    .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture); ;
+                }
+                if (!string.IsNullOrEmpty(EndDate))
+                {
+
+                    userInfo.EndDate = DateTime.ParseExact(EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                               .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture); ;
+                }
 
                 List<UserInfo> AgentStatus = new List<UserInfo>();
-                
-                
+
+
                 //if ((userInfo.ContactNumber1 != "") && (SearchCol == "Mobile Number"))
                 //{
-                    DataTable dtableAgentStatusByMobileNo = ReportUserModel.GetAgentDetail(userInfo.ContactNumber1);
-                    if (dtableAgentStatusByMobileNo != null && dtableAgentStatusByMobileNo.Rows.Count > 0)
-                    {
-                        UserInfo regobj = new UserInfo();
-                        regobj.ClientCode = dtableAgentStatusByMobileNo.Rows[0]["ClientCode"].ToString();
-                        regobj.UserName = dtableAgentStatusByMobileNo.Rows[0]["AgentName"].ToString();
-                        regobj.Address = dtableAgentStatusByMobileNo.Rows[0]["Location"].ToString();
-                      
-                        regobj.Status = dtableAgentStatusByMobileNo.Rows[0]["Status"].ToString();
-                        regobj.ContactNumber1 = dtableAgentStatusByMobileNo.Rows[0]["AgentMobileNo"].ToString();
-                        
-                        
-                        regobj.GoodBaln = dtableAgentStatusByMobileNo.Rows[0]["Balance"].ToString();
-                      
-                        AgentStatus.Add(regobj);
-                        ViewData["dtableAgentStatus"] = dtableAgentStatusByMobileNo;
-                      
-                    }
-                    
-                //}
+                DataTable dtableAgentStatusByMobileNo = ReportUserModel.GetAgentDetail(userInfo.ContactNumber1, userInfo.StartDate, userInfo.EndDate);
+                if (dtableAgentStatusByMobileNo != null && dtableAgentStatusByMobileNo.Rows.Count > 0)
+                {
+                    UserInfo regobj = new UserInfo();
+                    regobj.ClientCode = dtableAgentStatusByMobileNo.Rows[0]["ClientCode"].ToString();
+                    regobj.UserName = dtableAgentStatusByMobileNo.Rows[0]["AgentName"].ToString();
+                    //regobj.Address = dtableAgentStatusByMobileNo.Rows[0]["Location"].ToString();
 
+                    regobj.Status = dtableAgentStatusByMobileNo.Rows[0]["Status"].ToString();
+                    regobj.ContactNumber1 = dtableAgentStatusByMobileNo.Rows[0]["AgentMobileNo"].ToString();
+                    //regobj.GoodBaln = dtableAgentStatusByMobileNo.Rows[0]["Balance"].ToString();
 
-                //if ((userInfo.Name != "") && (SearchCol == "Name"))
-                //{
-                //    DataTable dtableAgentStatusByName = CustomerUtils.GetUserProfileByName(userInfo.Name);
-                //    if (dtableAgentStatusByName != null && dtableAgentStatusByName.Rows.Count > 0)
-                //    {
-                //        UserInfo regobj = new UserInfo();
-                //        regobj.ClientCode = dtableAgentStatusByName.Rows[0]["ClientCode"].ToString();
-                //        regobj.Name = dtableAgentStatusByName.Rows[0]["Name"].ToString();
-                //        regobj.Address = dtableAgentStatusByName.Rows[0]["Address"].ToString();
-                //        regobj.PIN = dtableAgentStatusByName.Rows[0]["PIN"].ToString();
-                //        regobj.Status = dtableAgentStatusByName.Rows[0]["Status"].ToString();
-                //        regobj.ContactNumber1 = dtableAgentStatusByName.Rows[0]["ContactNumber1"].ToString();
-                //        regobj.ContactNumber2 = dtableAgentStatusByName.Rows[0]["ContactNumber2"].ToString();
-                //        regobj.UserName = dtableAgentStatusByName.Rows[0]["UserName"].ToString();
-                //        regobj.UserType = dtableAgentStatusByName.Rows[0]["userType"].ToString();
+                    regobj.HasKYC = dtableAgentStatusByMobileNo.Rows[0]["KYCstatus"].ToString();
+                    regobj.CreatedDate = dtableAgentStatusByMobileNo.Rows[0]["CreatedDate"].ToString();
+                    regobj.CreatedBy = dtableAgentStatusByMobileNo.Rows[0]["RegisteredBy"].ToString();
+                    regobj.ApprovedBy = dtableAgentStatusByMobileNo.Rows[0]["ApprovedBy"].ToString();
 
-                //        AgentStatus.Add(regobj);
-                //        ViewData["dtableAgentStatus"] = dtableAgentStatusByName;
-                //    }
-                //}
+                    AgentStatus.Add(regobj);
+                    ViewData["dtableAgentStatus"] = dtableAgentStatusByMobileNo;
+
+                }
 
                 return View(AgentStatus);
             }
@@ -387,49 +388,53 @@ namespace MNSuperadmin.Controllers
                 return RedirectToAction("Index", "Login");
             }
         }
-      
 
-        public ActionResult ViewAgentDetails(string MobileNo)
-        {
-            string userName = (string)Session["LOGGED_USERNAME"];
-            string clientCode = (string)Session["LOGGEDUSER_ID"];
-            string name = (string)Session["LOGGEDUSER_NAME"];
-            string userType = (string)Session["LOGGED_USERTYPE"];
 
-            TempData["userType"] = userType;
 
-            if (TempData["userType"] != null)
-            {
-                this.ViewData["userType"] = this.TempData["userType"];
-                ViewBag.UserType = this.TempData["userType"];
-                ViewBag.Name = name;
-               
-                AgentProfileInfo agentobj = new AgentProfileInfo();
-                DataTable dtableAgentByMobileNo = ReportUserModel.GetAgentDetail(MobileNo);
-                if (dtableAgentByMobileNo.Rows.Count == 1)
-                {
 
-                    agentobj.ClientCode = dtableAgentByMobileNo.Rows[0]["ClientCode"].ToString();
-                    agentobj.AgentName = dtableAgentByMobileNo.Rows[0]["AgentName"].ToString();
-                    agentobj.Location = dtableAgentByMobileNo.Rows[0]["Location"].ToString();
-                    agentobj.Status = dtableAgentByMobileNo.Rows[0]["Status"].ToString();
-                    agentobj.AgentMobileNo = dtableAgentByMobileNo.Rows[0]["AgentMobileNo"].ToString();
-                    agentobj.Balance = dtableAgentByMobileNo.Rows[0]["Balance"].ToString();
-                    agentobj.IsApproved = dtableAgentByMobileNo.Rows[0]["IsApproved"].ToString();
-                    agentobj.WalletNumber = dtableAgentByMobileNo.Rows[0]["WalletNumber"].ToString();
-                    
-                    
-                }
-                return View(agentobj);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login");
-            }
-        }
+
+
+        //public ActionResult ViewAgentDetails(string MobileNo, string StartDate, string EndDate)
+        //{
+        //    string userName = (string)Session["LOGGED_USERNAME"];
+        //    string clientCode = (string)Session["LOGGEDUSER_ID"];
+        //    string name = (string)Session["LOGGEDUSER_NAME"];
+        //    string userType = (string)Session["LOGGED_USERTYPE"];
+
+        //    TempData["userType"] = userType;
+
+        //    if (TempData["userType"] != null)
+        //    {
+        //        this.ViewData["userType"] = this.TempData["userType"];
+        //        ViewBag.UserType = this.TempData["userType"];
+        //        ViewBag.Name = name;
+
+        //        AgentProfileInfo agentobj = new AgentProfileInfo();
+        //        DataTable dtableAgentByMobileNo = ReportUserModel.GetAgentDetail(MobileNo, StartDate, EndDate);
+        //        if (dtableAgentByMobileNo.Rows.Count == 1)
+        //        {
+
+        //            agentobj.ClientCode = dtableAgentByMobileNo.Rows[0]["ClientCode"].ToString();
+        //            agentobj.AgentName = dtableAgentByMobileNo.Rows[0]["AgentName"].ToString();
+        //            agentobj.Location = dtableAgentByMobileNo.Rows[0]["Location"].ToString();
+        //            agentobj.Status = dtableAgentByMobileNo.Rows[0]["Status"].ToString();
+        //            agentobj.AgentMobileNo = dtableAgentByMobileNo.Rows[0]["AgentMobileNo"].ToString();
+        //            agentobj.Balance = dtableAgentByMobileNo.Rows[0]["Balance"].ToString();
+        //            agentobj.IsApproved = dtableAgentByMobileNo.Rows[0]["IsApproved"].ToString();
+        //            agentobj.WalletNumber = dtableAgentByMobileNo.Rows[0]["WalletNumber"].ToString();
+
+
+        //        }
+        //        return View(agentobj);
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("Index", "Login");
+        //    }
+        //}
 
         #endregion
-        
+
         #region Report FinancialReport
         public ActionResult FinancialReport()
         {
@@ -445,7 +450,7 @@ namespace MNSuperadmin.Controllers
             //Check Role link end
 
 
-            if (TempData["userType"] != null&& checkRole)
+            if (TempData["userType"] != null && checkRole)
             {
                 this.ViewData["userType"] = this.TempData["userType"];
                 ViewBag.UserType = this.TempData["userType"];
@@ -542,7 +547,7 @@ namespace MNSuperadmin.Controllers
         }
 
         #endregion
-        
+
         #region Report NonFinancialReport
         public ActionResult NonFinancialReportView()
         {
@@ -558,7 +563,7 @@ namespace MNSuperadmin.Controllers
             //Check Role link end
 
 
-            if (TempData["userType"] != null&& checkRole)
+            if (TempData["userType"] != null && checkRole)
             {
                 this.ViewData["userType"] = this.TempData["userType"];
                 ViewBag.UserType = this.TempData["userType"];
@@ -585,7 +590,7 @@ namespace MNSuperadmin.Controllers
             int totalResultsCount;
             string ParaChanged = "T";
             string convert;
-           
+
             ParaChanged = change;
             var result = new List<NonFinancialReport>();
             if (Session["NonFinancialReport"] != null && ParaChanged == "F")
@@ -625,7 +630,7 @@ namespace MNSuperadmin.Controllers
                 resultset.TransID = item.TransID;
                 resultset.TransactionType = item.TransactionType;
                 resultset.Status = item.Status;
-               
+
                 resultList.Add(resultset);
             }
             convert = JsonConvert.SerializeObject(new
@@ -640,7 +645,7 @@ namespace MNSuperadmin.Controllers
         }
 
         #endregion
-        
+
         //#region Report TransactionReportOld
         //public ActionResult TransactionReport()
         //{
@@ -739,7 +744,6 @@ namespace MNSuperadmin.Controllers
         //}
 
         //#endregion
-
 
         #region Customer Log
         public ActionResult CustomerAccountLog()
@@ -1194,7 +1198,7 @@ namespace MNSuperadmin.Controllers
 
 
         #endregion
-        
+
         #region QueryExecutor
         [HttpGet]
         public ActionResult QueryExecutor()
@@ -1240,7 +1244,7 @@ namespace MNSuperadmin.Controllers
                 ViewBag.UserType = this.TempData["userType"];
                 ViewBag.Name = name;
 
-               
+
                 string Query = model.Query.Trim();
                 model.Data = new DataTable();
 
@@ -1533,7 +1537,7 @@ namespace MNSuperadmin.Controllers
             else
             {
                 ReportUserModel rep = new ReportUserModel();
-                result = rep.GetTransactionReport(ContactNumber1,ac);
+                result = rep.GetTransactionReport(ContactNumber1, ac);
                 Session["TransactionReport"] = result;
 
             }
@@ -1579,6 +1583,1190 @@ namespace MNSuperadmin.Controllers
 
 
         #endregion
+
+        #region Merchant Payment
+        [HttpGet]
+        //Using same models as for TopUp
+        public ActionResult MerchantPay()
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+            //Check Role link start          
+            string methodlink = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            RoleChecker roleChecker = new RoleChecker();
+            bool checkRole = roleChecker.checkRole(methodlink, clientCode);
+            //Check Role link end
+
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null && checkRole)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+                ViewBag.MType = "";
+
+                MerchantPay para = new MerchantPay();
+                para.StartDate = DateTime.Now.ToString("dd/MM/yyyy");
+                para.EndDate = DateTime.Now.ToString("dd/MM/yyyy");
+                ReportUserModel rep = new ReportUserModel();
+                para.MerchantTypeList = rep.GetMerchantsType();
+                return View(new MerchantVM
+                {
+                    Parameter = para,
+                    MerchantInfo = new List<MerchantInfo>()
+
+                });
+
+
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+        }
+
+        public ContentResult MerchantPaymentTable(DataTableAjaxPostModel model, string StartDate, string EndDate, string SourceMobileNo, string MerchantType, string MerchantName, string Status, string change, string ToExcel)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                Response.Write("Invalid Execution");
+                return Content("");
+            }
+
+            int filteredResultsCount;
+            int totalResultsCount;
+            string ParaChanged = "T";
+            string convert;
+
+            if (!string.IsNullOrEmpty(StartDate))
+            {
+                if (!StartDate.IsValidDate())
+                {
+
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid Start Date"
+                    });
+
+                    return Content(convert, "application/json");
+                }
+                StartDate = DateTime.ParseExact(StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (!string.IsNullOrEmpty(EndDate))
+            {
+                if (!EndDate.IsValidDate())
+                {
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid End Date"
+                    });
+                    return Content(convert, "application/json");
+                }
+                EndDate = DateTime.ParseExact(EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                           .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+
+            ParaChanged = change;
+            MerchantPay ac = new MerchantPay();
+            ac.StartDate = StartDate;
+            ac.EndDate = EndDate;
+            ac.SourceMobileNo = SourceMobileNo;
+            ac.MerchantType = MerchantType;
+            ac.MerchantName = MerchantName;
+            ac.Status = Status;
+            var result = new List<MerchantInfo>();
+            if (Session["MerchantPayment"] != null && ParaChanged == "F")
+            {
+                result = Session["MerchantPayment"] as List<MerchantInfo>;
+            }
+            else
+            {
+                ReportUserModel rep = new ReportUserModel();
+                result = rep.MerchantDetails(ac);
+                Session["MerchantPayment"] = result;
+
+            }
+            if (ToExcel == "T")
+            {
+                DataTable excel = ToDataTable<MerchantInfo>(result);
+                excel.Columns.Remove("TotalAmount");
+                excel.Columns.Remove("NoOfTran");
+                string Handler = Guid.NewGuid().ToString();
+                TempData[Handler] = excel;
+                string FileName = DateTime.Now + "_MerchantPayment.xls";
+                convert = JsonConvert.SerializeObject(new
+                {
+                    FileGuid = Handler,
+                    FileName = FileName
+                });
+                return Content(convert, "application/json");
+            }
+            decimal SumAmount = result.Sum(x => x.Amount);
+            var res = FilterAndSort<MerchantInfo>(model, result, out totalResultsCount, out filteredResultsCount);
+            var resultList = new List<dynamic>();
+            foreach (var item in res)
+            {
+                dynamic resultset = new ExpandoObject();
+                resultset.DatenTime = item.DatenTime.ToString("dd/MM/yyyy hh:mm:ss.fff tt", CultureInfo.InvariantCulture);
+                resultset.TxnID = item.TxnID;
+                resultset.ReferenceNo = item.ReferenceNo;
+                resultset.InitMobileNo = item.InitMobileNo;
+                resultset.MerchantType = item.MerchantType;
+                resultset.MerchantName = item.MerchantName;
+                resultset.Amount = item.Amount;
+                resultset.Status = item.Status;
+                resultset.Message = item.Message;
+                resultset.TranType = item.TranType;
+                resultset.Name = item.Name;
+                resultList.Add(resultset);
+            }
+            convert = JsonConvert.SerializeObject(new
+            {
+                draw = model.draw,
+                recordsTotal = totalResultsCount,
+                recordsFiltered = filteredResultsCount,
+                data = resultList,
+                Sum = SumAmount
+            });
+
+            return Content(convert, "application/json");
+
+        }
+
+        [HttpPost]
+        public ActionResult MerchantPay(MerchantVM model)
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+                ViewBag.MType = "";
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            string start = "", end = "";
+
+            if (!string.IsNullOrEmpty(model.Parameter.StartDate))
+
+            {
+                if (!model.Parameter.StartDate.IsValidDate())
+                {
+                    ViewBag.Error = "Not valid start date";
+                    return View(new MerchantVM
+                    {
+                        Parameter = new MerchantPay(),
+                        MerchantInfo = new List<MerchantInfo>()
+
+                    });
+                }
+                start = DateTime.ParseExact(model.Parameter.StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                  .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (!string.IsNullOrEmpty(model.Parameter.EndDate))
+            {
+                if (!model.Parameter.EndDate.IsValidDate())
+                {
+                    ViewBag.Error = "Not valid end date";
+                    return View(new MerchantVM
+                    {
+                        Parameter = new MerchantPay { MerchantTypeList = new List<ViewModel.Merchants>() },
+                        MerchantInfo = new List<MerchantInfo>()
+
+                    });
+                }
+                end = DateTime.ParseExact(model.Parameter.EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                    .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+            }
+
+            ViewBag.Error = "";
+            ViewBag.message = "T";
+
+
+            model.Parameter.StartDate = start;
+            model.Parameter.EndDate = end;
+
+
+            ReportUserModel rep = new ReportUserModel();
+            List<MerchantInfo> report = rep.MerchantDetails(model.Parameter);
+            MerchantVM vm = new MerchantVM();
+            vm.MerchantInfo = report;
+            MerchantPay pay = new MerchantPay();
+            pay.MerchantTypeList = rep.GetMerchantsType();
+            pay.StartDate = model.Parameter.StartDate;
+            pay.EndDate = model.Parameter.EndDate;
+            pay.MerchantName = model.Parameter.MerchantName;
+            pay.MerchantType = model.Parameter.MerchantType;
+            pay.Status = model.Parameter.Status;
+            vm.Parameter = pay;
+            return View(vm);
+
+
+        }
+
+        public string LoadDropDownMerchantsPaypoint(string value)
+        {
+            bool Where = false;
+            if (value != "")
+                Where = true;
+            ReportUserModel rep = new ReportUserModel();
+            string ddl = rep.GetMerchantsFromTypeMerchant(value, Where);
+            return ddl;
+        }
+
+        #endregion
+
+        #region Fund Transfer 
+        [HttpGet]
+
+        public ActionResult FundTranRep()
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+            //Check Role link start          
+            string methodlink = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            RoleChecker roleChecker = new RoleChecker();
+            bool checkRole = roleChecker.checkRole(methodlink, clientCode);
+            //Check Role link end
+
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null && checkRole)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+
+                TopUp para = new TopUp();
+                para.StartDate = DateTime.Now.ToString("dd/MM/yyyy");
+                para.EndDate = DateTime.Now.ToString("dd/MM/yyyy");
+                return View(new FundTxnVm
+                {
+                    Parameter = para,
+                    FundTransfer = new List<FundTransfer>()
+
+                });
+
+
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+        }
+        public ContentResult FundTransferTable(DataTableAjaxPostModel model, string StartDate, string EndDate, string TranId, string SourceMobileNo, string DestMobileNo, string FundTfrType, string Status, string change, string ToExcel)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                Response.Write("Invalid Execution");
+                return Content("");
+            }
+
+            int filteredResultsCount;
+            int totalResultsCount;
+            string ParaChanged = "T";
+            string convert;
+
+            if (!string.IsNullOrEmpty(StartDate))
+            {
+                if (!StartDate.IsValidDate())
+                {
+
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid Start Date"
+                    });
+
+                    return Content(convert, "application/json");
+                }
+                StartDate = DateTime.ParseExact(StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (!string.IsNullOrEmpty(EndDate))
+            {
+                if (!EndDate.IsValidDate())
+                {
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid End Date"
+                    });
+                    return Content(convert, "application/json");
+                }
+                EndDate = DateTime.ParseExact(EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                           .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            ParaChanged = change;
+            TopUp ac = new TopUp();
+            ac.StartDate = StartDate;
+            ac.EndDate = EndDate;
+            ac.TranID = TranId;
+            ac.DestMobileNo = DestMobileNo;
+            ac.SourceMobileNo = SourceMobileNo;
+            ac.FTType = FundTfrType;
+            ac.Status = Status;
+            var result = new List<FundTransfer>();
+            if (Session["FundTransfer"] != null && ParaChanged == "F")
+            {
+                result = Session["FundTransfer"] as List<FundTransfer>;
+            }
+            else
+            {
+                ReportUserModel rep = new ReportUserModel();
+                result = rep.FundTxnDetails(ac);
+                Session["FundTransfer"] = result;
+            }
+            if (ToExcel == "T")
+            {
+                DataTable excel = ToDataTable<FundTransfer>(result);
+                //ExtraUtility.DataTableToInMemExcel(excel, "TEST.xls");
+                string Handler = Guid.NewGuid().ToString();
+                TempData[Handler] = excel;
+                string FileName = DateTime.Now + "_FundTransferReport.xls";
+                convert = JsonConvert.SerializeObject(new
+                {
+                    FileGuid = Handler,
+                    FileName = FileName
+                });
+                return Content(convert, "application/json");
+            }
+            decimal SumAmount = result.Sum(x => x.Amount);
+            var res = FilterAndSort<FundTransfer>(model, result, out totalResultsCount, out filteredResultsCount);
+            var resultList = new List<dynamic>();
+            foreach (var item in res)
+            {
+                dynamic resultset = new ExpandoObject();
+                resultset.DatenTime = item.DatenTime.ToString("dd/MM/yyyy hh:mm:ss.fff tt", CultureInfo.InvariantCulture);
+                resultset.TxnID = item.TxnID;
+                resultset.FTType = item.FTType;
+                resultset.Source = item.SourceMobileNo;
+                resultset.Destination = item.DestMobileNo;
+                resultset.Amount = item.Amount;
+                resultset.Status = item.Status;
+                resultset.Message = item.Message;
+                resultset.ReferenceNo = item.ReferenceNo;
+                resultList.Add(resultset);
+            }
+            convert = JsonConvert.SerializeObject(new
+            {
+                draw = model.draw,
+                recordsTotal = totalResultsCount,
+                recordsFiltered = filteredResultsCount,
+                data = resultList,
+                Sum = SumAmount
+            });
+            return Content(convert, "application/json");
+
+        }
+        [HttpPost]
+        public ActionResult FundTranRep(FundTxnVm model)
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            string start = "", end = "";
+            if (!string.IsNullOrEmpty(model.Parameter.StartDate))
+
+            {
+                if (!model.Parameter.StartDate.IsValidDate())
+                {
+                    ViewBag.Error = "Not valid start date";
+                    return View(new FundTxnVm
+                    {
+                        Parameter = new TopUp(),
+                        FundTransfer = new List<FundTransfer>()
+
+                    });
+                }
+                start = DateTime.ParseExact(model.Parameter.StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                  .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (!string.IsNullOrEmpty(model.Parameter.EndDate))
+            {
+                if (!model.Parameter.EndDate.IsValidDate())
+                {
+                    ViewBag.Error = "Not valid end date";
+                    return View(new TopUpRepVM
+                    {
+                        Parameter = new TopUp(),
+                        TopUpInfo = new List<TopUpInfo>()
+
+                    });
+                }
+                end = DateTime.ParseExact(model.Parameter.EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                    .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+            }
+
+            ViewBag.Error = "";
+            ViewBag.message = "T";
+
+
+            model.Parameter.StartDate = start;
+            model.Parameter.EndDate = end;
+
+
+            ReportUserModel rep = new ReportUserModel();
+            List<FundTransfer> report = rep.FundTxnDetails(model.Parameter);
+            FundTxnVm vm = new FundTxnVm();
+            vm.FundTransfer = report;
+            vm.Parameter = model.Parameter;
+            return View(vm);
+
+        }
+
+        #endregion
+
+        #region Fund Transfer EBanking
+        [HttpGet]
+
+        public ActionResult FundTranEBankingRep()
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+            //Check Role link start          
+            string methodlink = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            RoleChecker roleChecker = new RoleChecker();
+            bool checkRole = roleChecker.checkRole(methodlink, clientCode);
+            //Check Role link end
+
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null && checkRole)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+
+                TopUp para = new TopUp();
+                para.StartDate = DateTime.Now.ToString("dd/MM/yyyy");
+                para.EndDate = DateTime.Now.ToString("dd/MM/yyyy");
+                return View(new FundTxnVm
+                {
+                    Parameter = para,
+                    FundTransfer = new List<FundTransfer>()
+
+                });
+
+
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+        }
+        public ContentResult FundTransferEBankingTable(DataTableAjaxPostModel model, string StartDate, string EndDate, string TranId, string SourceMobileNo, string DestMobileNo, string FundTfrType, string Status, string change, string ToExcel)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                Response.Write("Invalid Execution");
+                return Content("");
+            }
+
+            int filteredResultsCount;
+            int totalResultsCount;
+            string ParaChanged = "T";
+            string convert;
+
+            if (!string.IsNullOrEmpty(StartDate))
+            {
+                if (!StartDate.IsValidDate())
+                {
+
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid Start Date"
+                    });
+
+                    return Content(convert, "application/json");
+                }
+                StartDate = DateTime.ParseExact(StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (!string.IsNullOrEmpty(EndDate))
+            {
+                if (!EndDate.IsValidDate())
+                {
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid End Date"
+                    });
+                    return Content(convert, "application/json");
+                }
+                EndDate = DateTime.ParseExact(EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                           .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            ParaChanged = change;
+            TopUp ac = new TopUp();
+            ac.StartDate = StartDate;
+            ac.EndDate = EndDate;
+            ac.TranID = TranId;
+            ac.DestMobileNo = DestMobileNo;
+            ac.SourceMobileNo = SourceMobileNo;
+            ac.FTType = FundTfrType;
+            ac.Status = Status;
+            var result = new List<FundTransfer>();
+            if (Session["FundTransfer"] != null && ParaChanged == "F")
+            {
+                result = Session["FundTransfer"] as List<FundTransfer>;
+            }
+            else
+            {
+                ReportUserModel rep = new ReportUserModel();
+                result = rep.FundTxnEBankingDetails(ac);
+                Session["FundTransfer"] = result;
+            }
+            if (ToExcel == "T")
+            {
+                DataTable excel = ToDataTable<FundTransfer>(result);
+                //ExtraUtility.DataTableToInMemExcel(excel, "TEST.xls");
+                string Handler = Guid.NewGuid().ToString();
+                TempData[Handler] = excel;
+                string FileName = DateTime.Now + "_FundTransferReport.xls";
+                convert = JsonConvert.SerializeObject(new
+                {
+                    FileGuid = Handler,
+                    FileName = FileName
+                });
+                return Content(convert, "application/json");
+            }
+            decimal SumAmount = result.Sum(x => x.Amount);
+            var res = FilterAndSort<FundTransfer>(model, result, out totalResultsCount, out filteredResultsCount);
+            var resultList = new List<dynamic>();
+            foreach (var item in res)
+            {
+                dynamic resultset = new ExpandoObject();
+                resultset.DatenTime = item.DatenTime.ToString("dd/MM/yyyy hh:mm:ss.fff tt", CultureInfo.InvariantCulture);
+                resultset.TxnID = item.TxnID;
+                resultset.FTType = item.FTType;
+                resultset.Source = item.SourceMobileNo;
+                resultset.Destination = item.DestMobileNo;
+                resultset.Amount = item.Amount;
+                resultset.Status = item.Status;
+                resultset.Message = item.Message;
+                resultset.PaymentReferenceNumber = item.PaymentReferenceNumber;
+                resultList.Add(resultset);
+            }
+            convert = JsonConvert.SerializeObject(new
+            {
+                draw = model.draw,
+                recordsTotal = totalResultsCount,
+                recordsFiltered = filteredResultsCount,
+                data = resultList,
+                Sum = SumAmount
+            });
+            return Content(convert, "application/json");
+
+        }
+        [HttpPost]
+        public ActionResult FundTranEBankingRep(FundTxnVm model)
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            string start = "", end = "";
+            if (!string.IsNullOrEmpty(model.Parameter.StartDate))
+
+            {
+                if (!model.Parameter.StartDate.IsValidDate())
+                {
+                    ViewBag.Error = "Not valid start date";
+                    return View(new FundTxnVm
+                    {
+                        Parameter = new TopUp(),
+                        FundTransfer = new List<FundTransfer>()
+
+                    });
+                }
+                start = DateTime.ParseExact(model.Parameter.StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                  .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (!string.IsNullOrEmpty(model.Parameter.EndDate))
+            {
+                if (!model.Parameter.EndDate.IsValidDate())
+                {
+                    ViewBag.Error = "Not valid end date";
+                    return View(new TopUpRepVM
+                    {
+                        Parameter = new TopUp(),
+                        TopUpInfo = new List<TopUpInfo>()
+
+                    });
+                }
+                end = DateTime.ParseExact(model.Parameter.EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                    .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+            }
+
+            ViewBag.Error = "";
+            ViewBag.message = "T";
+
+
+            model.Parameter.StartDate = start;
+            model.Parameter.EndDate = end;
+
+
+            ReportUserModel rep = new ReportUserModel();
+            List<FundTransfer> report = rep.FundTxnDetails(model.Parameter);
+            FundTxnVm vm = new FundTxnVm();
+            vm.FundTransfer = report;
+            vm.Parameter = model.Parameter;
+            return View(vm);
+
+        }
+
+        #endregion
+
+        #region TopUp Report
+        [HttpGet]
+        public ActionResult TopUpRep()
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+            //Check Role link start          
+            string methodlink = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            RoleChecker roleChecker = new RoleChecker();
+            bool checkRole = roleChecker.checkRole(methodlink, clientCode);
+            //Check Role link end
+
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null && checkRole)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+
+                TopUp para = new TopUp();
+                para.StartDate = DateTime.Now.ToString("dd/MM/yyyy");
+                para.EndDate = DateTime.Now.ToString("dd/MM/yyyy");
+                ReportUserModel rep = new ReportUserModel();
+                ViewBag.MerchantList = rep.GetMerchantbyCategory("1"); //Topup=1
+                return View(new TopUpRepVM
+                {
+                    Parameter = para,
+                    TopUpInfo = new List<TopUpInfo>()
+
+                });
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+        }
+
+        public ContentResult TopUpTable(DataTableAjaxPostModel model, string StartDate, string EndDate, string SourceMobileNo, string RequestType, string DestinationMobile, string TranId, string Status, string change, string ToExcel)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                Response.Write("Invalid Execution");
+                return Content("");
+            }
+
+            int filteredResultsCount;
+            int totalResultsCount;
+            string ParaChanged = "T";
+            string convert;
+
+            if (!string.IsNullOrEmpty(StartDate))
+            {
+                if (!StartDate.IsValidDate())
+                {
+
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid Start Date"
+                    });
+
+                    return Content(convert, "application/json");
+                }
+                StartDate = DateTime.ParseExact(StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (!string.IsNullOrEmpty(EndDate))
+            {
+                if (!EndDate.IsValidDate())
+                {
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid End Date"
+                    });
+                    return Content(convert, "application/json");
+                }
+                EndDate = DateTime.ParseExact(EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                           .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            ParaChanged = change;
+            TopUp ac = new TopUp();
+            ac.StartDate = StartDate;
+            ac.EndDate = EndDate;
+            ac.SourceMobileNo = SourceMobileNo;
+            ac.RequestType = RequestType;
+            ac.DestMobileNo = DestinationMobile;
+            ac.TranID = TranId;
+            ac.Status = Status;
+            var result = new List<TopUpInfo>();
+            if (Session["TopUp"] != null && ParaChanged == "F")
+            {
+                result = Session["TopUp"] as List<TopUpInfo>;
+            }
+            else
+            {
+                ReportUserModel rep = new ReportUserModel();
+                result = rep.TopUpDetails(ac);
+                Session["TopUp"] = result;
+
+            }
+            if (ToExcel == "T")
+            {
+                DataTable excel = ToDataTable<TopUpInfo>(result);
+                string Handler = Guid.NewGuid().ToString();
+                TempData[Handler] = excel;
+                string FileName = DateTime.Now + "_TopUp.xls";
+                convert = JsonConvert.SerializeObject(new
+                {
+                    FileGuid = Handler,
+                    FileName = FileName
+                });
+                return Content(convert, "application/json");
+            }
+            decimal SumAmount = result.Sum(x => x.Amount);
+            var res = FilterAndSort<TopUpInfo>(model, result, out totalResultsCount, out filteredResultsCount);
+            var resultList = new List<dynamic>();
+            foreach (var item in res)
+            {
+                dynamic resultset = new ExpandoObject();
+                resultset.DatenTime = item.DatenTime.ToString("dd/MM/yyyy hh:mm:ss.fff tt", CultureInfo.InvariantCulture);
+                resultset.TxnID = item.TxnID;
+                resultset.InitMobileNo = item.InitMobileNo;
+                resultset.DestMobileNo = item.DestMobileNo;
+                resultset.ServiceType = item.ServiceType;
+                resultset.Amount = item.Amount;
+                resultset.Status = item.Status;
+                resultset.Message = item.Message;
+                resultset.ReferenceNo = item.ReferenceNo;
+                resultList.Add(resultset);
+            }
+            convert = JsonConvert.SerializeObject(new
+            {
+                draw = model.draw,
+                recordsTotal = totalResultsCount,
+                recordsFiltered = filteredResultsCount,
+                data = resultList,
+                Sum = SumAmount
+
+            });
+            return Content(convert, "application/json");
+
+        }
+
+        [HttpPost]
+        public ActionResult TopUpRep(TopUpRepVM model)
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            string start = "", end = "";
+            if (!string.IsNullOrEmpty(model.Parameter.StartDate))
+
+            {
+                if (!model.Parameter.StartDate.IsValidDate())
+                {
+                    ViewBag.Error = "Not valid start date";
+                    return View(new TopUpRepVM
+                    {
+                        Parameter = new TopUp(),
+                        TopUpInfo = new List<TopUpInfo>()
+
+                    });
+                }
+                start = DateTime.ParseExact(model.Parameter.StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                  .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (!string.IsNullOrEmpty(model.Parameter.EndDate))
+            {
+                if (!model.Parameter.EndDate.IsValidDate())
+                {
+                    ViewBag.Error = "Not valid end date";
+                    return View(new TopUpRepVM
+                    {
+                        Parameter = new TopUp(),
+                        TopUpInfo = new List<TopUpInfo>()
+
+                    });
+                }
+                end = DateTime.ParseExact(model.Parameter.EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                    .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+            }
+
+            ViewBag.Error = "";
+            ViewBag.message = "T";
+
+
+            model.Parameter.StartDate = start;
+            model.Parameter.EndDate = end;
+
+
+            ReportUserModel rep = new ReportUserModel();
+            List<TopUpInfo> report = rep.TopUpDetails(model.Parameter);
+            TopUpRepVM vm = new TopUpRepVM();
+            vm.TopUpInfo = report;
+            vm.Parameter = model.Parameter;
+            return View(vm);
+
+
+        }
+
+        #endregion
+
+        #region EBanking Cash Load 
+        [HttpGet]
+        //Using same models as for TopUp
+        public ActionResult EBankingCashLoad()
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+            //Check Role link start          
+            string methodlink = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            RoleChecker roleChecker = new RoleChecker();
+            bool checkRole = roleChecker.checkRole(methodlink, clientCode);
+            //Check Role link end
+
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null && checkRole)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+                ViewBag.MType = "";
+
+                MerchantPay para = new MerchantPay();
+                para.StartDate = DateTime.Now.ToString("dd/MM/yyyy");
+                para.EndDate = DateTime.Now.ToString("dd/MM/yyyy");
+                ReportUserModel rep = new ReportUserModel();
+                para.MerchantTypeList = rep.GetMerchantsType();
+                return View(new MerchantVM
+                {
+                    Parameter = para,
+                    MerchantInfo = new List<MerchantInfo>()
+
+                });
+
+
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+        }
+
+        public ContentResult EBankingCashLoadTable(DataTableAjaxPostModel model, string StartDate, string EndDate, string change, string ToExcel)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                Response.Write("Invalid Execution");
+                return Content("");
+            }
+
+            int filteredResultsCount;
+            int totalResultsCount;
+            string ParaChanged = "T";
+            string convert;
+
+            if (!string.IsNullOrEmpty(StartDate))
+            {
+                if (!StartDate.IsValidDate())
+                {
+
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid Start Date"
+                    });
+
+                    return Content(convert, "application/json");
+                }
+                StartDate = DateTime.ParseExact(StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (!string.IsNullOrEmpty(EndDate))
+            {
+                if (!EndDate.IsValidDate())
+                {
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid End Date"
+                    });
+                    return Content(convert, "application/json");
+                }
+                EndDate = DateTime.ParseExact(EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                           .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+
+            ParaChanged = change;
+            MerchantPay ac = new MerchantPay();
+            ac.StartDate = StartDate;
+            ac.EndDate = EndDate;
+            var result = new List<EBankingTran>();
+            if (Session["MerchantPayment"] != null && ParaChanged == "F")
+            {
+                result = Session["MerchantPayment"] as List<EBankingTran>;
+            }
+            else
+            {
+                ReportUserModel rep = new ReportUserModel();
+                //result = rep.EBankingTranDetails(ac);
+                result = rep.EBankingCashLoad(ac);
+                Session["MerchantPayment"] = result;
+
+            }
+            if (ToExcel == "T")
+            {
+                DataTable excel = ToDataTable<EBankingTran>(result);
+                //excel.Columns.Remove("TotalAmount");
+                //excel.Columns.Remove("NoOfTran");
+                string Handler = Guid.NewGuid().ToString();
+                TempData[Handler] = excel;
+                string FileName = DateTime.Now + "_EBankingCashLoadReport.xls";
+                convert = JsonConvert.SerializeObject(new
+                {
+                    FileGuid = Handler,
+                    FileName = FileName
+                });
+                return Content(convert, "application/json");
+            }
+            decimal SumAmount = result.Sum(x => x.Amount);
+            var res = FilterAndSort<EBankingTran>(model, result, out totalResultsCount, out filteredResultsCount);
+            var resultList = new List<dynamic>();
+            foreach (var item in res)
+            {
+                dynamic resultset = new ExpandoObject();
+                //resultset.EBDate = item.EBDate.ToString("dd/MM/yyyy hh:mm:ss.fff tt", CultureInfo.InvariantCulture);
+                resultset.EID = item.EID;
+                resultset.ClientCode = item.ClientCode;
+                resultset.PaymentReferenceNumber = item.PaymentReferenceNumber;
+                resultset.ItemCode = item.ItemCode;
+                resultset.Amount = item.Amount;
+                DateTime date = Convert.ToDateTime(item.EBDate, CultureInfo.InvariantCulture);
+                resultset.EBDate = date.ToString("dd/MM/yyyy hh:mm:ss.fff tt", CultureInfo.InvariantCulture);
+                resultset.ReferenceNo = item.ReferenceNo;
+                resultset.Status = item.Status;
+
+                resultList.Add(resultset);
+            }
+            convert = JsonConvert.SerializeObject(new
+            {
+                draw = model.draw,
+                recordsTotal = totalResultsCount,
+                recordsFiltered = filteredResultsCount,
+                data = resultList,
+                Sum = SumAmount
+            });
+
+            return Content(convert, "application/json");
+
+        }
+
+
+        [HttpPost]
+        public ActionResult EBankingCashLoad(MerchantVM model)
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+                ViewBag.MType = "";
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            string start = "", end = "";
+
+            if (!string.IsNullOrEmpty(model.Parameter.StartDate))
+
+            {
+                if (!model.Parameter.StartDate.IsValidDate())
+                {
+                    ViewBag.Error = "Not valid start date";
+                    return View(new MerchantVM
+                    {
+                        Parameter = new MerchantPay(),
+                        MerchantInfo = new List<MerchantInfo>()
+
+                    });
+                }
+                start = DateTime.ParseExact(model.Parameter.StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                  .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (!string.IsNullOrEmpty(model.Parameter.EndDate))
+            {
+                if (!model.Parameter.EndDate.IsValidDate())
+                {
+                    ViewBag.Error = "Not valid end date";
+                    return View(new MerchantVM
+                    {
+                        Parameter = new MerchantPay { MerchantTypeList = new List<ViewModel.Merchants>() },
+                        MerchantInfo = new List<MerchantInfo>()
+
+                    });
+                }
+                end = DateTime.ParseExact(model.Parameter.EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                    .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+            }
+
+            ViewBag.Error = "";
+            ViewBag.message = "T";
+
+
+            model.Parameter.StartDate = start;
+            model.Parameter.EndDate = end;
+
+
+            ReportUserModel rep = new ReportUserModel();
+            List<MerchantInfo> report = rep.MerchantDetails(model.Parameter);
+            MerchantVM vm = new MerchantVM();
+            vm.MerchantInfo = report;
+            MerchantPay pay = new MerchantPay();
+            pay.MerchantTypeList = rep.GetMerchantsType();
+            pay.StartDate = model.Parameter.StartDate;
+            pay.EndDate = model.Parameter.EndDate;
+            pay.MerchantName = model.Parameter.MerchantName;
+            pay.MerchantType = model.Parameter.MerchantType;
+            pay.Status = model.Parameter.Status;
+            vm.Parameter = pay;
+            return View(vm);
+
+
+        }
+
+        #endregion
+
 
         public DataTable ToDataTable<T>(List<T> items)
         {
@@ -1652,7 +2840,713 @@ namespace MNSuperadmin.Controllers
                 Response.Write("Bad Request");
             }
         }
+
+
+
+
+        #region Registered Customer Report
+        [HttpGet]
+        public ActionResult RegisterCusReport()
+        {
+
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+            //Check Role link start          
+            //string methodlink = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            //RoleChecker roleChecker = new RoleChecker();
+            //bool checkRole = roleChecker.checkRole(methodlink, clientCode);
+            //Check Role link end
+
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null /*&& checkRole*/)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+
+                ////For ProfileName
+                //List<MNCustProfile> ProfileList = new List<MNCustProfile>();
+                //List<SelectListItem> ItemProfile = new List<SelectListItem>();
+                //ProfileList = ReportUserModel.GetMNCustProfile().Where(x => x.ProfileStatus == 'A').ToList();
+
+                //foreach (MNCustProfile Cust in ProfileList)
+                //{
+                //    ItemProfile.Add(new SelectListItem
+                //    {
+                //        Text = Cust.ProfileCode,
+                //        Value = Cust.ProfileCode
+                //    });
+                //}
+
+                //ViewBag.ProfileList = new SelectList(ItemProfile, "Value", "Text");
+
+                CustReport para = new CustReport();
+                para.StartDate = DateTime.Now.ToString("dd/MM/yyyy");
+                para.EndDate = DateTime.Now.ToString("dd/MM/yyyy");
+                return View(new RegCusDetailVM
+                {
+                    Parameter = para,
+                    CustomerData = new List<CustomerData>()
+
+                });
+
+
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+        public ContentResult RegisterCustomerTable(DataTableAjaxPostModel model, string MobileNumber, string StartDate, string EndDate, string Status, string change, string ToExcel)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                Response.Write("Invalid Execution");
+                return Content("");
+            }
+
+            int filteredResultsCount;
+            int totalResultsCount;
+            string ParaChanged = "T";
+            CustReport ac = new CustReport();
+            string convert;
+            string Start = "";
+            string End = "";
+            if (Session["UserName"] == null)
+            {
+
+                convert = JsonConvert.SerializeObject(new
+                {
+                    draw = model.draw,
+                    recordsTotal = 0,
+                    recordsFiltered = 0,
+                    error = "Session Expired, Please re-login."
+                });
+
+                return Content(convert, "application/json");
+
+            }
+            if (!string.IsNullOrEmpty(StartDate))
+            {
+                if (!StartDate.IsValidDate())
+                {
+
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid Start Date"
+                    });
+                    return Content(convert, "application/json");
+                }
+                Start = DateTime.ParseExact(StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture); ;
+            }
+            if (!string.IsNullOrEmpty(EndDate))
+            {
+                if (!EndDate.IsValidDate())
+                {
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid End Date"
+                    });
+
+                    return Content(convert, "application/json");
+                }
+                End = DateTime.ParseExact(EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                           .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            ac.MobileNo = MobileNumber;
+            ac.StartDate = Start;
+            ac.EndDate = End;
+            ac.Status = Status;
+            ac.UserName = (string)Session["UserName"];
+            ParaChanged = change;
+            var result = new List<CustomerData>();
+            if (Session["CustomerData"] != null && ParaChanged == "F")
+            {
+                result = Session["CustomerData"] as List<CustomerData>;
+            }
+            else
+            {
+                ReportUserModel rep = new ReportUserModel();
+                result = rep.CustomerDetail(ac);
+                Session["CustomerData"] = result;
+            }
+
+            if (ToExcel == "T")
+            {
+                DataTable excel = ToDataTable<CustomerData>(result);
+                //ExtraUtility.DataTableToInMemExcel(excel, "TEST.xls");
+                string Handler = Guid.NewGuid().ToString();
+                TempData[Handler] = excel;
+                string FileName = DateTime.Now + "_CustomerData.xls";
+                convert = JsonConvert.SerializeObject(new
+                {
+                    FileGuid = Handler,
+                    FileName = FileName
+                });
+                return Content(convert, "application/json");
+            }
+            var res = FilterAndSort<CustomerData>(model, result, out totalResultsCount, out filteredResultsCount);
+            var resultList = new List<dynamic>();
+            foreach (var item in res)
+            {
+                dynamic resultset = new ExpandoObject();
+                resultset.MobileNo = item.MobileNo;
+                resultset.CustomerName = item.CustomerName;
+                //resultset.ProfileName = item.ProfileName;
+                resultset.CreatedDate = item.CreatedDate;
+                //resultset.ExpiryDate = item.ExpiryDate;
+                resultset.Status = item.Status;
+                resultset.Approved = item.Approved;
+                resultset.CreatedBy = item.CreatedBy;
+                resultset.ApprovedBy = item.ApprovedBy;
+                resultList.Add(resultset);
+            }
+            convert = JsonConvert.SerializeObject(new
+            {
+                draw = model.draw,
+                recordsTotal = totalResultsCount,
+                recordsFiltered = filteredResultsCount,
+                data = resultList
+            });
+            return Content(convert, "application/json");
+
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+        #region Auto Reversal Transaction Report
+        [HttpGet]
+        //Using same models as for TopUp
+        public ActionResult ReversalTransactionReport()
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+            //Check Role link start          
+            string methodlink = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            RoleChecker roleChecker = new RoleChecker();
+            bool checkRole = roleChecker.checkRole(methodlink, clientCode);
+            //Check Role link end
+
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null && checkRole)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+                ViewBag.MType = "";
+
+                MerchantPay para = new MerchantPay();
+                para.StartDate = DateTime.Now.ToString("dd/MM/yyyy");
+                para.EndDate = DateTime.Now.ToString("dd/MM/yyyy");
+                ReportUserModel rep = new ReportUserModel();
+                para.MerchantTypeList = rep.GetMerchantsType();
+                return View(new MerchantVM
+                {
+                    Parameter = para,
+                    MerchantInfo = new List<MerchantInfo>()
+
+                });
+
+
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+        }
+
+        public ContentResult AutoReversalReportTable(DataTableAjaxPostModel model, string StartDate, string EndDate, string SourceMobileNo, string MerchantType, string change, string ToExcel)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                Response.Write("Invalid Execution");
+                return Content("");
+            }
+
+            int filteredResultsCount;
+            int totalResultsCount;
+            string ParaChanged = "T";
+            string convert;
+
+            if (!string.IsNullOrEmpty(StartDate))
+            {
+                if (!StartDate.IsValidDate())
+                {
+
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid Start Date"
+                    });
+
+                    return Content(convert, "application/json");
+                }
+                StartDate = DateTime.ParseExact(StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (!string.IsNullOrEmpty(EndDate))
+            {
+                if (!EndDate.IsValidDate())
+                {
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid End Date"
+                    });
+                    return Content(convert, "application/json");
+                }
+                EndDate = DateTime.ParseExact(EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                           .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+
+            ParaChanged = change;
+            MerchantPay ac = new MerchantPay();
+            ac.StartDate = StartDate;
+            ac.EndDate = EndDate;
+            ac.SourceMobileNo = SourceMobileNo;
+            ac.MerchantType = MerchantType;
+            //ac.MerchantName = MerchantName;
+            //ac.Status = Status;
+            var result = new List<MerchantInfo>();
+            if (Session["MerchantPayment"] != null && ParaChanged == "F")
+            {
+                result = Session["MerchantPayment"] as List<MerchantInfo>;
+            }
+            else
+            {
+                ReportUserModel rep = new ReportUserModel();
+                result = rep.ReversalDetails(ac);
+                Session["MerchantPayment"] = result;
+
+            }
+            if (ToExcel == "T")
+            {
+                DataTable excel = ToDataTable<MerchantInfo>(result);
+                excel.Columns.Remove("TotalAmount");
+                excel.Columns.Remove("NoOfTran");
+                string Handler = Guid.NewGuid().ToString();
+                TempData[Handler] = excel;
+                string FileName = DateTime.Now + "_MerchantPayment.xls";
+                convert = JsonConvert.SerializeObject(new
+                {
+                    FileGuid = Handler,
+                    FileName = FileName
+                });
+                return Content(convert, "application/json");
+            }
+            decimal SumAmount = result.Sum(x => x.Amount);
+            var res = FilterAndSort<MerchantInfo>(model, result, out totalResultsCount, out filteredResultsCount);
+            var resultList = new List<dynamic>();
+            foreach (var item in res)
+            {
+                dynamic resultset = new ExpandoObject();
+                //resultset.DatenTime = item.DatenTime.ToString("dd/MM/yyyy hh:mm:ss.fff tt", CultureInfo.InvariantCulture);
+                resultset.EnteredAt = item.EnteredAt;
+                resultset.TxnID = item.TxnID;
+                resultset.ReferenceNo = item.ReferenceNo;
+                resultset.InitMobileNo = item.InitMobileNo;
+                resultset.MerchantType = item.MerchantType;
+                resultset.MerchantName = item.MerchantName;
+                resultset.Amount = item.Amount;
+                resultset.Status = item.Status;
+                resultset.Message = item.Message;
+                resultset.TranType = item.TranType;
+                resultset.Name = item.Name;
+                resultset.PayMode = item.PayMode;               
+                resultList.Add(resultset);
+            }
+            convert = JsonConvert.SerializeObject(new
+            {
+                draw = model.draw,
+                recordsTotal = totalResultsCount,
+                recordsFiltered = filteredResultsCount,
+                data = resultList,
+                Sum = SumAmount
+            });
+
+            return Content(convert, "application/json");
+
+        }
+
+        [HttpPost]
+        public ActionResult ReversalTransactionReport(MerchantVM model)
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+                ViewBag.MType = "";
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            string start = "", end = "";
+
+            if (!string.IsNullOrEmpty(model.Parameter.StartDate))
+
+            {
+                if (!model.Parameter.StartDate.IsValidDate())
+                {
+                    ViewBag.Error = "Not valid start date";
+                    return View(new MerchantVM
+                    {
+                        Parameter = new MerchantPay(),
+                        MerchantInfo = new List<MerchantInfo>()
+
+                    });
+                }
+                start = DateTime.ParseExact(model.Parameter.StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                  .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (!string.IsNullOrEmpty(model.Parameter.EndDate))
+            {
+                if (!model.Parameter.EndDate.IsValidDate())
+                {
+                    ViewBag.Error = "Not valid end date";
+                    return View(new MerchantVM
+                    {
+                        Parameter = new MerchantPay { MerchantTypeList = new List<ViewModel.Merchants>() },
+                        MerchantInfo = new List<MerchantInfo>()
+
+                    });
+                }
+                end = DateTime.ParseExact(model.Parameter.EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                    .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+            }
+
+            ViewBag.Error = "";
+            ViewBag.message = "T";
+
+
+            model.Parameter.StartDate = start;
+            model.Parameter.EndDate = end;
+
+
+            ReportUserModel rep = new ReportUserModel();
+            List<MerchantInfo> report = rep.ReversalDetails(model.Parameter);
+            MerchantVM vm = new MerchantVM();
+            vm.MerchantInfo = report;
+            MerchantPay pay = new MerchantPay();
+            pay.MerchantTypeList = rep.GetMerchantsType();
+            pay.StartDate = model.Parameter.StartDate;
+            pay.EndDate = model.Parameter.EndDate;
+            //pay.MerchantName = model.Parameter.MerchantName;
+            pay.MerchantType = model.Parameter.MerchantType;
+            //pay.Status = model.Parameter.Status;
+            //pay.PayMode = model.Parameter.PayMode;
+            vm.Parameter = pay;
+            return View(vm);
+
+
+        }
+
+        //public string LoadDropDownMerchantsPaypoint(string value)
+        //{
+        //    bool Where = false;
+        //    if (value != "")
+        //        Where = true;
+        //    ReportUserModel rep = new ReportUserModel();
+        //    string ddl = rep.GetMerchantsFromTypeMerchant(value, Where);
+        //    return ddl;
+        //}
+
+        #endregion
+
+
+
+
+
+
+        #region Reversal Report Auto by System
+        [HttpGet]
+        //Using same models as for TopUp
+        public ActionResult ManualReversalTransaction()
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+            //Check Role link start          
+            string methodlink = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            RoleChecker roleChecker = new RoleChecker();
+            bool checkRole = roleChecker.checkRole(methodlink, clientCode);
+            //Check Role link end
+
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null && checkRole)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+                ViewBag.MType = "";
+
+                MerchantPay para = new MerchantPay();
+                para.StartDate = DateTime.Now.ToString("dd/MM/yyyy");
+                para.EndDate = DateTime.Now.ToString("dd/MM/yyyy");
+                ReportUserModel rep = new ReportUserModel();
+                para.MerchantTypeList = rep.GetMerchantsType();
+                return View(new MerchantVM
+                {
+                    Parameter = para,
+                    MerchantInfo = new List<MerchantInfo>()
+
+                });
+
+
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+        }
+
+        public ContentResult ManualReversalReportTable(DataTableAjaxPostModel model, string StartDate, string EndDate, string SourceMobileNo, string MerchantType, string change, string ToExcel)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                Response.Write("Invalid Execution");
+                return Content("");
+            }
+
+            int filteredResultsCount;
+            int totalResultsCount;
+            string ParaChanged = "T";
+            string convert;
+
+            if (!string.IsNullOrEmpty(StartDate))
+            {
+                if (!StartDate.IsValidDate())
+                {
+
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid Start Date"
+                    });
+
+                    return Content(convert, "application/json");
+                }
+                StartDate = DateTime.ParseExact(StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (!string.IsNullOrEmpty(EndDate))
+            {
+                if (!EndDate.IsValidDate())
+                {
+                    convert = JsonConvert.SerializeObject(new
+                    {
+                        draw = model.draw,
+                        recordsTotal = 0,
+                        recordsFiltered = 0,
+                        error = "Not valid End Date"
+                    });
+                    return Content(convert, "application/json");
+                }
+                EndDate = DateTime.ParseExact(EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                           .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+            }
+
+            ParaChanged = change;
+            MerchantPay ac = new MerchantPay();
+            ac.StartDate = StartDate;
+            ac.EndDate = EndDate;
+            ac.SourceMobileNo = SourceMobileNo;
+            ac.MerchantType = MerchantType;
+            var result = new List<MerchantInfo>();
+            if (Session["MerchantPayment"] != null && ParaChanged == "F")
+            {
+                result = Session["MerchantPayment"] as List<MerchantInfo>;
+            }
+            else
+            {
+                ReportUserModel rep = new ReportUserModel();
+                result = rep.ManualReversalDetails(ac);
+                Session["MerchantPayment"] = result;
+
+            }
+            if (ToExcel == "T")
+            {
+                DataTable excel = ToDataTable<MerchantInfo>(result);
+                excel.Columns.Remove("TotalAmount");
+                excel.Columns.Remove("NoOfTran");
+                string Handler = Guid.NewGuid().ToString();
+                TempData[Handler] = excel;
+                string FileName = DateTime.Now + "_MerchantPayment.xls";
+                convert = JsonConvert.SerializeObject(new
+                {
+                    FileGuid = Handler,
+                    FileName = FileName
+                });
+                return Content(convert, "application/json");
+            }
+            decimal SumAmount = result.Sum(x => x.Amount);
+            var res = FilterAndSort<MerchantInfo>(model, result, out totalResultsCount, out filteredResultsCount);
+            var resultList = new List<dynamic>();
+            foreach (var item in res)
+            {
+                dynamic resultset = new ExpandoObject();
+                resultset.EnteredAt = item.EnteredAt;
+                resultset.TxnID = item.TxnID;
+                resultset.ReferenceNo = item.ReferenceNo;
+                resultset.InitMobileNo = item.InitMobileNo;
+                resultset.MerchantType = item.MerchantType;
+                resultset.MerchantName = item.MerchantName;
+                resultset.Amount = item.Amount;
+                resultset.Status = item.Status;
+                resultset.Message = item.Message;
+                resultset.TranType = item.TranType;
+                resultset.Name = item.Name;
+                resultset.PayMode = item.PayMode;
+                resultset.VerifiedBy = item.VerifiedBy;
+                resultset.ApprovedBy = item.ApprovedBy;
+                resultList.Add(resultset);
+            }
+            convert = JsonConvert.SerializeObject(new
+            {
+                draw = model.draw,
+                recordsTotal = totalResultsCount,
+                recordsFiltered = filteredResultsCount,
+                data = resultList,
+                Sum = SumAmount
+            });
+
+            return Content(convert, "application/json");
+
+        }
+
+        //[HttpPost]
+        //public ActionResult ManualReversalTransactionReport(MerchantVM model)
+        //{
+        //    string userName = (string)Session["LOGGED_USERNAME"];
+        //    string clientCode = (string)Session["LOGGEDUSER_ID"];
+        //    string name = (string)Session["LOGGEDUSER_NAME"];
+        //    string userType = (string)Session["LOGGED_USERTYPE"];
+
+        //    TempData["userType"] = userType;
+
+        //    if (TempData["userType"] != null)
+        //    {
+        //        this.ViewData["userType"] = this.TempData["userType"];
+        //        ViewBag.UserType = this.TempData["userType"];
+        //        ViewBag.Name = name;
+        //        ViewBag.MType = "";
+
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("Index", "Login");
+        //    }
+
+        //    string start = "", end = "";
+
+        //    if (!string.IsNullOrEmpty(model.Parameter.StartDate))
+
+        //    {
+        //        if (!model.Parameter.StartDate.IsValidDate())
+        //        {
+        //            ViewBag.Error = "Not valid start date";
+        //            return View(new MerchantVM
+        //            {
+        //                Parameter = new MerchantPay(),
+        //                MerchantInfo = new List<MerchantInfo>()
+
+        //            });
+        //        }
+        //        start = DateTime.ParseExact(model.Parameter.StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+        //                                          .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+        //    }
+        //    if (!string.IsNullOrEmpty(model.Parameter.EndDate))
+        //    {
+        //        if (!model.Parameter.EndDate.IsValidDate())
+        //        {
+        //            ViewBag.Error = "Not valid end date";
+        //            return View(new MerchantVM
+        //            {
+        //                Parameter = new MerchantPay { MerchantTypeList = new List<ViewModel.Merchants>() },
+        //                MerchantInfo = new List<MerchantInfo>()
+
+        //            });
+        //        }
+        //        end = DateTime.ParseExact(model.Parameter.EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+        //                                            .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+        //    }
+
+        //    ViewBag.Error = "";
+        //    ViewBag.message = "T";
+
+
+        //    model.Parameter.StartDate = start;
+        //    model.Parameter.EndDate = end;
+
+
+        //    ReportUserModel rep = new ReportUserModel();
+        //    List<MerchantInfo> report = rep.MerchantDetails(model.Parameter);
+        //    MerchantVM vm = new MerchantVM();
+        //    vm.MerchantInfo = report;
+        //    MerchantPay pay = new MerchantPay();
+        //    pay.MerchantTypeList = rep.GetMerchantsType();
+        //    pay.StartDate = model.Parameter.StartDate;
+        //    pay.EndDate = model.Parameter.EndDate;
+        //    pay.MerchantType = model.Parameter.MerchantType;
+           
+        //    vm.Parameter = pay;
+        //    return View(vm);
+
+
+        //}
+
+        #endregion
+
+
     }
 
-    
+
 }

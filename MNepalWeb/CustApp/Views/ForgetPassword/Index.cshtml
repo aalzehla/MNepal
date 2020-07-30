@@ -17,12 +17,12 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
     @*///start milayako*@
-    <!-- /Google font -->
-    <link href="https://fonts.googleapis.com/css?family=Chivo:300,400,700" rel="stylesheet">
+
     <!-- Custom style -->
     <link href="~/Content/ThaliStyle.css" rel="stylesheet" />
 
-    <script type="text/javascript" src="~/Content/assets/js/jquery.js"></script>
+    @*<script type="text/javascript" src="~/Content/assets/js/jquery.js"></script>*@
+    <script src="~/Content/assets/js/jquery-3.5.0.js"></script>
 
     <script type="text/javascript" src="~/Content/assets/vendor/bootstrap/js/popper.min.js"></script>
 
@@ -46,17 +46,19 @@
     @*//end comment gareko*@
 
     @*<link rel="stylesheet" href="~/Content/dist/css/AdminLTE.min.css">
-        <!-- iCheck -->
-        <link rel="stylesheet" href="~/Content/plugins/iCheck/square/blue.css">
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->*@
-    <!-- Google Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <link rel="icon" type="image/ico" href="~/favicon.ico">
+            <!-- iCheck -->
+            <link rel="stylesheet" href="~/Content/plugins/iCheck/square/blue.css">
+            <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+            <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+            <![endif]-->
+        <!-- /Google font -->
+        <link href="https://fonts.googleapis.com/css?family=Chivo:300,400,700" rel="stylesheet">
+        <!-- Google Font -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <link rel="icon" type="image/ico" href="~/favicon.ico">*@
 </head>
 <body>
     @*//start milayako*@
@@ -93,33 +95,33 @@
                             {
                                 <!-- Failure modal -->
                                 @*<div class="class=" modal fade common-modal"" tabindex="-1" id="failureModal" role="dialog" aria-labelledby="exampleModalCenterTitle">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body text-center">
-                                    <div class="success-icon">
-                                        <img src="~/Content/assets/img/denied-cross.svg" alt="">
-                                    </div>
-                                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">Error!</p>
-                                    <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message">The number is not registered!</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>*@
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-body text-center">
+                                                    <div class="success-icon">
+                                                        <img src="~/Content/assets/img/denied-cross.svg" alt="">
+                                                    </div>
+                                                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">Error!</p>
+                                                    <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message">The number is not registered!</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>*@
 
                                 @*<div class="alert alert-danger">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <h4>Error</h4> @this.ViewData["forget_message"]
-                    </div>*@
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Error</h4> @this.ViewData["forget_message"]
+                                    </div>*@
                             }
                         }
                         <form>
-                        <label for="userName" class="control-label">Enter your Mobile Number</label>
-                        <input type="text" id="userName" name="txtUserName" class="form-control" placeholder="Mobile Number" onkeypress="return isNumber(event)" onchange="checkValidation()" maxlength="10" onpaste="return false">
-                        <div id="MobNo" style="color:red;"></div>
+                            <label for="userName" class="control-label">Enter your Mobile Number</label>
+                            <input type="text" id="userName" name="txtUserName" class="form-control" placeholder="Mobile Number" onkeypress="return isNumber(event)" onchange="checkValidation()" maxlength="10" onpaste="return false">
+                            <div id="MobNo" style="color:red;"></div>
 
-                        <div class="button-wrapper">
-                            <button type="submit" class="btn btn-blue" id="btnSubmit">Request Recovery Password</button>
-                        </div>
+                            <div class="button-wrapper">
+                                <button type="submit" class="btn btn-blue" id="btnSubmit">Request Recovery Password</button>
+                            </div>
                         </form>
 
                     }
@@ -184,7 +186,7 @@
                     <div class="success-icon">
                         <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
                     </div>
-                    <p style="color: #e31837; font-size: 20px; font-weight: 700;"  id="headmessage">Unregistered number</p>
+                    <p style="color: #e31837; font-size: 20px; font-weight: 700;" id="headmessage">Unregistered number</p>
                     <span style="color: #002d6a; font-size: 18px; font-weight: 400;" id="message">Please enter a valid mobile number.</span>
                     <br /> <br />
                     <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
@@ -192,7 +194,22 @@
             </div>
         </div>
     </div>
-
+    <!-- Failure modal for user enumeration -->
+    <div class="modal fade common-modal" id="failureModalUE" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="success-icon">
+                        <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
+                    </div>
+                    <p style="color: #e31837; font-size: 20px; font-weight: 700;" id="headmessage"></p>
+                    <span style="color: #002d6a; font-size: 18px; font-weight: 400;" id="message">A OTP code will be sent to your phone if the account exists in our system.</span>
+                    <br /> <br />
+                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer class="footer">
         <div class="container">
             <div class="footer-top">
@@ -252,7 +269,7 @@
                     </div>
 
                     <div class="col-md-6 cnt-right text-right">
-                        <span class="copyright">Thaili Digital Paisa @DateTime.Now.Year. All Right Reserved</span><br /> 
+                        <span class="copyright">Thaili Digital Paisa @DateTime.Now.Year. All Right Reserved</span><br />
                         @*<span class="crafted-by">Crafted by <a href="http://act360.com.np/" target="_blank">ACT360</a></span>*@
                     </div>
                 </div>
@@ -379,10 +396,10 @@
                     return false;
                 }
                 return true;
-                
+
             }
 
-            
+
 
         $("#btnSubmit").on('click', function (event) {
             event.preventDefault();
@@ -410,13 +427,13 @@
                 $("#MobNo").hide();
                 $('#btnSubmit').removeAttr('disabled');
 
-                var id = $("#userName").val(); 
+                var id = $("#userName").val();
                 $.ajax({
                     cache: false,
                     type: "GET",
                     url: '@Url.Action("GetCheckingUserName", "ForgetPassword")',
                     data: { "Username": id },
-                    success: function (data, result) { 
+                    success: function (data, result) {
                         var markup = data;
                         if (data == "Success") {
                             var form = document.getElementById("frmRecover");
@@ -426,15 +443,23 @@
                             $('#btnSubmit').attr('disabled', 'disabled');
                             $('#headmessage').html("\n Invalid");
                             $('#message').html("\n You have already attempt 3 times with wrong password,Please try again after 1 hour.");
-                          
+
                             $('#failureModal').modal("show");
                             $('#userName').val("");
 
-                            
+
                         }else {
+                            //$('#btnSubmit').attr('disabled', 'disabled');
+                            //$('#message').html("Please enter a valid mobile number.");
+                            //$('#failureModal').modal("show");
+                            //$('#userName').val("");
+
+
+
+                            //FOR User enumeration
                             $('#btnSubmit').attr('disabled', 'disabled');
-                            $('#message').html("Please enter a valid mobile number.");
-                            $('#failureModal').modal("show");
+                            $('#message').html("A OTP code will be sent to your phone if the account exists in our system.");
+                            $('#failureModalUE').modal("show");
                             $('#userName').val("");
 
                             //$('#failureModal').modal("show");
@@ -449,7 +474,7 @@
                 });
             }
 
-            
+
          });
 
         //$(document).ready(function () {

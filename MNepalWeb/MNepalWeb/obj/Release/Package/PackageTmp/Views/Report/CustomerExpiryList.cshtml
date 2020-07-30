@@ -1,0 +1,320 @@
+﻿@{
+    ViewBag.Title = "CustomerExpiryList";
+
+    List<SelectListItem> Status = new List<SelectListItem>();
+    Status.Add(new SelectListItem { Text = "Expired", Value = "expired" });
+    Status.Add(new SelectListItem { Text = "Expiring", Value = "expiring" });
+}
+<link href="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+<section class="content-header">
+    <h1>
+        Report
+        <small>Customer Expiry List</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i>Report</a></li>
+        <li class="active">Customer Expiry List</li>
+    </ol>
+</section>
+
+
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Customer Expiry List</h3>
+                </div>
+                <!-- /.box-header -->
+            
+                    <div class="box-body">
+                        <div class="row">
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @* <span style="color:red">@ViewBag.Error</span>*@
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div id="MobileNo" class="col-md-4 form-group">
+                                    <label>Mobile Number</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="glyphicon glyphicon-phone" style="color:royalblue" "></i>
+                                        </div>
+                                        @Html.TextBox("UserName", null, new
+                                        {
+                                        @class = "form-control",
+                                        @Id = "UserName",
+                                        @maxlength = 10@*, @pattern = "^[9][8][0-9]{8}$", @data_bv_regexp_message = "Mobile Number is not in valid Format"*@,
+                                       @onkeypress = "return isNumber(event)"
+                                   })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <div>
+                                        <label>Customer Role</label>
+                                        @Html.DropDownList("ProfileCode", new SelectList(ViewBag.ProfileList, "Key", "Value"), "---Select Customer Role---", new { @class = "form-control", @id = "ProfileCode" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <div>
+                                        <label>Status </label>
+                                        @Html.DropDownList("Status", Status, "ALL", new { @class = "form-control", @id = "Status" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label>From</label>
+
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                               @*     @Html.TextBox("StartDate", null, new { @class = "form-control", @Id = "StartDate", @Required = "required", @placeholder = "DD/MM/YYYY", @readonly = "readonly" })*@
+                                </div>
+                            </div>
+                            <div class="col-md-4  form-group">
+                                <label>To</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                @*    @Html.TextBox("EndDate", null, new { @class = "form-control", @Id = "EndDate", @Required = "required", @placeholder = "DD/MM/YYYY", @readonly = "readonly" }) *@
+                                </div>
+                            </div>
+                        </div>
+                            -->
+                    </div>
+
+                    <div class="box-footer">
+                        <input type="submit" class="btn btn-primary" id="Search" name="txtSearch" value="Search" />
+                    </div>
+            </div>
+            <!--/.box -box-danger-->
+            <div id="data" class="box box-primary">
+                <div class="box-body" id="grid">
+                    <span class="fa fa-2x fa-file-excel-o pull-right" style="color:green;display:none;" title="To Excel" id="ToExcel"></span>
+                    <table id="SearchResultTable" class="table table-striped table-bordered" style="display:none;overflow-x:scroll">
+                        <thead>
+                            <tr>
+                                <th style="width:100px;">Name</th>
+                                <th style="width:155px;">Address</th>
+                                <th style="width:60px;">Contact Number</th>
+                                <th style="width:55px;">Created Date</th>
+                                <th style="width:55px;">Expiry Date</th>
+                                <th style="width:55px;">Customer Role</th>
+                                <th style="width:55px;">Renew Period</th>
+                                <th style="width:55px;">Days till Expiry</th>
+                                <th style="width:55px;">Expired</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="overlay" id="loading" style="display:none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+            <!-- /.col-xs--->
+            <!-- End-->
+
+        </div>
+    </div>
+    <!-- /.row -->
+</section>
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var changed = "F";
+            $('#UserName, #StartDate, #EndDate').on('input propertychange paste', function () {
+                changed = "T";
+            });
+            var table;
+             $('#ToExcel').click(function () {
+                 var UserName = $('#UserName').val();
+                 var Profile = $('#ProfileCode').val();
+                 var Status = $('#Status').val();
+                 var Parachanged = changed;
+                $.ajax({
+                    url: "@Url.Action("CustomerAccountLogTable", "Report")",
+                    data: {
+                        UserName : UserName,
+                        Profile: Profile,
+                        Status:Status,
+                        ToExcel: 'T'
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        var url = "@Url.Action("Download", "Report")";
+                        window.location = url + '?fileGuid=' + data.FileGuid
+                           + '&filename=' + data.FileName;
+                        /*window.open(url + '?fileGuid=' + data.FileGuid
+                           + '&filename=' + data.FileName, '_blank');*/
+                    },
+                    error: function (data) {
+
+                    }
+
+
+                });
+            });
+            $('#Search').click(function (e) {
+                e.preventDefault();
+                changed = "T";
+               var UserName = $('#UserName').val();
+               var Profile = $('#ProfileCode').val();
+               var Status = $('#Status').val();
+               var Parachanged = changed;
+                if ($.fn.DataTable.isDataTable('#SearchResultTable')) {
+                    table.destroy();
+                }
+                $('#loading').show();
+                $('#btnSearch').prop("disabled", true);
+                table = $('#SearchResultTable').DataTable({
+
+                    searching: false,
+                    "proccessing": true,
+                    "serverSide": true,
+                    "aaSorting": [],
+                    "ajax": {
+
+                        data: function (d) {
+                            d.UserName = UserName;
+                            d.Profile = Profile;
+                            d.Status = Status;
+                            d.change = Parachanged;
+                        },
+                        url: "@Url.Action("CustomerExpiryListTable", "Report")",
+                        type: 'POST',
+                    },
+                    "drawCallback": function (settings) {
+                        changed = "F";
+                        Parachanged = changed;
+                        $('#SearchResultTable').show();
+                        if (settings.json.recordsTotal > 0)
+                            $('#ToExcel').show();
+                        else
+                            $('#ToExcel').hide();
+                        $('#loading').hide();
+                        $('#btnSearch').prop("disabled", false);
+                    },
+                    "columns": [
+                           { "data": "Name" },
+                           { "data": "Address", sortable: "false" },
+                           { "data": "ContactNumber" },
+                           { "data": "CreatedDate" },
+                           { "data": "ExpiryDate" },
+                           { "data": "ProfileCode" },
+                           { "data": "RenewPeriod"},
+                           { "data": "ExpiryPeriodInDays" },
+                           { "data": "Expired" }
+                    ]
+                });
+            });
+
+            function isNumber(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            }
+
+/*
+
+            $("#StartDate").datepicker(
+              {
+                  dateFormat: 'dd/mm/yy',
+                  maxDate: new Date,
+                  onSelect: function (dateText) {
+                      changed = "T";
+                      var from = $('#EndDate').val().split("/");
+                      if (from != "") {
+                          var EDate = new Date(from[2], from[1] - 1, from[0]);
+                          var to = dateText.split("/");
+                          var SDate = new Date(to[2], to[1] - 1, to[0]);;
+                          if (SDate > EDate) {
+                              $('#EndDate').val("");
+                              $('#message').text('End Date cannot be less than Start Date');
+                          }
+                          else {
+                              $('#message').text("");
+                          }
+                      }
+                  }
+              });*/
+
+
+/*
+            $("#EndDate").datepicker(
+             {
+                 dateFormat: 'dd/mm/yy',
+                 maxDate: new Date,
+                 onSelect: function (dateText) {
+                     changed = "T";
+                     var from = $('#StartDate').val().split("/");
+                     if (from != "") {
+                         var SDate = new Date(from[2], from[1] - 1, from[0]);
+                         var to = dateText.split("/");
+                         var EDate = new Date(to[2], to[1] - 1, to[0]);;
+                         if (EDate < SDate) {
+                             debugger;
+                             $('#EndDate').val("");
+                             $('#message').text('End Date cannot be less than Start Date');
+                         }
+                         else {
+                             $('#message').text("");
+                         }
+                     }
+                 }
+             });
+ */
+
+
+            /**Validation Check */
+            /*    $('#CustomerAccountLog').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    UserName: {
+                        validators: {
+                            stringlength: {
+                                min: 10,
+                                max: 10,
+                                message: 'Please enter valid Mobile No'
+
+                            },
+                            regexp: {
+                                regexp:'^[9][8][0-9]{8}$' ,
+                                message: 'Mobile no must start with 98 and should be 10 digits'
+
+                            }
+                        }
+                    }
+
+
+                }
+
+            });*/
+        });
+
+
+    </script>
+}
+
+

@@ -253,33 +253,46 @@ namespace ThailiMNepalAgent.Controllers
         public async Task<ActionResult> FundTransferTran(MNFundTransfer _ft)
         //MNFundTransfer _ft
         {
-
-
-            string userName = (string)Session["LOGGED_USERNAME"];
-
-            if (_ft.sc == "00" || _ft.sc == "11")
+            string retoken = _ft.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
             {
-                if (_ft.da == userName)
-                {
-                    return Json(new { responseCode = "", responseText = "Fund transfer is not allowed to same user" },
-                       JsonRequestBehavior.AllowGet);
-                }
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
             }
-
-
-            HttpResponseMessage _res = new HttpResponseMessage();
-
-            string mobile = _ft.mobile; //mobile is username
-
-            TraceIdGenerator _tig = new TraceIdGenerator();
-            var tid = _tig.GenerateTraceID();
-
-            using (HttpClient client = new HttpClient())
+            else if (dtableVToken.Rows.Count == 0)
             {
+                reqToken = "0";
+            }
+            if (reqToken == "0")
+            {
+                ReqTokenUtils.InsertReqToken(retoken);
 
-                var action = "ft.svc/request";
-                var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                var content = new FormUrlEncodedContent(new[]{
+                string userName = (string)Session["LOGGED_USERNAME"];
+
+                if (_ft.sc == "00" || _ft.sc == "11")
+                {
+                    if (_ft.da == userName)
+                    {
+                        return Json(new { responseCode = "", responseText = "Fund transfer is not allowed to same user" },
+                           JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+
+                HttpResponseMessage _res = new HttpResponseMessage();
+
+                string mobile = _ft.mobile; //mobile is username
+
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
+
+                using (HttpClient client = new HttpClient())
+                {
+
+                    var action = "ft.svc/request";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                    var content = new FormUrlEncodedContent(new[]{
                         new KeyValuePair<string, string>("tid", tid),
                         new KeyValuePair<string,string>("sc",_ft.sc),
                         new KeyValuePair<string, string>("mobile",mobile),
@@ -290,74 +303,81 @@ namespace ThailiMNepalAgent.Controllers
                         new KeyValuePair<string,string>("src",_ft.sourcechannel),
                         new KeyValuePair<string,string>("tokenID",Session["TokenID"].ToString())
                     });
-                _res = await client.PostAsync(new Uri(uri), content);
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
-                string errorMessage = string.Empty;
-                int responseCode = 0;
-                string message = string.Empty;
-                string responsetext = string.Empty;
-                bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
-                try
-                {
-                    if (_res.IsSuccessStatusCode)
+                    _res = await client.PostAsync(new Uri(uri), content);
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
+                    string errorMessage = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
+                    try
                     {
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        if (!string.IsNullOrEmpty(message))
+                        if (_res.IsSuccessStatusCode)
                         {
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-                            var json = ser.Deserialize<JsonParse>(responsetext);
-                            message = json.d;
-                            JsonParse myNames = ser.Deserialize<JsonParse>(json.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            message = _res.Content.ReadAsStringAsync().Result;
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+                                var json = ser.Deserialize<JsonParse>(responsetext);
+                                message = json.d;
+                                JsonParse myNames = ser.Deserialize<JsonParse>(json.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                        }
-                        return Json(new { responseCode = responseCode, responseText = respmsg },
-                        JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        result = false;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        dynamic json = JValue.Parse(responsetext);
-                        message = json.d;
-                        if (message == null)
-                        {
-                            return Json(new { responseCode = responseCode, responseText = responsetext },
-                        JsonRequestBehavior.AllowGet);
+                            return Json(new { responseCode = responseCode, responseText = respmsg },
+                            JsonRequestBehavior.AllowGet);
                         }
                         else
                         {
-                            dynamic item = JValue.Parse(message);
-
-                            return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                            result = false;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            dynamic json = JValue.Parse(responsetext);
+                            message = json.d;
+                            if (message == null)
+                            {
+                                return Json(new { responseCode = responseCode, responseText = responsetext },
                             JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                dynamic item = JValue.Parse(message);
+
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                                JsonRequestBehavior.AllowGet);
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                        JsonRequestBehavior.AllowGet);
-                }
-                this.TempData["fundTransfer_messsage"] = result
-                                                ? "Fund Transfer successfully." + message
-                                                : "ERROR :: " + message;
-                this.TempData["message_class"] = result ? "success_info" : "failed_info";
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                            JsonRequestBehavior.AllowGet);
+                    }
+                    this.TempData["fundTransfer_messsage"] = result
+                                                    ? "Fund Transfer successfully." + message
+                                                    : "ERROR :: " + message;
+                    this.TempData["message_class"] = result ? "success_info" : "failed_info";
 
-                return RedirectToAction("Index", "LoadWallet");
+                    return RedirectToAction("Index", "LoadWallet");
+                }
+
+            }
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                            JsonRequestBehavior.AllowGet);
             }
 
 

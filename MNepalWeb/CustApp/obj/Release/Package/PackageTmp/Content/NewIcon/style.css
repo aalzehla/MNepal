@@ -89,7 +89,8 @@
 .icon-icon-ncell:before {
     content: "\e911";
     color: #e31837;
-    font-size: 50px;
+    font-size: 94px !important;
+    /*font-size: 50px !important;*/
 }
 
 
@@ -113,6 +114,7 @@
     content: "\e908";
     color: #f7941d;
     font-size: 80px !important;
+    
 }
 
 .icon-icon-gsm2:before {

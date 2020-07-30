@@ -1,0 +1,427 @@
+﻿@model MNepalWeb.ViewModel.ResetVM
+@{
+    ViewBag.Title = "Reset";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MNepal | Mobile Banking</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="~/Content/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/Content/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    @*<link rel="stylesheet" href="~/Content/dist/css/AdminLTE.min.css">
+        <!-- iCheck -->
+        <link rel="stylesheet" href="~/Content/plugins/iCheck/square/blue.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->*@
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <style>
+         html {
+            height: 100%;
+        }
+        body {
+            background-image: linear-gradient(#414688, #1f564c);
+            height: 100%;
+            margin: 0;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color:white;
+        }
+        legend
+        {
+            color:white !important;
+        }
+        #box {
+            border: 1px solid rgb(200, 200, 200);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 2px;
+            background: rgba(200, 200, 200, 0.1);
+            border-radius: 4px;
+            top: 50px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #fff;
+        }
+        .text-danger,.help-block{
+            color:#e8af0c !important;
+        }
+
+       
+    </style>
+
+    <script src="~/Scripts/bootstrapvalidator.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('#ResetForm').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    OldPin:{
+                        validators: {
+                            integer: {
+                                message: 'The value is not an integer'
+                            },
+                            notEmpty: {
+                                message: 'The old pin is required and cannot be empty'
+                            },
+                            stringLength: {
+                                max: 4,
+                                min: 4,
+                                message: 'The old pin must be 4 digit numeric pin'
+                            }
+                        }
+                    },
+                    Pin: {
+                        validators: {
+                            integer: {
+                                message: 'The value is not an integer'
+                            },
+                            notEmpty: {
+                                message: 'The new pin is required and cannot be empty'
+                            },
+                            stringLength: {
+                                max: 4,
+                                min: 4,
+                                message: 'The new pin must be 4 digit numeric pin'
+                            }
+                        }
+                    },
+                    RetypePin: {
+                        validators: {
+                            integer: {
+                                message: 'The value is not an integer'
+                            },
+                            notEmpty: {
+                                message: 'This field is required and cannot be empty'
+                            },
+                            stringLength: {
+                                max: 4,
+                                min: 4,
+                                message: 'The pin must be 4 digit numeric pin'
+                            },
+                            identical: {
+                                field: 'Pin',
+                                message: 'The Pin dont match. Please retry!'
+                            }
+                        }
+                    },
+                    OldPassword:{
+                        validators: {
+                            notEmpty: {
+                                message: 'The old password is required and cannot be empty'
+                            }
+                        }
+                    },
+                    Password: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The password is required and cannot be empty'
+                            },
+                            regexp: {
+                                regexp: /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!$%@@#£€*?&]{8,12}$/,
+                                message: 'New Password must be of 8-12 characters long which should include 1 uppercase & 1 number'
+                            },
+                            different: {
+                                field: 'OldPassword',
+                                message: 'The new password and old password should not be same. Please retry!'
+
+                            }
+                            //stringLength: {
+                            //    min: 8,
+                            //    message: 'New Password must be of minimum 8 characters long which should include 1 uppercase & 1 number'
+                            //}
+                        }
+                    },
+                    RetypePassword: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The password is required and cannot be empty'
+                            },
+                            //stringLength: {
+                            //    min: 8,
+                            //    message: 'New Password must be of minimum 8 characters long which should include 1 uppercase & 1 number'
+                            //},
+                            identical: {
+                                field: 'Password',
+                                message: 'The password dont match. Please retry!'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+    </script>
+
+</head>
+<body>
+
+    <!-- Main content -->
+
+
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+
+          
+            <div class="col-md-offset-4 col-md-4" id="box">
+                @if (this.TempData["messsage"] != null)
+                {
+                    if (this.TempData["message_class"].ToString() == "success_info")
+                    {
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4> @this.TempData["messsage"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error</h4> @this.TempData["messsage"]
+                        </div>
+                    }
+                }
+                
+                <h4>@Model.Message</h4>
+                
+                @using (Html.BeginForm("Change", "Login", FormMethod.Post, new { @id = "ResetForm", @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.Mode)
+                    @Html.HiddenFor(x => x.ClientCode)
+                    @Html.HiddenFor(x => x.PhoneNumber)
+                    @Html.HiddenFor(x => x.Message)
+
+                    if (Model.Mode == "FL")
+                        {
+                        <fieldset>
+                            <legend>Password</legend>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="Pin">
+                                        Old Password
+                                        <b style="color:red">*</b>
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" id="OldPassword" name="OldPassword" placeholder="Old Password" maxlength="12" required>
+                                    @Html.ValidationMessageFor(d => d.OldPassword, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="Pin">
+                                        New Password
+                                        <b style="color:red">*</b>
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" id="newPwd" name="Password" placeholder="Password" maxlength="12" required>
+                                    @Html.ValidationMessageFor(d => d.Password, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="Pin">
+                                        New Password
+                                        <b style="color:red">*</b>
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" id="retypePassword" name="RetypePassword" placeholder="Retype Password" maxlength="12" required>
+
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Pin</legend>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="Pin">
+                                        Old T-Pin
+                                        <b style="color:red">*</b>
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" id="OldPin" name="OldPin" placeholder="Old T-Pin" maxlength="4" required>
+                                    @Html.ValidationMessageFor(d => d.OldPin, null, new { @class = "text-danger" })
+                                    
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="Pin">
+                                        New T-Pin
+                                        <b style="color:red">*</b>
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" id="newPin" name="Pin" placeholder="New T-Pin" maxlength="4" required>
+                                    @Html.ValidationMessageFor(d => d.Pin, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="Pin">
+                                        ReType T-Pin
+                                        <b style="color:red">*</b>
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" id="retypePin" name="RetypePin" placeholder="Retype T-Pin" maxlength="4" required>
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+
+                       
+                    }
+                    <!--Pin-->
+                    if (Model.Mode == "PN")
+                    {
+                        //Pin
+                        <fieldset>
+                            <legend>Pin</legend>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="Pin">
+                                        Old T-Pin
+                                        <b style="color:red">*</b>
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" id="OldPin" name="OldPin" placeholder="Old T-Pin" maxlength="4" required>
+                                    @Html.ValidationMessageFor(d => d.OldPin, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="Pin">
+                                        New T-Pin
+                                        <b style="color:red">*</b>
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" id="newPin" name="Pin" placeholder="New T-Pin" maxlength="4" required>
+                                    @Html.ValidationMessageFor(d => d.Pin, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="Pin">
+                                        ReType T-Pin
+                                        <b style="color:red">*</b>
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" id="retypePin" name="RetypePin" placeholder="Retype T-Pin" maxlength="4" required>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    }
+                    if (Model.Mode == "PW")
+                    {
+                        //Password
+                        <fieldset>
+                            <legend>Password</legend>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="Pin">
+                                        Old Password
+                                        <b style="color:red">*</b>
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" id="OldPassword" name="OldPassword" placeholder="Old Password" maxlength="12" required>
+                                    @Html.ValidationMessageFor(d => d.OldPassword, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="Pin">
+                                        New Password
+                                        <b style="color:red">*</b>
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" id="Password" name="Password" placeholder="Password" maxlength="12" oncopy="return false" onpaste="return false" required>
+                                    @Html.ValidationMessageFor(d => d.Password, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="Pin">
+                                        Retype Password
+                                        <b style="color:red">*</b>
+                                    </label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" id="retypePassword" name="RetypePassword" placeholder="Retype Password" maxlength="12" oncopy="return false" onpaste="return false" required>
+                                </div>
+                            </div>
+                        </fieldset>
+                    }
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-md btn-danger pull-right">Submit </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+
+<!--scripts-->
+
+
+
+
+
+
+</html>

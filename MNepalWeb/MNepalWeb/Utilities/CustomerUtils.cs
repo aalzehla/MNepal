@@ -291,7 +291,7 @@ namespace MNepalWeb.Utilities
                 PStreet = member.PStreet,
 
                 //---NISCHAL---
-                DOB = member.DOB,
+                DOB = member.DOB,                
                 Country = member.Country,
                 Nationality = member.Nationality,
                 FatherName = member.FatherName,
@@ -303,14 +303,14 @@ namespace MNepalWeb.Utilities
                 Occupation = member.Occupation,
                 Document = member.Document,
                 Citizenship = member.Citizenship,
-                CitizenshipIssueDate = member.CitizenshipIssueDate,
+                CitizenshipIssueDate = member.CitizenshipIssueDate,                
                 CitizenshipPlaceOfIssue = member.CitizenshipPlaceOfIssue,
                 License = member.License,
-                LicensePlaceOfIssue = member.LicensePlaceOfIssue,
+                LicensePlaceOfIssue = member.LicensePlaceOfIssue,                
                 LicenseIssueDate = member.LicenseIssueDate,
                 LicenseExpireDate = member.LicenseExpireDate,
                 Passport = member.Passport,
-                PassportPlaceOfIssue = member.PassportPlaceOfIssue,
+                PassportPlaceOfIssue = member.PassportPlaceOfIssue,                
                 PassportIssueDate = member.PassportIssueDate,
                 PassportExpireDate = member.PassportExpireDate,
                 PassportImage = member.PassportImageName,
@@ -554,12 +554,13 @@ namespace MNepalWeb.Utilities
             return objUserModel.CustInfoApproveSelected(userInfoApproval, mode);
         }
 
-        internal static DataTable GetModifiedCustomer(string userType)
+        internal static DataTable GetModifiedCustomer(string userType, string BankCode)
         {
             var objUserModel = new CustApproveUserModels();
             var objUserInfo = new UserInfo
             {
                 UserType = userType,
+                BankCode = BankCode,
                 Mode = "GCMA" // --APPROVE LIST FOR CUSTOMER
             };
             return objUserModel.GetCustApproveDetailInfo(objUserInfo);
@@ -590,7 +591,7 @@ namespace MNepalWeb.Utilities
             int maxlength = 5;
             int minlength = 5;
             int length = rnd.Next(minlength, maxlength);
-            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            const string valid = "abcdefghijklmnopqrstuvwxyz";
             StringBuilder res = new StringBuilder();
             while (0 < length--)
             {
@@ -853,7 +854,7 @@ namespace MNepalWeb.Utilities
                 ClientCode = userInfoBankinkApprove.ClientCode,
                 AcNumber = userInfoBankinkApprove.AcNumber,
                 BranchCode = userInfoBankinkApprove.BranchCode,
-
+                UserBranchCode = userInfoBankinkApprove.UserBranchCode,
                 ApprovedBy = userInfoBankinkApprove.ApprovedBy,
                 ApprovedDate = userInfoBankinkApprove.ApprovedDate,
                 BankCode = bankCode

@@ -67,5 +67,7 @@ namespace WCF.MNepal.Models
         public string totalAmount { get; set; }
         public string status { get; set; }
         public string destination { get; set; }
+
+        public List<NEAFundTransfer> nftList = new List<NEAFundTransfer>();
     }
 }

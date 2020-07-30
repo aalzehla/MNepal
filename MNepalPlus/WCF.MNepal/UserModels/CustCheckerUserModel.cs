@@ -585,6 +585,88 @@ namespace WCF.MNepal.UserModels
 
         #endregion
 
+        #region InsertRetrievalReference
+
+        public int InsertRetrievalReference(SoapTransaction soapTransaction, string retRef)
+        {
+            int ret;
+
+            try
+            {
+
+                using (SqlConnection sqlCon = new SqlConnection(DatabaseConnection.ConnectionString()))
+                {
+                    sqlCon.Open();
+                    using (SqlCommand sqlCmd = new SqlCommand("[s_MNInsertRetRef]", sqlCon))
+
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        sqlCmd.Parameters.Add(new SqlParameter("@PaymentReferenceNumber", soapTransaction.PRN));
+                        sqlCmd.Parameters.Add(new SqlParameter("@RetrievalReference", retRef));
+
+                        sqlCmd.Parameters.Add("@RegIDOut", SqlDbType.Char, 500);
+                        sqlCmd.Parameters["@RegIDOut"].Direction = ParameterDirection.Output;
+
+                        ret = sqlCmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+
+            return ret;
+        }
+
+        #endregion
+
+        #region Customer EBanking Response Detail
+
+        public DataTable GetEBankingResponse(string mode, string PRN)
+        {
+            DataTable dtable = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DatabaseConnection.ConnectionString()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("[s_MNCheckEBankingResponse]", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@PRN", PRN);
+                        cmd.Parameters.AddWithValue("@mode", mode);
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            // set the CommandTimeout
+                            da.SelectCommand.CommandTimeout = 60;  //seconds
+                            using (DataSet dataset = new DataSet())
+                            {
+                                da.Fill(dataset, "dtCustUserInfo");
+                                if (dataset.Tables.Count > 0)
+                                {
+                                    dtable = dataset.Tables["dtCustUserInfo"];
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+
+            return dtable;
+        }
+
+        #endregion
+
         #region Customer GetCheckBankAccount Commented
 
         //public DataTable GetCheckBankAccount(string checkAccountNo)

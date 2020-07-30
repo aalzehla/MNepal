@@ -6,6 +6,17 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
+        Settings
+        <small> T-Pin Reset</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Payment</a></li>
+        <li class="active"> T-Pin Reset</li>
+    </ol>
+</section>
+
+@*<section class="content-header">
+    <h1>
         Transaction Pin Reset
         <small> T-Pin</small>
     </h1>
@@ -13,7 +24,7 @@
         <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
         <li class="active">PinReset</li>
     </ol>
-</section>
+</section>*@
 
 <!-- Main content -->
 <section class="content">
@@ -60,7 +71,7 @@
                                     <label for="inputEmail3" class="col-sm-3 control-label">Old T-Pin 
                                     <b style="color:red">*</b></label>
                                     <div class="col-sm-8">
-                                        <input type="password" class="form-control" id="oldPin" name="txtOldPin" placeholder="T-Pin" required>
+                                        <input type="password" class="form-control" id="oldPin" name="txtOldPin" placeholder="T-Pin" maxlength="4" required>
                                     </div>
                                 </div>
 
@@ -68,7 +79,7 @@
                                     <label for="inputPassword3" class="col-sm-3 control-label">New T-Pin 
                                     <b style="color:red">*</b> </label>
                                     <div class="col-sm-8">
-                                        <input type="password" class="form-control" id="newPwd" name="txtNewPin" placeholder="New T-Pin" required>
+                                        <input type="password" class="form-control" id="newPwd" name="txtNewPin" placeholder="New T-Pin" maxlength="4" required>
                                     </div>
                                 </div>
 
@@ -76,7 +87,7 @@
                                     <label for="inputPassword4" class="col-sm-3 control-label">ReType T-Pin 
                                     <b style="color:red">*</b></label>
                                     <div class="col-sm-8">
-                                        <input type="password" class="form-control" id="retypePin" name="txtRetypePin" placeholder="Retype T-Pin" required>
+                                        <input type="password" class="form-control" id="retypePin" name="txtRetypePin" placeholder="Retype T-Pin" maxlength="4" required>
                                     </div>
                                 </div>
                             </div>

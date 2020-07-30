@@ -336,22 +336,31 @@
 
 
         $('#btnSubmit').click(function (e) {
+  $('#btnSubmit').attr("disabled", true);
             e.preventDefault();
-
+	    
             var CustomerID = $("[name='txtCustomerID']").val();
             var NepalWaterCounter = $("[name='NepalWater']").val();
+
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
             if ((CustomerID != "") && (NepalWaterCounter != "")) {
 
                 var dataToPost = {
                     CustomerID: CustomerID,
-                    NWCounter: NepalWaterCounter
+                    NWCounter: NepalWaterCounter,
+                    TokenUnique: token
                 };
 
                 e.preventDefault(); //prevent the default action
                 $.ajax({
                     url: '@Url.Action("NepalWaterPayment", "NepalWater")',
                     type: "POST",
-                    data: dataToPost,
+                    //data: dataToPost,
+                    data: {
+                        __RequestVerificationToken: token,
+                        NW: dataToPost
+                    },
                     async: false,
                     success: function (data) {
 
@@ -387,19 +396,32 @@
                         //disable the button until we get the response
                         $('#btnSubmit').attr("disabled", true);
                     },
-                    complete: function (jqXHR, textStatus) {
+                    //complete: function (jqXHR, textStatus) {
                         //enable the button
-                        $('#btnSubmit').attr("disabled", false);
-                    }
+                       // $('#btnSubmit').attr("disabled", false);
+                    //}
+complete: function (data) { 
+                        debugger; 
+
+                       
+                        if (data.responseJSON.responseCode != "200") {
+                            $('#btnSubmit').attr("disabled", false); //enable button if responsecode not equal to 200
+                            
+                        }
+
+
+
+                    } 
                 });
 
             }
             else {
                 checkValidation();
+
                 $("#message").html("");
                 $("#message").append("Please Enter the required fields.");
                 $('#failureModal').modal("show");
-
+ $('#btnSubmit').attr("disabled", false);
             }
         });
     </script>

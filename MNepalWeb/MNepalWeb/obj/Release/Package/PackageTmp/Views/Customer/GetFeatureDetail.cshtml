@@ -8,18 +8,18 @@
 
 <div class="box box-info">
     <div class="box-header with-border">
-        <h3 class="box-title">Profile Information</h3>
+        <h3 class="box-title">Role Information</h3>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
         <div class="row">
             <div class="col-md-10">
-                <div class="col-md-5">Profile Name</div>
+                <div class="col-md-5">Role Name</div>
                 <div class="col-md-5">@Model.ProfileCode</div>
             </div>
             <br/>
             <div class="col-md-10">
-                <div class="col-md-5">Profile Description</div>
+                <div class="col-md-5">Role Description</div>
                 <div class="col-md-5">@Model.ProfileDesc</div>
             </div>
             <br/>
@@ -36,7 +36,7 @@
 
 <div class="box box-info">
        <div class="box-header with-border">
-           <h3 class="box-title">Profile Charge</h3>
+           <h3 class="box-title">Role Charge</h3>
        </div>
        <div class="box-body">
            <table class="table table-responsive">
@@ -113,7 +113,7 @@
 
 <div class="box box-info">
     <div class="box-header with-border">
-        <h3 class="box-title">Assigned Profile Features</h3>
+        <h3 class="box-title">Assigned Role Features</h3>
     </div>
     <div class="box-body">
        
@@ -122,20 +122,24 @@
                     <tr>
                         <th>Feature</th>
                         <th>Transaction Count</th>
-                        <th>Per Day Transaction Limit</th>
                         <th>Per Transaction Limit</th>
+                        <th>Per Day Transaction Limit</th>
+
+                        <th>Per Month Transaction Limit</th>
 
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.MNFeatures)
                     {
-                        <tr>
-                            <td>@item.FeatureName</td>
-                            <td>@item.TxnCount</td>
-                            <td>@item.PerDayTxnAmt</td>
-                            <td>@item.PerTxnAmt</td>
-                        </tr>
+                    <tr>
+                        <td>@item.FeatureName</td>
+                        <td>@item.TxnCount</td>
+                        <td>@item.PerTxnAmt</td>
+                        <td>@item.PerDayTxnAmt</td>
+
+                        <td>@item.TxnAmtM</td>
+                    </tr>
                     }
                 </tbody>
             </table>
@@ -146,7 +150,7 @@
 
 
 
-<div class="box box-info">
+<div class="box box-info hide">
     <div class="box-header with-border">
         <h3 class="box-title">Transaction Alert Limit</h3>
     </div>

@@ -19,5 +19,7 @@ namespace WCF.MNepal.Models
         public string sourcechannel { get; set; }
         public string da { get; set; }
 
+        public string TokenUnique { get; set; }
+
     }
 }

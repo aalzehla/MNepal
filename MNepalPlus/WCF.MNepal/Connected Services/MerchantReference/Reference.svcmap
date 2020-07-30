@@ -22,8 +22,8 @@
     <MetadataSource Address="https://www.nibl.com.np/interface/commoninterface.asmx" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="commoninterface1.wsdl" MetadataType="Wsdl" ID="8bb672de-0517-4bcc-b51c-77f678e2b41e" SourceId="1" SourceUrl="https://www.nibl.com.np/interface/commoninterface.asmx?wsdl" />
-    <MetadataFile FileName="commoninterface1.disco" MetadataType="Disco" ID="49280ede-2157-417b-af47-7aa76176b5c1" SourceId="1" SourceUrl="https://www.nibl.com.np/interface/commoninterface.asmx?disco" />
+    <MetadataFile FileName="commoninterface1.wsdl" MetadataType="Wsdl" ID="d72297c9-2828-4336-b347-a488c00859bd" SourceId="1" SourceUrl="https://www.nibl.com.np/interface/commoninterface.asmx?wsdl" />
+    <MetadataFile FileName="commoninterface1.disco" MetadataType="Disco" ID="88af1ad8-a06b-4bc1-b55c-792453218da5" SourceId="1" SourceUrl="https://www.nibl.com.np/interface/commoninterface.asmx?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

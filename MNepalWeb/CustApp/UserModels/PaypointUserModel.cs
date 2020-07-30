@@ -983,7 +983,7 @@ namespace CustApp.UserModels
                     using (SqlCommand cmd = new SqlCommand())
                     {
 
-                       cmd.CommandText = "SELECT * FROM MNSkyTvServiceCode (NOLOCK) ";
+                        cmd.CommandText = "SELECT * FROM MNSkyTvServiceCode (NOLOCK) ";
 
                         cmd.Connection = conn;
                         if (conn.State != ConnectionState.Open)
@@ -1020,5 +1020,7 @@ namespace CustApp.UserModels
             return ListDHSserviceCode;
         }
         #endregion
+
+
     }
 }

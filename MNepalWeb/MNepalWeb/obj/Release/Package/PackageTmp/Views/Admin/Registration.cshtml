@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "Admin Registration";
 }
 
 <!-- =============================================== -->
@@ -8,7 +8,7 @@
 <section class="content-header">
     <h1>
         Admin
-        <small>Registration</small>
+        @*<small>Registration</small>*@
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-user"></i> Admin</a></li>
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <!-- /.col -->
-                            
+
                         </div>
 
                     </div>
@@ -74,7 +74,7 @@
 
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Admin Registration</h3>
+                        <h3 class="box-title">Registration</h3>
                     </div>
                     <!-- /.box-header -->
 
@@ -82,10 +82,10 @@
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">UserName:<b style="color:red;">*</b></label>
+                                    <label class="control-label col-sm-3">User Name:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="UserName" name="txtUserName" required placeholder="Please use Email address" />
-                                        <label id="check"> Please use Email Address </label>
+                                        <input type="text" class="form-control" id="UserName" name="txtUserName" maxlength="12" placeholder="User Name" onkeypress="return isSymbolKey(event)" required />
+                                        <label id="check"> </label>
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">Full Name:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="FName" name="txtFirstName" placeholder="Full Name"  required/>
+                                        <input type="text" class="form-control" id="FName" name="txtFirstName" placeholder="Full Name" maxlength="40" required />
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +109,8 @@
                                         Email Address<b style="color:red;">*</b>
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="Email" name="txtEmail" required/>
+                                        <input type="email" class="form-control" id="Email" name="txtEmail" required placeholder="Please use Email address" maxlength="50"/>
+                                        @*<label id="check"> Please use Email Address </label>*@
                                     </div>
                                 </div>
                             </div>
@@ -119,23 +120,23 @@
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">Branch:<b style="color:red;">*</b></label>
+                                    <label class="control-label col-sm-3">Branch Name:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownList("BranchName", (IEnumerable<SelectListItem>)ViewBag.BranchName, "-- Select --", new { @class = "form-control select2", @id = "branchName", @name = "txtBranchName", @required="Required"})
+                                        @Html.DropDownList("BranchName", (IEnumerable<SelectListItem>)ViewBag.BranchName, "-- Select --", new { @class = "form-control select2", @id = "branchName", @name = "txtBranchName", @required = "Required" })
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- /.row-->
 
-                        <div class="row">
+                        <div class="row" style="display:none;">
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">
                                         Allowed Push SMS(Maximum)<b style="color:red;"></b>
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="PushSMS" name="txtPushSMS" value="0" />
+                                        <input type="text" class="form-control" id="PushSMS" name="txtPushSMS" value="0" maxlength="4" onkeypress="return isNumberKey(event)" />
                                     </div>
                                 </div>
                             </div>
@@ -146,7 +147,7 @@
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">
-                                        Profile Name<b style="color:red;">*</b>
+                                        Role <b style="color:red;">*</b>
                                     </label>
                                     <div class="col-sm-7">
                                         @Html.DropDownList("ProfileName", (IEnumerable<SelectListItem>)ViewBag.ProfileName,
@@ -156,8 +157,8 @@
                                            @id = "profileName",
                                            @name = "txtProfileName",
                                            @required = "Required"
-                                       }) 
-                                        
+                                       })
+
                                     </div>
                                 </div>
                             </div>
@@ -165,12 +166,12 @@
                         <!-- /.row-->
 
 
-                        <div class="row">
+                        <div>
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"> &nbsp;</label>
                                     <div class="col-sm-9">
-                                        <input type="checkbox" id="COC" name="txtCOC" value="T" />Centralized Operation Contol
+                                        <input type="checkbox" id="COC" name="txtCOC" value="T" />Centralized Operation Control
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +186,6 @@
                     <!-- /.box-footer -->
                 </div>
                 <!-- /.box -->
-                
                 <!-- /.box-body -->
             </div>
             <!-- col-xs-10-->
@@ -211,13 +211,33 @@
 
     <script type="text/javascript">
 
-        $('#UserName').change(function () {
-            $('#Email').val($(this).val());
-        });
+        //$('#UserName').change(function () {
+        //    $('#Email').val($(this).val());
+        //});
 
         $('#FName').change(function () {
             $('#ProfileName').val($(this).val());
         });
+
+        function isNumberKey(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+        function isSymbolKey(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 64 && charCode < 91) || (charCode < 123 && charCode > 96) || (charCode < 58 && charCode > 47))
+                return true;
+
+            return false;
+        }
+
 
         function edValueKeyPress() {
             var edValue = document.getElementById("BankAccountNumber");
@@ -230,29 +250,38 @@
             event.preventDefault();
 
             var id = $("#UserName").val();
-            
-            $.ajax({
-                cache: false,
-                type: "GET",
-                url: '@Url.Action("GetCheckingUserName", "Customer")',
-                data: { "Username": id },
-                success: function (data, textStatus) {
-                    var markup = data;
-                    if (data == "Success") {
-                        $("#check").html("");
-                        $("#check").css("color", "green");
-                        $("#check").html("Validate").show();
+
+            if (id.length != 0) {
+
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetCheckingUserName", "ForgetPassword")',
+                    data: { "Username": id },
+                    success: function (data, textStatus) {
+                        var markup = data;
+
+                        if (data == "Success") {
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").html("Username Already Exists!").show();
+                        }
+                        else {
+                            $("#check").html("");
+
+                            $("#check").css("color", "green");
+                            $("#check").html("Valid").show();
+                        }
+
+                    },
+                    error: function () {
+                        alert("Data Not Found");
                     }
-                    else {
-                        $("#check").html("");
-                        $("#check").css("color", "red");
-                        $("#check").html(markup).show();
-                    }
-                },
-                error: function () {
-                    alert("Data Not Found");
-                }
-            });
+                });
+            }
+            else{
+                $("#check").html("");
+            }
         });
 
 
@@ -327,13 +356,15 @@
             fields: {
                 txtUserName: {
                     validators: {
-                        emailAddress: {
-                            message: 'The email address is not valid.'
-                        },
                         notEmpty: {
                             message: 'The UserName is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[0-9a-zA-Z]+$/,
+                            message: 'Your Full name cannot have symbols'
                         }
                     }
+
                 },
                 txtFirstName: {
                     validators: {
@@ -348,8 +379,12 @@
                 },
                 txtEmail: {
                     validators: {
-                        emailAddress: {
-                            message: 'The email address is not valid.'
+                        //emailAddress: {
+                        //    message: 'The email address is not valid.'
+                        //},
+                        regexp: {
+                            regexp: /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+                            message: 'Email Address is not valid'
                         },
                         notEmpty: {
                             message: 'The UserName is required and cannot be empty'
@@ -367,11 +402,25 @@
         });
 
         });
+
+        function isChar(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 64 && charCode < 91) || (charCode < 123 && charCode > 96) || (charCode < 58 && charCode > 47)) {
+                $("#check").html("");
+                $("#check").css("color", "green");
+                $("#check").html("Valid").show();
+                return true;
+            } else {
+                $("#check").html("");
+                $("#check").css("color", "red");
+                $("#check").html("Invalid").show();
+            }
+        }
     </script>
 }
 
 <!-- =============================================== -->
-
 @*//txtPassword: {
                     validators: {
                         notEmpty: {

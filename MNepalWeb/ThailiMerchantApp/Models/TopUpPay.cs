@@ -46,5 +46,7 @@ namespace ThailiMerchantApp.Models
 
         public string SelectRecharge { get; set; }
 
+        public string TokenUnique { get; set; }
+
     }
 }

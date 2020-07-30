@@ -1,0 +1,334 @@
+﻿@model MNSuperadmin.Models.CustomerSRInfo
+
+@{
+    ViewBag.Title = "ViewServiceCommissionDetail";
+
+}
+
+<style>
+    tr.spaceUnder > td {
+        padding-bottom: 1.5em;
+    }
+</style>
+<!-- Content Header (Page header) -->
+
+<section class="content-header">
+    <h1>
+        Agent Commission
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Agent Commission</a></li>
+        <li class="active"> Service Commission</li>
+        <li class="active">Approve Service Commission Detail</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            <!-- Start Data Show in Table -->
+            <div class="box box-primary" id="CustomerModify">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Approve Service Commission Detail</h3>
+                </div>
+                <!-- /.box-header -->
+                @using (Html.BeginForm("ApproveModifyCommission", "AgentCommission", FormMethod.Post, new { @id = "ViewServiceCommissionDetail", @class = "ViewServiceCommissionDetail" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    <!--ClientCode-->
+                    @Html.HiddenFor(x => x.ClientCode)
+                    <!--Name-->
+                    @Html.HiddenFor(x => x.Name)
+
+                    if (this.TempData["custmodify_messsage"] != null)
+                    {
+                        if (this.TempData["message_class"].ToString() == "success_info")
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Success</h4> @this.TempData["custmodify_messsage"]
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Error</h4> @this.TempData["custmodify_messsage"]
+                            </div>
+                        }
+                    }
+
+                    <!-- Start -->
+
+                    <!-- /.box -->
+
+                    <div class="box box-danger">
+                        <div class="box-body">
+
+                            <!--Passport Photo-->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @if (Model.MakerChecker.Count() > 0)
+                                    {
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th>Field</th>
+                                                    <th>Before</th>
+                                                    <th>After</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.MakerChecker)
+                                                {
+                                                    <tr>
+                                                        <td>@item.ColumnName</td>
+                                                        <td style="color:red">@item.OldValue</td>
+                                                        <td style="color:blue">@item.NewValue</td>
+                                                    </tr>
+
+                                                }
+
+
+                                            </tbody>
+                                        </table>
+                                        <div class="row" style="font-weight:bold;">
+                                            <div class="col-md-3"> Modified by : @Model.MakerChecker[0].EditedBy </div>
+
+                                            <div class="col-md-4">  Modified on : @Model.MakerChecker[0].EditedOn </div>
+
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">ID:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="Id" name="CommissionId" value="@Model.Id" readonly>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">FeeId:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+
+                                            @Html.TextBoxFor(model => model.FeeId, new { @class = "form-control", @readonly = "readonly" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">TieredStart:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="TieredStart" name="TieredStart" value="@Model.TieredStart" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label class="control-label col-sm-4">TieredEnd:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="TieredEnd" name="TieredEnd" value="@Model.TieredEnd" readonly />
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label class="control-label col-sm-4">MinAmt<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="MinAmt" name="MinAmt" value="@Model.MinAmt" readonly />
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">MaxAmt:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="MaxAmt" name="MaxAmt" value="@Model.MaxAmt" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Percentage:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="Percentage" name="Percentage" value="@Model.Percentage" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">FlatFee:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="FlatFee" name="FlatFee" value="@Model.FlatFee" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">FeeType:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" class="form-control" id="FeeType" name="FeeType" value="@Model.FeeType" readonly />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-left" style="margin-left:210px; margin-top:10px;">
+                                <div class="col-md-10">
+
+                                    <input type="submit" class="btn btn-primary" style="text-align: center;" id="btnApprove" name="btnApprove" value="Approve">
+
+                                </div>
+                            </div>
+                            <br />
+
+                            <div id="RejectRemarks">
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Reject Remarks <b style="color:red;">*</b></label>
+
+                                    <div class="col-md-5">
+                                        <textarea name="Remarks" id="Remarks" maxlength="200" rows="4" cols="50" style="min-height:50px;min-width:200px;max-height:100px;max-width:380px;" class="form-control"></textarea>
+                                        <b style="color:red">*</b><b> Note Please fill out remarks before rejecting </b>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <br />
+                            <div class="row text-left" style="margin-left:210px">
+                                <div class="col-md-10">
+
+                                    <input type="submit" class="btn btn-danger" id="btnReject" name="btnApprove" value="Reject">
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- /.box -->
+
+                    </div>
+
+
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.content -->
+@section scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var val = $('input[type=radio][name=MaritalStatus]:checked').val();
+            if (val != "Dis") {
+
+                $('#family').show();
+            }
+            else {
+
+                $('#family').hide();
+            }
+        });
+
+  
+        //$('#Reject').click(function (e) {
+        //    e.preventDefault();
+        //    $('#RejectRemarks').show();
+        //    $('#Reject').hide();
+        //    $('#btnReject').show();
+        //    $('#RejectRemarks textarea').attr('required', true);
+        //    $('#RejectRemarks textarea').focus();
+
+        //});
+
+
+        //$('#txtremove').click(function () {
+        //    $('#RejectRemarks').hide();
+        //    $('#Reject').show();
+        //    $('#btnReject').hide();
+        //    $('#RejectRemarks textarea').removeAttr('required');
+        //});
+
+        $(document).ready(function () {
+
+            $('#btnApprove').click(function (e) {
+                //e.preventDefault();
+                document.getElementById("txtRemarks").setCustomValidity("");
+            });
+
+
+            $('#btnReject').click(function (e) {
+                //e.preventDefault();
+
+                if ($.trim($('#RejectRemarks textarea').val()) == "") {
+                    document.getElementById("txtRemarks").setCustomValidity("Reject Remarks is required");
+                    $('#RejectRemarks textarea').focus();
+                    return;
+                }
+                else {
+                    document.getElementById("txtRemarks").setCustomValidity("");
+                    $('#CustomerModification').submit();
+                }
+
+
+            });
+
+            $('#txtRemarks').on('keyup', function () {
+                document.getElementById("txtRemarks").setCustomValidity("");
+            });
+
+
+        });
+
+    </script>
+}

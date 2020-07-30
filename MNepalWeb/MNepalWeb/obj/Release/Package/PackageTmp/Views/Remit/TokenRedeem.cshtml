@@ -28,76 +28,101 @@
                     <h3 class="box-title">Token Redeem</h3>
                 </div>
                 <!-- /.box-header -->
-
-                @using (Html.BeginForm(new { @id = "frmTokenRedeem" }))
+                @using (Html.BeginForm("TokenRedeem", "Remit", FormMethod.Post, new { @id = "frmTokenRedeem" }))
                 {
                     <div id="ajaxResponse">
                     </div>
 
-                    <div class="box-body">
-                        <!-- /.form-group -->
-                        <div class="form-group" style="display:none;">
-                            <label>Trace ID</label>
-                            <input type="text" id="traceID" name="txtTraceID" class="form-control" placeholder="Trace ID" value="@ViewBag.TraceID" pattern=".{12,12}" required title="Please use Trace number" readonly />
-                        </div>
+                    if (this.ViewData["remit_messsage"] != null)
+                    {
+                        if (this.ViewData["message_class"].ToString() == "success_info")
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Success</h4> @this.ViewData["remit_messsage"]
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Error</h4> @this.ViewData["remit_messsage"]
+                            </div>
+                        }
+                    }
 
-                        <div class="form-group">
-                            <label>Sender Mobile No</label>
-                            <input type="text" id="sender" name="txtSenderMobileNo" class="form-control" value="@ViewBag.SenderMobileNo" readonly />
-                        </div>
-
-                        <div class="form-group" style="display:none;">
-                            <label>Service Code </label>
-                            <input type="text" class="form-control" id="ServiceCode" name="txtServiceCode" value="41" readonly />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Recipient Mobile Number</label>
-                            <input type="text" id="recipient" name="txtRecipientNo" class="form-control" placeholder="Recipient No" pattern=".{10,13}" required title="Please use Recipient Mobile number" />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Beneficial Name</label>
-                            <input type="text" id="beneficialName" name="txtBeneficialName" class="form-control" placeholder="BeneficialName" pattern=".{0,20}" required title="Please use Recipient Beneficial Name" />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Code</label>
-                            <input type="text" id="code" name="txtCode" class="form-control" placeholder="Code" pattern=".{4,4}" required title="Please use 4 digit code" value="@ViewBag.Code" readonly />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Amount</label>
-                            <input type="text" id="amount" name="txtAmount" class="form-control" placeholder="Amount"
-                                   pattern=".{2,4}" required title="Please use 4 digit amount" value="@ViewBag.Amount" />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Token ID</label>
-                            <input type="text" id="tokenID" name="txtTokenID" class="form-control" placeholder="TokenID" pattern=".{6,6}" required title="Please use 6 digit TokenID" />
-                        </div>
-
-                        <div class="form-group">
-                            <label>PIN</label>
-                            <input type="password" id="pin" name="txtPin" class="form-control" placeholder="PIN" pattern=".{4,4}" required title="Please use the Pin number" />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Note</label>
-                            <textarea class="form-control" rows="3" id="note" name="txtNote" placeholder="Note Enter ..." pattern=".{0}|.{,40}" required title="Please use the Pin number"></textarea>
-                        </div>
-
-                        <div class="form-group" style="display:none;">
-                            <label>SRC</label>
-                            <input type="text" id="src" name="txtSrc" class="form-control" value="WEB" />
-                        </div>
-                        <!-- /.form-group -->
+                    <div id="ajaxResponse">
                     </div>
+
+                        <div class="box-body">
+                            <!-- /.form-group -->
+                            <div class="form-group" style="display:none;">
+                                <label>Trace ID</label>
+                                <input type="text" id="traceID" name="txtTraceID" class="form-control" placeholder="Trace ID" value="@ViewBag.TraceID" pattern=".{12,12}" required title="Please use Trace number" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Agent Mobile No</label>
+                                <input type="text" id="sender" name="mobile" class="form-control" value="@ViewBag.AgentMobileNo" readonly />
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                <label>Service Code </label>
+                                <input type="text" class="form-control" id="ServiceCode" name="txtServiceCode" value="41" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Sender Mobile Number</label>
+                                <input type="text" id="remitCustSender" name="RemitCusSender" class="form-control" placeholder="Sender Mobile No" pattern=".{10,13}" required title="Please use Sender Mobile number" maxlength="10" onkeypress="return isNumber(event)" />
+                            </div> 
+
+                            <div class="form-group">
+                                <label>Recipient Mobile Number</label>
+                                <input type="text" id="recipient" name="RemitReceiver" class="form-control" placeholder="Recipient Mobile No" pattern=".{10,13}" required title="Please use Recipient Mobile number" maxlength="10" onkeypress="return isNumber(event)" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Beneficial Name</label>
+                                <input type="text" id="beneficialName" name="txtBeneficialName" class="form-control" placeholder="BeneficialName" pattern=".{0,20}" required title="Please use Recipient Beneficial Name" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Code</label>
+                                <input type="text" id="code" name="sa" class="form-control" placeholder="Code" pattern=".{4,4}" required title="Please use 4 digit code" value="@ViewBag.Code" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Amount</label>
+                                <input type="text" id="amount" name="amount" class="form-control" placeholder="Amount"
+                                       pattern=".{2,4}" required title="Please use 4 digit amount" value="@ViewBag.Amount" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Token ID</label>
+                                <input type="text" id="tokenID" name="RequestTokenCode" class="form-control" placeholder="TokenID" maxlength="8" required title="Please use 8 digit TokenID" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>PIN</label>
+                                <input type="password" id="pin" name="pin" class="form-control" placeholder="PIN" pattern=".{4,4}" required title="Please use the Pin number" maxlength="4" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Note</label>
+                                <textarea class="form-control" rows="3" id="note" name="note" placeholder="Note Enter ..." pattern=".{0}|.{,40}" required title="Please use the Pin number"></textarea>
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                <label>SRC</label>
+                                <input type="text" id="src" name="sourcechannel" class="form-control" value="WEB" />
+                            </div>
+                            <!-- /.form-group -->
+                        </div>
                     <!-- /.box-body -->
 
-                    <div class="box-footer">
-                        <input type="submit" class="btn btn-primary pull-right" id="btnSubmit" name="txtSubmit" value="Submit" />
-                    </div>
+                        <div class="box-footer">
+                            <input type="submit" class="btn btn-primary pull-right" id="btnSubmit" name="txtSubmit" value="Submit" />
+                        </div>
                 }
             </div>
         </div>
@@ -120,6 +145,15 @@
 
     <!--jQuery Form Validation code -->
     <script type="text/javascript">
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
 
         $("#recipient").change(function (event) {
             event.preventDefault();
@@ -172,7 +206,7 @@
                             }
                         }
                     },
-                    txtPin: {
+                    pin: {
                         validators: {
                             notEmpty: {
                                 message: 'The pin is required and cannot be empty'
@@ -183,6 +217,18 @@
                                 message: 'The pin must 4 digit numeric password'
                             }
                         }
+                    },
+                    txtRecipientNo: {
+                        validators: {
+                            phone: {
+                                country: 'Nepal',
+                                message: 'The phone number is not valid'
+                            },
+                            regexp: {
+                                regexp: '("^[98][0-9]{8}$")',
+                                message: 'Mobile must start with 98'
+                            }
+                        }
                     }
                 }
             });
@@ -190,7 +236,7 @@
 
             $("#ajaxResponse").hide();
 
-            $('#btnSubmit').click(function (e) {
+            @*$('#btnSubmit').click(function (e) {
 
                 var tid = $("[name='txtTraceID']").val();
                 var servicecode = $("[name='txtServiceCode']").val();
@@ -200,6 +246,8 @@
                 var pin = $("[name='txtPin']").val();
                 var note = $("[name='txtNote']").val();
                 var src = $("[name='txtSrc']").val();
+                var tokenno=$("[name='txtTokenID']").val();
+                var code=$("[name='txtCode']").val();
 
                 var dataToPost = {
                     tid: tid,
@@ -209,7 +257,9 @@
                     amount: amount,
                     pin: pin,
                     note: note,
-                    sourcechannel: src
+                    sourcechannel: src,
+                    RequestTokenCode: tokenno,
+                    sa:code
                 };
 
                 e.preventDefault(); //prevent the default action
@@ -255,7 +305,7 @@
                         $('#btnSubmit').attr("disabled", false);
                     }
                 });
-            });
+            });*@
 
         });
 

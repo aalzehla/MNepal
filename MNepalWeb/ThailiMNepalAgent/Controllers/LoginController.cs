@@ -89,7 +89,7 @@ namespace ThailiMNepalAgent.Controllers
             string messageClass = string.Empty;
             string messageTopic = string.Empty;
             bool ForceUserChangePW = true;
-            
+
             try
             {
                
@@ -111,7 +111,7 @@ namespace ThailiMNepalAgent.Controllers
                             {
                                 result = false;
                             //displayMessage = "User doesnot exist."; 
-                            messageTopic = "Unregistered number";
+                            messageTopic = "Unregistered Number!";
                             displayMessage = "Please enter a valid mobile number.";
                             
                             messageClass = CssSetting.FailedMessageClass;
@@ -131,7 +131,7 @@ namespace ThailiMNepalAgent.Controllers
                                 messageTopic = "Blocked";
                                 //displayMessage = BlockRemarks;
 
-                                displayMessage = "agent blocked, contact administrator";
+                                displayMessage = "Agent blocked, contact administrator";
                             }
 
 
@@ -472,14 +472,16 @@ namespace ThailiMNepalAgent.Controllers
 
                                         LoginUtils.LogAction(log);
                                         result = false;
-                                        displayMessage = "\n Please make sure that the username and the password is Correct !!";
+                                        //displayMessage = "\n Please make sure that the username and the password is Correct !!";
+                                        displayMessage = "\n Enter valid mobile number and password.";
+                                        messageTopic = "Invalid Information!";
                                         messageClass = CssSetting.FailedMessageClass;
                                     }
                                 }
                                 else
                                 {
                                     //displayMessage = "You cannot log in at the moment!";
-                                    displayMessage = "You have already attempt 3 times with wrong password,Please try again after 1 hour";
+                                    displayMessage = "Invalid Login! You have already attempt 3 times with wrong password,Please try again after 1 hour";
 
                                     messageClass = CssSetting.FailedMessageClass;
                                 }
@@ -514,7 +516,7 @@ namespace ThailiMNepalAgent.Controllers
             {
                 this.TempData["login_message"] = result
                                                      ? "" + displayMessage
-                                                     : "Invalid Login!" + displayMessage;
+                                                     : "" + displayMessage;  //"Invalid Login!" + 
             }
 
 

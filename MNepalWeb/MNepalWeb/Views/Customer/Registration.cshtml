@@ -47,7 +47,7 @@
         Customer
         <small>Registration</small>
     </h1>
-    <ol class="breadcrumb">
+        <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-user"></i> Customer</a></li>
         <li class="active"> Registration</li>
     </ol>
@@ -384,7 +384,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
 
-                                                        <label class="control-label col-sm-4">Mother's Name<b style="color:red;">*</b></label>
+                                                        <label class="control-label col-sm-4">Mother's Name:</label>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control" id="MotherName" name="txtMotherName" placeholder=" Mother's Name" maxlength="40" />
                                                         </div>
@@ -1819,7 +1819,7 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
     <script src="~/Content/date_comp/nepali.datepicker.v2.2.min.js"></script>
-    <script src="~/Content/date_comp/bootstrap.min.js"></script>
+    @*<script src="~/Content/date_comp/bootstrap.min.js"></script>*@
     <link href="~/Content/date_comp/nepali.datepicker.v2.2.min.css" rel="stylesheet" />
     <script src="~/Scripts/CRNepaliCalender.js"></script>
     <script type="text/javascript">
@@ -3020,10 +3020,10 @@
                         required: true,
                         lettersonly: true
                     },
-                    txtMotherName: {
-                        required: true,
-                        lettersonly: true
-                    },
+                    //txtMotherName: {
+                    //    required: true,
+                    //    lettersonly: true
+                    //},
                     txtGrandFatherName: {
                         required: true,
                         lettersonly: true
@@ -3271,10 +3271,10 @@
                         required: "Please Enter your Father's Name",
                         lettersonly: "Only letters and Space allowed"
                     },
-                    txtMotherName: {
-                        required: "Please Enter your Mother's Name",
-                        lettersonly: "Only letters and Space allowed"
-                    },
+                    //txtMotherName: {
+                    //    required: "Please Enter your Mother's Name",
+                    //    lettersonly: "Only letters and Space allowed"
+                    //},
                     txtGrandFatherName: {
                         required: "Please Enter your Grand Father's Name",
                         lettersonly: "Only letters and Space allowed"

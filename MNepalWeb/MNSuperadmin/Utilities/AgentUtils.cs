@@ -167,6 +167,34 @@ namespace MNSuperadmin.Utilities
         }
         #endregion
 
+        #region Agent Registration Approval List
+        public static List<UserInfo> GetAgentRegReject(string userType, string UserName)
+        {
+            var objUserModel = new AgentUserModel();
+            var objUserInfo = new UserInfo
+            {
+                UserType = userType
+
+
+            };
+            return objUserModel.GetAgentRegReject(objUserInfo, UserName);
+        }
+        #endregion
+
+        #region Agent Registration Approval List
+        public static List<UserInfo> GetAgentModReject(string userType, string UserName)
+        {
+            var objUserModel = new AgentUserModel();
+            var objUserInfo = new UserInfo
+            {
+                UserType = userType
+
+
+            };
+            return objUserModel.GetAgentModReject(objUserInfo, UserName);
+        }
+        #endregion
+
         #region Approving Agent Registration
         internal static int AgentRegisterApprove(UserInfo member, string Approve)
         {
@@ -174,7 +202,7 @@ namespace MNSuperadmin.Utilities
             var objUserInfo = new UserInfo
             {
                 ClientCode = member.ClientCode,
-
+                ApprovedBy = member.ApprovedBy
             };
             return objUserModel.AgentRegApprove(objUserInfo, Approve);
         }
@@ -238,20 +266,74 @@ namespace MNSuperadmin.Utilities
         }
         #endregion
        
-        #region Approving Agent Modifiication
-        internal static int AgentModApprove(UserInfo member, string Approve)
+        #region Approving Agent Modification
+        internal static bool AgentModApprove(UserInfo member)
         {
             var objUserModel = new AgentUserModel();
             var objUserInfo = new UserInfo
             {
                 ClientCode = member.ClientCode,
                 ApprovedBy = member.ApprovedBy,
+            };
+            return objUserModel.AgentModApprove(objUserInfo) == 100;
+        }
+
+        #endregion
+
+        #region Rejecting Agent Modification
+        internal static bool AgentModReject(UserInfo member)
+        {
+            var objUserModel = new AgentUserModel();
+            var objUserInfo = new UserInfo
+            {
+                ClientCode = member.ClientCode,
+                RejectedBy = member.RejectedBy,
+                AdminUserName = member.AdminUserName,
+                AdminBranch = member.AdminBranch,
+                Remarks = member.Remarks
+                
+            };
+            return objUserModel.AgentModReject(objUserInfo) == 100;
+        }
+
+        #endregion
+
+        #region Rejecting Agent Registration
+
+        public static DataSet GetAgentModifiedValue(string clientCode)
+        {
+            var objUserModel = new AgentUserModel();
+            var objUserInfo = new UserInfo
+            {
+                ClientCode = clientCode
+
+            };
+            return objUserModel.GetAgentModifiedValue(objUserInfo);
+        }
+
+
+
+
+        internal static int AgentRegReject(UserInfo member, string Rejected)
+        {
+            var objUserModel = new AgentUserModel();
+            var objUserInfo = new UserInfo
+            {
+                ClientCode = member.ClientCode,
+                RejectedBy = member.RejectedBy,
                 ApprovedDate = member.ApprovedDate
 
             };
-            return objUserModel.AgentModApprove(objUserInfo, Approve);
+            return objUserModel.AgentRegisterReject(objUserInfo, Rejected);
         }
 
+        #endregion
+
+        #region
+        public static bool InsertAgentMakerChecker(string ClientCode, string ModifyingAdmin, string ModifyingBranch, string ModifiedField)
+        {
+            return new AgentUserModel().InsertIntoMakerCheckerAgent(ClientCode, ModifyingAdmin, ModifyingBranch, ModifiedField) == 100;
+        }
         #endregion
 
         #region GET Agent Status Changed List

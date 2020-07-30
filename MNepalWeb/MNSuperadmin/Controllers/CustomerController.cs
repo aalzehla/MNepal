@@ -54,7 +54,7 @@ namespace MNSuperadmin.Controllers
                 else
                     COC = false;
                  
-                string UserBranchCode = "999";
+                string UserBranchCode = "001";
                 ViewBag.Value = Value;
                 if (Key == "Mobile")
                 {
@@ -173,7 +173,7 @@ namespace MNSuperadmin.Controllers
                 else
                     COC = false;
 
-                string UserBranchCode = "999";
+                string UserBranchCode = "001";
                 ViewBag.Value = Value;
                 if (Key == "Mobile")
                 {
@@ -444,7 +444,7 @@ namespace MNSuperadmin.Controllers
                         //SMS
                         SMSUtils SMS = new SMSUtils();
 
-                        string Message = string.Format("Dear {0},\n Your KYC at NIBL has been rejected. Please, submit once again referring to the remarks. \n Thank You -MNepal", model.Name);
+                        string Message = string.Format("Dear {0},\n Your KYC has been rejected. Please, submit once again referring to the remarks. \n Thank You -MNepal", model.Name);
                         //string Message = "Dear Customer," + "\n";
                         //Message += " Your T-Pin is " + Pin + " and Password is " + Password
                         //    + "." + "\n" + "Thank You";
@@ -1387,7 +1387,7 @@ namespace MNSuperadmin.Controllers
                 //DataTable dtblCus = CustomerUtils.GetUnApproveCustProfile("user");
                 DataTable dtblCus = CustomerUtils.GetUnApproveCustProfileWalletCustStatus("user");
                 bool COC = Session["COC"] == null ? false : (bool)Session["COC"];
-                string UserBranchCode = "999";
+                string UserBranchCode = "001";
                 ViewBag.Value = Value;
                 if (Key == "Mobile")
                 {

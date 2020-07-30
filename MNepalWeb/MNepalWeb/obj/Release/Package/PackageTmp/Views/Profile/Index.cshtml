@@ -5,7 +5,18 @@
 }
 
 <!-- Content Header (Page header) -->
+
 <section class="content-header">
+    <h1>
+        User
+        <small>User Information</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> User</a></li>
+        <li class="active"> User Information</li>
+    </ol>
+</section>
+@*<section class="content-header">
     <h1>
         Profile
         <small> Personal Information</small>
@@ -14,7 +25,7 @@
         <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
         <li class="active">Profile</li>
     </ol>
-</section>
+</section>*@
 
 <!-- Main content -->
 <section class="content">
@@ -41,7 +52,7 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#activity" data-toggle="tab">User Information</a></li>
                     <li><a href="#location" data-toggle="tab">Location</a></li>
-                    <li><a href="#settings" data-toggle="tab">Account Information</a></li>
+                    @*<li><a href="#settings" data-toggle="tab">Account Information</a></li>*@
                 </ul>
                 <div class="tab-content">
                     <div class="active tab-pane" id="activity">
@@ -73,7 +84,7 @@
                         <hr>
                     </div>
                     <!-- /.tab-pane -->
-                    <div class="tab-pane" id="settings">
+                    @*<div class="tab-pane" id="settings">
                         <strong><i class="fa fa-info margin-r-5"></i> Account Information</strong>
                         <p class="text-muted"><b>Wallet Number : &nbsp; </b>  @ViewBag.WalletNumber </p>
                         <hr/>
@@ -90,7 +101,7 @@
                         </p>
                         <hr />
 
-                    </div>
+                    </div>*@
                     <!-- /.tab-pane -->
                 </div>
             </div>

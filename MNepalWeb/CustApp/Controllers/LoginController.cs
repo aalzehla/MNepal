@@ -17,7 +17,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Management;
 using System.Net.NetworkInformation;
-using System.Runtime.InteropServices; 
+using System.Runtime.InteropServices;
+using System.Web;
 
 namespace CustApp.Controllers
 {
@@ -75,7 +76,7 @@ namespace CustApp.Controllers
 
         }
 
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Index(FormCollection collection)
         {
@@ -104,12 +105,12 @@ namespace CustApp.Controllers
                     {
                         //DataTable dtableMobileNo = RegisterUtils.GetCheckUserName(userName);//RegisterUtils.GetCheckMobileNo(userName);
                         DataTable dtableMobileNo = RegisterUtils.GetCheckMobileNo(userName);
-                        
+
                         if (dtableMobileNo.Rows.Count == 0)
                         {
                             result = false;
                             displayMessage = "Please enter a valid mobile number."; 
-                            messageTopic = "Unregistered number";
+                            messageTopic = "Unregistered Number!";
                             messageClass = CssSetting.FailedMessageClass;
                         }
                         else
@@ -119,7 +120,7 @@ namespace CustApp.Controllers
                             string BlockRemarks = dtableBlockRemarks.Rows[0]["BlockRemarks"].ToString();
                             string Status = dtableBlockRemarks.Rows[0]["Status"].ToString();
                             string IsApproved = dtableBlockRemarks.Rows[0]["IsApproved"].ToString();
-                             
+
                             if (Status == "Blocked" && IsApproved=="Approve")
                             {
                                 StatusCheck = "Blocked";
@@ -153,7 +154,7 @@ namespace CustApp.Controllers
                                         Session["LOGGEDUSER_ID"] = clientCode;//LoggedUserID
                                         Session["LOGGEDUSER_NAME"] = name;//LoggedUserFullname
                                         Session["LOGGED_USERTYPE"] = userType;
-                                        
+
                                         string agentId = string.Empty;
                                         //if ((userType == "agent") || (userType == "admin"))
                                         //{
@@ -164,6 +165,35 @@ namespace CustApp.Controllers
                                         //        agentId = dtableAgent.Rows[0]["ID"].ToString();
                                         //    }
                                         //}
+
+                                        //start local ma bhayako
+                                        ////Authentication
+                                        // string authId = Guid.NewGuid().ToString(); //DateTime.Now.ToShortTimeString()
+                                        //Session["AuthToken"] = authId;
+
+                                        ////START Create Cookies
+                                        // var cookie = new HttpCookie("AuthToken");
+                                        //cookie.Value = authId;
+                                        //cookie.Expires = DateTime.Now.AddDays(2);
+                                        // cookie.HttpOnly = true;
+                                        // Response.Cookies.Add(cookie);
+                                        //END Cookies
+
+                                        //end local ma bhayako
+
+                                        //start comment gareko dd ko
+                                        //Start
+
+                                        string guid = Guid.NewGuid().ToString();
+                                        Session["AuthToken"] = guid;
+                                        // now create a new cookie with this guid value  
+                                        Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+
+                                        //End
+
+                                        //end comment gareko dd ho
+
+
                                         Session["LOGGED_USERNAME"] = userName;
                                         Session["LOGGEDUSER_ID"] = clientCode;//LoggedUserID
                                         Session["LOGGEDUSER_NAME"] = name;//LoggedUserFullname
@@ -364,7 +394,7 @@ namespace CustApp.Controllers
                                         log.UniqueId = Session["UniqueId"].ToString() + "|" + HttpContext.Session.SessionID;
                                         log.Branch = " ";
                                         log.UserId = userName;
-                                        log.UserType = "agent";
+                                        log.UserType = "user";
                                         log.TimeStamp = DateTime.Now;
 
                                         //For User IP address etc
@@ -464,8 +494,9 @@ namespace CustApp.Controllers
 
                                         LoginUtils.LogAction(log);
                                         result = false;
-                                        displayMessage = "\n Please make sure that the username and the password is Correct !!";
-                                        messageTopic = "Invalid Information";
+                                        //displayMessage = "\n Please make sure that the username and the password is Correct !!";
+                                        displayMessage = "\n Enter valid mobile number and password.";
+                                        messageTopic = "Invalid Information!";
                                         messageClass = CssSetting.FailedMessageClass;
                                     }
                                 }
@@ -474,8 +505,9 @@ namespace CustApp.Controllers
 
 
                                     //displayMessage = "You cannot log in at the moment!";
-                                    displayMessage = "You have already attempt 3 times with wrong password,Please try again after 1 hour";
-                                    
+                                   //displayMessage = "Invalid Login! You have already attempt 3 times with wrong password,Please try again after 1 hour";
+                                    displayMessage = "Invalid Login! Your Account has been Blocked for 1 hour.Please try again later";
+
                                     messageClass = CssSetting.FailedMessageClass;
                                 }
                             }
@@ -509,7 +541,7 @@ namespace CustApp.Controllers
             {
                 this.TempData["login_message"] = result
                                                      ? "" + displayMessage
-                                                     : "Invalid Login!" + displayMessage;
+                                                     : "" + displayMessage; /*"Invalid Login!" +*/
             }
 
 
@@ -627,8 +659,8 @@ namespace CustApp.Controllers
                     Message += " Your Pin and password has been changed"
                         + "." + "\n" + "Thank You";
                     Message += "-MNepal";
-                     
- 
+
+
                 }
                 else if (model.Mode.ToUpper() == "PN") //Pin Reset 
                 {

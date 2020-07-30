@@ -145,7 +145,8 @@
     </div>
     <!-- Main content -->
     <div class="main-content">
-        <div class="hero-bg hero-bg-kyc" style="background-image: url('../../Content/assets/img/home-bg.png');">
+        @*<div class="hero-bg hero-bg-kyc" style="background-image: url('../../Content/assets/img/home-bg.png');">*@
+        <div class="hero-bg hero-bg-kyc" style="background-image: url(@backgroundLink);">
             <div class="container">
                 <a class="logo">
                     <img src="~/Content/assets/img/thaili-logo.svg" alt="thaili-logo" />
@@ -180,21 +181,21 @@
                     {
                         <div class="box-body">
                             <h2>Password</h2>
-                            
+
                             <table>
                                 <tr>
                                     <td>
                                         <div class="col-md-12 lab">
-                                            <label class="control-label" style="color:black">Enter Your Old Password<b style="color:red">*</b></label>                                            
+                                            <label class="control-label" style="color:black">Enter Your Old Password<b style="color:red">*</b></label>
                                         </div>
                                     </td>
 
                                     <td>
                                         <div class="col-md-12 lab1">
-                                            <input type="password" class="form-control form-control pwd1" id="OldPassword" name="OldPassword" placeholder="Old Password" maxlength="12" @*onkeypress="checkValidation()"*@  onchange="checkValidation()" onpaste="return false" >
+                                            <input type="password" class="form-control form-control pwd1" id="OldPassword" name="OldPassword" placeholder="Old Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false">
                                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
                                             <div id="oldpswd" style="font-size:small; color:red;">
-                                                @Html.ValidationMessageFor(d => d.OldPassword, null, new { @class = "text-danger"})
+                                                @Html.ValidationMessageFor(d => d.OldPassword, null, new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </td>
@@ -213,13 +214,13 @@
                                     <td>
                                         <div class="col-md-12 lab">
                                             <label class="control-label" style="color:black">Enter Your New Password<b style="color:red">*</b></label>
-                                           
+
                                         </div>
                                     </td>
 
                                     <td>
                                         <div class="col-md-12 lab1">
-                                            <input type="password" class="form-control form-control pwd2" id="newPwd" name="Password" placeholder="Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false" >
+                                            <input type="password" class="form-control form-control pwd2" id="newPwd" name="Password" placeholder="Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false">
                                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow2"></span>
                                             <div id="pswd" style="font-size:small; color:red;">
                                                 @Html.ValidationMessageFor(d => d.Password, null, new { @class = "text-danger" })
@@ -239,13 +240,13 @@
                                 <tr>
                                     <td>
                                         <div class="col-md-12 lab">
-                                            <label class="control-label" style="color:black">Enter Your New Password<b style="color:red">*</b></label>                                            
+                                            <label class="control-label" style="color:black">Enter Your New Password<b style="color:red">*</b></label>
                                         </div>
                                     </td>
 
                                     <td>
-                                        <div class="col-md-12 lab1">                                           
-                                            <input type="password" class="form-control form-control pwd3" id="retypePassword" name="RetypePassword" placeholder="Retype Password" maxlength="12" onpaste="return false" >  
+                                        <div class="col-md-12 lab1">
+                                            <input type="password" class="form-control form-control pwd3" id="retypePassword" name="RetypePassword" placeholder="Retype Password" maxlength="12" onpaste="return false">
                                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow3"></span>
                                         </div>
                                     </td>
@@ -294,8 +295,8 @@
                                     <td>
                                         <div class="col-md-12 pin1">
                                             <input type="password" class="form-control form-control pwd2" id="newPin" name="Pin" placeholder="New T-Pin" maxlength="4" onpaste="return false" onkeypress="return isNumberKey(event)">
-                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow2"></span>                                            
-                                                @Html.ValidationMessageFor(d => d.Pin, null, new { @class = "text-danger" })                                      
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow2"></span>
+                                            @Html.ValidationMessageFor(d => d.Pin, null, new { @class = "text-danger" })
                                         </div>
                                     </td>
                                 </tr>
@@ -317,7 +318,7 @@
 
                                     <td>
                                         <div class="col-md-12 pin1">
-                                            <input type="password" class="form-control form-control pwd3" id="retypePin" name="RetypePin" placeholder="Retype T-Pin" maxlength="4" onpaste="return false" onkeypress="return isNumberKey(event)">  
+                                            <input type="password" class="form-control form-control pwd3" id="retypePin" name="RetypePin" placeholder="Retype T-Pin" maxlength="4" onpaste="return false" onkeypress="return isNumberKey(event)">
                                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow3"></span>
                                         </div>
                                     </td>
@@ -347,7 +348,7 @@
 
                                     <td>
                                         <div class="col-md-12 lab1">
-                                            <input type="password" class="form-control form-control pwd1" id="OldPassword" name="OldPassword" placeholder="Old Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false" >
+                                            <input type="password" class="form-control form-control pwd1" id="OldPassword" name="OldPassword" placeholder="Old Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false">
                                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
                                             <div id="oldpswd">
                                                 @Html.ValidationMessageFor(d => d.OldPassword, null, new { @class = "text-danger" })
@@ -375,7 +376,7 @@
 
                                     <td>
                                         <div class="col-md-12 lab1">
-                                            <input type="password" class="form-control form-control pwd2" id="newPwd" name="Password" placeholder="Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false" >
+                                            <input type="password" class="form-control form-control pwd2" id="newPwd" name="Password" placeholder="Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false">
                                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow2"></span>
                                             <div id="pswd">
                                                 @Html.ValidationMessageFor(d => d.Password, null, new { @class = "text-danger" })
@@ -410,7 +411,7 @@
                             <p class="note" style="font-size:small"><b style="color:red">*</b>New Password must be 5-12 characters</p>
 
                         </div>
-                    
+
                         <div class="box-body">
                             <h2>Pin</h2>
                             <table>
@@ -500,7 +501,7 @@
 
                                     <td>
                                         <div class="col-md-12 lab1">
-                                            <input type="password" class="form-control form-control pwd1" id="OldPassword" name="OldPassword" placeholder="Old Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false"   required>
+                                            <input type="password" class="form-control form-control pwd1" id="OldPassword" name="OldPassword" placeholder="Old Password" maxlength="12" @*onkeypress="checkValidation()"*@ onchange="checkValidation()" onpaste="return false" required>
                                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
                                             <div id="oldpswd" style="font-size:small; color:red;">
                                                 @Html.ValidationMessageFor(d => d.OldPassword, null, new { @class = "text-danger" })

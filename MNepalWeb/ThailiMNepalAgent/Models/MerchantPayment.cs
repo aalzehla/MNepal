@@ -59,6 +59,8 @@ namespace ThailiMNepalAgent.Models
         [Display(Name = "T-Pin")]
         public string TPin { get; set; }
 
+        public string TokenUnique { get; set; }
+
 
     }
 
@@ -108,6 +110,8 @@ namespace ThailiMNepalAgent.Models
         [Display(Name = "T-Pin")]
         public string TPin { get; set; }
 
+        public string TokenUnique { get; set; }
+
 
     }
 
@@ -145,6 +149,8 @@ namespace ThailiMNepalAgent.Models
 
         [Display(Name = "T-Pin")]
         public string TPin { get; set; }
+
+        public string TokenUnique { get; set; }
 
     }
 
@@ -188,6 +194,8 @@ namespace ThailiMNepalAgent.Models
 
         [Display(Name = "Policy Description")]
         public string Remarks { get; set; }
+
+        public string TokenUnique { get; set; }
 
     }
 }

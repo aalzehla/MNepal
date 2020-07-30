@@ -102,6 +102,67 @@ namespace MNepalProject.Controllers
             {
                 description1 = "BILL PAYMENT"; //"Payment To " + getProductID[0]; //"Bank to Merchant's Bank a/c";
             }
+
+            //FOR W2B
+            if (transaction.FeatureCode == "01")
+            {
+                description1 = "Thaili to bank transfer";
+            }
+            //FOR B2W (Mobile Banking)
+            if (transaction.FeatureCode == "10")
+            {
+                description1 = "Thaili cash load(" + transaction.DestinationMobile + ")";
+            }
+            //FOR CASH OUT
+            if (transaction.FeatureCode == "51")
+            {
+                description1 = "Thaili cash load(" + transaction.DestinationMobile + ")";
+            }
+            //FOR TOPUP
+            if (transaction.FeatureCode == "31" || transaction.FeatureCode == "34")
+            {
+                if (transaction.vid == "2") //NTTOPUP
+                {
+                    string des = transaction.Description;
+                    string[] getProductID = des.Split('-');
+                    description1 = "Thaili NT TopUp(" + getProductID[1] + ")";
+                }
+                if (transaction.vid == "10") //NCELL
+                {
+                    string des = transaction.Description;
+                    string[] getProductID = des.Split('-');
+                    description1 = "Thaili Ncell Topup(" + getProductID[1] + ")";
+                }
+                if (transaction.vid == "7") //NT LANDLINE
+                {
+                    string des = transaction.Description;
+                    string[] getProductID = des.Split('-');
+                    description1 = "Thaili NT LandLineADSL TopUp(" + getProductID[1] + ")";
+                }
+                if (transaction.vid == "1") //NT ADSL
+                {
+                    string des = transaction.Description;
+                    string[] getProductID = des.Split('-');
+                    description1 = "Thaili NT ADSL TopUp(" + getProductID[1] + ")";
+                }
+
+            }
+            //FOR RECHARGE
+            if (transaction.FeatureCode == "32" || transaction.FeatureCode == "35")
+            {
+                if (transaction.vid == "11") //NT GSM RECHARGE
+                {
+                    string des = transaction.Description;
+                    string[] getProductID = des.Split('-');
+                    description1 = "Thaili NT Recharge card";
+                }
+                if (transaction.vid == "12") //NT CDMA RECHARGE
+                {
+                    string des = transaction.Description;
+                    string[] getProductID = des.Split('-');
+                    description1 = "Thaili NT CDMA Recharge card";
+                }
+            }
             //END DESCRIPTION 1 :ISO Field 125
 
 
@@ -120,7 +181,7 @@ namespace MNepalProject.Controllers
             ////For Wallet to Bank (ank Transfer)
             //if (transaction.FeatureCode == "01")
             //{
-                //Remark1 = "Bank Transfer from " + transaction.SourceMobile + " to " + mnTransactionMaster.DestinationAccount;
+            //Remark1 = "Bank Transfer from " + transaction.SourceMobile + " to " + mnTransactionMaster.DestinationAccount;
             //    Remark1 = "Bank Transfer to " + transaction.DestinationMobile + (DestinationBankName);
             //}
             ////For Bank to Bank
@@ -222,7 +283,8 @@ namespace MNepalProject.Controllers
                     {
                         if (transaction.ReverseStatus == "T")
                         {
-
+                            description1 = "Reverse (" + transaction.DestinationMobile + ")";
+                            Remark1 = transaction.merchantType;// "Reverse for " + transaction.DestinationMobile;
                         }
                         else
                         {
@@ -234,19 +296,10 @@ namespace MNepalProject.Controllers
                                 return LogReply(mnTransactionMaster); //log our error reply/success reply before sending to focus one.
                             }
                         }
-                        
+
                     }
 
-                    
 
-
-                    //if (!p.validPIN(transaction.SourceMobile, PIN))
-                    //{
-                    //    mnTransactionMaster.Response = "Invalid PIN";
-                    //    mnTransactionMaster.ResponseCode = HttpStatusCode.BadRequest.ToString();
-                    //    mnTransactionMaster.ResponseStatus(HttpStatusCode.BadRequest, "parameters invalid");
-                    //    return LogReply(mnTransactionMaster); //log our error reply/success reply before sending to focus one.
-                    //}
                 }
             }
 
@@ -355,6 +408,7 @@ namespace MNepalProject.Controllers
                         else if (mnTransactionMaster.FeatureCode == "51")
                         {
                             Desc1 = "Cash Out ";
+                            //Desc1 = description1;
                             desc3 = transaction.SourceMobile + " - " + transaction.DestinationMobile;
                             Remark = Remark1;
                         }
@@ -593,7 +647,7 @@ namespace MNepalProject.Controllers
 
                         if (mnTransactionMaster.FeatureCode == "01")
                         {
-							string SourceBankName = string.Empty;
+                            string SourceBankName = string.Empty;
                             string DestinationBankName = string.Empty;
 
                             if (mnTransactionMaster.SourceBIN == "0004")
@@ -615,8 +669,9 @@ namespace MNepalProject.Controllers
                             }
 
                             Remark1 = "Bank Transfer to " + transaction.DestinationMobile + " (" + DestinationBankName + ")";
-                            
-                            desc1 = "Transfer To Bank " + getProductID[0];//"Wallet To Bank";
+
+                            //desc1 = "Transfer To Bank " + getProductID[0];//"Wallet To Bank";
+                            desc1 = description1;
                             desc2 = desc2;
                             desc3 = descthree;
                             Remark = Remark1; //"Bank Transfer from " + transaction.SourceMobile + " to " + mnTransactionMaster.DestinationAccount;
@@ -634,7 +689,8 @@ namespace MNepalProject.Controllers
                             //Utility Payment
 
                             //Desc1 = getProductID[0];
-                            desc1 = "Payment To " + getProductID[0]; //"Wallet To Merchant's Bank a/c (Bill Payment)";
+                            //desc1 = "Payment To " + getProductID[0]; //"Wallet To Merchant's Bank a/c (Bill Payment)";
+                            desc1 = description1;
                             desc2 = getProductID[1]; //getProductID[1];
                             desc3 = descthree; //getProductID[0];
                             Remark = mnTransactionMaster.Description + " - " + desc1;
@@ -890,7 +946,8 @@ namespace MNepalProject.Controllers
                             //Utility Payment
 
                             //Desc1 = getProductID[0];
-                            desc1 = "Payment To " + getProductID[0]; //"Wallet To Merchant's Bank a/c (Bill Payment)";
+                            //desc1 = "Payment To " + getProductID[0]; //"Wallet To Merchant's Bank a/c (Bill Payment)";
+                            desc1 = description1;
                             desc2 = getProductID[1]; //getProductID[1];
                             desc3 = descthree; //getProductID[0];
                         }
@@ -901,7 +958,7 @@ namespace MNepalProject.Controllers
                         //string OTranDateTime;
                         string IsProcessed = "F";
                         string ReverseStatus = transaction.ReverseStatus;
-                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo, 
+                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo,
                             Amount, FeeId, TraceNo, TranDate, RetrievalRef, desc1, desc2, desc3, IsProcessed, Remark, ReverseStatus);
 
                         //OriginID[varchar(16)], OriginType[varchar(4)], ServiceCode[varchar(2)],
@@ -1141,10 +1198,12 @@ namespace MNepalProject.Controllers
                         if (merchantID == "11")
                         { //Check if Merchant is DishHome
                             Desc1 = "NTC MOBILE RECHARGE";
+                            //Desc1 = description1;
                         }
                         if (merchantID == "12")
                         { //Check if Merchant is DishHome
                             Desc1 = "CDMA MOBILE RECHARGE";
+                            //Desc1 = description1;
                         }
                         //string Remark = getQtyAndDesc[1];
                         //string Remark = getQtyAndDesc[0] + " " + getQtyAndDesc[1];
@@ -1160,7 +1219,7 @@ namespace MNepalProject.Controllers
                         //string OTranDateTime;
                         string IsProcessed = "F";
                         string ReverseStatus = transaction.ReverseStatus;
-                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo, 
+                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo,
                             Amount, FeeId, TraceNo, TranDate, RetrievalRef, Desc1, Desc2, Desc3, IsProcessed, Remark, ReverseStatus);
 
                         //OriginID[varchar(16)], OriginType[varchar(4)], ServiceCode[varchar(2)],
@@ -1392,10 +1451,12 @@ namespace MNepalProject.Controllers
                         if (merchantID == "11")
                         { //Check if Merchant is DishHome
                             Desc1 = "NTC MOBILE RECHARGE";
+                            //Desc1 = description1;
                         }
                         if (merchantID == "12")
                         { //Check if Merchant is DishHome
                             Desc1 = "CDMA MOBILE RECHARGE";
+                            //Desc1 = description1;
                         }
                         /*string Desc2 = getDesc[2];*/ //getQtyAndDesc[0];
                         string Desc2 = desc;
@@ -1408,7 +1469,7 @@ namespace MNepalProject.Controllers
                         //string OTranDateTime;
                         string IsProcessed = "F";
                         string ReverseStatus = transaction.ReverseStatus;
-                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo, 
+                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo,
                             Amount, FeeId, TraceNo, TranDate, RetrievalRef, Desc1, Desc2, Desc3, IsProcessed, Remark, ReverseStatus);
 
                         //OriginID[varchar(16)], OriginType[varchar(4)], ServiceCode[varchar(2)],
@@ -1609,7 +1670,7 @@ namespace MNepalProject.Controllers
                         string DestBranchCode = mnTransactionMaster.DestinationBranchCode;
                         string DestAccountNo = mnTransactionMaster.DestinationAccount;
 
-						string SourceBankName = string.Empty;
+                        string SourceBankName = string.Empty;
                         string DestinationBankName = string.Empty;
 
                         if (mnTransactionMaster.SourceBIN == "0004")
@@ -1630,15 +1691,22 @@ namespace MNepalProject.Controllers
                             DestinationBankName = "Pumori Bank";
                         }
 
-                        Remark1 = "Load Wallet(Mobile Banking) from " + SourceBankName + " to " + transaction.DestinationMobile;
-                        
+                        if (transaction.ReverseStatus == "T")
+                        {
+                            Remark1 = Remark1;
+                        }
+                        else
+                        {
+                            Remark1 = "Load Wallet(Mobile Banking) from " + SourceBankName + " to " + transaction.DestinationMobile;
+                        }
 
                         float Amount = mnTransactionMaster.Amount;
                         string FeeId = mnTransactionMaster.FeeId;
                         string TraceNo = mnTransactionMaster.TraceId.ToString();
                         DateTime TranDate = DateTime.Now;
                         string RetrievalRef = mnTransactionMaster.TraceId.ToString();
-                        string Desc1 = "Transfer To Wallet";//Bank To Wallet
+                        //string Desc1 = "Transfer To Wallet";//Bank To Wallet
+                        string Desc1 = description1;
                         string Desc2 = mnTransactionMaster.Description;
                         string Desc3 = transaction.SourceMobile + " - " + transaction.DestinationMobile;
                         //string Remark = "";
@@ -1649,7 +1717,7 @@ namespace MNepalProject.Controllers
                         string IsProcessed = "F";
                         string ReverseStatus = transaction.ReverseStatus;
 
-                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo, 
+                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo,
                             Amount, FeeId, TraceNo, TranDate, RetrievalRef, Desc1, Desc2, Desc3, IsProcessed, Remark, ReverseStatus);
 
                         //OriginID[varchar(16)], OriginType[varchar(4)], ServiceCode[varchar(2)],
@@ -1863,13 +1931,13 @@ namespace MNepalProject.Controllers
                         string Desc1 = "";
                         string Desc2 = "";
                         string Desc3 = "";
-						string Remark = "";
+                        string Remark = "";
                         string desc = mnTransactionMaster.Description;
                         string[] getProductID = desc.Split(':');
 
                         if (mnTransactionMaster.FeatureCode == "11")
                         {
-							string SourceBankName = string.Empty;
+                            string SourceBankName = string.Empty;
                             string DestinationBankName = string.Empty;
 
                             if (mnTransactionMaster.SourceBIN == "0004")
@@ -1890,12 +1958,20 @@ namespace MNepalProject.Controllers
                                 DestinationBankName = "Pumori Bank";
                             }
 
-                            Remark1 = "FT (B to B) from " + transaction.SourceMobile + " (" + SourceBankName + ")" + " to " + transaction.DestinationMobile + " ("+ DestinationBankName +")";
-                            
+                            if (transaction.ReverseStatus == "T")
+                            {
+                                Remark1 = Remark1;
+                            }
+                            else
+                            {
+                                Remark1 = "FT (B to B) from " + transaction.SourceMobile + " (" + SourceBankName + ")" + " to " + transaction.DestinationMobile + " (" + DestinationBankName + ")";
+                            }
+                            //Remark1 = "FT (B to B) from " + transaction.SourceMobile + " (" + SourceBankName + ")" + " to " + transaction.DestinationMobile + " (" + DestinationBankName + ")";
+
                             Desc1 = "Transfer To Bank "; //Bank To Bank
                             Desc2 = transaction.DestinationMobile; //desc;
                             Desc3 = transaction.SourceMobile + " - " + transaction.DestinationMobile;
-							Remark = Remark1;
+                            Remark = Remark1;
                         }
 
                         else if (mnTransactionMaster.FeatureCode == "33")
@@ -1909,7 +1985,7 @@ namespace MNepalProject.Controllers
                             //Desc1 = name;//"BILL PAYMENT"; //"Payment To " + getProductID[0]; //"Bank to Merchant's Bank a/c";
                             Desc2 = transaction.DestinationMobile; //desc;
                             Desc3 = transaction.SourceMobile + " - " + transaction.DestinationMobile;
-							Remark = desc + description1;
+                            Remark = desc + description1;
                         }
 
                         else if (mnTransactionMaster.FeatureCode == "34")
@@ -1917,10 +1993,11 @@ namespace MNepalProject.Controllers
                             //Utility Payment Bank to Bank
 
                             //Desc1 = getProductID[0];
-                            Desc1 = "BILL PAYMENT";//"Payment To " + getProductID[0]; //"Bank to Merchant's Bank a/c (Bill Payment)";
+                            //Desc1 = "BILL PAYMENT";//"Payment To " + getProductID[0]; //"Bank to Merchant's Bank a/c (Bill Payment)";
+                            Desc1 = description1;
                             Desc2 = getProductID[1]; //transaction.DestinationMobile; //desc;
                             Desc3 = transaction.SourceMobile + " - " + transaction.DestinationMobile; //getProductID[0];
-							Remark = desc + " - Bill#" + transaction.billNo + " Name:" + transaction.studName;
+                            Remark = desc + " - Bill#" + transaction.billNo + " Name:" + transaction.studName;
 
                         }
                         //string Remark = desc + " - Bill#" + transaction.billNo + " Name:" + transaction.studName;
@@ -1929,7 +2006,7 @@ namespace MNepalProject.Controllers
                         //string OTranDateTime;
                         string IsProcessed = "F";
                         string ReverseStatus = transaction.ReverseStatus;
-                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo, 
+                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo,
                             Amount, FeeId, TraceNo, TranDate, RetrievalRef, Desc1, Desc2, Desc3, IsProcessed, Remark, ReverseStatus);
 
                         //OriginID[varchar(16)], OriginType[varchar(4)], ServiceCode[varchar(2)],
@@ -2165,7 +2242,8 @@ namespace MNepalProject.Controllers
                             //Utility Payment Bank to Bank
 
                             //Desc1 = getProductID[0];
-                            Desc1 = "Payment To " + getProductID[0]; //"Bank to Merchant's Bank a/c (Bill Payment)";
+                            //Desc1 = "Payment To " + getProductID[0]; //"Bank to Merchant's Bank a/c (Bill Payment)";
+                            Desc1 = description1;
                             Desc2 = getProductID[1]; //transaction.DestinationMobile; //desc;
                             Desc3 = transaction.SourceMobile + " - " + transaction.DestinationMobile; //getProductID[0];
 
@@ -2177,7 +2255,7 @@ namespace MNepalProject.Controllers
                         string IsProcessed = "F";
                         string ReverseStatus = transaction.ReverseStatus;
 
-                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo, 
+                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo,
                             Amount, FeeId, TraceNo, TranDate, RetrievalRef, Desc1, Desc2, Desc3, IsProcessed, Remark, ReverseStatus);
 
                         //OriginID[varchar(16)], OriginType[varchar(4)], ServiceCode[varchar(2)],
@@ -2383,7 +2461,7 @@ namespace MNepalProject.Controllers
                         //string OTranDateTime;
                         string IsProcessed = "F";
 
-                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo, 
+                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo,
                             Amount, FeeId, TraceNo, TranDate, RetrievalRef, Desc1, Desc2, IsProcessed);
 
                         //OriginID[varchar(16)], OriginType[varchar(4)], ServiceCode[varchar(2)],
@@ -2584,7 +2662,7 @@ namespace MNepalProject.Controllers
                         //string OTraceNo;
                         //string OTranDateTime;
                         string IsProcessed = "F";
-                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo, 
+                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo,
                             Amount, FeeId, TraceNo, TranDate, RetrievalRef, Desc1, Desc2, IsProcessed);
 
                         //OriginID[varchar(16)], OriginType[varchar(4)], ServiceCode[varchar(2)],
@@ -3207,10 +3285,10 @@ namespace MNepalProject.Controllers
                         string IsProcessed = "F";
                         string ReverseStatus = transaction.ReverseStatus;
 
-                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo, 
+                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo,
                             Amount, FeeId, TraceNo, TranDate, RetrievalRef, Desc1, Desc2, Desc3, IsProcessed, Remark, ReverseStatus);
-                        
-                            /*END:MNREQUEST*/
+
+                        /*END:MNREQUEST*/
 
                         ThreadPool.QueueUserWorkItem(BackgroundTaskWithObject, mnRequest);
 
@@ -3453,7 +3531,7 @@ namespace MNepalProject.Controllers
                         string RetrievalRef = mnTransactionMaster.TraceId.ToString();
                         string Desc1 = string.Empty;
                         string desc3 = string.Empty;
-						string SourceBankName = string.Empty;
+                        string SourceBankName = string.Empty;
                         string DestinationBankName = string.Empty;
                         string Remark1 = "";
 
@@ -3485,12 +3563,12 @@ namespace MNepalProject.Controllers
 
                         string desc2 = transaction.DestinationMobile;
                         string stringTokenNo = TraceIdGenerator.GetReqTokenCode() + 1; ;
-						//string Remark = mnTransactionMaster.Description; //"SecretTokenNo:" + stringTokenNo ; //
-						string Remark = Remark1;
+                        //string Remark = mnTransactionMaster.Description; //"SecretTokenNo:" + stringTokenNo ; //
+                        string Remark = Remark1;
 
                         string IsProcessed = "F";
                         string ReverseStatus = transaction.ReverseStatus;
-                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo, 
+                        MNRequest mnRequest = new MNRequest(OriginID, OriginType, ServiceCode, SourceBankCode, SourceBranchCode, SourceAccountNo, DestBankCode, DestBranchCode, DestAccountNo,
                             Amount, FeeId, TraceNo, TranDate, RetrievalRef, Desc1, desc2, desc3, IsProcessed, Remark, ReverseStatus);
 
                         /*END:MNREQUEST*/
@@ -4808,8 +4886,9 @@ namespace MNepalProject.Controllers
                         if (mnTransactionMaster.FeatureCode == "00")
                         {
                             Desc1 = "Transfer To Wallet "; //Wallet To Wallet
-                            desc3 = transactionpaypoint.SourceMobile + " - " + transactionpaypoint.DestinationMobile;
-                            Remark = Remark1;
+                            desc3 = transactionpaypoint.SourceMobile + " - " + transactionpaypoint.DestinationMobile; 
+                          
+						    Remark = Remark1;
                         }
                         else if (mnTransactionMaster.FeatureCode == "50")
                         {
@@ -4819,7 +4898,8 @@ namespace MNepalProject.Controllers
                         }
                         else if (mnTransactionMaster.FeatureCode == "51")
                         {
-                            Desc1 = "Cash Out ";
+                            //Desc1 = "Cash Out ";
+                            Desc1 = description1;
                             desc3 = transactionpaypoint.SourceMobile + " - " + transactionpaypoint.DestinationMobile;
                             Remark = Remark1;
                         }
@@ -5100,7 +5180,8 @@ namespace MNepalProject.Controllers
                             //Utility Payment
 
                             //Desc1 = getProductID[0];
-                            desc1 = "Payment To " + getProductID[0]; //"Wallet To Merchant's Bank a/c (Bill Payment)";
+                            //desc1 = "Payment To " + getProductID[0]; //"Wallet To Merchant's Bank a/c (Bill Payment)";
+                            desc1 = description1;
                             desc2 = getProductID[1]; //getProductID[1];
                             desc3 = descthree; //getProductID[0];
                             Remark = mnTransactionMaster.Description + " - " + desc1;
@@ -5356,7 +5437,8 @@ namespace MNepalProject.Controllers
                             //Utility Payment
 
                             //Desc1 = getProductID[0];
-                            desc1 = "Payment To " + getProductID[0]; //"Wallet To Merchant's Bank a/c (Bill Payment)";
+                            //desc1 = "Payment To " + getProductID[0]; //"Wallet To Merchant's Bank a/c (Bill Payment)";
+                            desc1 = description1;
                             desc2 = getProductID[1]; //getProductID[1];
                             desc3 = descthree; //getProductID[0];
                         }
@@ -5607,10 +5689,12 @@ namespace MNepalProject.Controllers
                         if (merchantID == "11")
                         { //Check if Merchant is DishHome
                             Desc1 = "NTC MOBILE RECHARGE";
+                            //Desc1 = description1;
                         }
                         if (merchantID == "12")
                         { //Check if Merchant is DishHome
                             Desc1 = "CDMA MOBILE RECHARGE";
+                            //Desc1 = description1;
                         }
                         //string Remark = getQtyAndDesc[1];
                         //string Remark = getQtyAndDesc[0] + " " + getQtyAndDesc[1];
@@ -5858,10 +5942,12 @@ namespace MNepalProject.Controllers
                         if (merchantID == "11")
                         { //Check if Merchant is DishHome
                             Desc1 = "NTC MOBILE RECHARGE";
+                            //Desc1 = description1;
                         }
                         if (merchantID == "12")
                         { //Check if Merchant is DishHome
                             Desc1 = "CDMA MOBILE RECHARGE";
+                            //Desc1 = description1;
                         }
                         /*string Desc2 = getDesc[2];*/ //getQtyAndDesc[0];
                         string Desc2 = desc;
@@ -6105,7 +6191,8 @@ namespace MNepalProject.Controllers
                         string TraceNo = mnTransactionMaster.TraceId.ToString();
                         DateTime TranDate = DateTime.Now;
                         string RetrievalRef = mnTransactionMaster.TraceId.ToString();
-                        string Desc1 = "Transfer To Wallet";//Bank To Wallet
+                        //string Desc1 = "Transfer To Wallet";//Bank To Wallet
+                        string Desc1 = description1;
                         string Desc2 = mnTransactionMaster.Description;
                         string Desc3 = transactionpaypoint.SourceMobile + " - " + transactionpaypoint.DestinationMobile;
                         //string Remark = "";
@@ -6358,7 +6445,7 @@ namespace MNepalProject.Controllers
                             }
 
                             //Remark1 = "FT (B to B) from " + transactionpaypoint.SourceMobile + " (" + SourceBankName + ")" + " to " + transactionpaypoint.DestinationMobile + " (" + DestinationBankName + ")";
-                            Remark1 = transactionpaypoint.Description ;
+                            Remark1 = transactionpaypoint.Description;
 
                             Desc1 = "Transfer To Bank "; //Bank To Bank
                             Desc2 = transactionpaypoint.DestinationMobile; //desc;
@@ -6385,7 +6472,8 @@ namespace MNepalProject.Controllers
                             //Utility Payment Bank to Bank
 
                             //Desc1 = getProductID[0];
-                            Desc1 = "BILL PAYMENT";//"Payment To " + getProductID[0]; //"Bank to Merchant's Bank a/c (Bill Payment)";
+                            //Desc1 = "BILL PAYMENT";//"Payment To " + getProductID[0]; //"Bank to Merchant's Bank a/c (Bill Payment)";
+                            Desc1 = description1;
                             Desc2 = getProductID[1]; //transaction.DestinationMobile; //desc;
                             Desc3 = transactionpaypoint.SourceMobile + " - " + transactionpaypoint.DestinationMobile; //getProductID[0];
                             Remark = desc + " - Bill#" + transactionpaypoint.billNo + " Name:" + transactionpaypoint.studName;
@@ -6633,7 +6721,8 @@ namespace MNepalProject.Controllers
                             //Utility Payment Bank to Bank
 
                             //Desc1 = getProductID[0];
-                            Desc1 = "Payment To " + getProductID[0]; //"Bank to Merchant's Bank a/c (Bill Payment)";
+                            //Desc1 = "Payment To " + getProductID[0]; //"Bank to Merchant's Bank a/c (Bill Payment)";
+                            Desc1 = description1;
                             Desc2 = getProductID[1]; //transaction.DestinationMobile; //desc;
                             Desc3 = transactionpaypoint.SourceMobile + " - " + transactionpaypoint.DestinationMobile; //getProductID[0];
 

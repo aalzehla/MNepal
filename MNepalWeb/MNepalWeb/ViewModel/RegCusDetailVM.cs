@@ -36,6 +36,8 @@ namespace MNepalWeb.ViewModel
 
         public string Status { get; set; }
         public string Approved { get; set; }
+        public string CreatedBy { get; set; }
+        public string ApprovedBy { get; set; }
     }
 
 

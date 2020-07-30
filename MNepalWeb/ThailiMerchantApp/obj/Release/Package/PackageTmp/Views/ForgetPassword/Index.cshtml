@@ -93,18 +93,18 @@
                             {
                                 <!-- Failure modal -->
                                 @*<div class="class=" modal fade common-modal"" tabindex="-1" id="failureModal" role="dialog" aria-labelledby="exampleModalCenterTitle">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-body text-center">
-                                                <div class="success-icon">
-                                                    <img src="~/Content/assets/img/denied-cross.svg" alt="">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-body text-center">
+                                                    <div class="success-icon">
+                                                        <img src="~/Content/assets/img/denied-cross.svg" alt="">
+                                                    </div>
+                                                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">Error!</p>
+                                                    <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message">The number is not registered!</span>
                                                 </div>
-                                                <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">Error!</p>
-                                                <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message">The number is not registered!</span>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>*@
+                                    </div>*@
 
                                 @*<div class="alert alert-danger">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -114,7 +114,7 @@
                         }
 
                         <label for="" class="control-label">Enter your Mobile Number</label>
-                        <input type="text" id="userName" name="txtUserName" class="form-control" placeholder="Mobile Number" onkeypress="return isNumber(event)" onchange="checkValidation()"  maxlength="10" onpaste="return false">
+                        <input type="text" id="userName" name="txtUserName" class="form-control" placeholder="Mobile Number" onkeypress="return isNumber(event)" onchange="checkValidation()" maxlength="10" onpaste="return false">
                         <div id="MobNo" style="color:red;"></div>
 
                         <div class="button-wrapper">
@@ -184,7 +184,7 @@
                     <div class="success-icon">
                         <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
                     </div>
-                    <p style="color: #e31837; font-size: 20px; font-weight: 700;" id="headmessage">Unregistered number</p> 
+                    <p style="color: #e31837; font-size: 20px; font-weight: 700;" id="headmessage">Unregistered number</p>
                     <span style="color: #002d6a; font-size: 18px; font-weight: 400;" id="message">Please enter a valid mobile number.</span>
                     <br /> <br />
                     <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
@@ -193,6 +193,23 @@
         </div>
     </div>
 
+
+    <!-- Failure modal for user enumeration -->
+    <div class="modal fade common-modal" id="failureModalUE" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="success-icon">
+                        <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
+                    </div>
+                    <p style="color: #e31837; font-size: 20px; font-weight: 700;" id="headmessage"></p>
+                    <span style="color: #002d6a; font-size: 18px; font-weight: 400;" id="message">A OTP code will be sent to your phone if the account exists in our system.</span>
+                    <br /> <br />
+                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer class="footer">
         <div class="container">
             <div class="footer-top">
@@ -379,10 +396,10 @@
                     return false;
                 }
                 return true;
-                
+
             }
 
-            
+
 
         $("#btnSubmit").on('click', function (event) {
             event.preventDefault();
@@ -422,7 +439,7 @@
                             var form = document.getElementById("frmRecover");
                             form.submit();
                         }
-                        
+
                         //for error message for 3 attempt wrong password
                         else if (data == "Blocked") {
                             $('#btnSubmit').attr('disabled', 'disabled');
@@ -438,8 +455,14 @@
                         }
 
                         else {
+                            //$('#btnSubmit').attr('disabled', 'disabled');
+                            //$('#failureModal').modal("show");
+                            //$('#userName').val("");
+
+                            //FOR User enumeration
                             $('#btnSubmit').attr('disabled', 'disabled');
-                            $('#failureModal').modal("show");
+                            $('#message').html("A OTP code will be sent to your phone if the account exists in our system.");
+                            $('#failureModalUE').modal("show");
                             $('#userName').val("");
 
                             //$('#failureModal').modal("show");
@@ -454,7 +477,7 @@
                 });
             }
 
-            
+
          });
 
         //$(document).ready(function () {

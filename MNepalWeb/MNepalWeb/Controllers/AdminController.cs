@@ -60,7 +60,7 @@ namespace MNepalWeb.Controllers
                 DataTable bank = dsBank.Tables[0];
                 foreach (DataRow dr in bank.Rows)
                 {
-                    if (dr["IsBlocked"].ToString() == "F")
+                    if (dr["IsBlocked"].ToString() == "F" && dr["BankCode"].ToString() == "0004")
                     {
                         item.Add(new SelectListItem
                         {
@@ -505,7 +505,7 @@ namespace MNepalWeb.Controllers
                 ViewBag.bank = dsBank.Tables[0];
                 foreach (DataRow dr in ViewBag.bank.Rows)
                 {
-                    if (dr["IsBlocked"].ToString() == "F")
+                    if (dr["IsBlocked"].ToString() == "F" && dr["BankCode"].ToString() == "0004")
                     {
                         item.Add(new SelectListItem
                         {
@@ -1994,7 +1994,7 @@ namespace MNepalWeb.Controllers
                 ViewBag.bank = dsBank.Tables[0];
                 foreach (DataRow dr in ViewBag.bank.Rows)
                 {
-                    if (dr["IsBlocked"].ToString() == "F")
+                    if (dr["IsBlocked"].ToString() == "F" && dr["BankCode"].ToString() == "0004")
                     {
                         item.Add(new SelectListItem
                         {

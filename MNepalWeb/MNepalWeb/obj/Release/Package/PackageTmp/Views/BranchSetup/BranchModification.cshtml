@@ -9,12 +9,12 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Branch Modification
-        <small>Branch</small>
+        Branch Setup
+        @*<small>Branch Modification</small>*@
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-user"></i> Branch</a></li>
-        <li class="active"> Modification</li>
+        <li><a href="#"><i class="fa fa-user"></i> Branch Setup</a></li>
+        <li class="active"> Branch Modification</li>
     </ol>
 </section>
 
@@ -22,12 +22,10 @@
 <section class="content">
     <!-- Main row -->
     <div class="row">
-
-        @using (Html.BeginForm("EditBranch", "BranchSetup", FormMethod.Post, new { @id = "BranchRegForm", @class = "form-horizontal" }))
+        @using (Html.BeginForm("EditBranch", "BranchSetup", FormMethod.Post, new { @id = "BranchModifyForm", @class = "form-horizontal" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
-
             if (this.ViewData["branch_message"] != null)
             {
                 if (this.ViewData["message_class"].ToString() == "success_info")
@@ -45,81 +43,50 @@
                     </div>
                 }
             }
-
             <!-- Start -->
             <div class="col-xs-10">
-
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Edit Branch</h3>
+                        <h3 class="box-title">Branch Modification</h3>
                     </div>
                     <!-- /.box-header -->
-
-                    <div class="box-body">
-
+                    <div class="box-body" id="divbody">
+                        @Html.HiddenFor(x => x.IsBlocked)
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">Select Branch:<b style="color:red;">*</b></label>
+                                    <label class="control-label col-sm-3">Branch Code:</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownList("BranchName", (IEnumerable<SelectListItem>)ViewBag.BranchName, "-- Select --", new { @class = "form-control select2", @id = "branchName", @name = "txtBranchName" })
+                                        @Html.TextBoxFor(x => x.BranchCode, new { @readonly = "readonly", @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <label class="control-label col-sm-3">Branch Code:<b style="color:red;">*</b></label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="BranchCode" name="txtBranchCode" value="@ViewBag.BranchCode" readonly />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">Branch Name:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="BranchName" name="txtBranchName" value="@ViewBag.BBranchName" />
+                                        @*<input type="text" class="form-control" id="BranchName" name="txtBranchName" value="@ViewBag.BBranchName" maxlength="14"  minlength="4" required/>*@
+                                        @Html.TextBoxFor(x => x.BranchName, new { @id = "BranchName", @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">Branch Location:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="BranchLocation" name="txtBranchLocation" value="@ViewBag.BranchLocation" />
+                                        @Html.TextBoxFor(x => x.BranchLocation, new { @id = "BranchLocation", @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row" style="display:none;">
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <label class="control-label col-sm-3">IsBlocked:<b style="color:red;">*</b></label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="IsBlocked" name="txtIsBlocked" value="@ViewBag.IsBlocked" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                     <!-- /.box-body -->
-
                     <div class="box-footer">
-                        <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit" />
+                        <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit"/>
                     </div>
                     <!-- /.box-footer -->
 
@@ -138,95 +105,45 @@
 </section>
 <!-- /.content -->
 @section scripts{
-
     <!-- Load jQuery and the validate plugin -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
-
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
-
-    <!-- jQuery Form Validation code -->
-
     <script type="text/javascript">
         $(document).ready(function () {
-
-            /**Validation Check */
-            $('#BranchRegForm').bootstrapValidator({
+            $('#BranchModifyForm').bootstrapValidator({
                 feedbackIcons: {
                     valid: 'glyphicon glyphicon-ok',
                     invalid: 'glyphicon glyphicon-remove',
                     validating: 'glyphicon glyphicon-refresh'
                 },
                 fields: {
-                    txtBranchName: {
+                    BranchName: {
                         validators: {
                             notEmpty: {
                                 message: 'The BranchName is required and cannot be empty'
                             },
                             stringLength: {
-                                max: 14,
-                                min: 0,
-                                message: 'The BranchName must be 10 characters long'
+                                max: 50,
+                                min: 4,
+                                message: 'The BranchName must be 4 to 50 letters long'
                             }
                         }
                     },
-                    txtBranchCode: {
-                        validators: {
-                            notEmpty: {
-                                message: 'The BranchCode is required and cannot be empty'
-                            },
-                            stringLength: {
-                                max: 3,
-                                min: 0,
-                                message: 'The BranchCode must be more than 0 and less than 3 characters long'
-                            }
-                        }
-                    },
-                    txtBranchLocation: {
+                    BranchLocation: {
                         validators: {
                             notEmpty: {
                                 message: 'The Address is required and cannot be empty'
+                            },
+                            stringLength: {
+                                max: 80,
+                                min: 4,
+                                message: 'The Address must be 4 to 80 letters long'
                             }
-                        },
-                        stringLength: {
-                            max: 12,
-                            min: 0,
-                            message: 'The Address must be more than 0 and less than 12 characters long'
                         }
                     }
                 }
             });
-
-        });
-    </script>
-
-    <script type="text/javascript">
-
-        $('#branchName').change(function (e) {
-
-            var branchName = $('#branchName').val();
-
-            e.preventDefault();
-
-            $.ajax({
-                url: '@Url.Action("BranchDetailSearch", "BranchSetup")',
-                type: 'GET',
-                data: {
-                    SearchValue: branchName,
-                },
-                success: function (data) {
-                    //debugger;
-                    $('#BranchName').val(data.bn);
-                    $('#BranchCode').val(data.bc);
-                    $('#BranchLocation').val(data.bl);
-                    $('#IsBlocked').val(data.bb);
-                },
-                error: function () {
-                //debugger;
-                    alert('Error Occured!!');
-                }
-            });
-
         });
     </script>
 }

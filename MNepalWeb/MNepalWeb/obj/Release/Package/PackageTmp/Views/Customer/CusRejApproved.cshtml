@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Approved Customer Rejected List";
+    Layout = null;
+}
+
+
+<!-- Start Data Show in Table -->
+<div id="CustomerStatus" class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Customer Rejected List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        @if (ViewData["dtableCustomerApproveReject"] == null)
+        {
+            <div class="panel-body"> <b>No Pending requests for existing customer !! </b> </div>
+        }
+        else if (ViewData["dtableCustomerApproveReject"] != null)
+        {
+            <table id="t01" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Name</th>
+                        @*<th>Address</th>*@
+                        <th>Account Number</th>
+                        <th>Created Branch</th>
+                        <th>Created By</th>
+                        @*<th>Approved By</th>*@
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (System.Data.DataRow dr in (ViewData["dtableCustomerApproveReject"] as System.Data.DataTable).Rows)
+                    {
+                        <tr>
+                            <td> @dr["UserName"] </td>
+                            <td> @dr["Name"] </td>
+                            @*<td> @dr["Address"] </td>*@
+                            <td> @dr["BankAccountNumber"] </td>
+                            <td> @dr["UserBranchName"] </td>
+                            <td> @dr["CreatedBy"] </td>
+                            @*<td> @dr["ApprovedBy"] </td>*@
+                            <td><a href="@Url.Action("Modification","Customer",new {Id=@dr["ClientCode"] })" class="glyphicon glyphicon-eye-open" title="View"></a></td>
+                        </tr>
+                    } <!-- for each end-->
+
+                </tbody>
+                <tfoot>
+
+                </tfoot>
+            </table>
+        }
+    </div>
+
+</div>
+<!-- End Data Show in Table -->

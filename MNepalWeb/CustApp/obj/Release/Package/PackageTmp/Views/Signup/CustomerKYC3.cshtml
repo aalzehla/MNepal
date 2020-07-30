@@ -236,13 +236,13 @@
                                     @Html.Hidden("txtPanNo", Model.PanNo)
                                     <div class="form-group">
                                         <label class="control-label">Permanent Address @*(<b style="color:red;">*</b>)*@</label>
-                                        <input type="text" class="form-control" id="PStreet" name="PStreet" placeholder="Tole/Street/Road" maxlength="45" style="margin-bottom:3px;" onkeypress="return AlphabetComma(event)" onpaste="return false"  />
+                                        <input type="text" class="form-control" id="PStreet" name="PStreet" placeholder="Tole/Street/Road" maxlength="45" style="margin-bottom:3px;" onkeypress="return AlphabetComma(event)" onpaste="return false" />
 
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label">VDC/Municipality (<b style="color:red;">*</b>)</label>
-                                        <input type="text" class="form-control" id="PVDC" name="txtPVDC" placeholder="VDC/Municipality" maxlength="45" style="margin-bottom:3px;"  onpaste="return false"  />
+                                        <input type="text" class="form-control" id="PVDC" name="txtPVDC" placeholder="VDC/Municipality" maxlength="45" style="margin-bottom:3px;" onpaste="return false" />
 
                                     </div>
 
@@ -250,13 +250,13 @@
                                         <div class="form-group col-sm-8">
                                             <label class="control-label">Province (<b style="color:red;">*</b>)</label>
                                             @*@Html.DropDownList("PProvince", ViewBag.PProvince as List<SelectListItem>, "--Select Province--", new { @class = "form-control", @style = "margin-bottom:3px;" })*@
-                                            @Html.DropDownList("PProvince", ViewBag.PProvince as List<SelectListItem>, new { @class = "form-control placeholder_Province", @style = "margin-bottom:3px;", @id = "PProvince"})
-                                            <input type="text" class="form-control" id="PProvinceText" name="PProvinceText" hidden/>
+                                            @Html.DropDownList("PProvince", ViewBag.PProvince as List<SelectListItem>, new { @class = "form-control placeholder_Province", @style = "margin-bottom:3px;", @id = "PProvince" })
+                                            <input type="text" class="form-control" id="PProvinceText" name="PProvinceText" hidden />
                                         </div>
 
                                         <div class="form-group col-sm-4">
                                             <label class="control-label">House No.@*<b style="color:red;">*</b>*@</label>
-                                            <input type="text" class="form-control" id="PHouseNo" name="txtPHouseNo" placeholder="House No." maxlength="45" onkeypress="return isNumberKey(event)" style="margin-bottom:3px;"  onpaste="return false" />
+                                            <input type="text" class="form-control" id="PHouseNo" name="txtPHouseNo" placeholder="House No." maxlength="45" onkeypress="return isNumberKey(event)" style="margin-bottom:3px;" onpaste="return false" />
 
                                         </div>
                                     </div>
@@ -272,7 +272,7 @@
 
                                         <div class="form-group col-sm-4">
                                             <label class="control-label">Ward No. (<b style="color:red;">*</b>)</label>
-                                            <input type="text" class="form-control" id="PWardNo" name="txtPWardNo" placeholder="Ward No" maxlength="2" onkeypress="return isNumberKey(event)" style="margin-bottom:3px;"  onpaste="return false"  />
+                                            <input type="text" class="form-control" id="PWardNo" name="txtPWardNo" placeholder="Ward No" maxlength="2" onkeypress="return isNumberKey(event)" style="margin-bottom:3px;" onpaste="return false" />
 
                                         </div>
                                     </div>
@@ -297,21 +297,21 @@
 
                                     <div class="form-group">
                                         <label class="control-label">VDC/Municipality (<b style="color:red;">*</b>)</label>
-                                        <input type="text" class="form-control" id="CVDC" name="txtCVDC" placeholder="VDC/Municipality" maxlength="45" style="margin-bottom:3px;"  onpaste="return false" />
+                                        <input type="text" class="form-control" id="CVDC" name="txtCVDC" placeholder="VDC/Municipality" maxlength="45" style="margin-bottom:3px;" onpaste="return false" />
 
                                     </div>
 
                                     <div class="form-row">
                                         <div class="form-group col-sm-8">
                                             <label class="control-label">Province (<b style="color:red;">*</b>)</label>
-                                            
+
                                             @Html.DropDownList("CProvince", ViewBag.CProvince as List<SelectListItem>, new { @class = "form-control placeholder_Province", @style = "margin-bottom:3px;" })
                                             <input type="text" class="form-control" id="CProvinceText" name="CProvinceText" hidden />
                                         </div>
 
                                         <div class="form-group col-sm-4">
                                             <label class="control-label">House No.@*<b style="color:red;">*</b>*@</label>
-                                            <input type="text" class="form-control" id="CHouseNo" name="txtCHouseNo" placeholder="House No." maxlength="45" onkeypress="return isNumberKey(event)" style="margin-bottom:3px;" onpaste="return false"  />
+                                            <input type="text" class="form-control" id="CHouseNo" name="txtCHouseNo" placeholder="House No." maxlength="45" onkeypress="return isNumberKey(event)" style="margin-bottom:3px;" onpaste="return false" />
 
                                         </div>
                                     </div>
@@ -325,7 +325,7 @@
 
                                         <div class="form-group col-sm-4">
                                             <label class="control-label">Ward No. (<b style="color:red;">*</b>)</label>
-                                            <input type="text" class="form-control" id="CWardNo" name="txtCWardNo" placeholder="Ward No" maxlength="2" onkeypress="return isNumberKey(event)" style="margin-bottom:3px;"  onpaste="return false" />
+                                            <input type="text" class="form-control" id="CWardNo" name="txtCWardNo" placeholder="Ward No" maxlength="2" onkeypress="return isNumberKey(event)" style="margin-bottom:3px;" onpaste="return false" />
 
                                         </div>
                                     </div>
@@ -336,13 +336,13 @@
                                         <input type="submit" class="btn btn-blue " id="btnSubmit" name="txtSubmit" value="Continue" onmouseover="enableValidation()" />
                                     </div>
                                     @*<div class="btn-wrapper">
-                <input type="submit" class="btn btn-blue " id="btnSubmit" name="txtSubmit" value="Continue" />
+                                            <input type="submit" class="btn btn-blue " id="btnSubmit" name="txtSubmit" value="Continue" />
 
 
-            </div>*@
+                                        </div>*@
                                 }
                             </div>
-                                </div>
+                        </div>
                         <!-- /cnt-right -->
                     </div>
                 </section>
@@ -421,14 +421,18 @@
     </footer>
 
     @*//end milayako*@
-   
+
     <!-- /.content -->
     <!-- =============================================== -->
     <!-- Load jQuery and the validate plugin -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/req_Script/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/req_Script/jquery.min.js"></script>
+    <script src="~/Scripts/req_Script/bootstrapvalidator.min.js"></script>
+
+    @*<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>*@
 
     <!-- jQuery Form Validation code -->
 

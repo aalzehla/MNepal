@@ -1,18 +1,18 @@
 ﻿
 @{
-    ViewBag.Title = "MerchantRegistration";
+    ViewBag.Title = "Payee MerchantRegistration";
 }
 
 <!-- =============================================== -->
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Merchant
-        <small>Registration</small>
+        Payee
+        <small>Merchant Registration</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-user"></i> Merchant</a></li>
-        <li class="active"> Registration</li>
+        <li><a href="#"><i class="fa fa-user"></i> Payee</a></li>
+        <li class="active"> Merchant Registration</li>
     </ol>
 </section>
 
@@ -85,22 +85,14 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">UserName:<b style="color:red;">*</b></label>
+                                    <label class="control-label col-sm-3">User Name:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        <input type="tel" class="form-control" id="UserName" name="txtUserName" pattern=".{10,15}" required title="Please use mobile Number" placeholder="Please use the Mobile Number" />
-                                        <label id="check"> Please use the Mobile Number</label>
+                                        <input type="tel" class="form-control" id="UserName" name="txtUserName" maxlength="10" required title="Please use Mobile number" placeholder="Please use Mobile Number" onkeypress="return isNumber(event);" />
+                                        <label id="check"> Please use Mobile number</label>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label col-sm-3">Password:<b style="color:red;">*</b></label>
-                                    <div class="col-sm-9">
-                                        <input type="password" class="form-control" id="Password" name="txtPassword" pattern=".{8,12}" required title="Please use password" placeholder="Password" />
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -116,30 +108,39 @@
                     <!-- /.box-header -->
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">FullName:<b style="color:red;">*</b></label>
+                                    <label class="control-label col-sm-3">Full Name:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="FName" name="txtFullName" placeholder="Full Name" />
+                                        <input type="text" class="form-control" id="FName" name="txtFullName" placeholder="Full Name" maxlength="55" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">Merchant Category:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-9">
+                                       @Html.DropDownList("MerchantCategory", new SelectList(ViewBag.MerchantCategory,"Value","Key"),"--Select MerchantType--",new { @class= "form-control select2", @required="required"} )
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <br />
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">Address:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="Address" name="txtAddress" placeholder="Address" />
+                                        <input type="text" class="form-control" id="Address" name="txtAddress" placeholder="Address" maxlength="30" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">WardNo.:<b style="color:red;">*</b></label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="WardNo" name="txtWardNo" placeholder="Ward No" />
+                                    <label class="control-label col-sm-3">Ward No.:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" id="WardNo" name="txtWardNo" placeholder="Ward No" maxlength="2" onkeypress="return isNumber(event);" />
+
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +156,7 @@
                                         <select class="form-control select2" id="Zone" name="txtZone" style="width: 100%;">
                                             <option value="">Select</option>
                                             <option value="Mechi">Mechi</option>
-                                            <option value="Kosi">Kosi</option>
+                                            <option value="Kosi">Koshi</option>
                                             <option value="Sagarmatha">Sagarmatha</option>
                                             <option value="Janakpur">Janakpur</option>
                                             <option value="Bagmati">Bagmati</option>
@@ -176,7 +177,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">District:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="District" name="txtDistrict" />
+                                        <input type="text" class="form-control" id="District" name="txtDistrict" maxlength="25"/>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +189,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">UserType:<b style="color:red;">*</b></label>
+                                    <label class="control-label col-sm-3">User Type:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="UserType" name="txtUserType" value="@ViewBag.User" readonly />
                                     </div>
@@ -208,31 +209,31 @@
 
                         <br />
 
-                        <div class="row">
+                        <div class="row"  style="display:none">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">Status:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
                                         <select class="form-control select2" id="Status" name="txtStatus" style="width: 100%;">
                                             <option value="Active" selected="selected">Active</option>
-                                            <option value="InActive">InActive</option>
+                                            <option value="InActive" disabled>InActive</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:none"> 
 
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">IsApproved:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
                                         <div class="radio radio-primary">
                                             <label>
-                                                <input type="radio" name="txtIsApproved" id="IsApproved" value="Approve" class="btn btn-success" /> Approve
+                                                <input type="radio" name="txtIsApproved" id="IsApproved" value="Approve" class="btn btn-success"  checked/> Approve
                                             </label>
                                             &nbsp;
                                             <label>
-                                                <input type="radio" name="txtIsApproved" id="IsApproved1" autocomplete="off" value="UnApprove" checked class="btn btn-default" /> UnApprove
+                                                <input type="radio" name="txtIsApproved" id="IsApproved1" autocomplete="off" value="UnApprove" class="btn btn-default" disabled /> UnApprove
                                             </label>
                                         </div>
                                     </div>
@@ -242,14 +243,14 @@
 
                         <br />
 
-                        <div class="row">
+                        <div class="row"  style="display:none">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">IsRejected:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
                                         <select class="form-control select2" id="IsRejected" name="txtIsRejected"
                                                 style="width: 100%;">
-                                            <option value="T">True</option>
+                                            <option value="T" disabled>True</option>
                                             <option value="F" selected="selected">False</option>
                                         </select>
                                     </div>
@@ -274,18 +275,18 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">Mobile Number:<b style="color:red;">*</b></label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="ContactNumber1" name="txtContactNumber1" readonly />
+                                    <label class="control-label col-sm-4">Mobile Number:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="ContactNumber1" name="txtContactNumber1"  onkeypress="return isNumber(event)"  maxlength="10" readonly/>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">ContactNumber2:</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" id="ContactNumber2" name="txtContactNumber2" />
+                                    <label class="control-label col-sm-4">Contact Number 2:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="ContactNumber2" name="txtContactNumber2"  onkeypress="return isNumber(event)" maxlength="10"/>
                                     </div>
                                 </div>
                             </div>
@@ -308,9 +309,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">
-                                        WalletBankCode:<b style="color:red;">*</b>
+                                        Wallet Bank Code:<b style="color:red;">*</b>
                                     </label>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-7">
                                         <input type="text" class="form-control" id="WBankName" name="WalletName" value="@ViewBag.Wallet" readonly />
                                         <input type="text" class="form-control" id="WBankCode" name="WalletCode" value="@ViewBag.WalletCode" style="display:none;" />
                                     </div>
@@ -321,10 +322,10 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">WalletBranchCode:
                                     <b style="color:red;">*</b></label>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-7">
                                         @Html.DropDownList("WBranchCode",
        new SelectList(Enumerable.Empty<SelectListItem>(), "BranchCode", "BranchCode"), "Select",
-              new { @class = "form-control select2", @id = "WBranchCode", @name = "txtWBranchCode" })
+                         new { @class = "form-control select2", @id = "WBranchCode", @name = "txtWBranchCode" })
                                     </div>
                                 </div>
                             </div>
@@ -335,7 +336,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3"> WalletNumber: 
+                                    <label class="control-label col-sm-3"> Wallet Number: 
                                     <b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="WalletNumber" name="txtWalletNumber" value="@ViewBag.WalletNumber" readonly />
@@ -366,9 +367,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">BankCode:</label>
-                                    <div class="col-sm-9">
-                                        @Html.DropDownList("BankNoBin", (IEnumerable<SelectListItem>)ViewBag.Bank, "-- Choose Bank --", new { @class = "form-control select2", @id = "BankNoBin", @name = "txtBankNoBin" })
+                                    <label class="control-label col-sm-4">Bank Code:</label>
+                                    <div class="col-sm-7">
+                                        @Html.DropDownList("BankNoBin", (IEnumerable<SelectListItem>)ViewBag.Bank,  new { @class = "form-control select2", @id = "BankNoBin", @name = "txtBankNoBin" })
                                     </div>
                                 </div>
                             </div>
@@ -376,7 +377,7 @@
                             <div class="col-md-6" style="display:none;">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">IsDefault:</label>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-7">
                                         <input type="text" class="form-control" id="IsDefault" name="txtIsDefault" value="1" readonly />
                                     </div>
                                 </div>
@@ -386,20 +387,20 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <div class="col-sm-3">
-                                        <label class="control-label ">BankAccountNumber:</label>
+                                    <div class="col-sm-4">
+                                        <label class="control-label ">Bank Account Number:</label>
                                     </div>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-7">
                                         <input type="text" class="form-control" id="BankAccountNumber" name="txtBankAccountNumber"
-                                               onKeyPress="edValueKeyPress()" onKeyUp="edValueKeyPress()" />
+                                               onKeyPress="return isNumber(event); edValueKeyPress();" onKeyUp="edValueKeyPress()" maxlength="14" required/>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3"> BranchCode:</label>
-                                    <div class="col-sm-9">
+                                    <label class="control-label col-sm-3"> Branch Code:</label>
+                                    <div class="col-sm-7">
                                         <input type="text" id="BranchCode" name="txtBranchCode" class="form-control" value="" />
                                     </div>
                                 </div>
@@ -410,7 +411,7 @@
                     <!-- /.box-body -->
 
                     <div class="box-footer">
-                        <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit" />
+                        <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit" id="Submit"/>
                     </div>
                     <!-- /.box-footer -->
 
@@ -441,6 +442,17 @@
 
     <script type="text/javascript">
 
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+
         $('#UserName').change(function () {
             $('#ContactNumber1').val($(this).val());
         });
@@ -456,10 +468,17 @@
             event.preventDefault();
 
             var id = $("#UserName").val();
+            if (id.length < 10) 
+            {
+                return;
+            }
+            if (id.substring(0,2)!='98') {
+                return;
+            }
             $.ajax({
                 cache: false,
                 type: "GET",
-                url: '@Url.Action("GetCheckingUserName", "Customer")',
+                url: '@Url.Action("GetCheckingUserName", "Payee")',
                 data: { "Username": id },
                 success: function (data, textStatus) {
                     var markup = data;
@@ -467,11 +486,13 @@
                         $("#check").html("");
                         $("#check").css("color", "green");
                         $("#check").html(markup).show();
+                        $('#Submit').show();
                     }
                     else {
                         $("#check").html("");
                         $("#check").css("color", "red");
                         $("#check").html(markup).show();
+                        $('#Submit').hide();
                     }
                 },
                 error: function () {
@@ -552,36 +573,31 @@
                 
                 txtUserName: {
                     validators: {
-                        integer: {
-                            message: 'The value is not an integer'
+                        regexp: {
+                            regexp: /^([9][8][0-9]{8})+$/,      // /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+                            message: 'Please enter a valid mobile number'
                         },
                         notEmpty: {
                             message: 'The UserName is required and cannot be empty'
-                        },
-                        stringLength: {
-                            max: 10,
-                            min: 10,
-                            message: 'The UserName must be 10 characters long'
                         }
+                       
                     }
                 },
-                txtPassword: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The Password is required and cannot be empty'
-                        },
-                        stringLength: {
-                            max: 12,
-                            min: 8,
-                            message: 'The Password must be more than 8 and less than 12 characters long'
-                        }
-                    }
-                },
+               
                 txtFullName: {
                     validators: {
                         notEmpty: {
-                            message: 'The First Name is required and cannot be empty'
-                        }
+                            message: 'Name is required and cannot be empty'
+                        },
+                        stringLength: {
+                            max: 30,
+                            min: 2,
+                            message: 'Full Name must be at of 2 letters'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/ ,
+                            message: 'Please enter only letters'
+                        },
                     }
                 },
                 txtAddress: {
@@ -595,6 +611,9 @@
                     validators: {
                         notEmpty: {
                             message: 'The Ward No is required and cannot be empty'
+                        },
+                        integer: {
+                            message:'The value is not number'
                         }
                     }
                 },
@@ -602,6 +621,10 @@
                     validators: {
                         notEmpty: {
                             message: 'The District is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z ]+$/,
+                            message: 'District cannot have numbers or symbols'
                         }
                     }
                 },
@@ -616,6 +639,18 @@
                     validators: {
                         notEmpty: {
                             message: 'The UserType is required and cannot be empty'
+                        }
+                    }
+                },
+                txtBankAccountNumber:{
+                    validators:{
+                        notEmpty:{
+                            message:'Bank Account number is required'
+                        },
+                        stringLength: {
+                            max: 14,
+                            min: 12,
+                            message: 'The WalletNumber must be between 12 to 14 digits long'
                         }
                     }
                 },
@@ -661,7 +696,35 @@
                             message: 'The WalletNumber must be 4 numeric digit'
                         }
                     }
+                },
+                MerchantCategory: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Zone is required and cannot be empty'
+                        }
+                    }
+                },
+                txtContactNumber2: {
+                    validators: {
+                        regexp: {
+                            regexp: /^[9][8][0-9]{8}$/,
+                            message:'Input value is not a valid mobile format'
+                        }
+                        //notEmpty: {
+                        //    message: 'The mobile number is required and cannot be empty'
+                        //}
+                    }
+                },
+                BankNoBin: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Bank is required and cannot be empty'
+                        }
+                    }
                 }
+                
+           
+                
             }
         });
 

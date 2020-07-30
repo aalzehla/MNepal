@@ -1,0 +1,522 @@
+﻿@model MNepalWeb.ViewModel.MerchantVM
+@{
+    ViewBag.Title = "Report Transaction Summary";
+
+    List<SelectListItem> Service = new List<SelectListItem>();
+    Service.Add(new SelectListItem { Text = "All", Value = "All" });
+    Service.Add(new SelectListItem { Text = "Recharge", Value = "RechargeCard" });
+    Service.Add(new SelectListItem { Text = "Topup", Value = "Topup" });
+    Service.Add(new SelectListItem { Text = "Colleges", Value = "Colleges" });
+    Service.Add(new SelectListItem { Text = "Restaurants", Value = "Restaurants" });
+    Service.Add(new SelectListItem { Text = "Schools", Value = "Schools" });
+
+    List<SelectListItem> GrpByDate = new List<SelectListItem>();
+    GrpByDate.Add(new SelectListItem { Text = "Year", Value = "Year" });
+    GrpByDate.Add(new SelectListItem { Text = "Month", Value = "Month" });
+
+}
+
+<link href="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Report
+        <small>Transaction Summary</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i>Report</a></li>
+        <li class="active">Transaction Summary</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+     
+        <!-- Start -->
+        <div class="col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Transaction Summary</h3>
+                </div>
+                <!-- /.box-header -->
+                <!--Search-->
+                <div class="box-body">
+                    <br />
+                    <div class="row">
+
+                        @*<div>
+                                <hr />
+                            </div>*@
+
+                        <div class="form-group" id="form">
+                            <div id="dateRange">
+
+
+                                <div class="form-group">
+                                    <div class="col-md-2 form-group">
+                                        <label>From</label>
+                                        @Html.TextBoxFor(x => x.Parameter.StartDate, new { @id = "StartDate", @class = "form-control", @maxlength = "10", @placeholder = "DD/MM/YYYY" })
+
+
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label>To</label>
+                                        @Html.TextBoxFor(x => x.Parameter.EndDate, new { @id = "EndDate", @class = "form-control", @maxlength = "10", @placeholder = "DD/MM/YYYY" })
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Service</label>
+                                    @Html.DropDownList("Parameter.Service", new SelectList(ViewBag.MerchantCategory, "Key", "Key") ,"All", new { @class = " form-control select2", @style = "width: 100%;", @id = "ddl1" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Service Type</label>
+                                    <select name="Parameter.MerchantName" id="ddl2" class="form-control select2">
+                                        <option value="All">All</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>GroupBy</label>
+                                    @Html.DropDownList("Parameter.GrpByDate", new SelectList(GrpByDate, "Value", "Text"), new { @class = " form-control select2", @style = "width: 100%;", @id = "GroupBy" })
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <input type="submit" class="btn btn-primary" id="btnSearch" name="txtSearch" value="Search" />
+                </div>
+
+            </div>
+            <!--REPORT-->
+            <div id="data" class="box box-primary">
+                <!--Report List-->
+                <div class="box-body" id="grid">
+                    <span class="fa fa-2x fa-file-excel-o pull-right" style="color:green;display:none;" title="To Excel" id="ToExcel"></span>
+                    <table id="SearchResultTable" class="table table-striped table-bordered" style="display:none">
+                        <thead>
+
+                            <tr>
+                                <th>Service Type</th>
+                                <th>Merchant Name</th>
+                                <th>No Of Transactions</th>
+                                <th>TotalAmount</th>
+                                <th>Sales Month</th>
+                                <th>Sales Year</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                    </table>
+
+
+                </div>
+                <div class="overlay" id="loading" style="display:none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                <!-- /.col-xs--->
+                <!-- End-->
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:red">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Transaction Detail</h4>
+                </div>
+                <div class="modal-body" id="modaldata">
+                    <p></p>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts{
+    <script src="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+
+
+            var changed = "T";
+            $('#StartDate, #EndDate').on('input propertychange paste', function () {
+                changed = "T";
+            });
+            $('#ddl1, #ddl2,#GroupBy').on('change', function () {
+                changed = "T";
+            });
+            var table;
+
+            $('#ToExcel').click(function () {
+                var StartDate = $('#StartDate').val();
+                var EndDate = $('#EndDate').val();
+                var Service = $('#ddl1').val();
+                var MerchantName = $('#ddl2').val();
+                var GroupBy = $('#GroupBy').val();
+                var Parachanged = changed;
+                $.ajax({
+                    url: "@Url.Action("SummaryTable", "Report")",
+                    data: {
+                        StartDate: StartDate,
+                        EndDate: EndDate,
+                        Service: Service,
+                        MerchantName: MerchantName,
+                        GroupBy: GroupBy,
+                        change: Parachanged,
+                        ToExcel: 'T'
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        var url = "@Url.Action("Download", "Report")";
+                        window.location = url + '?fileGuid=' + data.FileGuid
+                           + '&filename=' + data.FileName;
+                        /*window.open(url + '?fileGuid=' + data.FileGuid
+                           + '&filename=' + data.FileName, '_blank');*/
+                    },
+                    error: function (data) {
+
+                    }
+
+
+                });
+            });
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                                    "July", "August", "September", "October", "November", "December"];
+
+            var SD;
+            var ED;
+            var GB;
+
+            //$.fn.dataTable.ext.errMode = 'none';
+
+            //$('#SearchResultTable').on('error.dt', function (e, settings, techNote, message) {
+            //    $('#loading').hide();
+            //    $('#btnSearch').prop("disabled", false);
+            //    $('#SearchResultTable').hide();
+            //    if ($.fn.DataTable.isDataTable('#SearchResultTable')) {
+            //        table.destroy();
+            //    }
+            //    var msg = message.split("-");
+            //    if (msg.length > 1)
+            //        alertify.error('Error : ' + msg[msg.length - 1]);
+            //    else
+            //        alertify.error('Error : ' + msg[msg.length - 1]);
+
+            //})
+            $('#btnSearch').click(function () {
+                changed = "T";
+                var StartDate = $('#StartDate').val();
+                var EndDate = $('#EndDate').val();
+                var Service = $('#ddl1').val();
+                var MerchantName = $('#ddl2').val();
+                var GroupBy = $('#GroupBy').val();
+                var Parachanged = changed;
+                if ($.fn.DataTable.isDataTable('#SearchResultTable')) {
+                    table.destroy();
+                }
+                $('#loading').show();
+                $('#btnSearch').prop("disabled", true);
+                table = $('#SearchResultTable')
+                    .DataTable({
+                    searching: false,
+                    proccessing: true,
+                    "serverSide": true,
+                    "aaSorting": [],
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "ajax": {
+                        data: function (d) {
+                            d.StartDate = StartDate;
+                            d.EndDate = EndDate;
+                            d.Service = Service;
+                            d.MerchantName = MerchantName;
+                            d.GroupBy = GroupBy;
+                            d.change = Parachanged;
+                        },
+                        url: "@Url.Action("SummaryTable", "Report")",
+                        type: 'POST',
+                    },
+                    "columns": [
+                              { "data": "ServiceType" },
+                              { "data": "MerchantName" },
+                              { "data": "NoOfTran" },
+                              { "data": "TotalAmount", render: $.fn.dataTable.render.number(',', '.', 2, ''), "sClass": "text-right" },
+                              { "data": "SalesMonth" },
+                              { "data": "SalesYear" },
+                              {
+                                  "data": null,
+                                  orderable: false,
+                                  "createdCell": function (td, cellData, rowData, row, col) {
+                                      $(td).html("<span class='fa fa-2x fa-eye' title='View Detail' data-salesMonth='" + cellData.SalesMonth + "' data-salesYear='" + cellData.SalesYear + "' data-merchantName='" + cellData.MerchantName + "'data-service='" + cellData.ServiceType + "'></span>");
+                                  }
+                              }
+                    ],
+                    "columnDefs": [
+                     {
+                         
+                         targets: [4],
+                         render: function (dd, type, row) {
+                             if (dd != 0) {
+                                 if (dd.length <= 2) {
+                                     debugger;
+                                     return monthNames[parseInt(dd) - 1];
+                                 }
+                                 else
+                                     return 'N/A';
+                             }
+                             else
+                                 return 'N/A';
+                         }
+                     }
+                    ],
+                    "drawCallback": function (settings) {
+                        changed = "F";
+                        Parachanged = changed;
+                        SD = settings.json.StartDate;
+                        ED = settings.json.EndDate;
+                        GB = settings.json.GroupedBy;
+                        $('#SearchResultTable').show();
+                        if (settings.json.recordsTotal > 0)
+                            $('#ToExcel').show();
+                        else
+                            $('#ToExcel').hide();
+                        $('#loading').hide();
+                        $('#btnSearch').prop("disabled", false);
+                        if(GB!="Month")
+                        {
+                            this.api().columns(4).visible(false, false);
+                        }
+
+                    }
+
+                });
+            });
+
+            $('#grid').on("DOMSubtreeModified", function () {
+                changed = "F";
+            });
+
+            $('#SearchResultTable').on('click', 'tbody tr .fa-eye', function () {
+                var data = table.row($(this).parents('tr')).data();
+                //SD->StartDate ED->EndDate  GB->GroupBy
+                var SalesMonth = $(this).data('salesmonth');
+                var SalesYear = $(this).data('salesyear');
+                var MerchantName = $(this).data('merchantname');
+                var Service = $(this).data('service');
+                //(string id, string startdate, string enddate, string mercname, string smonth, string syear, string groupby)
+                debugger;
+                $('#loading').show();
+                $.ajax({
+                    url: "@Url.Action("SummaryDetails", "Report")",
+                    data: {
+                        service: Service,
+                        startdate: SD,
+                        enddate: ED,
+                        mercname: MerchantName,
+                        smonth: SalesMonth,
+                        syear: SalesYear,
+                        groupby: GB
+
+                    },
+                    success: function (data) {
+                        $('#modaldata').html(data);
+                        $('#loading').hide();
+                        $('#myModal').modal('show')
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $('#loading').hide();
+                        alertify.error('Could not fetch the detail at the moment');
+                        console.log('***********************************')
+                        console.log('Server denied the request for following reason')
+                        console.log('Status: '+ jqXHR.status);
+                        console.log('Error:  '+ errorThrown);
+                        console.log('***********************************')
+                    }
+                });
+
+            });
+           
+
+            $("#StartDate").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy',
+                    maxDate: new Date,
+                    onSelect: function (dateText) {
+                        changed = "T";
+                        var from = $('#EndDate').val().split("/");
+                        if (from != "") {
+                            var EDate = new Date(from[2], from[1] - 1, from[0]);
+                            var to = dateText.split("/");
+                            var SDate = new Date(to[2], to[1] - 1, to[0]);;
+                            if (SDate > EDate) {
+                                $('#EndDate').val("");
+                                $('#message').text('End Date cannot be less than Start Date');
+                            }
+                            else {
+                                $('#message').text("");
+                            }
+                        }
+                    },
+                    showAnim: "slideDown"
+                });
+          
+            function validateDate(StartDate,EndDate)
+            {
+                if(StartDate!="" && EndDate!="" )
+                {
+                    
+                    var From = StartDate.split("/"); //because we are displaying value in dd/mm/yyyy so we need to convert it back to mm/dd/yyyy to compare
+                    var To = EndDate.split("/");
+                    var Sdate = new Date(from[2], from[1] - 1, from[0]);
+                    var EDate = new Date(to[2], to[1] - 1, to[0]);
+                    var Today = new Date();
+                    if(Sdate>EDate)
+                    {
+                        return false;
+                    }
+                    if(EndDate>Today || StartDate>Today)
+                    {
+                        return false;
+                    }
+                    
+
+                }
+                
+            }
+
+            $("#EndDate").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy',
+                    maxDate: new Date,
+                    onSelect: function (dateText) {
+                        changed = "T";
+                        var from = $('#StartDate').val().split("/");
+                        if (from != "") {
+                            var SDate = new Date(from[2], from[1] - 1, from[0]);
+                            var to = dateText.split("/");
+                            var EDate = new Date(to[2], to[1] - 1, to[0]);
+                            if (EDate < SDate) {
+                                debugger;
+                                $('#EndDate').val("");
+                                $('#message').text('End Date cannot be less than Start Date');
+                            }
+                            else {
+                                $('#message').text("");
+                            }
+                        }
+                    },
+                    showAnim: "slideDown"
+
+
+
+                });
+
+
+
+            @*var ddl1val = $('#ddl1').val();
+
+            $.ajax({
+                data: { "value": ddl1val },
+                url:'@Url.Action("LoadDropDownMerchants","Report")',
+                    success: function (data)
+                    {
+                        $('#ddl2').empty();
+                        $('#ddl2').html(data);
+                    }
+                });*@
+            //   var selected = "@Model.Parameter.MerchantName";
+            $('#ddl1').change(function () {
+
+                var ddl1val = $('#ddl1').val();
+                $.ajax({
+                    data: { "value": ddl1val },
+                    url: '@Url.Action("LoadDropDownMerchants","Report")',
+                    success: function (data) {
+                        $('#ddl2').empty();
+                        //$('#ddl2').append('<option value="">All</option>');
+                        var lst = '<option value="All">All</option>';
+
+                        lst = lst + data;
+                        $('#ddl2').html(lst);
+
+
+
+                    }
+                });
+
+            }).change();
+
+
+        });
+
+        $(document).ready(function () {
+            $.validator.addMethod("pattern", function (value, element, param) {
+                if (this.optional(element)) {
+                    return true;
+                }
+                if (typeof param === "string") {
+                    param = new RegExp("^(?:" + param + ")$");
+                }
+                return param.test(value);
+            }, "Invalid format.");
+
+
+
+            $('#Summaryform').validate({
+                highlight: function (label) {
+
+                    $(label).closest('.form-group').addClass('has-error');
+                },
+                unhighlight: function (label) {
+                    $(label).closest('.form-group').removeClass('has-error');
+                }
+
+            });
+
+
+        });
+
+
+
+
+    </script>
+}
+

@@ -459,7 +459,7 @@ namespace CustApp.Controllers
                     srInfo.Status = "Active";
                     //srInfo.IsApproved = "UnApprove";
                     srInfo.IsRejected = "F";
-                    srInfo.BranchCode = "004";
+                    srInfo.BranchCode = "000";
                     srInfo.OTPCode = code;
                     srInfo.Source = "http";
 
@@ -861,7 +861,7 @@ namespace CustApp.Controllers
                     srInfo.UserType = "user";
                     srInfo.Status = "Active";
                     srInfo.IsRejected = "F";
-                    srInfo.BranchCode = "004";
+                    srInfo.BranchCode = "000";
                     srInfo.OTPCode = code;
                     srInfo.Source = "http";
 
@@ -1020,7 +1020,7 @@ namespace CustApp.Controllers
                     srInfo.Status = "Active";
                     //srInfo.IsApproved = "UnApprove";
                     srInfo.IsRejected = "F";
-                    srInfo.BranchCode = "004";
+                    srInfo.BranchCode = "000";
                     srInfo.OTPCode = code;
                     srInfo.Source = "http";
 
@@ -1231,7 +1231,7 @@ namespace CustApp.Controllers
                     srInfo.Status = "Active";
                     //srInfo.IsApproved = "UnApprove";
                     srInfo.IsRejected = "F";
-                    srInfo.BranchCode = "004";
+                    srInfo.BranchCode = "000";
                     srInfo.OTPCode = code;
                     srInfo.Source = "http";
 
@@ -1574,7 +1574,7 @@ namespace CustApp.Controllers
                     srInfo.Status = "Active";
                     //srInfo.IsApproved = "UnApprove";
                     srInfo.IsRejected = "F";
-                    srInfo.BranchCode = "004";
+                    srInfo.BranchCode = "000";
                     srInfo.OTPCode = code;
                     srInfo.Source = "http";
 
@@ -2083,7 +2083,7 @@ namespace CustApp.Controllers
                     srInfo.Status = "Active";
                     //srInfo.IsApproved = "UnApprove";
                     srInfo.IsRejected = "F";
-                    srInfo.BranchCode = "004";
+                    srInfo.BranchCode = "000";
                     srInfo.OTPCode = code;
                     srInfo.Source = "http";
 

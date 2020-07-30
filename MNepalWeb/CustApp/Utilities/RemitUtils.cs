@@ -1,12 +1,12 @@
-﻿using ThailiMNepalApp.Models;
-using ThailiMNepalApp.UserModels;
+﻿using CustApp.Models;
+using CustApp.UserModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
 
-namespace ThailiMNepalApp.Utilities
+namespace CustApp.Utilities
 {
     public class RemitUtils
     {

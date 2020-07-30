@@ -28,7 +28,7 @@
                     <h3 class="box-title">Cash In</h3>
                 </div>
                 <!-- /.box-header -->
-
+               
                 @using (Html.BeginForm("In", "Cash", FormMethod.Post, new { @id = "frmCashIn" }))
                 {
                     <div id="ajaxResponse">
@@ -53,18 +53,19 @@
 
                         <div class="form-group">
                             <label>Recipient Mobile Number</label>
-                            <input type="text" id="recipient" name="txtRecipientNo" class="form-control" placeholder="Recipient No" pattern=".{10,13}" required title="Please use Recipient Mobile number" />
+                            <input type="text" id="recipient" name="txtRecipientNo" class="form-control" placeholder="Recipient No" required title="Please use Recipient Mobile number" maxlength="10" onkeypress="return isNumber(event)"/>
+                             <label id="check"> </label>
                         </div>
 
                         <div class="form-group">
                             <label>Amount</label>
                             <input type="text" id="amount" name="txtAmount" class="form-control" placeholder="Amount"
-                                   pattern=".{2,4}" required title="Please use 4 digit amount" />
+                                  required  maxlength="6" onkeypress="return isNumber(event)" />
                         </div>
 
                         <div class="form-group">
                             <label>T-PIN</label>
-                            <input type="password" id="pin" name="txtPin" class="form-control" placeholder="T-PIN" pattern=".{4,4}" required title="Please use the Pin number" />
+                            <input type="password" id="pin" name="txtPin" class="form-control" placeholder="T-PIN" pattern=".{4,4}" required title="Please use the Pin number" maxlength="4" onkeypress="return isNumber(event)"/>
                         </div>
 
                         <div class="form-group">
@@ -104,8 +105,50 @@
     <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
 
     <!--jQuery Form Validation code -->
-    <script>
+    <script type="text/javascript">
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        $("#recipient").change(function (event) {
+            event.preventDefault();
+
+            var id = $("#recipient").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetCheckingUserName", "Customer")',
+                data: { "Username": id },
+                success: function (data, textStatus) {
+                    var markup = data;
+                    if (data == "Success") {
+                        $("#check").html("");
+                        $("#check").css("color", "red");
+                        $("#check").html("Number Not Registered").show();
+
+                    }
+                    else {
+                        $("#check").html("");
+                        $("#check").css("color", "green");
+                        $("#check").html("Valid Number").show();
+
+                    }
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+        });
+
+
     $(document).ready(function () {
+
 
         $('#frmCashIn').bootstrapValidator({
             feedbackIcons: {
@@ -121,14 +164,7 @@
                         }
                     }
                 },
-                txtRecipientNo: {
-                    validators: {
-                        phone: {
-                            country: 'Nepal',
-                            message: 'The phone number is not valid'
-                        }
-                    }
-                },
+
                 txtAmount: {
                     validators: {
                         notEmpty: {
@@ -152,6 +188,20 @@
                             message: 'The pin must be more than 4 and less than 4 characters long'
                         }
                     }
+                },
+                txtRecipientNo: {
+                    validators: {
+                            regexp: {
+                                regexp: /^[9][8][0-9]{8}$/,
+                                message: 'Input value is not a valid mobile format'
+                            },
+                            notEmpty: {
+                                message: 'The mobile number is required and cannot be empty'
+                            }
+
+
+
+                    }
                 }
             }
         });
@@ -159,7 +209,11 @@
 
         $("#ajaxResponse").hide();
 
-        $('#btnSubmit').click(function (e) {
+
+
+    });
+
+     $('#btnSubmit').click(function (e) {
 
             var tid = $("[name='txtTraceID']").val();
             var servicecode = $("[name='txtServiceCode']").val();
@@ -183,8 +237,43 @@
                     sourcechannel: src
                 };
 
+                var y = $('#recipient').val();
+
                 e.preventDefault(); //prevent the default action
 
+                if (!(y.charAt(0) == "9" && y.charAt(1) == "8")) {
+                    $("#check").html("");
+                    $("#check").css("color", "red");
+                    $("#check").html("Mobile Number must start with 98").show();
+                    $('#recipient').focus();
+
+
+                }
+                else {
+                    $("#check").html("");
+                    $("#check").css("color", "green");
+                    $("#check").html("Valid Number").show();
+                }
+
+                 var id = $("#recipient").val();
+               $.ajax({
+                  cache: false,
+                  type: "GET",
+                  url: '@Url.Action("GetCheckingUserName", "Customer")',
+                  data: { "Username": id },
+                  success: function (data, textStatus) {
+                       var markup = data;
+                         if (data == "Success") {
+                           $("#check").html("");
+                           $("#check").css("color", "red");
+                           $("#check").html("Number Not Registered").show();
+                           $('#recipient').focus();
+                            return;
+
+                          }
+                    
+                    }
+              });
 
                 $.ajax({
                     url: '@Url.Action("In", "Cash")',
@@ -237,7 +326,5 @@
             }
         });
 
-    });
-
-    </script>
+</script>
 }

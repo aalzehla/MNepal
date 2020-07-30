@@ -13,6 +13,7 @@ using System.Web.Script.Serialization;
 using ThailiMNepalAgent.App_Start;
 using ThailiMNepalAgent.Models;
 using ThailiMNepalAgent.Utilities;
+using System.Net.Mail;
 
 namespace ThailiMNepalAgent.Controllers
 {
@@ -90,6 +91,7 @@ namespace ThailiMNepalAgent.Controllers
             //HttpPostedFileBase Image= uploadedfile;
             MobileNumber = (string)Session["LOGGED_USERNAME"];
             Name = (string)Session["LOGGEDUSER_NAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
             Email = customerSupport.Email;
             Category = customerSupport.Category;
             Remarks = customerSupport.Remarks;
@@ -102,8 +104,19 @@ namespace ThailiMNepalAgent.Controllers
             {
                 ImageName = null;
             }
+
+            UserInfo userInfo = new UserInfo();
+            DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
+            DataTable dKYC = DSet.Tables["dtKycDetail"];
             
-            
+            if (dKYC != null && dKYC.Rows.Count > 0)
+            {
+                userInfo.FName = dKYC.Rows[0]["FName"].ToString();
+                userInfo.MName = dKYC.Rows[0]["MName"].ToString();
+                userInfo.LName = dKYC.Rows[0]["LName"].ToString();
+            }
+
+
             HttpResponseMessage _res = new HttpResponseMessage();
             using (HttpClient client = new HttpClient())
             {
@@ -154,8 +167,53 @@ namespace ThailiMNepalAgent.Controllers
                         if(responseCode == 200)
                         {
                             this.TempData["message_class"] = "success_info";
-                            this.TempData["agent_message"] = "Your request has been received.";
+                            this.TempData["agent_message"] = "Your Feedback has been submitted.";
+                            
+
+                            //SMS
+                            //SMSUtils SMS = new SMSUtils();
+
+                            ////string Message = string.Format("Dear " + userInfo.FName + ",\n Your new T-Pin is " + userInfo.PIN + " and Password is " + userInfo.Password + " .\n Thank You -MNepal");
+                            //string Message = string.Format("Dear " + userInfo.FName + ",\n Your Feedback for Thaili Wallet has been submitted. \n Thank You -MNepal");
+
+
+                            //SMSLog Log = new SMSLog();
+
+                            //Log.UserName = MobileNumber;
+                            //Log.Purpose = "Customer Support"; //New Registration
+                            //Log.SentBy = "Self";
+                            //Log.Message = ("Your Feedback for Thaili Wallet has been submitted."); //encrypted when logging
+                            //                                                                   //Log SMS
+                            //CustomerUtils.LogSMS(Log);
+                            //SMS.SendSMS(Message, MobileNumber);
+
+
+
+
+
+                            //if (Email != "" && Email != string.Empty)
+                            //{
+                            //    string Subject = "Customer Support";
+                            //    string MailSubject = "<span style='font-size:15px;'><h4>Dear " + userInfo.FName + ",</h4>";
+                            //    MailSubject += "Your Feedback for Thaili Wallet has been submitted. ";
+                            //    MailSubject += "We will try to work on it as soon as possible.<br/>";
+                            //    MailSubject += "<br/>Thank You!";
+                            //    MailSubject += "<br/>-MNepal </span><br/>";
+                            //    MailSubject += "<hr/>";
+                            //    EMailUtil SendMail = new EMailUtil();
+                            //    try
+                            //    {
+                            //        SendMail.SendMail(Email, Subject, MailSubject);
+                            //    }
+                            //    catch
+                            //    {
+
+                            //    }
+
+                            //}
                             return RedirectToAction("Index", "AgentDashboard");
+
+
                         }
                         else
                         {
@@ -255,4 +313,64 @@ namespace ThailiMNepalAgent.Controllers
         }
         #endregion
     }
+
+
+
+    #region To send mail
+    //To send mail
+    public class EMailUtil
+    {
+        public void SendMail(string DestinationAddress, string Subject, string Message) //Single Mail
+        {
+            try
+            {
+
+
+                if (string.IsNullOrEmpty(DestinationAddress))
+                {
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(Subject))
+                {
+                    return;
+                }
+                if (string.IsNullOrEmpty(Message))
+                {
+                    return;
+                }
+                using (SmtpClient client = new SmtpClient())
+                {
+                    MailMessage mail = new MailMessage("donotreply@mnepal.com", DestinationAddress);
+                    client.Port = 25;
+                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    client.UseDefaultCredentials = false;
+                    client.Host = "smtp.mos.com.np";
+                    mail.Subject = Subject;
+                    mail.Body = Message;
+                    mail.IsBodyHtml = true;
+                    try
+                    {
+                        client.Send(mail);
+                    }
+                    catch (SmtpException exception)
+                    {
+                        // throw new Exception(exception.Message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+
+        }
+    }
+    #endregion
+
+
+
+
 }

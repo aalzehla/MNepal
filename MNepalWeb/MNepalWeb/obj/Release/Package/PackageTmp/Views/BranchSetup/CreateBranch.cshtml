@@ -1,18 +1,18 @@
 ﻿
 @{
-    ViewBag.Title = "CreateBranch";
+    ViewBag.Title = "Branch Setup Registration";
 }
 
 <!-- =============================================== -->
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Create Branch
-        <small>Branch</small>
+     Branch Setup
+        @*<small>Branch Registration</small>*@
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-user"></i> Branch</a></li>
-        <li class="active"> Registration</li>
+        <li><a href="#"><i class="fa fa-user"></i> Branch Setup</a></li>
+        <li class="active">Branch Registration</li>
     </ol>
 </section>
 
@@ -39,7 +39,7 @@
                 {
                     <div class="alert alert-danger">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <h4>Error</h4> @this.ViewData["registration_message"]
+                        <h4>Error</h4> @this.ViewData["branch_message"]
                     </div>
                 }
             }
@@ -49,7 +49,7 @@
 
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Create Branch</h3>
+                        <h3 class="box-title">Branch Registration</h3>
                     </div>
                     <!-- /.box-header -->
 
@@ -59,7 +59,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">Branch Code:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="BranchCode" name="txtBranchCode" pattern=".{0,3}" required title="Please use Branch Code" placeholder="Branch Code" maxlength="3" />
+                                        <input type="text" class="form-control" id="BranchCode" name="txtBranchCode" pattern=".{0,3}" maxlength="3" required title="Please use Branch Code" placeholder="Branch Code" onkeypress="return isNumberKey(event)" />
+                                        <label id="check"> Please use valid Branch Code </label>
                                     </div>
                                 </div>
                             </div>
@@ -70,7 +71,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">Branch Name:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="BranchName" name="txtBranchName"  required title="Please use Branch Name" placeholder="Branch Name" />
+                                        <input type="text" class="form-control" id="BranchName" name="txtBranchName" maxlength="14" required title="Please use Branch Name" placeholder="Branch Name" />
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +82,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">Branch Location:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="BranchLocation" name="txtBranchLocation" pattern=".{4,12}" required title="Please use Branch Location" placeholder="Branch Location" />
+                                        <input type="text" class="form-control" id="BranchLocation" name="txtBranchLocation" required title="Please use Branch Location" placeholder="Branch Location"  maxlength="14"/>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +92,7 @@
                     <!-- /.box-body -->
 
                     <div class="box-footer">
-                        <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit" />
+                        <input type="submit" class="btn btn-primary" name="btnCommand" id="btnCommand" value="Submit" />
                     </div>
                     <!-- /.box-footer -->
 
@@ -122,58 +123,118 @@
     <!-- jQuery Form Validation code -->
 
     <script type="text/javascript">
-    $(document).ready(function () {
 
-        /**Validation Check */
-        $('#BranchRegForm').bootstrapValidator({
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                txtBranchName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The BranchName is required and cannot be empty'
-                        },
-                        stringLength: {
-                            max: 14,
-                            min: 0,
-                            message: 'The BranchName must be 10 characters long'
-                        }
-                    }
-                },
-                txtBranchCode: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The BranchCode is required and cannot be empty'
-                        },
-                        stringLength: {
-                            max: 3,
-                            min: 0,
-                            message: 'The BranchCode must be more than 0 and less than 3 characters long'
-                        }
-                    }
-                },
-                txtBranchLocation: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The Address is required and cannot be empty'
-                        }
-                    },
-                    stringLength: {
-                        max: 12,
-                        min: 0,
-                        message: 'The Address must be more than 0 and less than 12 characters long'
-                    }
+        function isNumberKey(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+            $('#BranchRegForm').bootstrapValidator('enableFieldValidators', 'txtBranchCode', true);
+            return true;
+            $('#BranchRegForm').bootstrapValidator('enableFieldValidators', 'txtBranchCode', true);
+        }
+        
+        $("#BranchCode").change(function (event) {
+            
+                event.preventDefault();
+                var id = $('#BranchCode').val();
+            if (id.length < 3) {
+                debugger;
+                $("#check").html("Success").hide();
+                //$('#BranchRegForm').bootstrapValidator('enableFieldValidators', 'txtBranchCode', true);
+                return;
                 }
-            }
+            else {
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        url: '@Url.Action("GetCheckingBranchCode", "BranchSetup")',
+                        data: { "BranchCode": id },
+                        success: function (data /*, textStatus*/) {
+                            debugger;
+                            //alert(data);
+                            if (data == "True") {
+
+                                $("#check").html("");
+                                $("#check").css("color", "green");
+                                $('#check').html("Valid").show();
+                                $("#check").html("Success").show();
+                                $('#btnCommand').show();
+
+                            }
+                            else {
+                                $("#check").html("");
+                                $("#check").css("color", "red");
+                                $('#check').html("Valid").hide();
+                                $("#check").html("Branch Code Already Exists!").show();
+                                $('#btnCommand').hide();
+                                $('#BranchRegForm').bootstrapValidator('enableFieldValidators', 'txtBranchCode', false);
+                            }
+                        },
+                        error: function () {
+                            alert("Data Not Found");
+                        }
+                    });
+                }
+            
         });
 
-    });
+
+
+        $(document).ready(function () {
+
+
+            /**Validation Check */
+            $('#BranchRegForm').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    txtBranchName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Branch Name is required and cannot be empty'
+                            },
+                            stringLength: {
+                                max: 14,
+                                min: 4,
+                                message: 'The Branch Name must be 4 to 14 letters long'
+                            }
+                        }
+                    },
+                    txtBranchCode: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Branch Code is required and cannot be empty'
+                            },
+                            stringLength: {
+                                max: 3,
+                                min: 3,
+                                message: 'The Branch Code must be 3 digits long'
+                            }
+                        }
+                    },
+                    txtBranchLocation: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Address is required and cannot be empty'
+                            },
+
+                            stringLength: {
+                                max: 14,
+                                min: 4,
+                                message: 'The Address must be 4 to 14 letters long'
+                            }
+                        }
+                    }
+
+                }
+            });
+        });
     </script>
 }
 
 <!-- =============================================== -->
-

@@ -48,5 +48,8 @@ namespace CustApp.Models
         public string SelectTopupNTC { get; set; }
         public string SelectADSL { get; set; }
 
+        public string TokenUnique { get; set; }
+        public string mode { get; set; }
+
     }
 }

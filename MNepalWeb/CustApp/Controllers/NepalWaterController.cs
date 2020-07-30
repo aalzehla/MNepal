@@ -103,8 +103,8 @@ namespace CustApp.Controllers
         #endregion
 
         #region "POST: NepalWater CheckPayment"
+        [ValidateAntiForgeryToken]
         [HttpPost]
-
         public async Task<ActionResult> NepalWaterPayment(NepalWater NW)
         {
 
@@ -122,47 +122,62 @@ namespace CustApp.Controllers
             ViewBag.Name = name;
 
 
-            MNBalance availBaln = new MNBalance();
-            DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
-            if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+            string retoken = NW.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
             {
-                availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
-
-                ViewBag.AvailBalnAmount = availBaln.amount;
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
             }
-
-            //For Profile Picture
-            UserInfo userInfo = new UserInfo();
-            DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
-            DataTable dKYC = DSet.Tables["dtKycDetail"];
-            DataTable dDoc = DSet.Tables["dtKycDoc"];
-            if (dKYC != null && dKYC.Rows.Count > 0)
+            else if (dtableVToken.Rows.Count == 0)
             {
-                userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
-                ViewBag.CustStatus = userInfo.CustStatus;
+                reqToken = "0";
             }
-            if (dDoc != null && dDoc.Rows.Count > 0)
+            if (reqToken == "0")
             {
-                userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
-                ViewBag.PassportImage = userInfo.PassportImage;
-            }
+                ReqTokenUtils.InsertReqToken(retoken);
 
-            Session["NWCounter"] = NW.NWCounter;
-            Session["CustomerID"] = NW.CustomerID;
+                MNBalance availBaln = new MNBalance();
+                DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
+                if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+                {
+                    availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
 
-            //api call here
-            HttpResponseMessage _res = new HttpResponseMessage();
-            string mobile = userName; //mobile is username
-            TraceIdGenerator _tig = new TraceIdGenerator();
-            var tid = _tig.GenerateTraceID();
-            string tokenID = Session["TokenID"].ToString();
+                    ViewBag.AvailBalnAmount = availBaln.amount;
+                }
 
-            using (HttpClient client = new HttpClient())
-            {
-                var action = "paypointnepalwater.svc/checkpayment";
-                var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                //For Profile Picture
+                UserInfo userInfo = new UserInfo();
+                DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
+                DataTable dKYC = DSet.Tables["dtKycDetail"];
+                DataTable dDoc = DSet.Tables["dtKycDoc"];
+                if (dKYC != null && dKYC.Rows.Count > 0)
+                {
+                    userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
+                    ViewBag.CustStatus = userInfo.CustStatus;
+                }
+                if (dDoc != null && dDoc.Rows.Count > 0)
+                {
+                    userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
+                    ViewBag.PassportImage = userInfo.PassportImage;
+                }
 
-                var content = new FormUrlEncodedContent(new[]{
+                Session["NWCounter"] = NW.NWCounter;
+                Session["CustomerID"] = NW.CustomerID;
+
+                //api call here
+                HttpResponseMessage _res = new HttpResponseMessage();
+                string mobile = userName; //mobile is username
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
+                string tokenID = Session["TokenID"].ToString();
+
+                using (HttpClient client = new HttpClient())
+                {
+                    var action = "paypointnepalwater.svc/checkpayment";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+
+                    var content = new FormUrlEncodedContent(new[]{
                         new KeyValuePair<string, string>("vid", "130"),
                         new KeyValuePair<string, string>("mobile", mobile),
                         new KeyValuePair<string, string>("src","http"),
@@ -170,7 +185,7 @@ namespace CustApp.Controllers
                         new KeyValuePair<string, string>("companyCode", "720"),
                         new KeyValuePair<string, string>("serviceCode", NW.NWCounter),
                         new KeyValuePair<string, string>("account", NW.CustomerID),
-                        new KeyValuePair<string, string>("special1",""), 
+                        new KeyValuePair<string, string>("special1",""),
                         new KeyValuePair<string, string>("special2",""),
                         new KeyValuePair<string, string>("tid", tid),
                         new KeyValuePair<string, string>("ClientCode", clientCode),
@@ -178,68 +193,75 @@ namespace CustApp.Controllers
 
 
                     });
-                _res = await client.PostAsync(new Uri(uri), content);
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
-                string errorMessage = string.Empty;
-                int responseCode = 0;
-                string message = string.Empty;
-                string responsetext = string.Empty;
-                bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
-                try
-                {
-                    if (_res.IsSuccessStatusCode)
+                    _res = await client.PostAsync(new Uri(uri), content);
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
+                    string errorMessage = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
+                    try
                     {
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        if (!string.IsNullOrEmpty(message))
+                        if (_res.IsSuccessStatusCode)
                         {
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-                            var json = ser.Deserialize<JsonParse>(responsetext);
-                            message = json.d;
-                            JsonParse myNames = ser.Deserialize<JsonParse>(json.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            message = _res.Content.ReadAsStringAsync().Result;
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+                                var json = ser.Deserialize<JsonParse>(responsetext);
+                                message = json.d;
+                                JsonParse myNames = ser.Deserialize<JsonParse>(json.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                        }
-                        return Json(new { responseCode = responseCode, responseText = respmsg },
-                        JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        result = false;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        dynamic json = JValue.Parse(responsetext);
-                        message = json.d;
-                        if (message == null)
-                        {
-                            return Json(new { responseCode = responseCode, responseText = responsetext },
-                        JsonRequestBehavior.AllowGet);
+                            return Json(new { responseCode = responseCode, responseText = respmsg },
+                            JsonRequestBehavior.AllowGet);
                         }
                         else
                         {
-                            dynamic item = JValue.Parse(message);
-
-                            return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                            result = false;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            dynamic json = JValue.Parse(responsetext);
+                            message = json.d;
+                            if (message == null)
+                            {
+                                return Json(new { responseCode = responseCode, responseText = responsetext },
                             JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                dynamic item = JValue.Parse(message);
+
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                                JsonRequestBehavior.AllowGet);
+                            }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                            JsonRequestBehavior.AllowGet);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                        JsonRequestBehavior.AllowGet);
-                }
+
+            }
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                            JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
@@ -434,6 +456,7 @@ namespace CustApp.Controllers
         #endregion
 
         #region "POST: Nepal Water ExecutePayment"
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<ActionResult> NWExecutePayment(NepalWater NW)
         {
@@ -452,68 +475,84 @@ namespace CustApp.Controllers
             ViewBag.Name = name;
 
 
-            MNBalance availBaln = new MNBalance();
-            DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
-            if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+            string retoken = NW.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
             {
-                availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
-
-                ViewBag.AvailBalnAmount = availBaln.amount;
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
             }
-
-            //For Profile Picture
-            UserInfo userInfo = new UserInfo();
-            DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
-            DataTable dKYC = DSet.Tables["dtKycDetail"];
-            DataTable dDoc = DSet.Tables["dtKycDoc"];
-            if (dKYC != null && dKYC.Rows.Count > 0)
+            else if (dtableVToken.Rows.Count == 0)
             {
-                userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
-                ViewBag.CustStatus = userInfo.CustStatus;
+                reqToken = "0";
             }
-            if (dDoc != null && dDoc.Rows.Count > 0)
+            if (reqToken == "0")
             {
-                userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
-                ViewBag.PassportImage = userInfo.PassportImage;
-            }
+                ReqTokenUtils.InsertReqToken(retoken);
 
-            string S_NWCounter = (string)Session["NWCounter"];
-            string S_CustomerID = (string)Session["CustomerID"];
 
-            NepalWater NWObj = new NepalWater();
-            NWObj.NWCounter = S_NWCounter;
-            NWObj.CustomerID = S_CustomerID;
-            NWObj.UserName = userName;
-            NWObj.ClientCode = clientCode;
-            NWObj.refStan = getrefStan(NWObj);
-            NepalWater regobj = new NepalWater();
+                MNBalance availBaln = new MNBalance();
+                DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
+                if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+                {
+                    availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
 
-            DataSet DPaypointSet = PaypointUtils.GetNWDetails(NWObj);
-            DataTable dResponse = DPaypointSet.Tables["dtResponse"];
-            DataTable dNWPayment = DPaypointSet.Tables["dtNWPayment"];
-            if (dResponse != null && dResponse.Rows.Count > 0)
-            {
-                regobj.CustomerID = dResponse.Rows[0]["account"].ToString();
-                regobj.CustomerName = dResponse.Rows[0]["customerName"].ToString();
-                regobj.TotalAmountDue = dResponse.Rows[0]["amount"].ToString();
-                regobj.NWBranchCode = dResponse.Rows[0]["serviceCode"].ToString();
-                regobj.refStan = dResponse.Rows[0]["refStan"].ToString();
-                regobj.billNumber = dResponse.Rows[0]["billNumber"].ToString();
-                regobj.responseCode = dResponse.Rows[0]["responseCode"].ToString();
-                regobj.retrievalReference = dResponse.Rows[0]["retrievalReference"].ToString();
-            }
+                    ViewBag.AvailBalnAmount = availBaln.amount;
+                }
 
-            HttpResponseMessage _res = new HttpResponseMessage();
-            string mobile = userName; //mobile is username
-            TraceIdGenerator _tig = new TraceIdGenerator();
-            var tid = _tig.GenerateTraceID();
+                //For Profile Picture
+                UserInfo userInfo = new UserInfo();
+                DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
+                DataTable dKYC = DSet.Tables["dtKycDetail"];
+                DataTable dDoc = DSet.Tables["dtKycDoc"];
+                if (dKYC != null && dKYC.Rows.Count > 0)
+                {
+                    userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
+                    ViewBag.CustStatus = userInfo.CustStatus;
+                }
+                if (dDoc != null && dDoc.Rows.Count > 0)
+                {
+                    userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
+                    ViewBag.PassportImage = userInfo.PassportImage;
+                }
 
-            using (HttpClient client = new HttpClient())
-            {
-                var action = "paypointnepalwater.svc/executepayment";
-                var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                string tokenID = Session["TokenID"].ToString();
-                var content = new FormUrlEncodedContent(new[]{
+                string S_NWCounter = (string)Session["NWCounter"];
+                string S_CustomerID = (string)Session["CustomerID"];
+
+                NepalWater NWObj = new NepalWater();
+                NWObj.NWCounter = S_NWCounter;
+                NWObj.CustomerID = S_CustomerID;
+                NWObj.UserName = userName;
+                NWObj.ClientCode = clientCode;
+                NWObj.refStan = getrefStan(NWObj);
+                NepalWater regobj = new NepalWater();
+
+                DataSet DPaypointSet = PaypointUtils.GetNWDetails(NWObj);
+                DataTable dResponse = DPaypointSet.Tables["dtResponse"];
+                DataTable dNWPayment = DPaypointSet.Tables["dtNWPayment"];
+                if (dResponse != null && dResponse.Rows.Count > 0)
+                {
+                    regobj.CustomerID = dResponse.Rows[0]["account"].ToString();
+                    regobj.CustomerName = dResponse.Rows[0]["customerName"].ToString();
+                    regobj.TotalAmountDue = dResponse.Rows[0]["amount"].ToString();
+                    regobj.NWBranchCode = dResponse.Rows[0]["serviceCode"].ToString();
+                    regobj.refStan = dResponse.Rows[0]["refStan"].ToString();
+                    regobj.billNumber = dResponse.Rows[0]["billNumber"].ToString();
+                    regobj.responseCode = dResponse.Rows[0]["responseCode"].ToString();
+                    regobj.retrievalReference = dResponse.Rows[0]["retrievalReference"].ToString();
+                }
+
+                HttpResponseMessage _res = new HttpResponseMessage();
+                string mobile = userName; //mobile is username
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
+
+                using (HttpClient client = new HttpClient())
+                {
+                    var action = "paypointnepalwater.svc/executepayment";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                    string tokenID = Session["TokenID"].ToString();
+                    var content = new FormUrlEncodedContent(new[]{
                         new KeyValuePair<string, string>("vid", "130"),//default
                         new KeyValuePair<string, string>("sc",NW.TransactionMedium),//user 00 10
                         new KeyValuePair<string, string>("mobile", mobile),
@@ -540,73 +579,80 @@ namespace CustApp.Controllers
                         new KeyValuePair<string, string>("retrievalReference", regobj.retrievalReference),//Database
 
                     });
-                _res = await client.PostAsync(new Uri(uri), content);
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
-                string errorMessage = string.Empty;
-                int responseCode = 0;
-                string message = string.Empty;
-                string responsetext = string.Empty;
-                bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
-                try
-                {
-                    if (_res.IsSuccessStatusCode)
+                    _res = await client.PostAsync(new Uri(uri), content);
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
+                    string errorMessage = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
+                    try
                     {
-                        //Session value removed
-                        Session.Remove("NWCounter");
-                        Session.Remove("CustomerID");
+                        if (_res.IsSuccessStatusCode)
+                        {
+                            //Session value removed
+                            Session.Remove("NWCounter");
+                            Session.Remove("CustomerID");
 
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        if (!string.IsNullOrEmpty(message))
-                        {
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-                            var json = ser.Deserialize<JsonParse>(responsetext);
-                            message = json.d;
-                            JsonParse myNames = ser.Deserialize<JsonParse>(json.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            message = _res.Content.ReadAsStringAsync().Result;
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+                                var json = ser.Deserialize<JsonParse>(responsetext);
+                                message = json.d;
+                                JsonParse myNames = ser.Deserialize<JsonParse>(json.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                        }
-                        return Json(new { responseCode = responseCode, responseText = respmsg },
-                        JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        result = false;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        dynamic json = JValue.Parse(responsetext);
-                        message = json.d;
-                        if (message == null)
-                        {
-                            return Json(new { responseCode = responseCode, responseText = responsetext },
-                        JsonRequestBehavior.AllowGet);
+                            return Json(new { responseCode = responseCode, responseText = respmsg },
+                            JsonRequestBehavior.AllowGet);
                         }
                         else
                         {
-                            dynamic item = JValue.Parse(message);
-
-                            return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                            result = false;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            dynamic json = JValue.Parse(responsetext);
+                            message = json.d;
+                            if (message == null)
+                            {
+                                return Json(new { responseCode = responseCode, responseText = responsetext },
                             JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                dynamic item = JValue.Parse(message);
+
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                                JsonRequestBehavior.AllowGet);
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                        JsonRequestBehavior.AllowGet);
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                            JsonRequestBehavior.AllowGet);
+                    }
+
                 }
 
+            }
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                            JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
@@ -629,7 +675,7 @@ namespace CustApp.Controllers
         #region Get Nepal Water refStan From Response Table
         public string getrefStan(NepalWater NWObj)
         {
-            string Query_refStan = "select refStan from MNPaypointResponse where account='" + NWObj.CustomerID + "' AND serviceCode='" + NWObj.NWCounter + "' AND ClientCode='" + NWObj.ClientCode + "' AND UserName='" + NWObj.UserName + "'";
+            string Query_refStan = "select refStan from MNPaypointResponse where account='" + NWObj.CustomerID + "' AND serviceCode='" + NWObj.NWCounter + "' AND ClientCode='" + NWObj.ClientCode + "' AND UserName='" + NWObj.UserName + "'  order by transactionDate";
             DataTable dt = new DataTable();
             dt = objdal.MyMethod(Query_refStan);
             string refStan = string.Empty;

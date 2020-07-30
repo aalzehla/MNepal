@@ -755,6 +755,10 @@ namespace WCF.MNepal
             string clientCode = qs["clientCode"];
             string name = qs["name"];
 
+            //SMS
+            string SMSNTC = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalNTCSMSServerUrl"];
+            string SMSNCELL = System.Web.Configuration.WebConfigurationManager.AppSettings["MNepalSMSServerUrl"];
+
             ReplyMessage replyMessage = new ReplyMessage();
             string result = "";
             string statusCode = "200";
@@ -793,17 +797,21 @@ namespace WCF.MNepal
                     if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
                     {
                         //FOR NCELL
+                        //var content = client.DownloadString(
+                        //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
+                        //    + "977" + mobile + "&Text=" + messagereply + "");
                         var content = client.DownloadString(
-                            "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
-                            + "977" + mobile + "&Text=" + messagereply + "");
+                            SMSNCELL + "977" + mobile + "&Text=" + messagereply + "");
                     }
                     else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
                                 || (mobile.Substring(0, 3) == "986"))
                     {
                         //FOR NTC
+                        //var content = client.DownloadString(
+                        //    "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
+                        //    + "977" + mobile + "&Text=" + messagereply + "");
                         var content = client.DownloadString(
-                            "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
-                            + "977" + mobile + "&Text=" + messagereply + "");
+                            SMSNTC + "977" + mobile + "&Text=" + messagereply + "");
                     }
 
                     statusCode = "200";

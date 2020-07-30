@@ -133,5 +133,51 @@ namespace WCF.MNepal.UserModels
             return dtableResult;
         }
 
+
+        #region Check Bank Link
+        public DataTable CheckLinkBankAcc(UserInfo objUserInfo)
+        {
+            DataTable dtableResult = null;
+            SqlConnection conn = null;
+            try
+            {
+                using (conn = new SqlConnection(DatabaseConnection.ConnectionString()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("[s_MNCheckLinkBankAcc]", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserName", objUserInfo.UserName);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            // set the CommandTimeout
+                            da.SelectCommand.CommandTimeout = 60;  // seconds
+                            using (DataSet dataset = new DataSet())
+                            {
+                                da.Fill(dataset);
+                                if (dataset.Tables.Count > 0)
+                                {
+                                    dtableResult = dataset.Tables[0];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+
+            return dtableResult;
+        }
+        #endregion
     }
 }

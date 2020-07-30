@@ -27,6 +27,7 @@ namespace MNepalWeb.UserModels
                 using (var command = database.GetStoredProcCommand("[s_MNCustUserInfoApprove]"))
                 {
                     database.AddInParameter(command, "@UserType", DbType.String, objUserInfo.UserType);
+                    database.AddInParameter(command, "@BankCode", DbType.String, objUserInfo.BankCode);
                     database.AddInParameter(command, "@mode", DbType.String, objUserInfo.Mode);
                     using (var dataset = new DataSet())
                     {
@@ -518,7 +519,7 @@ namespace MNepalWeb.UserModels
                         sqlCmd.Parameters.Add(new SqlParameter("@ClientCode", objUserInfo.ClientCode));
                         sqlCmd.Parameters.Add(new SqlParameter("@BankAccountNumber", objUserInfo.AcNumber));
                         sqlCmd.Parameters.Add(new SqlParameter("@BranchCode", objUserInfo.BranchCode));
-
+                        sqlCmd.Parameters.Add(new SqlParameter("@UserBranchCode", objUserInfo.UserBranchCode));
                         sqlCmd.Parameters.Add(new SqlParameter("@ApprovedBy", objUserInfo.ApprovedBy));
                         sqlCmd.Parameters.Add(new SqlParameter("@ApprovedDate", objUserInfo.ApprovedDate));
                         sqlCmd.Parameters.Add(new SqlParameter("@BankCode", objUserInfo.BankCode));

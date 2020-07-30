@@ -7,12 +7,12 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Customer Setup
-        <small> Customer Setup</small>
+       UserRole Setup
+        <small></small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> @ViewContext.RouteData.Values["Controller"].ToString()</a></li>
-        <li class="active">@ViewContext.RouteData.Values["Action"].ToString() </li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>UserRole Setup</a></li>
+        <li class="active">Modify Customer Role</li>
     </ol>
 </section>
 
@@ -48,26 +48,21 @@
                 <!-- Horizontal Form -->
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Customer Details</h3>
+                        <h3 class="box-title">Modify Customer Role</h3>
                     </div>
 
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-10">
-                                <table class="table table-bordered table-responsive" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Profile Information</th>
-                                        </tr>
-                                    </thead>
-
-                                </table>
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Role Information</h3>
+                                </div>
 
                                 <div class="box-body">
                                     <div class="row">
                                         <div class="col-md-10">
                                             <div class="form-group">
-                                                <label class="control-label col-sm-3">Profile Name <b style="color:red;"></b></label>
+                                                <label class="control-label col-sm-3">Role <b style="color:red;"></b></label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control" id="PCode" name="txtProfileCode" value="@Model.ProfileCode" readonly />
                                                 </div>
@@ -81,9 +76,9 @@
                                     <div class="row">
                                         <div class="col-md-10">
                                             <div class="form-group">
-                                                <label class="control-label col-sm-3">Profile Description <b style="color:red;">*</b></label>
+                                                <label class="control-label col-sm-3">Role Description <b style="color:red;">*</b></label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" id="PDesc" name="txtProfileDesc" value="@Model.ProfileDesc" required />
+                                                    <input type="text" class="form-control" id="PDesc" name="txtProfileDesc" value="@Model.ProfileDesc" required  maxlength="20"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -96,14 +91,14 @@
                                     <div class="row">
                                         <div class="col-md-10">
                                             <div class="form-group">
-                                                <label class="control-label col-sm-3">Profile Status <b style="color:red;">*</b></label>
+                                                <label class="control-label col-sm-3">Role Status <b style="color:red;">*</b></label>
                                                 <div class="col-sm-9">
                                                     @*<input type="text" class="form-control" id="PStatus" name="txtProfileStatus" />*@
                                                     <select class="form-control select2" id="PStatus" name="txtPStatus" style="width: 100%;">
                                                         <option value="" hidden>Select</option>
                                                         <option value="A" @(Model.ProfileStatus.ToString() == "A" ? "Selected" : string.Empty)>Active</option>
                                                         <option value="B" @(Model.ProfileStatus.ToString() == "B" ? "Selected" : string.Empty)>Blocked</option>
-                                                        <option value="R" @(Model.ProfileStatus.ToString() == "R" ? "Selected" : string.Empty)>Rejected</option>
+                                                     
                                                     </select>
                                                 </div>
                                             </div>
@@ -120,7 +115,7 @@
                                                 <label class="control-label col-sm-3">Renew Period <b style="color:red;"></b></label>
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" id="RenewPeriod" name="txtRenewPeriod" required onkeypress="return isNumber(event)" title="Period in month" placeholder="Renew Period" value="@Model.RenewPeriod" />
+                                                        <input type="text" class="form-control" id="RenewPeriod" name="txtRenewPeriod" required onkeypress="return isNumber(event)" title="Period in month" placeholder="Renew Period" maxlength="2" value="@Model.RenewPeriod" />
                                                         <span class="input-group-addon" id="basic-addon2">Months</span>
                                                     </div>
                                                 </div>
@@ -155,7 +150,7 @@
                                 @*</div>*@
 
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">Profile Charge</h3>
+                                    <h3 class="box-title">Role Charge</h3>
                                 </div>
                                 <div class="box-body">
                                     <div class="row">
@@ -189,7 +184,7 @@
 
                                                         <td>
                                                             <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="Registration" name="txtRegistration" pattern=".{0,3}" @*required title="Please use Account Type"*@ placeholder="Registration Charge" value="@Model.Registration" onkeypress="return isNumber(event)" />
+                                                                <input type="text" class="form-control" id="Registration" name="txtRegistration"  @*required title="Please use Account Type"*@ placeholder="Registration Charge" value="@Model.Registration" onkeypress="return isNumber(event)" maxlength="4" />
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -200,34 +195,34 @@
 
                                                         <td>
                                                             <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="PIN" name="txtPIN" onkeypress="return isNumber(event)" pattern=".{0,3}" @*required title="Please use Account Type"*@ placeholder="Pin Reset Charge" value="@Model.PinReset" />
+                                                                <input type="text" class="form-control" id="PIN" name="txtPIN" onkeypress="return isNumber(event)"  @*required title="Please use Account Type"*@ placeholder="Pin Reset Charge" value="@Model.PinReset" maxlength="4" />
                                                             </div>
                                                         </td>
 
                                                     </tr>
 
 
-                                                    <tr class="odd gradex">
+                                                    <tr class="odd gradex charge">
 
                                                         <td> Renewal Charge </td>
 
                                                         <td>
                                                             <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="Renewal" name="txtRenewal" onkeypress="return isNumber(event)" pattern=".{0,3}" @*required title="Please use Account Type"*@ placeholder="Renewal Charge" value="@Model.ReNew" />
+                                                                <input type="text" class="form-control" id="Renewal" name="txtRenewal" onkeypress="return isNumber(event)"  @*required title="Please use Account Type"*@ placeholder="Renewal Charge" value="@Model.ReNew" maxlength="4" />
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <tr class="odd gradex">
+                                                    <tr class="odd gradex charge">
                                                         <td>Charge Account </td>
                                                         @*<td>@Html.TextBox("Has Charge", null, new { @class = "form-control" })  </td>*@
                                                         <td>
                                                             <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="Charge" name="txtCharge" onkeypress="return isNumber(event)" @*required title="Please use Account Type"*@ placeholder="Charge Account" value="@Model.ChargeAccount" />
+                                                                <input type="text" class="form-control" id="Charge" name="txtCharge" onkeypress="return isNumber(event)" @*required title="Please use Account Type"*@ placeholder="Charge Account" value="@Model.ChargeAccount" maxlength="14"/>
                                                             </div>
                                                         </td>
                                                     </tr>
 
-                                                    <tr class="odd gradex">
+                                                    <tr class="odd gradex hide">
 
                                                         <td>IsDrAlert </td>
                                                         @*<td>@Html.TextBox("Has Charge", null, new { @class = "form-control" })  </td>*@
@@ -242,17 +237,17 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <tr class="odd gradex drAlert">
+                                                    <tr class="odd gradex drAlert" style="display:none;">
 
                                                         <td>Min Dr Alert Amount </td>
                                                         @*<td>@Html.TextBox("Has Charge", null, new { @class = "form-control" })  </td>*@
                                                         <td>
                                                             <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="MinDrAlertAmt" name="txtMinDrAlertAmt" value="@Model.MinDrAlertAmt" placeholder="Min DR amount for Dr alert" />
+                                                                <input type="text" class="form-control" id="MinDrAlertAmt" name="txtMinDrAlertAmt" value="@Model.MinDrAlertAmt" placeholder="Min DR amount for Dr alert" maxlength="4" onkeypress="return isNumber(event)"/>
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <tr class="odd gradex">
+                                                    <tr class="odd gradex hide">
 
                                                         <td>IsCrAlert </td>
                                                         @*<td>@Html.TextBox("Has Charge", null, new { @class = "form-control" })  </td>*@
@@ -269,12 +264,12 @@
                                                     </tr>
 
 
-                                                    <tr class="odd gradex crAlert">
+                                                    <tr class="odd gradex crAlert hide">
                                                         <td>Min Cr Alert Amount </td>
                                                         @*<td>@Html.TextBox("Has Charge", null, new { @class = "form-control" })  </td>*@
                                                         <td>
                                                             <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="MinCrAlertAmt" name="txtMinCrAlertAmt" value="@Model.MinCrAlertAmt" placeholder="Min CR amount for Dr alert" />
+                                                                <input type="text" class="form-control" id="MinCrAlertAmt" name="txtMinCrAlertAmt" value="@Model.MinCrAlertAmt" placeholder="Min CR amount for Dr alert" onkeypress="return isNumber(event)" maxlength="4"/>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -300,9 +295,10 @@
                                                         <tr>
                                                             <th style="width:5%"></th>
                                                             <th style="width:35%">Name</th>
-                                                            <th style="width:20%">TXN Count</th>
-                                                            <th style="width:20%">PerTxnAmt </th>
-                                                            <th style="width:20%">PerDayAmt</th>
+                                                            <th style="width:15%">TXN Count</th>
+                                                            <th style="width:15%">PerTxnAmt </th>
+                                                            <th style="width:15%">PerDayAmt</th>
+                                                            <th style="width:15%">TXN Amt Monthly</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -320,7 +316,7 @@
                                                                 <td id="@string.Format("tdTxnCount{0}", item.FeatureCode)">
                                                                     @{if (item.IsSelected.ToString() == "T")
                                                                         {
-                                                                            <input type="text" value="@item.TxnCount" class="form-control" onkeypress="return isNumber(event)" name="@string.Format("txtTxnCount{0}",item.FeatureCode)" />
+                                                                            <input type="text" value="@item.TxnCount" class="form-control" onkeypress="return isNumber(event)" maxlength="4" name="@string.Format("txtTxnCount{0}",item.FeatureCode)" />
                                                                         }
                                                                     }
                                                                 </td>
@@ -328,7 +324,7 @@
                                                                 <td id="@string.Format("tdPerTxn{0}",item.FeatureCode)">
                                                                     @{if (item.IsSelected.ToString() == "T")
                                                                         {
-                                                                            <input type="text" value="@item.PerTxnAmt" class="form-control" onkeypress="return isNumber(event)" name="@string.Format("txtPerTxnAmt{0}",item.FeatureCode)" />
+                                                                            <input type="text" value="@item.PerTxnAmt" class="form-control" onkeypress="return isNumber(event)" maxlength="5" name="@string.Format("txtPerTxnAmt{0}",item.FeatureCode)" />
                                                                         }
                                                                     }
                                                                 </td>
@@ -336,13 +332,22 @@
                                                                 <td id="@string.Format("tdPerDay{0}",item.FeatureCode)">
                                                                     @{if (item.IsSelected.ToString() == "T")
                                                                         {
-                                                                            <input type="text" value="@item.PerDayTxnAmt" class="form-control" onkeypress="return isNumber(event)" name="@string.Format("txtPerDayTxnAmt{0}",item.FeatureCode)" />
+                                                                            <input type="text" value="@item.PerDayTxnAmt" class="form-control" onkeypress="return isNumber(event)" maxlength="6" name="@string.Format("txtPerDayTxnAmt{0}",item.FeatureCode)" />
+                                                                        }
+                                                                    }
+                                                                </td>
+
+                                                                <td id="@string.Format("tdTxnAmtM{0}", item.FeatureCode)">
+                                                                    @{if (item.IsSelected.ToString() == "T")
+                                                                        {
+                                                                            <input type="text" value="@item.TxnAmtM" class="form-control" onkeypress="return isNumber(event)" maxlength="6" name="@string.Format("txtTxnAmtM{0}",item.FeatureCode)" />
                                                                         }
                                                                     }
                                                                 </td>
 
                                                             </tr>
-                                                                        }
+                                                             break;
+                                              }
                                                     </tbody>
                                                 </table>
                                             </fieldset>
@@ -486,15 +491,18 @@
             var rowid = $('#' + parntid).prop('rowIndex');
             if ($(this).is(':checked')) {
 
-                var $inputTxnCount = $('<input onkeypress="return isNumber(event)" class="form-control" name="txtTxnCount' + parntid + '">', {
+                var $inputTxnCount = $('<input onkeypress="return isNumber(event)" class="form-control" maxlength="4" name="txtTxnCount' + parntid + '">', {
                     type: 'text',
                 }).appendTo('#tdTxnCount' + parntid).focus();
-                var $inputPerTxn = $('<input onkeypress="return isNumber(event)" class="form-control" name="txtPerTxnAmt' + parntid + '">', {
+                var $inputPerTxn = $('<input onkeypress="return isNumber(event)" class="form-control"  maxlength="5" name="txtPerTxnAmt' + parntid + '">', {
                     type: 'text',
                 }).appendTo('#tdPerTxn' + parntid).focus();
-                var $inputTxnPerDay = $('<input onkeypress="return isNumber(event)" class="form-control" name="txtPerDayTxnAmt' + parntid + '">', {
+                var $inputTxnPerDay = $('<input onkeypress="return isNumber(event)" class="form-control" maxlength="6" name="txtPerDayTxnAmt' + parntid + '">', {
                     type: 'text',
                 }).appendTo('#tdPerDay' + parntid).focus();
+                var $inputTxnCountM = $('<input onkeypress="return isNumber(event)" class="form-control" maxlength="6" name="txtTxnAmtM' + parntid + '">', {
+                    type: 'text',
+                }).appendTo('#tdTxnAmtM' + parntid).focus();
                 SelectedFeature = SelectedFeature + 1;
                 arry[rowid - 1] = parntid;
 

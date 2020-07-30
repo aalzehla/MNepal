@@ -163,7 +163,24 @@ namespace CustApp.Controllers
 
                     //Clear Cookie
                     FormsAuthentication.SignOut();
+
+                    Session.Clear();
                     Session.Abandon();//Clear the session
+                    Session.RemoveAll();
+
+                    if (Request.Cookies["ASP.NET_SessionId"] != null)
+                    {
+                        //Empty the cookies
+                        Response.Cookies["ASP.NET_SessionId"].Value = string.Empty;
+                        Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.Now.AddMonths(-20);
+                    }
+                    if (Request.Cookies["AuthToken"] != null)
+                    {
+                        //Empty the cookies
+                        Response.Cookies["AuthToken"].Value = string.Empty;
+                        Response.Cookies["AuthToken"].Expires = DateTime.Now.AddMonths(-10);
+                    }
+
                     return RedirectToAction("Index", "Login");
                 }
                 catch(Exception ex)

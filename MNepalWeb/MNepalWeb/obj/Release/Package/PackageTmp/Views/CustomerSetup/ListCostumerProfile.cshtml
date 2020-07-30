@@ -1,16 +1,17 @@
 ﻿@model IEnumerable<MNepalWeb.Models.MNCustProfile>
 @{
-    ViewBag.Title = "Manager Costumer Profile";
+    ViewBag.Title = "UserRole Setup Modify Customer Role";
 }
 
 <section class="content-header">
     <h1>
-        Customer Profile
-        <small> @ViewContext.RouteData.Values["Action"].ToString() </small>
+       User Role Setup
+        @*<small>Modify Customer Role</small>*@
+    
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> @ViewContext.RouteData.Values["Controller"].ToString()</a></li>
-        <li class="active">@ViewContext.RouteData.Values["Action"].ToString() </li>
+        <li><a href="#"><i class="fa fa-user"></i>User Role Setup</a></li>
+        <li class="active">Modify Customer Role </li>
     </ol>
 </section>
 <section class="content">
@@ -40,7 +41,7 @@
             <!-- Horizontal Form -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Manage Costumer Profile</h3>
+                    <h3 class="box-title">Modify Customer Role</h3>
 
                 </div>
 
@@ -54,7 +55,7 @@
                                         <th>Name</th>
                                         <th>Description</th>
                                         <th>Status</th>
-                                        <th colspan="2"></th>
+                                        <th colspan="2">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

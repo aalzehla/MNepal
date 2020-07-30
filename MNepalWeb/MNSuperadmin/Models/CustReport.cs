@@ -24,22 +24,13 @@ namespace MNSuperadmin.Models
 
         public string ServiceProvider { get; set; }
 
-
-        //for agent commission
-
-        
         public string FeeId { get; set; }
+
         public string Id { get; set; }
-        public string TieredStart { get; set; }
 
-        public string TieredEnd { get; set; }
-        public string MinAmt { get; set; }
-        public string MaxAmt { get; set; }
-        public string Percentage { get; set; }
-        public string FlatFee { get; set; }
 
-        public string FeeType { get; set; }
-
+        //for customer support
+        public string RequestMerchant { get; set; }
     }
 
     

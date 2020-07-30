@@ -1,0 +1,358 @@
+﻿@model MNSuperadmin.ViewModel.RegCusDetailVM
+@{
+    ViewBag.Title = "Report Registered Customer";
+
+    List<SelectListItem> Status = new List<SelectListItem>();
+    //Status.Add(new SelectListItem { Text = "All", Value = " " });
+    Status.Add(new SelectListItem { Text = "Approved", Value = "T" });
+    Status.Add(new SelectListItem { Text = "Pending", Value = "P" });
+    Status.Add(new SelectListItem { Text = "UnApproved", Value = "F" });
+    //Status.Add(new SelectListItem { Text = "Rejected", Value = "Rejected" });
+    //Status.Add(new SelectListItem { Text = "Blocked", Value = "Blocked" });
+    List<SelectListItem> Approved = new List<SelectListItem>();
+    Approved.Add(new SelectListItem { Text = "Yes", Value = "Approve" });
+    Approved.Add(new SelectListItem { Text = "No", Value = "UnApprove" });
+
+    List<SelectListItem> RegisterBy = new List<SelectListItem>();
+    RegisterBy.Add(new SelectListItem { Text = "Self", Value = "Self" });
+    RegisterBy.Add(new SelectListItem { Text = "Agent", Value = "Agent" });
+    RegisterBy.Add(new SelectListItem { Text = "Bank User", Value = "Bank" });
+}
+<link href="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+<style>
+    thead input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+        color: black;
+    }
+</style>
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Report
+        <small>Registered Customer</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i>Report</a></li>
+        <li class="active">Registered Customer</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Registered Customer</h3>
+                </div>
+                <div class="box-body">
+                    <br />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span style="color:red">@ViewBag.error</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" id="form">
+                          
+                            <div id="dateRange">
+                                <div class="form-group">
+                                    <div class="col-md-3 form-group">
+                                        <label>From Date</label>
+                                        @Html.TextBoxFor(x => x.Parameter.StartDate, new { @id = "StartDate", @class = "form-control", @maxlength = "10", @placeholder = "DD/MM/YYYY" })
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label>To Date</label>
+                                        @Html.TextBoxFor(x => x.Parameter.EndDate, new { @id = "EndDate", @class = "form-control", @maxlength = "10", @placeholder = "DD/MM/YYYY" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="MobileNo" class="col-md-3 form-group">
+                                <label>Mobile Number</label>
+                                @Html.TextBoxFor(x => x.Parameter.MobileNo, new { @class = "form-control", @maxlength = "10", pattern = @"[9][8][0-9]{8}", @id = "MobileNumber", @placeholder = "Mobile Number", @onkeypress = "return isNumber(event)" })
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>KYC Status</label>
+                                    @Html.DropDownList("Parameter.Status", new SelectList(Status, "Value", "Text"), "--Select--", new { @class = " form-control select2", @style = "width: 100%;", @id = "Status" })
+                                </div>
+                            </div>
+
+
+                            @*<div id="Profile" class="col-md-4 form-group">
+                                <div id="DDL">
+                                    <label>Customer Role </label>
+                                    @Html.DropDownList("Parameter.ProfileCode", (SelectList)ViewBag.ProfileList, "---Select Role---", new { @class = "form-control", @id = "ProfileCode" })
+                                </div>
+                            </div>*@
+                            
+                            @*<div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Approved</label>
+                                    @Html.DropDownList("Approved", new SelectList(Approved, "Value", "Text"), "--Select--", new { @class = " form-control select2", @style = "width: 100%;", @id = "Approved" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Register By</label>
+                                    @Html.DropDownList("RegisterBy", new SelectList(RegisterBy, "Value", "Text"), "--Select--", new { @class = " form-control select2", @style = "width: 100%;", @id = "RegisterBy" })
+                                </div>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <input type="submit" class="btn btn-primary" id="btnSearch" name="txtSearch" value="Search" />
+                </div>
+            </div>
+            <div id="data" class="box box-primary">
+                <div class="box-body" id="grid">
+                    <span class="fa fa-2x fa-file-excel-o pull-right" style="color:green;display:none;" title="To Excel" id="ToExcel"></span>
+                    <table id="SearchResultTable" class="table table-striped table-bordered" style="display:none">
+                        <thead>
+                            <tr>
+                                <th>Created Date</th>
+                                @*<th>Expiry Date</th>*@
+                                <th>Mobile No</th>
+                                <th>Customer Name</th>
+                                @*<th>Customer Role</th>*@
+                                <th>Status</th>
+                                <th>Register By</th>
+                                <th>KYC Approved By</th>
+                                <th>KYC Status</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="overlay" id="loading" style="display:none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts{
+    <script src="~/Content/plugins/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script>
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+        $(document).ready(function () {
+
+            var changed = "T";
+            $('#MobileNumber, #StartDate, #EndDate').on('input propertychange paste', function () {
+
+                changed = "T";
+            });
+            $('#Status').on('change', function () {
+                changed = "T";
+            });
+
+            var table;
+            $('#ToExcel').click(function () {
+                var MobileNumber = $('#MobileNumber').val();
+                var StartDate = $('#StartDate').val();
+                var EndDate = $('#EndDate').val();
+                //var ProfileCode = $('#ProfileCode').val();
+                var Status = $('#Status').val();
+                var Parachanged = changed;
+                $.ajax({
+                    url: "@Url.Action("RegisterCustomerTable", "Report")",
+                    data: {
+                        MobileNo: MobileNumber,
+                        StartDate: StartDate,
+                        EndDate: EndDate,
+                        change: Parachanged,
+                        //ProfileName: ProfileCode,
+                        Status: Status,
+                        ToExcel: 'T'
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        var url = "@Url.Action("Download", "Report")";
+                        window.location = url + '?fileGuid=' + data.FileGuid
+                           + '&filename=' + data.FileName;
+                        /*window.open(url + '?fileGuid=' + data.FileGuid
+                           + '&filename=' + data.FileName, '_blank');*/
+                    },
+                    error: function (data) {
+
+                    }
+
+
+                });
+            });
+            $('#btnSearch').click(function () {
+                debugger;
+                changed = "T";
+                var MobileNumber = $('#MobileNumber').val();
+                var StartDate = $('#StartDate').val();
+                var EndDate = $('#EndDate').val();
+                //var ProfileCode = $('#ProfileCode').val();
+                var Status = $('#Status').val();
+                //var Approved = $('#Approved').val();
+                //var RegisterBy = $('#RegisterBy').val();
+                var Parachanged = changed;
+                if ($.fn.DataTable.isDataTable('#SearchResultTable')) {
+                    table.destroy();
+                }
+                $('#loading').show();
+                $('#btnSearch').prop("disabled", true);
+                table = $('#SearchResultTable').DataTable({
+                
+                    searching: false,
+                    "proccessing": true,
+                    "serverSide": true,
+                    "aaSorting": [],
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "ajax": {
+                        data: function (d) {
+                            d.MobileNumber = MobileNumber;
+                            d.StartDate = StartDate;
+                            d.EndDate = EndDate;
+                            d.change = Parachanged;
+                            //d.ProfileName = ProfileCode;
+                            d.Status = Status;
+                            //d.Approved = Approved;
+                            //d.RegisterBy = RegisterBy;
+                        },
+                        url: "@Url.Action("RegisterCustomerTable", "Report")",
+                        type: 'POST',
+
+                    },
+                    "columns": [
+                           { "data": "CreatedDate" },
+                           //{ "data": "ExpiryDate" },
+                           { "data": "MobileNo" },
+                           { "data": "CustomerName" },
+                           //{ "data": "ProfileName" },
+                           { "data": "Status" },
+                           { "data": "CreatedBy" },
+                           { "data": "ApprovedBy" },
+                           { "data": "Approved" }
+                    ],
+                    "drawCallback": function (settings) {
+                        changed = "F";
+                        Parachanged = changed;
+                        $('#SearchResultTable').show();
+                        if (settings.json.recordsTotal > 0)
+                            $('#ToExcel').show();
+                        else
+                            $('#ToExcel').hide();
+                        $('#loading').hide();
+                        $('#btnSearch').prop("disabled", false);
+                    },
+
+                });
+
+            });
+
+
+            $('#grid').on("DOMSubtreeModified", function () {
+                changed = "F";
+            });
+
+            $("#StartDate").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy',
+                    maxDate: new Date,
+                    onSelect: function (dateText) {
+                        changed = "T";
+                        var from = $('#EndDate').val().split("/");
+                        if (from != "") {
+                            var EDate = new Date(from[2], from[1] - 1, from[0]);
+                            var to = dateText.split("/");
+                            var SDate = new Date(to[2], to[1] - 1, to[0]);;
+                            if (SDate > EDate) {
+                                $('#EndDate').val("");
+                                $('#message').text('End Date cannot be less than Start Date');
+                            }
+                            else {
+                                $('#message').text("");
+                            }
+                        }
+                    },
+                    showAnim: "slideDown"
+                });
+            $("#EndDate").datepicker(
+                {
+                    dateFormat: 'dd/mm/yy',
+                    maxDate: new Date,
+                    onSelect: function (dateText) {
+                        changed = "T";
+                        var from = $('#StartDate').val().split("/");
+                        if (from != "") {
+                            var SDate = new Date(from[2], from[1] - 1, from[0]);
+                            var to = dateText.split("/");
+                            var EDate = new Date(to[2], to[1] - 1, to[0]);;
+                            if (EDate < SDate) {
+                                debugger;
+                                $('#EndDate').val("");
+                                $('#message').text('End Date cannot be less than Start Date');
+                            }
+                            else {
+                                $('#message').text("");
+                            }
+                        }
+                    },
+                    showAnim: "slideDown"
+                });
+        });
+
+        $(document).ready(function () {
+            $.validator.addMethod("pattern", function (value, element, param) {
+                if (this.optional(element)) {
+                    return true;
+                }
+                if (typeof param === "string") {
+                    param = new RegExp("^(?:" + param + ")$");
+                }
+                return param.test(value);
+            }, "Invalid format.");
+            $('#Registerform').validate({
+                highlight: function (label) {
+                    $(label).closest('.form-group').addClass('has-error');
+                },
+                unhighlight: function (label) {
+                    $(label).closest('.form-group').removeClass('has-error');
+                }
+            });
+            function isNumber(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            }
+
+
+        });
+
+
+
+    </script>
+}
+
+
+
+

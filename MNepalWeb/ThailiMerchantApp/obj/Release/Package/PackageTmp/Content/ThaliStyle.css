@@ -19910,6 +19910,13 @@ ul.bxslider {
   content: "\e90b";
 }
 
+/* line 124, assets/sass/setup/_fonts.scss */
+.thaili-icon-adsl:before {
+    content: "\e90c";
+}
+
+
+
 /** Fonts **/
 /** Color **/
 /** Header color **/
@@ -21692,14 +21699,12 @@ label.error {
   border-radius: 11px;
 }
 /* line 145, assets/sass/components/_user-page.scss */
-    .personal-wrapper .identity-detail .profile-img {
-        max-width: 120px;      
-    }
+.personal-wrapper .identity-detail .profile-img {
+  max-width: 120px;
+}
 /* line 148, assets/sass/components/_user-page.scss */
 .personal-wrapper .identity-detail .profile-img img {
   font-size: 8px;
-  max-height:120px;
-  max-width: 120px;
 }
 
 /* line 155, assets/sass/components/_user-page.scss */
