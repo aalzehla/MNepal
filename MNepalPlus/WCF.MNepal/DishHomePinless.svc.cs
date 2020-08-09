@@ -23,6 +23,9 @@ using WCF.MNepal.Helper;
 using WCF.MNepal.Models;
 using WCF.MNepal.Utilities;
 
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+
 namespace WCF.MNepal
 {
     [ServiceContract(Namespace = "")]
@@ -38,7 +41,9 @@ namespace WCF.MNepal
         {
             string PaypointPwd = System.Web.Configuration.WebConfigurationManager.AppSettings["PaypointPwd"];
             string PaypointUserID = System.Web.Configuration.WebConfigurationManager.AppSettings["PaypointUserID"];
-            System.Net.ServicePointManager.ServerCertificateValidationCallback += delegate { return true; }; //to prevent from SSL error
+            //System.Net.ServicePointManager.ServerCertificateValidationCallback += delegate { return true; }; //to prevent from SSL error
+            //ServicePointManager.ServerCertificateValidationCallback += (o, c, ch, er) => true;
+
             StreamReader sr = new StreamReader(input);
             string s = sr.ReadToEnd();
             sr.Dispose();

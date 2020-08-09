@@ -912,7 +912,15 @@ namespace CustApp.Controllers
                 }
 
                 ViewBag.ServiceNumber = regobj.CustomerID;
-                ViewBag.BillAmount = S_Amount;
+                //ViewBag.BillAmount = S_Amount;
+                if(S_ServiceCode =="0")
+                {
+                ViewBag.BillAmount = regobj.TotalAmountDue;
+                }
+                else
+                {
+                    ViewBag.BillAmount = (Convert.ToInt32(regobj.TotalAmountDue) / 100).ToString();
+                }
                 ViewBag.ServiceName = serviceName;
                 ViewBag.billDate = regobj.billDate.ToString();
 

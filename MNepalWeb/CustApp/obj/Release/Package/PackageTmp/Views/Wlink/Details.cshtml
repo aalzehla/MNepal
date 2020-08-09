@@ -22,6 +22,11 @@
         position: relative;
         z-index: 2;
     }
+    .show-tick{
+        margin-top:10px;
+        height:45px;
+        width:610px;
+    }
 </style>
 
 @using (Html.BeginForm("WlinkExecutePayment", "Wlink", FormMethod.Post, new { @id = "WlinkExecutePayment", @name = "WlinkExecutePayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
@@ -161,7 +166,7 @@
                                         <label>@ViewBag.NWBranchName</label>
                                     </div>
                                 </div>*@
-
+                            <h5>@ViewBag.remainingDays</h5>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Service Name:</label>
@@ -170,6 +175,7 @@
                                     <label>@ViewBag.paypointType</label>
                                 </div>
                             </div>
+
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -190,6 +196,22 @@
                                     <label>RS.@ViewBag.TotalAmountDue</label>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Package Details:</label>
+                                    @* @Html.DropDownList("Description", new SelectList(ViewBag.ListDetails, "Description", "Description"), new { @class = "show-tick", @id = "drpdwn", onChange = "updateNRs()" })*@
+                                    <select id="drpdwn" onChange="updateNRs()" name="Description" class="show-tick">
+                                        @foreach (var package in ViewBag.ListDetails)
+                                        {
+                                            <option amount="@package.PackageAmount" id="@package.PackageId" name="getPackageId">@package.Description</option>
+
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+
 
                             <br />
 
@@ -342,6 +364,25 @@
          var url = '@Url.Action("Index", "LogOut")';
          window.location.href = url;
         };
+
+         function updateNRs()
+       {
+           debugger;
+
+           var a = document.getElementById('drpdwn').value;
+
+           var dropdown = document.getElementById('drpdwn');
+           var selectedOption = dropdown.options[dropdown.selectedIndex];
+           var selectedOptionAmount = selectedOption.getAttribute('amount');
+           var selectedOptionId = selectedOption.getAttribute('id');
+           window.getPackageId = selectedOptionId;
+           console.log(selectedOption);
+           console.log(selectedOptionAmount);
+           console.log(selectedOptionId);
+
+           document.getElementById('totalDeuAmount').innerHTML = "NRs. " + selectedOptionAmount;
+           document.getElementById('amount').value = selectedOptionAmount;
+        }
 
         function isNumber(evt) {
             evt = (evt) ? evt : window.event;

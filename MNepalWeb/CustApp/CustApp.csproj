@@ -20,7 +20,7 @@
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44370</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -179,7 +179,6 @@
     <Compile Include="Controllers\CustomerRegAppController.cs" />
     <Compile Include="Controllers\CustomerSupportController.cs" />
     <Compile Include="Controllers\DematController.cs" />
-    <Compile Include="Controllers\DishHomeController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FAQController.cs" />
     <Compile Include="Controllers\ForgetPasswordController.cs" />
@@ -8241,7 +8240,6 @@
     <Content Include="Views\Help\BlogOrNews.cshtml" />
     <Content Include="Views\Help\Career.cshtml" />
     <Content Include="Views\PrivacyPolicy\ReportFraud.cshtml" />
-    <Content Include="Views\DishHome\Index.cshtml" />
     <Content Include="Views\ISP\ArrowNet.cshtml" />
     <Content Include="Views\ISP\ArrowNetDetails.cshtml" />
     <Content Include="Views\ISP\WebSurfer.cshtml" />

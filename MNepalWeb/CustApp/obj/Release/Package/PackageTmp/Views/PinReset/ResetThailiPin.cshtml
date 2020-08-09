@@ -93,10 +93,10 @@
                             <ul class="user-menu">
                                 <li><a href="Profile/Index">User Detail</a></li>
                                 @*<li><a href="#">Notification Settings</a></li>
-        <li><a href="#">Devices</a></li>*@
+                                    <li><a href="#">Devices</a></li>*@
                                 <li><a href="@Url.Action("Index", "ChangePassword")">Change Password</a></li>
                                 <li><a href="@Url.Action("Index", "PinReset")">Change Thaili Pin</a></li>
-                                <li  class="active"><a href="@Url.Action("ResetThailiPin", "PinReset")">Reset Thaili Pin</a></li>
+                                <li class="active"><a href="@Url.Action("ResetThailiPin", "PinReset")">Reset Thaili Pin</a></li>
 
                                 <li class="logout"><a href="Logout">Log out</a></li>
                             </ul>
@@ -376,7 +376,7 @@
                     mobileNumber: mobile
                 };
 
-                $.ajax({                    
+                $.ajax({
                     url: '@Url.Action("ResetThailiPin", "PinReset")',
                     type: "POST",
                     data: dataToPost,
@@ -388,7 +388,7 @@
                             //var resp = JSON.parse(data.responseText);
                             $('#successModal').modal("show");
 
-                           
+
                         }
                         //display error message
                         else {

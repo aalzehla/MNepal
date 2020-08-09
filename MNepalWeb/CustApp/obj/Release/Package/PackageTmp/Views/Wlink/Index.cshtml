@@ -150,49 +150,38 @@
                             }
 
                             @*<div class="transfer-order clearfix">
-            <h3 class="title">Pay from</h3>
+                                    <h3 class="title">Pay from</h3>
 
-            <select class="form-control selectpicker transaction-select from col-md-9" id="TransactionMedium" name="TransactionMedium" onmousedown="this.value='';">
-                <option data-icon="thaili-icon-load-wallet" value="00">Wallet</option>
-                @if (hasBankKYC.Equals("T"))
-                {
-                    <option data-icon="thaili-icon-bank" value="10">Bank</option>
-                }
-            </select>
-        </div>*@
-
-
+                                    <select class="form-control selectpicker transaction-select from col-md-9" id="TransactionMedium" name="TransactionMedium" onmousedown="this.value='';">
+                                        <option data-icon="thaili-icon-load-wallet" value="00">Wallet</option>
+                                        @if (hasBankKYC.Equals("T"))
+                                        {
+                                            <option data-icon="thaili-icon-bank" value="10">Bank</option>
+                                        }
+                                    </select>
+                                </div>*@
 
 
 
-                            @*<div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label class="col-sm-12">Customer Name:<b style="color:red;">*</b></label>
-                    <input type="text" class="form-control select2" id="CustomerID" name="txtCustomerID" placeholder="Example: test" maxlength="20" oninput="checkValidation()" />
-                </div>
-                <div class="form-group" id="CustErr" style="color:red; margin-top:-11px;"></div>
-            </div>
+                            
 
-        </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-12">Customer Name:<b style="color:red;">*</b></label>
+                                        <input type="text" class="form-control select2" id="CustomerID" name="txtCustomerID" placeholder="Example: test" maxlength="20" oninput="checkValidation()" />
+                                    </div>
+                                    <div class="form-group" id="CustErr" style="color:red; margin-top:-11px;"></div>
+                                </div>
 
-        <br />
-
-        <div class="box-footer">
-            <input type="submit" class="btn btn-blue btn-big col-md-5" name="btnCommand" value="Get Details" id="btnSubmit" />
-            <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
-        </div>*@
-
-                            <div class="container" style="text-align: center; line-height:1.5rem; margin-top:150px">
-
-                                <b class="headerFont" style="font-size:2rem; font-weight:bold;">Coming Soon</b>
-                                <br />
-                                <br />
-                                <p>
-
-                                </p>
                             </div>
 
+                            <br />
+
+                            <div class="box-footer">
+                                <input type="submit" class="btn btn-blue btn-big col-md-5" name="btnCommand" value="Get Details" id="btnSubmit" />
+                                <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
+                            </div>
 
                         </section>
                     </div>
@@ -302,11 +291,11 @@
             return true;
         }
 
-
+        
 
         function checkValidation() {
             var Cust = $("[name='txtCustomerID']").val();
-
+            
 
             if ((Cust.trim() == "")) {
                 $("#CustErr").html("");
@@ -331,7 +320,7 @@
             e.preventDefault();
             debugger;
             var CustomerID = $("[name='txtCustomerID']").val();
-
+            
             if ((CustomerID != "")) {
 
                 var dataToPost = {
@@ -345,7 +334,7 @@
                     data: dataToPost,
                     async: false,
                     success: function (data) {
-
+                        debugger;
                         if (data.responseCode == "200") {
                             var url = '@Url.Action("Details", "Wlink")';
                             window.location.href = url;
@@ -396,3 +385,6 @@
     </script>
 
 }
+
+
+
