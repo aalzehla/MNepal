@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>H:\MNepalSuperAdminPublish</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\MNepal\Desktop\MNSuperAdmin</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="ApplicationInsights.config">
@@ -20,12 +20,6 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/ApplicationInsights.config">
       <publishTime>09/13/2018 11:30:31</publishTime>
-    </File>
-    <File Include="bin/App_global.asax.compiled">
-      <publishTime>07/02/2020 13:10:41</publishTime>
-    </File>
-    <File Include="bin/App_global.asax.dll">
-      <publishTime>07/02/2020 13:10:41</publishTime>
     </File>
     <File Include="bin/KellermanSoftware.Compare-NET-Objects-Portable.dll">
       <publishTime>07/03/2018 17:18:00</publishTime>
@@ -67,10 +61,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/26/2012 00:33:56</publishTime>
     </File>
     <File Include="bin/MNSuperadmin.dll">
-      <publishTime>07/02/2020 13:10:23</publishTime>
+      <publishTime>08/27/2020 15:58:51</publishTime>
     </File>
     <File Include="bin/MNSuperadmin.pdb">
-      <publishTime>07/02/2020 13:10:23</publishTime>
+      <publishTime>08/27/2020 15:58:51</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>02/18/2018 09:44:54</publishTime>
@@ -22587,11 +22581,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="fonts/glyphicons-halflings-regular.woff2">
       <publishTime>09/13/2018 11:30:18</publishTime>
     </File>
+    <File Include="Global.asax">
+      <publishTime>09/13/2018 11:30:02</publishTime>
+    </File>
     <File Include="Images/default_icon.png">
       <publishTime>09/13/2018 15:10:53</publishTime>
-    </File>
-    <File Include="PrecompiledApp.config">
-      <publishTime>07/02/2020 13:10:31</publishTime>
     </File>
     <File Include="Scripts/alertify.js">
       <publishTime>10/08/2018 12:35:19</publishTime>
@@ -22914,23 +22908,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/AgentCommission/ViewServiceCommissionDetail.cshtml">
       <publishTime>02/26/2019 14:57:23</publishTime>
     </File>
-    <File Include="Views/BranchSetup/BranchListView.cshtml">
-      <publishTime>10/08/2018 12:35:34</publishTime>
-    </File>
-    <File Include="Views/BranchSetup/BranchModification.cshtml">
-      <publishTime>10/08/2018 12:35:35</publishTime>
-    </File>
-    <File Include="Views/BranchSetup/BranchStatus.cshtml">
-      <publishTime>10/08/2018 12:35:35</publishTime>
-    </File>
-    <File Include="Views/BranchSetup/CreateBranch.cshtml">
-      <publishTime>10/08/2018 12:35:36</publishTime>
-    </File>
     <File Include="Views/BranchSuperAdminDashboard/Index.cshtml">
-      <publishTime>02/17/2019 15:49:01</publishTime>
+      <publishTime>07/05/2020 17:09:15</publishTime>
     </File>
     <File Include="Views/ChangePassword/Index.cshtml">
-      <publishTime>05/06/2019 14:47:48</publishTime>
+      <publishTime>07/24/2020 16:30:20</publishTime>
     </File>
     <File Include="Views/Customer/AgentWalletKYC.cshtml">
       <publishTime>06/12/2019 12:06:13</publishTime>
@@ -22981,10 +22963,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/08/2018 12:35:36</publishTime>
     </File>
     <File Include="Views/Login/Index.cshtml">
-      <publishTime>07/02/2019 16:18:40</publishTime>
+      <publishTime>07/24/2020 16:29:53</publishTime>
     </File>
     <File Include="Views/Login/Reset.cshtml">
-      <publishTime>06/09/2019 17:08:00</publishTime>
+      <publishTime>07/24/2020 16:29:53</publishTime>
     </File>
     <File Include="Views/ManualTransaction/EBanking.cshtml">
       <publishTime>04/28/2020 14:17:08</publishTime>
@@ -23096,6 +23078,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Views/Merchant/ViewMerchantDetails.cshtml">
       <publishTime>01/27/2020 11:11:07</publishTime>
+    </File>
+    <File Include="Views/Notifications/GetAllPushNotifications.cshtml">
+      <publishTime>08/27/2020 15:27:20</publishTime>
     </File>
     <File Include="Views/Notifications/Index.cshtml">
       <publishTime>04/12/2020 16:04:36</publishTime>
@@ -23278,7 +23263,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/16/2018 17:06:32</publishTime>
     </File>
     <File Include="Views/SuperAdminDashboard/Index.cshtml">
-      <publishTime>03/24/2019 17:20:32</publishTime>
+      <publishTime>07/05/2020 16:59:33</publishTime>
     </File>
     <File Include="Views/SuperAdminRoleSetup/CreateAdminProfile.cshtml">
       <publishTime>04/11/2019 16:49:31</publishTime>
@@ -23299,7 +23284,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/08/2018 12:35:34</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/02/2020 11:48:35</publishTime>
+      <publishTime>08/27/2020 16:00:34</publishTime>
     </File>
   </ItemGroup>
 </Project>

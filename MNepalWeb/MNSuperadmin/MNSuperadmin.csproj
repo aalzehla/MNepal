@@ -7733,7 +7733,6 @@
     <Content Include="Content\date_comp\glyphicons-halflings-regular.eot" />
     <Content Include="Content\date_comp\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\date_comp\glyphicons-halflings-regular.woff" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.min.js.map" />
@@ -7748,6 +7747,7 @@
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper.min.js.map" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\bootstrapvalidator.min.js" />
     <Content Include="Scripts\FileSaver.min.js" />
@@ -7968,6 +7968,7 @@
     <Content Include="Views\ManualTransaction\ViewTopUpVerifiedDetails.cshtml" />
     <Content Include="Views\ManualTransaction\TopupReject.cshtml" />
     <Content Include="Views\ManualTransaction\ViewTopUpRejectedDetails.cshtml" />
+    <Content Include="Views\Notifications\GetAllPushNotifications.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

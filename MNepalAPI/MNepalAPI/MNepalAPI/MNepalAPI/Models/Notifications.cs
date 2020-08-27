@@ -23,6 +23,8 @@ namespace MNepalAPI.Models
         {
             public string title { get; set; }
             public string text { get; set; }
+            public string click_action { get; set; }
+
         }
 
         public class Response
@@ -37,5 +39,6 @@ namespace MNepalAPI.Models
             public string text { get; set; }
             public string messageId { get; set; }
         }
+
     }
 }

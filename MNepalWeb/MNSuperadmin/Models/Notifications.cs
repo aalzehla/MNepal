@@ -34,5 +34,11 @@ namespace MNSuperadmin.Models
             public string statusCode { get; set; }
             public string statusMessage { get; set; }
         }
+
+        public class RootObject
+        {
+            public List<NotificationModel> notificationsList { get; set; }
+        }
+
     }
 }

@@ -3,6 +3,9 @@ using MNepalAPI.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -30,7 +33,8 @@ namespace MNepalAPI.Controllers
                 notification = new Notification
                 {
                     title = notifications.notification.title,
-                    text = notifications.notification.text
+                    text = notifications.notification.text,
+                    click_action = "OPEN_ACTIVITY_1"
                 }
             };
 
@@ -42,9 +46,9 @@ namespace MNepalAPI.Controllers
 
             using (var httpClient = new HttpClient())
             {
-                var AuthorizationKey = System.Configuration.ConfigurationManager.AppSettings["AuthorizationKey"];
-                var AuthorizationKeyValue = System.Configuration.ConfigurationManager.AppSettings["AuthorizationKeyValue"];
-                var NotificationPostUrl = System.Configuration.ConfigurationManager.AppSettings["NotificationPostUrl"];
+                var AuthorizationKey = ConfigurationManager.AppSettings["AuthorizationKey"];
+                var AuthorizationKeyValue = ConfigurationManager.AppSettings["AuthorizationKeyValue"];
+                var NotificationPostUrl = ConfigurationManager.AppSettings["NotificationPostUrl"];
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthorizationKey, AuthorizationKeyValue);
 
                 // Do the actual request and await the response
@@ -78,6 +82,33 @@ namespace MNepalAPI.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK);
 
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetAllNotification()
+        {
+            SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["DbConnectionString"].ConnectionString);
+            string command = "select * from MNNotifications order by Id desc";
+            cn.Open();
+            SqlDataAdapter da = new SqlDataAdapter(command, cn);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+            List<NotificationModel> notificationsList = new List<NotificationModel>();
+            
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                NotificationModel notifications = new NotificationModel();
+
+                notifications.title = dr["Title"].ToString();
+                notifications.text = dr["Text"].ToString();
+                notifications.extraInformation = dr["ExtraInformation"].ToString();
+                notifications.messageId = dr["MessageId"].ToString();
+
+                notificationsList.Add(notifications);
+
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, new { notificationsList });
         }
     }
 }

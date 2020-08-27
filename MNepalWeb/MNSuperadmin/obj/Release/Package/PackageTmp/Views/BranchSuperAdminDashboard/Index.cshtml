@@ -33,7 +33,7 @@
                     <div class="info-box-content">
                         <span class="info-box-text">Total Super Admins </span>
                         @*<span class="info-box-number">90<small>%</small></span>*@
-                        <span class="info-box-number">@((ViewBag.TotalSuperAdmins as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.TotalAdmins as System.Data.DataTable).Rows[0]["TotalAdmins"].ToString() : "0")</span>
+                        <span class="info-box-number">@((ViewBag.TotalSuperAdmins as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.TotalSuperAdmins as System.Data.DataTable).Rows[0]["TotalSuperAdmins"].ToString() : "0")</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>

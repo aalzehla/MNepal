@@ -303,7 +303,7 @@
                     data: dataToPost,
                     async: true,
                     success: function (data) {
-                        $(".preload").show();
+                        $(".preload").hide();
                         if (data.responseCode == "200") {
                             var url = '@Url.Action("WebSurferDetails", "ISP")';
                             window.location.href = url;
