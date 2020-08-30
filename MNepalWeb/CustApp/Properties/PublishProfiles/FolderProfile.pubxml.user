@@ -22,10 +22,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/03/2019 15:10:15</publishTime>
     </File>
     <File Include="bin/CustApp.dll">
-      <publishTime>08/03/2020 16:47:06</publishTime>
+      <publishTime>08/30/2020 12:57:05</publishTime>
     </File>
     <File Include="bin/CustApp.pdb">
-      <publishTime>08/03/2020 16:47:06</publishTime>
+      <publishTime>08/30/2020 12:57:05</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.DependencyCollector.dll">
       <publishTime>12/07/2016 11:45:42</publishTime>
@@ -62,6 +62,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>02/18/2018 09:44:54</publishTime>
+    </File>
+    <File Include="bin/NLog.dll">
+      <publishTime>07/31/2020 22:03:20</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/27/2016 14:50:24</publishTime>
@@ -23476,7 +23479,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/03/2019 15:33:29</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>02/03/2019 15:10:15</publishTime>
+      <publishTime>08/16/2020 14:41:54</publishTime>
     </File>
     <File Include="Scripts/alertify.js">
       <publishTime>02/03/2019 15:34:13</publishTime>
@@ -23698,10 +23701,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2019 12:44:08</publishTime>
     </File>
     <File Include="Views/Error/Error404.cshtml">
-      <publishTime>06/21/2019 16:48:47</publishTime>
+      <publishTime>08/18/2020 13:48:04</publishTime>
     </File>
     <File Include="Views/FAQ/Index.cshtml">
-      <publishTime>07/10/2020 12:32:32</publishTime>
+      <publishTime>08/30/2020 12:05:14</publishTime>
     </File>
     <File Include="Views/ForgetPassword/ChangePassword.cshtml">
       <publishTime>05/28/2020 15:54:27</publishTime>
@@ -23731,16 +23734,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/24/2020 14:02:00</publishTime>
     </File>
     <File Include="Views/Help/Bank.cshtml">
-      <publishTime>05/28/2020 15:53:45</publishTime>
+      <publishTime>08/30/2020 12:05:17</publishTime>
     </File>
     <File Include="Views/Help/BlogOrNews.cshtml">
-      <publishTime>05/25/2020 12:31:34</publishTime>
+      <publishTime>08/30/2020 12:05:17</publishTime>
     </File>
     <File Include="Views/Help/Career.cshtml">
-      <publishTime>05/27/2020 14:10:41</publishTime>
+      <publishTime>08/30/2020 12:05:17</publishTime>
     </File>
     <File Include="Views/Help/ContactUs.cshtml">
-      <publishTime>05/28/2020 15:20:40</publishTime>
+      <publishTime>08/30/2020 12:05:17</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>02/03/2019 15:34:23</publishTime>
@@ -23758,7 +23761,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/10/2020 12:32:32</publishTime>
     </File>
     <File Include="Views/ISP/WebSurfer.cshtml">
-      <publishTime>07/10/2020 12:32:32</publishTime>
+      <publishTime>08/18/2020 15:21:55</publishTime>
     </File>
     <File Include="Views/ISP/WebSurferDetails.cshtml">
       <publishTime>07/10/2020 12:32:33</publishTime>
@@ -23785,7 +23788,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/24/2020 13:54:48</publishTime>
     </File>
     <File Include="Views/Login/Index.cshtml">
-      <publishTime>05/28/2020 15:55:23</publishTime>
+      <publishTime>08/30/2020 12:29:51</publishTime>
     </File>
     <File Include="Views/Login/Reset.cshtml">
       <publishTime>04/21/2020 15:11:44</publishTime>
@@ -23842,7 +23845,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/20/2020 14:31:20</publishTime>
     </File>
     <File Include="Views/PrivacyPolicy/PrivacyPolicy.cshtml">
-      <publishTime>06/28/2020 10:04:37</publishTime>
+      <publishTime>08/30/2020 12:43:46</publishTime>
     </File>
     <File Include="Views/PrivacyPolicy/ReportFraud.cshtml">
       <publishTime>06/28/2020 10:04:37</publishTime>
@@ -23875,7 +23878,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/17/2019 11:00:58</publishTime>
     </File>
     <File Include="Views/Shared/_Dashboard.cshtml">
-      <publishTime>06/15/2020 14:41:56</publishTime>
+      <publishTime>08/30/2020 12:05:18</publishTime>
     </File>
     <File Include="Views/Shared/_Dashboard_Old.cshtml">
       <publishTime>02/03/2019 15:34:24</publishTime>
@@ -23956,7 +23959,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/27/2020 12:42:14</publishTime>
     </File>
     <File Include="Views/TermsAndCondition/Index.cshtml">
-      <publishTime>06/28/2020 10:04:37</publishTime>
+      <publishTime>08/30/2020 12:42:08</publishTime>
     </File>
     <File Include="Views/TvServicePayment/Details.cshtml">
       <publishTime>06/28/2020 10:04:37</publishTime>
@@ -24088,7 +24091,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/18/2020 12:16:33</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/05/2020 12:48:01</publishTime>
+      <publishTime>08/30/2020 12:31:41</publishTime>
     </File>
   </ItemGroup>
 </Project>
