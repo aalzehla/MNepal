@@ -71,7 +71,7 @@ namespace MNepalWeb.Controllers
                     else if (hierarchy.Length == 2)
                     {
                         sb.Append("<li>" +
-                            "<a href=" + "\"" + "/" + webName + controller + "/" + url + "\"" + "><span>" + description + "</span></a></li>");
+                            "<a href=" +  Url.Action(url,controller)  + "><span>" + description + "</span></a></li>");
                     }
                 }
 

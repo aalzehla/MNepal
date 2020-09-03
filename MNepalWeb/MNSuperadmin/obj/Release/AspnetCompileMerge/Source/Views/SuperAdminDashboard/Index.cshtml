@@ -33,7 +33,7 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Total Super Admins </span>
                     @*<span class="info-box-number">90<small>%</small></span>*@
-                    <span class="info-box-number">@((ViewBag.TotalSuperAdmins as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.TotalAdmins as System.Data.DataTable).Rows[0]["TotalAdmins"].ToString() : "0")</span>
+                    <span class="info-box-number">@((ViewBag.TotalSuperAdmins as System.Data.DataTable).Rows.Count > 0 ? (ViewBag.TotalSuperAdmins as System.Data.DataTable).Rows[0]["TotalSuperAdmins"].ToString() : "0")</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -58,7 +58,7 @@
 
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="ion ion-ios-car  t-outline"></i></span>
+                <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
 
                 <div class="info-box-content">
                     <span class="info-box-text">Total Customers</span>
@@ -104,10 +104,10 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-8">
                             <div class="pad">
-
-                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="col-md-6 col-sm-6">
                                     <h4 class="box-title">Super Admin Registration Approval</h4>
-                                    <table class="table-bordered col-lg-8">
+                                    <table class="table-bordered col-lg-10">
+
                                         <tbody>
 
                                             @if ((ViewBag.SuperAdminRegistrationApproval as System.Data.DataTable).Rows.Count > 0)
@@ -122,14 +122,14 @@
                                                 }
                                             }
                                             <tr>
-                                                <td align="left" colspan="2"><a href="@Url.Action("ApproveSuperAdminList", "SuperAdmin")"> See More Detail</a></td>
+                                                <td align="left" colspan="2"><a href="@Url.Action("ApproveSuperAdminList", "SuperAdmin")"> See More Detail Super Admin Registration Approval</a></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="col-md-6 col-sm-6">
                                     <h4 class="box-title">Super Admin Modification Approval</h4>
-                                    <table class="table-bordered col-lg-8">
+                                    <table class="table-bordered  col-lg-10">
 
                                         <tbody>
 
@@ -144,19 +144,20 @@
                                                 }
                                             }
                                             <tr>
-                                                <td align="left" colspan="2"><a href="@Url.Action("ModifiedApprove", "SuperAdmin")"> See More Detail </a></td>
+                                                <td align="left" colspan="2"><a href="@Url.Action("ModifiedApprove", "SuperAdmin")"> See More Detail Super Admin Modification Approval</a></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
 
-                                @*<div>
+                                <div>
                                     <br />
-                                </div>*@
 
-                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                </div>
+                               
+                                <div class="col-md-6 col-sm-6">
                                     <h4 class="box-title">Agent Registration Approval</h4>
-                                    <table class="table-bordered col-lg-8">
+                                    <table class="table-bordered col-lg-10">
 
                                         <tbody>
 
@@ -171,16 +172,16 @@
                                                 }
                                             }
                                             <tr>
-                                                <td align="left" colspan="2"><a href="@Url.Action("ApproveAgentList", "Agent")"> See More Detail </a></td>
+                                                <td align="left" colspan="2"><a href="@Url.Action("ApproveAgentList", "Agent")"> See More Detail Agent Registration Approval</a></td>
                                             </tr>
 
                                         </tbody>
                                     </table>
                                 </div>
-
-                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="col-md-6 col-sm-6">
                                     <h4 class="box-title">Agent Modification Approval </h4>
-                                    <table class="table-bordered col-lg-8">
+                                    <table class="table-bordered col-lg-10">
+
                                         <tbody>
 
                                             @if ((ViewBag.AgentModificationApproval as System.Data.DataTable).Rows.Count > 0)
@@ -194,19 +195,17 @@
                                                 }
                                             }
                                             <tr>
-                                                <td align="left" colspan="2"><a href="@Url.Action("ApproveAgentModList", "Agent")"> See More Detail </a></td>
+                                                <td align="left" colspan="2"><a href="@Url.Action("ApproveAgentModList", "Agent")"> See More Detail Agent Modification Approval</a></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-
                                 <div>
                                     <br />
-                                    <p>&nbsp;</p>
                                 </div>
-                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="col-md-6 col-sm-6">
                                     <h4 class="box-title">Customer Wallet KYC Verification </h4>
-                                    <table class="table-bordered col-lg-8">
+                                    <table class="table-bordered col-lg-10">
 
                                         <tbody>
 
@@ -222,7 +221,7 @@
                                             }
 
                                             <tr>
-                                                <td align="left" colspan="2"><a href="@Url.Action("WalletKYCVerification", "Customer")"> See More Detail Wallet KYC </a></td>
+                                                <td align="left" colspan="2"><a href="@Url.Action("WalletKYCVerification", "Customer")"> See More Detail Customer Wallet KYC Verification</a></td>
                                             </tr>
                                         </tbody>
                                     </table>

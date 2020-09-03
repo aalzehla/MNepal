@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\MNepal\Desktop\WCF.MNepal</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\MNepal\Desktop\wcf</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="ApplicationInsights.config">
@@ -319,10 +319,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/01/2018 12:20:56</publishTime>
     </File>
     <File Include="bin/WCF.MNepal.dll">
-      <publishTime>08/06/2020 10:01:06</publishTime>
+      <publishTime>08/31/2020 15:28:25</publishTime>
     </File>
     <File Include="bin/WCF.MNepal.pdb">
-      <publishTime>08/06/2020 10:01:06</publishTime>
+      <publishTime>08/31/2020 15:28:25</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>03/06/2015 15:30:01</publishTime>

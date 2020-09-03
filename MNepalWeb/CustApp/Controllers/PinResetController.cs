@@ -199,7 +199,7 @@ namespace CustApp.Controllers
             }
         }
 
-        
+        #region ThailiResetPin
         public ActionResult ResetThailiPin()
         {
             string userName = (string)Session["LOGGED_USERNAME"];
@@ -414,7 +414,7 @@ namespace CustApp.Controllers
             {
                 return RedirectToAction("Index", "UserDashboard");
             }
-           
         }
+        #endregion
     }
 }

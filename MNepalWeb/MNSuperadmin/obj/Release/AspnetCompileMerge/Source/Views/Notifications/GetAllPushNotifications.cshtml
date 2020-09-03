@@ -1,0 +1,24 @@
+﻿@model MNSuperadmin.Models.Notifications.RootObject
+
+@{
+    ViewBag.Title = "GetAllPushNotifications";
+}
+
+
+    <table class="table table-bordered table-responsive table-hover">
+        <tr>
+            <th style="text-align:center">Title</th>
+            <th style="text-align:center">Text</th>
+            <th style="text-align:center">Extra Information</th>
+            <th style="text-align:center">MessageId</th>
+        </tr>
+        @foreach (var item in Model.notificationsList)
+        {
+            <tr style="text-align:center">
+                <td>@item.title</td>
+                <td>@item.text</td>
+                <td>@item.extraInformation</td>
+                <td>@item.messageId</td>
+            </tr>
+        }
+    </table>

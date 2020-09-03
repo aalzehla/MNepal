@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\MNepal\Desktop\ThailiPub</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\MNepal\Desktop\Cust</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="ApplicationInsights.config">
@@ -22,10 +22,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/03/2019 15:10:15</publishTime>
     </File>
     <File Include="bin/CustApp.dll">
-      <publishTime>08/30/2020 12:57:05</publishTime>
+      <publishTime>08/31/2020 15:17:06</publishTime>
     </File>
     <File Include="bin/CustApp.pdb">
-      <publishTime>08/30/2020 12:57:05</publishTime>
+      <publishTime>08/31/2020 15:17:06</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.DependencyCollector.dll">
       <publishTime>12/07/2016 11:45:42</publishTime>
@@ -393,9 +393,6 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/assets/img/red-cross-small.svg">
       <publishTime>02/03/2019 15:10:21</publishTime>
     </File>
-    <File Include="Content/assets/img/refresh-btn.svg">
-      <publishTime>02/03/2019 15:10:21</publishTime>
-    </File>
     <File Include="Content/assets/img/select-arrow.svg">
       <publishTime>02/03/2019 15:10:21</publishTime>
     </File>
@@ -440,9 +437,6 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/assets/img/upload-icon.svg">
       <publishTime>02/03/2019 15:10:21</publishTime>
-    </File>
-    <File Include="Content/assets/img/user photo.jpg">
-      <publishTime>12/16/2019 15:35:16</publishTime>
     </File>
     <File Include="Content/assets/img/user-image.jpg">
       <publishTime>02/03/2019 15:10:21</publishTime>
@@ -19362,9 +19356,6 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/bower_components/moment/min/tests.js">
       <publishTime>02/03/2019 15:16:15</publishTime>
     </File>
-    <File Include="Content/bower_components/moment/moment.d.ts">
-      <publishTime>02/03/2019 15:16:09</publishTime>
-    </File>
     <File Include="Content/bower_components/moment/moment.js">
       <publishTime>02/03/2019 15:16:09</publishTime>
     </File>
@@ -23697,9 +23688,6 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/CustomerSupport/Index.cshtml">
       <publishTime>05/20/2020 13:30:00</publishTime>
     </File>
-    <File Include="Views/DishHome/Index.cshtml">
-      <publishTime>12/09/2019 12:44:08</publishTime>
-    </File>
     <File Include="Views/Error/Error404.cshtml">
       <publishTime>08/18/2020 13:48:04</publishTime>
     </File>
@@ -23737,7 +23725,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/30/2020 12:05:17</publishTime>
     </File>
     <File Include="Views/Help/BlogOrNews.cshtml">
-      <publishTime>08/30/2020 12:05:17</publishTime>
+      <publishTime>08/30/2020 13:04:55</publishTime>
     </File>
     <File Include="Views/Help/Career.cshtml">
       <publishTime>08/30/2020 12:05:17</publishTime>
@@ -23842,10 +23830,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/18/2020 17:06:12</publishTime>
     </File>
     <File Include="Views/PinReset/ResetThailiPin.cshtml">
-      <publishTime>07/20/2020 14:31:20</publishTime>
+      <publishTime>08/31/2020 15:02:02</publishTime>
     </File>
     <File Include="Views/PrivacyPolicy/PrivacyPolicy.cshtml">
-      <publishTime>08/30/2020 12:43:46</publishTime>
+      <publishTime>08/30/2020 17:13:19</publishTime>
     </File>
     <File Include="Views/PrivacyPolicy/ReportFraud.cshtml">
       <publishTime>06/28/2020 10:04:37</publishTime>
@@ -23854,7 +23842,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/03/2019 15:34:24</publishTime>
     </File>
     <File Include="Views/Profile/Index.cshtml">
-      <publishTime>05/31/2020 12:40:42</publishTime>
+      <publishTime>08/31/2020 15:10:58</publishTime>
     </File>
     <File Include="Views/Remit/RemitComplete.cshtml">
       <publishTime>02/03/2019 15:34:24</publishTime>
@@ -24091,7 +24079,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/18/2020 12:16:33</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/30/2020 12:31:41</publishTime>
+      <publishTime>08/31/2020 15:17:17</publishTime>
     </File>
   </ItemGroup>
 </Project>
