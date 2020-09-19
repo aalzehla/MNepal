@@ -31,8 +31,7 @@ namespace MNSuperadmin.Models
             public string title { get; set; }
             public string text { get; set; }
             public string messageId { get; set; }
-            public string statusCode { get; set; }
-            public string statusMessage { get; set; }
+            public string pushNotificationDate { get; set; }
         }
 
         public class RootObject

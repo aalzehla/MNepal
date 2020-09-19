@@ -64,9 +64,10 @@ namespace MNepalAPI.Controllers
                     var message_Id = result.message_id;
 
                     NotificationModel notification = new NotificationModel();
-                    notification.extraInformation = notifications.data.extra_information;
-                    notification.text = notifications.notification.text;
                     notification.title = notifications.notification.title;
+                    notification.text = notifications.notification.text;
+                    notification.extraInformation = notifications.data.extra_information;
+                    notification.pushNotificationDate = DateTime.Now;
                     notification.messageId = message_Id;
 
                     //Database
@@ -103,6 +104,7 @@ namespace MNepalAPI.Controllers
                 notifications.title = dr["Title"].ToString();
                 notifications.text = dr["Text"].ToString();
                 notifications.extraInformation = dr["ExtraInformation"].ToString();
+                notifications.pushNotificationDate = Convert.ToDateTime(dr["NotificationDate"]);
                 notifications.messageId = dr["MessageId"].ToString();
 
                 notificationsList.Add(notifications);

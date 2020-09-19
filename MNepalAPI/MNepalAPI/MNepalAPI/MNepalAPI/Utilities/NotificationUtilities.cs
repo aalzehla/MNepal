@@ -18,8 +18,8 @@ namespace MNepalAPI.Utilities
                 extraInformation = resNotificationInfo.extraInformation,
                 title = resNotificationInfo.title,
                 text = resNotificationInfo.text,
-                messageId = resNotificationInfo.messageId
-
+                messageId = resNotificationInfo.messageId,
+                pushNotificationDate = resNotificationInfo.pushNotificationDate              
 
             };
             return objresPaypointNotificationModel.ResponseNotificationInfo(objresPaypointNotificationInfo);

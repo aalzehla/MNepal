@@ -4,21 +4,46 @@
     ViewBag.Title = "GetAllPushNotifications";
 }
 
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Push Notification
+        @*<small>Registration</small>*@
+    </h1>
+    <ol class="breadcrumb">
+        <li><a><i class="fa fa-bell"></i>Notification</a></li>
+        <li class="active"> Get All PushNotification</li>
+    </ol>
+</section>
 
-    <table class="table table-bordered table-responsive table-hover">
-        <tr>
-            <th style="text-align:center">Title</th>
-            <th style="text-align:center">Text</th>
-            <th style="text-align:center">Extra Information</th>
-            <th style="text-align:center">MessageId</th>
-        </tr>
-        @foreach (var item in Model.notificationsList)
-        {
-            <tr style="text-align:center">
-                <td>@item.title</td>
-                <td>@item.text</td>
-                <td>@item.extraInformation</td>
-                <td>@item.messageId</td>
-            </tr>
-        }
-    </table>
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Get All Push Notifications</h3>
+    </div>
+    <div class="container">
+        <div class="row col-md-12">
+            <table class="table table-bordered table-responsive table-hover">
+                <tr>
+                    <th style="text-align:center">Notification Title</th>
+                    <th style="text-align:center">Message Details</th>
+                    <th style="text-align:center">Extra Information</th>
+                    <th style="text-align:center">Notification Date</th>
+                    <th style="text-align:center">MessageId</th>
+                </tr>
+                @foreach (var item in Model.notificationsList)
+                {
+                    <tr style="text-align:center; position:relative">
+                        <td>@item.title</td>
+                        <td>
+                            <textarea readonly cols="50" rows="5">@item.text</textarea>
+                        </td>
+                        <td><textarea readonly cols="30" rows="5">@item.extraInformation</textarea></td>
+                        <td>@item.pushNotificationDate</td>
+                        <td>@item.messageId</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>

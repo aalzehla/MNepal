@@ -38,6 +38,7 @@ namespace MNepalAPI.Models
             public string title { get; set; }
             public string text { get; set; }
             public string messageId { get; set; }
+            public DateTime pushNotificationDate { get; set; }
         }
 
     }
