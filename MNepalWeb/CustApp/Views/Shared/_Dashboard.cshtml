@@ -104,13 +104,13 @@
                                                         {
                                                             <li>
                                                                 <div class="container">
-                                                                    <a href="#" style="color:gray">
+                                                                    <a href="@item.redirectUrl" style="color:gray">
                                                                         <span>
                                                                             <img src="~/Content/image/thaili-circle.png" style="height:20px; width:20px" />
                                                                         </span>
                                                                         <span style="margin-left:15px">@item.title</span><br />
                                                                         <span style="margin-left:40px">@item.text</span><br />
-                                                                        <span style="margin-left:40px"><img src="~/NotificationsImage/@item.extraInformation" style="height:100px; width:350px" /></span><br />
+                                                                        <span style="margin-left:40px"><img src="~/NotificationsImage/@item.imageName" style="height:100px; width:350px" /></span><br />
                                                                         <span style="font-size:small; margin-left:40px">@DateTime.Parse(@item.pushNotificationDate).ToString("MMM dd, yyyy H:mm tt")</span>
                                                                     </a>
 

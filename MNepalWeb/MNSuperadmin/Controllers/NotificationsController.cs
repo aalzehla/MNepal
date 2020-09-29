@@ -132,7 +132,8 @@ namespace MNSuperadmin.Controllers
                 to = ConfigurationManager.AppSettings["NotificationTo"],
                 data = new Data
                 {
-                    extra_information = ImageName
+                    extra_information = ImageName,
+                    redirectUrl = notifications.redirectUrl
                 },
                 notification = new Notification
                 {

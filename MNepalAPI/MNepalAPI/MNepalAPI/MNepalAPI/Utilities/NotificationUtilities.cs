@@ -15,11 +15,12 @@ namespace MNepalAPI.Utilities
             var objresPaypointNotificationInfo = new NotificationModel
             {
 
-                extraInformation = resNotificationInfo.extraInformation,
+                imageName = resNotificationInfo.imageName,
                 title = resNotificationInfo.title,
                 text = resNotificationInfo.text,
                 messageId = resNotificationInfo.messageId,
-                pushNotificationDate = resNotificationInfo.pushNotificationDate              
+                pushNotificationDate = resNotificationInfo.pushNotificationDate,
+                redirectUrl = resNotificationInfo.redirectUrl
 
             };
             return objresPaypointNotificationModel.ResponseNotificationInfo(objresPaypointNotificationInfo);

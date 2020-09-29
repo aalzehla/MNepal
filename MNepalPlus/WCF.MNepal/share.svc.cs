@@ -31,18 +31,6 @@ namespace WCF.MNepal
 
     public class share
     {
-        // To use HTTP GET, add [WebGet] attribute. (Default ResponseFormat is WebMessageFormat.Json)
-        // To create an operation that returns XML,
-        //     add [WebGet(ResponseFormat=WebMessageFormat.Xml)],
-        //     and include the following line in the operation body:
-        //         WebOperationContext.Current.OutgoingResponse.ContentType = "text/xml";
-        static void BackgroundTaskWithObject(Object stateInfo)
-        {
-            FundTransfer data = (FundTransfer)stateInfo;
-            Console.WriteLine($"Hi {data.tid} from ThreadPool.");
-            Thread.Sleep(1000);
-        }
-
         #region"Check Demat Payment"
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -2164,5 +2152,12 @@ namespace WCF.MNepal
 
         }
         #endregion
+
+         static void BackgroundTaskWithObject(Object stateInfo)
+        {
+            FundTransfer data = (FundTransfer)stateInfo;
+            Console.WriteLine($"Hi {data.tid} from ThreadPool.");
+            Thread.Sleep(1000);
+        }
     }
 }

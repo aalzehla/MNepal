@@ -168,14 +168,13 @@ namespace CustApp.Controllers
 
                             notifications.title = dr["Title"].ToString();
                             notifications.text = dr["Text"].ToString();
-                            notifications.extraInformation = dr["ExtraInformation"].ToString();
+                            notifications.imageName = dr["ImageName"].ToString();
+                            notifications.redirectUrl = dr["RedirectUrl"].ToString();
                             notifications.pushNotificationDate = dr["NotificationDate"].ToString();
                             notifications.messageId = dr["MessageId"].ToString();
                             notifications.NotificationId = Convert.ToInt32(dr["Id"]);
                             notifications.ReadOn = string.IsNullOrEmpty(dr["ReadOn"].ToString()) ? (DateTime?)null : Convert.ToDateTime(dr["ReadOn"]);
                             notifications.IsRead = Convert.ToBoolean(dr["IsRead"]);
-                            notifications.titleUrl = new Uri("https://www.google.com/").ToString();
-
                             notificationList.Add(notifications);
 
                         }

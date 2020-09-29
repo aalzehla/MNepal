@@ -85,16 +85,16 @@
                             </div>
                         </div>
 
-                        @*<div class="row">
+                        <div class="row">
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <label class="control-label col-sm-3">Extra Information:<b style="color:red;">*</b></label>
+                                        <label class="control-label col-sm-3">Redirect Url:<b style="color:red;">*</b></label>
                                         <div class="col-sm-9">
-                                            <textarea class="form-control" rows="2" cols="50" id="extraInformation" name="txtExtraInformation" placeholder="Extra Information" maxlength="500" required></textarea>
+                                            <textarea class="form-control" rows="2" cols="50" id="redirectUrl" name="txtRedirectUrl" placeholder="Redirect Url" maxlength="500"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                            </div>*@
+                            </div>
 
                         <div class="row">
                             <div class="col-md-10">
@@ -163,24 +163,27 @@
         }
 
         function CheckImageSize() {
+            debugger;
             var fileUpload = document.getElementById("imgupload");
             var errorLabel = document.getElementById("errorLabel");
             var fileName = fileUpload.value;
+            var size = fileUpload.files[0].size;
+            
             var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
                 if (!(ext == "jpeg" || ext == "jpg" || ext == "png")) {
                         errorLabel.innerHTML = "Invalid image file, must select a *.jpeg, *.jpg, or *.png file.";
                         return false;
-                }
-                if (fileUpload.fileSize == -1) {
+            }
+            if (fileUpload.files[0].size == -1) {
                      errorLabel.innerHTML = "Couldn't load image file size.  Please try to save again.";
                     return false;
-                    }
-                else if (fileUpload.fileSize <= 1048576) {
+            }
+            else if (fileUpload.files[0].size <= 1048576) {
                 errorLabel.innerHTML = "";
                 return true;
                     }
-                else {
-        var fileSize = (fileUpload.fileSize / 1048576);
+            else {
+                var fileSize = (fileUpload.files[0].size / 1048576);
         errorLabel.innerHTML = "File is too large, must select file under 1 Mb.";
         return false;
                 }
@@ -191,7 +194,7 @@
             debugger;
              var notificationTitile = $("[name='txtTitle']").val();
             var notificationMessage = $("[name='txtNotificationMessage']").val();
-            //var extraInformation = $("[name='txtExtraInformation']").val();
+            var redirectUrl = $("[name='txtRedirectUrl']").val();
             event.preventDefault();
 
              var formData = new FormData();
@@ -200,6 +203,7 @@
             formData.append("file", files[0]);
             formData.append("title", notificationTitile);
             formData.append("text", notificationMessage);
+            formData.append("redirectUrl", redirectUrl);
             formData.append("NotificationsImage", files[0].name);
 
 
@@ -259,7 +263,7 @@
                 txtTitle: {
                     validators: {
                         notEmpty: {
-                            message: 'The UserName is required and cannot be empty'
+                            message: 'The Title is required and cannot be empty'
                         }
                     }
 
@@ -267,15 +271,7 @@
                 txtNotificationMessage: {
                     validators: {
                         notEmpty: {
-                            message: 'The UserName is required and cannot be empty'
-                        }
-                    }
-
-                },
-                txtExtraInformation: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The UserName is required and cannot be empty'
+                            message: 'The Notificaiton Message is required and cannot be empty'
                         }
                     }
 

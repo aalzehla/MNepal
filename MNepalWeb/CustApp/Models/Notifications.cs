@@ -31,8 +31,9 @@ namespace CustApp.Models
             public string extraInformation { get; set; }
             public string title { get; set; }
             public string text { get; set; }
+            public string imageName { get; set; }
+            public string redirectUrl { get; set; }
             public string messageId { get; set; }
-            public string titleUrl { get; set; }
             public string statusMessage { get; set; }
             public string pushNotificationDate { get; set; }
             public bool IsRead { get; set; }

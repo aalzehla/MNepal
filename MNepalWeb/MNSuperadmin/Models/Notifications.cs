@@ -17,6 +17,7 @@ namespace MNSuperadmin.Models
         public class Data
         {
             public string extra_information { get; set; }
+            public string redirectUrl { get; set; }
         }
 
         public class Notification
@@ -30,9 +31,10 @@ namespace MNSuperadmin.Models
             public string title { get; set; }
             public string text { get; set; }
             public string NotificationsImage { get; set; }
-            public string extraInformation { get; set; }
+            public string imageName { get; set; }
             public string pushNotificationDate { get; set; }
             public string messageId { get; set; }
+            public string redirectUrl { get; set; }
 
         }
 

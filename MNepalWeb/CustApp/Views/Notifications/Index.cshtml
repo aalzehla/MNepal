@@ -19,13 +19,13 @@
         {
             <div class="container" style="cursor:pointer">
                 <hr />
-                <a href=@item.titleUrl style="color:gray">
+                <a href=@item.redirectUrl style="color:gray">
                     <span>
                         <img src="~/Content/image/thaili-circle.png" style="height:20px; width:20px" />
                     </span>
                     <span style="margin-left:15px">@item.title</span><br />
                     <span style="margin-left:40px">@item.text</span><br />
-                    <img src="~/NotificationsImage/@item.extraInformation" style="height:200px; width:700px" /><br />
+                    <img src="~/NotificationsImage/@item.imageName" style="height:200px; width:700px" /><br />
                     <span style="font-size:small; margin-left:40px">@DateTime.Parse(@item.pushNotificationDate).ToString("MMM dd, yyyy H:mm tt")</span><br />
                 </a>
             </div>
