@@ -616,6 +616,13 @@ namespace MNSuperadmin.Models
 
         public string retrievalReference { get; set; }
 
+        //Push Notifications
+        public string notificationTitle { get; set; }
+        public string messageDetails { get; set; }
+        public string extraInformation { get; set; }
+        public string notificationDate { get; set; }
+        public string messageId { get; set; }
+
     }
 }
 

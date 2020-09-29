@@ -27,12 +27,21 @@ namespace CustApp.Models
 
         public class NotificationModel
         {
+            public int NotificationId { get; set; }
             public string extraInformation { get; set; }
             public string title { get; set; }
             public string text { get; set; }
             public string messageId { get; set; }
-            public string statusCode { get; set; }
+            public string titleUrl { get; set; }
             public string statusMessage { get; set; }
+            public string pushNotificationDate { get; set; }
+            public bool IsRead { get; set; }
+            public DateTime? ReadOn { get; set; }
+        }
+
+        public class RootObject
+        {
+            public List<NotificationModel> notificationsList { get; set; }
         }
     }
 }

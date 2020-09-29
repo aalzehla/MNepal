@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using static MNepalAPI.Models.Notifications;
 
@@ -96,7 +97,7 @@ namespace MNepalAPI.Controllers
             da.Fill(ds);
 
             List<NotificationModel> notificationsList = new List<NotificationModel>();
-            
+
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 NotificationModel notifications = new NotificationModel();
@@ -111,6 +112,76 @@ namespace MNepalAPI.Controllers
 
             }
             return Request.CreateResponse(HttpStatusCode.OK, new { notificationsList });
+        }
+
+        [Route("api/PushNotification/NotificationImage")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> NotificationImage()
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+
+                var httpRequest = HttpContext.Current.Request;
+                var filePath="";
+
+                foreach (string file in httpRequest.Files)
+                {
+                    HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
+
+                    var postedFile = httpRequest.Files[file];
+                    if (postedFile != null && postedFile.ContentLength > 0)
+                    {
+
+                        int MaxContentLength = 1024 * 1024 * 1; //Size = 1 MB
+
+                        IList<string> AllowedFileExtensions = new List<string> { ".jpg", ".gif", ".png" };
+                        var ext = postedFile.FileName.Substring(postedFile.FileName.LastIndexOf('.'));
+                        var extension = ext.ToLower();
+                        if (!AllowedFileExtensions.Contains(extension))
+                        {
+
+                            var message = string.Format("Please Upload image of type .jpg,.gif,.png.");
+
+                            dict.Add("error", message);
+                            return Request.CreateResponse(HttpStatusCode.BadRequest, dict);
+                        }
+                        else if (postedFile.ContentLength > MaxContentLength)
+                        {
+
+                            var message = string.Format("Please Upload a file upto 1 mb.");
+
+                            dict.Add("error", message);
+                            return Request.CreateResponse(HttpStatusCode.BadRequest, dict);
+                        }
+                        else
+                        {
+                            Guid guid = Guid.NewGuid();
+                            string imageurl = guid + extension;
+                            //  where you want to attach your imageurl
+
+                            //if needed write the code to update the table
+
+                            filePath = HttpContext.Current.Server.MapPath("~/NotificationImage/" + imageurl);
+                            //Userimage myfolder name where i want to save my image
+                            postedFile.SaveAs(filePath);
+
+                        }
+                    }
+
+                    var imageUrl = filePath;
+                    return Request.CreateErrorResponse(HttpStatusCode.Created, imageUrl); ;
+                }
+                var res = string.Format("Please Upload a image.");
+                dict.Add("error", res);
+                return Request.CreateResponse(HttpStatusCode.NotFound, dict);
+            }
+            catch (Exception ex)
+            {
+                var res = string.Format("some Message");
+                dict.Add("error", res);
+                return Request.CreateResponse(HttpStatusCode.NotFound, dict);
+            }
         }
     }
 }

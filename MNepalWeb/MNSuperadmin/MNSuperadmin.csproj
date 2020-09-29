@@ -20,7 +20,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44351</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -7279,6 +7279,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\default_icon.png" />
+    <Content Include="NotificationsImage\2a930d63-7619-4b0b-8ebb-0aa79aa28727.jpg" />
     <Content Include="Scripts\alertify.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -8178,6 +8179,8 @@
     <Content Include="Views\ManualTransaction\TopupReject.cshtml" />
     <Content Include="Views\ManualTransaction\ViewTopUpRejectedDetails.cshtml" />
     <Content Include="Views\Notifications\GetAllPushNotifications.cshtml" />
+    <Content Include="Views\Report\PushNotification.cshtml" />
+    <Content Include="Views\Report\PushNotificationsViewDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

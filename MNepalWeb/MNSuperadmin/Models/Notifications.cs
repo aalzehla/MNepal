@@ -27,11 +27,13 @@ namespace MNSuperadmin.Models
 
         public class NotificationModel
         {
-            public string extraInformation { get; set; }
             public string title { get; set; }
             public string text { get; set; }
-            public string messageId { get; set; }
+            public string NotificationsImage { get; set; }
+            public string extraInformation { get; set; }
             public string pushNotificationDate { get; set; }
+            public string messageId { get; set; }
+
         }
 
         public class RootObject

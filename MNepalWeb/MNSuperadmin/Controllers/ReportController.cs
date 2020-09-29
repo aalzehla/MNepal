@@ -3181,7 +3181,7 @@ namespace MNSuperadmin.Controllers
                 resultset.Message = item.Message;
                 resultset.TranType = item.TranType;
                 resultset.Name = item.Name;
-                resultset.PayMode = item.PayMode;               
+                resultset.PayMode = item.PayMode;
                 resultList.Add(resultset);
             }
             convert = JsonConvert.SerializeObject(new
@@ -3536,7 +3536,7 @@ namespace MNSuperadmin.Controllers
         //    pay.StartDate = model.Parameter.StartDate;
         //    pay.EndDate = model.Parameter.EndDate;
         //    pay.MerchantType = model.Parameter.MerchantType;
-           
+
         //    vm.Parameter = pay;
         //    return View(vm);
 
@@ -3544,6 +3544,93 @@ namespace MNSuperadmin.Controllers
         //}
 
         #endregion
+
+        #region PushNotification Report
+        [HttpGet]
+        public ActionResult PushNotification()
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            ViewBag.StartDate = DateTime.Now.ToString("dd/MM/yyyy");
+            ViewBag.EndDate = DateTime.Now.ToString("dd/MM/yyyy");
+
+            if (TempData["userType"] != null)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+        #endregion
+
+        [HttpGet]
+        public ActionResult PushNotificationsViewDetail(string StartDate, string EndDate, string NotificationTitle)
+        {
+            string userName = (string)Session["LOGGED_USERNAME"];
+            string clientCode = (string)Session["LOGGEDUSER_ID"];
+            string name = (string)Session["LOGGEDUSER_NAME"];
+            string userType = (string)Session["LOGGED_USERTYPE"];
+
+            TempData["userType"] = userType;
+
+            if (TempData["userType"] != null)
+            {
+                this.ViewData["userType"] = this.TempData["userType"];
+                ViewBag.UserType = this.TempData["userType"];
+                ViewBag.Name = name;
+                ViewBag.Message = "No Result Found !!";
+                UserInfo userInfo = new UserInfo();
+                userInfo.notificationTitle = NotificationTitle;
+                userInfo.StartDate = StartDate;
+                userInfo.EndDate = EndDate;
+
+                if (!string.IsNullOrEmpty(StartDate))
+                {
+
+                    userInfo.StartDate = DateTime.ParseExact(StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                    .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture); ;
+                }
+                if (!string.IsNullOrEmpty(EndDate))
+                {
+
+                    userInfo.EndDate = DateTime.ParseExact(EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                               .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture); ;
+                }
+
+                List<UserInfo> PushNotification = new List<UserInfo>();
+                DataTable dtablePushNotificationsByTitle = ReportUserModel.GetPushNotificationsDetail(userInfo.notificationTitle, userInfo.StartDate, userInfo.EndDate);
+                if (dtablePushNotificationsByTitle != null && dtablePushNotificationsByTitle.Rows.Count > 0)
+                {
+                    UserInfo regobj = new UserInfo();
+                   regobj.notificationTitle = dtablePushNotificationsByTitle.Rows[0]["Title"].ToString();
+                   regobj.messageDetails = dtablePushNotificationsByTitle.Rows[0]["Text"].ToString();
+                   regobj.extraInformation = dtablePushNotificationsByTitle.Rows[0]["ExtraInformation"].ToString();
+                   regobj.notificationDate = dtablePushNotificationsByTitle.Rows[0]["NotificationDate"].ToString();
+                   regobj.messageId = dtablePushNotificationsByTitle.Rows[0]["MessageId"].ToString();
+
+                    PushNotification.Add(regobj);
+                    ViewData["dtablePushNotifications"] = dtablePushNotificationsByTitle;
+
+                }
+
+                return View(PushNotification);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
 
 
     }

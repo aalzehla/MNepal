@@ -23,11 +23,11 @@
     </div>
     <div class="container">
         <div class="row col-md-12">
-            <table class="table table-bordered table-responsive table-hover">
+            <table class="table table-bordered table-responsive">
                 <tr>
                     <th style="text-align:center">Notification Title</th>
                     <th style="text-align:center">Message Details</th>
-                    <th style="text-align:center">Extra Information</th>
+                    <th style="text-align:center">ImageUrl</th>
                     <th style="text-align:center">Notification Date</th>
                     <th style="text-align:center">MessageId</th>
                 </tr>
@@ -36,9 +36,9 @@
                     <tr style="text-align:center; position:relative">
                         <td>@item.title</td>
                         <td>
-                            <textarea readonly cols="50" rows="5">@item.text</textarea>
+                            <textarea readonly cols="50" rows="3">@item.text</textarea>
                         </td>
-                        <td><textarea readonly cols="30" rows="5">@item.extraInformation</textarea></td>
+                        <td><a href="~/NotificationsImage/@item.extraInformation" target="_blank">View Image</a></td>
                         <td>@item.pushNotificationDate</td>
                         <td>@item.messageId</td>
                     </tr>

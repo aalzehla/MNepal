@@ -13,6 +13,9 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Data;
 using System.Net;
+using System.IO;
+using System.Web;
+using System.Linq;
 
 namespace MNSuperadmin.Controllers
 {
@@ -80,12 +83,56 @@ namespace MNSuperadmin.Controllers
             TraceIdGenerator _tig = new TraceIdGenerator();
             var tid = _tig.GenerateTraceID();
 
+           //image upload
+            var profile = Request.Files;
+            string imgname = string.Empty;
+            string ImageName = string.Empty;
+            string custImageUrl = "";
+            string superAdminImageUrl = "";
+            var custPathToSave = "";
+            var superAdminPathToSave = "";
+
+            //Following code will check that image is there 
+            //If it will Upload or else it will use Default Image
+
+            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
+            {
+                var Image = System.Web.HttpContext.Current.Request.Files["file"];
+                if (Image.ContentLength > 0)
+                {
+                    var notificationImageName = Path.GetFileName(Image.FileName);
+                    var ext = Path.GetExtension(Image.FileName);
+
+                    Guid guid = Guid.NewGuid();
+                    notificationImageName = guid.ToString() + ext;
+
+                    ImageName = notificationImageName;
+                    custPathToSave = ConfigurationManager.AppSettings["CustNotificationsImageDirectory"];
+                    superAdminPathToSave = ConfigurationManager.AppSettings["SuperAdminNotificationsImageDirectory"];
+                    custImageUrl = custPathToSave + notificationImageName;
+                    superAdminImageUrl = superAdminPathToSave + notificationImageName;
+
+                    //Check if directory exist
+                    if (!Directory.Exists(custPathToSave) || !Directory.Exists(superAdminPathToSave))
+                    {
+                        Directory.CreateDirectory(custPathToSave); //Create directory if it doesn't exist
+                        Directory.CreateDirectory(superAdminPathToSave); //Create directory if it doesn't exist
+                    }
+
+                    Image.SaveAs(custImageUrl);
+                    Image.SaveAs(superAdminImageUrl);
+                }
+            }
+            else
+                notifications.NotificationsImage =HttpContext.Server.MapPath(custPathToSave + "\\" + "default.png");
+            //image upload ends
+
             var payload = new Notificationsobject
             {
                 to = ConfigurationManager.AppSettings["NotificationTo"],
                 data = new Data
                 {
-                    extra_information = notifications.extraInformation
+                    extra_information = ImageName
                 },
                 notification = new Notification
                 {

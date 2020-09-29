@@ -20,7 +20,7 @@
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44370</IISExpressSSLPort>
+    <IISExpressSSLPort>44379</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -7065,6 +7065,7 @@
     <Content Include="Content\dist\js\pages\dashboard2.js" />
     <Content Include="Content\image\loading.gif" />
     <Content Include="Content\image\nibl.png" />
+    <Content Include="Content\image\thaili-circle.png" />
     <Content Include="Content\NewIcon\demo-files\demo.css" />
     <Content Include="Content\NewIcon\demo-files\demo.js" />
     <Content Include="Content\NewIcon\fonts\icomoon.svg" />
@@ -8064,6 +8065,7 @@
     <Content Include="Content\plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="Content\plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="Content\plugins\jquery-ui\jquery-ui-1.12.1.custom\package.json" />
+    <Content Include="NotificationsImage\2a930d63-7619-4b0b-8ebb-0aa79aa28727.jpg" />
     <Content Include="Scripts\alertify.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -8253,7 +8255,6 @@
     <Content Include="Views\ISP\WebSurferDetails.cshtml" />
     <Content Include="Views\LoadFund\Khalti.cshtml" />
     <Content Include="Views\LoadFund\KhaltiDetails.cshtml" />
-    <Content Include="Views\Notifications\Index.cshtml" />
     <Content Include="Views\TvServicePayment\Details.cshtml" />
     <Content Include="Views\TvServicePayment\DHPinDetails.cshtml" />
     <Content Include="Views\TvServicePayment\DishHomePinCode.cshtml" />
@@ -8280,6 +8281,7 @@
     <Content Include="Views\Vianet\Index.cshtml" />
     <Content Include="Views\BroadLink\BroadLinkDetails.cshtml" />
     <Content Include="Views\BroadLink\Index.cshtml" />
+    <Content Include="Views\Notifications\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

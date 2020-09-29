@@ -23,7 +23,7 @@
     <!-- Main row -->
     <div class="row">
 
-        @using (Html.BeginForm("PushNotifications", "Notifications", FormMethod.Post, new { @id = "Notification", @class = "form-horizontal" }))
+        @using (Html.BeginForm("PushNotifications", "Notifications", FormMethod.Post, new { enctype = "multipart/form-data", @id = "Notification", @class = "form-horizontal" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
@@ -68,7 +68,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">Title:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" rows="2" cols="50" id="title" name="txtTitle" maxlength="12" placeholder="Notification Title"></textarea>
+                                        <textarea class="form-control" rows="2" cols="50" id="title" name="txtTitle" maxlength="100" placeholder="Notification Title"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -85,12 +85,24 @@
                             </div>
                         </div>
 
+                        @*<div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Extra Information:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control" rows="2" cols="50" id="extraInformation" name="txtExtraInformation" placeholder="Extra Information" maxlength="500" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">Extra Information:<b style="color:red;">*</b></label>
+                                    <label class="control-label col-sm-3">Notification Image:<b style="color:red;">*</b></label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" rows="2" cols="50" id="extraInformation" name="txtExtraInformation" placeholder="Extra Information" maxlength="300" required></textarea>
+                                        <input type="file" name="imgupload" id="imgupload" class="file-loading" required />
+                                        <label id="errorLabel" style="color:red"> </label>
                                     </div>
                                 </div>
                             </div>
@@ -100,17 +112,16 @@
                         <!-- /.box-body -->
 
                         <div class="box-footer">
-                            <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit"  id="btnSubmit" />
+                            <input type="submit" class="btn btn-primary" name="btnCommand" onclick="return CheckImageSize()" value="Submit" id="btnSubmit" />
                         </div>
                         <!-- /.box-footer -->
                     </div>
-                <!-- /.box -->
-                <!-- /.box-body -->
-            </div>
-            <!-- col-xs-10-->
-
-            <!-- End-->
+                    <!-- /.box -->
+                    <!-- /.box-body -->
                 </div>
+                <!-- col-xs-10-->
+                <!-- End-->
+            </div>
         }
 
     </div>
@@ -130,11 +141,6 @@
     <!-- jQuery Form Validation code -->
 
     <script type="text/javascript">
-
-        //$('#UserName').change(function () {
-        //    $('#Email').val($(this).val());
-        //});
-
         function isAlphabateDot(evt) {
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -145,7 +151,7 @@
             return true;
         }
 
-      
+
         function isNumberKey(evt) {
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -156,32 +162,62 @@
             return true;
         }
 
+        function CheckImageSize() {
+            var fileUpload = document.getElementById("imgupload");
+            var errorLabel = document.getElementById("errorLabel");
+            var fileName = fileUpload.value;
+            var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                if (!(ext == "jpeg" || ext == "jpg" || ext == "png")) {
+                        errorLabel.innerHTML = "Invalid image file, must select a *.jpeg, *.jpg, or *.png file.";
+                        return false;
+                }
+                if (fileUpload.fileSize == -1) {
+                     errorLabel.innerHTML = "Couldn't load image file size.  Please try to save again.";
+                    return false;
+                    }
+                else if (fileUpload.fileSize <= 1048576) {
+                errorLabel.innerHTML = "";
+                return true;
+                    }
+                else {
+        var fileSize = (fileUpload.fileSize / 1048576);
+        errorLabel.innerHTML = "File is too large, must select file under 1 Mb.";
+        return false;
+                }
+        }
+
+
         $('#btnSubmit').click(function (e) {
             debugger;
+             var notificationTitile = $("[name='txtTitle']").val();
+            var notificationMessage = $("[name='txtNotificationMessage']").val();
+            //var extraInformation = $("[name='txtExtraInformation']").val();
             event.preventDefault();
 
-            var notificationTitile = $("[name='txtTitle']").val();
-            var notificationMessage = $("[name='txtNotificationMessage']").val();
-            var extraInformation = $("[name='txtExtraInformation']").val();
+             var formData = new FormData();
+             var files = $("#imgupload").get(0).files;
+
+            formData.append("file", files[0]);
+            formData.append("title", notificationTitile);
+            formData.append("text", notificationMessage);
+            formData.append("NotificationsImage", files[0].name);
+
 
             if (notificationTitile == "") {
                 $("#check").html("");
             }
             var redirectUrlLink = '@Url.Action("GetAllPushNotifications", "Notifications")';
 
-            if (notificationTitile != "" || notificationMessage != "" || extraInformation != "") {
+            if (notificationTitile != "" || notificationMessage != "" /*|| extraInformation != ""*/) {
                 $.ajax({
                     cache: false,
                     type: "POST",
                     url: '@Url.Action("PushNotifications", "Notifications")',
-                    data: {
-                        "title": notificationTitile,
-                        "text": notificationMessage,
-                        "extraInformation": extraInformation
+                    data: formData,
+                    contentType: false,
+                    processData: false,
 
-                    },
 
-                    async: false,
                     success: function (data, textStatus) {
                         var markup = data;
                         debugger;
@@ -198,7 +234,7 @@
                         }
                     },
                     error: function () {
-                        alert("Data Not Found");
+                        alert("Error occurred");
                     }
                 });
             }
@@ -208,9 +244,9 @@
             }
         });
 
-       
+
     $(document).ready(function () {
-       
+
 
         /**Validation Check */
         $('#Notification').bootstrapValidator({

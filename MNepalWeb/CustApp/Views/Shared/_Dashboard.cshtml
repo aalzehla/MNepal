@@ -1,5 +1,9 @@
 ﻿
 @{
+    Html.RenderAction("GetCurrentUserNotification", "Notifications");
+}
+
+@{
     var srcPP = "";
 
     string _ImageSaveUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["ImageAddress"];
@@ -21,6 +25,7 @@
             srcPP = _ApiImageSaveUrl + "Content/Upload/" + ViewBag.PassportImage;
         }
     }
+
 }
 
 <!DOCTYPE html>
@@ -36,7 +41,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store" />
     <meta http-equiv="Pragma" content="no-cache" />
 
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
 
     <!-- /Google font -->
     @*<link href="https://fonts.googleapis.com/css?family=Chivo:300,400,700" rel="stylesheet">*@
@@ -46,12 +51,6 @@
     <link href="~/Content/plugins/DataTables/datatables.css" rel="stylesheet" />
     <link rel="icon" type="image/ico" href="~/favicon.ico">
     <script src="~/Content/assets/js/jquery-3.5.0.js"></script>
-
-    <style>
-        .dropdown-menu {
-            z-index: 2;
-        }
-    </style>
 
     <script>
         if (self == top) {
@@ -87,22 +86,52 @@
                             <div class="user-dropdown-wrapper">
                                 <div class="notification-dropdown">
                                     <div class="dropdown">
-                                        <a href="#" class="dropdown-toggle has-notification" role="button" id="notificationDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fal fa-bell"></i>
+                                        <a href="#" class="dropdown-toggle" role="button" id="notificationDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span style="position:relative">
+                                                <i class="fal fa-bell"></i>
+                                                <span class="badge badge-info">@((Session["UserNotification"] as IEnumerable<CustApp.Models.Notifications.NotificationModel>)?.Count(c => !c.IsRead) ?? 0)</span>
+                                            </span>
                                         </a>
 
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdownLink" id="notifDropdownLink">
                                             <div class="content-inner">
-                                                <a href="" class="settings-link"><i class="fal fa-cog"></i></a>
-                                                <h4 class="title">Notifications</h4>
+                                                @*<a href="" class="settings-link"><i class="fal fa-cog"></i></a>*@
+                                                <h2 class="title">Notifications</h2>
+                                                <hr />
+                                                <div class="notification">
+                                                    <ul style="list-style:none">
+                                                        @foreach (var item in Session["UserNotification"] as IEnumerable<CustApp.Models.Notifications.NotificationModel>)
+                                                        {
+                                                            <li>
+                                                                <div class="container">
+                                                                    <a href="#" style="color:gray">
+                                                                        <span>
+                                                                            <img src="~/Content/image/thaili-circle.png" style="height:20px; width:20px" />
+                                                                        </span>
+                                                                        <span style="margin-left:15px">@item.title</span><br />
+                                                                        <span style="margin-left:40px">@item.text</span><br />
+                                                                        <span style="margin-left:40px"><img src="~/NotificationsImage/@item.extraInformation" style="height:100px; width:350px" /></span><br />
+                                                                        <span style="font-size:small; margin-left:40px">@DateTime.Parse(@item.pushNotificationDate).ToString("MMM dd, yyyy H:mm tt")</span>
+                                                                    </a>
 
-                                                @*<ul>
-                                                        <li>Get 20% off on all QFX tickets using Thaili.</li>
-                                                        <li>You have received NRs. 2,000.00 from Nabil Bank.</li>
+
+                                                                    @if (!item.IsRead)
+                                                                    {
+
+                                                                        <span style="margin-left:30px">
+                                                                            <button class="btn btn-info notificationMarkAsRead" value=" @item.NotificationId">
+                                                                                <span style="font-size:small;">Mark As Read</span>
+                                                                            </button>
+                                                                        </span>
+                                                                    }
+                                                                </div>
+                                                                <hr />
+                                                            </li>
+                                                        }
                                                     </ul>
+                                                </div>
+                                                <a href="@Url.Action("Index","Notifications")" class="btn btn-info view-all">View All </a>
 
-                                                    <a href="#" class="btn btn-blue btn-big view-all">View All </a>*@
-                                                Coming soon
                                             </div>
                                         </div>
                                     </div>
@@ -125,18 +154,18 @@
                                                         LastSync: <label id="walletSyncTime" style="color:black; font-size:10px; font-weight:normal;">@Session["walletSync"]</label>
                                                     </div>
                                                 </a>
-                                                <div> 
+                                                <div>
                                                     <a class="dropdown-item bank">
                                                         <div>
                                                             <i class="thaili-icon-bank"></i>NPR.<label id="bankbal">@Session["bankbal"]</label> &nbsp;
-                                                            <img src="~/Content/assets/img/refresh-btn.svg" width="25" height="25" alt="refresh button" onclick="dispBankBal()" id="ImageBankRotate" name="ImageBankRotate"/>
-                                                             <div style="color:black; font-size:10px; font-weight:normal;">
+                                                            <img src="~/Content/assets/img/refresh-btn.svg" width="25" height="25" alt="refresh button" onclick="dispBankBal()" id="ImageBankRotate" name="ImageBankRotate" />
+                                                            <div style="color:black; font-size:10px; font-weight:normal;">
                                                                 LastSync: <label id="syncTime" style="color:black; font-size:10px; font-weight:normal;">@Session["bankSyncTime"]</label>
                                                             </div>
                                                         </div>
                                                     </a>
 
- 
+
                                                 </div>
                                             </div>
                                             <div class="content-inner">
@@ -149,7 +178,7 @@
                                                 {
                                                     <a href="@Url.Action("CustomerKYC1", "Signup")" class="dropdown-item updateKYC">Update Your KYC</a>
                                                 }
-                                                @if ((@ViewBag.hasKYC == "T") )
+                                                @if ((@ViewBag.hasKYC == "T"))
                                                 {
                                                     <a href="@Url.Action("CashOutList", "Cash")" class="dropdown-item updateKYC">Cash Out List</a>
                                                 }
@@ -567,17 +596,17 @@
                 data: { "Username": "" },
                 success: function (data, textStatus, jqXHR) {
 
-                    if (data.responseCode == "200") { 
+                    if (data.responseCode == "200") {
                         var resp = data.responseText;
                         var syncTime = data.responsedateTime;
                         //$("#bankbal").html(resp.text());
                         //$(#dropdownMenu).show()
                         $("#bankbal").text(resp);
                         $("#syncTime").text(syncTime);
-                         
-                         ////for rotating image 
+
+                         ////for rotating image
                          //rotation2();
-                                           
+
                     }
 
                 },
@@ -586,7 +615,35 @@
 
                 }
                 });
-            }
+        }
+
+        $('.notificationMarkAsRead').on('click', function () {
+            var notificationId = $(this).val();
+            var button = $(this);
+            console.log(notificationId);
+             $.ajax({
+                 type: "GET",
+                 url: '@Url.Action("MarkAsRead", "Notifications")?notificationId=' + notificationId,
+                 success: function (data) {
+                     console.log(data);
+                     if (parseInt(data )> 0) {
+                         alert("Marked as Read");
+                         button.remove();
+                         var badge = $('.badge.badge-info');
+                         var currentCount = parseInt(badge.html());
+                         badge.html(currentCount - parseInt(data));
+                     }
+                     else {
+                         alert("Marked as Read failed");
+                     }
+                },
+                error: function () {
+                    alert("Marked as Read failed");
+
+                }
+                });
+
+        });
     </script>
 
     @RenderSection("scripts", required: false)

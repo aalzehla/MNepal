@@ -12,6 +12,12 @@ using System;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json.Linq;
+using System.Net;
+using System.Configuration;
+using System.Text;
+using static CustApp.Models.Notifications;
+using Newtonsoft.Json;
+using System.Collections;
 
 namespace CustApp.Controllers
 {
@@ -107,6 +113,8 @@ namespace CustApp.Controllers
                                 userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
                                 ViewBag.PassportImage = userInfo.PassportImage;
                             }
+
+
 
                             return View();
                         }
@@ -392,5 +400,7 @@ namespace CustApp.Controllers
                 return RedirectToAction("Index", "Login");
             }
         }
+
+       
     }
 }

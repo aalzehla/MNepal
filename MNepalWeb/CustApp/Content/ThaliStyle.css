@@ -20800,7 +20800,7 @@ label.error {
 }
 /* line 181, assets/sass/components/_header.scss */
 .notification-dropdown .content-inner ul li {
-  list-style-image: url("assets/img/list-ellipse.png");
+  /*list-style-image: url("assets/img/list-ellipse.png");*/
   margin-bottom: 5px;
 }
 /* line 188, assets/sass/components/_header.scss */
@@ -22099,3 +22099,34 @@ label.error {
 }
 
 /*loading ends*/
+
+/*dropdown toggle*/
+.badge {
+    position: absolute;
+    right: -6px;
+    font-size: 12px;
+    top: -7px;
+}
+
+.content-inner ul li:hover {
+    background-color: lightgrey;
+    cursor: pointer;
+}
+.scrollable-menu {
+    height: auto;
+    max-height: 270px;
+    width: 450px;
+    overflow-x: hidden;
+}
+.dropdown-menu .notification {
+    z-index: 2;
+    width: 450px;
+}
+
+.content-inner ul {
+    overflow-y: scroll;
+    height: 300px;
+    
+    position:relative;
+}
+

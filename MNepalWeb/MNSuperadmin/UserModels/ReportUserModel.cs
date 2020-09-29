@@ -1918,6 +1918,48 @@ namespace MNSuperadmin.UserModels
             return ListRec;
         }
 
+        #region GetPushNotifications Details
+        public static DataTable GetPushNotificationsDetail(string NotificationTitle, string StartDate, string EndDate)
+        {
+            Database database;
+            DataTable dtableResult = null;
+
+            try
+            {
+                database = DatabaseConnection.GetDatabase();
+                using (var command = database.GetStoredProcCommand("[s_MNRptPushNotifications]"))
+                {
+
+                    database.AddInParameter(command, "@NotificationTitle", DbType.String, NotificationTitle);
+                    database.AddInParameter(command, "@StartDate", DbType.String, StartDate);
+                    database.AddInParameter(command, "@EndDate", DbType.String, EndDate);
+                    using (var dataset = new DataSet())
+                    {
+                        database.LoadDataSet(command, dataset, "dtUserInfo");
+
+                        if (dataset.Tables.Count > 0)
+                        {
+                            dtableResult = dataset.Tables["dtUserInfo"];
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                database = null;
+                Database.ClearParameterCache();
+            }
+
+            return dtableResult;
+        }
+
+        #endregion
+
     }
 
 }
