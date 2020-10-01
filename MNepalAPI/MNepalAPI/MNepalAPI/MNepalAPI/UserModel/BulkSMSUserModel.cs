@@ -9,10 +9,10 @@ using static MNepalAPI.Models.Notifications;
 
 namespace MNepalAPI.UserModel
 {
-    public class NotificationUserModel
+    public class BulkSMSUserModel
     {
         #region notifications
-        public int ResponseNotificationInfo(NotificationModel objresNotificationInfo)
+        public int ResponseBulkSMSInfo(BulkSMSModel objresBulkSMSInfo)  
         {
             SqlConnection sqlCon = null;
             int ret;
@@ -21,16 +21,13 @@ namespace MNepalAPI.UserModel
                 using (sqlCon = new SqlConnection(DatabaseConnection.ConnectionString()))
                 {
                     sqlCon.Open();
-                    using (SqlCommand sqlCmd = new SqlCommand("[s_MNNotifications]", sqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("[s_MNBulkSMS]", sqlCon))
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                        sqlCmd.Parameters.AddWithValue("@image", objresNotificationInfo.imageName);
-                        sqlCmd.Parameters.AddWithValue("@title", objresNotificationInfo.title);
-                        sqlCmd.Parameters.AddWithValue("@text", objresNotificationInfo.text);
-                        sqlCmd.Parameters.AddWithValue("@redirectUrl", objresNotificationInfo.redirectUrl);
-                        sqlCmd.Parameters.AddWithValue("@messageId", objresNotificationInfo.messageId);
-                        sqlCmd.Parameters.AddWithValue("@pushNotificationDate", objresNotificationInfo.pushNotificationDate);
+                        sqlCmd.Parameters.AddWithValue("@contactNumber", objresBulkSMSInfo.customerNumber);
+                        sqlCmd.Parameters.AddWithValue("@message", objresBulkSMSInfo.message);
+                        sqlCmd.Parameters.AddWithValue("@bulkSMSDate", objresBulkSMSInfo.smsDateTime);                       
                         ret = sqlCmd.ExecuteNonQuery();
                     }
 

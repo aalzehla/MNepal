@@ -35,6 +35,8 @@ namespace MNSuperadmin.Models
             public string pushNotificationDate { get; set; }
             public string messageId { get; set; }
             public string redirectUrl { get; set; }
+            public string CustomerNumber { get; set; }
+            public string Message { get; set; }
 
         }
 

@@ -535,10 +535,5 @@
             Gets the ConnectionString to connection with database.
             </summary>
         </member>
-        <member name="M:MNepalAPI.Controllers.SendBulkSMSController.BulkSMS(System.String,System.String)">
-            <summary>
-            use ? for newline in textMessage and seperate mobileNumber with comma(,) for multiple
-            </summary>
-        </member>
     </members>
 </doc>

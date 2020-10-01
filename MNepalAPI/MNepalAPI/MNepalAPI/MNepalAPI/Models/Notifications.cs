@@ -44,5 +44,16 @@ namespace MNepalAPI.Models
             public DateTime pushNotificationDate { get; set; }
         }
 
+        public class BulkSMSModel
+        {
+            public string customerNumber { get; set; }
+            public string message { get; set; }
+            public DateTime smsDateTime { get; set; }
+
+        }
+        public class RootObject
+        {
+            public List<BulkSMSModel> notificationsList { get; set; }
+        }
     }
 }

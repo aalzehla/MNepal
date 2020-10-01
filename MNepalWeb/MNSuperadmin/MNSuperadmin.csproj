@@ -52,6 +52,10 @@
       <HintPath>..\packages\CompareNETObjects.4.55.0.0\lib\portable-net40+sl5+win8+wp8\KellermanSoftware.Compare-NET-Objects-Portable.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common">
       <HintPath>..\MNepalApp\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
     </Reference>
@@ -169,6 +173,7 @@
     <Compile Include="Controllers\AgentCommissionController.cs" />
     <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\BranchSuperAdminDashboardController.cs" />
+    <Compile Include="Controllers\BulkSMSController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\CustomerSupportController.cs" />
@@ -204,6 +209,7 @@
     <Compile Include="Models\DatatablesJS.cs" />
     <Compile Include="Models\EBankingManualTran.cs" />
     <Compile Include="Models\ExecuteQuery.cs" />
+    <Compile Include="Models\FileUpload.cs" />
     <Compile Include="Models\FinancialReport.cs" />
     <Compile Include="Models\InMemMNTransactionAccount.cs" />
     <Compile Include="Models\JsonParse.cs" />
@@ -8181,6 +8187,8 @@
     <Content Include="Views\Notifications\GetAllPushNotifications.cshtml" />
     <Content Include="Views\Report\PushNotification.cshtml" />
     <Content Include="Views\Report\PushNotificationsViewDetail.cshtml" />
+    <Content Include="Views\BulkSMS\Index.cshtml" />
+    <Content Include="Views\BulkSMS\SendBulkSMS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
