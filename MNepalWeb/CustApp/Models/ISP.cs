@@ -39,6 +39,7 @@ namespace CustApp.Models
         public string retrievalReference { get; set; }
         public string DHServiceCode { get; set; }
         public string smartCards { get; set; }
+        public string TokenUnique { get; set; }
     }
 
     ////For MNPayPointWlinkPayments

@@ -3615,7 +3615,7 @@ namespace MNSuperadmin.Controllers
                     UserInfo regobj = new UserInfo();
                    regobj.notificationTitle = dtablePushNotificationsByTitle.Rows[0]["Title"].ToString();
                    regobj.messageDetails = dtablePushNotificationsByTitle.Rows[0]["Text"].ToString();
-                   regobj.extraInformation = dtablePushNotificationsByTitle.Rows[0]["ExtraInformation"].ToString();
+                   regobj.extraInformation = dtablePushNotificationsByTitle.Rows[0]["ImageName"].ToString();
                    regobj.notificationDate = dtablePushNotificationsByTitle.Rows[0]["NotificationDate"].ToString();
                    regobj.messageId = dtablePushNotificationsByTitle.Rows[0]["MessageId"].ToString();
 

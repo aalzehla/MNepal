@@ -30,6 +30,7 @@ namespace CustApp.Models
         public string DematCode { get; set; }
         public string DematName { get; set; }
         public string TimeStamp { get; set; }
+        public string TokenUnique { get; set; }
     }
 
     public class DematGet

@@ -1,333 +1,285 @@
 ﻿@model MNSuperadmin.Models.Notifications.NotificationModel
 
-@{
-    ViewBag.Title = "Push Notifications";
 
+@{
+    ViewBag.Title = "Push Notification";
 }
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Push Notification
+        @*<small>Registration</small>*@
+    </h1>
+    <ol class="breadcrumb">
+        <li><a><i class="fa fa-bell"></i>Notification</a></li>
+        <li class="active"> Push Notification</li>
+    </ol>
+</section>
 
 <!-- Main content -->
-<style>
-    .image_icon {
-        width: 100px;
-    }
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
 
-    .field-icon {
-        float: right;
-        margin-left: -25px;
-        margin-top: -32px;
-        margin-right: 13px;
-        position: relative;
-        z-index: 2;
-    }
-</style>
+        @using (Html.BeginForm("PushNotifications", "Notifications", FormMethod.Post, new { enctype = "multipart/form-data", @id = "Notification", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
 
-@using (Html.BeginForm("PushNotifications", "Notifications", FormMethod.Post, new { @id = "PushNotifications", @name = "PushNotifications", @class = "form-horizontal", enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+            if (this.ViewData["registration_message"] != null)
+            {
+                if (this.ViewData["message_class"].ToString() == "success_info")
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Success</h4> @this.ViewData["registration_message"]
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4>Error</h4> @this.ViewData["registration_message"]
+                    </div>
+                }
+            }
 
-    <div class="main-content">
-        <div class="two-colbg">
-            <div class="container">
-                <div class="row">
+            <!-- Start -->
+            <div class="col-xs-10">
 
+                <div class="box box-info" style="display:none;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Information</h3>
+                    </div>
+                </div>
+                <!-- /.box -->
 
-                    <div class="col-lg-offset-4 col-lg-4 right-form">
-                        <section class="content-inner pad-50">
-                            @if (this.ViewData["registration_message"] != null)
-                            {
-                                if (this.ViewData["message_class"].ToString() == "success_info")
-                                {
-                                    <div class="alert alert-success">
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <h4>Success</h4> @this.ViewData["registration_message"]
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Push Notification</h3>
+                    </div>
+                    <!-- /.box-header -->
+
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">Title:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" rows="2" cols="50" id="title" name="txtTitle" maxlength="100" placeholder="Notification Title"></textarea>
                                     </div>
-                                }
-                                else
-                                {
-                                    <div class="alert alert-danger">
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <h4>Error</h4> @this.ViewData["registration_message"]
-                                    </div>
-                                }
-                            }
-
-
-                            <div class="row" style="margin-top:20px;">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="col-sm-12">Title:<b style="color:red;">*</b></label>
-                                        <input type="text" class="form-control select2" id="Title" name="txtTitle" placeholder="Example: Test" maxlength="100" oninput="checkValidation()" />
-                                    </div>
-                                    <div class="form-group" id="TitleErr" style="color:red; margin-top:-11px;"></div>
                                 </div>
-
                             </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="col-sm-12">Text:<b style="color:red;">*</b></label>
-                                        <input type="text" class="form-control select2" id="Text" name="txtText" placeholder="Example: Test" maxlength="100" oninput="checkValidation()" />
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">Notification Message:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" rows="5" cols="50" id="notificationMessage" name="txtNotificationMessage" placeholder="Notification Message" maxlength="500" required></textarea>
                                     </div>
-                                    <div class="form-group" id="TextErr" style="color:red; margin-top:-11px;"></div>
                                 </div>
-
                             </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="col-md-12">
+                        <div class="row">
+                                <div class="col-md-10">
                                     <div class="form-group">
-                                        <label class="col-sm-12">Extra Informations:<b style="color:red;">*</b></label>
-                                        <input type="text" class="form-control select2" id="ExtraInfo" name="txtExtraInfo" placeholder="Example: Test" maxlength="100" oninput="checkValidation()" />
+                                        <label class="control-label col-sm-3">Redirect Url:<b style="color:red;">*</b></label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control" rows="2" cols="50" id="redirectUrl" name="txtRedirectUrl" placeholder="Redirect Url" maxlength="500"></textarea>
+                                        </div>
                                     </div>
-                                    <div class="form-group" id="ExtraErr" style="color:red; margin-top:-11px;"></div>
                                 </div>
-
                             </div>
 
-                            <br />
-
-                            <div class="box-footer">
-                                <input type="submit" class="btn btn-primary btn-big col-md-5" name="btnCommand" value="Send" id="btnSubmit" />
-                                <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" style="margin-left:50px;" />
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">Notification Image:<b style="color:red;">*</b></label>
+                                    <div class="col-sm-9">
+                                        <input type="file" name="imgupload" id="imgupload" class="file-loading" required />
+                                        <label id="errorLabel" style="color:red"> </label>
+                                    </div>
+                                </div>
                             </div>
-                        </section>
+                        </div>
+
+
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <input type="submit" class="btn btn-primary" name="btnCommand" onclick="return CheckImageSize()" value="Submit" id="btnSubmit" />
+                        </div>
+                        <!-- /.box-footer -->
                     </div>
-
+                    <!-- /.box -->
+                    <!-- /.box-body -->
                 </div>
+                <!-- col-xs-10-->
+                <!-- End-->
             </div>
-        </div>
-    </div>
+        }
 
-    <!-- Success modal -->
-    <div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <div class="success-icon">
-                        <img src="~/Content/assets/img/success-tick.svg" height="100" width="80" alt="success-tick">
-                    </div>
-                    <p class="msg"></p><br />
-                    <span class="alert alert-success">Notification Has Been Sent.</span>
-                    <br /> <br />
-                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:10%; background-color:blue">OK</button>
-                </div>
-            </div>
-        </div>
     </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
 
-    <!-- Failure modal -->
-    <div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <div class="success-icon">
-                        <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
-                    </div>
-                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
-                    <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
-                    <br /> <br />
-                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
+@section scripts {
 
-    <!-- Failure modal session expired -->
-    <div class="modal fade common-modal" id="failureModalSessionExpired" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <div class="success-icon">
-                        <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
-                    </div>
-                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
-                    <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;">Session expired. Please login again</span>
-                    <br /> <br />
-                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
-}
+    <!-- Load jQuery and the validate plugin -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
 
-@section scripts{
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+    <!-- jQuery Form Validation code -->
 
     <script type="text/javascript">
-
-        $(".btnShow1").mousedown(function () {
-            $(".pwd1").attr("type", "text");
-        });
-        $(".btnShow1").on("mouseleave", function () {
-            $(".pwd1").attr("type", "password");
-        });
-
-
-        document.getElementById("successModal").onclick = function () {
-         var url = '@Url.Action("Index", "SuperAdminDashboard")';
-         window.location.href = url;
-        };
-        document.getElementById("failureModalSessionExpired").onclick = function () {
-         var url = '@Url.Action("Index", "LogOut")';
-         window.location.href = url;
-        };
-
-        function isNumber(evt) {
+        function isAlphabateDot(evt) {
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            if ((charCode > 32 && charCode < 46) || (charCode > 46 && charCode < 48) || (charCode > 57 && charCode < 65) || (charCode > 90 && charCode < 97) || (charCode > 122 && charCode < 127) || (charCode > 47 && charCode < 58)) {
+
                 return false;
             }
             return true;
         }
 
-        function noCharacter(evt) {
+
+        function isNumberKey(evt) {
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if ((charCode > 32 && charCode < 48) || (charCode > 57 && charCode < 65) || (charCode > 90 && charCode < 97) || (charCode > 122 && charCode < 127)) {
-                return false;
-            }
-            return true;
-        }
-        ///for amount input number and dot only
-        function NumberDot(evt) {
-            var charCode = (evt.which) ? evt.which : event.keyCode
-            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
                 return false;
 
             return true;
         }
 
-
-        function checkValidation() {
-            var Title = $("[name='txtTitle']").val();
-            var Text = $("[name='txtText']").val();
-            var ExtraInformation = $("[name='txtExtraInfo']").val();
-
-
-            if ((Title.trim() == "")) {
-                $("#TitleErr").html("");
-                $("#TitleErr").append("<small>" + "This Field is required and cannot be empty" + "</small>");
-                $("#TitleErr").show();
+        function CheckImageSize() {
+            debugger;
+            var fileUpload = document.getElementById("imgupload");
+            var errorLabel = document.getElementById("errorLabel");
+            var fileName = fileUpload.value;
+            var size = fileUpload.files[0].size;
+            
+            var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                if (!(ext == "jpeg" || ext == "jpg" || ext == "png")) {
+                        errorLabel.innerHTML = "Invalid image file, must select a *.jpeg, *.jpg, or *.png file.";
+                        return false;
             }
+            if (fileUpload.files[0].size == -1) {
+                     errorLabel.innerHTML = "Couldn't load image file size.  Please try to save again.";
+                    return false;
+            }
+            else if (fileUpload.files[0].size <= 1048576) {
+                errorLabel.innerHTML = "";
+                return true;
+                    }
             else {
-                $("#TitleErr").hide();
-
-            }
-
-            if ((Text.trim() == "")) {
-                $("#TextErr").html("");
-                $("#TextErr").append("<small>" + "This Field is required and cannot be empty" + "</small>");
-                $("#TextErr").show();
-            }
-            else {
-                $("#TextErr").hide();
-
-            }
-
-             if ((ExtraInformation.trim() == "")) {
-                $("#ExtraErr").html("");
-                $("#ExtraErr").append("<small>" + "This Field is required and cannot be empty" + "</small>");
-                $("#ExtraErr").show();
-            }
-            else {
-                $("#ExtraErr").hide();
-
-            }
-
-
+                var fileSize = (fileUpload.files[0].size / 1048576);
+        errorLabel.innerHTML = "File is too large, must select file under 1 Mb.";
+        return false;
+                }
         }
-
-
-
-        $("#clearButton").click(function () {
-            $("[name='txtTitle']").val("");
-            $("[name='txtText']").val("");
-            $("[name='txtExtraInfo']").val("");
-
-        });
-
-
 
 
         $('#btnSubmit').click(function (e) {
             debugger;
-            e.preventDefault();
-            debugger;
-            var Title = $("[name='txtTitle']").val();
-            var Text = $("[name='txtText']").val();
-            var ExtraInformation = $("[name='txtExtraInfo']").val();
+             var notificationTitile = $("[name='txtTitle']").val();
+            var notificationMessage = $("[name='txtNotificationMessage']").val();
+            var redirectUrl = $("[name='txtRedirectUrl']").val();
+            event.preventDefault();
 
-            if ((Title != "") && (Text != "") && (ExtraInformation!=="")) {
+             var formData = new FormData();
+             var files = $("#imgupload").get(0).files;
 
-                var dataToPost = {
-                    title: Title,
-                    text: Text,
-                  extraInformation: ExtraInformation
-                };
+            formData.append("file", files[0]);
+            formData.append("title", notificationTitile);
+            formData.append("text", notificationMessage);
+            formData.append("redirectUrl", redirectUrl);
+            formData.append("NotificationsImage", files[0].name);
 
-                e.preventDefault(); //prevent the default action
+
+            if (notificationTitile == "") {
+                $("#check").html("");
+            }
+            var redirectUrlLink = '@Url.Action("GetAllPushNotifications", "Notifications")';
+
+            if (notificationTitile != "" || notificationMessage != "" /*|| extraInformation != ""*/) {
                 $.ajax({
-
-                    url: '@Url.Action("PushNotifications", "Notifications")',
+                    cache: false,
                     type: "POST",
-                    data: dataToPost,
-                    async: false,
-                    success: function (data) {
+                    url: '@Url.Action("PushNotifications", "Notifications")',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+
+
+                    success: function (data, textStatus) {
+                        var markup = data;
                         debugger;
-                        if (data.responseCode == "200") {
-                            debugger;
-                            $("#ajaxResponse").html("");
-                            $('#successModal').modal("show");
-
-                            $("#TPin").val("");
-                            $("#Remarks").val("");
-                            $("#amount").val("");
-
+                        if (data.responseText == "Success") {
+                            window.location.href = redirectUrlLink;
+                            $("#check").html("");
+                            $("#check").css("color", "green");
+                            $("#check").html("Valid").show();
                         }
-                        //display error message
                         else {
-                            $("#ajaxResponse").html("");
-                            $("#message").html("");
-                            $("#message").append(data.responseText);
-                            if (data.responseText == "Session expired. Please login again") {
-                                $('#failureModalSessionExpired').modal("show");
-                            }
-                            else {
-                                $('#failureModal').modal("show");
-                            }
-
+                            $("#check").html("");
+                            $("#check").css("color", "red");
+                            $("#check").html(markup).show();
                         }
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert('Failed to retrieve.');
-                        $("#message").html("");
-                        $("#message").append(jqXHR.responseText);
-                        $('#failureModal').modal("show");
-
-                    },
-                    //capture the request before it was sent to server
-                    beforeSend: function (jqXHR, settings) {
-                        //adding some Dummy data to the request
-                        settings.data += "&dummyData=whatever";
-                        //disable the button until we get the response
-                        $('#btnSubmit').attr("disabled", true);
-                    },
-                    complete: function (jqXHR, textStatus) {
-                        //enable the button
-                        $('#btnSubmit').attr("disabled", false);
+                    error: function () {
+                        alert("Error occurred");
                     }
                 });
             }
-            else {
-                checkValidation();
-                $("#message").html("");
-                $("#message").append("Please Enter the required fields.");
-                $('#failureModal').modal("show");
-
+            else
+            {
+                $('#Notification').bootstrapValidator('enableFieldValidators', 'txtUserName', true);
             }
         });
-    </script>
 
+
+    $(document).ready(function () {
+
+
+        /**Validation Check */
+        $('#Notification').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                txtTitle: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Title is required and cannot be empty'
+                        }
+                    }
+
+                },
+                txtNotificationMessage: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The Notificaiton Message is required and cannot be empty'
+                        }
+                    }
+
+                },
+            }
+        });
+
+        });
+    </script>
 }
+

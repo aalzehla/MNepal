@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "Push Notification View Detail";
+    Layout = null;
+}
+
+<!-- Start Data Show in Table -->
+<div id="CustomerModifyDetail" class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Push Notifications Detail</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+
+        @if (ViewData["dtablePushNotifications"] == null)
+        {
+            <div class="panel-body"> <b> @ViewBag.Message</b> </div>
+        }
+        else if (ViewData["dtablePushNotifications"] != null)
+        {
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Notification Title</th>
+                        <th>Message Details</th>
+                        <th>Extra Information</th>
+                        <th>Notification Date</th>
+                        <th>MessageId</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (System.Data.DataRow dr in (ViewData["dtablePushNotifications"] as System.Data.DataTable).Rows)
+                    {
+
+                    <tr>
+                        <td> @dr["Title"] </td>
+                        <td> @dr["Text"] </td>
+                        <td> @dr["ExtraInformation"] </td>
+                        <td> @DateTime.Parse(dr["NotificationDate"].ToString()).ToString("dd/MM/yyyy")</td>
+                        <td> @dr["MessageId"] </td>
+
+                    </tr>
+                    } <!-- for each end-->
+                </tbody>
+            </table>
+        }
+
+    </div>
+</div>
+<!-- End Data Show in Table -->

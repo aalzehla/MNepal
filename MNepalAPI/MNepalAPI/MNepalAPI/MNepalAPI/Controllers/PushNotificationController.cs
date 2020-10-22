@@ -55,6 +55,8 @@ namespace MNepalAPI.Controllers
 
                 // Do the actual request and await the response
                 var httpResponse = await httpClient.PostAsync(NotificationPostUrl, httpContent);
+                var a = httpResponse;
+                var b = a;
 
                 // If the response contains content we want to read it!
                 if (httpResponse.Content != null)

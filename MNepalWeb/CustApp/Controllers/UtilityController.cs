@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -158,13 +159,13 @@ namespace CustApp.Controllers
             string tokenID = Session["TokenID"].ToString();
             var paypointType = "";
             var special1 = "";
-            if(iSP.ServiceCode=="0")
+            if (iSP.ServiceCode == "0")
             {
                 paypointType = "NCell TopUp";
                 special1 = iSP.amount;
 
             }
-            if(iSP.ServiceCode=="3")
+            if (iSP.ServiceCode == "3")
             {
                 if (iSP.PackageAmount == "Per Day 300MB - 98.99 Rs")
                 {
@@ -301,7 +302,7 @@ namespace CustApp.Controllers
                 DataTable dResponse = DPaypointSet.Tables["dtResponse"];
                 DataTable dDHPayment = DPaypointSet.Tables["dtNWPayment"];
 
-                
+
                 if (dResponse != null && dResponse.Rows.Count > 0)
                 {
                     regobj.CustomerID = dResponse.Rows[0]["account"].ToString();
@@ -331,7 +332,7 @@ namespace CustApp.Controllers
                 {
                     ViewBag.BillAmount = regobj.amount;
                 }
-                
+
                 ViewBag.CustomerName = regobj.CustomerName;
                 ViewBag.billDate = regobj.BillDate.ToString();
 
@@ -820,11 +821,11 @@ namespace CustApp.Controllers
                 string S_Amount = (string)Session["Amount"];
                 string S_ServiceCode = (string)Session["ServiceCode"];
                 string serviceName = "";
-                if(S_ServiceCode == "0")
+                if (S_ServiceCode == "0")
                 {
                     serviceName = "AIRTIME (prepaid)";
                 }
-                else if(S_ServiceCode == "1")
+                else if (S_ServiceCode == "1")
                 {
                     serviceName = "GSM (Postpaid)";
                 }
@@ -913,9 +914,9 @@ namespace CustApp.Controllers
 
                 ViewBag.ServiceNumber = regobj.CustomerID;
                 //ViewBag.BillAmount = S_Amount;
-                if(S_ServiceCode =="0")
+                if (S_ServiceCode == "0")
                 {
-                ViewBag.BillAmount = regobj.TotalAmountDue;
+                    ViewBag.BillAmount = regobj.TotalAmountDue;
                 }
                 else
                 {
@@ -1410,7 +1411,7 @@ namespace CustApp.Controllers
                 string S_CustomerID = (string)Session["CustomerID"];
                 string S_ServiceCode = (string)Session["ServiceCode"];
                 string serviceName = "";
-               
+
                 if ((S_CustomerID == null) && (S_ServiceCode == null))
                 {
                     return RedirectToAction("Index");
@@ -1435,7 +1436,7 @@ namespace CustApp.Controllers
                     regobj.NWBranchCode = dResponse.Rows[0]["serviceCode"].ToString();
                     if (dDHPayment != null && dDHPayment.Rows.Count > 0)
                     {
-                        regobj.billAmount =(Convert.ToInt32(dDHPayment.Rows[0]["BillAmount"].ToString())/100).ToString();
+                        regobj.billAmount = (Convert.ToInt32(dDHPayment.Rows[0]["BillAmount"].ToString()) / 100).ToString();
                         regobj.billDate = dDHPayment.Rows[0]["BillDate"].ToString();
 
                     }
@@ -1831,6 +1832,10 @@ namespace CustApp.Controllers
             TraceIdGenerator _tig = new TraceIdGenerator();
             var tid = _tig.GenerateTraceID();
             string tokenID = Session["TokenID"].ToString();
+
+            //specify to use TLS 1.2 as default connection
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
             using (HttpClient client = new HttpClient())
             {
                 var action = "Utility.svc/SmartCellcheckpayment";
@@ -2064,71 +2069,90 @@ namespace CustApp.Controllers
             ViewBag.UserType = this.TempData["userType"];
             ViewBag.Name = name;
 
-
-            MNBalance availBaln = new MNBalance();
-            DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
-            if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+            string retoken = NW.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
             {
-                availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
-
-                ViewBag.AvailBalnAmount = availBaln.amount;
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
             }
-
-            //For Profile Picture
-            UserInfo userInfo = new UserInfo();
-            DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
-            DataTable dKYC = DSet.Tables["dtKycDetail"];
-            DataTable dDoc = DSet.Tables["dtKycDoc"];
-            if (dKYC != null && dKYC.Rows.Count > 0)
+            else if (dtableVToken.Rows.Count == 0)
             {
-                userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
-                ViewBag.CustStatus = userInfo.CustStatus;
+                reqToken = "0";
             }
-            if (dDoc != null && dDoc.Rows.Count > 0)
+            string BlockMessage = LoginUtils.GetMessage("01");
+            if (reqToken == "0")
             {
-                userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
-                ViewBag.PassportImage = userInfo.PassportImage;
-            }
+                ReqTokenUtils.InsertReqToken(retoken);
 
-            string S_NWCounter = (string)Session["NWCounter"];
-            string S_CustomerID = (string)Session["CustomerID"];
+                MNBalance availBaln = new MNBalance();
+                DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
+                if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+                {
+                    availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
+
+                    ViewBag.AvailBalnAmount = availBaln.amount;
+                }
+
+                //For Profile Picture
+                UserInfo userInfo = new UserInfo();
+                DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
+                DataTable dKYC = DSet.Tables["dtKycDetail"];
+                DataTable dDoc = DSet.Tables["dtKycDoc"];
+                if (dKYC != null && dKYC.Rows.Count > 0)
+                {
+                    userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
+                    ViewBag.CustStatus = userInfo.CustStatus;
+                }
+                if (dDoc != null && dDoc.Rows.Count > 0)
+                {
+                    userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
+                    ViewBag.PassportImage = userInfo.PassportImage;
+                }
+
+                string S_NWCounter = (string)Session["NWCounter"];
+                string S_CustomerID = (string)Session["CustomerID"];
 
 
-            ISP iSP = new ISP();
-            iSP.NWCounter = S_NWCounter;
-            iSP.CustomerID = S_CustomerID;
-            iSP.UserName = userName;
-            iSP.ClientCode = clientCode;
-            iSP.refStan = getrefStan(iSP);
-            NepalWater regobj = new NepalWater();
+                ISP iSP = new ISP();
+                iSP.NWCounter = S_NWCounter;
+                iSP.CustomerID = S_CustomerID;
+                iSP.UserName = userName;
+                iSP.ClientCode = clientCode;
+                iSP.refStan = getrefStan(iSP);
+                NepalWater regobj = new NepalWater();
 
-            DataSet DPaypointSet = PaypointUtils.GetDishHomeDetails(iSP);
-            DataTable dResponse = DPaypointSet.Tables["dtResponse"];
-            DataTable dNWPayment = DPaypointSet.Tables["dtNWPayment"];
-            if (dResponse != null && dResponse.Rows.Count > 0)
-            {
-                regobj.CustomerID = dResponse.Rows[0]["account"].ToString();
-                regobj.CustomerName = dResponse.Rows[0]["customerName"].ToString();
-                regobj.TotalAmountDue = NW.amount;
-                regobj.refStan = dResponse.Rows[0]["refStan"].ToString();
-                regobj.billNumber = dResponse.Rows[0]["billNumber"].ToString();
-                regobj.responseCode = dResponse.Rows[0]["responseCode"].ToString();
-                regobj.retrievalReference = dResponse.Rows[0]["retrievalReference"].ToString();
+                DataSet DPaypointSet = PaypointUtils.GetDishHomeDetails(iSP);
+                DataTable dResponse = DPaypointSet.Tables["dtResponse"];
+                DataTable dNWPayment = DPaypointSet.Tables["dtNWPayment"];
+                if (dResponse != null && dResponse.Rows.Count > 0)
+                {
+                    regobj.CustomerID = dResponse.Rows[0]["account"].ToString();
+                    regobj.CustomerName = dResponse.Rows[0]["customerName"].ToString();
+                    regobj.TotalAmountDue = NW.amount;
+                    regobj.refStan = dResponse.Rows[0]["refStan"].ToString();
+                    regobj.billNumber = dResponse.Rows[0]["billNumber"].ToString();
+                    regobj.responseCode = dResponse.Rows[0]["responseCode"].ToString();
+                    regobj.retrievalReference = dResponse.Rows[0]["retrievalReference"].ToString();
 
-            }
+                }
 
-            HttpResponseMessage _res = new HttpResponseMessage();
-            string mobile = userName; //mobile is username
-            TraceIdGenerator _tig = new TraceIdGenerator();
-            var tid = _tig.GenerateTraceID();
-            using (HttpClient client = new HttpClient())
-            {
-                var destinationTestNumber = System.Configuration.ConfigurationManager.AppSettings["DestinationTestNumber"];
-                var destinationMerchantId = System.Configuration.ConfigurationManager.AppSettings["DestinationMerchantIdPaypoint"];
-                var action = "Utility.svc/SmartCellTopUpExecutePayment";
-                var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                string tokenID = Session["TokenID"].ToString();
-                var content = new FormUrlEncodedContent(new[]{
+                HttpResponseMessage _res = new HttpResponseMessage();
+                string mobile = userName; //mobile is username
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
+
+                //specify to use TLS 1.2 as default connection
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
+                using (HttpClient client = new HttpClient())
+                {
+                    var destinationTestNumber = System.Configuration.ConfigurationManager.AppSettings["DestinationTestNumber"];
+                    var destinationMerchantId = System.Configuration.ConfigurationManager.AppSettings["DestinationMerchantIdPaypoint"];
+                    var action = "Utility.svc/SmartCellTopUpExecutePayment";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                    string tokenID = Session["TokenID"].ToString();
+                    var content = new FormUrlEncodedContent(new[]{
                         new KeyValuePair<string, string>("vid", destinationMerchantId),//default
                         new KeyValuePair<string, string>("sc",NW.TransactionMedium),//user 00 10
                         new KeyValuePair<string, string>("mobile", mobile),
@@ -2155,72 +2179,78 @@ namespace CustApp.Controllers
                         new KeyValuePair<string, string>("retrievalReference", regobj.retrievalReference),//Database
 
                     });
-                _res = await client.PostAsync(new Uri(uri), content);
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
-                string errorMessage = string.Empty;
-                int responseCode = 0;
-                string message = string.Empty;
-                string responsetext = string.Empty;
-                bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
-                try
-                {
-                    if (_res.IsSuccessStatusCode)
+                    _res = await client.PostAsync(new Uri(uri), content);
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
+                    string errorMessage = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
+                    try
                     {
-                        //Session value remove
-                        Session.Remove("CustomerID");
+                        if (_res.IsSuccessStatusCode)
+                        {
+                            //Session value remove
+                            Session.Remove("CustomerID");
 
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        if (!string.IsNullOrEmpty(message))
-                        {
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-                            var json = ser.Deserialize<JsonParse>(responsetext);
-                            message = json.d;
-                            JsonParse myNames = ser.Deserialize<JsonParse>(json.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            message = _res.Content.ReadAsStringAsync().Result;
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+                                var json = ser.Deserialize<JsonParse>(responsetext);
+                                message = json.d;
+                                JsonParse myNames = ser.Deserialize<JsonParse>(json.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                        }
-                        return Json(new { responseCode = responseCode, responseText = respmsg },
-                        JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        result = false;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        dynamic json = JValue.Parse(responsetext);
-                        message = json.d;
-                        if (message == null)
-                        {
-                            return Json(new { responseCode = responseCode, responseText = responsetext },
-                        JsonRequestBehavior.AllowGet);
+                            return Json(new { responseCode = responseCode, responseText = respmsg },
+                            JsonRequestBehavior.AllowGet);
                         }
                         else
                         {
-                            dynamic item = JValue.Parse(message);
-
-                            return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                            result = false;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            dynamic json = JValue.Parse(responsetext);
+                            message = json.d;
+                            if (message == null)
+                            {
+                                return Json(new { responseCode = responseCode, responseText = responsetext },
                             JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                dynamic item = JValue.Parse(message);
+
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                                JsonRequestBehavior.AllowGet);
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                        JsonRequestBehavior.AllowGet);
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                            JsonRequestBehavior.AllowGet);
+                    }
                 }
 
+            }
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again.", blockMessage = BlockMessage },
+                            JsonRequestBehavior.AllowGet);
             }
 
         }

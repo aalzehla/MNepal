@@ -1,6 +1,8 @@
-﻿using MNepalProject.Controllers;
+﻿using MNepalProject.Connection;
+using MNepalProject.Controllers;
 using MNepalProject.Helper;
 using MNepalProject.Models;
+using MNepalProject.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -8418,14 +8420,40 @@ namespace WCF.MNepal
                                 transactionType = "PayPoint Txfr to B2W"; //B2W
                             }
 
-                            if (!(UserNameCheck.IsValidUser(mobile)))
+                            //if (!(UserNameCheck.IsValidUser(mobile)))
+                            //{
+                            //    // throw ex
+                            //    statusCode = "400";
+                            //    //message = "Transaction restricted to User";
+                            //    message = "Transaction only for User";
+                            //    failedmessage = message;
+                            //}
+
+                            Pin p = new Pin();
+                            if (!p.validPIN(mobile, pin))
                             {
-                                // throw ex
                                 statusCode = "400";
-                                //message = "Transaction restricted to User";
-                                message = "Transaction only for User";
+                                message = "Invalid PIN";
                                 failedmessage = message;
+
+                                LoginUtils.SetPINTries(mobile, "BUWP");//add +1 in trypwd
+
+                                if (LoginUtils.GetPINBlockTime(mobile)) //check if blocktime is greater than current time 
+                                {
+                                    message = LoginUtils.GetMessage("01");
+                                    //message = "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 10 minutes";  //change
+                                    statusCode = "417";
+                                    MNFundTransfer mnlg = new MNFundTransfer();
+                                    mnlg.ResponseStatus(HttpStatusCode.ExpectationFailed, message);
+                                    failedmessage = message;
+
+                                }
                             }
+                            else
+                            {
+                                LoginUtils.SetPINTries(mobile, "RPT");
+                            }
+
                             if (UserNameCheck.IsValidMerchant(da))
                             {
 
@@ -8464,7 +8492,7 @@ namespace WCF.MNepal
                                     //start:Com focus one log///
                                     MNFundTransfer mnft = new MNFundTransfer(tid, fundtransfer.sc, fundtransfer.mobile,
                                         fundtransfer.sa, fundtransfer.amount, fundtransfer.da, fundtransfer.note, fundtransfer.pin,
-                                        fundtransfer.sourcechannel);
+                                        fundtransfer.sourcechannel,"SmartCell");
                                     var comfocuslog = new MNComAndFocusOneLog(mnft, DateTime.Now);
                                     var mncomfocuslog = new MNComAndFocusOneLogsController();
                                     //mncomfocuslog.InsertIntoComFocusOne(comfocuslog);
@@ -9008,14 +9036,40 @@ namespace WCF.MNepal
                             transactionType = "PayPoint Txfr to B2W"; //B2W
                         }
 
-                        if (!(UserNameCheck.IsValidUser(mobile)))
+                        //if (!(UserNameCheck.IsValidUser(mobile)))
+                        //{
+                        //    // throw ex
+                        //    statusCode = "400";
+                        //    //message = "Transaction restricted to User";
+                        //    message = "Transaction only for User";
+                        //    failedmessage = message;
+                        //}
+
+                        Pin p = new Pin();
+                        if (!p.validPIN(mobile, pin))
                         {
-                            // throw ex
                             statusCode = "400";
-                            //message = "Transaction restricted to User";
-                            message = "Transaction only for User";
+                            message = "Invalid PIN";
                             failedmessage = message;
+
+                            LoginUtils.SetPINTries(mobile, "BUWP");//add +1 in trypwd
+
+                            if (LoginUtils.GetPINBlockTime(mobile)) //check if blocktime is greater than current time 
+                            {
+                                message = LoginUtils.GetMessage("01");
+                                //message = "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 10 minutes";
+                                statusCode = "417";
+                                MNFundTransfer mnlg = new MNFundTransfer();
+                                mnlg.ResponseStatus(HttpStatusCode.ExpectationFailed, message);
+                                failedmessage = message;
+                            }
+
                         }
+                        else
+                        {
+                            LoginUtils.SetPINTries(mobile, "RPT");
+                        }
+
                         if (UserNameCheck.IsValidMerchant(da))
                         {
 
@@ -9054,7 +9108,7 @@ namespace WCF.MNepal
                                 //start:Com focus one log///
                                 MNFundTransfer mnft = new MNFundTransfer(tid, fundtransfer.sc, fundtransfer.mobile,
                                     fundtransfer.sa, fundtransfer.amount, fundtransfer.da, fundtransfer.note, fundtransfer.pin,
-                                    fundtransfer.sourcechannel);
+                                    fundtransfer.sourcechannel,"SmartCell");
                                 var comfocuslog = new MNComAndFocusOneLog(mnft, DateTime.Now);
                                 var mncomfocuslog = new MNComAndFocusOneLogsController();
                                 //mncomfocuslog.InsertIntoComFocusOne(comfocuslog);
@@ -9490,14 +9544,14 @@ namespace WCF.MNepal
                                 }
                                 else
                                 {
-                                    if (companyCode == "598")
-                                    {
-                                        special1 = "";
-                                    }
-                                    else
-                                    {
-                                        special1 = special1.ToString();
-                                    }
+                                    //if (companyCode == "598")
+                                    //{
+                                    //    special1 = "";
+                                    //}
+                                    //else
+                                    //{
+                                    //    special1 = special1.ToString();
+                                    //}
 
                                     // string URIEXECPayment = "https://test.paypoint.md:4445/PayPointWS/PayPointMSOperations.asmx/ExecutePayment";//for EP Link 
 
@@ -9947,14 +10001,33 @@ namespace WCF.MNepal
                         //    transactionType = "PayPoint Txfr to W2B"; //B2W
                         //}
 
-                        if (!(UserNameCheck.IsValidUser(mobile)))
+                        //if (!(UserNameCheck.IsValidUser(mobile)))
+                        //{
+                        //    // throw ex
+                        //    statusCode = "400";
+                        //    //message = "Transaction restricted to User";
+                        //    message = "Transaction only for User";
+                        //    failedmessage = message;
+                        //}
+
+                        Pin p = new Pin();
+                        if (!p.validPIN(mobile, pin))
                         {
-                            // throw ex
                             statusCode = "400";
-                            //message = "Transaction restricted to User";
-                            message = "Transaction only for User";
+                            message = "Invalid PIN ";
                             failedmessage = message;
+
+                            if (LoginUtils.GetPINBlockTime(mobile)) //check if blocktime is greater than current time 
+                            {
+                                message = LoginUtils.GetMessage("01");
+                                //message = "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 10 minutes";
+                                statusCode = "417";
+                                MNFundTransfer mnlg = new MNFundTransfer();
+                                mnlg.ResponseStatus(HttpStatusCode.ExpectationFailed, message);
+                                failedmessage = message;
+                            }
                         }
+
                         if (UserNameCheck.IsValidMerchant(da))
                         {
 
@@ -9966,6 +10039,16 @@ namespace WCF.MNepal
                             string statusMsg = jsonDataResult["StatusMessage"].ToString();
                             message = jsonDataResult["StatusMessage"].ToString();
                             failedmessage = message;
+
+                            if (LoginUtils.GetPINBlockTime(mobile)) //check if blocktime is greater than current time 
+                            {
+                                message = LoginUtils.GetMessage("01");
+                                //  message = "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 10 minutes";
+                                statusCode = "417";
+                                MNFundTransfer mnlg = new MNFundTransfer();
+                                mnlg.ResponseStatus(HttpStatusCode.ExpectationFailed, message);
+                                failedmessage = message;
+                            }
 
                             if ((statusCode == "200") && (message == "Success"))
                             {
@@ -10322,10 +10405,10 @@ namespace WCF.MNepal
                                                 messagereply += " You have successfully reverse  NPR " + validTransactionData.Amount
                                                                     + " to " +
                                                                     //GetMerchantName 
-                                                                    "Utility payment for Dish Home Direct." + " on date " +
+                                                                    "Utility payment for SmartCell TopUp." + " on date " +
                                                                     (validTransactionData.CreatedDate).ToString("dd/MM/yyyy")
                                                                 + "." + "\n";
-                                                messagereply += "Thank you. MNepal";
+                                                messagereply += "Thank you. NIBL";
 
                                                 var client = new WebClient();
 
@@ -10335,7 +10418,7 @@ namespace WCF.MNepal
                                                     //FOR NCELL
                                                     var content = client.DownloadString(
                                                         "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
-                                                        + "977" + mobile + "&Text=" + messagereply + "");
+                                                        + "977" + mobile + "&message=" + messagereply + "");
                                                 }
                                                 else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
                                                             || (mobile.Substring(0, 3) == "986"))
@@ -10343,7 +10426,7 @@ namespace WCF.MNepal
                                                     //FOR NTC
                                                     var content = client.DownloadString(
                                                         "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
-                                                        + "977" + mobile + "&Text=" + messagereply + "");
+                                                        + "977" + mobile + "&message=" + messagereply + "");
                                                 }
 
                                                 statusCode = "200";
@@ -10461,10 +10544,10 @@ namespace WCF.MNepal
                             messagereply += " You have successfully paid NPR " + validTransactionData.Amount
                                             + " to " + " account name: " + account + ". " +
                                             //GetMerchantName 
-                                            "Utility payment for Dish Home Direct (Pinless)." + " on date " +
+                                            "Utility payment for  SmartCell TopUp." + " on date " +
                                                 (validTransactionData.CreatedDate).ToString("dd/MM/yyyy")
                                             + "." + "\n";
-                            messagereply += "Thank you. MNepal";
+                            messagereply += "Thank you. NIBL";
 
                             var client = new WebClient();
 
@@ -10474,7 +10557,7 @@ namespace WCF.MNepal
                                 //FOR NCELL
                                 var content = client.DownloadString(
                                     "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
-                                    + "977" + mobile + "&Text=" + messagereply + "");
+                                    + "977" + mobile + "&message=" + messagereply + "");
                             }
                             else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
                                         || (mobile.Substring(0, 3) == "986"))
@@ -10482,7 +10565,7 @@ namespace WCF.MNepal
                                 //FOR NTC
                                 var content = client.DownloadString(
                                     "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
-                                    + "977" + mobile + "&Text=" + messagereply + "");
+                                    + "977" + mobile + "&message=" + messagereply + "");
                             }
 
                             statusCode = "200";

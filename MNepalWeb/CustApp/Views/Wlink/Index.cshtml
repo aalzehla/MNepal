@@ -28,7 +28,9 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
+    <div class="preload" style="display:none">
+        <img src="~/Content/image/loading.gif" class="img-responsive" />
+    </div>
     <div class="main-content">
         <div class="two-colbg">
             <div class="container">
@@ -163,7 +165,7 @@
 
 
 
-                            
+
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -291,11 +293,11 @@
             return true;
         }
 
-        
+
 
         function checkValidation() {
             var Cust = $("[name='txtCustomerID']").val();
-            
+
 
             if ((Cust.trim() == "")) {
                 $("#CustErr").html("");
@@ -320,21 +322,22 @@
             e.preventDefault();
             debugger;
             var CustomerID = $("[name='txtCustomerID']").val();
-            
+
             if ((CustomerID != "")) {
 
                 var dataToPost = {
                     CustomerName: CustomerID
                 };
 
+                $('.preload').show();
                 e.preventDefault(); //prevent the default action
                 $.ajax({
                     url: '@Url.Action("WlinkCheckPayment","Wlink")',
                     type: "POST",
                     data: dataToPost,
-                    async: false,
+                    async: true,
                     success: function (data) {
-                        debugger;
+                        $(".preload").hide();
                         if (data.responseCode == "200") {
                             var url = '@Url.Action("Details", "Wlink")';
                             window.location.href = url;
@@ -363,12 +366,14 @@
                     //capture the request before it was sent to server
                     beforeSend: function (jqXHR, settings) {
                         //adding some Dummy data to the request
+                        $(".preload").show();
                         settings.data += "&dummyData=whatever";
                         //disable the button until we get the response
                         $('#btnSubmit').attr("disabled", true);
                     },
                     complete: function (jqXHR, textStatus) {
                         //enable the button
+                        $('.preload').hide();
                         $('#btnSubmit').attr("disabled", false);
                     }
                 });

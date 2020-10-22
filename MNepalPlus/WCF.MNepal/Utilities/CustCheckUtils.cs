@@ -87,6 +87,13 @@ namespace WCF.MNepal.Utilities
             model.InsertSMSLog(Log);
         }
 
+        public static void LogOTP(SMSLog Log)
+        {
+            CustCheckerUserModel model = new CustCheckerUserModel();
+            Log.SentOn = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt ");
+            model.InsertSMSOTPLog(Log);
+        }
+
         #region Customer Checker
 
         public static DataTable GetCustStatusInfo(string cmobile)
@@ -111,6 +118,20 @@ namespace WCF.MNepal.Utilities
         }
 
         #endregion
+
+        
+        #region GetClientCodeFromPRN
+        public static string GetClientCodeFromPRN(string PRN)
+        {
+            var objModel = new CustCheckerUserModel();
+            string mode = "GCCP";
+
+            return objModel.GetClientCodeFromPRN(mode, PRN);
+        }
+
+        #endregion
+
+
         #region GetEBankingRequestInfoFromPRN
         public static DataTable GetEBankingRequest(string PRN)
         {
@@ -232,6 +253,16 @@ namespace WCF.MNepal.Utilities
             }
 
             return name;
+        }
+
+        public static DataTable CheckOTP(string userName)
+        {
+            var objModel = new LoginUserModels();
+            var objUserInfo = new UserInfo
+            {
+                UserName = userName
+            };
+            return objModel.CheckOTP(objUserInfo);
         }
     }
 }

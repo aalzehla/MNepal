@@ -11,6 +11,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -163,25 +164,12 @@ namespace CustApp.Controllers
             var tid = _tig.GenerateTraceID();
             string tokenID = Session["TokenID"].ToString();
 
+            //specify to use TLS 1.2 as default connection
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
             DematGet dematGet = new DematGet();
             using (var client = new HttpClient())
             {
-                var re = Request;
-                var headers = re.Headers;
-                //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("token", "AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAALb0J21uJQkW66f/5tn51oAAAAAACAAAAAAAQZgAAAAEAACAAAACujThGwSJ93BGelKQrjJ748rl2+xgpln4Cd1rtWKH6dgAAAAAOgAAAAAIAACAAAAA2q7bCrhkwFnASE36rJgfFlhqqZBTGliq5KiTPnbWiDSAAAACoZSqNV4SH5AwklADAn7cxHloBR7Ft7KW2Z24p/TnjWkAAAAC4IjJh6LMIy/8zKvr5r7/yuPlDtSnmTH/sVYxmDyBQ6JeDlR56+2dHFAvgF3i83Bt/SYP4dGZ9zpQjc1MzVIir");
-                var AuthUsername = System.Configuration.ConfigurationManager.AppSettings["AuthUsername"];
-                var AuthPassword = System.Configuration.ConfigurationManager.AppSettings["AuthPassword"];
-                client.BaseAddress = new Uri(System.Configuration.ConfigurationManager.AppSettings["DematBaseAddress"]);
-                var GetPendingPayments = System.Configuration.ConfigurationManager.AppSettings["GetPendingPayments"];
-                //var content = new StringContent("application/json");
-                var byteArray = new UTF8Encoding().GetBytes(AuthUsername + ":" + AuthPassword);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-
-                //dematGet.BoId = dmat.dCode;
-
-                //var jsonObject = JsonConvert.SerializeObject(dematGet);
-                //var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
-
                 var action = "share.svc/checkpayment";
                 var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
                 var content = new FormUrlEncodedContent(new[]{
@@ -195,64 +183,6 @@ namespace CustApp.Controllers
 
                 });
                 _res = await client.PostAsync(new Uri(uri), content);
-
-
-                //mero
-
-                //HttpResponseMessage respone = await client.GetAsync(GetPendingPayments + dmat.DematCode);
-                //var responseContent = await respone.Content.ReadAsStringAsync();
-                //Constants constants = new Constants();
-                //var ReferenceId = constants.getTimeStamp();
-                //Session["ReferenceId"] = ReferenceId;
-
-                //DematObject demt = JsonConvert.DeserializeObject<DematObject>(responseContent);
-                //var BoId = demt.BoId;
-                //var DematName = demt.DematName;
-                //var TotalAmount = demt.TotalAmount;
-
-                ////Fees array from response
-                ////Fees array to list
-                ////List of array to string builder
-                //List<Fee> fee = new List<Fee>();
-                //string stringBuilder = "";
-                //foreach (var item in demt.Fees)
-                //{
-                //    string concatenateFees = "";
-                //    Fee fees = new Fee();
-                //    fees.FiscalYear = item.FiscalYear;
-                //    fees.Description = item.Description;
-                //    fees.Amount = item.Amount;
-                //    fee.Add(fees);
-
-                //    //string builder
-                //    concatenateFees = "Fiscal Year: " + fees.FiscalYear + " " + "Description: " + fees.Description + " " + "Amount: " + fees.Amount;
-                //    stringBuilder = stringBuilder + concatenateFees + Environment.NewLine;
-                //}
-                //SqlConnection conn = null;
-                //using (conn = new SqlConnection(DatabaseConnection.ConnectionStr()))
-                //{
-                //    conn.Open();
-                //    using (SqlCommand cmd = new SqlCommand("[s_MNDematRequest]", conn))
-                //    {
-                //        cmd.CommandType = CommandType.StoredProcedure;
-                //        cmd.Parameters.AddWithValue("@BoId", BoId);
-                //        cmd.Parameters.AddWithValue("@DematName", DematName);
-                //        cmd.Parameters.AddWithValue("@TotalAmount", TotalAmount);
-                //        cmd.Parameters.AddWithValue("@Fees", stringBuilder);
-                //        cmd.Parameters.AddWithValue("@ClientCode", clientCode);
-                //        cmd.Parameters.AddWithValue("@ReferenceId", ReferenceId);
-                //        cmd.Parameters.AddWithValue("@UserName", userName);
-                //        cmd.Parameters.AddWithValue("@BankCode", Session["DMATName"].ToString());
-                //        cmd.Parameters.AddWithValue("@mode", "Insert");
-                //        //cmd.Parameters.AddWithValue("@Token", token);
-
-                //        cmd.ExecuteNonQuery();
-                //        conn.Close();
-                //    }
-                //}
-
-                //end mero
-
 
                 string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
                 _res.ReasonPhrase = responseBody;
@@ -412,11 +342,6 @@ namespace CustApp.Controllers
                 ViewBag.BoId = DematDetails.DematCode;
                 ViewBag.TotalAmount = DematDetails.TotalAmountDue;
                 ViewBag.Descriptions = DematDetails.Months;
-                ////Viewbag For details from Nepal Water
-
-
-
-
 
                 int id = TraceIdGenerator.GetID() + 1;
                 string stringid = (id).ToString();//this.GetID() + 1
@@ -499,109 +424,95 @@ namespace CustApp.Controllers
             ViewBag.UserType = this.TempData["userType"];
             ViewBag.Name = name;
 
-
-            MNBalance availBaln = new MNBalance();
-            DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
-            if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+            string retoken = demat.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
             {
-                availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
-
-                ViewBag.AvailBalnAmount = availBaln.amount;
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
             }
-
-            //For Profile Picture
-            UserInfo userInfo = new UserInfo();
-            DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
-            DataTable dKYC = DSet.Tables["dtKycDetail"];
-            DataTable dDoc = DSet.Tables["dtKycDoc"];
-            if (dKYC != null && dKYC.Rows.Count > 0)
+            else if (dtableVToken.Rows.Count == 0)
             {
-                userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
-                ViewBag.CustStatus = userInfo.CustStatus;
+                reqToken = "0";
             }
-            if (dDoc != null && dDoc.Rows.Count > 0)
+            string BlockMessage = LoginUtils.GetMessage("01");
+            if (reqToken == "0")
             {
-                userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
-                ViewBag.PassportImage = userInfo.PassportImage;
-            }
+                ReqTokenUtils.InsertReqToken(retoken);
 
-            //api call here
-            //using (var client = new HttpClient())
-            //{
-            //    var re = Request;
-            //    var headers = re.Headers;
-            //    //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("token", "AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAALb0J21uJQkW66f/5tn51oAAAAAACAAAAAAAQZgAAAAEAACAAAACujThGwSJ93BGelKQrjJ748rl2+xgpln4Cd1rtWKH6dgAAAAAOgAAAAAIAACAAAAA2q7bCrhkwFnASE36rJgfFlhqqZBTGliq5KiTPnbWiDSAAAACoZSqNV4SH5AwklADAn7cxHloBR7Ft7KW2Z24p/TnjWkAAAAC4IjJh6LMIy/8zKvr5r7/yuPlDtSnmTH/sVYxmDyBQ6JeDlR56+2dHFAvgF3i83Bt/SYP4dGZ9zpQjc1MzVIir");
-            //    var AuthUsername = System.Configuration.ConfigurationManager.AppSettings["AuthUsername"];
-            //    var AuthPassword = System.Configuration.ConfigurationManager.AppSettings["AuthPassword"];
-            //    client.BaseAddress = new Uri(System.Configuration.ConfigurationManager.AppSettings["DematBaseAddress"]);
-            //    var GetPendingPayments = System.Configuration.ConfigurationManager.AppSettings["GetPendingPayments"];
-            //    //var content = new StringContent("application/json");
-            //    var byteArray = new UTF8Encoding().GetBytes(AuthUsername + ":" + AuthPassword);
-            //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                MNBalance availBaln = new MNBalance();
+                DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
+                if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+                {
+                    availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
 
-            //    DematPayment dematPayment = new DematPayment();
+                    ViewBag.AvailBalnAmount = availBaln.amount;
+                }
 
-            //    dematPayment.BoId = Session["DematNumber"].ToString();
-            //    dematPayment.Amount = float.Parse(demat.amount);
-            //    dematPayment.ReferenceId = ReferenceId.ToString();
+                //For Profile Picture
+                UserInfo userInfo = new UserInfo();
+                DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
+                DataTable dKYC = DSet.Tables["dtKycDetail"];
+                DataTable dDoc = DSet.Tables["dtKycDoc"];
+                if (dKYC != null && dKYC.Rows.Count > 0)
+                {
+                    userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
+                    ViewBag.CustStatus = userInfo.CustStatus;
+                }
+                if (dDoc != null && dDoc.Rows.Count > 0)
+                {
+                    userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
+                    ViewBag.PassportImage = userInfo.PassportImage;
+                }
 
+                string DMATNAME = (string)Session["DMATName"];
+                string DmatNumber = (string)Session["DematNumber"];
+                string TimeStamp = Session["timeStamp"].ToString();
 
+                DMAT dematObj = new DMAT();
+                dematObj.ClientCode = clientCode;
+                dematObj.UserName = userName;
+                dematObj.DematName = DMATNAME;
+                dematObj.DematCode = DmatNumber;
+                dematObj.TimeStamp = TimeStamp;
+                dematObj.refStan = getRetRef(dematObj);
 
+                DMAT regobj = new DMAT();
 
-            //    var jsonObject = JsonConvert.SerializeObject(dematPayment);
-            //    var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
-            //    HttpResponseMessage response = await client.PostAsync("api/Demat/MakePayment", content);
-            //    //read response content
-            //    var jsonString = await response.Content.ReadAsStringAsync();
-            //    //deserialize object                    
-            //    var jsndata = JsonConvert.DeserializeObject(jsonString);
-            //}
-
-            string DMATNAME = (string)Session["DMATName"];
-            string DmatNumber = (string)Session["DematNumber"];
-            string TimeStamp = Session["timeStamp"].ToString();
-
-            DMAT dematObj = new DMAT();
-            dematObj.ClientCode = clientCode;
-            dematObj.UserName = userName;
-            dematObj.DematName = DMATNAME;
-            dematObj.DematCode = DmatNumber;
-            dematObj.TimeStamp = TimeStamp;
-            dematObj.refStan = getRetRef(dematObj);
-
-            DMAT regobj = new DMAT();
-
-            DataSet DMATSet = DMATUtils.GetDematDetails(dematObj);
+                DataSet DMATSet = DMATUtils.GetDematDetails(dematObj);
 
 
-            DataTable dResponse = DMATSet.Tables["dtResponse"];
-            DataTable dNWPayment = DMATSet.Tables["dtNWPayment"];
-            if (dResponse != null && dResponse.Rows.Count > 0)
-            {
-                regobj.DematCode = dResponse.Rows[0]["BoId"].ToString();
-                regobj.CustomerName = dResponse.Rows[0]["DematName"].ToString();
-                regobj.TotalAmountDue = dResponse.Rows[0]["TotalAmount"].ToString();
-                regobj.DematName = dResponse.Rows[0]["BankCode"].ToString();
-                regobj.TimeStamp = dResponse.Rows[0]["TimeStamp"].ToString();
-                regobj.ClientCode = dResponse.Rows[0]["ClientCode"].ToString();
-                regobj.retrievalReference = dResponse.Rows[0]["RetrievalRef"].ToString();
-                regobj.UserName = dResponse.Rows[0]["UserName"].ToString();
+                DataTable dResponse = DMATSet.Tables["dtResponse"];
+                DataTable dNWPayment = DMATSet.Tables["dtNWPayment"];
+                if (dResponse != null && dResponse.Rows.Count > 0)
+                {
+                    regobj.DematCode = dResponse.Rows[0]["BoId"].ToString();
+                    regobj.CustomerName = dResponse.Rows[0]["DematName"].ToString();
+                    regobj.TotalAmountDue = dResponse.Rows[0]["TotalAmount"].ToString();
+                    regobj.DematName = dResponse.Rows[0]["BankCode"].ToString();
+                    regobj.TimeStamp = dResponse.Rows[0]["TimeStamp"].ToString();
+                    regobj.ClientCode = dResponse.Rows[0]["ClientCode"].ToString();
+                    regobj.retrievalReference = dResponse.Rows[0]["RetrievalRef"].ToString();
+                    regobj.UserName = dResponse.Rows[0]["UserName"].ToString();
 
-            }
+                }
 
-            HttpResponseMessage _res = new HttpResponseMessage();
-            string mobile = userName; //mobile is username
-            TraceIdGenerator _tig = new TraceIdGenerator();
-            var tid = _tig.GenerateTraceID();
-            using (HttpClient client = new HttpClient())
-            {
-                var destinationTestNumber = System.Configuration.ConfigurationManager.AppSettings["DestinationTestNumber"];
-                var destinationMerchantId = System.Configuration.ConfigurationManager.AppSettings["DestinationMerchantId"];
-                var action = "share.svc/executepayment";
-                var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
-                string tokenID = Session["TokenID"].ToString();
-                var content = new FormUrlEncodedContent(new[]{
-                         new KeyValuePair<string, string>("vid", destinationMerchantId), 
+                HttpResponseMessage _res = new HttpResponseMessage();
+                string mobile = userName; //mobile is username
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
+
+                //specify to use TLS 1.2 as default connection
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                using (HttpClient client = new HttpClient())
+                {
+                    var destinationTestNumber = System.Configuration.ConfigurationManager.AppSettings["DestinationTestNumber"];
+                    var destinationMerchantId = System.Configuration.ConfigurationManager.AppSettings["DestinationMerchantId"];
+                    var action = "share.svc/executepayment";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                    string tokenID = Session["TokenID"].ToString();
+                    var content = new FormUrlEncodedContent(new[]{
+                         new KeyValuePair<string, string>("vid", destinationMerchantId),
                         new KeyValuePair<string, string>("BoId", dematObj.DematCode),
                         new KeyValuePair<string, string>("DematBank", dematObj.DematName),
                         new KeyValuePair<string, string>("mobile", mobile),
@@ -619,77 +530,83 @@ namespace CustApp.Controllers
                         new KeyValuePair<string, string>("paymentType", "Demat Payment"),
                         new KeyValuePair<string, string>("src","http") ////default
                 });
-                _res = await client.PostAsync(new Uri(uri), content);
-                var a = _res.StatusCode;
-                var b = _res.IsSuccessStatusCode;
-                
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
-                string errorMessage = string.Empty;
-                int responseCode = 0;
-                string message = string.Empty;
-                string responsetext = string.Empty;
-                bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
+                    _res = await client.PostAsync(new Uri(uri), content);
+                    var a = _res.StatusCode;
+                    var b = _res.IsSuccessStatusCode;
 
-                try
-                {
-                    if (_res.IsSuccessStatusCode)
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
+                    string errorMessage = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
+
+                    try
                     {
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        if (!string.IsNullOrEmpty(message))
+                        if (_res.IsSuccessStatusCode)
                         {
-                           JavaScriptSerializer ser = new JavaScriptSerializer();
-                            var json = ser.Deserialize<JsonParse>(responsetext);
-                            message = json.d;
-                            JsonParse myNames = ser.Deserialize<JsonParse>(json.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            message = _res.Content.ReadAsStringAsync().Result;
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+                                var json = ser.Deserialize<JsonParse>(responsetext);
+                                message = json.d;
+                                JsonParse myNames = ser.Deserialize<JsonParse>(json.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                        }
-                        return Json(new { responseCode = responseCode, responseText = respmsg },
-                        JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        result = false;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        dynamic json = JValue.Parse(responsetext);
-                        message = json.d;
-                        if (message == null)
-                        {
-                            return Json(new { responseCode = responseCode, responseText = responsetext }, 
-                        JsonRequestBehavior.AllowGet);
+                            return Json(new { responseCode = responseCode, responseText = respmsg, blockMessage = BlockMessage },
+                            JsonRequestBehavior.AllowGet);
                         }
                         else
                         {
-                            dynamic item = JValue.Parse(message);
-
-                            return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                            result = false;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            dynamic json = JValue.Parse(responsetext);
+                            message = json.d;
+                            if (message == null)
+                            {
+                                return Json(new { responseCode = responseCode, responseText = responsetext },
                             JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                dynamic item = JValue.Parse(message);
+
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"], blockMessage = BlockMessage },
+                                JsonRequestBehavior.AllowGet);
+                            }
                         }
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                        return Json(new { responseCode = "400", responseText = ex.Message, blockMessage = BlockMessage },
+                            JsonRequestBehavior.AllowGet);
                     }
 
                 }
-                catch (Exception ex)
-                {
-
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                        JsonRequestBehavior.AllowGet);
-                }
-                
             }
-            
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again.", blockMessage = BlockMessage },
+                            JsonRequestBehavior.AllowGet);
+            }
+
         }
         #endregion
 

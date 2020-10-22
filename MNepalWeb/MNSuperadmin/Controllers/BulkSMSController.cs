@@ -1,9 +1,15 @@
-﻿using MNSuperadmin.Helper;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using MNSuperadmin.Helper;
 using MNSuperadmin.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -12,7 +18,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using static MNSuperadmin.Models.Notifications;
+using DataTable = System.Data.DataTable;
 using Excel = Microsoft.Office.Interop;
+using UserInfo = MNSuperadmin.Models.UserInfo;
 
 namespace MNSuperadmin.Controllers
 {
@@ -79,42 +87,46 @@ namespace MNSuperadmin.Controllers
             {
                 ViewBag.ResultErrorMessage = fs.ErrorMessage;
             }
-           //file validation ends
+            //file validation ends
             else
             {
                 if (excelUpload.FileName.EndsWith("xls") || excelUpload.FileName.EndsWith("xlsx"))
                 {
-                    string path = Server.MapPath("~/Content/" + excelUpload.FileName);
-                    if (System.IO.File.Exists(path))
-                        System.IO.File.Delete(path);
-                    excelUpload.SaveAs(path);
-                    //Read data from excel file
-                    Excel.Excel.Application application = new Excel.Excel.Application();
-                    Excel.Excel.Workbook workbook = application.Workbooks.Open(path);
-                    Excel.Excel.Worksheet worksheet = workbook.ActiveSheet;
-                    Excel.Excel.Range range = worksheet.UsedRange;
-
-                    List<NotificationModel> listProducts = new List<NotificationModel>();
-                    for (int row = 3; row <= range.Rows.Count; row++)
+                    string basePath = string.Format("{0}/{1}", AppDomain.CurrentDomain.BaseDirectory, "FileRepository/ImportExport/Excel");
+                    string path = string.Format("{0}/{1}", basePath, excelUpload.FileName);
+                    if (!Directory.Exists(basePath))
                     {
-                        NotificationModel p = new NotificationModel();
-                        //p.Id = ((Excel.Excel.Range)range.Cells[row, 1]).Text;
-                        //p.Name = ((Excel.Excel.Range)range.Cells[row, 2]).Text;
-                        //p.Price = decimal.Parse(((Excel.Excel.Range)range.Cells[row, 3]).Text);
-                        //p.Quantity = int.Parse(((Excel.Excel.Range)range.Cells[row, 4]).Text);
-
-                        p.CustomerNumber = ((Excel.Excel.Range)range.Cells[row, 1]).Text;
-
-
-                        if (p.CustomerNumber.Substring(0, 2) == "98" && p.CustomerNumber.Length == 10)
-                        {
-                            p.Message = txtMsg;
-                            listProducts.Add(p);
-                        }
-
-
-
+                        Directory.CreateDirectory(basePath);
                     }
+                    excelUpload.SaveAs(path);
+                    List<NotificationModel> listProducts = new List<NotificationModel>();
+                    using (SpreadsheetDocument doc = SpreadsheetDocument.Open(path, false))
+                    {
+                        //Read the first Sheet from Excel file.
+                        Sheet sheet = doc.WorkbookPart.Workbook.Sheets.GetFirstChild<Sheet>();
+                        //Get the Worksheet instance.
+                        Worksheet worksheet = (doc.WorkbookPart.GetPartById(sheet.Id.Value) as WorksheetPart).Worksheet;
+                        //Fetch all the rows present in the Worksheet.
+                        IEnumerable<Row> rows = worksheet.GetFirstChild<SheetData>().Descendants<Row>();
+                        //DataTable dt = new DataTable();
+                        //Loop through the Worksheet rows.
+                        foreach (Row row in rows)
+                        {
+                            //Use the first row to add columns to DataTable.
+                            foreach (Cell cell in row.Descendants<Cell>())
+                            {
+                                NotificationModel p = new NotificationModel();
+                                p.CustomerNumber = (GetValue(doc, cell));
+                                if (p.CustomerNumber != "" && p.CustomerNumber.Substring(0, 2) == "98" && p.CustomerNumber.Length == 10)
+                                {
+                                    p.Message = txtMsg;
+                                    listProducts.Add(p);
+                                }
+
+                            }
+                        }
+                    }
+
                     var payload = new RootObject
                     {
                         notificationsList = listProducts
@@ -147,7 +159,7 @@ namespace MNSuperadmin.Controllers
                                 if (string.IsNullOrEmpty(message))
                                 {
                                     int code = 200;
-                                    if(responseCode == 200)
+                                    if (responseCode == 200)
                                     {
                                         return RedirectToAction("Index", "SuperAdminDashboard");
                                     }
@@ -195,6 +207,23 @@ namespace MNSuperadmin.Controllers
             }
             return View();
 
+
+            string GetValue(SpreadsheetDocument doc, Cell cell)
+            {
+                string value = string.Empty;
+                if (cell.CellValue != null)
+                {
+                    value = cell.CellValue.InnerText;
+                    if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+                    {
+                        return doc.WorkbookPart.SharedStringTablePart.SharedStringTable.ChildElements.GetItem(int.Parse(value)).InnerText;
+                    }
+                }
+                return value;
+            }
+
         }
+
+
     }
 }

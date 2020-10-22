@@ -211,7 +211,6 @@
     <Content Include="merchant.svc" />
     <Content Include="paypoint.svc" />
     <Content Include="paypointkhanepani.svc" />
-    <Content Include="paypointnepalwater.svc" />
     <Content Include="pt.svc" />
     <Content Include="query.svc" />
     <Content Include="querystmt.svc" />
@@ -336,9 +335,6 @@
     </Compile>
     <Compile Include="paypointkhanepani.svc.cs">
       <DependentUpon>paypointkhanepani.svc</DependentUpon>
-    </Compile>
-    <Compile Include="paypointnepalwater.svc.cs">
-      <DependentUpon>paypointnepalwater.svc</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="pt.svc.cs">

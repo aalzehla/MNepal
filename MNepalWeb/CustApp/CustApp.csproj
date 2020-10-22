@@ -57,7 +57,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -8065,7 +8065,6 @@
     <Content Include="Content\plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="Content\plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="Content\plugins\jquery-ui\jquery-ui-1.12.1.custom\package.json" />
-    <Content Include="NotificationsImage\2a930d63-7619-4b0b-8ebb-0aa79aa28727.jpg" />
     <Content Include="Scripts\alertify.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -8282,9 +8281,11 @@
     <Content Include="Views\BroadLink\BroadLinkDetails.cshtml" />
     <Content Include="Views\BroadLink\Index.cshtml" />
     <Content Include="Views\Notifications\Index.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="NotificationsImage\" />
     <Folder Include="Views\LoadMoney\" />
   </ItemGroup>
   <ItemGroup>

@@ -486,7 +486,55 @@ namespace WCF.MNepal.UserModels
         }
 
         #endregion
-        
+
+        #region Customer EBanking Detail Get ClientCode From PRN
+
+        public string GetClientCodeFromPRN(string mode, string PRN)
+        {
+            string dtableResult = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DatabaseConnection.ConnectionString()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("[s_MNCheckEBankingRequest]", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@PRN", PRN);
+                        cmd.Parameters.AddWithValue("@mode", mode);
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            // set the CommandTimeout
+                            da.SelectCommand.CommandTimeout = 60;  //seconds
+                            using (DataSet dataset = new DataSet())
+                            {
+                                da.Fill(dataset, "dtCustUserInfo");
+                                if (dataset.Tables.Count > 0)
+                                {
+                                    DataTable dtable = dataset.Tables["dtCustUserInfo"];
+                                    foreach (DataRow dr in dtable.Rows)
+                                    {
+                                        dtableResult = dtable.Rows[0]["ClientCode"].ToString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                dtableResult = null;
+            }
+
+            return dtableResult;
+        }
+
+        #endregion
+
         #region Customer EBanking Detail
 
         public DataTable GetEBankingRequest(string mode, string PRN)
@@ -847,6 +895,68 @@ namespace WCF.MNepal.UserModels
             }
 
             return dtableResult;
+        }
+
+        #endregion
+
+        #region InsertSMSLog
+
+        public bool InsertSMSOTPLog(SMSLog log)
+        {
+            SqlConnection conn = null;
+            SqlTransaction strans = null;
+            bool result = false;
+            try
+            {
+                using (conn = new SqlConnection(DatabaseConnection.ConnectionString()))
+                {
+
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = @"INSERT INTO MNSMSOtp(UserName,Message,SentOn,Purpose)
+                                           Values (@UserName,@Message,@SentOn,@Purpose)";
+                    cmd.Parameters.AddWithValue("@UserName", log.UserName);
+                    cmd.Parameters.AddWithValue("@Message", log.Message);
+                    cmd.Parameters.AddWithValue("@SentOn", log.SentOn);
+                    cmd.Parameters.AddWithValue("@Purpose", log.Purpose);
+
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+
+                    cmd.Connection = conn;
+                    strans = conn.BeginTransaction();
+                    cmd.Transaction = strans;
+                    int i = cmd.ExecuteNonQuery();
+                    if (i == 1)
+                    {
+                        strans.Commit();
+                        result = true;
+
+                    }
+                    else
+                    {
+                        result = false;
+                    }
+
+                    cmd.Dispose();
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string ss = ex.Message;
+                strans.Rollback();
+                result = false;
+            }
+            finally
+            {
+                if (conn.State != ConnectionState.Closed)
+                    conn.Close();
+
+            }
+            return result;
         }
 
         #endregion

@@ -189,7 +189,8 @@ namespace WCF.MNepal
 
                                     if (LoginUtils.GetPINBlockTime(mobile)) //check if blocktime is greater than current time 
                                     {
-                                        message = "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 10 minutes";
+                                        message = LoginUtils.GetMessage("01");
+                                        //message = "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 10 minutes";
                                         failedmessage = message;
 
                                     }
@@ -825,7 +826,8 @@ namespace WCF.MNepal
 
                                         if (LoginUtils.GetPINBlockTime(mobile)) //check if blocktime is greater than current time 
                                         {
-                                            message = "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 10 minutes";
+                                            message = LoginUtils.GetMessage("01");
+                                            //message = "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 10 minutes";
                                             failedmessage = message;
 
                                         }

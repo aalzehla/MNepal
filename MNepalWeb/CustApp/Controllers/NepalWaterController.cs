@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -171,6 +172,9 @@ namespace CustApp.Controllers
                 TraceIdGenerator _tig = new TraceIdGenerator();
                 var tid = _tig.GenerateTraceID();
                 string tokenID = Session["TokenID"].ToString();
+
+                //specify to use TLS 1.2 as default connection
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -486,6 +490,7 @@ namespace CustApp.Controllers
             {
                 reqToken = "0";
             }
+            string BlockMessage = LoginUtils.GetMessage("01");
             if (reqToken == "0")
             {
                 ReqTokenUtils.InsertReqToken(retoken);
@@ -547,6 +552,9 @@ namespace CustApp.Controllers
                 TraceIdGenerator _tig = new TraceIdGenerator();
                 var tid = _tig.GenerateTraceID();
 
+                //specify to use TLS 1.2 as default connection
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
                 using (HttpClient client = new HttpClient())
                 {
                     var action = "paypointnepalwater.svc/executepayment";
@@ -590,6 +598,7 @@ namespace CustApp.Controllers
                     string ava = string.Empty;
                     string avatra = string.Empty;
                     string avamsg = string.Empty;
+                   // string BlockMessage = LoginUtils.GetMessage("01");
                     try
                     {
                         if (_res.IsSuccessStatusCode)
@@ -616,8 +625,9 @@ namespace CustApp.Controllers
                                     responseCode = code;
                                 }
                             }
-                            return Json(new { responseCode = responseCode, responseText = respmsg },
-                            JsonRequestBehavior.AllowGet);
+                           // return Json(new { responseCode = responseCode, responseText = respmsg },
+                             return Json(new { responseCode = responseCode, responseText = respmsg, blockMessage = BlockMessage },
+                      JsonRequestBehavior.AllowGet);
                         }
                         else
                         {
@@ -628,21 +638,24 @@ namespace CustApp.Controllers
                             message = json.d;
                             if (message == null)
                             {
-                                return Json(new { responseCode = responseCode, responseText = responsetext },
-                            JsonRequestBehavior.AllowGet);
+                                //  return Json(new { responseCode = responseCode, responseText = responsetext },
+                                return Json(new { responseCode = responseCode, responseText = responsetext, blockMessage = BlockMessage },
+                             JsonRequestBehavior.AllowGet);
                             }
                             else
                             {
                                 dynamic item = JValue.Parse(message);
 
-                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
-                                JsonRequestBehavior.AllowGet);
+                                // return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"], blockMessage = BlockMessage },
+                           JsonRequestBehavior.AllowGet);
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        return Json(new { responseCode = "400", responseText = ex.Message },
+                        // return Json(new { responseCode = "400", responseText = ex.Message },
+                        return Json(new { responseCode = "400", responseText = ex.Message, blockMessage = BlockMessage },
                             JsonRequestBehavior.AllowGet);
                     }
 
@@ -651,7 +664,8 @@ namespace CustApp.Controllers
             }
             else
             {
-                return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                //return Json(new { responseCode = "400", responseText = "Please refresh the page again." },
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again.", blockMessage = BlockMessage },
                             JsonRequestBehavior.AllowGet);
             }
         }
@@ -660,7 +674,7 @@ namespace CustApp.Controllers
         #region Get NepalWater Branch Name
         public string getNWBranchName(string BranchCode)
         {
-            string NwBranchName = "select NwBranchName from MNNepalWaterLocation where NwBranchCode='" + BranchCode + "'";
+            string NwBranchName = "SELECT NwBranchName FROM MNNepalWaterLocation (NOLOCK) where NwBranchCode='" + BranchCode + "'";
             DataTable dt = new DataTable();
             dt = objdal.MyMethod(NwBranchName);
             string BranchName = string.Empty;

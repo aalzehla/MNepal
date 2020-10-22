@@ -143,3 +143,4 @@ D:\MNepal\MNepalWeb\CustApp\obj\Release\CustApp.dll
 D:\MNepal\MNepalWeb\CustApp\obj\Release\CustApp.pdb
 D:\MNepal\MNepalWeb\CustApp\bin\NLog.dll
 D:\MNepal\MNepalWeb\CustApp\bin\NLog.xml
+D:\MNepal\MNepalWeb\CustApp\obj\Release\CustApp.csproj.CoreCompileInputs.cache

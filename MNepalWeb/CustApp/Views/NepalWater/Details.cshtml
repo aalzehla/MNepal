@@ -565,8 +565,9 @@
 
 
                         //for sending to logout if 3 wrong t-pin attempt
-                        if (data.responseJSON.responseText == "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 1 hour") {
-                            $("#failureModal").click(function () {
+                      //  if (data.responseJSON.responseText == "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 10 minutes") {
+                            if (data.responseJSON.responseText == data.responseJSON.blockMessage) {
+  $("#failureModal").click(function () {
                                         debugger;
                               location.href = '@Url.Action("Index", "LogOut")';
                             });

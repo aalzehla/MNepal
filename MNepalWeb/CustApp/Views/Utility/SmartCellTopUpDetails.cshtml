@@ -494,9 +494,18 @@
                         //disable the button until we get the response
                         $('#btnSubmit').attr("disabled", true);
                     },
-                    complete: function (jqXHR, textStatus) {
-                        //enable the button
-                        $('#btnSubmit').attr("disabled", false);
+                     complete: function (data) {
+                        debugger;
+                        if (data.responseJSON.responseText == "Invalid PIN ") {
+                            $('#btnSubmit').attr("disabled", false);
+                        }
+                        //for sending to logout if 3 wrong t-pin attempt
+                        if (data.responseJSON.responseText == "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 10 minutes") {
+                            $("#failureModal").click(function () {
+                                        debugger;
+                              location.href = '@Url.Action("Index", "LogOut")';
+                            });
+                        }
                     }
                 });
 
@@ -506,6 +515,8 @@
                 $("#message").html("");
                 $("#message").append("Please Enter the required fields.");
                 $('#failureModal').modal("show");
+                $('#btnSubmit').attr("disabled", false);
+
 
             }
         });

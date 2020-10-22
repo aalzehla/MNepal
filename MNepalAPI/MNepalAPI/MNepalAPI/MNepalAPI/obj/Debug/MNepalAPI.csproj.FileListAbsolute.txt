@@ -116,3 +116,4 @@ D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\bin\System.Runtime.CompilerSer
 D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\bin\MNepalAPI.xml
 D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\bin\Swashbuckle.Core.dll
 D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\bin\WebActivatorEx.dll
+D:\MNepal\MNepalAPI\MNepalAPI\MNepalAPI\MNepalAPI\obj\Debug\MNepalAPI.csproj.CoreCompileInputs.cache

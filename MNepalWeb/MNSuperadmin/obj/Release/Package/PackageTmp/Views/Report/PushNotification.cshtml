@@ -1,0 +1,278 @@
+﻿@model MNSuperadmin.ViewModel.RegCusDetailVM
+@{
+    ViewBag.Title = "Push Notifications Report";
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Report
+        <small>Push Notifications</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a><i class="fa fa-bell"></i>Report</a></li>
+        <li class="active"> Push Notifications</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-12">
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Push Notification Details</h3>
+                </div>
+                <!-- /.box-header -->
+                @if (this.TempData["custmodify_messsage"] != null)
+                {
+                    if (this.TempData["message_class"].ToString() == "success_info")
+                    {
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4> @this.TempData["custmodify_messsage"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error</h4> @this.TempData["custmodify_messsage"]
+                        </div>
+                    }
+                }
+                @*@Html.Partial("_PartialSearch")*@
+
+
+
+                <div class="form-group" id="form">
+                    <div id="dateRange">
+                        <div class="form-group">
+                            <div class="col-md-3 form-group">
+                                <label>From Date</label>
+                                @Html.TextBox("StartDate", (string)ViewBag.StartDate, new { @class = "form-control", @Id = "StartDate", @Required = "required", @placeholder = "DD/MM/YYYY" })
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label>To Date</label>
+                                @Html.TextBox("EndDate", (string)ViewBag.EndDate, new { @class = "form-control", @Id = "EndDate", @Required = "required", @placeholder = "DD/MM/YYYY" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div id="UserId" class="col-md-4 form-group">
+                            <label>Notification Title</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="glyphicon glyphicon-bell" style="color:royalblue"></i>
+                                </div>
+                                @Html.TextBox("NotificationTitle", null, new
+                                   {
+                                       @placeholder = "Notification Title",
+                                       @class = "form-control",
+                                       @Id = "NotificationTitle",
+                                       @maxlength = 10
+                                })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <br />
+                <div class="box-footer">
+                    <div class="col-md-4">
+                        <input type="submit" class="btn btn-primary" id="btnSearch" name="txtSearch" value="Search" />
+                    </div>
+                </div>
+
+
+
+
+
+
+                @*<div class="box-body">
+
+                    </div> *@
+                <!-- /.box-body -->
+            </div>
+            <!--/.box -box-danger-->
+            <div id="data" class="box box-primary">
+
+                @*@Html.Action("CustomerModifyDetail")*@
+            </div>
+
+        </div>
+        <!-- /.col-xs--->
+        <!-- End-->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!-- =============================================== -->
+
+@section scripts{
+
+    <script>
+
+        var changed = "T";
+        $('#MobileNumber, #StartDate, #EndDate').on('input propertychange paste', function () {
+
+            changed = "T";
+        });
+
+
+        $('#grid').on("DOMSubtreeModified", function () {
+            changed = "F";
+        });
+
+        $("#StartDate").datepicker(
+                       {
+                           dateFormat: 'dd/mm/yy',
+                           maxDate: new Date,
+                           onSelect: function (dateText) {
+                               changed = "T";
+                               var from = $('#EndDate').val().split("/");
+                               if (from != "") {
+                                   var EDate = new Date(from[2], from[1] - 1, from[0]);
+                                   var to = dateText.split("/");
+                                   var SDate = new Date(to[2], to[1] - 1, to[0]);;
+                                   if (SDate > EDate) {
+                                       $('#EndDate').val("");
+                                       $('#message').text('End Date cannot be less than Start Date');
+                                   }
+                                   else {
+                                       $('#message').text("");
+                                   }
+                               }
+                           },
+                           showAnim: "slideDown"
+                       });
+
+        function validateDate(StartDate, EndDate) {
+            if (StartDate != "" && EndDate != "") {
+                var From = StartDate.split("/"); //because we are displaying value in dd/mm/yyyy so we need to convert it back to mm/dd/yyyy to compare
+                var To = EndDate.split("/");
+                var Sdate = new Date(from[2], from[1] - 1, from[0]);
+                var EDate = new Date(to[2], to[1] - 1, to[0]);
+                var Today = new Date();
+                if (Sdate > EDate) {
+                    return false;
+                }
+                if (EndDate > Today || StartDate > Today) {
+                    return false;
+                }
+
+
+            }
+
+        }
+
+        $("#EndDate").datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date,
+                onSelect: function (dateText) {
+                    changed = "T";
+                    var from = $('#StartDate').val().split("/");
+                    if (from != "") {
+                        var SDate = new Date(from[2], from[1] - 1, from[0]);
+                        var to = dateText.split("/");
+                        var EDate = new Date(to[2], to[1] - 1, to[0]);
+                        if (EDate < SDate) {
+                            debugger;
+                            $('#EndDate').val("");
+                            $('#message').text('End Date cannot be less than Start Date');
+                        }
+                        else {
+                            $('#message').text("");
+                        }
+                    }
+                },
+                showAnim: "slideDown"
+
+
+
+            });
+
+        function isNumberKey(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+
+        $('#btnSearch').click(function (e) {
+
+            var NotificationTitle = $('#NotificationTitle').val();
+            var StartDate = $('#StartDate').val();
+            var EndDate = $('#EndDate').val();           
+
+            e.preventDefault();
+
+            $.ajax({
+                url: '@Url.Action("PushNotificationsViewDetail", "Report")',
+                type: 'GET',
+                data: {
+                    NotificationTitle: NotificationTitle,
+                    StartDate: StartDate,
+                    EndDate: EndDate
+                },
+                success: function (results) {
+                    //debugger;
+                    $('#data').html(results);
+
+                },
+                error: function () {
+                    //debugger;
+                    alert('Error Occured!!');
+                }
+            });
+
+        });
+
+        //test//
+
+        /**Validation Check */
+        $('#NotificationTitle').bootstrapValidator({
+            //feedbackIcons: {
+            //    valid: 'glyphicon glyphicon-ok',
+            //    invalid: 'glyphicon glyphicon-remove',
+            //    validating: 'glyphicon glyphicon-refresh'
+            //},
+            fields: {
+                txtNotificationTitle: {
+                    validators: {
+
+                        regexp: {
+                            regexp: '^[a-z][A-Z]+',
+                            message: 'Please enter valid title'
+
+                        }
+                    }
+                }
+
+
+            }
+
+        });
+
+
+    </script>
+}
+
+
+
+
+

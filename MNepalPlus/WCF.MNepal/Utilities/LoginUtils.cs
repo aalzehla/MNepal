@@ -149,5 +149,16 @@ namespace WCF.MNepal.Utilities
         #endregion
 
         //end for 3 time wrong pin attempt
+
+
+        #region GetMessage
+        public static string GetMessage(string MsgID)
+        {
+            var objModel = new LoginUserModels();
+
+            return objModel.GetMessage(MsgID);
+
+        }
+        #endregion
     }
 }

@@ -455,3 +455,4 @@ D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Diagnostics.DiagnosticSource.xml
 D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Memory.xml
 D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Numerics.Vectors.xml
 D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\MNepal\MNepalPlus\WCF.MNepal\obj\Release\WCF.MNepal.csproj.CoreCompileInputs.cache

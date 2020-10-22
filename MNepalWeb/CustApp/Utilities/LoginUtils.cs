@@ -133,5 +133,15 @@ namespace CustApp.Utilities
             return objUserModel.BlockUserWrongPwd(objUserInfo);
         }
 
+        #region GetMessage
+        public static string GetMessage(string MsgID)
+        {
+            var objModel = new LoginUserModels();
+
+            return objModel.GetMessage(MsgID);
+
+        }
+        #endregion
+
     }
 }

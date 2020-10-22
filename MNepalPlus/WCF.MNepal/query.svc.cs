@@ -136,6 +136,7 @@ namespace WCF.MNepal
             }
             else
             {
+                pin = HashAlgo.Hash(pin);
                 //start: check customer status
                 DataTable tbCustomerStatus = CustCheckUtils.GetCustBlockedUserInfo(mobile);
                 if (tbCustomerStatus.Rows.Count == 1)

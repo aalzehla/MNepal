@@ -123,7 +123,7 @@ namespace CustApp.UserModels
                         }
                     }
                 }
-                
+
 
             }
             catch (Exception ex)
@@ -192,7 +192,7 @@ namespace CustApp.UserModels
                 database = DatabaseConnection.GetDatabase();
                 using (var command = database.GetStoredProcCommand("[s_MNGetCustModifiedValue]"))
                 {
-                  
+
                     database.AddInParameter(command, "@ClientCode", DbType.String, objUserInfo.ClientCode);
                     string[] tables = new string[] { "MNMakerChecker", "InMemMNTransactionAccount" };
                     using (var dataset = new DataSet())
@@ -315,14 +315,12 @@ namespace CustApp.UserModels
 
                 using (conn = new SqlConnection(DatabaseConnection.ConnectionStr()))
                 {
-                    
-
                     conn.Open();
                     sTrans = conn.BeginTransaction();
-                    using (SqlCommand cmd = new SqlCommand("[s_MNFPasswordReset]", conn,sTrans))
+                    using (SqlCommand cmd = new SqlCommand("[s_MNFPasswordReset]", conn, sTrans))
                     {
                         cmd.Parameters.AddWithValue("@ClientCode", model.ClientCode);
-                        cmd.Parameters.AddWithValue("@NewPin", model.Pin);
+                        cmd.Parameters.AddWithValue("@NewPin", HashAlgo.Hash(model.Pin));
                         cmd.Parameters.AddWithValue("@NewPassword", HashAlgo.Hash(model.Password));
                         cmd.Parameters.AddWithValue("@Mode", model.Mode);
                         cmd.Parameters.Add("@RetVal", SqlDbType.Int);
@@ -360,11 +358,11 @@ namespace CustApp.UserModels
             int ret;
             SqlConnection conn = null;
             SqlTransaction sTrans = null;
-            SqlDataReader rdr =null;
+            SqlDataReader rdr = null;
             Dictionary<string, string> test = new Dictionary<string, string>();
             try
             {
-                
+
                 using (conn = new SqlConnection(DatabaseConnection.ConnectionStr()))
                 {
                     conn.Open();
@@ -405,7 +403,7 @@ namespace CustApp.UserModels
                     SqlCommand cmd = new SqlCommand();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandText = "s_CheckAdminLOG";
-                    cmd.Parameters.AddWithValue("@UserName",adminLog.UserId);
+                    cmd.Parameters.AddWithValue("@UserName", adminLog.UserId);
                     cmd.Parameters.AddWithValue("@UserAlias", adminLog.UserType);
                     cmd.Parameters.AddWithValue("@URL", adminLog.URL);
                     cmd.Parameters.AddWithValue("@Station", adminLog.IPAddress);
@@ -432,7 +430,7 @@ namespace CustApp.UserModels
                     conn.Close();
             }
         }
-        
+
 
         #region Rejected List for Admin
 
@@ -447,11 +445,12 @@ namespace CustApp.UserModels
                 {
                     using (SqlCommand cmd = new SqlCommand())
                     {
-                        string Command = @"SELECT * FROM v_MNClientDetail WHERE UserType = 'admin' AND IsApproved = 'UnApprove' AND IsRejected = 'T'
+                        string Command = @"SELECT * FROM v_MNClientDetail (NOLOCK) 
+                                            WHERE UserType = 'admin' AND IsApproved = 'UnApprove' AND IsRejected = 'T'
 		                                  AND ISNULL(IsModified,'F')=@IsModified";
 
 
-                        cmd.Parameters.AddWithValue("@IsModified", isModified) ;
+                        cmd.Parameters.AddWithValue("@IsModified", isModified);
                         cmd.CommandText = Command;
                         cmd.Connection = conn;
                         if (conn.State != ConnectionState.Open)
@@ -507,10 +506,10 @@ namespace CustApp.UserModels
                 database = DatabaseConnection.GetDatabase();
                 using (var command = database.GetStoredProcCommand("[MNRejectKYCDetail]"))
                 {
-                   
+
                     database.AddInParameter(command, "@ClientCode", DbType.String, objSrInfo.ClientCode);
-                    
-                    string[] tables = new string[] { "dtSrInfo"};
+
+                    string[] tables = new string[] { "dtSrInfo" };
                     using (var dataset = new DataSet())
                     {
                         database.LoadDataSet(command, dataset, tables);
@@ -782,7 +781,7 @@ namespace CustApp.UserModels
                 using (var command = database.GetStoredProcCommand("[s_BlockUserWrongPwd]"))
                 {
                     database.AddInParameter(command, "@UserName", DbType.String, objUserInfo.UserName);
-                    
+
                     database.AddInParameter(command, "@mode", DbType.String, objUserInfo.Mode);
                     using (var dataset = new DataSet())
                     {
@@ -809,6 +808,57 @@ namespace CustApp.UserModels
             return dtableResult;
         }
 
+        #endregion
+
+        #region GET MESSAGE 
+        public string GetMessage(string MsgID)
+        {
+            SqlConnection conn = null;
+            string ret = "";
+            DataTable dtableResult = null;
+            try
+            {
+                using (conn = new SqlConnection(DatabaseConnection.ConnectionStr()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("[s_MNGetMessage]", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@MsgID", MsgID);
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            using (DataSet dataset = new DataSet())
+                            {
+                                da.Fill(dataset, "dtUserInfo");
+                                if (dataset.Tables.Count > 0)
+                                {
+                                    DataTable TpData = dataset.Tables[0];
+                                    if (TpData.Rows.Count > 0)
+                                    {
+                                        foreach (DataRow dr in TpData.Rows)
+                                        {
+                                            ret = dr["MsgCodeDesc"].ToString();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ret;
+        }
         #endregion
     }
 

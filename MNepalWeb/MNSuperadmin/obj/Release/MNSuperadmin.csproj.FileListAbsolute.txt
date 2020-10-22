@@ -194,3 +194,10 @@ D:\MNepal\MNepalWeb\MNSuperadmin\obj\Release\MNSuperadmin.csprojAssemblyReferenc
 D:\MNepal\MNepalWeb\MNSuperadmin\obj\Release\MNSuperadmin.csproj.CopyComplete
 D:\MNepal\MNepalWeb\MNSuperadmin\obj\Release\MNSuperadmin.dll
 D:\MNepal\MNepalWeb\MNSuperadmin\obj\Release\MNSuperadmin.pdb
+D:\MNepal\MNepalWeb\MNSuperadmin\obj\Release\MNSuperadmin.csproj.ResolveComReference.cache
+D:\MNepal\MNepalWeb\MNSuperadmin\obj\Release\MNSuperadmin.csproj.CoreCompileInputs.cache
+D:\MNepal\MNepalWeb\MNSuperadmin\bin\DocumentFormat.OpenXml.dll
+D:\MNepal\MNepalWeb\MNSuperadmin\bin\System.IO.FileSystem.Primitives.dll
+D:\MNepal\MNepalWeb\MNSuperadmin\bin\System.IO.Packaging.dll
+D:\MNepal\MNepalWeb\MNSuperadmin\bin\DocumentFormat.OpenXml.xml
+D:\MNepal\MNepalWeb\MNSuperadmin\bin\System.IO.Packaging.xml
