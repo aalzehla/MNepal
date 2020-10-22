@@ -488,6 +488,8 @@
             var TPin = $("[name='TPin']").val();
             var Remarks = $("[name='Remarks']").val();
             var servicecode = $("[name='TransactionMedium']").val();
+
+            var token = $('input[name="__RequestVerificationToken"]').val();
             if ((amount != "") && (Remarks != "") && (TPin != "") && (TPin.length == 4)) {
 
                 var dataToPost = {
@@ -495,13 +497,18 @@
                     amount: amount,
                     Remarks: Remarks,
                     TPin: TPin,
+                    TokenUnique: token
                 };
 
                 e.preventDefault(); //prevent the default action
                 $.ajax({
                     url: '@Url.Action("WlinkExecutePayment", "Wlink")',
                     type: "POST",
-                    data: dataToPost,
+                    //data: dataToPost,
+                    data: {
+                        __RequestVerificationToken: token,
+                        iSP: dataToPost
+                    },     
                     async: true,
                     success: function (data) {
                         $(".preload").hide();

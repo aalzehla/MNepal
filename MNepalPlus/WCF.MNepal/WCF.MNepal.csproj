@@ -176,6 +176,7 @@
     <Content Include="ISP.svc" />
     <Content Include="LoadFund.svc" />
     <Content Include="neareverse.svc" />
+    <Content Include="paypointnepalwater.svc" />
     <Content Include="TVServicePayment.svc" />
     <Content Include="Utility.svc" />
     <Content Include="vianet.svc" />
@@ -335,6 +336,9 @@
     </Compile>
     <Compile Include="paypointkhanepani.svc.cs">
       <DependentUpon>paypointkhanepani.svc</DependentUpon>
+    </Compile>
+    <Compile Include="paypointnepalwater.svc.cs">
+      <DependentUpon>paypointnepalwater.svc</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="pt.svc.cs">

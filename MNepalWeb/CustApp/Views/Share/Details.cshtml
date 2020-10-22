@@ -465,13 +465,16 @@
             var TPin = $("[name='TPin']").val();
             var Remarks = $("[name='Remarks']").val();
             var servicecode = $("[name='TransactionMedium']").val();
+
+            var token = $('input[name="__RequestVerificationToken"]').val();
             if ((amount != "") && (Remarks != "") && (TPin != "") && (TPin.length == 4)) {
 
                 var dataToPost = {
                     TransactionMedium: servicecode,
                     amount: amount,
                     Remarks: Remarks,
-                    TPin: TPin
+                    TPin: TPin,
+                    TokenUnique: token
                 };
 
 
@@ -479,7 +482,11 @@
                 $.ajax({
                     url: '@Url.Action("DematExecutePayment", "Share")',
                     type: "POST",
-                    data: dataToPost,
+                    //data: dataToPost,
+                    data: {
+                        __RequestVerificationToken: token,
+                        demat: dataToPost
+                    },                    
                     async: false,
                     success: function (data) {
 
@@ -532,7 +539,8 @@
                             $('#btnSubmit').attr("disabled", false);
                         }
                         //for sending to logout if 3 wrong t-pin attempt
-                        if (data.responseJSON.responseText == "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 10 minutes") {
+                       // if (data.responseJSON.responseText == "Invalid PIN! You have already attempt 3 times with wrong PIN,Please try again after 10 minutes") {
+                        if (data.responseJSON.responseText == data.responseJSON.blockMessage) {
                             $("#failureModal").click(function () {
                                         debugger;
                               location.href = '@Url.Action("Index", "LogOut")';

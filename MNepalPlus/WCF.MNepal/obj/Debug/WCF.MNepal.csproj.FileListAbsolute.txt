@@ -418,7 +418,6 @@ D:\MNepal\MNepalPlus\WCF.MNepal\bin\EntityFramework.SqlServer.dll
 D:\MNepal\MNepalPlus\WCF.MNepal\bin\FluentValidation.dll
 D:\MNepal\MNepalPlus\WCF.MNepal\bin\FluentValidation.Mvc.dll
 D:\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.Web.Infrastructure.dll
-D:\MNepal\MNepalPlus\WCF.MNepal\bin\MNepalProject.dll
 D:\MNepal\MNepalPlus\WCF.MNepal\bin\Newtonsoft.Json.dll
 D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.IO.dll
 D:\MNepal\MNepalPlus\WCF.MNepal\bin\System.IO.FileSystem.dll
@@ -691,3 +690,4 @@ C:\Users\MNepal\Desktop\New folder\MNepal\MNepalPlus\WCF.MNepal\bin\Microsoft.Ow
 C:\Users\MNepal\Desktop\New folder\MNepal\MNepalPlus\WCF.MNepal\bin\System.Net.Http.Formatting.xml
 C:\Users\MNepal\Desktop\New folder\MNepal\MNepalPlus\WCF.MNepal\obj\Debug\WCF.MNepal.csproj.CopyComplete
 D:\MNepal\MNepalPlus\WCF.MNepal\obj\Debug\WCF.MNepal.csproj.CoreCompileInputs.cache
+D:\MNepal\MNepalPlus\WCF.MNepal\bin\MNepalProject.dll

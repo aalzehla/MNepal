@@ -321,18 +321,24 @@
 
             var DematNumber = $("[name='txtDematNumber']").val();
             var DMATBank = $("[name='DMAT']").val();
+            var token = $('input[name="__RequestVerificationToken"]').val();
             if ((DematNumber != "") && (DMATBank != "")) {
 
                 var dataToPost = {
                     DematName: DMATBank,
-                    DematCode: DematNumber
+                    DematCode: DematNumber,
+                    TokenUnique: token
                 };
 
                 e.preventDefault(); //prevent the default action
                 $.ajax({
                     url: '@Url.Action("DMATPayment", "Share")',
                     type: "POST",
-                    data: dataToPost,
+                    //data: dataToPost,
+                    data: {
+                        __RequestVerificationToken: token,
+                        dmat: dataToPost
+                    },
                     async: false,
                     success: function (data) {
 

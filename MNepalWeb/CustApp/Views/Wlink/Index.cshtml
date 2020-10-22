@@ -322,11 +322,13 @@
             e.preventDefault();
             debugger;
             var CustomerID = $("[name='txtCustomerID']").val();
+            var token = $('input[name="__RequestVerificationToken"]').val();
 
             if ((CustomerID != "")) {
 
                 var dataToPost = {
-                    CustomerName: CustomerID
+                    CustomerName: CustomerID,
+                    TokenUnique: token
                 };
 
                 $('.preload').show();
@@ -334,7 +336,11 @@
                 $.ajax({
                     url: '@Url.Action("WlinkCheckPayment","Wlink")',
                     type: "POST",
-                    data: dataToPost,
+                    //data: dataToPost,
+                    data: {
+                        __RequestVerificationToken: token,
+                        isp: dataToPost
+                    },
                     async: true,
                     success: function (data) {
                         $(".preload").hide();

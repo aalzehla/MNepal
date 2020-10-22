@@ -74,9 +74,9 @@ namespace MNepalProject.Models
             this.description1 = description1;
         }
 
-         
 
-        public MNTransactionMaster(MNFundTransfer fundtransfer1, string vid, string description1,string ReverseStatus)
+
+        public MNTransactionMaster(MNFundTransfer fundtransfer1, string vid, string description1, string ReverseStatus)
         {
             this.TraceId = fundtransfer1.tid.ToString();//.PadLeft(6, '0');
             this.FeatureCode = fundtransfer1.sc;
@@ -143,6 +143,31 @@ namespace MNepalProject.Models
             this.PumoriId = PumoriId;
             this.FeeId = FeeId;
 
+        }
+
+        public MNTransactionMaster(MNFundTransfer fundtransfer, string special2)
+        {
+            this.TraceId = fundtransfer.tid.ToString();//.PadLeft(6, '0');
+            this.FeatureCode = fundtransfer.sc;
+
+            this.SourceMobile = fundtransfer.mobile;
+
+            //to be changed from business logic
+            this.SourceAccount = fundtransfer.sa;
+
+            //to be changed from business logic
+            this.DestinationMobile = fundtransfer.da;
+            this.DestinationAccount = fundtransfer.da;
+            // this.PIN = fundtransfer.pin;
+            this.Amount = float.Parse(fundtransfer.amount);
+            this.Description = fundtransfer.note; //+ fundtransfer.sa + " - " + fundtransfer.da;
+            this.RequestChannel = fundtransfer.sourcechannel;
+            this.CreatedDate = DateTime.Now;
+            this.billNo = fundtransfer.billNo;
+            this.studName = fundtransfer.studName;
+            this.merchantType = fundtransfer.merchantType;
+            this.ReverseStatus = fundtransfer.reverseStatus;
+            this.special2 = special2;
         }
 
         [Key]
@@ -232,6 +257,8 @@ namespace MNepalProject.Models
         public string ReverseStatus { get; set; }
         public string vid { get; set; }
         public string description1 { get; set; }
+        public string special2 { get; set; }
+        public string paypointMerchant { get; set; }
 
 
     }

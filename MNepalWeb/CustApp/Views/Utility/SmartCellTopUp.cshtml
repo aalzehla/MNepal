@@ -366,12 +366,16 @@ $(".content").fadeIn(1000);
             e.preventDefault();
             var CustomerID = $("[name='txtCustomerID']").val();
             var ServiceCode = $("[name='SmartCellTopUpServices']").val();
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
 
             if ((CustomerID != "") && (ServiceCode != null)) {
 
                 var dataToPost = {
                     CustomerID: CustomerID,
-                    ServiceCode: ServiceCode
+                    ServiceCode: ServiceCode,
+                    TokenUnique: token
+
                 };
 
                 $('.preload').show();
@@ -379,7 +383,11 @@ $(".content").fadeIn(1000);
                 $.ajax({
                     url: '@Url.Action("SmartCellTopUpCheck", "Utility")',
                     type: "POST",
-                    data: dataToPost,
+                    //data: dataToPost,
+                    data: {
+                        __RequestVerificationToken: token,
+                        iSP: dataToPost
+                    },
                     async: true,
                     success: function (data) {
                         $(".preload").hide();

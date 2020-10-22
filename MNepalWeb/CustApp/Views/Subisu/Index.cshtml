@@ -27,7 +27,9 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
+    <div class="preload" style="display:none">
+        <img src="~/Content/image/loading.gif" class="img-responsive" />
+    </div>
     <div class="main-content">
         <div class="two-colbg">
             <div class="container">
@@ -337,20 +339,28 @@
 
             var CustomerID = $("[name='txtCustomerID']").val();
             var MobileNumber = $("[name='txtMobileNumber']").val();
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
             if ((CustomerID != "") && (MobileNumber != "")) {
 
                 var dataToPost = {
                     CustomerID: CustomerID,
-                    mobile: MobileNumber
+                    mobile: MobileNumber,
+                    TokenUnique: token
                 };
-
+                $('.preload').show();
                 e.preventDefault(); //prevent the default action
                 $.ajax({
                     url: '@Url.Action("SubisuPayment", "Subisu")',
                     type: "POST",
-                    data: dataToPost,
-                    async: false,
+                    //data: dataToPost,
+                    data: {
+                        __RequestVerificationToken: token,
+                        isp: dataToPost
+                    },
+                    async: true,
                     success: function (data) {
+                        $(".preload").hide();
 
                         if (data.responseCode == "200") {
                             var url = '@Url.Action("Details", "Subisu")';
@@ -380,12 +390,14 @@
                     //capture the request before it was sent to server
                     beforeSend: function (jqXHR, settings) {
                         //adding some Dummy data to the request
+                        $(".preload").show();
                         settings.data += "&dummyData=whatever";
                         //disable the button until we get the response
                         $('#btnSubmit').attr("disabled", true);
                     },
                     complete: function (jqXHR, textStatus) {
                         //enable the button
+                        $('.preload').hide();
                         $('#btnSubmit').attr("disabled", false);
                     }
                 });
