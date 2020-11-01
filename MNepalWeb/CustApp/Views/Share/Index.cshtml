@@ -289,16 +289,35 @@
 
         
         $(".placeholder_Month").prepend("<option value='0' disabled selected>---Select Month---</option>");
-        $(".show-tick").prepend("<option value='0' disabled selected>---Select Option---</option>");
+        //$(".show-tick").prepend("<option value='0' disabled selected>---Select Option---</option>");
 
         function checkValidation() {
+            debugger;
             var Cust = $("[name='txtDematNumber']").val();
             var DMAT = $("[name='DMAT']").val();
 
+            //if (DMAT == null) {
+            //    $("#DMATErr").append("<small>" + "Demat Payment option is required" + "</small>");
+            //    $("#DMATErr").show();
+            //    $("#btnSubmit").hide(); 
+
+            //}
             if ((Cust.trim() == "")) {
                 $("#CustErr").html("");
                 $("#CustErr").append("<small>" + "Demat Number is required and cannot be empty" + "</small>");
                 $("#CustErr").show();
+            }
+            else if (Cust.length != "16") {
+                $("#btnSubmit").hide();
+                $("#CustErr").html("");
+                $("#CustErr").append("<small>" + "BoId must be of 16 digits" + "</small>");
+                $("#CustErr").show();
+
+            }
+            else if (Cust.length == "16") {
+                $("#btnSubmit").show();
+                $("#CustErr").hide();
+
             }
             else {
                 $("#CustErr").hide();

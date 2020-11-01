@@ -186,8 +186,16 @@
                                     <label>RS.@ViewBag.TotalAmount</label>
                                 </div>
                             </div>
+                            <div class="row NoPendingBills" style="color:green; display:none">
+                                <div class="col-md-6">
+                                    <label>Staus:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>No Pending Bills</label>
+                                </div>
+                            </div>
 
-                            <div class="row">
+                            <div class="row hideRow">
                                 <div class="col-md-6">
                                     <label>Total Amount Details:</label>
                                 </div>
@@ -217,61 +225,64 @@
 
                             <br />
 
-                            <div class="transfer-order clearfix">
-                                <h3 class="title">Pay from</h3>
 
-                                <select class="form-control selectpicker transaction-select from col-md-9" id="TransactionMedium" name="TransactionMedium" onmousedown="this.value='';">
-                                    <option data-icon="thaili-icon-load-wallet" value="00">Wallet</option>
-                                    @if (hasBankKYC.Equals("T"))
-                                    {
-                                        <option data-icon="thaili-icon-bank" value="10">Bank</option>
-                                    }
-                                </select>
-                            </div>
+                            
+                                <div class="transfer-order clearfix hideRow">
+                                    <h3 class="title">Pay from</h3>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Amount (<span style="color:red">*</span>)</label>
-                                    <div class="form-group  input-group">
-                                        <div class="form-control col-4">NPR.</div>
-                                        @Html.TextBox("amount", (string)ViewBag.TotalAmount, new
-                                       {
-                                           @class = "form-control",
-                                           @title = "Please use Amount",
-                                           @placeholder = "Amount",
-                                           @maxlength = "9",
-                                           @oninput = "checkValidation()",
-                                           @onkeypress = "return NumberDot(event)",
-                                           @autocomplete = "off",
-                                           @readonly = "readonly"
-                                       })
-
-                                    </div>
-                                    <div class="form-group" id="AmtErr" style="color:red; margin-top:-11px;"></div>
+                                    <select class="form-control selectpicker transaction-select from col-md-9" id="TransactionMedium" name="TransactionMedium" onmousedown="this.value='';">
+                                        <option data-icon="thaili-icon-load-wallet" value="00">Wallet</option>
+                                        @if (hasBankKYC.Equals("T"))
+                                        {
+                                            <option data-icon="thaili-icon-bank" value="10">Bank</option>
+                                        }
+                                    </select>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label> Tpin (<span style="color:red">*</span>)</label>
+                                <div class="row hideRow">
+                                    <div class="col-md-6">
+                                        <label>Amount (<span style="color:red">*</span>)</label>
+                                        <div class="form-group  input-group">
+                                            <div class="form-control col-4">NPR.</div>
+                                            @Html.TextBox("amount", (string)ViewBag.TotalAmount, new
+                                           {
+                                               @class = "form-control",
+                                               @title = "Please use Amount",
+                                               @placeholder = "Amount",
+                                               @maxlength = "9",
+                                               @oninput = "checkValidation()",
+                                               @onkeypress = "return NumberDot(event)",
+                                               @autocomplete = "off",
+                                               @readonly = "readonly"
+                                           })
 
-                                        @Html.PasswordFor(x => x.TPin, new { @class = "form-control pwd1", @title = "Please use T-Pin number", @placeholder = "T-Pin", @maxlength = "4", @onkeypress = "return isNumber(event)", @oninput = "checkValidation()", @autocomplete = "new-password", @onpaste = "return false" })
-                                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                                        </div>
+                                        <div class="form-group" id="AmtErr" style="color:red; margin-top:-11px;"></div>
                                     </div>
-                                    <div class="form-group" id="PinErr" style="color:red; margin-top:-11px;"></div>
-                                </div>
 
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="col-sm-12" for="@Html.NameFor(x=>x.Remarks)"> Remarks (<span style="color:red">*</span>)</label>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label> Tpin (<span style="color:red">*</span>)</label>
 
-                                        @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control", @title = "Please insert Remarks", @placeholder = "Remarks", @maxlength = "30", @oninput = "checkValidation()" })
-
+                                            @Html.PasswordFor(x => x.TPin, new { @class = "form-control pwd1", @title = "Please use T-Pin number", @placeholder = "T-Pin", @maxlength = "4", @onkeypress = "return isNumber(event)", @oninput = "checkValidation()", @autocomplete = "new-password", @onpaste = "return false" })
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password, btnShow1"></span>
+                                        </div>
+                                        <div class="form-group" id="PinErr" style="color:red; margin-top:-11px;"></div>
                                     </div>
-                                    <div class="form-group" id="RemarkErr" style="color:red; margin-top:-11px;"></div>
+
                                 </div>
-                            </div>
+                                <div class="row hideRow">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-12" for="@Html.NameFor(x=>x.Remarks)"> Remarks (<span style="color:red">*</span>)</label>
+
+                                            @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control", @title = "Please insert Remarks", @placeholder = "Remarks", @maxlength = "30", @oninput = "checkValidation()" })
+
+                                        </div>
+                                        <div class="form-group" id="RemarkErr" style="color:red; margin-top:-11px;"></div>
+                                    </div>
+                                </div>
+                            
 
 
 
@@ -279,7 +290,7 @@
 
 
 
-                            <div class="box-footer">
+                            <div class="box-footer hideRow">
                                 <input type="submit" class="btn btn-blue btn-big col-md-5" name="btnCommand" value="Pay" id="btnSubmit" />
                                 <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
                             </div>
@@ -353,6 +364,17 @@
             $(".pwd1").attr("type", "password");
         });
 
+         $(document).ready(function () {
+
+            //If Total Due amount is equal to zero
+            var amount = $("[name='amount']").val();
+             if ((amount.trim() == "") || (amount.trim() == "0.00") || (amount.trim() == "0")) {
+                $(".hideRow").hide();
+                 $(".NoPendingBills").show();
+
+            }
+        });
+
 
         document.getElementById("successModal").onclick = function () {
          var url = '@Url.Action("Index", "Share")';
@@ -405,8 +427,9 @@
             });
             if ((amount.trim() == "") || (amount.trim() == "0.00") || (amount.trim() == "0") || (amount1 < TotaldueAmount)) {
                 $("#AmtErr").html("");
-                $("#AmtErr").append("<small>" + "Please Enter valid Amount" + "</small>");
+                //$("#AmtErr").append("<small>" + "Please Enter valid Amount" + "</small>");
                 $("#AmtErr").show();
+                $("#btnSubmit").hide();
             }
             else {
                 $("#AmtErr").hide();
@@ -486,7 +509,7 @@
                     data: {
                         __RequestVerificationToken: token,
                         demat: dataToPost
-                    },                    
+                    },
                     async: false,
                     success: function (data) {
 

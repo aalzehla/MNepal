@@ -801,6 +801,57 @@ namespace ThailiMNepalAgent.UserModels
             return dtableResult;
         }
         #endregion
+
+        #region GET MESSAGE 
+        public string GetMessage(string MsgID)
+        {
+            SqlConnection conn = null;
+            string ret = "";
+            DataTable dtableResult = null;
+            try
+            {
+                using (conn = new SqlConnection(DatabaseConnection.ConnectionStr()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("[s_MNGetMessage]", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@MsgID", MsgID);
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            using (DataSet dataset = new DataSet())
+                            {
+                                da.Fill(dataset, "dtUserInfo");
+                                if (dataset.Tables.Count > 0)
+                                {
+                                    DataTable TpData = dataset.Tables[0];
+                                    if (TpData.Rows.Count > 0)
+                                    {
+                                        foreach (DataRow dr in TpData.Rows)
+                                        {
+                                            ret = dr["MsgCodeDesc"].ToString();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ret;
+        }
+        #endregion
     }
 
 

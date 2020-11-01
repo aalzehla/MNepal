@@ -113,6 +113,7 @@ D:\MNepal\MNepalWeb\CustApp\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
 D:\MNepal\MNepalWeb\CustApp\bin\Microsoft.Practices.ObjectBuilder.dll
 D:\MNepal\MNepalWeb\CustApp\bin\Microsoft.Web.Infrastructure.dll
 D:\MNepal\MNepalWeb\CustApp\bin\Newtonsoft.Json.dll
+D:\MNepal\MNepalWeb\CustApp\bin\NLog.dll
 D:\MNepal\MNepalWeb\CustApp\bin\SqlHelper.dll
 D:\MNepal\MNepalWeb\CustApp\bin\System.Web.Helpers.dll
 D:\MNepal\MNepalWeb\CustApp\bin\System.Web.Mvc.dll
@@ -124,6 +125,7 @@ D:\MNepal\MNepalWeb\CustApp\bin\System.Web.WebPages.Razor.dll
 D:\MNepal\MNepalWeb\CustApp\bin\WebGrease.dll
 D:\MNepal\MNepalWeb\CustApp\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\MNepal\MNepalWeb\CustApp\bin\Newtonsoft.Json.xml
+D:\MNepal\MNepalWeb\CustApp\bin\NLog.xml
 D:\MNepal\MNepalWeb\CustApp\bin\System.Web.Helpers.xml
 D:\MNepal\MNepalWeb\CustApp\bin\System.Web.Mvc.xml
 D:\MNepal\MNepalWeb\CustApp\bin\System.Web.Optimization.xml
@@ -138,9 +140,7 @@ D:\MNepal\MNepalWeb\CustApp\bin\Microsoft.AI.ServerTelemetryChannel.xml
 D:\MNepal\MNepalWeb\CustApp\bin\Microsoft.AI.WindowsServer.xml
 D:\MNepal\MNepalWeb\CustApp\bin\Microsoft.AI.Web.xml
 D:\MNepal\MNepalWeb\CustApp\obj\Release\CustApp.csprojAssemblyReference.cache
+D:\MNepal\MNepalWeb\CustApp\obj\Release\CustApp.csproj.CoreCompileInputs.cache
 D:\MNepal\MNepalWeb\CustApp\obj\Release\CustApp.csproj.CopyComplete
 D:\MNepal\MNepalWeb\CustApp\obj\Release\CustApp.dll
 D:\MNepal\MNepalWeb\CustApp\obj\Release\CustApp.pdb
-D:\MNepal\MNepalWeb\CustApp\bin\NLog.dll
-D:\MNepal\MNepalWeb\CustApp\bin\NLog.xml
-D:\MNepal\MNepalWeb\CustApp\obj\Release\CustApp.csproj.CoreCompileInputs.cache

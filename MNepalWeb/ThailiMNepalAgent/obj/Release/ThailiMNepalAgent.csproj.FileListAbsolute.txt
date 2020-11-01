@@ -157,7 +157,8 @@ D:\MNepal\MNepalWeb\ThailiMNepalAgent\bin\Microsoft.AI.DependencyCollector.xml
 D:\MNepal\MNepalWeb\ThailiMNepalAgent\bin\Microsoft.AI.ServerTelemetryChannel.xml
 D:\MNepal\MNepalWeb\ThailiMNepalAgent\bin\Microsoft.AI.WindowsServer.xml
 D:\MNepal\MNepalWeb\ThailiMNepalAgent\bin\Microsoft.AI.Web.xml
-D:\MNepal\MNepalWeb\ThailiMNepalAgent\obj\Release\ThailiMNepalAgent.csprojAssemblyReference.cache
+D:\MNepal\MNepalWeb\ThailiMNepalAgent\obj\Release\ThailiMNepalAgent.csproj.CoreCompileInputs.cache
 D:\MNepal\MNepalWeb\ThailiMNepalAgent\obj\Release\ThailiMNepalAgent.csproj.CopyComplete
 D:\MNepal\MNepalWeb\ThailiMNepalAgent\obj\Release\ThailiMNepalAgent.dll
 D:\MNepal\MNepalWeb\ThailiMNepalAgent\obj\Release\ThailiMNepalAgent.pdb
+D:\MNepal\MNepalWeb\ThailiMNepalAgent\obj\Release\ThailiMNepalAgent.csprojAssemblyReference.cache

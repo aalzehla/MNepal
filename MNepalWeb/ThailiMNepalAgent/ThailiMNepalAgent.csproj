@@ -19,7 +19,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44377</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -193,6 +193,7 @@
     <Compile Include="Controllers\PrivacyPolicyController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RemitController.cs" />
+    <Compile Include="Controllers\ShareController.cs" />
     <Compile Include="Controllers\SignupByAgentController.cs" />
     <Compile Include="Controllers\SignupController.cs" />
     <Compile Include="Controllers\StatementController.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Models\CustReport.cs" />
     <Compile Include="Models\DAL.cs" />
     <Compile Include="Models\DatatablesJS.cs" />
+    <Compile Include="Models\DMAT.cs" />
     <Compile Include="Models\InMemMNTransactionAccount.cs" />
     <Compile Include="Models\ISP.cs" />
     <Compile Include="Models\JsonParse.cs" />
@@ -249,6 +251,7 @@
     <Compile Include="UserModels\BankUserModel.cs" />
     <Compile Include="UserModels\CusProfileUserModel.cs" />
     <Compile Include="UserModels\CustomerUserModel.cs" />
+    <Compile Include="UserModels\DMATUserModel.cs" />
     <Compile Include="UserModels\LoginUserModels.cs" />
     <Compile Include="UserModels\PasswordUserModel.cs" />
     <Compile Include="UserModels\PaypointUserModel.cs" />
@@ -262,6 +265,7 @@
     <Compile Include="Utilities\BankUtils.cs" />
     <Compile Include="Utilities\CusProfileUtils.cs" />
     <Compile Include="Utilities\CustomerUtils.cs" />
+    <Compile Include="Utilities\DMATUtils.cs" />
     <Compile Include="Utilities\ExtraUtility.cs" />
     <Compile Include="Utilities\LoginUtils.cs" />
     <Compile Include="Utilities\PasswordUtils.cs" />
@@ -8208,6 +8212,8 @@
     <Content Include="Views\Wlink\Index.cshtml" />
     <Content Include="Views\Subisu\Details.cshtml" />
     <Content Include="Views\Subisu\Index.cshtml" />
+    <Content Include="Views\Share\Details.cshtml" />
+    <Content Include="Views\Share\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -8273,7 +8279,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56212</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:51397/</IISUrl>
+          <IISUrl>http://localhost:51398/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
