@@ -1,0 +1,352 @@
+﻿@{
+    ViewBag.Title = "FAQ";
+    Layout = "";
+
+    string _WebUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["WebAddress"];
+    var loginLink = Path.Combine(_WebUrl + "Login/Index");
+    var backgroundLink = Path.Combine(_WebUrl + "Content/assets/img/home-bg.png");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MNepal | Mobile Banking</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <!-- /Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Chivo:300,400,700" rel="stylesheet">
+    <!-- Custom style -->
+    <link href="~/Content/ThaliStyle.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="~/Content/assets/js/jquery.js"></script>
+
+    <script type="text/javascript" src="~/Content/assets/vendor/bootstrap/js/popper.min.js"></script>
+
+    <script type="text/javascript" src="~/Content/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- custom js -->
+    <script type="text/javascript" src="~/Content/assets/js/main.js"></script>
+
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="icon" type="image/ico" href="~/favicon.ico">
+
+    <style>
+        .headerFont {
+            color: #002D6A;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="main-content">
+        <div class="hero-bg text-center" style="background-image: url(@backgroundLink); ">
+            <div class="container">
+                <a href="@loginLink" class="logo">
+                    <img src="~/Content/assets/img/thaili-logo.svg" alt="thaili-logo" />
+
+                </a>
+                <!-- /logo -->
+
+                <div class="container" style="text-align: justify; line-height:1.5rem;">
+
+                    <b class="headerFont" style="font-size:2rem; font-weight:bold">Frequently Asked Questions (FAQ's)</b>
+                    <br />
+                    <br />
+                    <p style="text-align:justify">
+
+                        <b class="headerFont">What is Thaili?</b><br />
+                        Thaili is a digital wallet, which ensures real time, secure and instant payment . With Thaili, you can make various payments such as utility bill
+                        payment (NEA, Khanepani, etc.), recharge mobile,make bank transfer (Thaili to bank) and many more.<br />
+                        <br />
+                        <b class="headerFont">What devices work with Thaili?</b><br />
+                        Currently Thaili can be used using any Android Device using Thaili app and via website (https://thaili.com.np/thailiapp).<br /><br />
+                        <b class="headerFont">Does it cost to register in Thaili?</b><br />
+                        Being a digital platform, an individual who owns the right of being citizen of the state can register in Thaili without any charges.
+                        An individual must own the nationality certificate as citizenship/license/passport/voter’s ID card to register in Thaili.<br /><br />
+                        <b class="headerFont">Are there any charges applicable in using Thaili services?</b><br />
+                        The services in Thaili are free of charges. However, charges may incur depending on the policies adopted by Thaili.<br /><br />
+                        <b class="headerFont">Is Thaili secure?</b><br />
+                        Thaili is a business entity regulated by the Nepal Rastra Bank’s rules and regulations, hence, it is the safe and easy mode of payment.<br /><br />
+                        <b class="headerFont">What if my phone is lost or stolen?</b><br />
+                        Thaili needs login credentials every time you login so your application cannot be used without knowing the login credentials.<br /><br />
+                        <b class="headerFont">Does Thaili work in other countries?</b><br />
+                        No, Thaili is a business entity regulated by the Nepal Rastra Bank’s rules and regulations, hence, can only operate within Nepal.<br /><br />
+                        <b class="headerFont">What happens to my mobile wallet when I replace my device?</b><br />
+                        Thaili uses login credintials everytime so you can login from any device but be sure to logout when using it on devices other than yours.<br /><br />
+                        <b class="headerFont">If I sell or give away my device, what will happen to the information on it?</b><br />
+                        When selling, giving away or disposing of your device, you should make sure to not be login in Thaili application. Thaili does not save your personal
+                        data so it is safe.<br /><br />
+
+                    </p>
+                    <b class="headerFont" style="font-size:2rem; font-weight:bold">Registration process</b>
+                    <br />
+                    <br />
+                    <p>
+                        <b class="headerFont">How do I get registered in Thaili?</b><br />
+                        You can easily register in Thaili via Thaili mobile application or website.
+                        For registration via mobile application:
+                        First Download Thaili application from playstore(for Android).
+                        <a href="https://play.google.com/store/apps/details?id=com.thailiapp.mnepalmos" style="color:blue">Thaili Download link</a><br /><br />
+                        <b class="headerFont">Please follow the following steps for Mobile Application:</b><br />
+                        I. Open thaili application<br />
+                        II. Click “Register”<br />
+                        III. Enter Mobile Number and click “Register”<br />
+                        IV. You will receive an SMS for verification Code.<br />
+                        V. Enter Verification Code received via SMS and click “Verify Now”<br />
+                        VI. Enter basic detail and click “Finish”<br />
+                        VII. Login password and PIN will be send on SMS after success.<br /><br />
+                        <b class="headerFont">Please follow the following steps for Web Application:</b><br />
+                        I. Open web browser and type https://thaili.com.np/thailiapp <br />
+                        II. Click on “Register”<br />
+                        III. Enter Mobile Number and click “Submit”<br />
+                        IV. You will receive an SMS for verification Code.<br />
+                        V. Enter Verification Code received via SMS and click “Verify”<br />
+                        VI. Enter basic detail and click “Finish”<br />
+                        VII. Login password and PIN will be send on SMS after success.<br /><br />
+                        <b class="headerFont">User status</b><br />
+                        Generally, in Thaili, we have user status as verified and unverified and can be seen on your profile.<br /><br />
+                        <b class="headerFont">Unverified status:</b>
+                        · It means your Thaili account is missing the detailed information (KYC details) and verification documents (Citizenship/License/Passport/Voter's ID Card)<br />
+                        · Transaction will be limited.<br /><br />
+                        <b class="headerFont">Verified status:</b><br />
+                        · It means you have filled all the required KYC details and documents.<br />
+                        · Hence, you can enjoy full transaction limit.<br /><br />
+                        <b class="headerFont">Bank Linked:</b><br />
+                        · User can apply for bank link of NIBL bank from Thaili application.<br />
+                        · Once approved by bank, user will be able to do a transaction from bank account too as a mobile banking<br /><br />
+                    </p>
+                    <b class="headerFont" style="font-size:2rem; font-weight:bold">Thaili load</b>
+                    <br />
+                    <br />
+                    <p>
+                        <b class="headerFont">How do I Load money in Thaili wallet?</b><br />
+                        To make any transactions via Thaili, one must have balance in Thaili. Therefore, Thaili can be loaded via two different mediums using NIBL
+                        e-Banking and mobile banking.<br />
+                        · E-banking services can be used with the credentials provided by bank.<br />
+                        · For Mobile Banking user must make a request of bank link from Thaili Wallet and visit to NIBL bank’s branch for approval with scanned document.<br /><br />
+                        <b class="headerFont">How do I recover password?</b><br />
+                        In case you have forgotten your Password (mobile application login password), you can reset with the procedure.
+                        There is an option of Forgot password on Thaili Mobile application and web application.<br /><br />
+                        <b class="headerFont">How do I recover password?</b><br />
+                        In case you have forgotten your Password (mobile application login password), you can reset with the procedure.
+                        There is an option of <b>Forgot Password</b> on Thaili Mobile application and web application.<br /><br />
+                        <b class="headerFont">Does Thaili hold the money in its own bank?</b><br />
+                        As per Nepal Rastra Bank’s rules and regulations Thaili has an ‘A’ Class Financial Institution as settlement bank from day to day operation.
+                        Settlement bank holds the rights and responsibilities of the wallet balance in Thaili Wallet.<br /><br />
+                        <b class="headerFont">How do I get my money back if I no longer want to use Thaili?</b><br />
+                        There is a bank transfer options available on Thaili wallet from where user can have amount transferred to bank account.<br /><br />
+                        <b class="headerFont">
+                            I transferred some amount from my internet banking and/or mobile banking to Thaili account, but I cannot see the update
+                            in Thaili?
+                        </b><br />
+                        Your Thaili balance should be updated immediately after transferring funds from any bank. However, if the amount has not been loaded in Thaili,
+                        then few errors as below have created the obstruction:<br />
+                        -Failure of the communication link between bank and Thaili system, or<br />
+                        -Insertion of wrong Thaili ID.<br />
+                        We suggest you to please call Thaili Customer Service for further assistance.<br /><br />
+                        <b class="headerFont">Fund transfer</b><br />
+                        The act of sending Thaili balance using “Transfer Funds“ from one Thaili account to the other Thaili account is referred to as fund transfer.
+                        To use the service, both of the users must have Thaili wallet registered.<br /><br />
+                        <b class="headerFont">How can I withdraw money from my Thaili account to a bank account?</b><br />
+                        You can withdraw Thaili balance to a bank account by visiting to ‘bank transfer’ option on your mobile app or on web portal.
+                        Login to Thaili>> Bank transfer>> fill the details and make withdraw.<br /><br />
+                        <b class="headerFont">Can I use Thaili from my iPhone?</b><br />
+                        Currently there is no IOS application for Thaili Wallet. Alternatively on IOS using a web browser is possible and only for online (Internet based).<br /><br />
+                        <b class="headerFont">Is it a SMS (Short Message System) based or Internet based?</b><br />
+                        Both option are available on Thaili Digital Wallet.
+                        •	If user do have internet available on their mobile it can be used as internet based
+                        •	But if user don’t have internet on their mobile offline (SMS based) system can be used.
+                        Note: On SMS based there are only limited features available than internet based.<br /><br />
+                        <b class="headerFont">Is communication between my phone and to bank's system is secured? If yes, what is the basis of security.</b><br />
+                        We have secured connection between Thaili server and NIBL bank.
+                        Data are encrypted while having communication between Thaili server and NIBL bank.<br /><br />
+                        <b class="headerFont">Will Thaili App gets updated regularly automatically or need to update manually?</b><br />
+                        Thaili app will be updated automatically by default unless the settings of the phone has been changed manually by the user.<br /><br />
+                        <b class="headerFont">What are the services available under each features?</b><br />
+                        I.	Topup<br />
+                        i.	Nepal Telecom(NT)<br />
+                        •	GSM Prepaid<br />
+                        •	GSM Postpaid<br />
+                        •	LandLine<br />
+                        •	ADSL<br />
+                        ii.	NCell<br />
+                        II.	Recharge Card<br />
+                        •	NT GSM<br />
+                        •	NT CDMA<br />
+                        III.	Bill Payment<br />
+                        •	Schools<br />
+                        •	Colleges<br />
+                        •	NEA<br />
+                        •	Water<br />
+                        •	Nepal Khanepani<br /><br />
+                        <b class="headerFont">Do I get confirmation on each transaction, whether successful or unsuccessful?</b><br />
+                        Yes, through SMS message, in few seconds and pop up notification too.<br /><br />
+                        <b class="headerFont">Do I get refunded for failed transactions?</b><br />
+                        Yes, if the transaction is not complete and the balance has been deducted the user can request for refund by calling Thaili customer support.<br /><br />
+                        <b class="headerFont">Do I need to visit branch to subscribed Thaili?</b><br />
+                        •	No, user can subscribe to Thaili via Thaili app and website by quick Register.
+                        •	But to link NIBL bank account to Thaili Wallet, after submitting a bank link request user needs to visit to bank’s branch for approval of bank account link.<br /><br />
+                        <b class="headerFont">Do I need to visit branch to get PIN for Thaili?</b><br />
+                        No, user will get the login password and transaction PIN during the registration on Thaili. <br /><br />
+                        <b class="headerFont">What are the limits, in terms of number of transaction per day, amount per transaction, amount per day, amount per month....etc.? Person to Person</b><br />
+                        Detail	Count	PerTxn Amt	Per Day Amt	Txn Amt Monthly
+                        <table cellpadding="6" cellspacing="6">
+                            <tr >
+                                <th>Detail</th>
+                                <th>Count</th>
+                                <th>PerTxnAmt</th>
+                                <th>PerDayAmt</th>
+                                <th>TxnAmtMonthly</th>
+                            </tr>
+                            <tr>
+                                <td>Cash In</td>
+                                <td>5</td>
+                                <td>25000</td>
+                                <td>25000</td>
+                                <td>50000</td>
+                            </tr>
+                             <tr>
+                                <td>Cash Out</td>
+                                <td>4</td>
+                                <td>25000</td>
+                                <td>25000</td>
+                                <td>50000</td>
+                            </tr>
+                             <tr>
+                                 <td>With KYC Wallet</td>
+                                 <td>6</td>
+                                 <td>15000</td>
+                                <td>25000</td>
+                                <td>50000</td>
+                            </tr>
+                            <tr>
+                                <td>Services</td>
+                                <td>20</td>
+                                <td>10000</td>
+                                <td>25000</td>
+                                <td>50000</td>
+                            </tr>
+                            <tr>
+                                <td>Wallet to Bank</td>
+                                <td>5</td>
+                                <td>50000</td>
+                                <td>200000</td>
+                                <td>500000</td>
+                            </tr>
+                             <tr>
+                                 <td> Wallet to Wallet</td>
+                                <td>5</td>
+                                <td>5000</td>
+                                <td>15000</td>
+                                <td>25000</td>
+                            </tr>
+                            <tr>
+                                <td> Without KYC Wallet</td>
+                                <td>5</td>
+                                <td>100</td>
+                                <td>1000</td>
+                                <td>5000</td>
+                            </tr>
+                            
+                        </table>
+                        <h3> Note: Limit will be changed according to NRB Circular. <br /><br /></h3>
+                       
+                        <b class="headerFont">Do I need to visit branch to change my PIN?</b><br />
+                        There is an option of reset PIN and change PIN options on setting of Thaili Application after login. <br /><br />
+                        <b class="headerFont">Do I have to submit any document to subscribe/register Thaili?</b><br />
+                        •	During Quick Register there is no requirement of documents.<br />
+                        •	But to have full limit of transaction user has to submit KYC.<br />
+                        •	User has to upload document detail while submitting the KYC. <br /><br />
+                        <b class="headerFont">Is Thaili available only to NIBL Customers?</b><br />
+                        •	Thaili is available to all the customer.<br />
+                        •	But to link a bank account for now NIBL bank is only the options. <br /><br />
+                        <b class="headerFont">Does Thaili have capability to transfer fund from NIBL to other commercial banks/financial institutes?</b><br />
+                        No, currently Thaili has option to transfer fund within NIBL customer and registered to Thaili only.<br /><br />
+
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- /hero-bg -->
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <a href="@loginLink" class="logo">
+                            <img src="~/Content/assets/img/thaili-logo.svg" alt="thaili-logo">
+                        </a>
+                    </div>
+
+                    <div class="col-lg-8">
+                        <ul class="footer-menu">
+                            <li>
+                                <a href="#">Policy</a>
+                                <ul>
+
+                                    <li>@Html.ActionLink("Privacy Policy", "PrivacyPolicy", "PrivacyPolicy")</li>
+                                    <li>@Html.ActionLink("Terms and Conditions", "Index", "TermsAndCondition")</li>
+                                    @*<li>@Html.ActionLink("Report Fraud or Misuse of Account", "ReportFraud", "PrivacyPolicy")</li>*@
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="#">Company</a>
+                                <ul>
+                                    <li>@Html.ActionLink("About Us", "AboutUs", "Help")</li>
+                                    @*<li>@Html.ActionLink("Career", "Career", "Help")</li>*@
+                                    <li>@Html.ActionLink("Blog/News", "BlogOrNews", "Help")</li>
+
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Partners</a>
+                                <ul>
+                                    <li>@Html.ActionLink("Bank Partner", "Bank", "Help")</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Help</a>
+                                <ul>
+                                    <li>@Html.ActionLink("FAQ's", "Index", "FAQ")</li>
+                                    <li>@Html.ActionLink("Contact Us", "ContactUs", "Help")</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /footer-top -->
+
+            <div class="footer-bottom">
+                <div class="row align-items-end">
+                    <div class="col-md-6">
+                        <h5 class="title">Powered by</h5>
+                        <a href="#" class="nibl-logo">
+                            <img src="~/Content/assets/img/nibl-logo.svg" alt="nibl-logo">
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 cnt-right text-right">
+                        <span class="copyright">Thaili Digital Paisa @DateTime.Now.Year. All Right Reserved</span><br />
+                        @*<span class="crafted-by">Crafted by <a href="http://act360.com.np/" target="_blank">ACT360</a></span>*@
+                    </div>
+                </div>
+            </div>
+            <!-- /footer-bottom -->
+        </div>
+    </footer>
+
+</body>
+</html>

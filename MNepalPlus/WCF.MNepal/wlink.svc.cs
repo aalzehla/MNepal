@@ -391,25 +391,22 @@ namespace WCF.MNepal
 
             string amount = qs["amount"];//amount paid by customer 
             string pin = qs["pin"];
+            pin = HashAlgo.Hash(pin);
             string note = "utility payment for Worldlink. Customer Name=" + qs["account"];//+ ". " + qs["note"];
             string src = qs["src"];
             string result = "";
             string sessionID = qs["tokenID"];
             string resultMessageResCP = "";
 
-            string companyCode = qs["companyCode"]; //"720";//
-                                                    //string serviceCode = qs["special1"]; //"1";// 
-            string serviceCode = qs["serviceCode"]; //"11";// 
-                                                    // string serviceCode = qs["special1s"]; //"11";//
-            string account = qs["account"]; //"1234567";//            
-            string special1 = ""; //
+            string companyCode = qs["companyCode"]; 
+            string serviceCode = qs["serviceCode"]; 
+            string account = qs["account"];          
+            string special1 = qs["special1"]; //
             string special2 = ""; //
-            string transactionDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");//"2019-11-22T11:11:02";
+            string transactionDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
             long millisecondstrandId = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            string transactionId = millisecondstrandId.ToString(); //"120163339819";
+            string transactionId = millisecondstrandId.ToString();
             string userId = PaypointUserID;
-            //string userId = "MNepalLT";
-            //string userPassword = "MNepalLT";
             string userPassword = PaypointPwd.Trim();
             string salePointType = "6";
             string transactionType = string.Empty;
@@ -422,8 +419,6 @@ namespace WCF.MNepal
             string rltCheckPaymt = qs["rltCheckPaymt"];
             string ClientCode = qs["ClientCode"];
             string paypointType = qs["paypointType"];
-            //string paypointType = "Nepal Water";
-            //string paypointType = "3";
 
             string customerName = qs["customerName"];
             string walletBalance = qs["walletBalance"];//in Rs.
@@ -456,12 +451,12 @@ namespace WCF.MNepal
 
             if (special1 == "")
             {
-                special1 = special1;
+                special1 = "";
             }
-            else
-            {
-                special1 = special1;
-            }
+            //else
+            //{
+            //    special1 = special1;
+            //}
 
             FundTransfer fundtransfer = new FundTransfer
             {
@@ -478,39 +473,11 @@ namespace WCF.MNepal
 
             if (sc == "00")//for wallet NEA payment
             {
-                if (walletBalancePaisaInt >= amountpayInt)// if wallet balance less then bill amount then show error msg
-                {
                     //First transaction MNRequest N Response
                     try
                     {
 
-                        //FundTransfer fundtransfer = new FundTransfer
-                        //{
-                        //    tid = tid,
-                        //    sc = sc,
-                        //    mobile = mobile,
-                        //    da = da,
-                        //    amount = amount,
-                        //    pin = pin,
-                        //    note = note,
-                        //    sourcechannel = src
-                        //};
-
                         ThreadPool.QueueUserWorkItem(BackgroundTaskWithObject, fundtransfer);
-                        //CustActivityModel custsmsInfo = new CustActivityModel();
-
-                        //MNTransactionMaster validTransactionData = new MNTransactionMaster();
-
-
-                        //if (TokenGenerator.TokenChecker(sessionID, mobile, src) == false)
-                        //{
-                        //    // throw ex
-                        //    statusCode = "400";
-                        //    message = "Session expired. Please login again";
-                        //    failedmessage = message;
-                        //}
-                        //else
-                        //{
                         if ((tid == null) || (sc == null) || (mobile == null) || (da == null) || (amount == null) || (pin == null) ||
                         (src == null) || (double.Parse(amount) <= 0) || (vid == null))
                         {
@@ -538,15 +505,6 @@ namespace WCF.MNepal
                             {
                                 transactionType = "PayPoint Txfr to B2W"; //B2W
                             }
-
-                            //if (!(UserNameCheck.IsValidUser(mobile)))
-                            //{
-                            //    // throw ex
-                            //    statusCode = "400";
-                            //    //message = "Transaction restricted to User";
-                            //    message = "Transaction only for User";
-                            //    failedmessage = message;
-                            //}
 
                             Pin p = new Pin();
                             if (!p.validPIN(mobile, pin))
@@ -649,10 +607,6 @@ namespace WCF.MNepal
                                         //start:insert into transaction master//
                                         if (mnft.valid())
                                         {
-                                            //var transaction = new MNTransactionMaster(mnft);
-                                            //var mntransaction = new MNTransactionsController();
-                                            //validTransactionData = mntransaction.Validate(transaction, mnft.pin);
-
                                             var transactionpaypoint = new MNTransactionMaster(mnft);
                                             var mntransactionpaypoint = new MNTransactionsController();
                                             validTransactionData = mntransactionpaypoint.Validatepaypoint(transactionpaypoint, mnft.pin);
@@ -938,88 +892,6 @@ namespace WCF.MNepal
 
                                             } //END validTransactionData.Response WITHOUT MNDB ERROR
 
-                                            //start comment outgoing
-                                            //OutgoingWebResponseContext response = WebOperationContext.Current.OutgoingResponse;
-                                            //if (response.StatusCode == HttpStatusCode.OK)
-                                            //{
-                                            //    string messagereply = "";
-                                            //    try
-                                            //    {
-                                            //        //messagereply = "Dear " + CustCheckUtils.GetName(mobile) + "," + "\n";
-
-                                            //        //messagereply += " You have successfully paid NPR " + validTransactionData.Amount
-                                            //        //                + " to " + GetMerchantName + " on date " +
-                                            //        //                    (validTransactionData.CreatedDate).ToString("dd/MM/yyyy")
-                                            //        //                + "." + "\n";
-                                            //        //messagereply += "Thank you. MNepal";
-
-                                            //        //var client = new WebClient();
-
-                                            //        ////SENDER
-                                            //        //if ((mobile.Substring(0, 3) == "980") || (mobile.Substring(0, 3) == "981")) //FOR NCELL
-                                            //        //{
-                                            //        //    //FOR NCELL
-                                            //        //    var content = client.DownloadString(
-                                            //        //        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=2&KeywordId=3&Password=mnepal120&From=37878&To="
-                                            //        //        + "977" + mobile + "&Text=" + messagereply + "");
-                                            //        //}
-                                            //        //else if ((mobile.Substring(0, 3) == "985") || (mobile.Substring(0, 3) == "984")
-                                            //        //            || (mobile.Substring(0, 3) == "986"))
-                                            //        //{
-                                            //        //    //FOR NTC
-                                            //        //    var content = client.DownloadString(
-                                            //        //        "http://smsvas.mos.com.np/PostSMS.ashx?QueueId=&TelecomId=1&KeywordId=3&Password=mnepal120&From=37878&To="
-                                            //        //        + "977" + mobile + "&Text=" + messagereply + "");
-                                            //        //}
-
-                                            //        statusCode = "200";
-                                            //        var v = new
-                                            //        {
-                                            //            StatusCode = Convert.ToInt32(statusCode),
-                                            //            StatusMessage = result
-                                            //        };
-                                            //        result = JsonConvert.SerializeObject(v);
-
-                                            //    }
-                                            //    catch (Exception ex)
-                                            //    {
-                                            //        // throw ex
-                                            //        statusCode = "400";
-                                            //        message = ex.Message;
-                                            //    }
-
-
-                                            //    custsmsInfo = new CustActivityModel()
-                                            //    {
-                                            //        UserName = fundtransfer.mobile,
-                                            //        RequestMerchant = transactionType,
-                                            //        DestinationNo = fundtransfer.da,
-                                            //        Amount = validTransactionData.Amount.ToString(),
-                                            //        SMSStatus = "Success",
-                                            //        SMSSenderReply = messagereply,
-                                            //        ErrorMessage = "",
-                                            //    };
-
-
-                                            //}
-                                            //else if ((response.StatusCode == HttpStatusCode.BadRequest) || (response.StatusCode == HttpStatusCode.InternalServerError) || (statusCode != "200"))
-                                            //{
-                                            //    custsmsInfo = new CustActivityModel()
-                                            //    {
-                                            //        UserName = mobile,
-                                            //        RequestMerchant = transactionType,
-                                            //        DestinationNo = fundtransfer.da,
-                                            //        Amount = validTransactionData.Amount.ToString(),
-                                            //        SMSStatus = "Failed",
-                                            //        SMSSenderReply = message,
-                                            //        ErrorMessage = failedmessage,
-                                            //    };
-
-                                            //}
-
-                                            //end comment outgoint
-                                            //end:insert into transaction master//
-
                                         } //END:insert into transaction master//
                                         else
                                         {
@@ -1083,50 +955,14 @@ namespace WCF.MNepal
                         failedmessage = "Please try again.";
                     }
 
-                }
-                else  //else for  if wallet balance less then bill amount then show error msg
-                {
-                    statusCodeBalance = "400";
-                    message = "Insufficient Balance";
-                    failedmessage = message;
-
-                }
             }
             else if (sc == "10")//for bank payment in nepal water
             {
-                //if (bankBalancePaisaInt >= amountpayInt)
-                //{
                 //First transaction MNRequest N Response
                 try
                 {
 
-                    //FundTransfer fundtransfer = new FundTransfer
-                    //{
-                    //    tid = tid,
-                    //    sc = sc,
-                    //    mobile = mobile,
-                    //    da = da,
-                    //    amount = amount,
-                    //    pin = pin,
-                    //    note = note,
-                    //    sourcechannel = src
-                    //};
-
                     ThreadPool.QueueUserWorkItem(BackgroundTaskWithObject, fundtransfer);
-                    //CustActivityModel custsmsInfo = new CustActivityModel();
-
-                    //MNTransactionMaster validTransactionData = new MNTransactionMaster();
-
-
-                    //if (TokenGenerator.TokenChecker(sessionID, mobile, src) == false)
-                    //{
-                    //    // throw ex
-                    //    statusCode = "400";
-                    //    message = "Session expired. Please login again";
-                    //    failedmessage = message;
-                    //}
-                    //else
-                    //{
                     if ((tid == null) || (sc == null) || (mobile == null) || (da == null) || (amount == null) || (pin == null) ||
                     (src == null) || (double.Parse(amount) <= 0) || (vid == null))
                     {
@@ -1154,15 +990,6 @@ namespace WCF.MNepal
                         {
                             transactionType = "PayPoint Txfr to B2W"; //B2W
                         }
-
-                        //if (!(UserNameCheck.IsValidUser(mobile)))
-                        //{
-                        //    // throw ex
-                        //    statusCode = "400";
-                        //    //message = "Transaction restricted to User";
-                        //    message = "Transaction only for User";
-                        //    failedmessage = message;
-                        //}
 
                         Pin p = new Pin();
                         if (!p.validPIN(mobile, pin))
@@ -1264,11 +1091,6 @@ namespace WCF.MNepal
                                     //start:insert into transaction master//
                                     if (mnft.valid())
                                     {
-                                        //var transaction = new MNTransactionMaster(mnft);
-                                        //var mntransaction = new MNTransactionsController();
-                                        //validTransactionData = mntransaction.Validate(transaction, mnft.pin);
-
-
                                         var transactionpaypoint = new MNTransactionMaster(mnft);
                                         var mntransactionpaypoint = new MNTransactionsController();
                                         validTransactionData = mntransactionpaypoint.Validatepaypoint(transactionpaypoint, mnft.pin);
@@ -1619,13 +1441,6 @@ namespace WCF.MNepal
                     failedmessage = "Please try again.";
                 }
                 //}
-                //else  //else for  if wallet balance less then bill amount then show error msg
-                //{
-                //    statusCodeBalance = "400";
-                //    message = "Insufficient Balance";
-                //    failedmessage = message;
-
-                //}
             }
             try
             {
@@ -1662,24 +1477,13 @@ namespace WCF.MNepal
                                 }
                                 else
                                 {
-                                    //if (companyCode == "598")
-                                    //{
-                                    //    special1 = "";
-                                    //}
-                                    //else
-                                    //{
-                                    //    special1 = special1.ToString();
-                                    //}
-
-                                    // string URIEXECPayment = "https://test.paypoint.md:4445/PayPointWS/PayPointMSOperations.asmx/ExecutePayment";//for EP Link 
-
                                     //For excutepaypoint link in webconfig
                                     string URIEXECPayment = System.Web.Configuration.WebConfigurationManager.AppSettings["EPPaypointUrl"];
 
                                     string execPayParameters = "companyCode=" + companyCode + "&serviceCode=" + serviceCode +
                                             "&account=" + account + "&special1=" + special1 + "&special2=" + special2 +
                                             "&transactionDate=" + exectransactionDate + "&transactionId=" + exectransactionId +
-                                            "&refStan=" + refStan + "&amount=" + amount + "&billNumber=" + billNumber +
+                                            "&refStan=" + refStan + "&amount=" + (Convert.ToInt32(amount)*100).ToString() + "&billNumber=" + billNumber +
                                             "&userId=" + userId.Trim() + "&userPassword=" + userPassword.Trim() + "&salePointType=" + salePointType;
 
                                     //for executepayment request insert in database for wlink
@@ -2008,24 +1812,6 @@ namespace WCF.MNepal
                             message = resultMessageResCP;
 
                             failedmessage = message;
-
-                            ////start:Com focus one log///
-                            //MNFundTransfer mnft1 = new MNFundTransfer(tid, fundtransfer.sc, fundtransfer.da,
-                            //    fundtransfer.sa, fundtransfer.amount, fundtransfer.mobile, fundtransfer.note, fundtransfer.pin,
-                            //    fundtransfer.sourcechannel);
-                            //var comfocuslog1 = new MNComAndFocusOneLog(mnft1, DateTime.Now);
-                            //var mncomfocuslog1 = new MNComAndFocusOneLogsController();
-                            //result = mncomfocuslog1.InsertIntoComFocusOne(comfocuslog1);
-                            ////end:Com focus one log//
-
-                            //if (mnft1.valid())
-                            //{
-                            //    var transaction1 = new MNTransactionMaster(mnft1);
-                            //    var mntransaction1 = new MNTransactionsController();
-                            //    validTransactionData = mntransaction1.Validate(transaction1, mnft1.pin);
-                            //    result = validTransactionData.Response;
-
-                            //}
                         }
                         //end excute dekhi get ko sabai comment gareko
                     }
@@ -2095,24 +1881,6 @@ namespace WCF.MNepal
                     }
                     else
                     {
-                        //if (sc == "00")
-                        //{
-                        //    transactionType = "PayPoint Txfr to W2W";
-                        //}
-                        //else 
-                        //{
-                        //    sc = "01";
-                        //    transactionType = "PayPoint Txfr to W2B"; //B2W
-                        //}
-
-                        //if (!(UserNameCheck.IsValidUser(mobile)))
-                        //{
-                        //    // throw ex
-                        //    statusCode = "400";
-                        //    //message = "Transaction restricted to User";
-                        //    message = "Transaction only for User";
-                        //    failedmessage = message;
-                        //}
 
                         Pin p = new Pin();
                         if (!p.validPIN(mobile, pin))
@@ -2726,28 +2494,6 @@ namespace WCF.MNepal
                 statusCode = "400";
                 message = ex.Message;
             }
-            ///START Register For SMS
-            //try
-            //{
-            //    int results = CustActivityUtils.RegisterCustActivityInfo(custsmsInfo);
-            //    if (results > 0)
-            //    {
-
-            //        message = result;
-            //    }
-            //    else
-            //    {
-            //        message = result;
-            //    }
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    string ss = ex.Message;
-            //    message = result;
-            //}
-
-            ///END SMS Register For SMS
 
             if (statusCodeBalance == "400")
             {

@@ -366,6 +366,7 @@ namespace WCF.MNepal
 
             string amount = qs["amount"];//amount paid by customer 
             string pin = qs["pin"];
+            pin = HashAlgo.Hash(pin);
             string note = "utility payment for NCell. Customer Name=" + qs["account"];//+ ". " + qs["note"];
             string src = qs["src"];
             string result = "";
@@ -437,8 +438,8 @@ namespace WCF.MNepal
             };
             if (sc == "00")
             {
-                if (walletBalancePaisaInt >= amountpayInt)// if wallet balance less then bill amount then show error msg
-                {
+                //if (walletBalancePaisaInt >= amountpayInt)// if wallet balance less then bill amount then show error msg
+                //{
                     //First transaction MNRequest N Response
                     try
                     {
@@ -1016,14 +1017,14 @@ namespace WCF.MNepal
                         failedmessage = "Please try again.";
                     }
 
-                }
-                else  //else for  if wallet balance less then bill amount then show error msg
-                {
-                    statusCodeBalance = "400";
-                    message = "Insufficient Balance";
-                    failedmessage = message;
+                //}
+                //else  //else for  if wallet balance less then bill amount then show error msg
+                //{
+                //    statusCodeBalance = "400";
+                //    message = "Insufficient Balance";
+                //    failedmessage = message;
 
-                }
+                //}
             }
             else if (sc == "10")//for bank payment in nepal water
             {
@@ -3014,6 +3015,7 @@ namespace WCF.MNepal
 
             string amount = qs["amount"];//amount paid by customer 
             string pin = qs["pin"];
+            pin = HashAlgo.Hash(pin);
             string note = "utility payment for NTC. Customer Name=" + qs["account"];//+ ". " + qs["note"];
             string src = qs["src"];
             string result = "";
@@ -3085,8 +3087,8 @@ namespace WCF.MNepal
             };
             if (sc == "00")
             {
-                if (walletBalancePaisaInt >= amountpayInt)// if wallet balance less then bill amount then show error msg
-                {
+                //if (walletBalancePaisaInt >= amountpayInt)// if wallet balance less then bill amount then show error msg
+                //{
                     //First transaction MNRequest N Response
                     try
                     {
@@ -3664,14 +3666,14 @@ namespace WCF.MNepal
                         failedmessage = "Please try again.";
                     }
 
-                }
-                else  //else for  if wallet balance less then bill amount then show error msg
-                {
-                    statusCodeBalance = "400";
-                    message = "Insufficient Balance";
-                    failedmessage = message;
+                //}
+                //else  //else for  if wallet balance less then bill amount then show error msg
+                //{
+                //    statusCodeBalance = "400";
+                //    message = "Insufficient Balance";
+                //    failedmessage = message;
 
-                }
+                //}
             }
             else if (sc == "10")//for bank payment in nepal water
             {
@@ -5651,6 +5653,7 @@ namespace WCF.MNepal
 
             string amount = qs["amount"];//amount paid by customer 
             string pin = qs["pin"];
+            pin = HashAlgo.Hash(pin);
             string note = "utility payment for NTC CDMA. Customer Name=" + qs["account"];//+ ". " + qs["note"];
             string src = qs["src"];
             string result = "";
@@ -5722,8 +5725,8 @@ namespace WCF.MNepal
             };
             if (sc == "00")
             {
-                if (walletBalancePaisaInt >= amountpayInt)// if wallet balance less then bill amount then show error msg
-                {
+                //if (walletBalancePaisaInt >= amountpayInt)// if wallet balance less then bill amount then show error msg
+                //{
                     //First transaction MNRequest N Response
                     try
                     {
@@ -6301,14 +6304,14 @@ namespace WCF.MNepal
                         failedmessage = "Please try again.";
                     }
 
-                }
-                else  //else for  if wallet balance less then bill amount then show error msg
-                {
-                    statusCodeBalance = "400";
-                    message = "Insufficient Balance";
-                    failedmessage = message;
+                //}
+                //else  //else for  if wallet balance less then bill amount then show error msg
+                //{
+                //    statusCodeBalance = "400";
+                //    message = "Insufficient Balance";
+                //    failedmessage = message;
 
-                }
+                //}
             }
             else if (sc == "10")//for bank payment in nepal water
             {
@@ -8288,6 +8291,7 @@ namespace WCF.MNepal
 
             string amount = qs["amount"];//amount paid by customer 
             string pin = qs["pin"];
+            pin = HashAlgo.Hash(pin);
             string note = "utility payment for SmartCell TopUp. Customer Name=" + qs["account"];//+ ". " + qs["note"];
             string src = qs["src"];
             string result = "";
@@ -8359,8 +8363,8 @@ namespace WCF.MNepal
             };
             if (sc == "00")
             {
-                if (walletBalancePaisaInt >= amountpayInt)// if wallet balance less then bill amount then show error msg
-                {
+                //if (walletBalancePaisaInt >= amountpayInt)// if wallet balance less then bill amount then show error msg
+                //{
                     //First transaction MNRequest N Response
                     try
                     {
@@ -8964,14 +8968,14 @@ namespace WCF.MNepal
                         failedmessage = "Please try again.";
                     }
 
-                }
-                else  //else for  if wallet balance less then bill amount then show error msg
-                {
-                    statusCodeBalance = "400";
-                    message = "Insufficient Balance";
-                    failedmessage = message;
+                //}
+                //else  //else for  if wallet balance less then bill amount then show error msg
+                //{
+                //    statusCodeBalance = "400";
+                //    message = "Insufficient Balance";
+                //    failedmessage = message;
 
-                }
+                //}
             }
             else if (sc == "10")//for bank payment in nepal water
             {
@@ -10999,6 +11003,7 @@ namespace WCF.MNepal
 
             string amount = qs["amount"];//amount paid by customer 
             string pin = qs["pin"];
+            pin = HashAlgo.Hash(pin);
             string note = "utility payment for SmartCell EPIN. Customer Name=" + qs["account"];//+ ". " + qs["note"];
             string src = qs["src"];
             string result = "";
@@ -11070,8 +11075,8 @@ namespace WCF.MNepal
             };
             if (sc == "00")
             {
-                if (walletBalancePaisaInt >= amountpayInt)// if wallet balance less then bill amount then show error msg
-                {
+                //if (walletBalancePaisaInt >= amountpayInt)// if wallet balance less then bill amount then show error msg
+                //{
                     //First transaction MNRequest N Response
                     try
                     {
@@ -11649,14 +11654,14 @@ namespace WCF.MNepal
                         failedmessage = "Please try again.";
                     }
 
-                }
-                else  //else for  if wallet balance less then bill amount then show error msg
-                {
-                    statusCodeBalance = "400";
-                    message = "Insufficient Balance";
-                    failedmessage = message;
+                //}
+                //else  //else for  if wallet balance less then bill amount then show error msg
+                //{
+                //    statusCodeBalance = "400";
+                //    message = "Insufficient Balance";
+                //    failedmessage = message;
 
-                }
+                //}
             }
             else if (sc == "10")//for bank payment in nepal water
             {

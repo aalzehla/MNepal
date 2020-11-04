@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -123,50 +124,65 @@ namespace CustApp.Controllers
             ViewBag.UserType = this.TempData["userType"];
             ViewBag.Name = name;
 
-
-            MNBalance availBaln = new MNBalance();
-            DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
-            if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+            string retoken = isp.TokenUnique;
+            string reqToken = "";
+            DataTable dtableVToken = ReqTokenUtils.GetReqToken(retoken);
+            if (dtableVToken != null && dtableVToken.Rows.Count > 0)
             {
-                availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
-
-                ViewBag.AvailBalnAmount = availBaln.amount;
+                reqToken = dtableVToken.Rows[0]["ReqVerifyToken"].ToString();
             }
-
-            //For Profile Picture
-            UserInfo userInfo = new UserInfo();
-            DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
-            DataTable dKYC = DSet.Tables["dtKycDetail"];
-            DataTable dDoc = DSet.Tables["dtKycDoc"];
-            if (dKYC != null && dKYC.Rows.Count > 0)
+            else if (dtableVToken.Rows.Count == 0)
             {
-                userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
-                ViewBag.CustStatus = userInfo.CustStatus;
+                reqToken = "0";
             }
-            if (dDoc != null && dDoc.Rows.Count > 0)
+            string BlockMessage = LoginUtils.GetMessage("01");
+            if (reqToken == "0")
             {
-                userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
-                ViewBag.PassportImage = userInfo.PassportImage;
-            }
+                ReqTokenUtils.InsertReqToken(retoken);
 
-            Session["CustomerName"] = isp.CustomerName;
-            //api call here
+                MNBalance availBaln = new MNBalance();
+                DataTable dtableUser1 = AvailBalnUtils.GetAvailBaln(clientCode);
+                if (dtableUser1 != null && dtableUser1.Rows.Count > 0)
+                {
+                    availBaln.amount = dtableUser1.Rows[0]["AvailBaln"].ToString();
 
-            HttpResponseMessage _res = new HttpResponseMessage();
-            string mobile = userName; //mobile is username
-            TraceIdGenerator _tig = new TraceIdGenerator();
-            var tid = _tig.GenerateTraceID();
-            string tokenID = Session["TokenID"].ToString();
+                    ViewBag.AvailBalnAmount = availBaln.amount;
+                }
 
-            //specify to use TLS 1.2 as default connection
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                //For Profile Picture
+                UserInfo userInfo = new UserInfo();
+                DataSet DSet = ProfileUtils.GetCusDetailProfileInfoDS(clientCode);
+                DataTable dKYC = DSet.Tables["dtKycDetail"];
+                DataTable dDoc = DSet.Tables["dtKycDoc"];
+                if (dKYC != null && dKYC.Rows.Count > 0)
+                {
+                    userInfo.CustStatus = dKYC.Rows[0]["CustStatus"].ToString();
+                    ViewBag.CustStatus = userInfo.CustStatus;
+                }
+                if (dDoc != null && dDoc.Rows.Count > 0)
+                {
+                    userInfo.PassportImage = dDoc.Rows[0]["PassportImage"].ToString();
+                    ViewBag.PassportImage = userInfo.PassportImage;
+                }
 
-            using (HttpClient client = new HttpClient())
-            {
-                var action = "wlink.svc/checkpayment";
-                var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+                Session["CustomerName"] = isp.CustomerName;
+                //api call here
 
-                var content = new FormUrlEncodedContent(new[]{
+                HttpResponseMessage _res = new HttpResponseMessage();
+                string mobile = userName; //mobile is username
+                TraceIdGenerator _tig = new TraceIdGenerator();
+                var tid = _tig.GenerateTraceID();
+                string tokenID = Session["TokenID"].ToString();
+
+                //specify to use TLS 1.2 as default connection
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
+                using (HttpClient client = new HttpClient())
+                {
+                    var action = "wlink.svc/checkpayment";
+                    var uri = Path.Combine(ApplicationInitilize.WCFUrl, action);
+
+                    var content = new FormUrlEncodedContent(new[]{
                         new KeyValuePair<string, string>("vid", "130"),
                         new KeyValuePair<string, string>("mobile", mobile),
                         new KeyValuePair<string, string>("src","http"),
@@ -182,68 +198,74 @@ namespace CustApp.Controllers
 
 
                     });
-                _res = await client.PostAsync(new Uri(uri), content);
-                string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
-                _res.ReasonPhrase = responseBody;
-                string errorMessage = string.Empty;
-                int responseCode = 0;
-                string message = string.Empty;
-                string responsetext = string.Empty;
-                bool result = false;
-                string ava = string.Empty;
-                string avatra = string.Empty;
-                string avamsg = string.Empty;
-                try
-                {
-                    if (_res.IsSuccessStatusCode)
+                    _res = await client.PostAsync(new Uri(uri), content);
+                    string responseBody = _res.StatusCode.ToString() + " ," + await _res.Content.ReadAsStringAsync();
+                    _res.ReasonPhrase = responseBody;
+                    string errorMessage = string.Empty;
+                    int responseCode = 0;
+                    string message = string.Empty;
+                    string responsetext = string.Empty;
+                    bool result = false;
+                    string ava = string.Empty;
+                    string avatra = string.Empty;
+                    string avamsg = string.Empty;
+                    try
                     {
-                        result = true;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        message = _res.Content.ReadAsStringAsync().Result;
-                        string respmsg = "";
-                        if (!string.IsNullOrEmpty(message))
+                        if (_res.IsSuccessStatusCode)
                         {
-                            JavaScriptSerializer ser = new JavaScriptSerializer();
-                            var json = ser.Deserialize<JsonParse>(responsetext);
-                            message = json.d;
-                            JsonParse myNames = ser.Deserialize<JsonParse>(json.d);
-                            int code = Convert.ToInt32(myNames.StatusCode);
-                            respmsg = myNames.StatusMessage;
-                            if (code != responseCode)
+                            result = true;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            message = _res.Content.ReadAsStringAsync().Result;
+                            string respmsg = "";
+                            if (!string.IsNullOrEmpty(message))
                             {
-                                responseCode = code;
+                                JavaScriptSerializer ser = new JavaScriptSerializer();
+                                var json = ser.Deserialize<JsonParse>(responsetext);
+                                message = json.d;
+                                JsonParse myNames = ser.Deserialize<JsonParse>(json.d);
+                                int code = Convert.ToInt32(myNames.StatusCode);
+                                respmsg = myNames.StatusMessage;
+                                if (code != responseCode)
+                                {
+                                    responseCode = code;
+                                }
                             }
-                        }
-                        return Json(new { responseCode = responseCode, responseText = respmsg },
-                        JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        result = false;
-                        responseCode = (int)_res.StatusCode;
-                        responsetext = await _res.Content.ReadAsStringAsync();
-                        dynamic json = JValue.Parse(responsetext);
-                        message = json.d;
-                        if (message == null)
-                        {
-                            return Json(new { responseCode = responseCode, responseText = responsetext },
-                        JsonRequestBehavior.AllowGet);
+                            return Json(new { responseCode = responseCode, responseText = respmsg },
+                            JsonRequestBehavior.AllowGet);
                         }
                         else
                         {
-                            dynamic item = JValue.Parse(message);
-
-                            return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                            result = false;
+                            responseCode = (int)_res.StatusCode;
+                            responsetext = await _res.Content.ReadAsStringAsync();
+                            dynamic json = JValue.Parse(responsetext);
+                            message = json.d;
+                            if (message == null)
+                            {
+                                return Json(new { responseCode = responseCode, responseText = responsetext },
                             JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                dynamic item = JValue.Parse(message);
+
+                                return Json(new { responseCode = responseCode, responseText = (string)item["StatusMessage"] },
+                                JsonRequestBehavior.AllowGet);
+                            }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        return Json(new { responseCode = "400", responseText = ex.Message },
+                            JsonRequestBehavior.AllowGet);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    return Json(new { responseCode = "400", responseText = ex.Message },
-                        JsonRequestBehavior.AllowGet);
-                }
+            }
+            else
+            {
+                return Json(new { responseCode = "400", responseText = "Please refresh the page again.", blockMessage = BlockMessage },
+                            JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
@@ -285,6 +307,7 @@ namespace CustApp.Controllers
                 DataTable dWlinkPayment = DPaypointSet.Tables["dtNWPayment"];
 
                 List<ISP> ListDetails = new List<ISP>();
+                string result = "";
                 if (dResponse != null && dResponse.Rows.Count > 0)
                 {
                     regobj.CustomerID = dResponse.Rows[0]["account"].ToString();
@@ -307,7 +330,7 @@ namespace CustApp.Controllers
                             {
                                 regobj.PackageAmount = dWlinkPayment.Rows[0]["PackageAmount"].ToString();
                                 regobj.PackageId = dWlinkPayment.Rows[0]["PackageId"].ToString();
-                                regobj.PackageId = dWlinkPayment.Rows[0]["Descriptions"].ToString();
+                                regobj.description = dWlinkPayment.Rows[0]["Descriptions"].ToString();
 
 
                                 string[] lines = regobj.description.Split(new[] { Environment.NewLine }, StringSplitOptions.None); //to split string to new line
@@ -320,12 +343,31 @@ namespace CustApp.Controllers
                                 string[] lines2 = regobj.PackageId.Split(new[] { Environment.NewLine }, StringSplitOptions.None); //to split string to new line
                                 lines2 = lines2.Take(lines2.Length - 1).ToArray();  //to remove last list which is empty 
 
+                                // to remove < > 
 
-                                //List<string> list = new List<string>(lines);
+                                List<string> list = new List<string>();
+                                foreach (var item in lines)
+                                {
+                                    result = Regex.Replace(item, "[<| / |> | \"]", string.Empty);
+                                    result = Regex.Replace(result, @"user", "");
+                                }
+
+                                string packageResult;
+                                foreach (var item in lines)
+                                {
+                                    packageResult = Regex.Replace(item, "[<| > | \"]", string.Empty);
+                                    packageResult = Regex.Replace(packageResult, @"/package", "");
+                                    packageResult = Regex.Replace(packageResult, "packageid", "package id ");
+                                    packageResult = Regex.Replace(packageResult, "amount", " amount");
+                                    packageResult = Regex.Replace(packageResult, "currency", " currency");
+                                    packageResult = Regex.Replace(packageResult, "PlanId", " PlanId");
+                                    list.Add(packageResult);
+
+                                }
 
                                 for (int i = 0; i < lines.Length; i++)
                                 {
-                                    string Packages = lines[i];
+                                    string Packages = list[i];
                                     ListDetails.Add(new ISP
                                     {
                                         Description = Packages,
@@ -544,7 +586,7 @@ namespace CustApp.Controllers
                         new KeyValuePair<string, string>("companyCode", "597"),//default
                         new KeyValuePair<string, string>("serviceCode", regobj.ServiceCode),//default
                         new KeyValuePair<string, string>("account",  regobj.CustomerID),//user
-                        new KeyValuePair<string, string>("special1",""),//user
+                        new KeyValuePair<string, string>("special1",iSP.PackageId),//user
                         new KeyValuePair<string, string>("special2", ""),//user
                         new KeyValuePair<string, string>("tid", tid),//default
                         new KeyValuePair<string, string>("amountpay", regobj.TotalAmountDue),//database

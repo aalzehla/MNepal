@@ -1,0 +1,378 @@
+﻿
+
+@model CustApp.Models.TopUpPay
+@{
+
+    ViewBag.Title = "NTCCDMA";
+
+
+
+    List<SelectListItem> TransactionMedium = new List<SelectListItem>();
+    TransactionMedium.Add(new SelectListItem { Text = "Wallet", Value = "32" });
+    TransactionMedium.Add(new SelectListItem { Text = "Bank", Value = "35" });
+
+    List<SelectListItem> Amount = new List<SelectListItem>();
+
+
+    //Amount.Add(new SelectListItem { Text = "100", Value = "100" });
+    Amount.Add(new SelectListItem { Text = "200", Value = "200" });
+    Amount.Add(new SelectListItem { Text = "500", Value = "500" });
+    Amount.Add(new SelectListItem { Text = "1000", Value = "1000" });
+
+}
+
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+@*<section class="content-header">
+    <h1>
+        Recharge Card
+        <small>NTC CDMA</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-user"></i> Recharge Card</a></li>
+        <li class="active">NTC CDMA</li>
+    </ol>
+</section>*@
+
+<!-- Main content --> 
+
+
+<div class="main-content">
+    <div class="two-colbg">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <section class="internet-payment pad-50">
+
+                        <div class="instant-transactions">
+                            @*<h3 class="title">Instant Transactions</h3>*@
+
+                            <div class="transactions-grid clearfix">
+                                <div class="item load-wallet">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("BroadLink", "UtilityPay")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-internet"></i>
+                                                <span>BroadLink</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item transfer-fund">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("DishHome", "UtilityPay")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-internet"></i>
+                                                <span>DishHome</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("NTCCDMA", "UtilityPay")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-internet"></i>
+                                                <span>NTC CDMA</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("NTCGSM", "UtilityPay")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-internet"></i>
+                                                <span>NTC GSM</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                            </div>
+                        </div>
+                        <!-- /instant transactions -->
+                    </section>
+                    <!-- /internet-payment -->
+                </div>
+
+                <div class="col-lg-6 right-form">
+                    <section class="content-inner pad-50">
+
+                        <section class="content">
+                            <!-- Main row -->
+                            <div class="row">
+
+                                @using (Html.BeginForm("NTCCDMA", "UtilityPay", FormMethod.Post, new { @id = "NTCCDMARegForm", @name = "NTCCDMARegForm", @class = "form-horizontal" }))
+            {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true)
+
+
+
+                                    <div class="col-xs-12">
+
+
+                                        <div class="box box-info">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">NTC CDMA</h3>
+                                            </div>
+                                            @if (this.ViewData["recharge_message"] != null)
+                                            {
+                                                if (this.ViewData["message_class"].ToString() == "success_info")
+                                                {
+                                                    <div class="alert alert-success">
+                                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                        <h4>Success</h4> @this.ViewData["recharge_message"]
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="alert alert-danger">
+                                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                        <h4>Error</h4> @this.ViewData["recharge_message"]
+                                                    </div>
+                                                }
+                                            }
+                                            <!-- /.box-header -->
+                                            <div class="box-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="@Html.NameFor(x=>x.TransactionMedium)" class="control-label col-md-12"> @Html.DisplayNameFor(x => x.TransactionMedium)<span style="color:red">*</span></label>
+
+                                                            <div class="col-sm-12">
+                                                                @Html.DropDownListFor(model => model.TransactionMedium, new SelectList(TransactionMedium, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "TransactionMedium" })
+                                                          
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                </div>
+                                                <br />
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="@Html.NameFor(x=>x.Amount)" class="control-label col-md-12">Recharge Amount<span style="color:red">*</span></label>
+
+                                                            <div class="col-sm-12">
+                                                                @Html.DropDownListFor(model => model.Amount, new SelectList(Amount, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "Amount" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="@Html.NameFor(x=>x.PIN)" class="control-label col-md-12"> @Html.DisplayNameFor(x => x.PIN)<span style="color:red">*</span></label>
+
+                                                            <div class="col-sm-12">
+                                                                @Html.PasswordFor(model => model.PIN, new { @class = "form-control", @required = "required", @maxlength = "4", @placeholder = "PIN" })
+                                                                @Html.ValidationMessageFor(model => model.PIN, "", new { @class = "text-danger" })
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br /> 
+                                                 
+                                            </div>
+
+
+
+
+                                            <!-- /.box-body -->
+
+                                            <div class="box-footer">
+                                                <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit" />
+                                            </div>
+                                            <!-- /.box-footer -->
+                                        </div>
+                                        <!-- /.box -->
+                                        <!-- /.box-body -->
+                                    </div>
+                                }
+
+                            </div>
+                            <!-- /.row -->
+                        </section>
+                        <!-- /.content -->
+
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@*<section class="content">
+    <!-- Main row -->
+    <div class="row">
+
+        <!-- Start -->
+        <div class="col-xs-10">
+
+            @using (Html.BeginForm("NTCCDMA", "UtilityPay", FormMethod.Post, new { @id = "NTCCDMARegForm", @name = "NTCCDMARegForm", @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+             
+
+                <div class="col-xs-12">
+
+
+                    <div class="box box-info">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">NTC CDMA</h3>
+                        </div>
+                        @if (this.ViewData["recharge_message"] != null)
+                        {
+                            if (this.ViewData["message_class"].ToString() == "success_info")
+                            {
+                                <div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <h4>Success</h4> @this.ViewData["recharge_message"]
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-danger">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <h4>Error</h4> @this.ViewData["recharge_message"]
+                                </div>
+                            }
+                        }
+                        <!-- /.box-header -->
+                        <div class="box-body">
+
+                            <div class="form-horizontal">
+
+
+                                <div class="form-group">
+
+                                    <label for="@Html.NameFor(x=>x.TransactionMedium)" class="control-label col-md-3"> @Html.DisplayNameFor(x => x.TransactionMedium)<span style="color:red">*</span></label>
+                                    <div class="col-md-5">
+
+                                        @Html.DropDownListFor(model => model.TransactionMedium, new SelectList(TransactionMedium, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "TransactionMedium" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="@Html.NameFor(x=>x.Amount)" class="control-label col-md-3">Recharge Amount<span style="color:red">*</span></label>
+                                    <div class="col-md-5">
+
+                                        @Html.DropDownListFor(model => model.Amount, new SelectList(Amount, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "Amount" })
+
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="@Html.NameFor(x=>x.PIN)" class="control-label col-md-3"> @Html.DisplayNameFor(x => x.PIN)<span style="color:red">*</span></label>
+                                    <div class="col-md-5">
+                                        @Html.PasswordFor(model => model.PIN, new { @class = "form-control", @required = "required", @maxlength = "4", @placeholder = "PIN" })
+                                        @Html.ValidationMessageFor(model => model.PIN, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit" />
+                        </div>
+                        <!-- /.box-footer -->
+                    </div>
+                    <!-- /.box -->
+                    <!-- /.box-body -->
+                </div>
+            }
+            <!-- /.row -->
+            <!-- End-->
+
+
+        </div>
+
+
+    </div>
+</section>*@
+
+<!-- Load jQuery and the validate plugin -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+<!-- jQuery Form Validation code -->
+
+<script type="text/javascript">
+
+    $('#NTCCDMARegForm').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+
+            Amount: {
+                validators: {
+                    integer: {
+                        message: 'The value is not an integer'
+                    },
+                    notEmpty: {
+                        message: 'The Amount is required and cannot be empty'
+                    },
+                    stringLength: {
+                        max: 4,
+                        min: 2,
+                        message: 'The Amount must be more than 2 and less than 4 characters long'
+                    }
+                }
+            },
+            PIN: {
+                validators: {
+                    integer: {
+                        message: 'The value is not an integer'
+                    },
+                    notEmpty: {
+                        message: 'The pin is required and cannot be empty'
+                    },
+                    stringLength: {
+                        max: 4,
+                        min: 4,
+                        message: 'The pin must be 4 digit numeric value'
+                    }
+                }
+            }
+        }
+    });
+
+
+</script>
+
+
+
+

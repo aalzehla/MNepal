@@ -1,0 +1,223 @@
+.two-colbg {
+    .internet-payment {
+        padding-right: 40px;
+    }
+
+    .right-form {
+        .content-inner {
+            padding-left: 45px;
+        }
+    }
+}
+
+.internet-payment {
+    .top-section {
+        font-weight: $font-lite;
+        margin-bottom: 45px;
+
+        a {
+            color: $color-lite-blue;
+            text-decoration: underline;
+        }
+
+        .title {
+            color: $color-dark-blue;
+        }
+    }
+
+    .instant-transactions {
+        .title {
+            font-weight: $font-normal;
+        }
+    }
+}
+
+.right-form {
+    .content-inner {
+        max-width: 510px;
+        width: 100%;
+    }
+
+    .transfer-order {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        .title {
+            margin-bottom: 0;
+            margin-right: 15px;
+        }
+
+        .transaction-select {
+            margin-top: 0;
+            width: auto;
+
+            .btn {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            &.from .btn {
+                color: $color-lite-green;
+            }
+
+            &.to .btn {
+                color: $color-green;
+            }
+        }
+
+        .placeholder {
+            margin: 0 12px;
+        }
+    }
+
+    .pay-from {
+        justify-content: flex-start;
+
+        .radio-wrapper {
+            background-color: $color-white;
+            border-radius: 6px;
+            box-shadow: 0 3px 6px transparentize($color-black, 0.9);
+            display: flex;
+            align-items: center;
+            padding: 0 23px;
+            height: 65px;
+
+            label {
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+.transaction-form {
+    .btn-wrapper {
+        margin-top: 25px;
+        display: flex;
+        justify-content: space-between;
+
+        .btn {
+            margin-bottom: 20px;
+            width: calc(50% - 6px);
+        }
+    }
+}
+
+
+/** Responsive  CSS **/
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 767.98px) {
+    .two-colbg {
+        background: none;
+
+        .internet-payment {
+            padding-right: 0;
+        }
+
+        .right-form {
+            .content-inner {
+                padding-left: 0;
+                margin: 0 auto;
+            }
+        }
+    }
+
+    .right-form {
+        &::after {
+            background-color: $color-bg-grey;
+            position: absolute;
+            content: '';
+            left: 0;
+            top: 0;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .content-inner {
+            position: relative;
+            z-index: 2;
+        }
+
+        .transfer-order {
+            display: block;
+            margin-bottom: 20px;
+
+            .title {
+                margin-bottom: 15px;
+            }
+
+            .placeholder {
+                display: block;
+                font-weight: $font-bold;
+                font-size: 1.2rem;
+                text-align: center;
+                margin: 15px 0;
+            }
+        }
+    }
+}
+
+@media (max-width: 575.98px) {
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) and (max-width: 767.98px) {  }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .two-colbg {
+        background: none;
+
+        .internet-payment {
+            padding-right: 0;
+        }
+
+        .right-form {
+            .content-inner {
+                padding-left: 0;
+                margin: 0 auto;
+            }
+        }
+    }
+
+    .right-form {
+        &::after {
+            background-color: $color-bg-grey;
+            position: absolute;
+            content: '';
+            left: 0;
+            top: 0;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .content-inner {
+            position: relative;
+            z-index: 2;
+        }
+    }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .two-colbg {
+        .internet-payment {
+            padding-right: 15px;
+        }
+
+        .right-form {
+            .content-inner {
+                padding-left: 15px;
+            }
+        }
+    }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {  }

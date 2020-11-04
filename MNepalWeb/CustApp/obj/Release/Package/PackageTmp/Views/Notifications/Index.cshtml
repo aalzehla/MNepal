@@ -1,0 +1,37 @@
+﻿@model CustApp.Models.Notifications.RootObject
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+
+}
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+</head>
+
+<div class="container" style="margin-top:30px">
+    <div class="row col-md-12">
+        <i class="fa fa-bell-o"><span style="margin-left:20px; font-weight:bold">Notifications</span></i>
+
+
+        @foreach (var item in Model.notificationsList)
+        {
+            <div class="container" style="cursor:pointer">
+                <hr />
+                <a href=@item.redirectUrl style="color:gray">
+                    <span>
+                        <img src="~/Content/image/thaili-circle.png" style="height:20px; width:20px" />
+                    </span>
+                    <span style="margin-left:15px">@item.title</span><br />
+                    <span style="margin-left:40px">@item.text</span><br />
+                    <img src="~/NotificationsImage/@item.imageName" style="height:200px; width:700px" /><br />
+                    <span style="font-size:small; margin-left:40px">@DateTime.Parse(@item.pushNotificationDate).ToString("MMM dd, yyyy H:mm tt")</span><br />
+                </a>
+            </div>
+
+        }
+    </div>
+
+    <hr />
+</div>

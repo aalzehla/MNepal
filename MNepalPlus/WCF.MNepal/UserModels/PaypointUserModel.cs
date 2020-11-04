@@ -389,7 +389,7 @@ namespace WCF.MNepal.UserModels
             catch (Exception ex)
             {
 
-                throw ex;
+                throw ex.InnerException;
             }
             finally
             {

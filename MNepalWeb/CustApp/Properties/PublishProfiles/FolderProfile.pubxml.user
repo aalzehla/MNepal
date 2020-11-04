@@ -22,10 +22,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/03/2019 15:10:15</publishTime>
     </File>
     <File Include="bin/CustApp.dll">
-      <publishTime>10/16/2020 14:33:57</publishTime>
+      <publishTime>11/02/2020 18:01:13</publishTime>
     </File>
     <File Include="bin/CustApp.pdb">
-      <publishTime>10/16/2020 14:33:57</publishTime>
+      <publishTime>11/02/2020 18:01:13</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.DependencyCollector.dll">
       <publishTime>12/07/2016 11:45:42</publishTime>
@@ -23773,7 +23773,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/28/2020 15:21:15</publishTime>
     </File>
     <File Include="Views/LoadWallet/EBankingLink.cshtml">
-      <publishTime>12/10/2019 12:26:04</publishTime>
+      <publishTime>11/02/2020 19:22:41</publishTime>
     </File>
     <File Include="Views/LoadWallet/LoadWalletBW.cshtml">
       <publishTime>06/24/2020 13:54:48</publishTime>
@@ -23812,10 +23812,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/06/2020 16:31:28</publishTime>
     </File>
     <File Include="Views/NepalWater/Details.cshtml">
-      <publishTime>07/14/2020 15:14:14</publishTime>
+      <publishTime>10/20/2020 16:00:19</publishTime>
     </File>
     <File Include="Views/NepalWater/Index.cshtml">
-      <publishTime>06/24/2020 15:20:06</publishTime>
+      <publishTime>10/20/2020 16:00:21</publishTime>
     </File>
     <File Include="Views/NewSignup/CustomerKYC.cshtml">
       <publishTime>06/17/2019 15:59:50</publishTime>
@@ -23860,10 +23860,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/02/2020 16:49:35</publishTime>
     </File>
     <File Include="Views/Share/Details.cshtml">
-      <publishTime>10/06/2020 10:40:13</publishTime>
+      <publishTime>11/02/2020 11:50:00</publishTime>
     </File>
     <File Include="Views/Share/Index.cshtml">
-      <publishTime>10/11/2020 12:14:09</publishTime>
+      <publishTime>10/29/2020 16:40:11</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>06/17/2019 11:00:58</publishTime>
@@ -23947,10 +23947,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/03/2019 15:34:26</publishTime>
     </File>
     <File Include="Views/Subisu/Details.cshtml">
-      <publishTime>06/27/2020 12:42:14</publishTime>
+      <publishTime>11/02/2020 15:34:12</publishTime>
     </File>
     <File Include="Views/Subisu/Index.cshtml">
-      <publishTime>06/27/2020 12:42:14</publishTime>
+      <publishTime>10/22/2020 14:34:38</publishTime>
     </File>
     <File Include="Views/TermsAndCondition/Index.cshtml">
       <publishTime>08/30/2020 12:42:08</publishTime>
@@ -24013,10 +24013,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/10/2020 12:32:33</publishTime>
     </File>
     <File Include="Views/Utility/SmartCellTopUp.cshtml">
-      <publishTime>07/10/2020 12:32:33</publishTime>
+      <publishTime>11/03/2020 10:53:46</publishTime>
     </File>
     <File Include="Views/Utility/SmartCellTopUpDetails.cshtml">
-      <publishTime>07/10/2020 12:32:33</publishTime>
+      <publishTime>11/03/2020 11:16:50</publishTime>
     </File>
     <File Include="Views/Utility/UTL.cshtml">
       <publishTime>07/10/2020 12:32:33</publishTime>
@@ -24067,25 +24067,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/03/2019 15:34:26</publishTime>
     </File>
     <File Include="Views/Vianet/Details.cshtml">
-      <publishTime>07/10/2020 12:32:33</publishTime>
+      <publishTime>11/02/2020 18:00:52</publishTime>
     </File>
     <File Include="Views/Vianet/Index.cshtml">
-      <publishTime>06/27/2020 12:42:14</publishTime>
+      <publishTime>11/02/2020 17:53:03</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>02/03/2019 15:34:21</publishTime>
     </File>
     <File Include="Views/Wlink/Details.cshtml">
-      <publishTime>06/28/2020 10:04:37</publishTime>
+      <publishTime>11/02/2020 15:35:44</publishTime>
     </File>
     <File Include="Views/Wlink/Index.cshtml">
-      <publishTime>06/27/2020 12:42:14</publishTime>
+      <publishTime>10/22/2020 14:25:42</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
       <publishTime>05/18/2020 12:16:33</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/16/2020 14:42:15</publishTime>
+      <publishTime>11/04/2020 19:10:41</publishTime>
     </File>
   </ItemGroup>
 </Project>

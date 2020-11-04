@@ -1,0 +1,284 @@
+@font-face {
+    font-family: 'icomoon';
+    src: url('fonts/icomoon.eot?twheus');
+    src: url('fonts/icomoon.eot?twheus#iefix') format('embedded-opentype'), url('fonts/icomoon.ttf?twheus') format('truetype'), url('fonts/icomoon.woff?twheus') format('woff'), url('fonts/icomoon.svg?twheus#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    font-size: 80px;
+    /*font-size:10px;*/
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-icon-bank:before {
+    content: "\e900";
+    color: #00a79d;
+}
+
+.icon-icon-college:before {
+    content: "\e901";
+    color: green;
+    font-size: 80px !important;
+}
+
+.icon-icon-electricity:before {
+    content: "\e902";
+    color: #fff;
+}
+
+.icon-icon-internet:before {
+    content: "\e903";
+    color: #002d6a;
+}
+
+.icon-icon-khanepani:before {
+    content: "\e904";
+    color: #fff;
+}
+
+.icon-icon-load-wallet:before {
+    content: "\e905";
+    color: #f7941d;
+}
+
+.icon-icon-recharge:before {
+    content: "\e906";
+    color: #ec008c;
+}
+
+.icon-icon-restaurant:before {
+    content: "\e907";
+    color: #fff;
+}
+
+.icon-icon-school:before {
+    content: "\e908";
+    color: green;
+    font-size: 40px !important;
+}
+
+.icon-icon-top-up:before {
+    content: "\e91f";
+    color: #00a651;
+}
+
+
+.icon-icon-transfer-funds:before {
+    content: "\e90a";
+    color: #e31837;
+}
+
+.icon-icon-wallet:before {
+    content: "\e90b";
+    color: #00aeef;
+}
+
+.icon-icon-ncell:before {
+    content: "\e911";
+    color: #e31837;
+    font-size: 94px !important;
+    /*font-size: 50px !important;*/
+}
+
+
+
+.icon-icon-gsm:before {
+    content: "\e907";
+    color: #f7941d;
+}
+
+.icon-icon-landline:before {
+    content: "\e90c";
+    color: #00a651;
+}
+
+.icon-icon-adsl:before {
+    content: "\e900";
+    color: #002d6a;
+}
+
+.icon-icon-gsm1:before {
+    content: "\e908";
+    color: #f7941d;
+    font-size: 80px !important;
+    
+}
+
+.icon-icon-gsm2:before {
+    content: "\e909";
+    color: #f7941d;
+    font-size: 40px !important;
+    margin-left: 80px !important;
+}
+
+
+.icon-icon-adsl1:before {
+    content: "\e901";
+    color: #f7941d;
+    font-size: 80px !important;
+}
+
+.icon-icon-adsl2:before {
+    content: "\e902";
+    color: #f7941d;
+    font-size: 40px !important;
+    margin-left: 80px !important;
+}
+
+
+
+.icon-icon-landline1:before {
+    content: "\e90d";
+    color: #f7941d;
+    font-size: 80px !important;
+}
+
+.icon-icon-landline2:before {
+    content: "\e90e";
+    color: #f7941d;
+    font-size: 50px !important;
+    margin-left: 80px !important;
+}
+
+.icon-icon-merchant:before {
+    content: "\e910";
+    color: #002d6a !important;
+    font-size: 40px !important;
+}
+
+
+.icon-icon-merchant:hover:before {
+    content: "\e910";
+    color: #4da6ff !important;
+}
+
+
+.merchant-text {
+    content: "\e910";
+    color: #002d6a !important;
+    font-size: 18px !important;
+}
+
+    .merchant-text:hover {
+        content: "\e910";
+        color: #4da6ff !important;
+        font-size: 18px !important;
+    }
+
+
+
+.icon-icon-cashout:before {
+    content: "\e904";
+    color: #ff9966 !important;
+    font-size: 40px !important;
+}
+
+
+
+.icon-icon-cashout:hover:before {
+    content: "\e917";
+    color: #4da6ff !important;
+    font-size: 40px !important;
+}
+
+.cashout-text {
+    content: "\e917";
+    color: #ff9966 !important;
+    font-size: 18px !important;
+}
+
+    .cashout-text:hover {
+        content: "\e917";
+        color: #4da6ff !important;
+        font-size: 18px !important;
+    }
+
+#icon-withdraw {
+    content: "\e917";
+    color: #ff6666 !important;
+    font-size: 40px !important;
+}
+
+    #icon-withdraw:hover {
+        content: "\e917";
+        color: #4da6ff !important;
+        font-size: 40px !important;
+    }
+
+#withdraw-text {
+    content: "\e917";
+    color: #ff6666 !important;
+    font-size: 18px !important;
+}
+
+    #withdraw-text:hover {
+        content: "\e917";
+        color: #4da6ff !important;
+        font-size: 18px !important;
+    }
+
+
+.icon-icon-share:before {
+    content: "\e915";
+    color: #fff;
+    font-size: 40px !important;
+}
+
+
+.share-text {
+    content: "\e915";
+    color: #fff !important;
+    font-size: 18px !important;
+}
+
+.share-text:hover {
+        content: "\e915";
+        color: #fff !important;
+        font-size: 18px !important;
+}
+
+
+.icon-icon-subisu:before {
+    content: "\e91a";
+    color: white;
+    font-size: 80px !important;
+}
+.subisu-text {
+    content: "\e91a";
+    color: #fff !important;
+    font-size: 18px !important;
+}
+
+.subisu-text:hover {
+        content: "\e91a";
+        color: #fff !important;
+        font-size: 18px !important;
+}
+.icon-icon-wlink:before {
+    content: "\e922";
+    color: white;
+    font-size: 80px !important;
+}
+.wlink-text {
+    content: "\e922";
+    color: #fff !important;
+    font-size: 18px !important;
+}
+.wlink-text:hover {
+        content: "\e922";
+        color: #fff !important;
+        font-size: 18px !important;
+}

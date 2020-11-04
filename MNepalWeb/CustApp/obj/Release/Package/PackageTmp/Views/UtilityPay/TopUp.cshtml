@@ -1,0 +1,404 @@
+﻿@model CustApp.Models.TopUpPay
+@{
+    ViewBag.Title = "TopUp"; 
+
+}
+
+<!-- =============================================== -->
+<!-- Content Header (Page header) -->
+@*<section class="content-header">
+        <h1>
+            TopUp
+            <small>NT TopUp</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-user"></i> TopUp</a></li>
+            <li class="active">NT TopUp</li>
+        </ol>
+    </section>*@
+
+<!-- Main content -->
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />
+<style>
+    .container1 {
+        position: relative;
+        text-align: center;
+        color: white;
+    }
+
+    .centered1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .img-holder {
+        height: 85px;
+        margin-top: -19px;
+    }
+
+    .icon1 {
+        max-height: 100%;
+        width: 100px;
+        height: 100px;
+    }
+
+    .icon2 {
+        max-height: 100%;
+        margin-left: 70px;
+        margin-top: -26px;
+        width: 58px;
+        height: 100px;
+    }
+
+    .ncell_icon {
+        max-height: 100%;
+        margin-top: -4px;
+        margin-left: 10px;
+        width: 100px;
+        height: 100px;
+    }
+</style>
+<div class="main-content">
+    <div class="two-colbg">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <section class="internet-payment pad-50">
+
+                       
+                            @*<h3 class="title">Instant Transactions</h3>*@ 
+
+                            <div class="top-section">
+                                <h2 class="title">Mobile Top ups</h2>
+                                <p>Please select the service provider to top up. </p>
+                                @*<p>For validity information, please <a href="#">click here</a></p>*@
+                            </div>                           
+                             
+                        <div class="instant-transactions">
+                            <div class="transactions-grid clearfix">
+                                <div class="item load-wallet">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("NTTopUp", "UtilityPay")">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-gsm1"></span>
+                                                <div class="container1">
+                                                    <span class="icon-icon-gsm2" alt="green" style="width:100%; margin-top: -30px;"></span>
+                                                    <span class="centered1" style="margin-left:40px; font-size:10px;">GSM</span>
+                                                </div>
+                                                @*<i class="thaili-icon-load-wallet"></i><span>NTC Top up</span>
+                                <div class="img-holder" >
+                                    <img src="~/Content/assets/img/icons/icon-gsm1.svg" class="icon1" alt ="" />
+                                    <img src="~/Content/assets/img/icons/icon-gsm2.svg"  class="icon2" alt ="" />
+                                </div>*@
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item transfer-fund">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("NCELLTopUp", "UtilityPay")">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-ncell" style="margin-bottom:30px;"></span>
+
+                                                @*<i class="thaili-icon-transfer-funds"></i><span>NCell Top up</span>
+                                <div class="img-holder" >
+                                     <img src="~/Content/assets/img/icons/icon-ncell.svg" class="ncell_icon" alt =""  />
+                                </div>*@
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("ADSLTopUp", "UtilityPay")">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-adsl1"></span>
+                                                <div class="container1">
+                                                    <span class="icon-icon-adsl2" alt="green" style="width:100%;margin-top: -30px;"></span>
+                                                    <span class="centered1" style="margin-left:40px; font-size:10px;">ADSL</span>
+                                                </div>
+                                                @*<i class="thaili-icon-top-up"></i><span>ADSL Top Up</span>
+                                <div class="img-holder" >
+                                    <img src="~/Content/assets/img/icons/icon-adsl1.svg"  class="icon1" alt =""  />
+                                    <img src="~/Content/assets/img/icons/icon-adsl2.svg"  class="icon2" alt =""/>
+                                </div>*@
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("NTLandline", "UtilityPay")">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-landline1"></span>
+                                                <div class="container1">
+                                                    <span class="icon-icon-landline2" alt="green" style="width:100%;margin-top: -30px;"></span>
+                                                    <span class="centered1" style="margin-left:40px; font-size:10px;">LANDLINE</span>
+                                                </div>
+                                                @*<i class="thaili-icon-recharge"></i><span>NT Landline</span>
+                                 <div class="img-holder" >
+                                     <img src="~/Content/assets/img/icons/icon-landline1.svg"   class="icon1" alt ="" />
+                                     <img src="~/Content/assets/img/icons/icon-landline2.svg" class="icon2" alt ="" />
+                                </div>*@
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                            </div>
+                        </div>
+                        <!-- /instant transactions -->
+                    </section>
+                    <!-- /internet-payment -->
+                </div>
+
+                <div class="col-lg-6 right-form">
+                    <section class="content-inner pad-50">
+
+                        <section class="content">
+                            <!-- Main row -->
+                            <div class="row">
+
+                                <div class="thaili-slider-wrapper">
+                                    <div class="thaili-slider">
+                                        <div class="item">
+                                            <img src="~/Content/assets/img/slider/554_335Pixel-NIBL_Education-Loan_Slide.jpg" alt="slider-image1" style="border-radius: 10px;">
+                                        </div>
+
+                                        <div class="item">
+                                            <img src="~/Content/assets/img/slider/554_335Pixel-NIBL_KETA-KETI_Slide.jpg" alt="slider-image2" style="border-radius: 10px;">
+                                        </div>
+
+                                        <div class="item">
+                                            <img src="~/Content/assets/img/slider/554_335Pixel-NIBL_Re1-Account_Slide.jpg" alt="slider-image3" style="border-radius: 10px;">
+                                        </div>
+
+                                        <div class="item">
+                                            <img src="~/Content/assets/img/slider/554_335Pixel-NIBL_Recurring_Slide.jpg" alt="slider-image4" style="border-radius: 10px;">
+                                        </div>
+                                    </div>
+                                    <!-- /thaili-slider -->
+                                </div>
+
+
+
+                            </div>
+                            <!-- /.row -->
+                        </section>
+                        <!-- /.content -->
+
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@*<section class="content">
+        <!-- Main row -->
+        <div class="row">
+
+            <!-- Start -->
+            <div class="col-xs-10">
+
+                @using (Html.BeginForm("NTTopUp", "UtilityPay", FormMethod.Post, new { @id = "NTTopUpRegForm", @name = "NTTopUpRegForm", @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+
+
+                    <div class="col-xs-12">
+
+
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">NT TopUp</h3>
+                            </div>
+
+                            @if (this.ViewData["topup_messsage"] != null)
+                            {
+                                if (this.ViewData["message_class"].ToString() == "success_info")
+                                {
+                                    <div class="alert alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Success</h4> @this.ViewData["topup_messsage"]
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <h4>Error</h4> @this.ViewData["topup_messsage"]
+                                    </div>
+                                }
+                            }
+
+
+                            <!-- /.box-header -->
+                            <div class="box-body">
+
+                                <div class="form-horizontal">
+
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">NTC Mobile Number:<b style="color:red;">*</b></label>
+                                        <div class="col-md-5">
+                                            @Html.EditorFor(model => model.MobileNumber, new { htmlAttributes = new { @class = "form-control", @required = "required",  @maxlength = "10", @placeholder = "NT Mobile Number" } })
+                                            @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label for="@Html.NameFor(x=>x.TransactionMedium)" class="control-label col-md-3"> @Html.DisplayNameFor(x => x.TransactionMedium)<span style="color:red">*</span></label>
+                                        <div class="col-md-5">
+
+                                            @Html.DropDownListFor(model => model.TransactionMedium, new SelectList(TransactionMedium, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "TransactionMedium" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="@Html.NameFor(x=>x.Amount)" class="control-label col-md-3"> @Html.DisplayNameFor(x => x.Amount)<span style="color:red">*</span></label>
+                                        <div class="col-md-5">
+
+                                            @Html.DropDownListFor(model => model.Amount, new SelectList(Amount, "Value", "Text"), new { @class = "form-control", @required = "required", @style = "width: 100%;", @id = "Amount" })
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="@Html.NameFor(x=>x.PIN)" class="control-label col-md-3"> @Html.DisplayNameFor(x => x.PIN)<span style="color:red">*</span></label>
+                                        <div class="col-md-5">
+                                            @Html.PasswordFor(model => model.PIN, new { @class = "form-control", @required = "required", @maxlength = "4", @placeholder = "PIN" })
+                                            @Html.ValidationMessageFor(model => model.PIN, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <input type="submit" class="btn btn-primary" name="btnCommand" value="Submit" />
+                            </div>
+                            <!-- /.box-footer -->
+                        </div>
+                        <!-- /.box -->
+                        <!-- /.box-body -->
+                    </div>
+                }
+                <!-- /.row -->
+                <!-- End-->
+
+
+            </div>
+
+
+        </div>
+    </section>*@
+
+<!-- Load jQuery and the validate plugin -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+
+<!-- jQuery Form Validation code -->
+
+<script type="text/javascript">
+
+    $('#NTTopUpRegForm').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            MobileNumber: {
+                validators: {
+                    //regexp: {
+                    //    regexp: '[9][8][0-9]{8}',
+                    //    message: 'NTC Mobile Number must start with 98'
+                    //},
+                    notEmpty: {
+                        message: 'Mobile Number is required'
+                    },
+                    stringLength: {
+                        max: 10,
+                        min: 10,
+                        message: 'The Mobile Number must be 10 digit numeric value'
+                    },
+                    callback: {
+                        message: 'NTC Mobile Number must start with "983", "984", "985","986"',
+                        callback: function (value, validator, $field) {
+                            debugger;
+                            if ($('#MobileNumber').val().length == 10) {
+                                var Mobile = $('#MobileNumber').val().substring(0, 3);
+                                var ntcStarters = ['983', '984', '985','986'];
+                                if ($.inArray(Mobile, ntcStarters) > -1) {
+                                    return true;
+                                }
+                                else {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                }
+            },
+            Amount: {
+                validators: {
+                    integer: {
+                        message: 'The value is not an integer'
+                    },
+                    notEmpty: {
+                        message: 'The Amount is required and cannot be empty'
+                    },
+                    stringLength: {
+                        max: 4,
+                        min: 2,
+                        message: 'The Amount must be more than 2 and less than 4 characters long'
+                    }
+                }
+            },
+            PIN: {
+                validators: {
+                    integer: {
+                        message: 'The value is not an integer'
+                    },
+                    notEmpty: {
+                        message: 'The pin is required and cannot be empty'
+                    },
+                    stringLength: {
+                        max: 4,
+                        min: 4,
+                        message: 'The pin must be 4 digit numeric value'
+                    }
+                }
+            }
+        }
+    });
+
+
+</script>

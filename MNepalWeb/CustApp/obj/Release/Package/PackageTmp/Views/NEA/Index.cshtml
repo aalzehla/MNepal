@@ -1,0 +1,506 @@
+﻿@model CustApp.Models.NEAFundTransfer
+
+@{
+    ViewBag.Title = "NEA Payment";
+}
+
+<!-- Main content -->
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />
+<style>
+    .image_icon {
+        width: 100px;
+    }
+
+    .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -32px;
+        margin-right: 13px;
+        position: relative;
+        z-index: 2;
+        
+    }
+
+    /*.our-form-control {
+        display: block;
+        width: 100%;
+        height: inherit;
+        padding: inherit;
+        padding-left: 0rem;
+        font-size: 0.944rem;
+        font: 300 13.3333px Arial;
+        font-style: normal;
+        margin-top: 10px;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }*/
+
+        /*.our-form-control:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }*/
+
+</style>
+
+
+@using (Html.BeginForm("NEAPayment", "NEA", FormMethod.Post, new { @id = "NEAPayment", @name = "NEAPayment", @class = "form-horizontal", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+
+    
+
+<div class="main-content">
+    <div class="two-colbg">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <section class="internet-payment pad-50">
+                        <div class="top-section">
+                            <h2 class="title">NEA Bill Payment</h2>
+                            <p>Please select the NEA counter and fill the required field.</p>
+                        </div>
+                        <div class="instant-transactions">
+                            <h3 class="title">Other Merchant Payment</h3>
+                            <div class="transactions-grid clearfix">
+                                <div class="item load-wallet">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("MerchantRestaurant", "MerchantPayment")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-restaurant"></i>
+                                                <span>Restaurant</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item transfer-fund">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("MerchantCollege", "MerchantPayment")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-college"></i>
+                                                <span>College</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("MerchantSchool", "MerchantPayment")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-school"></i>
+                                                <span>School</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("MerchantInsurance", "MerchantPayment")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-school"></i>
+                                                <span>Insurance</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("Index", "NEA" )">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-electricity"></i>
+                                                <span>NEA</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("Index", "Khanepani" )">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-khanepani"></i>
+                                                <span>Khanepani</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="@Url.Action("Index", "NepalWater" )">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-khanepani"></i>
+                                                <span>Nepal Water</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+                <div class="col-lg-6 right-form">
+                    <section class="content-inner pad-50">
+                        @if (this.ViewData["NEA_messsage"] != null)
+                        {
+                            if (this.ViewData["message_class"].ToString() == "success_info")
+                            {
+                                <div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <h4>Success</h4> @this.ViewData["NEA_messsage"]
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-danger">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <h4>Error</h4> @this.ViewData["NEA_messsage"]
+                                </div>
+                            }
+                        }
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-sm-12">NEA Locations:<b style="color:red;">*</b></label>
+
+                                    @Html.DropDownList("NEA", new SelectList(ViewBag.NEA, "Value", "Key"), new
+                               {
+                                   @class = "form-control select2 selectpicker show-tick",
+                                   @oninput = "checkValidation()",
+                                   @onclick ="checkValidation()",
+                                   @id= "NEA",
+                                   data_show_subtext = "true",
+                                   data_live_search = "true"
+                               })
+
+                                </div>
+                                <div class="form-group" id="NEAErr" style="color:red; margin-top:-11px;"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-sm-12">SC No:<b style="color:red;">*</b></label>
+                                    <input type="text" class="form-control select2" id="SCNo" name="txtSCNo" placeholder="Example: 013.01.001KA" maxlength="20" onkeypress="return isNumberKey(event)" oninput="checkValidation()" />
+                                    @*placeholder="Example: 123.45.678"*@
+                                </div>
+                                <div class="form-group" id="SCNoErr" style="color:red; margin-top:-11px;"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-sm-12">Customer ID:<b style="color:red;">*</b></label>
+                                    <input type="text" class="form-control select2" id="CustomerID" name="txtCustomerID" placeholder="Example: 2301" maxlength="20" onkeypress="return isNumber(event)" oninput= "checkValidation()"/>
+                                </div>
+                                <div class="form-group" id="CustErr" style="color:red; margin-top:-11px;"></div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="box-footer">
+                          <input type="submit" class="btn btn-blue btn-big col-md-5" name="btnCommand" value="Confirm" id="btnSubmit" />
+                               <input type="button" value="Clear" class="btn btn-default btn-big col-md-5" id="clearButton" />
+                        </div>
+
+                    </section>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Success modal -->
+    @*<div class="modal fade common-modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="success-icon">
+                        <img src="~/Content/assets/img/success-tick.svg" alt="success-tick">
+                    </div>
+                    <p class="msg"></p>
+                    <span class="msg">Your payment has been confirmed.</span>
+                    <br /> <br />
+                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    <!-- Failure modal -->
+    <div class="modal fade common-modal" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="success-icon">
+                        <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
+                    </div>
+                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
+                    <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;" id="message"></span>
+                    <br /> <br />
+                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Failure modal session expired -->
+    <div class="modal fade common-modal" id="failureModalSessionExpired" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="success-icon">
+                        <img src="~/Content/assets/img/denied-cross.svg" alt="denied-cross">
+                    </div>
+                    <p style="color: #E31837; font-size: 1.111rem; font-weight: 700;">@*Error!*@</p>
+                    <span style="color: #E31837; font-size: 1.111rem; font-weight: 700;">Session expired. Please login again</span>
+                    <br /> <br />
+                    <button type="button" class="btn btn-blue" data-dismiss="modal" style="width:80%">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+    
+    <script type="text/javascript">
+
+
+        $(".btnShow1").mousedown(function () {
+            $(".pwd1").attr("type", "text");
+        });
+        $(".btnShow1").on("mouseleave", function () {
+            $(".pwd1").attr("type", "password");
+        });
+
+        //START //TO RESET VALUES AFTER PRESSING BACK FROM BROWSER
+        
+        $(window).bind("pageshow", function () {
+            debugger;
+            var NEABranchName = $("[name='NEA']").val();
+            if ((NEABranchName != null))
+            {
+                $('#NEA').selectpicker('val', NEABranchName);
+                //$("#SCNo").val("");
+                //$("#CustomerID").val("");
+            }
+
+        });
+        //ENDS
+
+        @*document.getElementById("successModal").onclick = function () {
+         var url = '@Url.Action("Details", "NEA")';
+         window.location.href = url;
+        };*@
+        document.getElementById("failureModalSessionExpired").onclick = function () {
+            debugger;
+         var url = '@Url.Action("Index", "LogOut")';
+         window.location.href = url;
+        };
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+        function noCharacter(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 32 && charCode < 48) || (charCode > 57 && charCode < 65) || (charCode > 90 && charCode < 97) || (charCode > 122 && charCode < 127)) {
+                return false;
+            }
+            return true;
+        }
+        ///for amount input number and dot only
+        function NumberDot(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+        //$(".placeholder_NEALocation").prepend('<option value="" disabled selected >---Select NEA---</option>');
+        function checkValidation() {
+            debugger;
+            var SCNo = $("[name='txtSCNo']").val();
+            var Cust = $("[name='txtCustomerID']").val();
+            var NEABN = $("[name='NEA']").val();
+
+            if ((SCNo.trim() == "")) {
+                $("#SCNoErr").html("");
+                $("#SCNoErr").append("<small>" + "SC Number is required and cannot be empty" + "</small>");
+                $("#SCNoErr").show();
+            }
+            else {
+                $("#SCNoErr").hide();
+            }
+
+            if ((Cust.trim() == "")) {
+                $("#CustErr").html("");
+                $("#CustErr").append("<small>" + "Customer ID is required and cannot be empty" + "</small>");
+                $("#CustErr").show();
+            }
+            else {
+                $("#CustErr").hide();
+            }
+            if ((NEABN == null)) {
+                $("#NEAErr").html("");
+                $("#NEAErr").append("<small>" + "NEA Location is required and cannot be empty" + "</small>");
+                $("#NEAErr").show();
+            }
+            else {
+                $("#NEAErr").hide();
+            }
+        }
+
+
+
+        $("#clearButton").click(function () {
+            $("#SCNo").val("");
+            $("#CustomerID").val("");
+            $('#NEA').selectpicker('val', '');
+        });
+
+        $('#btnSubmit').click(function (e) {
+            debugger;
+            $('#btnSubmit').attr("disabled", true);
+            e.preventDefault();
+
+            var SCNo = $("[name='txtSCNo']").val();
+            var CustomerID = $("[name='txtCustomerID']").val();
+         var CustomerID = CustomerID.replace(/^0+(\d)|(\d)$/gm, '$1$2')// for triming zero 
+ 
+            var NEABranchName = $("[name='NEA']").val();
+
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
+            if ((CustomerID != "") && (SCNo != "") &&(NEABranchName != null)) {
+
+                var dataToPost = {
+                    SCNo: SCNo,
+                    CustomerID: CustomerID,
+                    NEABranchName: NEABranchName,
+                    TokenUnique: token
+                };
+                debugger;
+                e.preventDefault(); //prevent the default action
+                $.ajax({ 
+                    url: '@Url.Action("NEAPayment", "NEA")',
+                    type: "POST",
+                    //data: dataToPost,
+                    data: {
+                        __RequestVerificationToken: token,
+                        _NEAft: dataToPost
+                    },
+                    async: false,                    
+                    success: function (data) {
+
+                        if (data.responseCode == "200") {
+                            debugger;
+                            //$("#ajaxResponse").html("");
+                            //var resp = JSON.parse(data.responseText);
+                            //$('#successModal').modal("show");
+
+                            //var delayInMilliseconds = 30000; //30 second
+
+                            //setTimeout(function () {
+                                
+                            var url = '@Url.Action("Details", "NEA")';
+                            window.location.href = url;
+                            //}, delayInMilliseconds);
+
+                            //$("#SCNo").val("");
+                            //$("#CustomerID").val(""); 
+
+                        }
+                        else {
+
+                            $("#ajaxResponse").html("");
+                            $("#message").html("");
+                            $("#message").append(data.responseText);
+                            if (data.responseText == "Session expired. Please login again") {
+                                $('#failureModalSessionExpired').modal("show");
+                            }
+                            else {
+                                $('#failureModal').modal("show");
+                            }  
+                       }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Failed to retrieve.');
+                        $("#message").html("");
+                        $("#message").append(jqXHR.responseText);
+                        $('#failureModal').modal("show");
+                      
+                            },
+                    //capture the request before it was sent to server
+                    beforeSend: function (jqXHR, settings) {
+                        //adding some Dummy data to the request
+                        settings.data += "&dummyData=whatever";
+                        //disable the button until we get the response
+                             },
+                    //complete: function (jqXHR, textStatus) {
+                    //    //enable the button
+                    //    $('#btnSubmit').attr("disabled", false);
+                    //}
+
+                     
+                    complete: function (data) { 
+                        debugger; 
+
+                       
+                        if (data.responseJSON.responseCode != "200") {
+                            $('#btnSubmit').attr("disabled", false); //enable button if responsecode not equal to 200
+                            
+                        }
+
+
+
+                    } 
+                });
+
+            }
+            else {
+                checkValidation();
+               
+                $("#message").html("");
+                $("#message").append("Please Enter the required fields.");
+                $('#failureModal').modal("show"); 
+                 $('#btnSubmit').attr("disabled", false);
+            }
+        });
+         
+    </script>
+
+}
+
+
+

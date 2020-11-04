@@ -8234,7 +8234,6 @@
     <Content Include="Views\Khanepani\Details.cshtml" />
     <Content Include="Views\NepalWater\Details.cshtml" />
     <Content Include="Views\NepalWater\Index.cshtml" />
-    <Content Include="Views\Share\DematExecutePayment.cshtml" />
     <Content Include="Views\Share\Details.cshtml" />
     <Content Include="Views\Share\Index.cshtml" />
     <Content Include="Views\Help\ContactUs.cshtml" />

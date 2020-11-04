@@ -1,0 +1,179 @@
+.hero-bg-kyc {
+    padding: 70px 0;
+}
+
+.kyc-form-wrapper {
+    min-height: 622px;
+    margin: 0 auto;
+    max-width: 900px;
+
+    .row {
+        box-shadow: 0 3px 6px transparentize($color-black, 0.84);
+        border-radius: 33px;
+        background-color: $color-white;
+        overflow: hidden;
+    }
+
+    .kyc-img {
+        margin: 0 auto;
+        max-width: 196px;
+        width: 100%;
+    }
+
+    .cnt-left {
+        display: flex;
+        align-items: center;
+        text-align: center;
+
+        .content-inner {
+            margin: 0 auto;
+            padding: 30px 0;
+            max-width: 247px;
+            width: 100%;
+        }
+
+        .logo {
+            margin-bottom: 80px;
+        }
+
+        .kyc-img {
+            margin-bottom: 60px;
+        }
+    }
+
+    .cnt-right {
+        background-color: $color-bg-grey;
+
+        .content-inner {
+            height: 100%;
+            padding: 40px 15px;
+            max-width: 367px;
+            margin-left: 10px;
+            width: 100%;
+        }
+    }
+
+    .bordered-title-below {
+        padding-left: 5px;
+    }
+
+    form {
+        padding-left: 5px;
+    }
+
+    .control-label {
+        color: $color-black;
+        font-size: 0.944rem;
+        margin-top: 0;
+    }
+
+    .btn-wrapper {
+
+        &.finish-kyc {
+            margin-top: 20px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    }
+
+    .thankyou-wrapper {
+        margin: 0 auto;
+        max-width: 540px;
+        padding: 40px 0;
+        text-align: center;
+        width: 100%;
+
+        .kyc-img {
+            margin-bottom: 25px;
+        }
+
+        .text {
+            font-weight: $font-lite;
+        }
+
+        .btn-wrapper {
+            margin-bottom: 55px;
+
+            .btn {
+                max-width: 330px;
+            }
+        }
+
+        .thankyou-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .logo {
+                max-width: calc(40% - 15px);
+                margin: 0;
+            }
+
+            .nibl-logo {
+                max-width: calc(60% - 15px);
+                width: 100%;
+            }
+        }
+    }
+}
+
+
+/** Responsive  CSS **/
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 767.98px) {
+    .hero-bg-kyc {
+        padding: 30px 0;
+    }
+
+    .kyc-form-wrapper {
+        min-height: auto;
+        margin: 0 15px;
+
+        .row {
+            border-radius: 20px;
+        }
+
+        .cnt-left {
+            .content-inner {
+                max-width: 180px;
+                padding: 30px 0;
+            }
+
+            .logo {
+                margin-bottom: 30px;
+            }
+
+            .kyc-img {
+                margin-bottom: 30px;
+            }
+        }
+
+        .cnt-right {
+            .content-inner {
+                padding: 30px 0;
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
+@media (max-width: 575.98px) {
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) and (max-width: 767.98px) {  }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {  }

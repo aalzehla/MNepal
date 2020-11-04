@@ -1,0 +1,158 @@
+﻿
+@{
+    ViewBag.Title = "CashOut";
+}
+
+<link href="~/Content/NewIcon/style.css" rel="stylesheet" />
+<style>
+    .image_icon {
+        width: 50px;
+    }
+</style>
+
+<!-- Main content -->
+<div class="main-content">
+    <div class="two-colbg">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <section class="internet-payment pad-50">
+                        <div class="top-section">
+                            <h2 class="title">Cash Out</h2>
+                            <p>Please enter your agent mobile number and insert amount to cash out.</p>
+                          
+                        </div>
+                        <!-- /top-section -->
+
+                        <div class="instant-transactions">
+                            <h3 class="title">Instant Transactions</h3>
+
+                            <div class="transactions-grid clearfix">
+                                <div class="item load-wallet">
+                                    <div class="item-inner">
+                                        <a href="~/FundTransfer/LoadWalletBW">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-load-wallet"></i>
+                                                <span>Load Wallet</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item transfer-fund">
+                                    <div class="item-inner" style="padding:12px;">
+
+
+                                        <a href="@Url.Action("Index", "FundTransfer")">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-transfer-funds"></i>
+                                                <span>Transfer funds</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item top-up">
+                                    <div class="item-inner">
+                                        <a href="~/UtilityPay/TopUp">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-top-up"></i>
+                                                <span>Top Up</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item recharge">
+                                    <div class="item-inner">
+                                        <a href="~/UtilityPay/NewRecharge">
+                                            @*<a href="~/UtilityPay/Recharge">*@
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-recharge"></i>
+                                                <span>Recharge</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item withdraw">
+                                    <div class="item-inner">
+                                        <a href="~/FundTransfer/Withdraw">
+                                            <div class="content-inner">
+                                                <i class="thaili-icon-wallet"></i>
+                                                <span>Withdraw </span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="~/MerchantPayment/MerchantRestaurant">
+                                            @*<a href="~/MerchantPayment/MerchantIndex">*@
+                                            <div class="content-inner">
+                                                <span class="icon-icon-merchant"></span>
+                                                <span style="color:#00aeef;">Merchants</span>
+
+                                                @*<i class="thaili-icon-internet"></i> 
+                                                <img src="~/Content/assets/img/icons/icon-merchant.svg" class="image_icon" />
+                                                <span style="color:#00ace6">Merchant</span>*@
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+
+                                <div class="item internet">
+                                    <div class="item-inner">
+                                        <a href="">
+                                            <div class="content-inner">
+                                                <span class="icon-icon-cashout"></span>
+                                                <span style="color:#00aeef;">Cash Out</span>
+                                                @*<i class="thaili-icon-internet"></i> 
+                                                <img src="~/Content/assets/img/icons/icon-cashout.svg" class="image_icon" />
+                                                <span style="color:#00ace6">Cash Out</span>*@
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /item -->
+                            </div>
+                        </div>
+                        <!-- /instant transactions -->
+                    </section>
+                    <!-- /internet-payment -->
+                </div>
+
+                <div class="col-lg-6 right-form">
+                    <section class="content-inner pad-50">
+
+                        <form action="" class="transaction-form common-form">
+                            <label for="">Agent Mobile No.</label>
+                            <input type="number" name="reciepentNo" class="form-control" required>
+
+                            <label for="">Amount</label>
+                            <input type="number" name="transferAmount" class="form-control" required>
+
+                            <label for="">Remarks</label>
+                            <textarea name="transactionRemark" class="form-control" rows="8" cols="80">
+                            </textarea>
+
+                            <div class="btn-wrapper">
+                                <button type="button" class="btn btn-blue btn-big" data-toggle="modal" data-target="#successModal">Confirm</button>
+                                <button type="cancel" class="btn btn-default btn-big">Clear</button>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
